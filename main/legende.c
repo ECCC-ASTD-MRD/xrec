@@ -1160,6 +1160,7 @@ float xmin, ymin, xmax, ymax;
 ***************
 **/
 
+
 AfficherLegendeVentUVW(ventUVWmax)
 float ventUVWmax;
 {
@@ -1194,6 +1195,8 @@ int *largeur, *hauteur;
 
 extern void PointerFleche(float xdepart, float ydepart, float dirVent, float vitVent, int rayon, int width);
 
+extern int flagLegendeFleches;
+
 AfficherLegendeVent(ventMax, offsetX, offsetY, angleFleche)
 float ventMax;
 int offsetX, offsetY,angleFleche;
@@ -1208,6 +1211,8 @@ int offsetX, offsetY,angleFleche;
    char format[8];
    
    int variation = WindMgrGetCroissance();
+
+   if (flagLegendeFleches == 0) return;
 
    tmp = variation;
    switch(tmp)

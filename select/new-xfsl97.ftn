@@ -57,7 +57,7 @@
       real niveau
       integer m, jour, an, heure, r
       character*4 mois(0:12), month(0:12), mm
-      character*16 cniveau
+      character*15 cniveau
       
       integer ier, ulng, getulng
       external getulng
@@ -125,6 +125,7 @@
 
       mode = -1
       call convip(ip1, niveau, kind, mode, cniveau, 1)
+      cniveau = adjustl(cniveau)
       if (ulng.eq.0.and.m.ge.6.and.m.le.8) then
          write(tableau(mod(i-1,64)), 11) nomvar, typvar, 
      $        cniveau, ip2, ip3,
@@ -169,6 +170,7 @@
       
       mode = -1
       call convip(ip1, niveau, kind, mode, cniveau, 1)
+      cniveau=adjustl(cniveau)
       if (ulng.eq.0.and.m.ge.6.and.m.le.8) then
          write(tableau(mod(i-1,64)), 11) nomvar, typvar, 
      $        cniveau, ip2, ip3,

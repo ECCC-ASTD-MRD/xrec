@@ -32,6 +32,6 @@ FlusherTousLesEvenements()
       XtDispatchEvent(&(theEvent));
       }
 
-/**   XFlush(XtDisplay(SuperWidget.topLevel)); **/
-   XSync(XtDisplay(SuperWidget.topLevel), True); 
+   XFlush(XtDisplay(SuperWidget.topLevel)); 
+   XSync(XtDisplay(SuperWidget.topLevel), False);
    }

@@ -53,7 +53,7 @@
       
       integer ipose,kend, iun
 
-      iun = 0
+      iun = 133
       ier = fnom(iun, nomFich, 'SEQ+OLD+R/O', 0)
 
       ipose = 0

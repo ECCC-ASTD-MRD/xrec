@@ -164,6 +164,30 @@
       END
 *     
 ***********************************************************************
+      subroutine vsminmax(min, max, uu, vv, ni, nj, idebut, jdebut, ifin, jfin)
+      real min, max, module, uu(ni,nj),vv(ni,nj)
+      integer ni, nj, idebut, jdebut, ifin, jfin
+
+      min = uu(idebut, jdebut)*uu(idebut,jdebut)+vv(idebut,jebut)*vv(idebut,jdebut)
+      max = min
+      
+      do  j=jdebut,jfin
+         do  i=idebut, ifin
+            module = uu(i,j)*uu(i,j)+vv(i,j)*vv(i,j)
+            if (module.lt.min) then
+               min = module
+            endif
+            if (module.gt.max) then
+               max = module
+            endif
+         enddo
+      enddo
+      min = sqrt(min)
+      max = sqrt(max)
+      return
+      end
+*     
+***********************************************************************
       subroutine sminmax2(min, max, min2, max2, fld, ni, nj, idebut, jdebut, ifin, jfin)
       real min, max, min2, max2, fld(ni,nj)
       integer ni, nj, idebut, jdebut, ifin, jfin

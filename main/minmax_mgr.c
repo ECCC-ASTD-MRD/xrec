@@ -74,7 +74,14 @@ int GetMinMaxUV(float *uvmin, float *uvmax)
   int i, nbChampsActifs;
   _Champ *champ;
   float lmin, lmax;
+  int op;
+
+  *uvmin = 0.0;
+  *uvmax = 0.0;
+
   nbChampsActifs = FldMgrGetNbChampsActifs();
+  op = CtrlMgrGetMathOp();
+
   for (i=0; i < nbChampsActifs; i++)
     {
     FldMgrGetChamp(&champ, i);
@@ -88,10 +95,10 @@ int GetMinMaxUV(float *uvmin, float *uvmax)
 	  break;
 	  
 	default:
-	  lmin = champ->uvmin[i];
-	  lmax = champ->uvmax[i];
+	  lmin = champ->uvmin[op];
+	  lmax = champ->uvmax[op];
 	  if (lmin < *uvmin) *uvmin = lmin;
-	  if (lmax < *uvmax) *uvmax = lmax;
+	  if (lmax > *uvmax) *uvmax = lmax;
 	  break;
 	}
       }

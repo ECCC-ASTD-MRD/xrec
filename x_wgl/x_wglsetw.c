@@ -27,11 +27,9 @@ x_wglsetw(int winid)
       return;
 **/
 
-   XFlush(wglDisp);
-   x_wglfshlb();
+   FlusherTousLesEvenements();
 
    x_wglsavpfc();
    x_wgldefncw(winid);
-   XFlush(wglDisp);
    }
 

@@ -31,11 +31,7 @@
 #include <sys/times.h>
 #include <sys/param.h>
    
-#ifndef HP
 long times (struct tms *buffer);
-#else
-extern clock_t times();
-#endif
 
 struct tms buffer_temps;
 extern SuperWidgetStruct SuperWidget;
@@ -243,9 +239,9 @@ int nbFrames;
        {
 
        if (niveauCourant >= champ->coupe.niveauxCoupe[0] || niveauCourant <= champ->coupe.niveauxCoupe[nbNiveauxCoupe-1])
-	 {
-	 signeIncrement *= -1;
-	 }
+        {
+        signeIncrement *= -1;
+        }
        }
      } while (!c_wglanul() && animationContinue);
    
@@ -353,11 +349,11 @@ int nbFrames;
      if (!animInfo.imagesDejaAllouees || lastLargeur != largeurFenetre || lastHauteur != hauteurFenetre)
        {
        LibererImages();
-       do
-	 {
-	 } while (VAllouerImages() == PAS_ASSEZ_DE_MEMOIRE);
-       }
-     }
+      do
+        {
+        } while (VAllouerImages() == PAS_ASSEZ_DE_MEMOIRE);
+      }
+    }
    
      i = (*champ).coupe.indChampCourant;
      i_initial = i;
@@ -375,60 +371,60 @@ int nbFrames;
      else
        {
        for (n=0; n < nbChampsActifs; n++)
-	 {
-	 FldMgrGetChamp(&champ, n);
-	 if ((*champ).coupe.fld3d != NULL)
-	   {
-	   (*champ).coupe.indChampCourant = i;
-	   (*champ).cle = (*champ).coupe.clesNiveaux[i];
-	   if ((*champ).cle >= 0)
-	     {
-	     (*champ).fld = (*champ).coupe.fld3d[i];
-	     (*champ).fldmin[op] = (*champ).coupe.FLDmin3d[op];
-	     (*champ).fldmax[op] = (*champ).coupe.FLDmax3d[op];
-	     
-	     FldMgrGetFstPrm(champ);
-	     FldMgrUpdateFldParams(champ);
-	     }
-	   }
-	 }
+        {
+        FldMgrGetChamp(&champ, n);
+        if ((*champ).coupe.fld3d != NULL)
+          {
+          (*champ).coupe.indChampCourant = i;
+          (*champ).cle = (*champ).coupe.clesNiveaux[i];
+          if ((*champ).cle >= 0)
+            {
+        		memcpy((char *) (*champ).fld, (char *)(*champ).coupe.fld3d[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float));
+            (*champ).fldmin[op] = (*champ).coupe.FLDmin3d[op];
+            (*champ).fldmax[op] = (*champ).coupe.FLDmax3d[op];
+
+            FldMgrGetFstPrm(champ);
+            FldMgrUpdateFldParams(champ);
+            }
+          }
+        }
        
        for (n=0; n < nbChampsActifs; n++)
-	 {
-	 AfficherCarte(n);
-	 }
+        {
+        AfficherCarte(n);
+        }
        
        FlusherTousLesEvenements();
        c_wglswb();
        animInfo.flagsImagesChargees[i] = TRUE;
        
        if (animInfo.animationRapide)
-	 {
-	 XCopyArea(wglDisp, wglWin, animInfo.pixmaps[i], wglLineGC, 0, 0, largeurFenetre, hauteurFenetre, 0, 0);
-	 }
+        {
+        XCopyArea(wglDisp, wglWin, animInfo.pixmaps[i], wglLineGC, 0, 0, largeurFenetre, hauteurFenetre, 0, 0);
+        }
        
        temps1 = times(&buffer_temps);
        temps2 = times(&buffer_temps) - temps1;
        while (animInfo.delai > temps2)
-	 {
-	 temps2 = times(&buffer_temps) - temps1;
-	 }
+        {
+        temps2 = times(&buffer_temps) - temps1;
+        }
        FlusherTousLesEvenements();
        
        if (animInfo.typeDefilement == DEFILEMENT_AVANT_ARRIERE)
-	 {
-	 if (i == 0 || i == (animInfo.nbImages-1))
-	   {
-	   increment *= -1;
-	   }
-	 }
+        {
+        if (i == 0 || i == (animInfo.nbImages-1))
+          {
+          increment *= -1;
+          }
+        }
        }
      i+=increment;
      } while (!c_wglanul() && animationContinue);
    
    UnsetIgnoreMode();
    UnSetCurseur(fenetreAffichage);
-   VRemettreChampsAJour(i);
+   VRemettreChampsAJour(i); 
    lastLargeur = largeurFenetre;
    lastHauteur = hauteurFenetre;
    c_wglfbf();
@@ -476,30 +472,31 @@ int i;
        (*champ).coupe.indChampCourant = i;
        (*champ).cle = (*champ).coupe.clesNiveaux[i];
        if ((*champ).cle >= 0)
-	 {
-	 switch (champ->natureTensorielle)
-	   {
-	   case SCALAIRE:
-	     (*champ).fld = (*champ).coupe.fld3d[i];
-	     (*champ).fldmin[op] = (*champ).coupe.FLDmin3d[op];
-	     (*champ).fldmax[op] = (*champ).coupe.FLDmax3d[op];
-	     break;
+        {
+        switch (champ->natureTensorielle)
+          {
+          case SCALAIRE:
+        		memcpy((char *) (*champ).fld, (char *)(*champ).coupe.fld3d[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float));
+            (*champ).fldmin[op] = (*champ).coupe.FLDmin3d[op];
+            (*champ).fldmax[op] = (*champ).coupe.FLDmax3d[op];
+            break;
 
-	   case VECTEUR:
-	     (*champ).uu = (*champ).coupe.uu3d[i];
-	     (*champ).vv = (*champ).coupe.vv3d[i];
-	     (*champ).uumin[op] = (*champ).coupe.UUmin3d[op];
-	     (*champ).uumax[op] = (*champ).coupe.UUmax3d[op];
-	     (*champ).vvmin[op] = (*champ).coupe.UUmin3d[op];
-	     (*champ).vvmax[op] = (*champ).coupe.UUmax3d[op];
-	     (*champ).uvmin[op] = (*champ).coupe.UVmin3d[op];
-	     (*champ).uvmax[op] = (*champ).coupe.UVmax3d[op];
-	     break;
-	   }
-	   
-	 FldMgrGetFstPrm(champ);
-	 FldMgrUpdateFldParams(champ);
-	 }
+          case VECTEUR:
+          memcpy((char *) (*champ).uu, (char *)(*champ).coupe.uu3d[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
+          memcpy((char *) (*champ).vv, (char *)(*champ).coupe.vv3d[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
+/*        memcpy((char *) (*champ).module, (char *) (*champ).seqanim.animUVs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); */
+            (*champ).uumin[op] = (*champ).coupe.UUmin3d[op];
+            (*champ).uumax[op] = (*champ).coupe.UUmax3d[op];
+            (*champ).vvmin[op] = (*champ).coupe.UUmin3d[op];
+            (*champ).vvmax[op] = (*champ).coupe.UUmax3d[op];
+            (*champ).uvmin[op] = (*champ).coupe.UVmin3d[op];
+            (*champ).uvmax[op] = (*champ).coupe.UVmax3d[op];
+            break;
+          }
+
+        FldMgrGetFstPrm(champ);
+        FldMgrUpdateFldParams(champ);
+        }
        }
      }
 }

@@ -36,9 +36,10 @@
 
       integer xconouv, xinit
       integer xfslouv97, xfslact97
-      integer xpancact, xpangact, xpanpact,xpanmact,
-     $     xpaneact,xpanpcpact,xpanpcsact,xpventact,xpanpavact
-      integer xconact
+      integer xconact, xpandact, xpancact, xpaneact, xpangact, 
+     $     xpanmact ,xpanpaact, xpanpcsac, xpanpact, xpanpavact, 
+     $     xpanpcpact ,xpanpcsact, xpventact, xpattact
+
 
       integer ier, nrecs
       integer i, inf, lnguser, getulng
@@ -82,7 +83,19 @@
 
 *
 
-      data lnkdiun / 1, 123*0/
+      data lnkdiun / 1,   2,  3,  4,          7,  8,  9, 10,
+     $               11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+     $               21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+     $               31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+     $               41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+     $               51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+     $               61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
+     $               71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
+     $               81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
+     $              101,102,103,104,105,106,107,108,109,110,
+     $              111,112,113,114,115,116,117,118,119,120,
+     $              121,122,123,124,125,126,127,128,129,130,
+     $              131,132,133,134,135,136 /
 
 
       call qqqnocore
@@ -123,6 +136,9 @@
          sortiexrec = '/sortie-xrec.txt'
          temporaire = tmpdir(1:longueur(tmpdir)) // sortiexrec
          ier = fnom(6, temporaire,'SEQ+FTN+FMT',0)
+         if (ier.ne.0) then
+            print *, 'Cannot write into temporary file : ', temporaire
+         endif
          level = 10
          flag = .false.
          ier = fstopi('MSGLVL', level, flag)
@@ -198,15 +214,19 @@
       if (inf.eq.quitter) goto 3000
 
       ier = xfslact97(recs, nrecs, 1)
+      ier = xpandact()
       ier = xpancact()
-      ier = xpangact()
       ier = xpaneact()
+      ier = xpangact()
+      ier = xpanmact()
+      ier = xpanpaact()
+      ier = xpanpcsact()
       ier = xpanpact()
       ier = xpanpavact()
-      ier = xpanmact()
       ier = xpanpcpact()
       ier = xpanpcsact()
       ier = xpventact()
+      ier = xpattact()
       goto 1000
 
  2    format(72a)
@@ -375,7 +395,7 @@ c     ****************************************************************
       character * 512 def(132), val(132)
 
       common /ccardprm/ cle, def, val
-      print *, val(126)
+!      print *, val(126)
       filename = val(126)
       return
       end

@@ -42,7 +42,7 @@ lire_geo(ListePointsStruct *(*liste), int *nbItems, char *nomFichier[], int nbFi
    int oldNbItems = 0;
    static int gdb_initialized = -1;
    
-   int npts, vingtCinq, code;
+   int npts, centCinquanteHuit, code;
 
    if (gdb_initialized == -1)
      {
@@ -90,13 +90,13 @@ lire_geo(ListePointsStruct *(*liste), int *nbItems, char *nomFichier[], int nbFi
 	   {
 	   strcpy(nomFichierGeographie, tmp);
 	   strcat(nomFichierGeographie, nomFichier[n]);
-	   vingtCinq = 25;
-	   f77name(opllfl)(&vingtCinq, nomFichierGeographie, &code, strlen((char *)nomFichier));
+	   centCinquanteHuit = 158;
+	   f77name(opllfl)(&centCinquanteHuit, nomFichierGeographie, &code, strlen((char *)nomFichier));
 	   
 	   npts = -1;
 	   while (npts != 0)
 	     {
-	     f77name(rdllfl)(&vingtCinq, &npts, &latMax, &latMin, &lonMax, &lonMin, pts, &deuxCents);
+	     f77name(rdllfl)(&centCinquanteHuit, &npts, &latMax, &latMin, &lonMax, &lonMin, pts, &deuxCents);
 	     
 	     if (latMax < latMin)
 	       swapFloats(&latMin, &latMax);
@@ -128,7 +128,7 @@ lire_geo(ListePointsStruct *(*liste), int *nbItems, char *nomFichier[], int nbFi
 	       oldNbItems = *nbItems-1;
 	       }
 	     }
-	   f77name(clllfl)(&vingtCinq);
+	   f77name(clllfl)(&centCinquanteHuit);
 	   }
 	 }
        }

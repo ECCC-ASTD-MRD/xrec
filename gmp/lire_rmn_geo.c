@@ -51,7 +51,7 @@ lire_rmn_geo()
   int nbItems;
 
   
-  int npts, vingtCinq, code;  
+  int npts, centCinquanteHuit, code;  
 
   for (i=0; i < NMAP_FLAGS; i++)
     {
@@ -69,13 +69,13 @@ lire_rmn_geo()
     {
     strcpy(nomFichierGeographie, rmn_geo);
     strcat(nomFichierGeographie, mapOptions.fichierGeographie[n]);
-    vingtCinq = 25;
-    f77name(opllfl)(&vingtCinq, nomFichierGeographie, &code, strlen((char *)nomFichier));
+    centCinquanteHuit = 158;
+    f77name(opllfl)(&centCinquanteHuit, nomFichierGeographie, &code, strlen((char *)nomFichier));
     
     npts = -1;
     while (npts != 0)
       {
-      f77name(rdllfl)(&vingtCinq, &npts, &latMax, &latMin, &lonMax, &lonMin, pts, &deuxCents);
+      f77name(rdllfl)(&centCinquanteHuit, &npts, &latMax, &latMin, &lonMax, &lonMin, pts, &deuxCents);
       
       if (latMax < latMin)
 	swapFloats(&latMin, &latMax);
@@ -110,7 +110,7 @@ lire_rmn_geo()
 	oldNbItems = gdb_nbItems-1;
 	}
       }
-    f77name(clllfl)(&vingtCinq);
+    f77name(clllfl)(&centCinquanteHuit);
     }
   gmp_vecs[CONTINENTS] = gdb_liste;
   gmp_nbVecs[CONTINENTS] = gdb_nbItems;

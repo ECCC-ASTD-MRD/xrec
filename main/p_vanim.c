@@ -86,7 +86,9 @@ static char *labelDefilementAvantArriere[] = {"Avant-arriere", "Back and forth"}
 
 extern _ColormapInfo recCmap;
 extern int recColorTable[256];
-_AnimInfo animInfo;
+extern _Viewport    viewp;
+
+_AnimInfo vanimInfo;
 int pavSelectionTerminee = FALSE;
 
 
@@ -269,7 +271,7 @@ InitPanneauAnimVerticale()
    XtAddCallback(pavScaleIntervalle, XmNdragCallback, PavSetIntervalle, NULL);
    XtAddCallback(pavScaleIntervalle, XmNvalueChangedCallback, PavSetIntervalle, NULL);
 
-   animInfo.intervalle = 10.0;
+   vanimInfo.intervalle = 10.0;
    i = 0;
    label = XmStringCreateLtoR(labelScaleDelai[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNtitleString, label); i++;
@@ -328,7 +330,7 @@ InitPanneauAnimVerticale()
    XtManageChild(pavNextFrames);
    XtAddCallback(pavNextFrames, XmNactivateCallback, PavNextFrames, NULL);
 
-   animInfo.animationRapide = FALSE;
+   vanimInfo.animationRapide = FALSE;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
@@ -372,7 +374,7 @@ caddr_t client_data, call_data;
 {
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
-   animInfo.intervalle = (float)(donnees->value);
+   vanimInfo.intervalle = (float)(donnees->value);
    
    }
 
@@ -384,7 +386,7 @@ caddr_t client_data, call_data;
 {
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
-   animInfo.delai = (float)(donnees->value);
+   vanimInfo.delai = (float)(donnees->value);
    
    }
 
@@ -414,6 +416,7 @@ caddr_t unused1, unused2;
    EnleverBoutonAnnulation();
    InvertWidget(w);
    ActiverWidgetsControle();
+   AjusterViewport(&viewp);
 
    xc.flagInterrupt = TRUE;
    c_gmpopti("ACCEPT_INTERRUPTS", TRUE);
@@ -518,7 +521,7 @@ caddr_t u1, u2;
 
    FldMgrFreeVerticalXSection();
    LibererImages();
-   animInfo.variableBoucle = TEMPS;
+   vanimInfo.variableBoucle = TEMPS;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
@@ -531,7 +534,7 @@ caddr_t u1, u2;
 
    LibererImages();
    FldMgrFreeTimeAnimationSeq();
-   animInfo.variableBoucle = NIVEAUX;
+   vanimInfo.variableBoucle = NIVEAUX;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
@@ -540,7 +543,7 @@ static XtCallbackProc PavToggleDefilementRegulier(w, u1, u2)
 Widget w;
 caddr_t u1, u2;
 {
-   animInfo.typeDefilement = DEFILEMENT_REGULIER;
+   vanimInfo.typeDefilement = DEFILEMENT_REGULIER;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
@@ -549,7 +552,7 @@ static XtCallbackProc PavToggleDefilementAvantArriere(w, u1, u2)
 Widget w;
 caddr_t u1, u2;
 {
-   animInfo.typeDefilement = DEFILEMENT_AVANT_ARRIERE;
+   vanimInfo.typeDefilement = DEFILEMENT_AVANT_ARRIERE;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
@@ -561,10 +564,10 @@ caddr_t u1, u2;
   Arg args[2];
   int i;
   
-  animInfo.animationRapide = !animInfo.animationRapide;
+  vanimInfo.animationRapide = !vanimInfo.animationRapide;
   
   i = 0;
-  if (animInfo.animationRapide)
+  if (vanimInfo.animationRapide)
     {
     XtSetArg(args[i], XmNset, True); i++;
     }
@@ -608,12 +611,12 @@ caddr_t u1, u2;
     }
   XtSetValues(w, args, i);
   
-  if (animInfo.animationRapide)
+  if (vanimInfo.animationRapide)
     {
     i = 0;
     XtSetArg(args[i], XmNset, False); i++;
     XtSetValues(pavToggleAnimationRapide, args, i);
-    animInfo.animationRapide = False;
+    vanimInfo.animationRapide = False;
     }
   
 }

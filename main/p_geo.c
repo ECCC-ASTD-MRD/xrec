@@ -127,7 +127,6 @@ static Pixel indCouleurs[16];
 
 int currentGeoToggle = CONTINENTS;
 int pgSelectionTerminee;
-char panneauContoursGeometrie[32];
 static int nbItemsListe = 8;
 
 void CheckGeoToggles (Widget w, caddr_t client_data, caddr_t call_data) 

@@ -22,7 +22,7 @@
 
 x_wglfsh()
 {
-   wglfshlb();
+   x_wglfshlb();
    XFlush(wglDisp);
    }
 

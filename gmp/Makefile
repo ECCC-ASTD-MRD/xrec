@@ -14,8 +14,8 @@ FFLAGS =
 
 CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I$(HOME)/src/gd2/ -DX_WGL 
 
-OPTIMIZ = -debug -O 0
 OPTIMIZ = -O 3
+OPTIMIZ = -debug -O 0
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
@@ -48,7 +48,7 @@ CDECKS= \
          c_llfgr.c       clip.c       comp_map.c       copy_map.c \
          free_map.c       gmp_convert.c       gmp_perim.c       gmp_trim.c \
          gmp_verif.c       newgeoitem.c       params_ligne.c \
-         points.c       points_turbo.c        read_lalo.c \
+         points.c       points_turbo.c        read_lalo.c  \
          swapFloats.c       vec_turbo.c       vecteurs.c tgeo.c c_gmpinit.c \
 	 lire_geo.c lire_gdb_geo.c lire_rmn_geo.c lire_rmn_latlon.c gmp_gvlatlon.c
 

@@ -39,9 +39,9 @@
 
 int echelleSerie = LINEAIRE;
 int calculMinMaxSerie = AUTO_PROFIL;
-float grafMinX, grafMinY, grafMaxX, grafMaxY;
-float grafMinUUtang,grafMaxUUtang,grafMinUUnorm,grafMaxUUnorm,grafMinUVW,grafMaxUVW;
-float grafMinUU,grafMaxUU,grafMinVV,grafMaxVV,grafMinWW,grafMaxWW;
+float grafTMinX, grafTMinY, grafTMaxX, grafTMaxY;
+float grafTMinUUtang,grafTMaxUUtang,grafTMinUUnorm,grafTMaxUUnorm,grafTMinUVW,grafTMaxUVW;
+float grafTMinUU,grafTMaxUU,grafTMinVV,grafTMaxVV,grafTMinWW,grafTMaxWW;
 
 extern SuperWidgetStruct SuperWidget;
 extern _XContour    xc;
@@ -76,9 +76,9 @@ extern Widget pcsFrameLimiteX, pcsFormeLimiteX, pcsLabelX, pcsLabelMinX, pcsLabe
 extern Widget pcsFrameLimiteY, pcsFormeLimiteY, pcsLabelY, pcsLabelMinY, pcsLabelMaxY, pcsTextMinY,pcsTextMaxY;
 
 
-int fenetreSerie = 0;
-float cx1, cy1, cx2, cy2;
-float lastcx1, lastcy1, lastcx2, lastcy2;
+extern int fenetreSerie;
+float cxt1, cyt1, cxt2, cyt2;
+float lastcxt1, lastcyt1, lastcxt2, lastcyt2;
 extern int statutSerie;
 
 static char *bombe[] = {"Une erreur systeme est survenue.\nCette application pourrait inopinement quitter", "A system error occured.\nThis program could unexpectedly quit"};
@@ -89,8 +89,8 @@ static char *bombe[] = {"Une erreur systeme est survenue.\nCette application pou
  ******************************************************************************
  **/
 
-PreparerSerie(cx1,cy1,cx2,cy2)
-float cx1,cy1,cx2,cy2;
+PreparerSerie(cxt1,cyt1,cxt2,cyt2)
+float cxt1,cyt1,cxt2,cyt2;
 {
    _Champ *champ;
    int ixmin, ixmax, iymin, iymax;
@@ -107,7 +107,7 @@ float cx1,cy1,cx2,cy2;
    ixmin = 0; iymin = 0;
    ixmax = 0; iymax = 0;
 
-   rx1 = cx1; rx2 = cx2; ry1 = cy1; ry2 = cy2;
+   rx1 = cxt1; rx2 = cxt2; ry1 = cyt1; ry2 = cyt2;
    
    nbChampsActifs = FldMgrGetNbChampsActifs();
    for (i=0; i < nbChampsActifs; i++)
@@ -116,6 +116,7 @@ float cx1,cy1,cx2,cy2;
       FldMgrFreeCoupeFlds(champ);
       }
    
+   GetFenetreAffichageID(&fenetreAffichage);
    c_wglsetw(fenetreAffichage);
    SerieMgrGetFenetreSerieID(&fenetreSerie);
    c_wglsetw(fenetreSerie);
@@ -368,7 +369,6 @@ float x1, y1, x2, y2;
    GetFenetreAffichageID(&fenetreAffichage);
    c_wglsetw(fenetreAffichage);
 
-#ifdef X_WGL
    c_wglcol(CYAN);
    EnterOverlayMode();
    if (x1 == x2 && y1 == y2)
@@ -380,13 +380,6 @@ float x1, y1, x2, y2;
       TracerLigne(x1, y1, x2, y2);
       }
    RestoreNormalMode();
-#endif
-#ifdef GL_WGL
-   EnterOverlayMode();
-   color(0);
-   clear();
-   RestoreNormalMode();
-#endif
    }
 
 
@@ -411,10 +404,10 @@ int SerieMgrGetStatutSerie()
 int SerieMgrGetSerieCoords(x1, y1, x2, y2)
 float *x1, *y1, *x2, *y2;
 {
-   *x1 = cx1;
-   *x2 = cx2;
-   *y1 = cy1;
-   *y2 = cy2;
+   *x1 = cxt1;
+   *x2 = cxt2;
+   *y1 = cyt1;
+   *y2 = cyt2;
    }
 
 /**
@@ -510,17 +503,17 @@ SerieMgrSetMinMaxSerie()
       switch (calculMinMaxSerie)
 	 {
 	 case AUTO_PROFIL:
-	 grafMinX = (float) champ->seqanim.dt[0];
-	 grafMaxX = (float) champ->seqanim.dt[champ->seqanim.njSerie-1];
+	 grafTMinX = (float) champ->seqanim.dt[0];
+	 grafTMaxX = (float) champ->seqanim.dt[champ->seqanim.njSerie-1];
 	 npts = champ->seqanim.niSerie*champ->seqanim.njSerie;
 
 	 switch (op)
 	    {
 	    case NO_OP:
 	    FldMgrGetChamp(&champ, listeChampsValides[0]);
-	    f77name(aminmax)(&grafMinY,&grafMaxY,champ->seqanim.valeursSeries,&npts,&un);
-	    grafMinY /= champ->facteur;
-	    grafMaxY /= champ->facteur;
+	    f77name(aminmax)(&grafTMinY,&grafTMaxY,champ->seqanim.valeursSeries,&npts,&un);
+	    grafTMinY /= champ->facteur;
+	    grafTMaxY /= champ->facteur;
 	    
 	    for (i=1; i < nbChampsActifs; i++)
 	       {
@@ -528,8 +521,8 @@ SerieMgrSetMinMaxSerie()
 	       f77name(aminmax)(&opmin[op],&opmax[op],champ->seqanim.valeursSeries,&npts,&un);
 	       opmin[op] /=  champ->facteur;
 	       opmax[op] /=  champ->facteur;
-	       grafMinY = grafMinY < opmin[op] ? grafMinY : opmin[op];
-	       grafMaxY = grafMaxY > opmax[op] ? grafMaxY : opmax[op];
+	       grafTMinY = grafTMinY < opmin[op] ? grafTMinY : opmin[op];
+	       grafTMaxY = grafTMaxY > opmax[op] ? grafTMaxY : opmax[op];
 	       }
 	    break;
 	    
@@ -537,8 +530,8 @@ SerieMgrSetMinMaxSerie()
 	    FldMgrGetChamp(&champ, listeChampsValides[0]);
 	    FldMgrGetChamp(&champ2, listeChampsValides[1]);
 	    DiffMgrSetDiffs(champ->seqanim.valeursSeries,champ2->seqanim.valeursSeries,opmin,opmax,npts);
-	    grafMinY = opmin[op];
-	    grafMaxY = opmax[op];
+	    grafTMinY = opmin[op];
+	    grafTMaxY = opmax[op];
 
 	    i = 2;
 	    while (i < nbChampsActifs)
@@ -555,8 +548,8 @@ SerieMgrSetMinMaxSerie()
 		  DiffMgrSetDiffs(champ->seqanim.valeursSeries,champ2->seqanim.valeursSeries,opmin,opmax,npts);
 		  opmin[op] /=  champ->facteur;
 		  opmax[op] /=  champ->facteur;
-		  grafMinY = grafMinY < opmin[op] ? grafMinY : opmin[op];
-		  grafMaxY = grafMaxY > opmax[op] ? grafMaxY : opmax[op];
+		  grafTMinY = grafTMinY < opmin[op] ? grafTMinY : opmin[op];
+		  grafTMaxY = grafTMaxY > opmax[op] ? grafTMaxY : opmax[op];
 		  }
 	       i+=2;
 	       }
@@ -568,27 +561,27 @@ SerieMgrSetMinMaxSerie()
 	 FldMgrGetChamp(&champ, listeChampsValides[0]);
 	 op = CtrlMgrGetMathOp();
 	 
-	 grafMinY = champ->min/champ->facteur;
-	 grafMaxY = champ->max/champ->facteur;
-	 grafMinX = (float) champ->seqanim.dt[0];
-	 grafMaxX = (float) champ->seqanim.dt[champ->seqanim.njSerie-1];
+	 grafTMinY = champ->min/champ->facteur;
+	 grafTMaxY = champ->max/champ->facteur;
+	 grafTMinX = (float) champ->seqanim.dt[0];
+	 grafTMaxX = (float) champ->seqanim.dt[champ->seqanim.njSerie-1];
 	 break;
 	 
 	 case FIXES:
 	 returnedStr = (char *) XmTextFieldGetString(pcsTextMinX);
-	 sscanf(returnedStr, "%e", &grafMinX);
+	 sscanf(returnedStr, "%e", &grafTMinX);
 	 XtFree(returnedStr);
 	 
 	 returnedStr = (char *) XmTextFieldGetString(pcsTextMaxX);
-	 sscanf(returnedStr, "%e", &grafMaxX);
+	 sscanf(returnedStr, "%e", &grafTMaxX);
 	 XtFree(returnedStr);
 	 
 	 returnedStr = (char *) XmTextFieldGetString(pcsTextMinY);
-	 sscanf(returnedStr, "%e", &grafMinY);
+	 sscanf(returnedStr, "%e", &grafTMinY);
 	 XtFree(returnedStr);
 	 
 	 returnedStr = (char *) XmTextFieldGetString(pcsTextMaxY);
-	 sscanf(returnedStr, "%e", &grafMaxY);
+	 sscanf(returnedStr, "%e", &grafTMaxY);
 	 XtFree(returnedStr);
 	 break;
 	 }
@@ -597,23 +590,23 @@ SerieMgrSetMinMaxSerie()
    i = 0;
    XtSetArg(args[i], XmNvalue, tempStr); i++;
    
-   sprintf(tempStr, "%-10.4f", grafMinX);
+   sprintf(tempStr, "%-10.4f", grafTMinX);
    XtSetValues(pcsTextMinX, args, i);
    
-   sprintf(tempStr, "%-10.4f", grafMaxX);
+   sprintf(tempStr, "%-10.4f", grafTMaxX);
    XtSetValues(pcsTextMaxX, args, i);
    
-   sprintf(tempStr, "%-10.4f", grafMinY);
+   sprintf(tempStr, "%-10.4f", grafTMinY);
    XtSetValues(pcsTextMinY, args, i);
    
-   sprintf(tempStr, "%-10.4f", grafMaxY);
+   sprintf(tempStr, "%-10.4f", grafTMaxY);
    XtSetValues(pcsTextMaxY, args, i);
    
    SerieMgrGetFenetreSerieID(&fenetreSerie);
    c_wglsetw(fenetreSerie);
    
-   f77name(xset)(&ixmin , &ixmax, &iymin, &iymax, &grafMinX, &grafMaxX,
-		 &grafMinY, &grafMaxY, &echelleSerie);
+   f77name(xset)(&ixmin , &ixmax, &iymin, &iymax, &grafTMinX, &grafTMaxX,
+		 &grafTMinY, &grafTMaxY, &echelleSerie);
    
 }
 
@@ -627,10 +620,10 @@ SerieMgrGetLimites(valmin,valmax,nivmin,nivmax)
      float *valmin, *valmax, *nivmin, *nivmax;
 {
   
-  *valmin = grafMinX;
-  *valmax = grafMaxX;
-  *nivmin = grafMinY;
-  *nivmax = grafMaxY;
+  *valmin = grafTMinX;
+  *valmax = grafTMaxX;
+  *nivmin = grafTMinY;
+  *nivmax = grafTMaxY;
 }
 
 InitFenetreSerie()

@@ -225,13 +225,14 @@ lire_gdb_geo()
 	  if (pixperdegree > 16)
 	    {
 	    gdb_line(pixperdegree,GDB_LIN_POLIT,get_coastline);
-	    }
+	    } 
 	  break;
 	  
 	case PROVINCES:
 	  if (pixperdegree > 16)
 	    {
-	    gdb_line(pixperdegree,GDB_LIN_ADMIN,get_coastline);
+            gdb_line(pixperdegree,GDB_LIN_ADMIN,get_coastline);
+
 	    }
 	  break;
 	  

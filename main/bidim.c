@@ -64,9 +64,20 @@ float *uu,*vv;
    if (xc.statuts[ZOOM_LOCAL] && AUTO == DictMgrGetMinMaxMode(champ->nomvar))
       {
       DefinirFenetreGrille(&mdeb, &ndeb, &mfin, &nfin, mapInfo.ni, mapInfo.nj);
-      f77name(sminmax)(&champ->localMin, &champ->localMax, fld,  &mapInfo.ni, &mapInfo.nj, &mdeb, &ndeb, &mfin, &nfin);
-      min = champ->localMin;
-      max = champ->localMax;
+      {
+      if (champ->natureTensorielle == SCALAIRE)
+	{
+	f77name(sminmax)(&champ->localMin, &champ->localMax, fld,  &mapInfo.ni, &mapInfo.nj, &mdeb, &ndeb, &mfin, &nfin);
+	min = champ->localMin;
+	max = champ->localMax;
+	}
+      else
+	{
+	f77name(vsminmax)(&champ->localMin, &champ->localMax, uu, vv,  &mapInfo.ni, &mapInfo.nj, &mdeb, &ndeb, &mfin, &nfin);
+	min = champ->localMin;
+	max = champ->localMax;
+	}
+      }
       }
    
    
@@ -385,7 +396,8 @@ int AfficherItem(indChamp,itemAAfficher)
         if (xc.statuts[BARBULES])
            {
            if (WindMgrGetModulusState()) return 1;
-           else return 0;
+	   if (indChamp == 0) return 0;
+           else return 1;
            }
         else return 1;
         break;

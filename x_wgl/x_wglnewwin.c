@@ -47,7 +47,6 @@ x_wglnewwin()
 	 fenetre = (_Fenetre *) calloc(1, sizeof(_Fenetre));
 	 nbFenetresActives = 1;
 	 fenetreCourante = 0;
-	 x_wglsavpfc();
 	 }
       else
 	 {

@@ -85,7 +85,7 @@ Widget pcsFrameLimiteY, pcsRCLimiteY, pcsLabelY, pcsLabelMinY, pcsLabelMaxY, pcs
 Widget pcsFormeLimites, pcsFormeScan, pcsMainRC;
 
 int pcsSelectionTerminee = False;
-int fenetreSerie;
+int fenetreSerie = 0;
 extern float cx1, cy1, cx2, cy2;
 
 static float scanIncrement = 0.05;
@@ -616,6 +616,7 @@ caddr_t unused1, unused2;
 	 }
       SetGeometrieFenetreAffichage(labelTopLevel[lng]);
       fenetreSerie = c_wglopw(labelTopLevel[lng]);
+      FlusherTousLesEvenements();
       c_wgldbf();
       c_wglfbf();
       c_wglias(1);
@@ -623,6 +624,7 @@ caddr_t unused1, unused2;
       lastcx1 = 0.0; lastcy1 = 0.0; lastcx2 = 0.0; lastcy2 = 0.0;
       }
 
+      FlusherTousLesEvenements();
    c_wglsetw(fenetreSerie);
    ier = PreparerSerie(1.0, 1.0, 1.0, 1.0);
 
@@ -637,6 +639,7 @@ caddr_t unused1, unused2;
 
    GetFenetreAffichageID(&fenetreAffichage);
    c_wglsetw(fenetreAffichage);
+      FlusherTousLesEvenements();
 
    if (ier > 0)
       {
@@ -655,6 +658,7 @@ caddr_t unused1, unused2;
       return;
       }
 
+      FlusherTousLesEvenements();
    statutSerie = TRUE;
    lastEvent = NIL;
    EnleverLigneSerie(lastcx1, lastcy1, lastcx2, lastcy2);

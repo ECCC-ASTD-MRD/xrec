@@ -41,6 +41,7 @@ Widget pventPanneauLongueur,pventOptionsLongueur,pventOptionsLongueurItems[8];
 Widget pventPanneauEpaisseurF,pventOptionsEpaisseurF,pventOptionsEpaisseurFItems[8];
 Widget pventPanneauCroissance,pventOptionsCroissance,pventOptionsCroissanceItems[5];
 Widget pventPanneauEchelleWW,pventOptionsEchelleWW,pventOptionsEchelleWWItems[11];
+Widget pventPanneauEchelleFleches,pventOptionsEchelleFleches,pventOptionsEchelleFlechesItems[11];
 Widget pventFormeToggles,pventFormeToggles2,pventFrameToggles;
 Widget pventFormeBarbules,pventLabelBarbules,pventFrameBarbules;
 Widget pventSelectionBarbules,pventAucun,pventBarbules,pventFleches;
@@ -59,6 +60,7 @@ static char *labelLongueur[]   = {"Longueur   ", "Length "};
 static char *labelEpaisseurF[]   = {"Epaisseur \ndes fleches", "Arrow\nThickness"};
 static char *labelCroissance[] = {  "Croissance\ndes fleches", "Arrow\nGrowth"};
 static char *labelEchelleWW[]  = {"Amplif.   \nWW",          "Amplif.  \nWW"};
+static char *labelEchelleFleches[]  = {"Legende   \nFleches",          "Arrows  \nLegend"};
 static char *labelAucun[]      = {"Aucun"               , "None"};
 static char *labelFleches[]    = {"Fleches"               , "Arrows"};
 static char *labelBarbules[]   = {"Barbules"              , "Wind Barbs"};
@@ -84,6 +86,8 @@ static char
 static char 
 *pventLabelOptionsEchelleWW[][11] = {{"1", "5", "10", "25           ", "50","100","150","200","400","500","1000"},
 				     {"1", "5", "10", "25           ", "50","100","150","200","400","500","1000"}};
+
+static char *pventLabelOptionsEchelleFleches[][2] = {{"Oui", "Non           "},{ "Yes", "No           "}};
 
 static char
 *pventLabelOptionsCroissance[][5] = {{"Cubique", "Quadratique", "Lineaire", "Racine carree", "Racine cubique"},
@@ -111,6 +115,7 @@ int epaisseurF = 1;
 int displayMode = FLECHES;
 int flagModule  = 0;
 int flagLIC     = 0;
+int flagLegendeFleches = 1;
 
 static int currentItem;
 char panneauVentsGeometrie[32];
@@ -258,6 +263,26 @@ void SetEchelleWWToggle (w, client_data, call_data)
   CoupeMgrGetCoupeCoords(&x1, &y1, &x2, &y2);
   PreparerCoupe(x1,y1,x2,y2);
   RedessinerFenetreCoupe();
+}
+
+void SetEchelleFlechesToggle (w, client_data, call_data) 
+     Widget	w;		/*  widget id		*/
+     caddr_t	client_data;	/*  data from application   */
+     caddr_t	call_data;	/*  data from widget class  */
+{
+  int i;
+  float x1,y1,x2,y2;
+
+  if ((int)client_data == 0)
+    {
+    flagLegendeFleches = 1;
+    }
+  else
+    {
+    flagLegendeFleches = 0;
+    }
+
+  RedessinerFenetres();
 }
 
 void SetCroissanceToggle (w, client_data, call_data) 
@@ -654,6 +679,32 @@ InitPanneauVents()
   XmStringFree(string);   
   
   XtManageChild(pventPanneauEchelleWW);
+  
+  pventOptionsEchelleFleches = (Widget)XmCreatePulldownMenu(pventRc, labelEchelleFleches[lng], NULL, 0);
+  
+  for (n=0; n < XtNumber(pventLabelOptionsEchelleFleches[lng]); n++)
+    {
+    i = 0;
+    string = XmStringCreateLtoR(pventLabelOptionsEchelleFleches[lng][n], XmSTRING_DEFAULT_CHARSET);
+    XtSetArg(args[i], XmNlabelString, string); i++;
+    pventOptionsEchelleFlechesItems[n] = XmCreatePushButtonGadget(pventOptionsEchelleFleches, pventLabelOptionsEchelleFleches[lng][n], args, i);
+    XmStringFree(string);   
+    XtAddCallback(pventOptionsEchelleFlechesItems[n], XmNactivateCallback, (XtCallbackProc) SetEchelleFlechesToggle, (XtPointer) n);
+    }
+  
+  XtManageChildren(pventOptionsEchelleFlechesItems, XtNumber(pventLabelOptionsEchelleFleches[lng]));
+  
+  i = 0;
+  currentItem = 0;
+  string = XmStringCreateLtoR(labelEchelleFleches[lng], XmSTRING_DEFAULT_CHARSET); 
+  XtSetArg(args[i], XmNlabelString, string); i++;
+  XtSetArg(args[i], XmNsubMenuId, pventOptionsEchelleFleches); i++;
+  XtSetArg(args[i], XmNmenuHistory, pventOptionsEchelleFlechesItems[currentItem]); i++;
+  XtSetArg(args[i], XmNalignment, XmALIGNMENT_BEGINNING); i++;
+  pventPanneauEchelleFleches = XmCreateOptionMenu(pventRc, "option_menu1", args, i);
+  XmStringFree(string);   
+  
+  XtManageChild(pventPanneauEchelleFleches);
   
 }
 

@@ -8,15 +8,16 @@ SHELL = /bin/sh
 
 CPP = /lib/cpp
 
-RECLIB = $(REC)/lib/$(ARCH)$(ABI)/librec.a
+RECLIB = $(HOME)/userlibs/$(ARCH)$(ABI)/librec.a
 
 FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
 
 CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I$(HOME)/src/images/gd2/ -DX_WGL
 
-#OPTIMIZ = -debug -O 0 -optc =-Wall
-OPTIMIZ = -debug -O 0
-OPTIMIZ = -O 3 -optc =-Wall
+ OPTIMIZ = -debug -O 0 -optc =-Wall
+#OPTIMIZ = -O 3 -optc =-Wall
+#OPTIMIZ = -O 2
+
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
@@ -28,7 +29,7 @@ default: reclib
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 
 .c.o:
-	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
+	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -optc "=$(CFLAGS)" -src $<
 
 .c.a:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
@@ -182,22 +183,24 @@ xrec-Linux_alpha:
 	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Mrm Xp Xt Xmu X11 gd2 z png m -librmn
 
 xrec-Linux:
-	cd main; r.compile -src rec.ftn; cd .. ; r.build -obj main/rec.o $(HOME)/userlibs/Linux/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmn_007
+	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmnbeta
 
 xrec-phillips:
-	r.build -bidon -main xrec -obj $(REC)/lib/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util gdb wgl x_wgl gd_wgl wgl Xm Mrm Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmn_006
+	r.build -obj $(REC)/main/rec.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl x_wgl gd_wgl wgl Xm Mrm Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmn_006
 
 xrec-local:
-	r.build -bidon -main xrec -obj $(REC)/lib/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /opt/old-libc /usr/X11R6/lib -libappl rec rec_util gdb wgl x_wgl gd_wgl wgl Xm Mrm Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmn_006
+	r.compile -src rec.ftn $(OPTIMIZ); r.build -obj main/rec.o $(HOME)/src/interp/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl Xm Mrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmnbeta; mv $(TMPDIR)/xrec .
+
 
 xrec-Linux-intel:
-	ifc *.o -o $(TMPDIR)/xrec -C90 -L$(REC)/lib/$(ARCH) -L/opt/old-libc -L/usr/X11R6/lib -L/opt/intel/compiler70/ia32/lib/ $(REC)/intel/*.o -lrec -lrec_util -lgdb -lwgl -lgd_wgl -lx_wgl -lwgl -llic $(ARMNLIB)/lib/librmn-intel.a  -lMrm -lXp -lXext -lX11 -lxml2 -lexpat -lgd2 -lz -lpng -lm -ldl -lc -lld -lc-2.2.4 -lld-2.2.4 -lPEPCF90 -lc -lld 
+	ifort *.o -o $(TMPDIR)/xrec -C90 -L$(REC)/lib/$(ARCH) -L/usr/X11R6/lib -lrec -lrec_util -lgdb -lwgl -lgd_wgl -lx_wgl -lwgl -llic $(ARMNLIB)/lib/$(ARCH)/librmn-intel.a  -lMrm -lXp -lXext -lX11 -lxml2 -lexpat -lgd2 -lz -lpng -lm -ldl -lc -lld
+
 
 xrec-intel2:
 	ifc *.o -o xrec-intel -i_dynamic -L$(REC)/lib/$(ARCH) -L/opt/old-libc -L/usr/X11R6/lib -L/opt/intel/compiler70/ia32/lib/ -lrec -lrec_util -lgdb -lwgl -lx_wgl -lgd_wgl -lwgl $(ARMNLIB)/lib/librmn-intel.a  -lMrm -lXp -lXext -lX11 -lxml2 -lexpat -lgd2 -lz -lpng -lm -ldl -lPEPCF90
 
 xrec-IRIX64:
-	r.build -obj $(REC)/main/rec.o $(HOME)/userlibs/IRIX64/*.o -o $(TMPDIR)/xrec  -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util gdb wgl gd_wgl x_wgl wgl lic Xm Xt X11 expat gd2 png z m -librmn rmnbeta
+	r.build -obj $(REC)/main/rec.o $(HOME)/userlibs/IRIX64/*.o -o $(TMPDIR)/xrec  -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util gdb wgl gd_wgl x_wgl lic Xm Xt X11 gd2 png z m -librmn rmnbeta
 
 xrec-HP-UX:
 	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Xt X11 gd2 png z m -librmn  rmnbeta

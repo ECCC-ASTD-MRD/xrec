@@ -96,7 +96,7 @@ static char *AnnulerToutesModifs[] = {"Annuler toutes\nles modifications", "Canc
 static char *Enregistrer[] = {"Enregistrer\nmodifications", "Save\nmodifications"};
 static char *NouvelleValeur[] = {"Nouvelle valeur", "New value"};
 static char *NouvelleEtiquette[] = {"Nouvelle etiquette", "New stamp"};
-static char *EtiquetteDefaut[] = {"BRUYANT", "NOISY"};
+static char *EtiquetteDefaut[] = {"EXPERIMENTAL", "EXPERIMENTAL"};
 
 /*<----------------------------------------------------------------------------------------->*/
 
@@ -715,7 +715,7 @@ static XtCallbackProc PeEnregistrer(w, clientData, callData)
 Widget w;
 caddr_t clientData, callData;
 {
-   char nomFich[128];
+   char nomFich[1024];
    char *nouvelleEtiquette;
    char *typFich = "STD+RND";
    int lng;
@@ -725,6 +725,7 @@ caddr_t clientData, callData;
    static char *problemeFnom[] = {"\nProbleme avec l'ouverture du fichier\nOperation annulee\n", 
 				     "\nCan't open file.\nOperation cancelled\n"};
 
+   int iunSortie = 132;
    char succesStr[256];
    Arg args[2];
    int i;
@@ -745,7 +746,7 @@ caddr_t clientData, callData;
    FldMgrGetChamp(&champ, 0);
    
    lng = c_getulng();
-   f77name(rtnozsrt)(nomFich, 128);
+   f77name(rtnozsrt)(nomFich, 1024);
 
    i = 0;
    while (!(isspace((int)nomFich[i])))
@@ -762,7 +763,7 @@ caddr_t clientData, callData;
       strcat(nomFich, nombidon[lng]);
       }
 
-   ier  = c_fnom(90, nomFich, typFich, 0);
+   ier  = c_fnom(iunSortie, nomFich, typFich, 0);
    if (ier != 0)
       {
       DesactiverTousPeWidgets();
@@ -780,7 +781,7 @@ caddr_t clientData, callData;
       nouvelleEtiquette[i] = ' ';
       }
 	
-   ier = c_fstouv(127, "RND+R/W");
+   ier = c_fstouv(iunSortie, "RND+R/W");
    if (ier < 0)
       {
       DesactiverTousPeWidgets();
@@ -815,14 +816,14 @@ caddr_t clientData, callData;
 	 }
       }
 
-   ier = c_fstecr(champ->fld, work, -nbits, 90, 
+   ier = c_fstecr(champ->fld, work, -nbits, iunSortie, 
 		  champ->date, deet, npas, mapInfo.ni, mapInfo.nj, 1,
 		  ip1, ip2, ip3, champ->typvar, 
 		  champ->nomvar, nouvelleEtiquette, &mapInfo.type,
 		  mapInfo.ig1, mapInfo.ig2, mapInfo.ig3, mapInfo.ig4, datyp, 1);
 
-   ier = c_fstfrm(90);
-   ier = c_fclos(90);
+   ier = c_fstfrm(iunSortie);
+   ier = c_fclos(iunSortie);
 
    strcpy(succesStr, succes[lng]);
    strcat(succesStr, nomFich);

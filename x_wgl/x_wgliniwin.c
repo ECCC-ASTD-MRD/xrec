@@ -106,7 +106,7 @@ x_wgliniwin(char *nomFenetre)
        XSetNormalHints(wglDisp, wglWin, &wglHints);
      }
    
-   InitFonte(14); 
+   InitFonte(14);
    
    FlusherTousLesEvenements();
    XMapRaised(wglDisp, wglWin);

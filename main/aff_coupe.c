@@ -284,6 +284,15 @@ float *fld, *uu, *vv, *uut, *uun, *ww, *uvw;
          }
       }
    
+   if (champ->natureTensorielle == VECTEUR && champ->cle >= 0 && xc.statuts[BARBULES])
+     {
+     if (0 != WindMgrGetLICState())
+       {
+       SetClipMask();
+       AfficherLIC(uut, ww, champ->coupe.niCoupe, champ->coupe.njCoupe, xc.attributs[indChamp].indCouleurFore,xc.attributs[indChamp].epaisseur,uvwmax);
+       }
+     }
+   
    if (AfficherItem(indChamp, CONTOURS))
       {
       c_wglcont(localfld, champ->coupe.niCoupe, champ->coupe.njCoupe, champ->intervalles, 
@@ -342,7 +351,7 @@ float *fld, *uu, *vv, *uut, *uun, *ww, *uvw;
             DictMgrGetMinMaxValues("UV",&uvwmin,&uvwmax);
             }
          
-         AfficherFleches(uut, ww,champ->coupe.niCoupe, champ->coupe.njCoupe,
+         AfficherFleches(uut, ww, champ->coupe.niCoupe, champ->coupe.njCoupe,
                          xc.attributs[indChamp].indCouleurFore,
                          xc.attributs[indChamp].epaisseur,uvwmax);
          if (0 != WindMgrGetDisplayMode())

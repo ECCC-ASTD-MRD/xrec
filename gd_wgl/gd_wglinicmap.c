@@ -22,8 +22,8 @@
 
 #define DIST(a,b,c) a*a + b*b + c*c
 
-int cmapInfo;
-unsigned int colorbitrange[3][3];
+int gd_cmapInfo;
+unsigned int gd_colorbitrange[3][3];
 
 static char *les_couleurs[] = {"white", "black", "red", "cyan", "yellow", "magenta", "green2", "blue", "gray"};
 
