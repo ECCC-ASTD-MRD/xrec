@@ -2753,7 +2753,6 @@ int   *iun;
    xc.statuts[LEGENDE_COULEUR] = TRUE;
    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
    xc.statuts[TRAITEMENT_VECTORIEL] = TRUE;
-
    lng = c_getulng();
    strcpy(nomShell, XtName(SuperWidget.topLevel));
    strcat(nomShell, titreFenetre[lng]);
@@ -2881,6 +2880,7 @@ int   *iun;
    EnleverBoutonAnnulation();   
    XFlush(XtDisplay(xc.topLevel));
    
+   c_gmpinit();
    return xc.statut;
    }
 

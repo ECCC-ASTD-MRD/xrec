@@ -136,6 +136,7 @@ LireLatLon(ListePointsStruct *(*liste), int *nbItems)
 	   }
 	 
          npts = 0;
+	 res = 1;
          if (res)
 	   {
 	   if (0 == strcmp ("LA", ident) && (0 == (abs((int)latMin) % (int)mapOptions.intervalleMeridiens)))

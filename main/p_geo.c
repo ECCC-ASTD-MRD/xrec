@@ -134,20 +134,20 @@ void CheckGeoToggles (Widget w, caddr_t client_data, caddr_t call_data)
 {
   int lng;
   Arg args[3];
-  int i,j, n, ind, pos;
+  int i,j, n, ind, pos, toggleChanged;
   Pixel back, fore;
   static int last_pos = -1;
   
   pos = (int)client_data;
   
-  fprintf(stderr, "pos: %d\n", pos);
   currentGeoToggle=pos;
-  
+  toggleChanged = 0;
   
   XtSetArg(args[0], XmNbackground, &back);
   XtSetArg(args[1], XmNforeground, &fore);
   if (pos == last_pos)
     {
+      toggleChanged = 1;
       XtGetValues(pgToggleItems[(pos+1)%8], args, 2);
     } 
   
@@ -180,7 +180,6 @@ void CheckGeoToggles (Widget w, caddr_t client_data, caddr_t call_data)
   XtSetArg(args[2], XmNselectColor, XmREVERSED_GROUND_COLORS);
   XtSetValues(w, args, 1);  */
 
-  last_pos = pos;
   
   XtSetArg(args[0], XmNbackground, &back);
   XtSetArg(args[1], XmNforeground, &fore);
@@ -193,23 +192,45 @@ void CheckGeoToggles (Widget w, caddr_t client_data, caddr_t call_data)
   XtSetArg(args[0], XmNmenuHistory, pgOptionsCouleurItems[mapFlags.indCouleur[currentGeoToggle]]);
   XtSetValues(pgPanneauCouleur, args, 1);
   
-  XtSetArg(args[0], XmNmenuHistory, pgOptionsEpaisseurItems[mapFlags.epaisseur[currentGeoToggle]]);
+  XtSetArg(args[0], XmNmenuHistory, pgOptionsEpaisseurItems[mapFlags.epaisseur[currentGeoToggle]-1]);
   XtSetValues(pgPanneauEpaisseur, args, 1);
   
   
   XtSetArg(args[0], XmNmenuHistory, pgOptionsStyleItems[mapFlags.style[currentGeoToggle]]);
   XtSetValues(pgPanneauStyle, args, 1);
   
-  if (mapFlags.etat[currentGeoToggle] == OUI)
+  if (pos == last_pos)
     {
-      mapFlags.etat[currentGeoToggle] = NON;
+      if (mapFlags.etat[currentGeoToggle] == OUI)
+	{
+	  XtSetArg (args[0], XmNset, False);
+	  XtSetValues(pgToggleItems[currentGeoToggle], args, 1);
+	  mapFlags.etat[currentGeoToggle] = NON;
+	}
+      else
+	{
+	  XtSetArg (args[0], XmNset, True);
+	  XtSetValues(pgToggleItems[currentGeoToggle], args, 1);
+	  mapFlags.etat[currentGeoToggle] = OUI;
+	  mapFlags.lu[currentGeoToggle] = NON;
+	}
+      mapFlags.verifStatutNecessaire = OUI;
+     RedessinerFenetres();
     }
   else
     {
-      mapFlags.etat[currentGeoToggle] = OUI;
-      mapFlags.verifStatutNecessaire = OUI;
+      if (mapFlags.etat[currentGeoToggle] == OUI)
+	{
+	  XtSetArg (args[0], XmNset, True);
+	  XtSetValues(pgToggleItems[currentGeoToggle], args, 1);
+	}
+      else
+	{
+	  XtSetArg (args[0], XmNset, False);
+	  XtSetValues(pgToggleItems[currentGeoToggle], args, 1);
+	}
     }
-  RedessinerFenetres();
+  last_pos = pos;
 }
 
 /****

@@ -73,8 +73,9 @@ void c_gmpdrw()
     {
     for (i=0; i < 8; i++)
       {
-      if (mapFlags.etat[i] == OUI)
+      if (mapFlags.etat[i] == OUI && i != LATLON)
 	{
+	ActiverParamsLigne(mapFlags.style[i], mapFlags.indCouleur[i], mapFlags.epaisseur[i]);
 	AfficherVecteurs(gmp_vecs[i], gmp_nbVecs[i], mapFlags.style[i], mapFlags.indCouleur[i], mapFlags.epaisseur[i]);
 	}
       }
@@ -92,8 +93,10 @@ void c_gmpdrw()
       mapFlags.lu[LATLON]= OUI;
       }
     else
+      {
       AfficherVecteurs(gmp_vecs[LATLON], gmp_nbVecs[LATLON], 
 		       mapFlags.style[LATLON], mapFlags.indCouleur[LATLON], mapFlags.epaisseur[LATLON]);
+      }
     }
   
   old_gmp_xmin = gmp_xmin;

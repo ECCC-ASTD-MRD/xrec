@@ -43,12 +43,21 @@ int gmp_perim(float *xgdmin, float *ygdmin,  float *xgdmax,  float *ygdmax, floa
    f77name(aminmax)(xgdmin, xgdmax, XGrid, &quatre, &un);
    f77name(aminmax)(ygdmin, ygdmax, YGrid, &quatre, &un);
    
+
    res = clip(*xgdmin, *ygdmin, *xgdmax, *ygdmax);
    
-   if ((*xgdmax - *xgdmin) > 0.85 * 360.0)
-     *nbSeg = 2;
-   else
-     *nbSeg = 1;
+   /*
+   if (*ygdmin == *ygdmax)
+     {
+     fprintf(stderr, "gmp_perim, res = %d\n", res);
+     }
+
+      if ((*xgdmax - *xgdmin) > 0.85 * 360.0)
+      *nbSeg = 2;
+      else
+      *nbSeg = 1;
+      */
+   *nbSeg = 1;
    return res;
 }
 
