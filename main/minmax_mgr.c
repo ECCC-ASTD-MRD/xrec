@@ -78,19 +78,22 @@ int GetMinMaxUV(float *uvmin, float *uvmax)
   for (i=0; i < nbChampsActifs; i++)
     {
     FldMgrGetChamp(&champ, i);
-    switch (i)
+    if (champ->natureTensorielle == VECTEUR)
       {
-      case 0:
-	*uvmin = champ->uvmin[0];
-	*uvmax = champ->uvmax[0];
-	break;
-
-      default:
-	lmin = champ->uvmin[i];
-	lmax = champ->uvmax[i];
-	if (lmin < *uvmin) *uvmin = lmin;
-	if (lmax < *uvmax) *uvmax = lmax;
-	break;
+      switch (i)
+	{
+	case 0:
+	  *uvmin = champ->uvmin[0];
+	  *uvmax = champ->uvmax[0];
+	  break;
+	  
+	default:
+	  lmin = champ->uvmin[i];
+	  lmax = champ->uvmax[i];
+	  if (lmin < *uvmin) *uvmin = lmin;
+	  if (lmax < *uvmax) *uvmax = lmax;
+	  break;
+	}
       }
     }
 }

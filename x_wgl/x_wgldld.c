@@ -22,5 +22,5 @@
 
 x_wgldld(int indDash, int dashPattern)
 {
-   wgldeflst(indDash, dashPattern);
+   x_wgldeflst(indDash, dashPattern);
    }

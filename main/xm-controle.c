@@ -45,7 +45,7 @@
 #define  DIAPOS          2000
 #define  FILMS           2001
 
-static char statutStr[13][2][48] = {{"Couleurs", "Colors" }, 
+static char statutStr[14][2][48] = {{"Couleurs", "Colors" }, 
 				    {"Contours", "Contours"},
 			            {"Labels", "Labels"}, 
 			            {"Valeurs centrales","Central values"},
@@ -57,6 +57,7 @@ static char statutStr[13][2][48] = {{"Couleurs", "Colors" },
 			            {"Lissage", "Smoothing"},
 				    {"Extremes locaux","Local Extrema"},
 				    {"Topographie","Topography"},
+				    {"Valeurs manquantes", "Missing values"},
 			            {"Redessiner la fenetre apres selection", "Redraw Window after selection"}};
 
 static char VecsStr[3][2][48] = {{"Traitement scalaire, affichage scalaire", "Process as scalar, display as scalar" }, 
@@ -748,12 +749,8 @@ int indMenu;
       {
       strcpy(menuCourant[i], "");
       j = 0;
-#if defined (HP)
-      XtSetArg(args[j], XmNrecomputeSize, True); j++;
-#else
       XtSetArg(args[j], XmNheight, hauteurMenus+5); j++;
       XtSetArg(args[j], XmNrecomputeSize, False); j++;
-#endif
       XtSetArg(args[j], XmNindicatorType, XmONE_OF_MANY); j++;
       GetFormat(format, infoChamps[champ->indDict].intervallesDeContour[i], 
 		infoChamps[champ->indDict].nbIntervalles[i], infoChamps[champ->indDict].facteurDeConversion);
@@ -1182,23 +1179,6 @@ InitFormeMessage()
    
    XmStringFree(label);
      
-/**
-   i = 0;
-   label = XmStringCreateLtoR(labelAnnuler[lng], XmSTRING_DEFAULT_CHARSET);
-   XtSetArg(args[i], XmNlabelString, label); i++;
-   XtSetArg(args[i], XmNleftAttachment, XmATTACH_POSITION); i++;
-   XtSetArg(args[i], XmNrightAttachment, XmATTACH_POSITION); i++;
-   XtSetArg(args[i], XmNbottomAttachment, XmATTACH_FORM); i++;
-   XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
-   XtSetArg(args[i], XmNrubberPositioning, True); i++;
-   XtSetArg(args[i], XmNleftPosition, 80); i++;
-   XtSetArg(args[i], XmNrightPosition, 100); i++;
-   xc.annuler = (Widget)XmCreatePushButtonGadget(formeMessage, labelAnnuler[lng], args, i);
-   XtAddCallback(xc.annuler, XmNactivateCallback, Annuler, NULL);
-   XtManageChild(xc.annuler);
-   XmStringFree(label);
-**/
-   
    }
 
 InitFormeAffichage()
@@ -1433,12 +1413,8 @@ InitMenuAffichage()
       {
       j = 0;
       label = XmStringCreate(statutStr[i][lng], XmSTRING_DEFAULT_CHARSET);
-#if defined (HP)
-      XtSetArg(args[j], XmNrecomputeSize, True); j++;
-#else
       XtSetArg(args[j], XmNheight, hauteurMenus+5); j++;
       XtSetArg(args[j], XmNrecomputeSize, False); j++;
-#endif
       XtSetArg(args[j], XmNlabelString, label); j++;
       XtSetArg(args[j], XmNindicatorType, XmONE_OF_MANY); j++;
       
@@ -1508,12 +1484,8 @@ InitMenuGrille()
       {
       j = 0;
       label = XmStringCreate(grmenuitems[i].nomgrille, XmSTRING_DEFAULT_CHARSET);
-#if defined (HP)
-      XtSetArg(args[j], XmNrecomputeSize, True); j++;
-#else
       XtSetArg(args[j], XmNheight, hauteurMenus+5); j++;
       XtSetArg(args[j], XmNrecomputeSize, False); j++;
-#endif
       XtSetArg(args[j], XmNlabelString, label); j++; 
       XtSetArg(args[j], XmNindicatorType, XmONE_OF_MANY); j++;
       xc.menuGrItems[i] = (Widget)XmCreateToggleButtonGadget(xc.menuGrille, "item", args, j);
@@ -1553,12 +1525,8 @@ InitMenuVecteurs()
      {
      j = 0;
      label = XmStringCreate(VecsStr[i][lng], XmSTRING_DEFAULT_CHARSET);
-#if defined (HP)
-     XtSetArg(args[j], XmNrecomputeSize, True); j++;
-#else
      XtSetArg(args[j], XmNheight, hauteurMenus+5); j++;
      XtSetArg(args[j], XmNrecomputeSize, False); j++;
-#endif
      XtSetArg(args[j], XmNlabelString, label); j++; 
      XtSetArg(args[j], XmNindicatorType, XmONE_OF_MANY); j++;
      xc.menuVecItems[i] = (Widget)XmCreateToggleButtonGadget(xc.menuVecteurs, "item", args, j);
@@ -1586,7 +1554,7 @@ InitMenuFichier()
    Arg  args[10];
    XmString label;
 
-   static char *labelRecAPropos[] = {"A propos de rec...", "About rec..."};
+   static char *labelRecAPropos[] = {"A propos de xrec...", "About xrec..."};
    
    i = 0;
    xc.menuFichier = (Widget)XmCreatePulldownMenu(xc.menuform,labelMenuFichier[lng],args, i);
@@ -2582,7 +2550,7 @@ RedessinerFenetreSerie()
    
    AfficherBoutonAnnulation();
    
-   SerieMgrSetMinMax();
+   SerieMgrSetMinMaxSerie();
    SerieMgrSetUVWMinMax();
    xc.statuts[EN_TRAIN_DE_DESSINER] = TRUE; 
    for (i=0; i < FldMgrGetNbChampsActifs(); i++)
@@ -2885,6 +2853,7 @@ int   *iun;
    xc.statuts[GRILLE_SOURCE] = FALSE;
    xc.statuts[GRILLE] = FALSE;
    xc.statuts[LEGENDE_COULEUR] = TRUE;
+   xc.statuts[VALEURS_MANQUANTES] = FALSE;
    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
    xc.statuts[TRAITEMENT_VECTORIEL] = TRUE;
    lng = c_getulng();
@@ -3910,4 +3879,9 @@ GetLogoToggle()
 GetGrilleSelectionnee()
 {
    return itemGrilleSelectionnee;
+}
+
+GetValeursManquantesToggle()
+{
+  return xc.statuts[VALEURS_MANQUANTES];
 }

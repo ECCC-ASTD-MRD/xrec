@@ -105,7 +105,6 @@ recutil_lib: \
 	$(REC_UTILLIB)(read-latlon.o) \
 	$(REC_UTILLIB)(read_lalo.o) \
 	$(REC_UTILLIB)(swapFloats.o) \
-	$(REC_UTILLIB)(test-geo.o) \
 	$(REC_UTILLIB)(vec_turbo.o) \
 	$(REC_UTILLIB)(vecteurs.o) \
 	$(REC_UTILLIB)(lire_geo.o) \

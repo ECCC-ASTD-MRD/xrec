@@ -20,11 +20,16 @@
 
 #include <wgl_x.h>
 
+f77name(x_wgldpt)(int *indpat, int *ipatsz, char iptrn[])
+{
+  x_wgldpt(*indpat, *ipatsz, iptrn);
+}
+
 x_wgldpt(int indpat, int ipatsz, char iptrn[])
 {
-   wglinvpat(iptrn);
-   wglPatterns[indpat+128]=XCreateBitmapFromData(wglDisp, wglWin, iptrn, ipatsz, ipatsz); 
-   if (indpat == 1)
-      wglPatterns[indpat-1+128]=XCreateBitmapFromData(wglDisp, wglWin, iptrn, ipatsz, ipatsz); 
-   }
+  x_wglinvpat(iptrn);
+  wglPatterns[indpat+128]=XCreateBitmapFromData(wglDisp, wglWin, iptrn, ipatsz, ipatsz); 
+  if (indpat == 1)
+    wglPatterns[indpat-1+128]=XCreateBitmapFromData(wglDisp, wglWin, iptrn, ipatsz, ipatsz); 
+}
 

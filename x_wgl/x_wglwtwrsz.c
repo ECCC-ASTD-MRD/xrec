@@ -45,7 +45,7 @@ x_wglwtwrsz()
    hauteurMax = 150;
    while (w <= largeurMax && h <= hauteurMax)
       {
-      wglmesagr(messageAgrandir[lng]);
+      x_wglmesagr(messageAgrandir[lng]);
       XtAppNextEvent(SuperWidget.contexte, &wglEvent); 
       XtDispatchEvent(&wglEvent);
 

@@ -5,7 +5,8 @@
 #include <malloc.h>
    
 #define  RADIAN_A_DEGRE		 57.29577951
-#define  DEGRE_A_RADIAN		  0.01745329252
+#define  DEGRE_A_RADIAN		   0.01745329252
+#define  MISSING                   1.0e+37
 
 #define  GLOBAL                  0
 #define  NORD                    1
@@ -64,7 +65,7 @@
 
 #define NB_MAX_GRILLES     16
 
-#define NB_MENU_AFFICHAGE_ITEMS 13
+#define NB_MENU_AFFICHAGE_ITEMS 14
 
 #define COULEURS              0
 #define CONTOURS              1
@@ -77,14 +78,15 @@
 #define LEGENDE_COULEUR       8
 #define LISSAGE               9
 #define ZOOM_LOCAL           10 
-#define TOPO          11
-#define AFF_AUTOMATIQUE      12
-#define BARBULES             13
-#define AXE_X                14
-#define AXE_Y                15
-#define EN_TRAIN_DE_DESSINER 16
-#define EFF_FENETRE          17
-#define TRAITEMENT_VECTORIEL 18
+#define TOPO                 11
+#define VALEURS_MANQUANTES   12
+#define AFF_AUTOMATIQUE      13
+#define BARBULES             14
+#define AXE_X                15
+#define AXE_Y                16
+#define EN_TRAIN_DE_DESSINER 17
+#define EFF_FENETRE          18
+#define TRAITEMENT_VECTORIEL 19
 
 
 #define ANIMATION  0
@@ -147,6 +149,7 @@
 #define TOUJOURS        1
 #define JAMAIS          2
 
+#define FTN2C(i,j,ni)  (int)((ni) * (j) + i)
 #if defined  (hp720) || defined (i386)
 #define ffloor floor
 #define fceil ceil
@@ -249,6 +252,7 @@ typedef struct
   char grref[2];
   int ig1, ig2, ig3, ig4;
   int ig1ref, ig2ref, ig3ref, ig4ref;
+  unsigned int *missing;
 } _Grille;
 
 
@@ -284,7 +288,7 @@ typedef struct
   float facteur;
   int diffValide;
   float *xx, *yy;
-  float min,max,vmin,vmax,diffMin,diffMax,localMin,localMax;
+  float min,max,min2,max2,vmin,vmax,diffMin,diffMax,localMin,localMax;
   float fldmin[5],fldmax[5];
   float uumin[5],uumax[5];
   float vvmin[5],vvmax[5];
@@ -306,7 +310,8 @@ typedef struct
   char annee[5];
   float intervalles[32];
   int  nbIntervalles;
-  float *fld,*uu,*vv,*ww,*module,*other,*x,*y;
+  float *fld,*fld_orig,*uu,*vv,*ww,*module,*other,*x,*y;
+  int missingFlag;
   _Attributs attr;
   _CoupeVerticale coupe;
   _SequenceAnimee seqanim;

@@ -28,9 +28,10 @@ x_wglsetw(int winid)
 **/
 
    XFlush(wglDisp);
-   wglfshlb();
+   x_wglfshlb();
 
-   wglsavpfc();
-   wgldefncw(winid);
+   x_wglsavpfc();
+   x_wgldefncw(winid);
+   XFlush(wglDisp);
    }
 

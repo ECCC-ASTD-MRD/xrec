@@ -1,0 +1,9 @@
+#!/bin/sh
+for file in autog convert-dict gd_wgl gmp include main select selfic util wgl x_wgl xdash xinit xplot88 xvoir
+do
+cd $file
+echo $file
+   grep -i $1 *.c *.ftn
+cd ..
+done
+

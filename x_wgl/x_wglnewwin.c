@@ -25,7 +25,7 @@ x_wglnewwin()
    int i = 0;
    int fenetreExistanteTrouvee = False;
 
-   wglsavpfc();
+   x_wglsavpfc();
    while (i < nbFenetresActives)
       {
       if (fenetre[i].libre)
@@ -47,7 +47,7 @@ x_wglnewwin()
 	 fenetre = (_Fenetre *) calloc(1, sizeof(_Fenetre));
 	 nbFenetresActives = 1;
 	 fenetreCourante = 0;
-	 wglsavpfc();
+	 x_wglsavpfc();
 	 }
       else
 	 {

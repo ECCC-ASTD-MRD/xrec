@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<xrec_lastsettings>
+
+<tableau_de_bord>
+  <geometrie>             +483+874 </geometrie>
+  <couleurs>                   on  </couleurs>
+  <contours>                   on  </contours>
+  <labels>                     on  </labels>
+  <valeurs_centrales>          off </valeurs_centrales>
+  <geographie>                 off </geographie>
+  <grille>                     off </grille>
+  <legende>                    on  </legende>
+  <legende_couleurs>           on  </legende_couleurs>
+  <lissage>                    on  </lissage> 
+  <zoom_local>                 off </zoom_local>
+  <topographie>                off </topographie>
+  <redessiner_apres_selection> on  </redessiner_apres_selection>
+</tableau_de_bord>
+
+<attributs_divers>
+ <geometrie>+1254+674>
+ <niveau_de_lissage> maximum</niveau_de_lissage>
+ <taille_police_labels> 12</taille_police_labels>
+ <taille_police_legende>12</taille_police_legende>
+ <taille_police_legende_couleurs>12</taille_police_legende_couleurs>
+</attributs_divers>
+
+<palette>
+ <geometrie>+1291+712</geometrie>
+ <selected_palette>59</selected_palette>
+ <min>0.0</min>
+ <max>100.0</max>
+</palette>
+
+<contours>
+    <index>00</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>01</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>02</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>03</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>04</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>05</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>06</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>07</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>08</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>09</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>10</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>11</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>12</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>13</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>14</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>15</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>16</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>17</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>18</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>19</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>20</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>21</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>22</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>23</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>24</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>25</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>26</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>27</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>28</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>29</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>30</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>31</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+
+    <index>32</index>
+    <rgb>0 0 0</rgb>
+    <epaisseur>0</epaisseur>
+    <style>0</style>
+</contours>
+
+<geographie>
+   <geometrie>+4+20</geometrie>
+   <couleur>noir</couleur>
+   <epaisseur>1</epaisseur>
+   <frontieres_politiques>on</frontieres_politiques>
+   <meridiens>on</meridiens>
+   <resolution>0.500</resolution>
+   <espacement_meridiens>10</espacement_meridiens>
+</geographie>
+
+</xrec_lastsettings>

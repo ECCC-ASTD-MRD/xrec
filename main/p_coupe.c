@@ -695,20 +695,14 @@ caddr_t unused1, unused2;
    InvertWidget(w);
    if (!fenetreCoupe)
       {
-#ifdef GL_WGL
-      winconstraints();
-#endif
       if (0 != (wwidth+wheight))
 	 {
 	 c_wglpsz(wwidth, wheight);
 	 }
       SetGeometrieFenetreAffichage(labelTopLevel[lng]);
       fenetreCoupe = c_wglopw(labelTopLevel[lng]);
-#ifdef GL_WGL
-      winconstraints();
       c_wgldbf();
       c_wglfbf();
-#endif
       c_wglias(1);
       c_wglgwz(&wwidth, &wheight);
       lastcx1 = 0.0; lastcy1 = 0.0; lastcx2 = 0.0; lastcy2 = 0.0;
@@ -756,9 +750,6 @@ caddr_t unused1, unused2;
       c_wglsetw(fenetreAffichage);
       c_wglcol(CYAN);
       EnterOverlayMode();
-#ifdef GL_WGL
-      color(0);
-#endif
       switch (lastEvent)
 	 {
 	 case CLIC:

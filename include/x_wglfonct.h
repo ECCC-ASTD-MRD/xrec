@@ -95,7 +95,7 @@ int x_wglmapcs(int colorIndexs[], int nbCols, int rgbDefs[][3]);
 int x_wglmco(int couleur, int r, int g , int b);
 int x_wglmcos(int couleurs[], int nbCols, int rgbDefs[][3]);
 int x_wglmcw(int couleur, int r, int g, int b);
-int x_wglmesgagr(char *message);
+int x_wglmesagr(char *message);
 int x_wglmvi(int i, int j);
 int x_wglncl(int *ncolRead, int *ncolWrite, int *ncolAnim);
 int x_wglnewwin();

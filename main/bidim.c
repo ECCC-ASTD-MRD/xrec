@@ -31,6 +31,9 @@ extern int sizeRecColorTable;
 extern int facteurLissage;
 extern float labelPos[][4];
 
+extern 	void c_wglrfton_m(float *fld, unsigned int *missing, int ni, int nj, float intervalles[], 
+		     int nbIntervalles, float facteur, float min, float max, int colorTable[], int ncolors);
+
 
 AfficherChampBiDimensionnel(indChamp,nbChampsActifs,fld,min,max,uu,vv)
 int indChamp,nbChampsActifs;
@@ -117,10 +120,22 @@ float *uu,*vv;
       {
       c_wglssp(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin, 1);
       SetClipMask();
-      c_wglfton(fld, mapInfo.ni, mapInfo.nj, champ->intervalles, 
-                champ->nbIntervalles,
-                champ->facteur, min, max,
-                recColorTable, sizeRecColorTable, xc.flagInterrupt, lissfac);
+      if (xc.statuts[VALEURS_MANQUANTES] && champ->missingFlag)
+	{	
+	c_wglcol(xc.attributs[FOND].indCouleurFore);
+	c_wglrfi(viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2);
+	c_wglrfton_m(fld, champ->dst.missing, mapInfo.ni, mapInfo.nj, champ->intervalles, 
+		     champ->nbIntervalles,
+		     champ->facteur, min, max,
+		  recColorTable, sizeRecColorTable);
+	}
+      else
+	{
+	c_wglfton(fld, mapInfo.ni, mapInfo.nj, champ->intervalles, 
+		  champ->nbIntervalles,
+		  champ->facteur, min, max,
+		  recColorTable, sizeRecColorTable, xc.flagInterrupt, lissfac);
+	}
       }
    else
       {
@@ -131,6 +146,16 @@ float *uu,*vv;
          }
       }
 
+   if (champ->natureTensorielle == VECTEUR && champ->cle >= 0 && xc.statuts[BARBULES])
+     {
+     if (0 != WindMgrGetLICState())
+       {
+       SetClipMask();
+       AfficherLIC(uu, vv, mapInfo.ni, mapInfo.nj, xc.attributs[indChamp].indCouleurFore,xc.attributs[indChamp].epaisseur,max);
+       }
+     }
+   
+   
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
@@ -255,8 +280,7 @@ float *uu,*vv;
       c_wgllwi(1);
       if (-1 != WindMgrGetDisplayMode())
 	 {
-	 AfficherFleches(uu,vv, mapInfo.ni, mapInfo.nj, xc.attributs[indChamp].indCouleurFore,
-			 xc.attributs[indChamp].epaisseur,max);
+	 AfficherFleches(uu,vv, mapInfo.ni, mapInfo.nj, xc.attributs[indChamp].indCouleurFore,xc.attributs[indChamp].epaisseur,max);
 	 if (0 != WindMgrGetDisplayMode())
 	    AfficherLegendeVent(max,10,10,0);
 	 }

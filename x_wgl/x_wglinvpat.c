@@ -29,7 +29,7 @@ x_wglinvpat(char Pattern[])
       swapPat[i] = Pattern[127 - i];
    
    for (i=0; i < 128; i++)
-      swapPat[i]= InvertChar(swapPat[i]);
+      swapPat[i]= x_invertChar(swapPat[i]);
 
    for (i=0; i < 32; i++)
       {

@@ -139,7 +139,7 @@ c_wglscon_x()
   wglc_x.wglmco = x_wglmco;
   wglc_x.wglmcos = x_wglmcos;
   wglc_x.wglmcw = x_wglmcw;
-  wglc_x.wglmesagr = x_wglmesgagr;
+  wglc_x.wglmesagr = x_wglmesagr;
   wglc_x.wglmvi = x_wglmvi;
   wglc_x.wglncl = x_wglncl;
   wglc_x.wglnewwin = x_wglnewwin;

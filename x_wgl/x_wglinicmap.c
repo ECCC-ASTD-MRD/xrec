@@ -107,9 +107,9 @@ x_wglinicmap()
    
    if (visualClass != PseudoColor)
       {
-      wglbitfinder(visInfo.red_mask,   &colorbitrange[0][0], &colorbitrange[0][1]);
-      wglbitfinder(visInfo.green_mask, &colorbitrange[1][0], &colorbitrange[1][1]);
-      wglbitfinder(visInfo.blue_mask,  &colorbitrange[2][0], &colorbitrange[2][1]);
+      x_wglbitfinder(visInfo.red_mask,   &colorbitrange[0][0], &colorbitrange[0][1]);
+      x_wglbitfinder(visInfo.green_mask, &colorbitrange[1][0], &colorbitrange[1][1]);
+      x_wglbitfinder(visInfo.blue_mask,  &colorbitrange[2][0], &colorbitrange[2][1]);
       colorbitrange[0][2] = 1 << (colorbitrange[0][1]-colorbitrange[0][0]+1);
       colorbitrange[1][2] = 1 << (colorbitrange[1][1]-colorbitrange[1][0]+1);
       colorbitrange[2][2] = 1 << (colorbitrange[2][1]-colorbitrange[2][0]+1);

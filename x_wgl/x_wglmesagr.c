@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglmesgagr(char *message)
+x_wglmesagr(char *message)
 {
    int largeurTexte;
 

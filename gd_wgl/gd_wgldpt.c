@@ -24,11 +24,9 @@ gd_wgldpt(indpat, ipatsz, iptrn)
 int indpat, ipatsz;
 char iptrn[];
 {
-   wglinvpat(iptrn);
-/*
-   wglPatterns[indpat+128]=XCreateBitmapFromData(wglDisp, wglWin, iptrn, ipatsz, ipatsz); 
-   if (indpat == 1)
-      wglPatterns[indpat-1+128]=XCreateBitmapFromData(wglDisp, wglWin, iptrn, ipatsz, ipatsz); 
-*/
+  gd_wglinvpat(iptrn);
    }
 
+gd_wglinvpat(int iptrn)
+{
+}

@@ -109,9 +109,6 @@ float cx1,cy1,cx2,cy2;
 
    rx1 = cx1; rx2 = cx2; ry1 = cy1; ry2 = cy2;
    
-   SerieMgrGetFenetreSerieID(&fenetreSerie);
-   c_wglsetw(fenetreSerie);
-   
    nbChampsActifs = FldMgrGetNbChampsActifs();
    for (i=0; i < nbChampsActifs; i++)
       {
@@ -119,7 +116,10 @@ float cx1,cy1,cx2,cy2;
       FldMgrFreeCoupeFlds(champ);
       }
    
-   GetFenetreAffichageID(&fenetreAffichage);
+   c_wglsetw(fenetreAffichage);
+   SerieMgrGetFenetreSerieID(&fenetreSerie);
+   c_wglsetw(fenetreSerie);
+   
    ier = FldMgrLoadTimeAnimationSeq();
    if (ier > 0)
       {
@@ -166,7 +166,7 @@ float xx, yy;
    int axeXRev, axeYRev;
    int nbIntX, nbIntY;
    float intervalleX, intervalleY;
-   _Champ *champ, *champ2;
+   _Champ *champ, *champ2, *champ0;
    char titre[40], titrex[32],titrey[32];
    float **valeurs;
    int i1, j1, i2, j2,mx1,mx2,my1,my2;
@@ -187,6 +187,7 @@ float xx, yy;
    nbChampsActifs = FldMgrGetNbChampsActifs();
    valeurs = (float **) calloc(nbChampsActifs,sizeof(float *));
 
+   FldMgrGetChamp(&champ0, 0);
    FldMgrGetChamp(&champ, 0);
    for (n=0; n < nbChampsActifs; n++)
       {
@@ -224,15 +225,15 @@ float xx, yy;
    c_wgllwi(1);
    c_wglsld(0);
 
-   champ->seqanim.fdt = (float *) malloc(champ->seqanim.nbFldsAnim * sizeof(float));
-   for (i=0; i < champ->seqanim.nbFldsAnim; i++)
+   champ0->seqanim.fdt = (float *) malloc(champ0->seqanim.nbFldsAnim * sizeof(float));
+   for (i=0; i < champ0->seqanim.nbFldsAnim; i++)
      {
-     champ->seqanim.fdt[i] = (float) champ->seqanim.dt[i];
+     champ0->seqanim.fdt[i] = (float) champ0->seqanim.dt[i];
      }
 
    mx1 =24; mx2 = 3; my1=10; my2 = 1;
       
-   f77name(xezxy)(champ->seqanim.fdt, champ->seqanim.valeursSeries, &zero, titre, 0);
+   f77name(xezxy)(champ0->seqanim.fdt, champ->seqanim.valeursSeries, &zero, titre, 0);
    
    c_wgllwi(1);
    f77name(setprof2)();
@@ -267,13 +268,13 @@ float xx, yy;
        trace = (op == NO_OP || 0 == n%2);
        if (trace)
 	 {
-	 c_wglxai(&i1, &j1,  (float)champ->seqanim.fdt[0], valeurs[n][0]/champ->facteur);
+	 c_wglxai(&i1, &j1,  (float)champ0->seqanim.fdt[0], valeurs[n][0]/champ->facteur);
 	 AfficherSymbole(i1,j1,n);
 	 for (i=1; i < champ->seqanim.nbFldsAnim; i++)
 	   {
-	   c_wglmvx((float)champ->seqanim.fdt[i-1], valeurs[n][i-1]/champ->facteur);
-	   c_wgldrx((float)champ->seqanim.fdt[i], valeurs[n][i]/champ->facteur);
-	   c_wglxai(&i1, &j1, (float)champ->seqanim.fdt[i],valeurs[n][i]/champ->facteur);
+	   c_wglmvx((float)champ0->seqanim.fdt[i-1], valeurs[n][i-1]/champ->facteur);
+	   c_wgldrx((float)champ0->seqanim.fdt[i], valeurs[n][i]/champ->facteur);
+	   c_wglxai(&i1, &j1, (float)champ0->seqanim.fdt[i],valeurs[n][i]/champ->facteur);
 	   AfficherSymbole(i1,j1,n);
 	   }
 	 }
@@ -299,14 +300,8 @@ float xx, yy;
       free(valeurs[n]);
       }
    free(valeurs);
-   free(champ->seqanim.fdt);
+   free(champ0->seqanim.fdt);
    }
-
-/**
- ******************************************************************************
- ******************************************************************************
- **/
-
 
 /*
  ******************************************************************************
@@ -533,8 +528,8 @@ SerieMgrSetMinMaxSerie()
 	       f77name(aminmax)(&opmin[op],&opmax[op],champ->seqanim.valeursSeries,&npts,&un);
 	       opmin[op] /=  champ->facteur;
 	       opmax[op] /=  champ->facteur;
-	       grafMinX = grafMinX < opmin[op] ? grafMinX : opmin[op];
-	       grafMaxX = grafMaxX > opmax[op] ? grafMaxX : opmax[op];
+	       grafMinY = grafMinY < opmin[op] ? grafMinY : opmin[op];
+	       grafMaxY = grafMaxY > opmax[op] ? grafMaxY : opmax[op];
 	       }
 	    break;
 	    
@@ -542,8 +537,8 @@ SerieMgrSetMinMaxSerie()
 	    FldMgrGetChamp(&champ, listeChampsValides[0]);
 	    FldMgrGetChamp(&champ2, listeChampsValides[1]);
 	    DiffMgrSetDiffs(champ->seqanim.valeursSeries,champ2->seqanim.valeursSeries,opmin,opmax,npts);
-	    grafMinX = opmin[op];
-	    grafMaxX = opmax[op];
+	    grafMinY = opmin[op];
+	    grafMaxY = opmax[op];
 
 	    i = 2;
 	    while (i < nbChampsActifs)
@@ -560,8 +555,8 @@ SerieMgrSetMinMaxSerie()
 		  DiffMgrSetDiffs(champ->seqanim.valeursSeries,champ2->seqanim.valeursSeries,opmin,opmax,npts);
 		  opmin[op] /=  champ->facteur;
 		  opmax[op] /=  champ->facteur;
-		  grafMinX = grafMinX < opmin[op] ? grafMinX : opmin[op];
-		  grafMaxX = grafMaxX > opmax[op] ? grafMaxX : opmax[op];
+		  grafMinY = grafMinY < opmin[op] ? grafMinY : opmin[op];
+		  grafMaxY = grafMaxY > opmax[op] ? grafMaxY : opmax[op];
 		  }
 	       i+=2;
 	       }

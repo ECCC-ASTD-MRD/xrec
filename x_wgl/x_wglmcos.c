@@ -24,7 +24,7 @@ x_wglmcos(int couleurs[], int nbCols, int rgbDefs[][3])
 {
    if (8 <= x_wglgpl())
       {
-      wglmapcs(couleurs, nbCols, rgbDefs);
+      x_wglmapcs(couleurs, nbCols, rgbDefs);
       }
    
    }

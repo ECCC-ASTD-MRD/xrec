@@ -14,8 +14,8 @@ FFLAGS =
 
 CFLAGS =  -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -DX_WGL  -I$(HOME)/src/gd/
 
-OPTIMIZ = -debug -O 0
 OPTIMIZ = -O 3
+OPTIMIZ = -debug -O 0
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
@@ -74,7 +74,9 @@ CDECKS= \
 	x_wglsetw.c    x_wglsetwcmap.c	 x_wglsld.c	x_wglsmk.c \
 	x_wglspt.c     x_wglstu.c	x_wglswb.c \
 	x_wglwsi.c     x_wglwtwrsz.c	x_wglxai.c \
-	x_xmmenu.c 
+	x_xmmenu.c     x_wglgzx.c	x_invertChar.c  \
+	x_wwwlpt.c
+
 
 obj: $(CDECKS) $(FDECKS) 
 #Produire les fichiers objets (.o) pour tous les fichiers
@@ -149,6 +151,7 @@ x_wgllib: $(X_WGLLIB)(x_bitfinder.o) \
 	$(X_WGLLIB)(x_wglgwz.o) \
 	$(X_WGLLIB)(x_wglgzi.o) \
 	$(X_WGLLIB)(x_wglgzp.o) \
+	$(X_WGLLIB)(x_wglgzx.o) \
 	$(X_WGLLIB)(x_wglhsi.o) \
 	$(X_WGLLIB)(x_wglias.o) \
 	$(X_WGLLIB)(x_wglinicmap.o) \
@@ -198,7 +201,10 @@ x_wgllib: $(X_WGLLIB)(x_bitfinder.o) \
 	$(X_WGLLIB)(x_wglwsi.o) \
 	$(X_WGLLIB)(x_wglwtwrsz.o) \
 	$(X_WGLLIB)(x_wglxai.o) \
-	$(X_WGLLIB)(x_xmmenu.o)
+	$(X_WGLLIB)(x_xmmenu.o) \
+	$(X_WGLLIB)(x_invertChar.o) \
+	$(X_WGLLIB)(x_wwwlpt.o) \
+	$(X_WGLLIB)(x_wglmesagr.o)
 
 
 

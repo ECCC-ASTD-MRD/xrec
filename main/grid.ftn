@@ -18,52 +18,64 @@
 * * Boston, MA 02111-1307, USA.
 * */
 
+***********************************************************************
       subroutine put2to3(fld2d,fld3d,ni,nj,nk,index)
       real fld2d(ni,nj), fld3d(ni,nj,nk)
       integer ni,nj,nk,index
 
       integer i,j
       
-      do 100 i=1,ni
-         do 100 j=1,nj
- 100        fld3d(i,j,index) = fld2d(i,j)
-
+      do  i=1,ni
+         do  j=1,nj
+            fld3d(i,j,index) = fld2d(i,j)
+         enddo
+      enddo
+      
       return
       end
-
+      
+***********************************************************************
       subroutine put3to2(fld2d,fld3d,ni,nj,nk,index)
       real fld2d(ni,nj), fld3d(ni,nj,nk)
       integer ni,nj,nk,index
 
       integer i,j
       
-      do 100 i=1,ni
-         do 100 j=1,nj
- 100        fld2d(i,j) = fld3d(i,j, index)
-      return
-      end
-
+      do i=1,ni
+         do j=1,nj
+            fld2d(i,j) = fld3d(i,j, index)
+         enddo
+        enddo
+        return
+        end
+      
+***********************************************************************
       subroutine swpgrid(outfld, infld, ni, nj)
       real outfld(ni,nj), infld(ni, nj)
       integer ni, nj
 
-      do 100 i=1, ni
-         do 100 j=1,nj
- 100            outfld(i,nj-j+1)=infld(i,j)
+      do  j=1,nj
+         do  i=1, ni
+            outfld(i,nj-j+1)=infld(i,j)
+         enddo
+      enddo
       
-      do 200 i=1, ni
-         do 200 j=1,nj
- 200            infld(i,j)=outfld(i,j)
-
+      do  j=1,nj
+         do  i=1, ni
+            infld(i,j)=outfld(i,j)
+         enddo
+      enddo
+      
       return
       end
-
+      
+***********************************************************************
       subroutine chkgrid(fld, ni, nj, grtyp, orient)
       real fld(ni,nj)
       integer ni, nj
       character*1 grtyp
       integer orient
-
+      
       integer buf(1), iptab
 
       if (grtyp.eq.'A'.or.grtyp.eq.'B'.or.grtyp.eq.'G') then
@@ -77,11 +89,8 @@
 
       return
       end
-* 
-* 
-**************************************************************
-* 
-* 
+
+***********************************************************************
       subroutine aminmax(rmin, rmax, fld, ni, nj)
       real rmin, rmax, fld(ni,nj)
       integer ni, nj
@@ -104,11 +113,8 @@
 
       return
       end
-* 
-* 
-**************************************************************
-* 
-* 
+
+***********************************************************************
       SUBROUTINE VMINMAX(aMIN, aMAX, uu,vv, NI, NJ)
       REAL amIN, aMAX, uu(ni,nj),vv(ni,nj)
       INTEGER NI, NJ
@@ -134,9 +140,8 @@
       amax = sqrt(amax)
       RETURN
       END
-* 
-* 
-**************************************************************
+
+***********************************************************************
       SUBROUTINE SMINMAX(MIN, MAX, FLD, NI, NJ, IDEBUT,
      * JDEBUT, IFIN, JFIN)
       REAL MIN, MAX, FLD(NI,NJ)
@@ -144,20 +149,60 @@
 
       MIN = FLD(IDEBUT, JDEBUT)
       MAX = FLD(IDEBUT, JDEBUT)
-
-      DO 100 I=IDEBUT, IFIN
-         DO 100 J=JDEBUT,JFIN
+      
+      DO  J=JDEBUT,JFIN
+         DO  I=IDEBUT, IFIN
             IF (FLD(I,J).LT.MIN) THEN
                MIN = FLD(I,J)
             ENDIF
             IF (FLD(I,J).GT.MAX) THEN
                MAX = FLD(I,J)
             ENDIF
- 100  CONTINUE
+         enddo
+      enddo
       RETURN
       END
-* 
-* 
+*     
+***********************************************************************
+      subroutine sminmax2(min, max, min2, max2, fld, ni, nj, idebut, jdebut, ifin, jfin)
+      real min, max, min2, max2, fld(ni,nj)
+      integer ni, nj, idebut, jdebut, ifin, jfin
+
+      call sminmax(min, max, fld, ni, nj, idebut, jdebut, ifin, jfin)
+      min = fld(idebut, jdebut)
+      max = fld(idebut, jdebut)
+      min2 = min
+      max2 = max
+      
+      do  j=jdebut,jfin
+         do i=idebut, ifin
+            if (fld(i,j).lt.min) then
+               min2 = min
+               min = fld(i,j)
+            endif
+            if (fld(i,j).gt.max) then
+               max2 = max
+               max = fld(i,j)
+            endif
+         enddo
+      enddo
+      
+      max2 = min
+      min2 = max
+      do  j=jdebut,jfin
+         do i=idebut, ifin
+            if (fld(i,j).gt.max2.and.fld(i,j).lt.max) then 
+               max2 = fld(i,j)
+            endif
+            if (fld(i,j).lt.min2.and.fld(i,j).gt.min) then
+               min2 = fld(i,j)
+            endif
+         enddo
+      enddo
+      return
+      end
+*     
+*     
 * 
 * 
 **************************************************************
@@ -168,6 +213,7 @@
 * 
 * 
 * 
+***********************************************************************
       SUBROUTINE SMOOTH(MATIJ,MATMN,MDIM,NDIM,IDIM,JDIM,IFAC,JFAC,
      *                  id, jd, if, jf)
       IMPLICIT NONE 
@@ -254,6 +300,7 @@
       RETURN
       END 
 
+***********************************************************************
       subroutine chkdims(fld, buffer, ni, nj, nk, ninjnk)
       real fld(ni, nj, nk), buffer(ninjnk)
       integer ni, nj, nk, ninjnk
@@ -271,6 +318,7 @@
       return
       end
 
+***********************************************************************
       subroutine rdgrid(fld, buffer, ni, nj, nk, newni, newnj)
       real fld(ni, nj, nk), buffer(newni, newnj)
       integer ni, nj, nk, newni, newnj
@@ -292,6 +340,7 @@
       end
 
 
+***********************************************************************
       subroutine grdval(val, fld, i, j, ni, nj)
       integer i, j, ni, nj
       real val, fld(ni, nj)
@@ -302,6 +351,7 @@
       end
 
 
+***********************************************************************
       subroutine modulus(module,uu,vv,npts)
       real module(npts),uu(npts),vv(npts)
 
@@ -314,6 +364,7 @@
       return
       end
 
+***********************************************************************
       subroutine modulus3d(module,uu,vv,ww,npts)
       real module(npts),uu(npts),vv(npts),ww(npts)
 

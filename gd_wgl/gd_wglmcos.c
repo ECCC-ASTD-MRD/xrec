@@ -25,8 +25,11 @@ int couleurs[], nbCols, rgbDefs[][3];
 {
    if (8 <= gd_wglgpl())
       {
-      wglmapcs(couleurs, nbCols, rgbDefs);
+      gd_wglmapcs(couleurs, nbCols, rgbDefs);
       }
    
    }
 
+gdwglmapcs(int couleurs[], int nbCols, int rgbDefs[][3])
+{
+}

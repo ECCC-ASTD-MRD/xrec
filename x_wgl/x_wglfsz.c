@@ -30,7 +30,6 @@ extern XFontStruct *fonte;
 extern Display *wglDisp;
 extern Window  wglDrawable;
 extern GC      wglLineGC;
-/* extern wgl_point  wglPts[]; */
 extern wgl_point  wglPts[];
 
 extern int currentFontSize;
@@ -138,7 +137,7 @@ int InitFonte(int fontSize)
    
    
    currentFontSize = fontSize;
-   XSetFont(wglDisp, wglLineGC, fonte->fid);
+   XSetFont(wglDisp, wglLineGC, fonte->fid); 
    
    }
 

@@ -490,7 +490,7 @@ float *fld, *uut, *uun, *ww, *uvw;
 	 SerieMgrGetLimites(&valMin, &valMax, &ydebut, &yfin);
 	 c_wgllwi(1);
 	 c_xsetxy(0, NULL, 0, NULL, 0);
-	 AfficherProfilSerie(champ->seqanim.xmin,champ->seqanim.ymin);
+	 AfficherProfilSerie(champ->seqanim.xmin,champ->seqanim.xmax);
 	 xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
 	 xc.statuts[AXE_Y] = FALSE;
          }

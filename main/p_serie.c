@@ -37,7 +37,7 @@
 static int dimensionSerie;
 extern int dimensionCoupe;
 extern int echelle;
-extern int calculMinMax;
+extern int calculMinMaxSerie;
 extern int sensEchelle;
 extern float grafMinX, grafMinY, grafMaxX, grafMaxY;
 extern float grafMinUUtang,grafMaxUUtang,grafMinUUnorm,grafMaxUUnorm,grafMinUVW,grafMaxUVW,grafMinWW,grafMaxWW;
@@ -616,6 +616,8 @@ caddr_t unused1, unused2;
 	 }
       SetGeometrieFenetreAffichage(labelTopLevel[lng]);
       fenetreSerie = c_wglopw(labelTopLevel[lng]);
+      c_wgldbf();
+      c_wglfbf();
       c_wglias(1);
       c_wglgwz(&wwidth, &wheight);
       lastcx1 = 0.0; lastcy1 = 0.0; lastcx2 = 0.0; lastcy2 = 0.0;
@@ -1170,12 +1172,7 @@ caddr_t unused1, unused2;
 
       EnleverLigneSerie(lastcx1, lastcy1, lastcx2, lastcy2);
       EnterOverlayMode();
-#ifdef GL_WGL
-      color(1);
-#endif
-#ifdef X_WGL
       c_wglcol(CYAN);
-#endif
       TracerCercle(cx1, cy1);
       RestoreNormalMode();
 
@@ -1242,7 +1239,7 @@ XtCallbackProc PcsSetMinMaxProfilSerie(w, arg1, arg2)
 Widget w;
 caddr_t arg1, arg2;
 {
-   calculMinMax = AUTO_PROFIL;
+   calculMinMaxSerie = AUTO_PROFIL;
    PcsDesactiverTextWidgets();
    if (XmToggleButtonGetState(w))
       RedessinerFenetreSerie();
@@ -1252,7 +1249,7 @@ XtCallbackProc PcsSetMinMaxGrilles(w, arg1, arg2)
 Widget w;
 caddr_t arg1, arg2;
 {
-   calculMinMax = AUTO_GRILLES;
+   calculMinMaxSerie = AUTO_GRILLES;
    PcsDesactiverTextWidgets();
    if (XmToggleButtonGetState(w))
       RedessinerFenetreSerie();
@@ -1262,7 +1259,7 @@ XtCallbackProc PcsSetMinMaxUsager(w, arg1, arg2)
 Widget w;
 caddr_t arg1, arg2;
 {
-   calculMinMax = FIXES;
+   calculMinMaxSerie = FIXES;
    PcsActiverTextWidgets();
    }
 

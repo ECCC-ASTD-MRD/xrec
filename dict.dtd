@@ -1,0 +1,69 @@
+<!-- ======================================================== -->
+<!--            DTD of CMCRPN_DATADICTIONNARY                 -->
+<!-- ======================================================== -->
+
+
+
+<!ELEMENT CMCRPN_DataDictionnary   (metvar)*  >
+
+<!ELEMENT metvar (description,use,mesure,descriptorUsage)>
+<!ATTLIST metvar
+          nomvar           CDATA    #REQUIRED >
+
+<!ELEMENT description    (#PCDATA)*           >
+<!ATTLIST description 
+          fr               CDATA    #REQUIRED
+          en               CDATA    #REQUIRED >
+
+<!ELEMENT use EMPTY>
+<!ATTLIST use
+          usage (current|future|obsolete)  "current"
+          date             CDATA    #IMPLIED >
+
+<!ELEMENT mesure (No_unit|unit) >    
+
+<!ELEMENT No_unit (code*|logical*)>
+
+<!ATTLIST No_unit 
+          validityRange  (none|integerRange|realRange|logicalValues|codedValues) "none"
+          ref              CDATA    "No_units" 
+          objectOfRatio    CDATA    #IMPLIED 
+          min              CDATA    #IMPLIED
+          max              CDATA    #IMPLIED >
+
+<!ELEMENT unit EMPTY>
+<!ATTLIST unit
+          unit_value       CDATA    #REQUIRED 
+          decimal_factor   CDATA    #IMPLIED
+          min              CDATA    #IMPLIED
+          max              CDATA    #IMPLIED  >
+
+
+<!ELEMENT code  EMPTY>
+<!ATTLIST code
+          val              CDATA    #REQUIRED >  
+
+<!ELEMENT logical EMPTY>
+<!ATTLIST logical
+          val1             CDATA    #REQUIRED
+          val2             CDATA    #REQUIRED >
+
+<!ELEMENT descriptorUsage  (typevar)*  >
+
+<!ELEMENT typevar (IP1?,IP2?,IP3?) >
+<!ATTLIST typevar
+          TypeVar          CDATA    #IMPLIED >
+
+<!ELEMENT IP1              (#PCDATA)* >
+<!ELEMENT IP2              (#PCDATA)* >
+<!ELEMENT IP3              (#PCDATA)* >
+
+<!ATTLIST IP1
+          ip1              CDATA    #IMPLIED >
+
+<!ATTLIST IP2
+          ip2              CDATA    #IMPLIED >
+
+<!ATTLIST IP3
+          ip3              CDATA    #IMPLIED >
+

@@ -23,9 +23,16 @@
 gd_wglsetw(winid)
 int winid;
 {
-   wglfshlb();
+   gd_wglfshlb();
 
-   wglsavpfc();
-   wgldefncw(winid);
+   gd_wglsavpfc();
+   gd_wgldefncw(winid);
    }
 
+gd_wglsavpfc()
+{
+}
+
+gd_wgldefncw(int winid)
+{
+}

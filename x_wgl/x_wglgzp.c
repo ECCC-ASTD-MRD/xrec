@@ -22,7 +22,7 @@
 
 x_wglgzp(float *xsize, float *ysize, int *isize, int *jsize)
 {
-   c_wglgzx(xsize, ysize);
-   c_wglgzi(isize, jsize);
+   x_wglgzx(xsize, ysize);
+   x_wglgzi(isize, jsize);
    }
 

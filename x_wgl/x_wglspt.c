@@ -22,12 +22,12 @@
 
 x_wglspt(int indpat)
 {
-   wglfshlb();
+   x_wglfshlb();
    XSetStipple(wglDisp, wglFillGC, wglPatterns[indpat+128]);
    if (indpat == 0 || indpat == 1)
-      wglchngfs(FillSolid); 
+      x_wglchngfs(FillSolid); 
    else
-      wglchngfs(FillStippled); 
+      x_wglchngfs(FillStippled); 
 
    currentFillPattern = indpat;
    }

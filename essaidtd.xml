@@ -1,0 +1,90 @@
+<?xml version="1.0"?> 
+<!DOCTYPE CMCRPN_DataDictionnary SYSTEM "./dict.dtd">
+<CMCRPN_DataDictionnary> 
+<metvar nomvar="++">
+	<description 
+                 fr="RESERVED FOR FUTURE USE" 
+                 en="RESERVED FOR FUTURE USE"/>
+        <use usage="future"/>
+        <mesure><No_unit validityRange="none" ref="No_units"/></mesure>
+        <descriptorUsage></descriptorUsage>
+</metvar>
+<metvar nomvar="1T">
+	<description
+		fr="TEMPERATURE DE TROPOPAUSE (SELON EDYNTRP)"
+		en="TEMPERATURE DE TROPOPAUSE (SELON EDYNTRP)"/>
+        <use usage="current"  date="2002-02-02"/>
+        <mesure><unit unit_value="C"/></mesure>
+        <descriptorUsage>
+           <typevar TypeVar="UU"><IP1  ip1="9191818"/></typevar>
+        </descriptorUsage>
+</metvar>
+<metvar nomvar="FN">
+	<description
+		fr="FRACTION NUAGEUSE"
+		en="FRACTION NUAGEUSE"/>
+        <use usage="current"  date="2002-02-02"/>
+        <mesure>
+              <No_unit validityRange="realRange" ref="No_units" min="0." max="1."/>
+        </mesure>
+        <descriptorUsage>
+              <typevar TypeVar="xx">
+                   <IP1  ip1="xxxxx"/><IP2>extra info pour ip2</IP2><IP3 ip3="9191818">extra info pour IP3</IP3>
+              </typevar>
+        </descriptorUsage>
+</metvar>
+<metvar nomvar="BS">
+        <description
+               fr="VERTICAL WIND SHEAR ENTRE ETA=1.0ET 0.65"
+               en="VERTICAL WIND SHEAR ENTRE ETA=1.0ET 0.65"/>
+        <use usage="current"  date="2002-02-02"/>
+        <mesure>
+               <unit unit_value="S" decimal_factor="0.001"/>
+        </mesure>
+        <descriptorUsage>
+        </descriptorUsage>
+</metvar>
+<metvar nomvar="NP">
+	<description
+		fr="CONTENU EN EAU DE L'ATM (NEIGE ET PLUIE)"
+		en="CONTENU EN EAU DE L'ATM (NEIGE ET PLUIE)"/>
+        <use usage="current"/>
+        <mesure><No_unit  validityRange="none" ref="No_units" objectOfRatio="KG/KG"/></mesure>
+        <descriptorUsage></descriptorUsage>
+</metvar>
+<metvar nomvar="OL">
+	<description
+		fr="LONGUEUR DE MONIN-OBUKHOV"
+		en="LONGUEUR DE MONIN-OBUKHOV"/>
+        <use usage="current"/>
+        <mesure><unit unit_value="M" min="-1000" max="1000"/></mesure>
+        <descriptorUsage></descriptorUsage>
+</metvar>
+<metvar nomvar="SR">
+	<description fr="TYPE DE PRECIPITATION  NEIGE-PLUIE" en="PRECIPITATION TYPES SNOW-RAIN">
+          Ceci-est-une-description-exhaustive-de-la-variable
+        </description>
+        <use usage="current"  date="2002-02-02"/>
+        <mesure><No_unit validityRange="logicalValues" ref="No_units">
+                <logical val1="0" val2="NO"/>
+                <logical val1="1" val2="YES"/></No_unit>
+        </mesure>
+        <descriptorUsage></descriptorUsage>
+</metvar>
+<metvar nomvar="T6">
+	<description
+		fr="TYPES DE PRECIPITATION RA/RS/ZR/IP/SN/NIL"
+		en="PRECIPITATION TYPES  RA/RS/ZR/IP/SN/NIL"/>
+        <use usage="current"  date="2002-02-02"/>
+        <mesure><No_unit validityRange="codedValues" ref="No_units">
+                <code val="1"/>
+                <code val="2"/>
+                <code val="3"/>                
+                <code val="4"/>
+                <code val="5"/>
+                <code val="6"/></No_unit>          
+        </mesure>
+        <descriptorUsage></descriptorUsage>
+</metvar>
+
+</CMCRPN_DataDictionnary>

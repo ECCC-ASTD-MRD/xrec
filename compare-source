@@ -1,0 +1,18 @@
+#!/bin/sh
+for dir in autog convert-dict gd_wgl gmp include main select selfic util wgl x_wgl xdash xinit xplot88 xvoir
+do
+cd $dir
+echo $dir
+for file in *.ftn
+do
+echo $file
+diff $file $REC/../xrec-/$dir
+done
+for file in *.c *.h *.cdk *.dck
+do 
+echo $file
+diff $file $REC/../xrec-/$dir
+done
+cd ..
+done
+

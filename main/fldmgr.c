@@ -25,7 +25,6 @@
 #include <wgl.h>
 #include <gmp.h>
 
-#define C_TO_FTN(i,j,ni)  (int)((ni) * (j) + i)
 #define NB_MAX_CHAMPS_ACTIFS 32
 
 /* -------------------------------------------------------------------------------------------------- */
@@ -451,6 +450,12 @@ _Champ *champ;
         {
         free(champ->fld);
         champ->fld = NULL;
+        }
+    
+    if (champ->fld_orig)
+        {
+        free(champ->fld_orig);
+        champ->fld_orig = NULL;
         }
     
     if (champ->x)
@@ -1423,7 +1428,7 @@ float *rx1,*ry1,*rx2,*ry2;
 	 
 	 for (i=0; i < champ->coupe.niCoupe; i++)
 	    {
-	    ind = C_TO_FTN(i,j,champ->coupe.niCoupe);
+	    ind = FTN2C(i,j,champ->coupe.niCoupe);
 	    champ->coupe.fld2d[ind] = vals[i];
 	    }   
 	 }
@@ -1453,7 +1458,7 @@ float *rx1,*ry1,*rx2,*ry2;
 	 
 	 for (i=0; i < champ->coupe.niCoupe; i++)
 	    {
-	    ind = C_TO_FTN(i,j,champ->coupe.niCoupe);
+	    ind = FTN2C(i,j,champ->coupe.niCoupe);
 	    dirvent  = atan2(vvvals[i],uuvals[i]);
 	    module = sqrt(uuvals[i]*uuvals[i]+vvvals[i]*vvvals[i]);
 	    
@@ -1582,7 +1587,7 @@ float *rx1,*ry1,*rx2,*ry2;
        f77name(ez_rgdint_3_nw)(vals,posx,posy,&champ->seqanim.niSerie,champ->seqanim.animFLDs[j],&champ->dst.ni,&un,&champ->dst.nj);
        for (i=0; i < champ->seqanim.niSerie; i++)
 	 {
-	 ind = C_TO_FTN(i,j,champ->seqanim.niSerie);
+	 ind = FTN2C(i,j,champ->seqanim.niSerie);
 	 champ->seqanim.valeursSeries[ind] = vals[i];
 	 }   
        }
@@ -1605,7 +1610,6 @@ FldMgrProcessChamp(champ)
 _Champ *champ;
 {
    int i, ier;
-   int un = 1;
    float *tmpfld, *tmpuufld, *tmpvvfld, *tmpmodule, vmax;
    int *tmpintfld;
    char *charfld;
@@ -1617,6 +1621,7 @@ _Champ *champ;
    int ig1, ig2, ig3, ig4;
    float *lat, *lon;
    int scint_res;
+   int un = 1;
    
    langue = c_getulng();
 
@@ -1637,7 +1642,8 @@ _Champ *champ;
    
    MessageInfo(texteLecture, 1);
 
-   champ->fld = (float *) (calloc(champ->src.ni * champ->src.nj * champ->src.nk, sizeof(float)));
+   champ->fld =     (float *) (calloc(champ->src.ni * champ->src.nj * champ->src.nk, sizeof(float)));   
+   champ->fld_orig = (float *) (calloc(champ->src.ni * champ->src.nj * champ->src.nk, sizeof(float)));
    ni = champ->src.ni;
    nj = champ->src.nj;
    nk = champ->src.nk;
@@ -1663,6 +1669,7 @@ _Champ *champ;
 	 *tmpfld = (float) *tmpintfld;
 	 }
       }
+   memcpy(champ->fld_orig, champ->fld, champ->src.ni*champ->src.nj*sizeof(float));
    
    champ->indDict = ChercherNomVar(champ->nomvar);
    if (champ->indDict < 0)
@@ -1676,6 +1683,19 @@ _Champ *champ;
 	
    champ->natureTensorielle = SCALAIRE;
    CheckForUUandVV(champ);
+   if (champ->natureTensorielle == SCALAIRE)
+     {
+     f77name(sminmax2)(&champ->min, &champ->max, &champ->min2, &champ->max2, 
+		       champ->fld, &champ->src.ni, &champ->src.nj, &un, &un, &champ->src.ni, &champ->src.nj);
+     if ((champ->max - champ->max2) <= 0.09*(champ->max2-champ->min))
+       {
+       champ->missingFlag = 0;
+     }
+     else
+       {
+       champ->missingFlag = 1;
+       }
+     }
    
    switch (champ->domaine)
      {
@@ -1757,8 +1777,15 @@ _Champ *champ;
        champ->min = champ->fldmin[NO_OP];
        champ->max = champ->fldmax[NO_OP];
      }
+   FldMgrFlagMissingValues(champ);
    champ->min = champ->fldmin[NO_OP];
    champ->max = champ->fldmax[NO_OP];
+
+   if (champ->missingFlag && GetValeursManquantesToggle())
+     {
+     champ->max = champ->max2;
+     champ->fldmax[NO_OP] = champ->max;
+     }
    
    
    MessageInfo(texteLecture, 0);
@@ -3013,3 +3040,59 @@ FldMgrDefinirGrille()
 }
 
 
+FldMgrFlagMissingValues(_Champ *champ)
+{
+  float min, min2, max, max2;
+  int un = 1;
+  unsigned int k, bitpos;
+  int gdin, gdout, npts_src, npts_dst;
+  float *masque_dst, *masque_src;
+  
+  if (champ->missingFlag == 0)
+    {
+    return 0;
+    }
+  
+  npts_src = champ->src.ni * champ->src.nj;
+  npts_dst = champ->dst.ni * champ->dst.nj;
+  if (champ->src.missing != NULL)
+    {
+    free(champ->src.missing);
+    }
+
+  if (champ->dst.missing != NULL)
+    {
+    free(champ->dst.missing);
+    }
+
+  champ->src.missing = calloc(1+npts_src/32, sizeof(int));
+  masque_src = calloc(npts_src,sizeof(float));
+  for (k=0; k < npts_src; k++)
+    {
+    bitpos = k - ((k >> 5) << 5);
+    
+    if (champ->fld_orig[k] == champ->max)
+      {
+      champ->src.missing[k >> 5] |= ((unsigned int)1 << bitpos);
+      masque_src[k] = 1.0;
+      }
+    }
+  champ->dst.missing = calloc(1+npts_dst/32, sizeof(int));
+  masque_dst = calloc(npts_dst, sizeof(float));
+  gdin  = c_ezgetgdin();
+  gdout = c_ezgetgdout();
+  c_ezdefset(gdout, gdin);
+  c_ezsint(masque_dst, masque_src);
+  for (k=0; k < npts_dst; k++)
+    {
+    if (masque_dst[k] != 0.0) 
+      {
+      bitpos = k - ((k >> 5) << 5);
+      
+      champ->dst.missing[k >> 5] |= ((unsigned int)1 << bitpos);
+      }
+    }
+  
+  free(masque_src);
+  free(masque_dst);
+}

@@ -462,7 +462,7 @@ AfficherLegendeSup2()
    int largeurTexte, largeurMax; 
    int hauteurRectangle;
    int hauteurTexte, descent;
-   int tempDate,tempDate0;
+   int tempDate,tempDate0,tempDate2;
    char buffer[72];
    char texte[4][72];
    int rect[4][4];
@@ -513,6 +513,8 @@ AfficherLegendeSup2()
 	 strcpy(texte[ind], "");
 	 FldMgrGetChamp(&champ, i);
 	 deltaT =  (champ->npas*champ->deet)/3600.0;
+	 tempDate = champ->date;
+	 tempDate2 = champ->date;
 	 f77name(incdatr)(&tempDate, &tempDate, &deltaT);
 	 
 	 FldMgrCalcPDFDatev(pdfdatev,champ->date,champ->deet,champ->npas,champ->ip2);
