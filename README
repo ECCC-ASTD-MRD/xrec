@@ -1,0 +1,62 @@
+To compile xrec
+-----------------------------------------------------------------------------
+Basic compilation recipe
+
+cd ~/src/xrec (assuming this is where the source is)
+make
+make xrec
+(make xrec does ... )
+	cd main
+	make xrec-$(ARCH) so if ARCH=Linux then make xrec-Linux
+
+The final load is in main/Makefile
+-----------------------------------------------------------------------------
+What you need
+
+A FORTRAN Compiler
+Open Motif or Lesstif (www.openmotif.org)
+rmnlib (most of the modules : FSTD2000, base, primitives, readlx)
+A from-RPN or localized version of r.compile and r.build
+You have to create a directory $REC/lib/$ARCH
+
+Some extra stuff
+libgdb.a is a library developed by Michel Grenier from CMC (michel.grenier@ec.gc.ca)
+to draw high resolution geography outline. You may ask him to get a compiled
+library for your machine or access to the source code.
+libgd2.a is GD implementation of GD. You can get a copy from http://www.boutell.com
+-----------------------------------------------------------------------------
+What is in the directories
+
+autog	: A library to generate x-y graphs. 
+	  Used for vertical profiles and time series
+gd_wgl  : GD implementation of wgl. For now unimpleminted filler code
+gmp     : Geography drawing routines
+include : The .h files needed by xrec
+main    : where most of source of xrec is
+select  : Record selector code
+selfic  : File selector code
+util    : Misc routines
+wgl     : wgl front-end (to gd_wgl or x_wgl, regarding the context)
+xdash   : A library to generate line patterns. 
+	  Used for vertical profiles and time series
+xinit   : Initialisation routines
+xplot88 : A library to generate x-y graphs. 
+	  Used for vertical profiles and time series
+xvoir   : should not be there. Not part of xrec but uses the record selector.
+x_wgl   : X Window implementation of wgl
+
+xrec can be divided in 5 parts
+Main interface code :      main
+Important helper modules : select selfic gmp
+X-Y Drawing routines :     autog xdash xplot88
+Less important stuff :     xinit util
+Basic drawing routines :   wgl gd_wgl x_wgl
+-----------------------------------------------------------------------------
+
+Potential problems :
+The port of the READLX package (from RMNLIB) may be difficult.
+In the next implementation, READLX will be replaced by XML.
+
+-----------------------------------------------------------------------------
+Yves Chartier
+25 June 2003
