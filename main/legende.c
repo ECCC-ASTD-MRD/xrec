@@ -79,7 +79,7 @@ float x1, y1, x2, y2;
   hauteurLegende = (int)(0.8 * hauteur);
   
   c_wglssp(0.0, 0.0, 100.0, 256.0, 
-	   largeur - 5 - largeurLegende, (int)(hauteur * 0.15), largeur - 5, (int)(hauteur * 0.85), 1);
+     largeur - 5 - largeurLegende, (int)(hauteur * 0.15), largeur - 5, (int)(hauteur * 0.85), 1);
   c_wglcol(xc.attributs[FOND].indCouleurFore);
   c_wglrfx(-1.0, -10.0, 101.0, 266.0);
   
@@ -126,7 +126,7 @@ float x1, y1, x2, y2;
       contourCourant += inter;
       n++;
       if (0 == (n% 16))
-	annulationDemandee = c_wglanul();
+  annulationDemandee = c_wglanul();
       }
     }
   else
@@ -217,7 +217,7 @@ float x1, y1, x2, y2;
       sprintf(nombre, format, contourCourant);
       longueurString = strlen(nombre);
       px = 45.0/largeurLegende*100.0;
-      /*       printf("<avant wglpsx>: %f %f %s %d %d %d %d\n", px, pos, nombre, longueurString, fz, 0,0);	  */
+      /*       printf("<avant wglpsx>: %f %f %s %d %d %d %d\n", px, pos, nombre, longueurString, fz, 0,0);    */
       c_wglpsx(px, pos, nombre, longueurString, fz, 0, 0);
       i++;
       }
@@ -229,8 +229,7 @@ float x1, y1, x2, y2;
   
 }
 
-AjusterViewport(viewp)
-     _Viewport *viewp;
+AjusterViewport(_Viewport *viewp)
 {
   static int oldLargeurFenetre = 0;
   static int oldHauteurFenetre = 0;
@@ -325,7 +324,7 @@ CalculerLargeurLegendeCouleur()
       {
       rmint = champ->intervalles[i];
       if (rmint != 0.0 && (fabs(rmint) < 1.0e-3 || fabs(rmint) > 1.0e5))
-	exposant = 1;
+  exposant = 1;
       }
     
     if (exposant)
@@ -396,17 +395,17 @@ void AfficherLegende2(_Champ champ)
   
   LargeurTitre[1] = c_wglwsi(tmpStr, strlen(tmpStr)); 
   c_wglpsi(viewp.vi1 + (int)(0.5 *(viewp.vlargeur - LargeurTitre[0])), 
-	   viewp.vj2+(int)(0.60 * (hauteurFenetre-viewp.vj2-2*hauteurTexte) + hauteurTexte),
-	   champ.titreVariable, strlen(champ.titreVariable), fontSize, 0, 0);
+     viewp.vj2+(int)(0.60 * (hauteurFenetre-viewp.vj2-2*hauteurTexte) + hauteurTexte),
+     champ.titreVariable, strlen(champ.titreVariable), fontSize, 0, 0);
   
   c_wglpsi(viewp.vi1 + (int)(0.5 *(viewp.vlargeur - LargeurTitre[1])), 
-	   viewp.vj2+(int)(0.30 * (hauteurFenetre-viewp.vj2-2*hauteurTexte)),
-	   tmpStr, strlen(tmpStr), fontSize, 0, 0);
+     viewp.vj2+(int)(0.30 * (hauteurFenetre-viewp.vj2-2*hauteurTexte)),
+     tmpStr, strlen(tmpStr), fontSize, 0, 0);
   
   LargeurTitre[1] = c_wglwsi(champ.titreTemps, strlen(champ.titreTemps));
   c_wglpsi(viewp.vi1 + (int)(0.5 *(viewp.vlargeur - LargeurTitre[1])), 
-	   (int)(0.50 * (viewp.vj1) - hauteurTexte * 0.5),
-	   champ.titreTemps, strlen(champ.titreTemps), fontSize, 0, 0);
+     (int)(0.50 * (viewp.vj1) - hauteurTexte * 0.5),
+     champ.titreTemps, strlen(champ.titreTemps), fontSize, 0, 0);
   
   Largeur = LargeurTitre[0];
   for (i=1; i < 6; i++)
@@ -517,49 +516,49 @@ AfficherLegendeSup2()
    if (op == NO_OP || nbChampsActifs < 2)
       {
       for (i=0; i < nbChampsActifs; i++)
-	 {
-	 ind = i%4;
-	 strcpy(texte[ind], "");
-	 FldMgrGetChamp(&champ, i);
-	 deltaT =  (champ->npas*champ->deet)/3600.0;
-	 tempDate = champ->dateo;
-	 tempDate2 = champ->dateo;
-	 f77name(incdatr)(&tempDate, &tempDate, &deltaT);
-	 
-	 FldMgrCalcPDFDatev(pdfdatev,&(champ->datev),champ->dateo,champ->deet,champ->npas,champ->ip2);
-	 mo[3] = '\0';
-	 strncpy(mo,champ->mois,3);
-	 sprintf(dateMess, "V%s", pdfdatev);
-	 
-	 rip1 = champ->ip1;
+   {
+   ind = i%4;
+   strcpy(texte[ind], "");
+   FldMgrGetChamp(&champ, i);
+   deltaT =  (champ->npas*champ->deet)/3600.0;
+   tempDate = champ->dateo;
+   tempDate2 = champ->dateo;
+   f77name(incdatr)(&tempDate, &tempDate, &deltaT);
+   
+   FldMgrCalcPDFDatev(pdfdatev,&(champ->datev),champ->dateo,champ->deet,champ->npas,champ->ip2);
+   mo[3] = '\0';
+   strncpy(mo,champ->mois,3);
+   sprintf(dateMess, "V%s", pdfdatev);
+   
+   rip1 = champ->ip1;
          f77name(convip)(&rip1, &rniveau, &kind, &mode, kindstring, &un, 15);
          kindstring[15] = '\0';
-	 nettoyer(kindstring);
-	 if (champ->cle >= 0)
-	    {
-	    if (champ->natureTensorielle == VECTEUR && !xc.statuts[BARBULES])
-	       {
-	       sprintf(texte[ind], "%s-%s-%s-%3d-%3d-%s-%s", "UU-VV", champ->typvar, 
-		       kindstring, champ->ip2, champ->ip3, dateMess, champ->etiket);
-	       }
-	    else
-	       {
-	       sprintf(texte[ind], "%s-%s-%s-%3d-%3d-%s-%s", champ->nomvar, champ->typvar, 
-		       kindstring, (int)(champ->ip2), champ->ip3, dateMess, champ->etiket);
-	       }
-	    }
-	 }
+   nettoyer(kindstring);
+   if (champ->cle >= 0)
+      {
+      if (champ->natureTensorielle == VECTEUR && !xc.statuts[BARBULES])
+         {
+         sprintf(texte[ind], "%s-%s-%s-%3d-%3d-%s-%s", "UU-VV", champ->typvar, 
+           kindstring, champ->ip2, champ->ip3, dateMess, champ->etiket);
+         }
+      else
+         {
+         sprintf(texte[ind], "%s-%s-%s-%3d-%3d-%s-%s", champ->nomvar, champ->typvar, 
+           kindstring, (int)(champ->ip2), champ->ip3, dateMess, champ->etiket);
+         }
+      }
+   }
       }
    else
-      {	
+      { 
       for (ind=0; ind < nbChampsActifs;ind+=2)
-	 {
-	 strcpy(texte[ind],"");
-	 strcpy(texte[ind+1],"");
-	 FldMgrGetChamp(&champ, ind+1);
-	 FldMgrGetChamp(&champ0, ind);
-	 CombinerLegendeDiffChamps(texte[ind], champ0, champ);
-	 }
+   {
+   strcpy(texte[ind],"");
+   strcpy(texte[ind+1],"");
+   FldMgrGetChamp(&champ, ind+1);
+   FldMgrGetChamp(&champ0, ind);
+   CombinerLegendeDiffChamps(texte[ind], champ0, champ);
+   }
       }
    
    fontSize = SelectFontSize(texte[ind], (int)(0.5 * viewp.vlargeur - 10.0), viewp.vj1);
@@ -573,7 +572,7 @@ AfficherLegendeSup2()
       {
       largeurTexte = c_wglwsi(texte[ind], strlen(texte[ind]));
       if (largeurMax < largeurTexte)
-	 largeurMax = largeurTexte;
+   largeurMax = largeurTexte;
       }
    
    largeurMax += 6;
@@ -584,95 +583,95 @@ AfficherLegendeSup2()
      {
      case NO_OP:
        switch(nbChampsActifs)
-	 {
-	 case 1:
-	   rect[0][0] = viewp.vi1 + 0.5 * (viewp.vlargeur - largeurMax);
-	   rect[0][1] = (int)(0.50 * (viewp.vj1) - hauteurTexte * 0.5);
-	   
-	   c_wglcol(xc.attributs[0].indCouleurFore);
-	   c_wglrfi(rect[0][0], rect[0][1], rect[0][0]+largeurMax, rect[0][1]+hauteurRectangle);
-	   c_wglcol(xc.attributs[0].indCouleurBack);
-	   c_wglrli(rect[0][0], rect[0][1], rect[0][0]+largeurMax, rect[0][1]+hauteurRectangle);
-	   c_wglcol(xc.attributs[0].indCouleurBack);
-	   c_wglpsi(rect[0][0]+5, rect[0][1] + 4, texte[0], strlen(texte[0]), fontSize, 0, 0);
-	   break;
-	   
-	 default:
-	   rect[0][0] = viewp.vi1 + 0.5 * (0.5 * viewp.vlargeur - largeurMax) - 10;
-	   rect[1][0] = viewp.vi1 + 0.5 * viewp.vlargeur + 0.5 * (0.5 * viewp.vlargeur - largeurMax) + 10;
-	   rect[2][0] = rect[0][0];
-	   rect[3][0] = rect[1][0];
-	   
-	   rect[0][1] = (int)(0.50 * (viewp.vj1) - hauteurTexte * 0.5);
-	   rect[1][1] = rect[0][1];
-	   rect[2][1] = viewp.vj2+(int)(0.50 * (hauteurFenetre-viewp.vj2-0.5*hauteurTexte));
-	   rect[3][1] = rect[2][1];
-	   for (i=0; i < nbChampsActifs; i++)
-	     {
-	     if (0 < strlen(texte[i]))
-	       {
-	       c_wglcol(xc.attributs[i].indCouleurFore);
-	       c_wglrfi(rect[i][0], rect[i][1], rect[i][0]+largeurMax, rect[i][1]+hauteurRectangle);
-	       c_wglcol(xc.attributs[i].indCouleurBack);
-	       c_wglrli(rect[i][0], rect[i][1], rect[i][0]+largeurMax, rect[i][1]+hauteurRectangle);
-	       c_wglcol(xc.attributs[i].indCouleurBack);
-	       c_wglpsi(rect[i][0]+5, rect[i][1] + 4, texte[i], strlen(texte[i]), fontSize, 0, 0);
-	       }
-	     }
-	   break;
-	   
-	 }
+   {
+   case 1:
+     rect[0][0] = viewp.vi1 + 0.5 * (viewp.vlargeur - largeurMax);
+     rect[0][1] = (int)(0.50 * (viewp.vj1) - hauteurTexte * 0.5);
+     
+     c_wglcol(xc.attributs[0].indCouleurFore);
+     c_wglrfi(rect[0][0], rect[0][1], rect[0][0]+largeurMax, rect[0][1]+hauteurRectangle);
+     c_wglcol(xc.attributs[0].indCouleurBack);
+     c_wglrli(rect[0][0], rect[0][1], rect[0][0]+largeurMax, rect[0][1]+hauteurRectangle);
+     c_wglcol(xc.attributs[0].indCouleurBack);
+     c_wglpsi(rect[0][0]+5, rect[0][1] + 4, texte[0], strlen(texte[0]), fontSize, 0, 0);
+     break;
+     
+   default:
+     rect[0][0] = viewp.vi1 + 0.5 * (0.5 * viewp.vlargeur - largeurMax) - 10;
+     rect[1][0] = viewp.vi1 + 0.5 * viewp.vlargeur + 0.5 * (0.5 * viewp.vlargeur - largeurMax) + 10;
+     rect[2][0] = rect[0][0];
+     rect[3][0] = rect[1][0];
+     
+     rect[0][1] = (int)(0.50 * (viewp.vj1) - hauteurTexte * 0.5);
+     rect[1][1] = rect[0][1];
+     rect[2][1] = viewp.vj2+(int)(0.50 * (hauteurFenetre-viewp.vj2-0.5*hauteurTexte));
+     rect[3][1] = rect[2][1];
+     for (i=0; i < nbChampsActifs; i++)
+       {
+       if (0 < strlen(texte[i]))
+         {
+         c_wglcol(xc.attributs[i].indCouleurFore);
+         c_wglrfi(rect[i][0], rect[i][1], rect[i][0]+largeurMax, rect[i][1]+hauteurRectangle);
+         c_wglcol(xc.attributs[i].indCouleurBack);
+         c_wglrli(rect[i][0], rect[i][1], rect[i][0]+largeurMax, rect[i][1]+hauteurRectangle);
+         c_wglcol(xc.attributs[i].indCouleurBack);
+         c_wglpsi(rect[i][0]+5, rect[i][1] + 4, texte[i], strlen(texte[i]), fontSize, 0, 0);
+         }
+       }
+     break;
+     
+   }
        break;
        
        
      default:
        switch (nbChampsActifs)
-	 {
-	 case 1:
-	 case 2:
-	   rect[0][0] = viewp.vi1 + 0.5 * (viewp.vlargeur - largeurMax);
-	   rect[0][1] = (int)(0.50 * (viewp.vj1) - hauteurTexte * 0.5);
-	   
-	   c_wglcol(xc.attributs[0].indCouleurFore);
-	   c_wglrfi(rect[0][0], rect[0][1], rect[0][0]+largeurMax, rect[0][1]+hauteurRectangle);
-	   c_wglcol(xc.attributs[0].indCouleurBack);
-	   c_wglrli(rect[0][0], rect[0][1], rect[0][0]+largeurMax, rect[0][1]+hauteurRectangle);
-	   c_wglcol(xc.attributs[0].indCouleurBack);
-	   c_wglpsi(rect[0][0]+5, rect[0][1] + 4, texte[0], strlen(texte[0]), fontSize, 0, 0); 
-	   
-	   break;
-	   
-	 case 3:
-	 case 4:	
-	   rect[0][0] = viewp.vi1 + 0.5 * (viewp.vlargeur - largeurMax);
-	   rect[0][1] = (int)(0.50 * (viewp.vj1) - hauteurTexte * 0.5);
-	   
-	   rect[2][0] = rect[0][0];
-	   rect[2][1] = viewp.vj2+(int)(0.50 * (hauteurFenetre-viewp.vj2-0.5*hauteurTexte));
-	   for (i=0; i < nbChampsActifs; i+=2)
-	     {
-	     ind = i%4;
-	     if (0 < strlen(texte[ind]))
-	       {
-	       c_wglcol(xc.attributs[ind].indCouleurFore);
-	       c_wglrfi(rect[ind][0], rect[ind][1], rect[ind][0]+largeurMax, rect[ind][1]+hauteurRectangle);
-	       c_wglcol(xc.attributs[ind].indCouleurBack);
-	       c_wglrli(rect[ind][0], rect[ind][1], rect[ind][0]+largeurMax, rect[ind][1]+hauteurRectangle);
-	       c_wglcol(xc.attributs[ind].indCouleurBack);
-	       c_wglpsi(rect[ind][0]+5, rect[ind][1] + 4, texte[ind], strlen(texte[ind]), fontSize, 0, 0);
-	       }
-	     }
-	   break;
-	 }
-      }	 
+   {
+   case 1:
+   case 2:
+     rect[0][0] = viewp.vi1 + 0.5 * (viewp.vlargeur - largeurMax);
+     rect[0][1] = (int)(0.50 * (viewp.vj1) - hauteurTexte * 0.5);
+     
+     c_wglcol(xc.attributs[0].indCouleurFore);
+     c_wglrfi(rect[0][0], rect[0][1], rect[0][0]+largeurMax, rect[0][1]+hauteurRectangle);
+     c_wglcol(xc.attributs[0].indCouleurBack);
+     c_wglrli(rect[0][0], rect[0][1], rect[0][0]+largeurMax, rect[0][1]+hauteurRectangle);
+     c_wglcol(xc.attributs[0].indCouleurBack);
+     c_wglpsi(rect[0][0]+5, rect[0][1] + 4, texte[0], strlen(texte[0]), fontSize, 0, 0); 
+     
+     break;
+     
+   case 3:
+   case 4:  
+     rect[0][0] = viewp.vi1 + 0.5 * (viewp.vlargeur - largeurMax);
+     rect[0][1] = (int)(0.50 * (viewp.vj1) - hauteurTexte * 0.5);
+     
+     rect[2][0] = rect[0][0];
+     rect[2][1] = viewp.vj2+(int)(0.50 * (hauteurFenetre-viewp.vj2-0.5*hauteurTexte));
+     for (i=0; i < nbChampsActifs; i+=2)
+       {
+       ind = i%4;
+       if (0 < strlen(texte[ind]))
+         {
+         c_wglcol(xc.attributs[ind].indCouleurFore);
+         c_wglrfi(rect[ind][0], rect[ind][1], rect[ind][0]+largeurMax, rect[ind][1]+hauteurRectangle);
+         c_wglcol(xc.attributs[ind].indCouleurBack);
+         c_wglrli(rect[ind][0], rect[ind][1], rect[ind][0]+largeurMax, rect[ind][1]+hauteurRectangle);
+         c_wglcol(xc.attributs[ind].indCouleurBack);
+         c_wglpsi(rect[ind][0]+5, rect[ind][1] + 4, texte[ind], strlen(texte[ind]), fontSize, 0, 0);
+         }
+       }
+     break;
+   }
+      }  
    }
 
-	 
+   
 /**
  **************************************************************************
  **************************************************************************
  **/
-	 
+   
 int SelectFontSize(str, largeur, hauteur)
 char *str;
 int largeur, hauteur;
@@ -698,9 +697,9 @@ int largeur, hauteur;
          c_wglfsz(fontSizes[i]);
          largeurTexte = c_wglwsi(str, strlen(str));
          if (largeur < largeurTexte)
-	    i++;
+      i++;
          else
-	    ok = 1;
+      ok = 1;
          }
    
       while (i < 4 && !ok)
@@ -708,9 +707,9 @@ int largeur, hauteur;
          c_wglfsz(fontSizes[i]);
          hauteurTexte = c_wglhsi(str, strlen(str));
          if (hauteur < hauteurTexte)
-	    i++;
+      i++;
          else
-   	    ok = 1;
+        ok = 1;
          }
    
       if (i > 4)
@@ -787,22 +786,22 @@ _Champ champ;
 
    LargeurTitre[1] = c_wglwsi(tmpStr, strlen(tmpStr)); 
    c_wglpsi(viewp.vi1 + (int)(0.5 *(viewp.vlargeur - LargeurTitre[0])), 
-	    viewp.vj2+(int)(0.60 * (hauteurFenetre-viewp.vj2-2*hauteurTexte) + hauteurTexte),
-	    champ.titreVariable, strlen(champ.titreVariable), fontSize, 0, 0);
+      viewp.vj2+(int)(0.60 * (hauteurFenetre-viewp.vj2-2*hauteurTexte) + hauteurTexte),
+      champ.titreVariable, strlen(champ.titreVariable), fontSize, 0, 0);
 
    c_wglpsi(viewp.vi1 + (int)(0.5 *(viewp.vlargeur - LargeurTitre[1])), 
-	    viewp.vj2+(int)(0.30 * (hauteurFenetre-viewp.vj2-2*hauteurTexte)),
-	    tmpStr, strlen(tmpStr), fontSize, 0, 0);
+      viewp.vj2+(int)(0.30 * (hauteurFenetre-viewp.vj2-2*hauteurTexte)),
+      tmpStr, strlen(tmpStr), fontSize, 0, 0);
 
    LargeurTitre[1] = c_wglwsi(champ.titreTemps, strlen(champ.titreTemps));
    c_wglpsi(viewp.vi1 + (int)(0.5 *(viewp.vlargeur - LargeurTitre[1])), 
-	    (int)(0.50 * (viewp.vj1) - hauteurTexte),
-	    champ.titreTemps, strlen(champ.titreTemps), fontSize, 0, 0);
+      (int)(0.50 * (viewp.vj1) - hauteurTexte),
+      champ.titreTemps, strlen(champ.titreTemps), fontSize, 0, 0);
 
    Largeur = LargeurTitre[0];
    for (i=1; i < 6; i++)
       if (LargeurTitre[i] > Largeur)
-	 Largeur = LargeurTitre[i];
+   Largeur = LargeurTitre[i];
    
    hauteurTitre[5] = 5;
    
@@ -825,24 +824,24 @@ _Champ champ;
       sprintf(tmpStr, "(%5.1f, %5.1f)", champ.coupe.xmin, champ.coupe.ymin);
       LargeurTitre[0] = c_wglwsi(tmpStr, strlen(tmpStr)); 
       c_wglpsi(viewp.vi1, viewp.vj1 - hauteurTexte - 5,
-	       tmpStr, strlen(tmpStr), 12, 0, 0);
+         tmpStr, strlen(tmpStr), 12, 0, 0);
       
       sprintf(tmpStr, "(%5.1f, %5.1f)", champ.coupe.xmax, champ.coupe.ymax);
       LargeurTitre[0] = c_wglwsi(tmpStr, strlen(tmpStr)); 
       c_wglpsi(viewp.vi2 - LargeurTitre[0], viewp.vj1 - hauteurTexte - 5,
-	       tmpStr, strlen(tmpStr), 12, 0, 0);
+         tmpStr, strlen(tmpStr), 12, 0, 0);
       }
    else
       {
       sprintf(tmpStr, "(%5.1f, %5.1f)", champ.seqanim.xmin, champ.seqanim.ymin);
       LargeurTitre[0] = c_wglwsi(tmpStr, strlen(tmpStr)); 
       c_wglpsi(viewp.vi1, viewp.vj1 - hauteurTexte - 5,
-	       tmpStr, strlen(tmpStr), 12, 0, 0);
+         tmpStr, strlen(tmpStr), 12, 0, 0);
       
       sprintf(tmpStr, "(%5.1f, %5.1f)", champ.seqanim.xmax, champ.seqanim.ymax);
       LargeurTitre[0] = c_wglwsi(tmpStr, strlen(tmpStr)); 
       c_wglpsi(viewp.vi2 - LargeurTitre[0], viewp.vj1 - hauteurTexte - 5,
-	       tmpStr, strlen(tmpStr), 12, 0, 0);
+         tmpStr, strlen(tmpStr), 12, 0, 0);
       }
       
    }
@@ -880,34 +879,34 @@ _Champ champ;
       {
       hauteurStr = c_wglhsi("1234", 4);
       if (champ.coupe.niveauMin <= 10.0)
-	 {
-	 strcpy(format, "%5.3f");
-	 largeurStr = c_wglwsi("12345", 5);
-	 }
+   {
+   strcpy(format, "%5.3f");
+   largeurStr = c_wglwsi("12345", 5);
+   }
       else
-	 {
-	 strcpy(format, "%4.0f");
-	 largeurStr = c_wglwsi("1234", 4);
-	 }
+   {
+   strcpy(format, "%4.0f");
+   largeurStr = c_wglwsi("1234", 4);
+   }
       
       c_wglfsz(14);
       c_wglfsz(AttrMgrGetFontSizeLegend());
       for (i=0; i < champ.coupe.nbNiveauxCoupe; i++)
-	 {
-	 sprintf(strNiveaux, format, champ.coupe.niveauxCoupe[i]);
-	 x1 = 1.0;
-	 y1 = (float)(i+1);
-	 c_wglxai(&i1, &j1, 1.0, champ.coupe.niveauxCoupe[i]);
-	 if (j1 > (viewp.vj1-10) && j1 < (viewp.vj2+10))
-	    {
-	    c_wglpsi(i1 - largeurStr - 8, j1 - hauteurStr/2, strNiveaux, strlen(strNiveaux), AttrMgrGetFontSizeLegend(), 0, 0);
-	    c_wglmvi(i1,j1);
-	    c_wgldri(i1+10, j1);
-	    c_wglxai(&i1, &j1, (float)champ.coupe.niCoupe, champ.coupe.niveauxCoupe[i]);
-	    c_wglmvi(i1-10,j1);
-	    c_wgldri(i1,j1);
-	    }
-	 }
+   {
+   sprintf(strNiveaux, format, champ.coupe.niveauxCoupe[i]);
+   x1 = 1.0;
+   y1 = (float)(i+1);
+   c_wglxai(&i1, &j1, 1.0, champ.coupe.niveauxCoupe[i]);
+   if (j1 > (viewp.vj1-10) && j1 < (viewp.vj2+10))
+      {
+      c_wglpsi(i1 - largeurStr - 8, j1 - hauteurStr/2, strNiveaux, strlen(strNiveaux), AttrMgrGetFontSizeLegend(), 0, 0);
+      c_wglmvi(i1,j1);
+      c_wgldri(i1+10, j1);
+      c_wglxai(&i1, &j1, (float)champ.coupe.niCoupe, champ.coupe.niveauxCoupe[i]);
+      c_wglmvi(i1-10,j1);
+      c_wgldri(i1,j1);
+      }
+   }
       }
    else
       {
@@ -918,21 +917,21 @@ _Champ champ;
       c_wglfsz(14);
       c_wglfsz(AttrMgrGetFontSizeLegend());
       for (i=0; i < champ.seqanim.nbFldsAnim; i++)
-	 {
-	 sprintf(strNiveaux, format, (float)champ.seqanim.ip2s[i]);
-	 x1 = 1.0;
-	 y1 = (float)(i+1);
-	 c_wglxai(&i1, &j1, 1.0, (float)champ.seqanim.ip2s[i]);
-	 if (j1 > (viewp.vj1-10) && j1 < (viewp.vj2+10))
-	    {
-	    c_wglpsi(i1 - largeurStr - 8, j1 - hauteurStr/2, strNiveaux, strlen(strNiveaux), 14, 0, 0);
-	    c_wglmvi(i1,j1);
-	    c_wgldri(i1+10, j1);
-	    c_wglxai(&i1, &j1, (float)champ.seqanim.niSerie, (float)champ.seqanim.ip2s[i]);
-	    c_wglmvi(i1-10,j1);
-	    c_wgldri(i1,j1);
-	    }
-	 }
+   {
+   sprintf(strNiveaux, format, (float)champ.seqanim.ip2s[i]);
+   x1 = 1.0;
+   y1 = (float)(i+1);
+   c_wglxai(&i1, &j1, 1.0, (float)champ.seqanim.ip2s[i]);
+   if (j1 > (viewp.vj1-10) && j1 < (viewp.vj2+10))
+      {
+      c_wglpsi(i1 - largeurStr - 8, j1 - hauteurStr/2, strNiveaux, strlen(strNiveaux), 14, 0, 0);
+      c_wglmvi(i1,j1);
+      c_wgldri(i1+10, j1);
+      c_wglxai(&i1, &j1, (float)champ.seqanim.niSerie, (float)champ.seqanim.ip2s[i]);
+      c_wglmvi(i1-10,j1);
+      c_wgldri(i1,j1);
+      }
+   }
       }
    }
 
@@ -989,24 +988,24 @@ float xmin, ymin, xmax, ymax;
    if (ZP == CoupeMgrGetDimensionCoupe())
       {
       if (lng == 0)
-	 {
-	 sprintf(texteProfil, "Profil vertical - pt (%5.2f, %5.2f)", xx, yy);
-	 }
+   {
+   sprintf(texteProfil, "Profil vertical - pt (%5.2f, %5.2f)", xx, yy);
+   }
       else
-	 {
-	 sprintf(texteProfil, "Vertical profile - pt (%5.2f, %5.2f)", xx, yy);
-	 }
+   {
+   sprintf(texteProfil, "Vertical profile - pt (%5.2f, %5.2f)", xx, yy);
+   }
       }
    else
       {
       if (lng == 0)
-	 {
-	 sprintf(texteProfil, "Serie temporelle - pt (%5.2f, %5.2f)", xx, yy);
-	 }
+   {
+   sprintf(texteProfil, "Serie temporelle - pt (%5.2f, %5.2f)", xx, yy);
+   }
       else
-	 {
-	 sprintf(texteProfil, "Time serie - pt (%5.2f, %5.2f)", xx, yy);
-	 }
+   {
+   sprintf(texteProfil, "Time serie - pt (%5.2f, %5.2f)", xx, yy);
+   }
       }
 
    ix1 = (largeurFenetre - c_wglwsi(texteProfil,strlen(texteProfil))) / 2;
@@ -1019,52 +1018,52 @@ float xmin, ymin, xmax, ymax;
    if (op == NO_OP || nbChampsActifs < 2)
       {
       for (i=0; i < nbChampsActifs; i++)
-	 {
-	 strcpy(texte[i], "");
-	 FldMgrGetChamp(&champ, i);
-	 if (ZP == CoupeMgrGetDimensionCoupe())
-	    {
-	    ok = champ->cle >= 0 && champ->coupe.coupeValide;
-	    }
-	 else
-	    {
-	    ok = champ->cle >= 0 && champ->seqanim.nbFldsAnim > 0;
-	    }
+   {
+   strcpy(texte[i], "");
+   FldMgrGetChamp(&champ, i);
+   if (ZP == CoupeMgrGetDimensionCoupe())
+      {
+      ok = champ->cle >= 0 && champ->coupe.coupeValide;
+      }
+   else
+      {
+      ok = champ->cle >= 0 && champ->seqanim.nbFldsAnim > 0;
+      }
 
-	 if (ok)
-	    {
-	    tempDate = champ->dateo;
-	    deltaT =  (champ->npas*champ->deet)/3600.0;
-	    f77name(incdatr)(&tempDate, &tempDate, &deltaT);
-	    
-	    FldMgrCalcPDFDatev(pdfdatev,&(champ->datev),champ->dateo,champ->deet,champ->npas,champ->ip2);
-	    mo[3] = '\0';
-	    strncpy(mo,champ->mois,3);
-	    sprintf(dateMess, "V%s", pdfdatev);
-	    
-	    if (champ->natureTensorielle == VECTEUR)
-	       {
-	       sprintf(texte[i], "%s-%s-%3d-%3d-%s-%s", "UU-VV", champ->typvar, 
-		       champ->ip2, champ->ip3, dateMess, champ->etiket);
-	       }
-	    else
-	       {
-	       sprintf(texte[i], "%s-%s-%3d-%3d-%s-%s", champ->nomvar, champ->typvar, 
-		       champ->ip2, champ->ip3, dateMess, champ->etiket);
-	       }
-	    }
-	 }
+   if (ok)
+      {
+      tempDate = champ->dateo;
+      deltaT =  (champ->npas*champ->deet)/3600.0;
+      f77name(incdatr)(&tempDate, &tempDate, &deltaT);
+      
+      FldMgrCalcPDFDatev(pdfdatev,&(champ->datev),champ->dateo,champ->deet,champ->npas,champ->ip2);
+      mo[3] = '\0';
+      strncpy(mo,champ->mois,3);
+      sprintf(dateMess, "V%s", pdfdatev);
+      
+      if (champ->natureTensorielle == VECTEUR)
+         {
+         sprintf(texte[i], "%s-%s-%3d-%3d-%s-%s", "UU-VV", champ->typvar, 
+           champ->ip2, champ->ip3, dateMess, champ->etiket);
+         }
+      else
+         {
+         sprintf(texte[i], "%s-%s-%3d-%3d-%s-%s", champ->nomvar, champ->typvar, 
+           champ->ip2, champ->ip3, dateMess, champ->etiket);
+         }
+      }
+   }
       }
    else
       {
       for (i=0; i < nbChampsActifs;i+=2)
-	 {
-	 strcpy(texte[i],"");
-	 strcpy(texte[i+1],"");
-	 FldMgrGetChamp(&champ, i+1);
-	 FldMgrGetChamp(&champ2, i);
-	 CombinerLegendeDiffChamps(texte[i], champ, champ2);
-	 }
+   {
+   strcpy(texte[i],"");
+   strcpy(texte[i+1],"");
+   FldMgrGetChamp(&champ, i+1);
+   FldMgrGetChamp(&champ2, i);
+   CombinerLegendeDiffChamps(texte[i], champ, champ2);
+   }
       }
 
    i = 0;
@@ -1096,7 +1095,7 @@ float xmin, ymin, xmax, ymax;
       {
       largeurTexte = c_wglwsi(texte[i], strlen(texte[i]));
       if (largeurMax < largeurTexte)
-	 largeurMax = largeurTexte;
+   largeurMax = largeurTexte;
       }
    
    largeurMax += 6;
@@ -1112,39 +1111,39 @@ float xmin, ymin, xmax, ymax;
    if (op == NO_OP || nbChampsActifs < 2)
       {
       switch (nbChampsActifs)
-	 {
-	 case 1:
-	 rect[0][0] = i1 + 0.5 * (largeur - largeurMax);
-	 rect[0][1] = (int)(((int)(j2+0.5*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
-	 break;
-	 
-	 case 2:
-	 rect[0][0] = i1 + 0.5 * (largeur - largeurMax);
-	 rect[1][0] = rect[0][0];
-	 rect[0][1] = (int)(((int)(j2+0.66*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
-	 rect[1][1] = (int)(((int)(j2+0.33*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
-	 break;
-	 
-	 case 3:
-	 case 4:
-	 rect[0][0] = largeurFenetre/2 - largeurTexte - 20;
-	 rect[1][0] = largeurFenetre/2 + 20;
-	 rect[2][0] = rect[0][0];
-	 rect[3][0] = rect[1][0];
-	 
-	 rect[0][1] = (int)(((int)(j2+0.66*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
-	 rect[1][1] = rect[0][1];
-	 rect[2][1] = (int)(((int)(j2+0.33*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
-	 rect[3][1] = rect[2][1];
-	 break;
-	 }
+   {
+   case 1:
+   rect[0][0] = i1 + 0.5 * (largeur - largeurMax);
+   rect[0][1] = (int)(((int)(j2+0.5*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
+   break;
+   
+   case 2:
+   rect[0][0] = i1 + 0.5 * (largeur - largeurMax);
+   rect[1][0] = rect[0][0];
+   rect[0][1] = (int)(((int)(j2+0.66*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
+   rect[1][1] = (int)(((int)(j2+0.33*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
+   break;
+   
+   case 3:
+   case 4:
+   rect[0][0] = largeurFenetre/2 - largeurTexte - 20;
+   rect[1][0] = largeurFenetre/2 + 20;
+   rect[2][0] = rect[0][0];
+   rect[3][0] = rect[1][0];
+   
+   rect[0][1] = (int)(((int)(j2+0.66*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
+   rect[1][1] = rect[0][1];
+   rect[2][1] = (int)(((int)(j2+0.33*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
+   rect[3][1] = rect[2][1];
+   break;
+   }
       for (i=0; i < nbChampsActifs; i++)
-	 {
-	 c_wglcol(xc.attributs[i].indCouleurFore);
-	 AfficherSymbole(rect[i][0]-10, rect[i][1]+hauteurTexte/2, i);
-	 c_wglrli(rect[i][0]-18,rect[i][1]-8+hauteurTexte/2, rect[i][0]-2,rect[i][1]+8+hauteurTexte/2);
-	 c_wglpsi(rect[i][0]+5, rect[i][1], texte[i], strlen(texte[i]), fontSize, 0, 0);
-	 }
+   {
+   c_wglcol(xc.attributs[i].indCouleurFore);
+   AfficherSymbole(rect[i][0]-10, rect[i][1]+hauteurTexte/2, i);
+   c_wglrli(rect[i][0]-18,rect[i][1]-8+hauteurTexte/2, rect[i][0]-2,rect[i][1]+8+hauteurTexte/2);
+   c_wglpsi(rect[i][0]+5, rect[i][1], texte[i], strlen(texte[i]), fontSize, 0, 0);
+   }
       }
    else
       {
@@ -1162,7 +1161,7 @@ float xmin, ymin, xmax, ymax;
       c_wglrli(rect[i][0]-18,rect[i][1]-8+hauteurTexte/2, rect[i][0]-2,rect[i][1]+8+hauteurTexte/2);
       c_wglpsi(rect[i][0]+5, rect[i][1], texte[i], strlen(texte[i]), fontSize, 0, 0);
       }
-   }	 
+   }   
 
 /**
 ***************
@@ -1372,14 +1371,14 @@ _Champ *champ1, *champ2;
    mo[4] = '\0';
    strncpy(mo,champ2->mois,3);
    sprintf(dateMess2, "V%s:%sZ %s%s%s", 
-	   champ2->heureInit,champ2->minute,champ2->jour,mo,champ2->annee);
-	 
+     champ2->heureInit,champ2->minute,champ2->jour,mo,champ2->annee);
+   
    mo[3] = '\0';
    mo[4] = '\0';
    strncpy(mo,champ1->mois,3);
    sprintf(dateMess1, "V%s:%sZ %s%s%2s", 
-	   champ1->heureInit,champ1->minute,champ1->jour,mo,champ1->annee);
-	 
+     champ1->heureInit,champ1->minute,champ1->jour,mo,champ1->annee);
+   
    if (0 == strcmp(dateMess2,dateMess1))
       sprintf(buffer, "%s*", dateMess1);
    else

@@ -20,6 +20,10 @@
 
 #include <wgl.h>
 
+f77name(wglptxs)(float *xxx, float *yyy, int *npts)
+ {
+ c_wglptxs(xxx, yyy, npts);
+ }
 c_wglptxs(float *xxx, float *yyy, int *npts)
 {
   wglc_wgl->wglptxs(xxx, yyy, npts);

@@ -181,6 +181,7 @@ int nbFrames;
 
   do 
     {
+    i += increment;
     i = i % ((*champ).seqanim.nbFldsAnim);
     if (i < 0) i = (*champ).seqanim.nbFldsAnim-1;
 
@@ -193,29 +194,29 @@ int nbFrames;
       for (n=0; n < nbChampsActifs; n++)
         {
         FldMgrGetChamp(&champ, n);
-  if (champ->seqanim.nbFldsAnim > 0)
-    {
-    (*champ).seqanim.indChampCourant = i;
-    (*champ).cle = (*champ).seqanim.clesAnim[i];
-
-    if ((*champ).seqanim.clesAnim[i] >= 0)
-      {
-      if ((*champ).natureTensorielle == VECTEUR)
-        {
-        memcpy((char *) (*champ).uu, (char *)(*champ).seqanim.animUUs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
-        memcpy((char *) (*champ).vv, (char *)(*champ).seqanim.animVVs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
-        memcpy((char *) (*champ).module, (char *) (*champ).seqanim.animUVs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
+        if (champ->seqanim.nbFldsAnim > 0)
+          {
+          (*champ).seqanim.indChampCourant = i;
+          (*champ).cle = (*champ).seqanim.clesAnim[i];
+      
+          if ((*champ).seqanim.clesAnim[i] >= 0)
+            {
+            if ((*champ).natureTensorielle == VECTEUR)
+              {
+              memcpy((char *) (*champ).uu, (char *)(*champ).seqanim.animUUs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
+              memcpy((char *) (*champ).vv, (char *)(*champ).seqanim.animVVs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
+              memcpy((char *) (*champ).module, (char *) (*champ).seqanim.animUVs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
+              }
+            else
+              {
+              memcpy((char *) (*champ).fld, (char *)(*champ).seqanim.animFLDs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float));
+              }
+            FldMgrGetFstPrm(champ);
+            FldMgrUpdateFldParams(champ);
+            }
+          AfficherCarte(n);
+          }
         }
-      else
-        {
-        memcpy((char *) (*champ).fld, (char *)(*champ).seqanim.animFLDs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float));
-        }
-      FldMgrGetFstPrm(champ);
-      FldMgrUpdateFldParams(champ);
-      }
-    AfficherCarte(n);
-    }
-  }
 
       FlusherTousLesEvenements();
       c_wglswb();
@@ -224,30 +225,30 @@ int nbFrames;
         animInfo.flagsImagesChargees[i] = TRUE;
         XCopyArea(wglDisp, wglWin, animInfo.pixmaps[i], wglLineGC, 0, 0, largeurFenetre, hauteurFenetre, 0, 0);
         }
-           }
+      }
 
     if (animInfo.animationRapide)
       {
       j = 0;
       synchro = 1;
       while (j < ((*champ).seqanim.nbFldsAnim) && (1 == synchro))
-  {
-  if (0 == animInfo.flagsImagesChargees[j])
-    {
-    synchro = 0;
-    }
-  j++;
-  }
+        {
+        if (0 == animInfo.flagsImagesChargees[j])
+          {
+          synchro = 0;
+          }
+        j++;
+        }
       if (synchro == 1)
-  {
-  XSynchronize(wglDisp,True);
-  /* 	 fprintf(stderr, "XSynchronize(wglDisp,True)\n"); */
+        {
+        XSynchronize(wglDisp,True);
+        /*   fprintf(stderr, "XSynchronize(wglDisp,True)\n"); */
         }
       else
-  {
-  XSynchronize(wglDisp,False);
-  /* fprintf(stderr, "XSynchronize(wglDisp,False)\n"); */
-  }
+        {
+        XSynchronize(wglDisp,False);
+        /* fprintf(stderr, "XSynchronize(wglDisp,False)\n"); */
+        }
       }
 
     delai = (double) animInfo.delai;
@@ -257,12 +258,11 @@ int nbFrames;
     if (animInfo.typeDefilement == DEFILEMENT_AVANT_ARRIERE)
       {
       if (i == 0 || i == (*champ).seqanim.nbFldsAnim-1)
-  {
-  increment *= -1;
-  }
+        {
+        increment *= -1;
+        }
       }
 
-    i += increment;
     } while (!c_wglanul() && animationContinue);
 
   XSynchronize(wglDisp,False);
@@ -334,8 +334,8 @@ int nbFrames;
 
   if (res == PAS_ASSEZ_DE_PERIODES)
     {
-      MessageAvertissement(uneSeulePeriode[lng], AVERTISSEMENT);
-      return;
+    MessageAvertissement(uneSeulePeriode[lng], AVERTISSEMENT);
+    return;
     }
 
   if (res == CHARGEMENT_ANNULE)
@@ -397,17 +397,17 @@ int nbFrames;
           dt = 0.0;
           k--;
           }
-  k--;
-  i = k;
-  (*champ).seqanim.indChampCourant = i;
-  (*champ).cle = (*champ).seqanim.clesAnim[i];
-
-  if ((*champ).seqanim.clesAnim[i] >= 0)
-    {
-    f77name(incdatr)(&datev, &champ->dateo, &dt);
-    AnimMgrInterpolateTimeField(champ, datev);
-    }
-  }
+        k--;
+        i = k;
+        (*champ).seqanim.indChampCourant = i;
+        (*champ).cle = (*champ).seqanim.clesAnim[i];
+      
+        if ((*champ).seqanim.clesAnim[i] >= 0)
+          {
+          f77name(incdatr)(&datev, &champ->dateo, &dt);
+          AnimMgrInterpolateTimeField(champ, datev);
+          }
+        }
       }
 
     for (n=0; n < nbChampsActifs; n++)
@@ -426,9 +426,9 @@ int nbFrames;
     if (animInfo.typeDefilement == DEFILEMENT_AVANT_ARRIERE)
       {
       if (i == 0 || i == (animInfo.nbImages-1))
-  {
-  increment *= -1;
-  }
+        {
+        increment *= -1;
+        }
       }
     } while (!c_wglanul() && animationContinue);
 

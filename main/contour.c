@@ -62,7 +62,7 @@ float RGBvec[3];
 float colorRange[5][2];
 
 static char *labelIntervalle[] = {"Intervalle: %s * %6.1e %s", 
-				     "Interval: %s * %6.1e %s" };
+             "Interval: %s * %6.1e %s" };
 
 /**
 ***********************************************************************
@@ -113,23 +113,23 @@ char titreUnites[];
       strcpy(interInfo, "[");
       i = 0;
       while (i < nbIntervalles && 20 > strlen(interInfo))
-	 {
-	 sprintf(tampon, format, intervalles[i]);
-	 strcat(interInfo, tampon);
-	 if (i < (nbIntervalles-1))
-	    {
-	    strcat(interInfo, ",");
-	    }
-	 i++;
-	 }
+   {
+   sprintf(tampon, format, intervalles[i]);
+   strcat(interInfo, tampon);
+   if (i < (nbIntervalles-1))
+      {
+      strcat(interInfo, ",");
+      }
+   i++;
+   }
       if (i < (nbIntervalles - 1))
-	 {
-	 strcat(interInfo, "...");
-	 }
+   {
+   strcat(interInfo, "...");
+   }
       strcat(interInfo, "]");
       }
    sprintf(titreIntervalles, labelIntervalle[lng],   
-	   interInfo, facteurEchelle,  titreUnites);
+     interInfo, facteurEchelle,  titreUnites);
    }
 
 
@@ -351,10 +351,10 @@ float facteurEchelle;
       e = (int)(logg-1.0);
       
       if (exposantMin > e)
-	 exposantMin = e;
+   exposantMin = e;
       
       if (exposantMax < e)
-	 exposantMax = e;
+   exposantMax = e;
       }
    
    if (exposantMin < -3 || exposantMax > 5)
@@ -365,22 +365,22 @@ float facteurEchelle;
       {
       nbDecimalesMax = 0;
       for (i=0; i < nbIntervalles; i++)
-	 {
-	 nbDecimales = 0;
-	 expo = pow(10.0, (float)(nbDecimales));
-	 r1 = fmod(intervalles[i]*expo, 1.0);
-	 while ((nbDecimales < 5) && ((1.0e-4 < fabs(0.0 - r1)) && (1.0e-4 < fabs(1.0 - r1))))
-	    {
-	    nbDecimales++;
-	    logg = fabs(0.0 - fmod(intervalles[i]*expo, 1.0));
-	    expo = pow(10.0, (float)nbDecimales);
-	    r1 = fmod(intervalles[i]*expo, 1.0);
-	    }
-	 
-	 if (nbDecimalesMax < nbDecimales)
-	    nbDecimalesMax = nbDecimales;
-	 
-	 }
+   {
+   nbDecimales = 0;
+   expo = pow(10.0, (float)(nbDecimales));
+   r1 = fmod(intervalles[i]*expo, 1.0);
+   while ((nbDecimales < 5) && ((1.0e-4 < fabs(0.0 - r1)) && (1.0e-4 < fabs(1.0 - r1))))
+      {
+      nbDecimales++;
+      logg = fabs(0.0 - fmod(intervalles[i]*expo, 1.0));
+      expo = pow(10.0, (float)nbDecimales);
+      r1 = fmod(intervalles[i]*expo, 1.0);
+      }
+   
+   if (nbDecimalesMax < nbDecimales)
+      nbDecimalesMax = nbDecimales;
+   
+   }
       
       sprintf(tmp, "%1d", nbDecimalesMax);
       strcpy(format, "");

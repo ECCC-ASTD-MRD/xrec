@@ -93,7 +93,6 @@ int c_wglpli (int nbPoints, int polygone[][2]);
 int c_wglplx(int nbPoints, float polygone[][2]);
 int c_wglppo(int ix, int iy, int isize, int jsize);
 int c_wglpsi(int i, int j, char *string, int stringLength, int size, int orient, int codeCentrage);
-int c_wglpsi(int i, int j, char *string, int stringLength, int size, int orient, int codeCentrage);
 int c_wglpsz(int isize, int jsize);
 int c_wglpti(int i, int j);
 int c_wglptis(wgl_point pts[], int npts);

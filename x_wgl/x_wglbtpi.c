@@ -31,15 +31,16 @@ int x_wglbtpi(int bouton, int *i, int *j)
    Bool res;
    
    XDefineCursor(wglDisp,wglWin,croix);
-   wglfshlb();
+   x_wglfshlb();
    XSync(wglDisp, True);
    mouseButtonMask = 0;
    res = XQueryPointer(wglDisp, wglWin, &root, &child, &root_x, &root_y, &win_x, &win_y, &mouseButtonMask);
+/*   fprintf(stderr, "res: %d, mousebuttonmask: %d\n", res, mouseButtonMask);*/
    *i = win_x;
    *j = h - win_y;  
    res = False;
    
-   if (mouseButtonMask)
+   if (mouseButtonMask != 272)
       {
       switch(bouton)
          {

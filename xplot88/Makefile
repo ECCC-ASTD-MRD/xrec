@@ -14,8 +14,8 @@ FFLAGS =
 
 CFLAGS = -I$(ARMNLIB)/include -I../include -DX_REC_UTIL
 
-OPTIMIZ = -O 2
 OPTIMIZ = -O 0  -debug
+OPTIMIZ = -O 2
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_REC_UTIL
 

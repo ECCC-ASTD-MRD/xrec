@@ -14,8 +14,8 @@ FFLAGS =
 
 CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I$(HOME)/src/gd2/ -DX_WGL 
 
-OPTIMIZ = -O 3
 OPTIMIZ = -debug -O 0
+OPTIMIZ = -O 3
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
