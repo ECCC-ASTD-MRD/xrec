@@ -2,7 +2,7 @@ include Makefile_$(ARCH)$(ABI)
 
 .SUFFIXES : 
 
-.SUFFIXES : .ftn .f .c .o 
+.SUFFIXES : .ftn .c .o 
 
 SHELL = /bin/sh
 
@@ -26,23 +26,15 @@ default: rec_utillib
 .ftn.o:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $*.ftn
 
-.ftn.f:
-	rm -f $*.f
-	r.ftntof -P $(DEFINE) $< > $*.f
-	chmod 444 $*.f
-
 .c.o:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
-
-.f.o:
-	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 
 .c.a:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
 	ar rv $@ $*.o
 	rm -f $*.o
 
-.f.a:
+.ftn.a:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 	ar rv $@ $*.o
 	rm -f $*.o
@@ -72,7 +64,7 @@ obj: $(CDECKS) $(FDECKS) $(OBJECTS)
 #Produire les fichiers objets (.o) pour tous les fichiers
 
 
-rec_utillib:	$(CDECKS) $(FDECKS) \
+rec_utillib:	$\
 	$(REC_UTILLIB)(flush.o) \
 	$(REC_UTILLIB)(langue.o) \
 	$(REC_UTILLIB)(parent.o) \

@@ -48,11 +48,11 @@ caddr_t unused1, unused2;
    int ix1, iy1;
    int largeurTexte[4], hauteurTexte;
    char strVal[4][64], tempVal[64];
-   float x, y, xgrid,ygrid,direction, vitesse, u, v, lat, lon;
+   float x, y, xgrid,ygrid,direction, vitesse, u, v, tmplat, tmplon;
    int offsetX[4], offsetY[4];
    int un = 1;
    int nbChampsActifs;
-   int op;
+   int op,gdid,ier;
    _Champ *champs[4];
 
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
@@ -94,6 +94,8 @@ caddr_t unused1, unused2;
             case BGAUCH:
             ix1 = (int)(xgrid + 0.5);
             iy1 = (int)(ygrid + 0.5);
+	    xgrid = (float) ix1;
+	    ygrid = (float) iy1;
             
 	    for (i=0; i < 4; i++)
 	       {
@@ -128,35 +130,11 @@ caddr_t unused1, unused2;
                        else
                           {
                           c_xy2fxfy(&x, &y, (float)ix1, (float)iy1);
-                          c_gmpg2l(&lat, &lon, x, y);
                           f77name(grdval)(&uu[i], champs[i]->uu, &ix1, &iy1, &mapInfo.ni, &mapInfo.nj);
                           f77name(grdval)(&vv[i], champs[i]->vv, &ix1, &iy1, &mapInfo.ni, &mapInfo.nj);
-                          
-                          vits[i] = uu[i];
-                          dirs[i] = vv[i];
-			  /*
-                          if (mapInfo.type == 'Z' || mapInfo.type == '#')
-                             {
-                             f77name(rgll2gd)(&u, &v, &lon, &un, &un, &mapInfo.typeref, 
-                                              &mapInfo.ig1ref, &mapInfo.ig2ref, &mapInfo.ig3ref, &mapInfo.ig4ref);
-                             }
-                          else
-                             {
-                             f77name(rgll2gd)(&u, &v, &lon, &un, &un, &mapInfo.type, 
-                                              &mapInfo.ig1, &mapInfo.ig2, &mapInfo.ig3, &mapInfo.ig4);
-                             }
-                          
-                          if (mapInfo.type == 'Z' || mapInfo.type == '#')
-                             {
-                             f77name(llwfgdw)(&vits[i], &dirs[i], &lon, &un, &un, &mapInfo.typeref, 
-                                              &mapInfo.ig1ref, &mapInfo.ig2ref, &mapInfo.ig3ref, &mapInfo.ig4ref);
-                             }
-                          else
-                             {
-                             f77name(llwfgdw)(&vits[i], &dirs[i], &lon, &un, &un, &mapInfo.type, 
-                                              &mapInfo.ig1, &mapInfo.ig2, &mapInfo.ig3, &mapInfo.ig4);
-                             }
-			  */
+                          gdid = c_ezgetgdout();
+			  ier = c_gdllfxy(gdid, &tmplat, &tmplon, &xgrid, &ygrid, 1);
+			  ier = c_gdwdfuv(gdid, &vits[i], &dirs[i], &uu[i], &vv[i], &tmplat, &tmplon, 1);
                           break;
                           }
                      }

@@ -2,7 +2,7 @@ include Makefile_$(ARCH)$(ABI)
 
 .SUFFIXES : 
 
-.SUFFIXES : .ftn .f .c .o 
+.SUFFIXES : .ftn .c .o 
 
 SHELL = /bin/sh
 
@@ -23,25 +23,17 @@ CPPFLAGS = -I$(ARMNLIB)/include =-I$(REC)/include -DX_REC_UTIL
 default: rec_utillib
 
 .ftn.o:
-	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $*.f
-
-.ftn.f:
-	rm -f $*.f
-	r.ftntof -P $(DEFINE) $< > $*.f
-	chmod 444 $*.f
+	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 
 .c.o:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
-
-.f.o:
-	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 
 .c.a:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
 	ar rv $@ $*.o
 	rm -f $*.o
 
-.f.a:
+.ftn.a:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 	ar rv $@ $*.o
 	rm -f $*.o
@@ -87,7 +79,7 @@ qclean:
 	rm *.o
 
 
-rec_utillib: $(CDECKS) $(FDECKS) \
+rec_utillib: \
 	$(REC_UTILLIB)(xopget.o) \
 	$(REC_UTILLIB)(xopset.o) \
 	$(REC_UTILLIB)(init.o) \

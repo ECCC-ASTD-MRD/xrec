@@ -23,25 +23,17 @@ CPPFLAGS = -I$(ARMNLIB)/include =-I$(REC)/include -DX_WGL
 default: rec_utillib
 
 .ftn.o:
-	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $*.f
-
-.ftn.f:
-	rm -f $*.f
-	r.ftntof -P $(DEFINE) $< > $*.f
-	chmod 444 $*.f
+	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $*.ftn
 
 .c.o:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
-
-.f.o:
-	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 
 .c.a:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
 	ar rv $@ $*.o
 	rm -f $*.o
 
-.f.a:
+.ftn.a:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 	ar rv $@ $*.o
 	rm -f $*.o
@@ -114,8 +106,7 @@ obj: $(CDECKS) $(FDECKS) $(OBJECTS)
 #Produire les fichiers objets (.o) pour tous les fichiers
 
 
-rec_utillib: $(CDECKS) $(FDECKS) \
-	$(WGLLIB)(xanotat.o) \
+rec_utillib: $(WGLLIB)(xanotat.o) \
 	$(WGLLIB)(xautoget.o) \
 	$(WGLLIB)(xautolab.o) \
 	$(WGLLIB)(xbreak.o) \

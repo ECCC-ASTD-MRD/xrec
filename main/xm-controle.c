@@ -32,6 +32,7 @@
 #include <gmp.h>
 #include <c_wgl.h>
 #include <souris.h>
+#include <rec_version.h>
 
 #define  TERMINE         0
 #define  OUVRIR          1
@@ -44,12 +45,13 @@
 #define  DIAPOS          2000
 #define  FILMS           2001
 
-static char statutStr[12][2][48] = {{"Couleurs", "Colors" }, 
+static char statutStr[13][2][48] = {{"Couleurs", "Colors" }, 
 				    {"Contours", "Contours"},
 			            {"Labels", "Labels"}, 
 			            {"Valeurs centrales","Central values"},
 			            {"Geographie", "Geography"}, 
-			            {"Grille","Grid"},
+				    {"Grille source", "Source grid"},
+			            {"Grille destination","Output Grid"},
 			            {"Legende", "Legend"},
 			            {"Legende couleurs", "Color Legend"},
 			            {"Lissage", "Smoothing"},
@@ -174,25 +176,6 @@ static char *lblAvrtTrop[]={"\nOn ne peut superposer\nplus de 32 champs a la foi
 
 static char *lblAvrtRecordsManquants[]={"\nLes descripteurs '^^' et '>>'\nsont manquants. Le champ sera affiche\nsans geographie\n", 
                                "\nThe records '^^' and '>>' are missing.\nThe field will be displayed without geography\n"};
-
-static char *recVersion[] = {"\
- Rever En Couleurs v. 4.5.1 - 31 juillet 2001 -\n\
- Div. de Recherche en Prevision Numerique\n\
- Environnement Canada, Dorval, Quebec\n\n\
- Auteurs:\n\
-    Section informatique (RPN)\n\
- Portions additionnelles par:\n\
-    Section de developpement\n\
-    d'applications graphiques (CMC)\n\n\
- Palettes de couleurs courtoisie du NCSA", "\
- Rever En Couleurs v. 4.5.1 - July 31, 2001 -\n\
- Div. de Recherche en Prevision Numerique\n\n\
- Environment Canada, Dorval, Quebec\n\n\
- Authors:\n\
-    Section informatique (RPN)\n\
- Portions of code by:\n\
-    Graphics Section (CMC)\n\n\
- Color Palettes courtesy of NCSA"};
 
 
 /**
@@ -2175,34 +2158,6 @@ XtPointer unused1, unused2;
       case TOPOGRAPHIE:
       break;
 
-      case BARBULES:
-         /*
-           switch(xc.statuts[BARBULES])
-           {
-           case FALSE:
-           for (n=0; n < FldMgrGetNbChampsActifs(); n++)
-           {
-           FldMgrGetChamp(&champ, n);
-           RestoreScalarWindFields(champ);
-           FldMgrProcessChamp(champ);
-           FldMgrSetDiffMinMax(n);
-           FldMgrFreeAnimFlds(champ);
-           }
-           break;
-           
-           case TRUE:
-           for (n=0; n < FldMgrGetNbChampsActifs(); n++)
-           {
-           FldMgrGetChamp(&champ, n);
-           FldMgrProcessChamp(champ);
-           FldMgrSetDiffMinMax(n);
-           FldMgrFreeAnimFlds(champ);
-           }
-           break;
-           }
-         */
-        break;
-        
       default:
         break;
       }
@@ -2253,6 +2208,7 @@ caddr_t client_data, call_data;
 {
    int lng;
    int i, largeurFenetre, hauteurFenetre;
+   char inforec[1024];
 
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
@@ -2279,7 +2235,12 @@ caddr_t client_data, call_data;
          draw_rec_version();
 	 }
       
-      MessageAvertissement(recVersion[lng], INFO);
+      
+      strcpy(inforec, recVersion[lng]);
+      strcat(inforec, copyright[lng]);
+      strcat(inforec, auteurs[lng]);
+      strcat(inforec, contrib[lng]);
+      MessageAvertissement(inforec, INFO);
       break;
 
       case OUVRIR:
@@ -2786,6 +2747,7 @@ int   *iun;
    xc.statuts[AFF_AUTOMATIQUE] = TRUE;
    xc.statuts[EFF_FENETRE] = TRUE;
    xc.statuts[LABELS] = TRUE;
+   xc.statuts[GRILLE_SOURCE] = FALSE;
    xc.statuts[GRILLE] = FALSE;
    xc.statuts[LEGENDE_COULEUR] = TRUE;
    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
@@ -3359,6 +3321,65 @@ AfficherGrille()
 
    c_wgllwi(1);
    c_wglsld(0);
+   
+   }
+
+AfficherGrilleSource(int indchamp)
+{
+   int i,j,ix,iy,ier,npts;
+   float x1, y1, x2, y2;
+   float rx1, ry1, rx2, ry2;
+   float *lats, *lons, *x, *y;
+   _Champ *champ;
+
+   int grsrc, grdst;
+
+   FldMgrGetChamp(&champ, indchamp);
+
+   c_wgllwi(xc.attributs[GRID].epaisseur);
+   c_wglsld(xc.attributs[GRID].style);
+   c_wglcol(xc.attributs[GRID].indCouleurFore);
+
+   grsrc = c_ezqkdef(champ->src.ni, champ->src.nj, champ->src.grtyp,
+		     champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4, 1);
+   grdst = c_ezgetgdout();
+   npts = champ->src.ni*champ->src.nj;
+   lats = (float *) malloc(npts*sizeof(float));
+   lons = (float *) malloc(npts*sizeof(float));
+   x = (float *) malloc(npts*sizeof(float));
+   y = (float *) malloc(npts*sizeof(float));
+
+   for (j=0; j < champ->src.nj; j++)
+     {
+     for (i=0; i < champ->src.ni; i++)
+       {
+       x[i+j*champ->src.ni] = (float)(i+1);
+       y[i+j*champ->src.ni] = (float)(j+1);
+       }
+     }
+   
+   ier = c_gdllfxy(grsrc, lats, lons, x, y, npts);
+   ier = c_gdxyfll(grdst, x, y, lats, lons, npts);
+   ier = c_wglgvx(&x1, &y1, &x2, &y2);
+   c_fxfy2xy(&x1, &y1, x1, y1);
+   c_fxfy2xy(&x2, &y2, x2, y2);
+   
+   for (i=0; i < npts; i++)
+     {
+     if (x[i] > x1 && x[i] < x2 && y[i] > y1 && y[i] < y2)
+       {
+       c_xy2fxfy(&rx1, &ry1, x[i], y[i]);
+       c_wglxai(&ix,&iy,rx1,ry1);
+       c_wglcli(ix,iy,3);
+       }
+     }
+   
+   c_wgllwi(1);
+   c_wglsld(0);
+   free(x);
+   free(y);
+   free(lats);
+   free(lons);
    
    }
 

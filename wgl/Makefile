@@ -2,7 +2,7 @@ include Makefile_$(ARCH)$(ABI)
 
 .SUFFIXES : 
 
-.SUFFIXES : .ftn .f .c .o 
+.SUFFIXES : .ftn .c .o 
 
 SHELL = /bin/sh
 
@@ -24,25 +24,17 @@ CPPFLAGS = -I$(ARMNLIB)/include =-I$(REC)/include -DX_WGL
 default: wgllib
 
 .ftn.o:
-	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $*.f
-
-.ftn.f:
-	rm -f $*.f
-	r.ftntof -P $(DEFINE) $< > $*.f
-	chmod 444 $*.f
+	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 
 .c.o:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
-
-.f.o:
-	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 
 .c.a:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
 	ar rv $@ $*.o
 	rm -f $*.o
 
-.f.a:
+.ftn.a:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 	ar rv $@ $*.o
 	rm -f $*.o
@@ -141,8 +133,7 @@ qclean:
 	fi
 	rm *.o
 
-wgllib: $(CDECKS) $(FDECKS) \
-	$(WGLLIB)(bitfinder.o) \
+wgllib: $(WGLLIB)(bitfinder.o) \
 	$(WGLLIB)(couleur-util.o) \
 	$(WGLLIB)(initdev.o) \
 	$(WGLLIB)(inversion.o) \

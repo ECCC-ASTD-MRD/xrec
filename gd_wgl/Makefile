@@ -2,7 +2,7 @@ include Makefile_$(ARCH)$(ABI)
 
 .SUFFIXES : 
 
-.SUFFIXES : .ftn .f .c .o 
+.SUFFIXES : .ftn .c .o 
 
 SHELL = /bin/sh
 
@@ -24,7 +24,7 @@ default: gd_wgllib
 .c.o:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
 
-.f.o:
+.ftn.o:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 
 .c.a:
@@ -32,7 +32,7 @@ default: gd_wgllib
 	ar rv $@ $*.o
 	rm -f $*.o
 
-.f.a:
+.ftn.a:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 	ar rv $@ $*.o
 	rm -f $*.o
@@ -198,7 +198,7 @@ qclean:
 	fi
 	rm *.o
 
-gd_wgllib: $(CDECKS) $(FDECKS) \
+gd_wgllib: \
 $(GD_WGLLIB)(gd_pwrit.o)\
 $(GD_WGLLIB)(gd_wglafi.o)\
 $(GD_WGLLIB)(gd_wglafx.o)\

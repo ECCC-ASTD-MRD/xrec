@@ -24,6 +24,7 @@
 #include <service_f.xbm>
 #include <service_e.xbm>
 #include <stdio.h>
+#include <rec_version.h>
 
 int logo_width, logo_height;
 char *logo_bits;
@@ -60,11 +61,11 @@ draw_rec_version()
    
    if (langue == 0)
       {
-      strcpy(tmpStr, "Voici XREC Version 4.5.1, le 31 juillet 2001");
+      strcpy(tmpStr, recVersion[langue]);
       }
    else
       {
-      strcpy(tmpStr, "This is XREC Version 4.5.1, as of July 31th, 2001");
+      strcpy(tmpStr, recVersion[langue]);
       }
 
    largeurVersion = c_wglwsi(tmpStr, strlen(tmpStr));

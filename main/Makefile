@@ -2,7 +2,7 @@
 
 .SUFFIXES : 
 
-.SUFFIXES : .ftn .f .c .o 
+.SUFFIXES : .ftn .c .o 
 
 SHELL = /bin/sh
 
@@ -12,7 +12,7 @@ RECLIB = $(REC)/lib/$(ARCH)$(ABI)/librec.a
 
 FFLAGS = -I$(ARMNLIB)/include -I$(REC)/include -DX_WGL
 
-CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I$(REC)/include -I$(HOME)/src/gd2/ -DX_WGL
+CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(HOME)/src/gd2/ -DX_WGL
 
 #@OPTIMIZ = -O 3
 OPTIMIZ = -debug -O 0
@@ -29,18 +29,15 @@ default: reclib
 .c.o:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
 
-.f.o:
-	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
-
 .c.a:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
 	ar rv $@ $*.o
 	rm -f $*.o
 
-.f.a:
+.ftn.a:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 	ar rv $@ $*.o
-	rm -f $*.o
+	rm -f $*.f $*.o
 
 FTNDECKS= \
          convip.ftn       convpr.ftn       defvar.ftn       drlstl.ftn \
@@ -73,8 +70,8 @@ OBJECTS= \
          rec.o       recgrille.o       rlx.o       setcoupe.o \
          setitem.o       statfld4.o       unsat.o       wglrfton.o \
          PointerVent.o       aff_coupe.o       anim4.o       aux.o \
-         bidim.o       cmap.o       contour.o       convip.o \
-         convpr.o       couleur.o       coupe.o       defvar.o \
+         bidim.o       cmap.o       contour.o       \
+         couleur.o       coupe.o       defvar.o \
          dict.o       diffmgr.o       drlstl.o       enhance.o \
          fenlatlon.o       fermeur.o       fldmgr.o       fleche.o \
          geometrie.o       grid.o       grid_status.o \
@@ -97,8 +94,10 @@ OBJECTS= \
 COMDECKS= \
          impnone.cdk       qqqxtrp.cdk
 
-reclib: $(CDECKS) $(FTNDECKS) $(OBJECTS)\
-	$(RECLIB)(convip.o) \
+xm-controle.o:	../include/rec_version.h
+logo_rpn.o:	../include/rec_version.h
+
+reclib: $(RECLIB)(convip.o) \
 	$(RECLIB)(convpr.o) \
 	$(RECLIB)(defvar.o) \
 	$(RECLIB)(drlstl.o) \
@@ -195,12 +194,12 @@ xrec-stereo2:
 xrec:
 	r.build -bidon -main xrec -o xrec -libpath $(REC)/lib/$(ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec ezscint wglx Xm Xt X11 m -librmn -fstd89
 
-xrec_alpha:
+xrec-Linux_alpha:
 	r.build -bidon -main xrec -o xrec -libpath $(REC)/lib/$(ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec wglx Xm Xp Xt Xext X11 gd2 z png m -librmn rmn_x
 
-xreclinux:
+xrec-Linux:
 	r.build -bidon -main xrec -o xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl gd_wgl wglx StaticXm StaticMrm Xp Xt Xmu X11 gd2 z png m -librmn rmnbeta
 
-xrecirix:
+xrec-IRIX64:
 	r.build -bidon -main xrec -o xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl gd_wgl Xm Xt X11 gd2 png z m -librmn  rmnbeta
 

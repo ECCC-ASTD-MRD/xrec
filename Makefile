@@ -1,19 +1,17 @@
 SHELL = /bin/sh
 
-subdirs = autog gmp select util wgl xdash xplot88 xinit
-recdir  = main
+subdirs = autog gd_wgl gmp main select selfic util wgl x_wgl xdash xinit xplot88
 
-all: $(subdirs) $(recdir)
+default: lib
 
+link_makefiles:
+	for dir in $(subdirs); do  cd $$dir; Link_Makefiles; cd ..; done
 
-wgllib:
-	for repertoire in $(subdirs); do  make -C $$repertoire wgllib; done
-
-reclib:
-	cd main; make reclib; cd ..; cd selfic; make reclib; cd ..
+genlib:
+	for dir in $(subdirs); do  cd $$dir; make; cd ..; done
 
 clean:
-	for dir in $(subdirs); do $(MAKE) -C $$dir clean; done
+	for dir in $(subdirs); do cd $$dir; /bin/rm -f *.o *.f *~; cd ..; done
 
 xrec:
-	$(MAKE) -C $(recdir) xrec
+	cd main; make xrec-$(ARCH); cd ..

@@ -70,26 +70,28 @@
 
 #define NB_MAX_GRILLES     16
 
-#define NB_MENU_AFFICHAGE_ITEMS 12
+#define NB_MENU_AFFICHAGE_ITEMS 13
 
 #define COULEURS              0
 #define CONTOURS              1
 #define LABELS                2
 #define VALEURS_CENTRALES     3   
 #define GEOGRAPHIE            4
-#define GRILLE                5
-#define LEGENDE               6
-#define LEGENDE_COULEUR       7
-#define LISSAGE               8
-#define ZOOM_LOCAL            9
-#define TOPOGRAPHIE          10
-#define AFF_AUTOMATIQUE      11
-#define BARBULES             12
-#define AXE_X                13
-#define AXE_Y                14
-#define EN_TRAIN_DE_DESSINER 15
-#define EFF_FENETRE          16
-#define TRAITEMENT_VECTORIEL 17
+#define GRILLE_SOURCE         5
+#define GRILLE                6
+#define LEGENDE               7
+#define LEGENDE_COULEUR       8
+#define LISSAGE               9
+#define ZOOM_LOCAL           10 
+#define TOPOGRAPHIE          11
+#define AFF_AUTOMATIQUE      12
+#define BARBULES             13
+#define AXE_X                14
+#define AXE_Y                15
+#define EN_TRAIN_DE_DESSINER 16
+#define EFF_FENETRE          17
+#define TRAITEMENT_VECTORIEL 18
+
 
 #define ANIMATION  0
 #define SIMPLE     1

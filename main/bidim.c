@@ -163,6 +163,12 @@ float *uu,*vv;
 	 }
       }
    
+   if (xc.statuts[GRILLE_SOURCE])
+      {
+      SetClipMask();
+      AfficherGrilleSource(indChamp); 
+      }
+   
    if (xc.statuts[GRILLE] && (indChamp == 0))
       {
       SetClipMask();
