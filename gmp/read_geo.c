@@ -61,7 +61,7 @@ LireFichierGeographie(ListePointsStruct *(*liste), int *nbItems, char *nomFichie
       {
       strcpy(nomFichierGeographie, tmp);
       strcat(nomFichierGeographie, nomFichier[n]);
-      vingtCinq = 25;
+      vingtCinq = 0;
       f77name(opllfl)(&vingtCinq, nomFichierGeographie, &code, strlen(nomFichier));
       
       npts = -1;
