@@ -94,7 +94,6 @@ _InfoChamps infoChamps[];
 *****************************************************************
 **/
 
-#ifndef HP90
 int LireDictionnaireRMNLIB_XML(infoChamps)
 _InfoChamps infoChamps[];
 {
@@ -142,7 +141,6 @@ _InfoChamps infoChamps[];
    fclose(fichierEntree);
    
    }
-#endif
 
 /**
 *****************************************************************

@@ -17,30 +17,6 @@
 * * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 * * Boston, MA 02111-1307, USA.
 * */
-      SUBROUTINE SUBGRID(MATIJ,MATMN,MDIM,NDIM,IDIM, JDIM,
-     *                   IDEBUT, JDEBUT, IFIN, JFIN)
-      IMPLICIT NONE 
-
-* 
-      INTEGER I,J
-      INTEGER IDIM,JDIM,MDIM,NDIM 
-      INTEGER IDEBUT, JDEBUT, IFIN, JFIN
-      REAL MATMN(MDIM,NDIM),MATIJ(IDIM,JDIM)
-* 
-* 
-      integer i1, i2, j1, j2
-
-      i1=idebut+1
-      j1=jdebut+1
-      i2=ifin+1
-      j2=jfin+1
-
-      DO 10 I=i1,i2
-         DO 10 J=j1, j2
- 10         MATIJ(I-I1+1, J-J1+1)=MATMN(I,J)
-
-      RETURN
-      END 
 
       subroutine put2to3(fld2d,fld3d,ni,nj,nk,index)
       real fld2d(ni,nj), fld3d(ni,nj,nk)

@@ -318,8 +318,8 @@ typedef struct
 
 typedef struct
 {
-  char nomVar[5];
-  char identifVar[64];
+  char nomVar[8];
+  char identifVar[2][64];
   char unitesVar[32];
   char paletteVar[32];
   int  indIntervalleDeDefaut;

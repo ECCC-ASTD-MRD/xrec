@@ -1,3 +1,7 @@
+#ifdef __CPLUSPLUS
+extern "C"
+{
+#endif
 float c_wglasx(char *string, int stringLength);
 float c_wgldsx(char *string, int stringLength);
 float c_wglhsx(char *string, int stringLength);
@@ -126,3 +130,6 @@ void f77name(vfxfy2xy)(float *x, float *y, float *fx, float *fy, int *npts);
 void f77name(vxy2fxfy)(float *fx, float *fy, float *x, float *y, int *npts);
 void f77name(xsetxy)(int *mode, float *tx, int *nx, float *ty, int *ny);
 void f77name(xy2fxfy)(float *fx, float *fy, float *x, float *y);
+#ifdef __CPLUSPLUS
+}
+#endif

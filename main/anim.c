@@ -94,7 +94,7 @@ int nbFrames;
    int animationContinue;
    int op,i_initial;
    double dt,dt1,dt2;
-   int datev;
+   int synchro, datev;
    double weight;
    float *fld, *fld1, *fld2;
    double delai;
@@ -170,7 +170,6 @@ int nbFrames;
    
    if (animInfo.animationRapide)
      {
-     XSynchronize(wglDisp,True);
      if (!animInfo.imagesDejaAllouees || lastLargeur != largeurFenetre || lastHauteur != hauteurFenetre)
        {
        LibererImages();
@@ -214,12 +213,8 @@ int nbFrames;
 	     FldMgrGetFstPrm(champ);
 	     FldMgrUpdateFldParams(champ);
 	     }
+	   AfficherCarte(n);
 	   }
-	 }
-       
-       for (n=0; n < nbChampsActifs; n++)
-	 {
-	 AfficherCarte(n);
 	 }
        
        FlusherTousLesEvenements();
@@ -230,6 +225,31 @@ int nbFrames;
 	 XCopyArea(wglDisp, wglWin, animInfo.pixmaps[i], wglLineGC, 0, 0, largeurFenetre, hauteurFenetre, 0, 0);
 	 }
        }
+
+     if (animInfo.animationRapide)
+       {
+       j = 0;
+       synchro = 1;
+       while (j < ((*champ).seqanim.nbFldsAnim) && (1 == synchro))
+	 {
+	 if (0 == animInfo.flagsImagesChargees[j])
+	   {
+	   synchro = 0;
+	   }
+	 j++;
+	 }
+       if (synchro == 1)
+	 {
+	 XSynchronize(wglDisp,True);
+	 /* 	 fprintf(stderr, "XSynchronize(wglDisp,True)\n"); */
+         }
+       else
+	 {
+	 XSynchronize(wglDisp,False);
+	 /* fprintf(stderr, "XSynchronize(wglDisp,False)\n"); */
+	 }
+       }
+     
      delai = (double) animInfo.delai;
      f77name(micro_sleep)(&delai);
      FlusherTousLesEvenements();
@@ -253,9 +273,9 @@ int nbFrames;
    if (i < 0) i = (*champ).seqanim.nbFldsAnim-1;
    for (n=0; n < nbChampsActifs; n++)
      {
-     FldMgrGetChamp(&champ, n);
-     (*champ).seqanim.indChampCourant = i;
-     RemettreChampsAJour((*champ).seqanim.indChampCourant);
+       FldMgrGetChamp(&champ, n);
+       (*champ).seqanim.indChampCourant = i;
+       RemettreChampsAJour((*champ).seqanim.indChampCourant);
      }
    lastLargeur = largeurFenetre;
    lastHauteur = hauteurFenetre;
@@ -314,8 +334,8 @@ int nbFrames;
    
    if (res == PAS_ASSEZ_DE_PERIODES)
      {
-     MessageAvertissement(uneSeulePeriode[lng], AVERTISSEMENT);
-     return;
+       MessageAvertissement(uneSeulePeriode[lng], AVERTISSEMENT);
+       return;
      }
    
    if (res == CHARGEMENT_ANNULE)

@@ -2809,14 +2809,11 @@ f77name(xconact)(recs, nbrecs, iun)
    while (xc.statut == OK)
       {
       XtAppPeekEvent(SuperWidget.contexte, &(xc.theEvent));
-#ifdef X_WGL
+
       if (XtWindowToWidget(XtDisplay(xc.topLevel), xc.theEvent.xany.window) != NULL)
         widgetParent = TrouverWidgetParent(xc.theEvent.xany.window);
       else
         widgetParent = xc.topLevel;
-#else
-      widgetParent = TrouverWidgetParent(xc.theEvent.xany.window);
-#endif
       if (widgetParent == xc.topLevel || xc.statuts[EN_TRAIN_DE_DESSINER])
          {
          XtAppNextEvent(SuperWidget.contexte, &(xc.theEvent));

@@ -14,8 +14,8 @@ FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
 
 CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I$(HOME)/src/gd2/ -DX_WGL
 
-OPTIMIZ = -O 3
 OPTIMIZ = -debug -O 0
+OPTIMIZ = -O 3
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
@@ -53,8 +53,8 @@ CDECKS= \
          geometrie.c       grid_status.c       grille.c \
          hilo.c       i2rgdint.c       inversion.c \
          lclevent.c       legende.c       logo_rpn.c \
-         dictxml.c      manipule.c       mapinfo.c       message.c       no_rmnlib.c \
-         nocore.c       opRefusee.c       p_anim.c       p_vanim.c p_attr.c \
+         dictxml.c      manipule.c       mapinfo.c       message.c       minmax_mgr.c no_rmnlib.c \
+         nocore.c       newdictxml.c opRefusee.c       p_anim.c       p_vanim.c p_attr.c \
          p_avert.c       p_contour.c       p_coupe.c       p_serie.c p_diapo.c \
          p_edition.c       p_geo.c       p_minmax.c       p_palette.c \
          p_vent.c       pack.c       parent.c \
@@ -102,9 +102,11 @@ reclib: $(RECLIB)(PointerVent.o) \
 	$(RECLIB)(manipule.o) \
 	$(RECLIB)(mapinfo.o) \
 	$(RECLIB)(message.o) \
+	$(RECLIB)(minmax_mgr.o) \
 	$(RECLIB)(new-xfsl.o) \
 	$(RECLIB)(no_rmnlib.o) \
 	$(RECLIB)(nocore.o) \
+	$(RECLIB)(newdictxml.o) \
 	$(RECLIB)(opRefusee.o) \
 	$(RECLIB)(p_anim.o) \
 	$(RECLIB)(p_attr.o) \
@@ -179,7 +181,13 @@ xrec-phillips:
 	r.build -bidon -main xrec -obj $(REC)/lib/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util gdb wgl x_wgl gd_wgl wgl Xm Mrm Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmn_006
 
 xrec-local:
-	r.build -bidon -main xrec -obj $(REC)/lib/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util gdb wgl x_wgl gd_wgl wgl Xm Mrm Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmn_006
+	r.build -bidon -main xrec -obj $(REC)/lib/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /opt/old-libc /usr/X11R6/lib -libappl rec rec_util gdb wgl x_wgl gd_wgl wgl Xm Mrm Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmn_006
+
+xrec-intel:
+	ifc *.o -o xrec-intel -C90 -L$(REC)/lib/$(ARCH) -L/opt/old-libc -L/usr/X11R6/lib -L/opt/intel/compiler70/ia32/lib/ $(REC)/intel/*.o -lrec -lrec_util -lgdb -lwgl -lx_wgl -lgd_wgl -lwgl $(ARMNLIB)/lib/librmn-intel.a  -lMrm -lXp -lXext -lX11 -lxml2 -lexpat -lgd2 -lz -lpng -lm -ldl -lc -lld -lc-2.2.4 -lld-2.2.4 -lPEPCF90 -lc -lld
+
+xrec-intel2:
+	ifc *.o -o xrec-intel -i_dynamic -L$(REC)/lib/$(ARCH) -L/opt/old-libc -L/usr/X11R6/lib -L/opt/intel/compiler70/ia32/lib/ -lrec -lrec_util -lgdb -lwgl -lx_wgl -lgd_wgl -lwgl $(ARMNLIB)/lib/librmn-intel.a  -lMrm -lXp -lXext -lX11 -lxml2 -lexpat -lgd2 -lz -lpng -lm -ldl -lPEPCF90
 
 xrec-IRIX64:
 	r.build -bidon -main xrec -obj $(REC)/lib/$(ARCH)/*.o -o $(TMPDIR)/xrec  -libpath $(REC)/lib/IRIX64 /software/cmc/gdb-1.0/publib/ /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util gdb wgl gd_wgl x_wgl wgl Xm Xt X11 expat gd2 png z m -librmn rmnbeta
@@ -187,3 +195,5 @@ xrec-IRIX64:
 xrec-HP-UX:
 	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Xt X11 gd2 png z m -librmn  rmnbeta
 
+dictxml: dictxml.o test-dictxml.o
+	r.build -conly -o dictxml -obj test-dictxml.o dictxml.o -librmn rmn_006 -libappl xml2 m z

@@ -2,8 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <malloc.h>
-#include <math.h>
 #include <rpnmacros.h>
+#ifndef __CPLUSPPLUS
+#include <math.h>
+#endif
 
 #define BLANC    0
 #define NOIR     1

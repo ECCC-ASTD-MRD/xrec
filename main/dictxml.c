@@ -24,20 +24,12 @@
 #include <ctype.h>
 #include <malloc.h>
 #include <rec.h>
+#include <xinit.h>
 #include <rpnmacros.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 
 #define DEBUG(x) printf(x)
-
-
-typedef struct 
-{
-  int ind_dict;
-  int ind_tag;
-  int is_active;
-  char *current_tag;
-} _taginfo;
 
 
 typedef struct Metvar 
@@ -53,8 +45,8 @@ typedef struct Metvar
 
 typedef struct
 {
-  char nomVar[5];
-  char identifVar[64];
+  char nomVar[8];
+  char identifVar[2][64];
   char unitesVar[32];
   char paletteVar[32];
   int  indIntervalleDeDefaut;
@@ -65,7 +57,7 @@ typedef struct
   int   nbIntervalles[32];
   float missingValue;
   float userMin,userMax;
-} _XMLInfoChamps;
+} _XMLInfoChamps, *_XMLinfoChampsPtr;
 
 void XML_AjouterNomvar(_XMLInfoChamps XMLInfo);
 
@@ -82,12 +74,14 @@ static _XMLInfoChamps XMLInfo;
 extern _InfoChamps *infoChamps;
 extern int nbChampsDict;
 
-MetvarPtr parseMetvar(xmlDocPtr doc, xmlNsPtr ns, xmlNodePtr cur) 
+_XMLinfoChampsPtr parseMetvar(xmlDocPtr doc, xmlNsPtr ns, xmlNodePtr cur) 
 {
-  MetvarPtr ret = NULL;
+  _XMLinfoChampsPtr ret = NULL;
   xmlNodePtr Trotteur ;
+  char strFacteurMult[32];
   
   printf("nomvar: %s\n",xmlGetProp(cur,"nomvar"));
+  strcpy(infoChamps[nbChampsDict].nomVar,xmlGetProp(cur,"nomvar"));
   
   cur = cur->children;  
   while (cur != NULL) 
@@ -95,26 +89,14 @@ MetvarPtr parseMetvar(xmlDocPtr doc, xmlNsPtr ns, xmlNodePtr cur)
     if ( !strcmp(cur->name, "description") ) 
       {
       /*  ret->Description = xmlNodeListGetString(doc, cur->children, 1); */
-      printf("\tdesc fr:%s\n", xmlGetProp(cur,"fr"));
-      printf("\tdesc en:%s\n", xmlGetProp(cur,"en"));
-      if ( xmlNodeListGetString(doc, cur->children, 1)) 
-	{
-	printf("\tdesc EXHAUSTIVE: %s\n",xmlNodeListGetString(doc, cur->children, 1) );
-	}
-      }
-    
-    if ( !strcmp(cur->name, "use") ) 
-      {
-      /*   ret->Use = xmlNodeListGetString(doc, cur->xmlChildrenNode, 1);       */
-      if ( xmlGetProp(cur,"usage") )
-	printf("\tuse:%s\n",xmlGetProp(cur,"usage"));
-      if ( xmlGetProp(cur,"date") )
-	printf("\tdate:%s\n",xmlGetProp(cur,"date"));
+      strcpy(infoChamps[nbChampsDict].identifVar[FRANCAIS], xmlGetProp(cur,"fr"));
+      strcpy(infoChamps[nbChampsDict].identifVar[ENGLISH], xmlGetProp(cur,"en"));
+      printf("\tdesc fr:%s\n", infoChamps[nbChampsDict].identifVar[FRANCAIS]);
+      printf("\tdesc en:%s\n", infoChamps[nbChampsDict].identifVar[ENGLISH]);
       }
     
     if ( !strcmp(cur->name,"descriptorUsage") ) 
       {
-      
       if ( cur->children )
 	{
 	if ( xmlGetProp(cur->children,"TypeVar") )
@@ -153,208 +135,110 @@ MetvarPtr parseMetvar(xmlDocPtr doc, xmlNsPtr ns, xmlNodePtr cur)
 	}
       }
     
-    if ( !strcmp(cur->name, "measure") ) 
+    if ( !strcmp( (char *) cur->name, "measure") ) 
       {
       /*
 	-------------
-	UNIT
+	integer
 	-------------
       */
-      if ( !strcmp(cur->xmlChildrenNode->name,"unit") ) 
+      if ( !strcmp( (char *)cur->xmlChildrenNode->name,"integer") ) 
 	{
-	printf("\tmeasure->unit->unit_value:%s\n",xmlGetProp(cur->xmlChildrenNode,"unit_value"));
-	if ( xmlGetProp(cur->xmlChildrenNode,"decimal_factor") )
-	  printf("\tmeasure->unit->decimal_factor:%s\n",
-		 xmlGetProp(cur->xmlChildrenNode,"decimal_factor"));
+	printf("\tmesure->integer->units:%s\n",xmlGetProp(cur->xmlChildrenNode,"units"));
+	if ( xmlGetProp(cur->xmlChildrenNode,"magnitude") )
+	  printf("\tmesure->integer->magnitude:%s\n",
+		 xmlGetProp(cur->xmlChildrenNode,"magnitude"));
 	if ( xmlGetProp(cur->xmlChildrenNode,"min") )
-	  printf("\tmeasure->unit->min:%s\n",
+	  printf("\tmesure->integer->min:%s\n",
 		 xmlGetProp(cur->xmlChildrenNode,"min"));
 	if ( xmlGetProp(cur->xmlChildrenNode,"max") )
-	  printf("\tmeasure->unit->max:%s\n",
+	  printf("\tmesure->integer->max:%s\n",
 		 xmlGetProp(cur->xmlChildrenNode,"max"));
 	}
       /*
 	-------------
-	NO_UNIT
+	real
 	-------------
       */
-      if ( !strcmp(cur->xmlChildrenNode->name,"No_unit") ) 
-	{ 
-	printf("\tmeasure->No_unit->validityRange:%s\n", xmlGetProp(cur->xmlChildrenNode,"validityRange")); 
-	printf("\tmeasure->No_unit->ref:%s\n", xmlGetProp(cur->xmlChildrenNode,"ref")); 
+      if ( !strcmp( (char *)cur->xmlChildrenNode->name,"real") ) 
+	{
+	strcpy(infoChamps[nbChampsDict].unitesVar, xmlGetProp(cur->xmlChildrenNode,"units"));
+	printf("\tmesure->real->units:%s\n",xmlGetProp(cur->xmlChildrenNode,"units"));
+	if ( xmlGetProp(cur->xmlChildrenNode,"magnitude") )
+	  printf("\tmesure->real->magnitude:%s\n",
+		 xmlGetProp(cur->xmlChildrenNode,"magnitude"));
+	if ( xmlGetProp(cur->xmlChildrenNode,"min") )
+	  printf("\tmesure->real->min:%s\n",
+		 xmlGetProp(cur->xmlChildrenNode,"min"));
+	if ( xmlGetProp(cur->xmlChildrenNode,"max") )
+	  printf("\tmesure->real->max:%s\n",
+		 xmlGetProp(cur->xmlChildrenNode,"max"));
+	}
+      /*
+	-------------
+	logical
+	-------------
+      */
+      if ( !strcmp( (char *)cur->xmlChildrenNode->name,"logical") ) 
+	{
 	
-	if ( xmlGetProp(cur->xmlChildrenNode,"objectOfRatio") )
-	  printf("\tmeasure->No_unit->objectOfRatio:%s\n", 
-		 xmlGetProp(cur->xmlChildrenNode,"objectOfRatio"));
-	
-	if ( !strcmp(xmlGetProp(cur->xmlChildrenNode,"validityRange"),"integerRange" ) ||
-	     !strcmp(xmlGetProp(cur->xmlChildrenNode,"validityRange"),"realRange" ) ) 
+	Trotteur = cur->children;
+	while ( Trotteur ) 
 	  {
-	  printf("\tmeasure->No_unit->min:%s\n", xmlGetProp(cur->xmlChildrenNode,"min"));
-	  printf("\tmeasure->No_unit->max:%s\n", xmlGetProp(cur->xmlChildrenNode,"max"));
-	  
-	  } 
-	else if (!strcmp(xmlGetProp(cur->xmlChildrenNode,"validityRange"),"logicalValues")) 
-	  {
-	  Trotteur = cur->children->children;
-	  while ( Trotteur ) 
-	    {
-	    printf("\tlogical->val1:%s",xmlGetProp(Trotteur,"val1"));
-	    printf("\tlogical->val2:%s\n",xmlGetProp(Trotteur,"val2"));
-	    Trotteur = Trotteur->next;
-	    }
-	  
-	  } 
-	else if (!strcmp(xmlGetProp(cur->xmlChildrenNode,"validityRange"),"codedValues")) 
-	  {
-	  Trotteur = cur->children->children;
-	  while ( Trotteur ) 
-	    {
-	    printf("\tcode->val:%s",xmlGetProp(Trotteur,"val"));
-	    Trotteur = Trotteur->next;
-	    }
-	  printf("\n");                       
+	  printf("\tlogical->value:%s",xmlGetProp(Trotteur,"value"));
+	  printf("\tlogical->meaning:%s\n",xmlGetProp(Trotteur,"meaning"));
+	  Trotteur = Trotteur->next;
 	  }
-	}/* end if no_unit */
-      }/* end if measure */
+	}
+      /*
+	-------------
+	code
+	-------------
+      */
+      if ( !strcmp( (char *)cur->xmlChildrenNode->name,"code") ) 
+	{
+	
+	Trotteur = cur->children;
+	while ( Trotteur ) 
+	  {
+	  printf("\tlogical->value:%s",xmlGetProp(Trotteur,"value"));
+	  printf("\tlogical->meaning:%s\n",xmlGetProp(Trotteur,"meaning"));
+	  Trotteur = Trotteur->next;
+	  }
+	}
+      
+      
+      }/* end if mesure */
     
-    
+
+
     
     cur = cur->next;
     }
   
+  nbChampsDict++;
+  if (0 == (nbChampsDict % 16))
+    {
+    infoChamps = (_InfoChamps *)realloc(infoChamps, sizeof(_InfoChamps)*(nbChampsDict+16));
+    }
+
   
   return(ret);
 }
 
+  
 
 
-
-/*
-  static void
-  startElement(void *userData, const char *name, const char **atts)
-  {
-  int i;
-  _taginfo *taginfo = userData;
-  taginfo->is_active = 0;
-  taginfo->ind_tag = -1;
-  
-  if (0 == strcmp(name, "metvar"))
-  {
-  taginfo->is_active = 1;
-  }
-  
-  if (0 == strcmp(name, "nomvar"))
-  {
-  taginfo->ind_tag = NOMVAR;
-  taginfo->is_active = 1;
-  }
-  
-  if (0 == strcmp(name, "francais"))
-  {
-  taginfo->ind_tag = FR_DESC;
-  taginfo->is_active = 1;
-  }
-  
-  if (0 == strcmp(name, "english"))
-  {
-  taginfo->ind_tag = ENG_DESC;
-  taginfo->is_active = 1;
-  }
-  
-  if (0 == strcmp(name, "units"))
-  {
-  taginfo->ind_tag = UNITS;
-  taginfo->is_active = 1;
-  }
-  
-  if (0 == strcmp(name, "contour"))
-  {
-  taginfo->ind_tag = CONTOUR;
-  taginfo->is_active = 1;
-  }
-}
-
-*/
-
-/*
-  static void
-  charElement(void *userData, const char *name, int len)
-  {
-  int i;
-  char *texte;
-  _taginfo *taginfo = userData;
-  
-  if (len == 0)
-  return;
-  
-  
-  if (taginfo->is_active == 0) return;
-  
-  
-  
-  texte = (char *) malloc ((len+1) * sizeof(char));
-  strncpy(texte, name, len);
-  texte[len] = '\0';
-  i = taginfo->ind_dict;
-  
-  switch (taginfo->ind_tag)
-  {
-  case NOMVAR:
-  strcpy(XMLInfo.nomVar,texte);
-  break;
-  
-  case FR_DESC:
-  strcpy(XMLInfo.identifVar, texte);
-  break;
-  
-  case ENG_DESC:
-  strcpy(XMLInfo.identifVar, texte);
-  break;
-  
-  case UNITS:
-  strcpy(XMLInfo.unitesVar, texte);
-  break;
-  
-  case CONTOUR:
-  sscanf(texte, "%f", &(XMLInfo.intervallesDeContour[XMLInfo.nbMenuItems][0]));
-  XMLInfo.nbMenuItems++;
-  break;
-  
-  default:
-  break;
-  
-  }
-  
-  }
-  
-*/
-
-/*
-  static void
-  endElement(void *userData, const char *name)
-  {
-  int i;
-  _taginfo *taginfo = userData;
-  if (0 == strcmp(name, "metvar"))
-  {
-  XML_AjouterNomvar(XMLInfo);
-  memset(&XMLInfo, (int)NULL, sizeof(_XMLInfoChamps));
-  }
-  taginfo->is_active = 0;
-  }
-  
-*/
-
-int LireDictionnaireXML(char *fichierXML)
+int LireDictionnaireCMC(char *fichierXML)
 {
 int i, j, k;
-_taginfo taginfo;
  
  char buf[BUFSIZ];
  char *home;
  char dtdfile[256];
  int done;
+ int inlen, outlen;
+ unsigned char *inbuffer,*outbuffer;
  
  extern int xmlDoValidityCheckingDefaultValue;
 
@@ -379,6 +263,8 @@ if (doc == NULL) return(1);
 /*  Check the document is of the right kind   */
 /* ------------------------------------------ */
 
+ inbuffer=(unsigned char *) malloc(256*sizeof(unsigned char)); 
+ outbuffer=(unsigned char *) malloc(256*sizeof(unsigned char)); 
 
 cur = xmlDocGetRootElement(doc);
 if (cur == NULL ) 
@@ -394,9 +280,9 @@ if (cur == NULL )
  /*  Parse the DTD!   */
  /* ---------------------- */
  
- home = (char *) getenv ("HOME");
+ home = (char *) getenv ("AFSISIO");
  strcpy(dtdfile, home);
- strcat(dtdfile, "/.rec/dict.dtd");
+ strcat(dtdfile, "/datafiles/constants/dict.dtd");
  dtd = xmlParseDTD(NULL,dtdfile); 
  if (! dtd ) 
    { 
@@ -439,6 +325,23 @@ if (cur == NULL )
    Metvar = parseMetvar(doc, ns, cur);  	   
    cur = cur->next;
    }
+
+ for (i=0; i < nbChampsDict; i++)
+   {
+   printf("*--------------------------------------------------------------\n");
+   strcpy(inbuffer, infoChamps[i].identifVar[FRANCAIS]);
+   inlen = xmlUTF8Strsize(inbuffer, 256);
+   outlen=256;
+   UTF8Toisolat1(outbuffer,&outlen,inbuffer ,&inlen);
+   outbuffer[outlen]='\0';
+   strcpy(infoChamps[i].identifVar[FRANCAIS], outbuffer);
+   printf("Champ %03d de %03d\n", i, nbChampsDict);
+   printf("nomvar: %s\n", infoChamps[i].nomVar);
+   printf("\tdesc fr:%s\n", infoChamps[i].identifVar[FRANCAIS]);
+   printf("\tdesc en:%s\n", infoChamps[i].identifVar[ENGLISH]);
+   printf("\tunites:%s\n",  infoChamps[i].unitesVar);
+   
+   }
  
  xmlFreeDtd(dtd);
  xmlFreeDoc(doc);
@@ -446,39 +349,5 @@ if (cur == NULL )
  
 }
 
-/*
-  void XML_AjouterNomvar(_XMLInfoChamps XMLInfo)
-  {
-  int i;
-  
-  if (0 == (nbChampsDict % 16))
-  infoChamps = (_InfoChamps *)realloc(infoChamps, sizeof(_InfoChamps)*(nbChampsDict+16));
-  
-  infoChamps[nbChampsDict].facteurDeConversion = 1.0;
-  infoChamps[nbChampsDict].indIntervalleDeDefaut =  4;
 
-  strcpy(infoChamps[nbChampsDict].nomVar, XMLInfo.nomVar);
-  strcpy(infoChamps[nbChampsDict].identifVar, XMLInfo.identifVar);
-  strcpy(infoChamps[nbChampsDict].unitesVar, XMLInfo.unitesVar);
-  
-  infoChamps[nbChampsDict].nbMenuItems = XMLInfo.nbMenuItems;
-  infoChamps[nbChampsDict].nbIntervalles = (int *)calloc(XMLInfo.nbMenuItems, sizeof(int));
-  infoChamps[nbChampsDict].intervallesDeContour = (float **)calloc(XMLInfo.nbMenuItems, sizeof(float *));
-  
-  for (i=0; i < XMLInfo.nbMenuItems; i++)
-  {
-  infoChamps[nbChampsDict].nbIntervalles[i] = 1;
-  infoChamps[nbChampsDict].intervallesDeContour[i] = (float *)calloc(1, sizeof(float));
-  infoChamps[nbChampsDict].intervallesDeContour[i][0] = XMLInfo.intervallesDeContour[i][0];
-  }
-  DictMgrSetMinMaxMode(XMLInfo.nomVar,nbChampsDict,AUTO);
-  nbChampsDict ++;
-  
-  }
-*/
-
-
-/*
- * And the code needed to parse it
- */
 #endif

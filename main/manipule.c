@@ -43,7 +43,7 @@ int indChamp;
    int idebut, jdebut, ifin, jfin;
    int largeurFenetre, hauteurFenetre;
    int lng,fond;
-   float min,max,vmin,vmax;
+   float min,max,vmin,vmax,tmpmin,tmpmax;
    float *fld,*uu,*vv,*module;
    float *tmpfld,*tmpuu,*tmpvv,*tmpmodule;
    float *pfld;
@@ -53,7 +53,7 @@ int indChamp;
    int hlcount;
    int hlnmax = 64;
    
-   _Champ *champ,*champ2;
+   _Champ *champ,*champ2,*tmpchamp;
    int nbChampsActifs;
    int op,customFld;
    float *fld1, *fld2;
@@ -77,33 +77,32 @@ int indChamp;
       }
    else
       {
-      if (WindMgrGetModulusState())
-         {
-         min = champ->uvmin[op];
-         max = champ->uvmax[op];
-         }
+      if (xc.statuts[BARBULES])
+	{
+	GetMinMaxUV(&min, &max);
+	}
       else
-         {
-         if (0 == strcmp(champ->nomvar,"UU"))
-            {
-            min = champ->uumin[op];
-            max = champ->uumax[op];
-            }
-         else
-            {
-            min = champ->vvmin[op];
-            max = champ->vvmax[op];
-            }
-         }
+	{
+	if (0 == strcmp(champ->nomvar,"UU"))
+	  {
+	  min = champ->uumin[op];
+	  max = champ->uumax[op];
+	  }
+	else
+	  {
+	  min = champ->vvmin[op];
+	  max = champ->vvmax[op];
+	  }
+	}
       }
    
    if (xc.statuts[TOPO])
-      {
-      if (champ->coupe.montagnes == NULL)
-	 {
-	 GetSurfacePressure(champ);
-	 }
-      }
+     {
+     if (champ->coupe.montagnes == NULL)
+       {
+       GetSurfacePressure(champ);
+       }
+     }
    
    if (op != NO_OP || xc.statuts[TOPO])
       {

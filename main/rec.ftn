@@ -151,7 +151,7 @@
       ier = ezsetopt(ezopt, ezval)
       call setcolors(indmin,indmax)
 
-      call recckar(lnkdiun(1), val(41))
+      call recckar(lnkdiun(1), val(125))
       
       inf = xconouv(lnkdiun(1))
       typesel = 2
@@ -301,14 +301,18 @@ c     ****************************************************************
       integer ni, nj, nk
       integer key
 
+      integer vrai
+
+      vrai = 1
       key = fstinf(iun, ni, nj, nk,  -1, ' ', -1, -1, -1, ' ', ' ')
 
 *     if (aspect.eq.'SQUARE') then
 *        call wglkas(1, 1)
 *     endif
 
+      print *, 'recckar', aspect
       if (aspect.eq.'NONE') then
-         call wglias(.TRUE.)
+         call wglias(vrai)
 *        call wglkas(1, 1)
       endif
 
@@ -367,11 +371,12 @@ c     ****************************************************************
       subroutine rtnozsrt(filename)
       character *(*) filename
 
-      character * 8   cle(48)
-      character * 512 def(48), val(48)
+      character * 8   cle(132)
+      character * 512 def(132), val(132)
 
       common /ccardprm/ cle, def, val
-      filename = val(42)
+      print *, val(126)
+      filename = val(126)
       return
       end
 
