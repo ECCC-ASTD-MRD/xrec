@@ -1,4 +1,4 @@
-static char *recVersion[] = {"Rever En Couleurs v. 4.6.0 - 26 novembre 2001","Rever En Couleurs v. 4.6.0 - November 26th 2001"};
+static char *recVersion[] = {"Rever En Couleurs v. 4.7.0 - 29 janvier 2002","Rever En Couleurs v. 4.7.0 - January 29th 2002"};
 
 static char *copyright[] = {"Copyright:\nDiv. de Recherche en Prevision Numerique\nEnvironnement Canada, Dorval, Quebec\n\n", 
 			    "Copyright:\nDiv. de Recherche en Prevision Numerique\nEnvironnement Canada, Dorval, Quebec\n\n"};
