@@ -37,8 +37,8 @@ static int fontSize = 30;
  *
  *  call      :  char  *hllst;
  *               float *vect;
- *		 int    ni, nj;
- *	         hllst = hl_find( vect, ni, nj, scale );
+ *     int    ni, nj;
+ *           hllst = hl_find( vect, ni, nj, scale );
  *
  *  object    :  THIS MODULE FINDS ALL THE HIGHS LOWS ON A FIELD
  *               AND RETURNS THE LIST
@@ -84,7 +84,7 @@ int *hlcount, hlnmax;
           if( jp != nj-1 )
             {
             zn = vect[ip+(jp+1)*ni] ;
-            if( zm==zn || ((zm<zn) && crois ) || ((zm>zn) && !crois ) ) 
+            if( zm==zn || ((zm<zn) && crois ) || ((zm>zn) && !crois ) )
               {
               zm = zn ;
               continue ;
@@ -102,27 +102,27 @@ int *hlcount, hlnmax;
              {
              for( ik=is; ik <=it; ik++)
                 {
-                if( ik != ip || jk != jp ) 
+                if( ik != ip || jk != jp )
                   {
                   zv = vect[ik+jk*ni] ;
-                  if(((zv>=zm) && crois ) || ((zv<=zm) && !crois )) goto nexty; 
+                  if(((zv>=zm) && crois ) || ((zv<=zm) && !crois )) goto nexty;
                   };
                 } ;
              } ;
-   
+
 /*
  *  an extrema was found
  */
 
-	  if (*hlcount < hlnmax)
-	     {
-	     hilo[*hlcount].x = (float)ip+1;
-	     hilo[*hlcount].y = (float)jp+1;
-	     hilo[*hlcount].value = zm;
-	     hilo[*hlcount].symbol = 'L';
-	     if(crois) hilo[*hlcount].symbol = 'H';
-	     *hlcount = *hlcount + 1;
-	     }
+    if (*hlcount < hlnmax)
+       {
+       hilo[*hlcount].x = (float)ip+1;
+       hilo[*hlcount].y = (float)jp+1;
+       hilo[*hlcount].value = zm;
+       hilo[*hlcount].symbol = 'L';
+       if(crois) hilo[*hlcount].symbol = 'H';
+       *hlcount = *hlcount + 1;
+       }
 
 /*
  *  continues the search
@@ -150,66 +150,67 @@ int fore;
    int isym,icen,inum,jsym,jcen,jnum;
    int anott = 0;
    int icent;
+   char *bidon = NULL;
 
 
 
-   set_vcar( FONTE, 4, 0);
+   set_vcar( bidon, FONTE, 4, 0);
    c_wglgvi(&idebut,&jdebut,&ifin,&jfin);
 
    for (i=0; i < hlcount; i++)
       {
       c_xy2fxfy(&xx, &yy, hilo[i].x,hilo[i].y);
       c_wglxai(&ii, &jj, xx, yy);
-      
+
       ii = ii <= 0 ? -9999999 : ii;
       jj = jj <= 0 ? -9999999 : jj;
 
       if (ii > idebut && ii < ifin && jj > jdebut && jj < jfin)
-	 {
-	 isym = ii;
-	 jsym = jj+6;
+   {
+   isym = ii;
+   jsym = jj+6;
 
-	 icen = ii+1;
-	 jcen = jj-3;
+   icen = ii+1;
+   jcen = jj-3;
 
-	 c_wgllwi(2);
-	 
-	 c_wglcol(fore);
+   c_wgllwi(2);
 
-	 icent = 31;
-	 sprintf(str,"%c",hilo[i].symbol);
-	 len = strlen(str);
-	 f77name(xpwrit)(&isym,&jsym,str,&len,&fontSize,&anott,&icent,len);
-	 
-	 size=ROUND(0.6*fontSize);
-	 icent = 1;
-	 sprintf(str,"%s","*");
-	 len = strlen(str);
-	 f77name(xpwrit)(&icen,&jcen,str,&len,&size,&anott,&icent,len);
-	 
-	 size=ROUND(0.6*fontSize);
-	 inum = ii+ROUND(0.5*size);
-	 jnum = jj-2;
-	 
-	 icent = 41;
-	 if (hilo[i].value > 0.0)
-	    {
-	    sprintf(str,"%-6d",ROUND(hilo[i].value/scale));
-	    }
-	 else
-	    {
-	    sprintf(str,"%-6d",-(ROUND(fabs(hilo[i].value/scale))));
-	    }
-	 strclean(str);
-	 len = strlen(str);
-	 if (len == 1)
-	    {
-	    inum=ii;
-	    }
-	 f77name(xpwrit)(&inum,&jnum,str,&len,&size,&anott,&icent,len);
-	 }
+   c_wglcol(fore);
+
+   icent = 31;
+   sprintf(str,"%c",hilo[i].symbol);
+   len = strlen(str);
+   f77name(xpwrit)(&isym,&jsym,str,&len,&fontSize,&anott,&icent,len);
+
+   size=ROUND(0.6*fontSize);
+   icent = 1;
+   sprintf(str,"%s","*");
+   len = strlen(str);
+   f77name(xpwrit)(&icen,&jcen,str,&len,&size,&anott,&icent,len);
+
+   size=ROUND(0.6*fontSize);
+   inum = ii+ROUND(0.5*size);
+   jnum = jj-2;
+
+   icent = 41;
+   if (hilo[i].value > 0.0)
+      {
+      sprintf(str,"%-6d",ROUND(hilo[i].value/scale));
       }
-   set_vcar( FONTE, 0, 0);
+   else
+      {
+      sprintf(str,"%-6d",-(ROUND(fabs(hilo[i].value/scale))));
+      }
+   strclean(str);
+   len = strlen(str);
+   if (len == 1)
+      {
+      inum=ii;
+      }
+   f77name(xpwrit)(&inum,&jnum,str,&len,&size,&anott,&icent,len);
+   }
+      }
+   set_vcar( bidon, FONTE, 0, 0);
    }
 
 hl_setFontSize(size)

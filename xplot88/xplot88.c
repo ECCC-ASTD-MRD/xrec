@@ -47,7 +47,9 @@
  static int  pos_x;
  static int  pos_y;
 
- static char optn[28][3] = 
+char *bidon = NULL;
+
+ static char optn[28][3] =
           { "AN ","BC ","BO ","CA ","CF ",
             "CH ","CL ","CN ","CO ","CW ",
             "DC ","DP ","DR ","EN ","FC ",
@@ -63,7 +65,7 @@
                              0, 0, 0, 0, 0, 0, 0, 0, 0  };
 
 
-
+
 /*
  *
  *  module    :  XBNDLSET_
@@ -100,7 +102,7 @@
 
      }
 
-
+
 /*
  *
  *  module    :  XBUNDLE_
@@ -127,7 +129,7 @@
 
      }
 
-
+
 /*
  *
  *  module    :  XFL2INT_
@@ -164,7 +166,7 @@ int  *i,  *j;
       }
    }
 
-
+
 /*
  *
  *  module    :  XGETSET_
@@ -192,7 +194,7 @@ int  *i,  *j;
      return;
      }
 
-
+
 /*
  *
  *  module    :  XMAPTRN_
@@ -222,7 +224,7 @@ int  *i,  *j;
      return(1);
      }
 
-
+
 /*
  *
  *  module    :  XMXMY_
@@ -247,7 +249,7 @@ int  *i,  *j;
      return;
      }
 
-
+
 /*
  *
  *  module    :  XOP1GET_
@@ -292,15 +294,15 @@ int  *i,  *j;
 
      switch( ipos )
            {
-           case  0 : get_vcar( ANGLE,   iopval, 0 ); break;
-           case  3 : set_vcar( FONTE,   iopval, 0 ); break;
-           case  5 : get_vcar( HAUTEUR, iopval, 0 ); break;
-           case  7 : get_vcar( CENTRE,  iopval, 0 ); break;
+           case  0 : get_vcar(bidon,  ANGLE,   iopval, 0 ); break;
+           case  3 : set_vcar(bidon,  FONTE,   iopval, 0 ); break;
+           case  5 : get_vcar(bidon,  HAUTEUR, iopval, 0 ); break;
+           case  7 : get_vcar(bidon,  CENTRE,  iopval, 0 ); break;
            case  8 : c_wglcol( *iopval ) ;           break;
-           case  9 : get_vcar( LARGEUR, iopval, 0 ); break;
+           case  9 : get_vcar(bidon,  LARGEUR, iopval, 0 ); break;
            case 14 : c_wglcol( *iopval ) ;           break;
            case 16 : c_wgllwi( *iopval ) ;           break;
-           case 22 : get_vcar( HAUTEUR, iopval,
+           case 22 : get_vcar(bidon,  HAUTEUR, iopval,
                                LARGEUR, iopval, 0 ); break;
            case 24 : c_wgllwi( *iopval );            break;
 
@@ -324,10 +326,10 @@ int  *i,  *j;
            case 25 : /* UPPERC     */                break;
            case 26 : /* VSPACE     */                break;
            }
-     
+
      }
 
-
+
 /*
  *
  *  module    :  XOP1SET_
@@ -371,15 +373,15 @@ int  *i,  *j;
  */
      switch( ipos )
            {
-           case  0 : set_vcar( ANGLE,   *iopval, 0 ); break;
-           case  3 : set_vcar( FONTE,   *iopval, 0 ); break;
-           case  5 : set_vcar( HAUTEUR, *iopval, 0 ); break;
-           case  7 : set_vcar( CENTRE,  *iopval, 0 ); break;
+           case  0 : set_vcar(bidon,  ANGLE,   *iopval, 0 ); break;
+           case  3 : set_vcar(bidon,  FONTE,   *iopval, 0 ); break;
+           case  5 : set_vcar(bidon,  HAUTEUR, *iopval, 0 ); break;
+           case  7 : set_vcar(bidon,  CENTRE,  *iopval, 0 ); break;
            case  8 : c_wglcol( *iopval ) ;            break;
-           case  9 : set_vcar( LARGEUR, *iopval, 0 ); break;
+           case  9 : set_vcar(bidon,  LARGEUR, *iopval, 0 ); break;
            case 14 : c_wglcol( *iopval ) ;            break;
            case 16 : c_wgllwi( *iopval ) ;            break;
-           case 22 : set_vcar( HAUTEUR, *iopval,
+           case 22 : set_vcar(bidon,  HAUTEUR, *iopval,
                                LARGEUR, *iopval, 0 ); break;
            case 24 : c_wgllwi( *iopval );             break;
 
@@ -404,10 +406,10 @@ int  *i,  *j;
            case 25 : /* UPPERC     */                 break;
            case 26 : /* VSPACE     */                 break;
            }
-     
+
      }
 
-
+
 /*
  *
  *  module    :  XOPNGET_
@@ -438,7 +440,7 @@ int  *i,  *j;
 
      }
 
-
+
 /*
  *
  *  module    :  XOPNSET_
@@ -469,7 +471,7 @@ int  *i,  *j;
 
      }
 
-
+
 /*
  *
  *  module    :  XPLOTIT_
@@ -506,7 +508,7 @@ int *i, *j, *flag;
       c_wglxai(&i1, &j1,*x,*y);
       f77name(xplotit2)(&i1, &j1, flag);
       }
-      
+
    }
 
  int f77name(xplotit2)( x, y, down )
@@ -519,7 +521,7 @@ int *i, *j, *flag;
      return;
      }
 
-
+
 /*
  *
  *  module    :  XPWRS_
@@ -555,8 +557,8 @@ int *i, *j, *flag;
  */
      if( icoded && len>=3 && strncmp(chr,"@9B",3) == 0 )
        {
-       get_vcar( LARGEUR, &larg,  HAUTEUR, &haut,  0);
-       set_vcar( LARGEUR, larg/2, HAUTEUR, haut/2, 0);
+       get_vcar(bidon,  LARGEUR, &larg,  HAUTEUR, &haut,  0);
+       set_vcar(bidon,  LARGEUR, larg/2, HAUTEUR, haut/2, 0);
        }
 
 /*
@@ -569,7 +571,7 @@ int *i, *j, *flag;
  *  si la chaine est centree horizontalement on calcule
  *  sa longueur reelle et sa positions de depart en x
  */
-     get_vcar( ANGLE, &angle, CENTRE, &centre, LARGEUR, &larg, 0 );
+     get_vcar(bidon,  ANGLE, &angle, CENTRE, &centre, LARGEUR, &larg, 0 );
      for( i=0 ; icoded && i<*nchr; i++ ) if( chr[i] == '@' ) len -= 2;
      if( len != 1 )
        {
@@ -596,27 +598,27 @@ int *i, *j, *flag;
           i++;
           switch(chr[i++])
                 {
-                case 'J' : set_vcar( FONTE, 0, 0 ); break;
-                case 'A' : set_vcar( FONTE, 1, 0 ); break;
-                case 'B' : set_vcar( FONTE, 2, 0 ); break;
-                case 'C' : set_vcar( FONTE, 3, 0 ); break;
-                case 'D' : set_vcar( FONTE, 4, 0 ); break;
-                case 'E' : set_vcar( FONTE, 5, 0 ); break;
-                case 'F' : set_vcar( FONTE, 6, 0 ); break;
-                case 'G' : set_vcar( FONTE, 7, 0 ); break;
-                case 'H' : set_vcar( FONTE, 8, 0 ); break;
-                case 'I' : set_vcar( FONTE, 9, 0 ); break;
+                case 'J' : set_vcar(bidon,  FONTE, 0, 0 ); break;
+                case 'A' : set_vcar(bidon,  FONTE, 1, 0 ); break;
+                case 'B' : set_vcar(bidon,  FONTE, 2, 0 ); break;
+                case 'C' : set_vcar(bidon,  FONTE, 3, 0 ); break;
+                case 'D' : set_vcar(bidon,  FONTE, 4, 0 ); break;
+                case 'E' : set_vcar(bidon,  FONTE, 5, 0 ); break;
+                case 'F' : set_vcar(bidon,  FONTE, 6, 0 ); break;
+                case 'G' : set_vcar(bidon,  FONTE, 7, 0 ); break;
+                case 'H' : set_vcar(bidon,  FONTE, 8, 0 ); break;
+                case 'I' : set_vcar(bidon,  FONTE, 9, 0 ); break;
 
-                case '0' : set_vcar( FONTE, 0, 0 ); break;
-                case '1' : set_vcar( FONTE, 1, 0 ); break;
-                case '2' : set_vcar( FONTE, 2, 0 ); break;
-                case '3' : set_vcar( FONTE, 3, 0 ); break;
-                case '4' : set_vcar( FONTE, 4, 0 ); break;
-                case '5' : set_vcar( FONTE, 5, 0 ); break;
-                case '6' : set_vcar( FONTE, 6, 0 ); break;
-                case '7' : set_vcar( FONTE, 7, 0 ); break;
-                case '8' : set_vcar( FONTE, 8, 0 ); break;
-                case '9' : set_vcar( FONTE, 9, 0 ); break;
+                case '0' : set_vcar(bidon,  FONTE, 0, 0 ); break;
+                case '1' : set_vcar(bidon,  FONTE, 1, 0 ); break;
+                case '2' : set_vcar(bidon,  FONTE, 2, 0 ); break;
+                case '3' : set_vcar(bidon,  FONTE, 3, 0 ); break;
+                case '4' : set_vcar(bidon,  FONTE, 4, 0 ); break;
+                case '5' : set_vcar(bidon,  FONTE, 5, 0 ); break;
+                case '6' : set_vcar(bidon,  FONTE, 6, 0 ); break;
+                case '7' : set_vcar(bidon,  FONTE, 7, 0 ); break;
+                case '8' : set_vcar(bidon,  FONTE, 8, 0 ); break;
+                case '9' : set_vcar(bidon,  FONTE, 9, 0 ); break;
 
 /*
  *  options a developper
@@ -654,7 +656,7 @@ int *i, *j, *flag;
         mvcar = vcar(nxt_x,nxt_y,chr[i]);
 
 /*
- *  pour chacun des points on dessine le vecteur si le crayon 
+ *  pour chacun des points on dessine le vecteur si le crayon
  *  est en mode de dessin
  */
         for( j = 0 ; j < mvcar->npnts; j++ )
@@ -674,24 +676,24 @@ int *i, *j, *flag;
 /*
  *  calcule la position du caractere suivant
  */
-         get_vcar( ANGLE,   &angle,
+         get_vcar(bidon,  ANGLE,   &angle,
                    HAUTEUR, &haut,
                    LARGEUR, &larg, 0 );
 
          nxt_x +=(int)(larg*cos(angle*M_PI/180.0));
          nxt_y +=(int)(haut*sin(angle*M_PI/180.0));
- 
+
          i++;
          }
 
-/**     set_vcar( FONTE, 0, 0 ); **/
+/**     set_vcar(bidon,  FONTE, 0, 0 ); **/
 
      return;
      }
 
 
 
-f77name(xpwrit)(ix, iy, chr, nchr, size, anott, icent, len)		
+f77name(xpwrit)(ix, iy, chr, nchr, size, anott, icent, len)
 int *ix, *iy;
 char chr[];
 int *nchr;
@@ -707,13 +709,13 @@ int *size, *anott, *icent;
    int anot = 45;
 
    int caractereTrouve = 0;
-   
-   
+
+
    i = 0;
    while (i < len && !caractereTrouve)
       {
       if (chr[i]!=' ' || chr[i]!= '\0')
-	 caractereTrouve = 1;
+   caractereTrouve = 1;
       i++;
       }
 
@@ -723,14 +725,14 @@ int *size, *anott, *icent;
    dimensionFonte = (int)(*size * 0.667);
    dimensionFonte = (int)(*size);
 
-   set_vcar( HAUTEUR, dimensionFonte,
+   set_vcar(bidon,  HAUTEUR, dimensionFonte,
              LARGEUR, dimensionFonte,
-	     ANGLE,   *anott,
-	     CENTRE,   *icent,
+       ANGLE,   *anott,
+       CENTRE,   *icent,
              0 );
    c_wglgwz(&largeurFenetre, &hauteurFenetre);
 /**   c_wgllwi(1); **/
-   
+
    if (*ix > 0 && *ix < 32768 && *iy > 0 && *iy < 32768)
       {
       i1 = *ix;
@@ -742,7 +744,7 @@ int *size, *anott, *icent;
       y = (float *) iy;
       c_wglxai(&i1, &j1, *x, *y);
       }
-   
+
    f77name(xplotit)(&i1, &j1, &verite);
    f77name(xpwrs)(chr, nchr, &verite, 4);
    }

@@ -46,10 +46,10 @@
                   PointP2 *vecteurs;
                 } Vcar;
 
- extern  void     get_vcar();
+/* extern  void     get_vcar(char *chaine, ...);*/
  extern  void     gen_vcar();
  extern  void     lir_vcar();
- extern  void     set_vcar();
+/* extern  void     set_vcar(char *chaine);*/
  extern  Vcar    *vcar();
 
 #endif   vcar_DEFINED

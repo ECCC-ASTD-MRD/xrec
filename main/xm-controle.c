@@ -19,7 +19,7 @@
  */
 
 /**
- ** Fichier xm-controle.c 
+ ** Fichier xm-controle.c
  **/
 
 #include <string.h>
@@ -45,24 +45,24 @@
 #define  DIAPOS          2000
 #define  FILMS           2001
 
-static char statutStr[14][2][48] = {{"Couleurs", "Colors" }, 
-				    {"Contours", "Contours"},
-			            {"Labels", "Labels"}, 
-			            {"Valeurs centrales","Central values"},
-			            {"Geographie", "Geography"}, 
-				    {"Grille source", "Source grid"},
-			            {"Grille destination","Output Grid"},
-			            {"Legende", "Legend"},
-			            {"Legende couleurs", "Color Legend"},
-			            {"Lissage", "Smoothing"},
-				    {"Extremes locaux","Local Extrema"},
-				    {"Topographie","Topography"},
-				    {"Valeurs manquantes", "Missing values"},
-			            {"Redessiner la fenetre apres selection", "Redraw Window after selection"}};
+static char statutStr[14][2][48] = {{"Couleurs", "Colors" },
+            {"Contours", "Contours"},
+                  {"Labels", "Labels"},
+                  {"Valeurs centrales","Central values"},
+                  {"Geographie", "Geography"},
+            {"Grille source", "Source grid"},
+                  {"Grille destination","Output Grid"},
+                  {"Legende", "Legend"},
+                  {"Legende couleurs", "Color Legend"},
+                  {"Lissage", "Smoothing"},
+            {"Extremes locaux","Local Extrema"},
+            {"Topographie","Topography"},
+            {"Valeurs manquantes", "Missing values"},
+                  {"Redessiner la fenetre apres selection", "Redraw Window after selection"}};
 
-static char VecsStr[3][2][48] = {{"Traitement scalaire, affichage scalaire", "Process as scalar, display as scalar" }, 
-				 {"Traitement vectoriel, affichage scalaire", "Process as vector, display as scalar"},
-				 {"Traitement vectoriel, affichage vectoriel", "Process as vector, display as vector"}};
+static char VecsStr[3][2][48] = {{"Traitement scalaire, affichage scalaire", "Process as scalar, display as scalar" },
+         {"Traitement vectoriel, affichage scalaire", "Process as vector, display as scalar"},
+         {"Traitement vectoriel, affichage vectoriel", "Process as vector, display as vector"}};
 
 
 
@@ -78,7 +78,7 @@ extern void UpdateFldParams();
 extern Widget TrouverWidgetParent();
 /**extern fenetresActives(); **/
 
-/** 
+/**
  ** Fonctions locales
  **/
 
@@ -101,8 +101,8 @@ static XtCallbackProc MenuVarPaletteSelect();
 static XtCallbackProc MenuFichierSelect();
 static XtCallbackProc MenuGrilleSelect();
 static XtCallbackProc MenuOptionSelect();
-static XtCallbackProc Annuler(); 
-static XtCallbackProc Effacer(); 
+static XtCallbackProc Annuler();
+static XtCallbackProc Effacer();
 static XtCallbackProc Quit();
 static XtCallbackProc QuitAndSave();
 XtCallbackProc RafraichirFenetre();
@@ -146,37 +146,38 @@ static char *labelGeographie[]     = { "Geographie...", "Geography..." };
 static char *labelContours[]       = { "Contours...", "Contours..." };
 static char *labelAttributs[]      = { "Legende/Interpolation...", "Legend/Interpolation..." };
 static char *labelPalette[]        = { "Palettes...", "Palettes..." };
-static char *labelMinMax[]         = { "Min-Max...", "Min-Max..." };
+static char *labelMinMax[]         = { "Min-Max / Valeurs manquantes...", "Min-Max / Missing Values..." };
 static char *labelCoupe[]          = { "Coupes verticales...", "Vertical Cross-sections..." };
 static char *labelSerie[]          = { "Series temporelles...", "Time Series..." };
 static char *labelVent[]           = { "Champs vectoriels...", "Vector fields..."};
 static char *labelChampno1[]           = { "Champ #1", "Field #1"};
+static char *labelValeursPonctuelles[] = { "Valeurs ponctuelles...", "Point Values..."};
 
 static char *labelMenuCalculsNoOp[]  = { "Aucune operation", "No calculation"};
 static char *labelMenuCalculsSubtract[] = {"Champ1 - Champ2, Champ3 - Champ4, ...",
-					    "Field1 - Field2, Field3 - Field4, ..."};
+              "Field1 - Field2, Field3 - Field4, ..."};
 static char *labelMenuCalculsAdd[] = {"Champ1 + Champ2, Champ3 + Champ4, ...",
-					    "Field1 + Field2, Field3 + Field4, ..."};
+              "Field1 + Field2, Field3 + Field4, ..."};
 static char *labelMenuCalculsAbsSubtract[] = {"ABS(Champ1 - Champ2), ABS(Champ3 - Champ4), ...",
-					    "ABS(Field1 - Field2), ABS(Field3 - Field4), ..."};
+              "ABS(Field1 - Field2), ABS(Field3 - Field4), ..."};
 static char *labelMenuCalculsAbsAdd[] = {"ABS(Champ1 + Champ2), ABS(Champ3 + Champ4), ...",
-					    "ABS(Field1 + Field2),  ABS(Field3 + Field4), ..."};
+              "ABS(Field1 + Field2),  ABS(Field3 + Field4), ..."};
 static char *labelMenuCalculModule[] = {"MODULE(UUVV1), MODULE(UUVV2), ...",
-					    "MODULUS(UUVV1), MODULUS(UUVV2), ..."};
+              "MODULUS(UUVV1), MODULUS(UUVV2), ..."};
 static char *labelMenuCalculsSubModule[] = {"MODULE(UUVV1) - MODULE(UUVV2), MODULE(UUVV3) - MODULE(UUVV4), ...",
-					    "MODULE(UUVV1) - MODULE(UUVV2), MODULE(UUVV3) - MODULE(UUVV4), ..."};
+              "MODULE(UUVV1) - MODULE(UUVV2), MODULE(UUVV3) - MODULE(UUVV4), ..."};
 static char *labelMenuCalculsAddModule[] = {"MODULE(UUVV1) + MODULE(UUVV2), MODULE(UUVV3) + MODULE(UUVV4), ...",
-					    "MODULUS(UUVV1) + MODULUS(UUVV2), MODULUS(UUVV3) + MODULUS(UUVV4), ..."};
+              "MODULUS(UUVV1) + MODULUS(UUVV2), MODULUS(UUVV3) + MODULUS(UUVV4), ..."};
 
 static char *lblAvrtSup1[]={"\nCe champ est defini sur une grille\nde type different de celui affiche.\nImpossible de superposer!\n",
                                "\nThis field is not of the same grid type\nas the one showed. Can't superpose\n"};
 static char *lblAvrtSup2[]={"\nCe champ est defini sur une grille\nde type different de ceux affiches.\nImpossible de superposer!\n",
                                "\nThis field is not of the same grid type\nas those showed. Can't superpose\n"};
 
-static char *lblAvrtTrop[]={"\nOn ne peut superposer\nplus de 32 champs a la fois\n", 
+static char *lblAvrtTrop[]={"\nOn ne peut superposer\nplus de 32 champs a la fois\n",
                                "\nCan't display more than 32 fields\n"};
 
-static char *lblAvrtRecordsManquants[]={"\nLes descripteurs '^^' et '>>'\nsont manquants. Le champ sera affiche\nsans geographie\n", 
+static char *lblAvrtRecordsManquants[]={"\nLes descripteurs '^^' et '>>'\nsont manquants. Le champ sera affiche\nsans geographie\n",
                                "\nThe records '^^' and '>>' are missing.\nThe field will be displayed without geography\n"};
 
 
@@ -213,24 +214,24 @@ int ActiverWidgetsControle()
 {
    short i;
    Arg  args[10];
-   
+
    i = 0;
    XtSetArg(args[i], XmNsensitive, True); i++;
-   
+
    XtSetValues(xc.menuform, args, i);
    XtSetValues(xc.menuFich, args, i);
    XtSetValues(xc.menuAff, args, i);
    XtSetValues(xc.menuSup, args, i);
    XtSetValues(xc.menuInt, args, i);
    XtSetValues(xc.menuOpt, args, i);
-   
+
    XtSetValues(xc.zoom, args, i);
    XtSetValues(xc.valeursPonctuelles, args, i);
    XtSetValues(xc.rafraichir, args, i);
-   
+
    XtSetValues(xc.superposition, args, i);
    XtSetValues(xc.effacer, args, i);
-   
+
    FlusherTousLesEvenements();
 }
 
@@ -243,24 +244,24 @@ ActiverFlagsAffichage()
 {
   Arg args[2];
   int i;
-  
+
   for (i=0; i < NB_MENU_AFFICHAGE_ITEMS; i++)
     {
     switch(xc.statuts[i])
       {
       case TRUE:
-	XtSetArg(args[0], XmNset, True);      
-	XtSetValues(xc.menuAffichageItems[i], args, 1);
-	break;
-	
+      XtSetArg(args[0], XmNset, True);
+      XtSetValues(xc.menuAffichageItems[i], args, 1);
+      break;
+
       case FALSE:
-	XtSetArg(args[0], XmNset, False);      
-	XtSetValues(xc.menuAffichageItems[i], args, 1);
-	break;
+      XtSetArg(args[0], XmNset, False);
+      XtSetValues(xc.menuAffichageItems[i], args, 1);
+      break;
       }
     }
-  
-  
+
+
 }
 
 /**
@@ -268,10 +269,10 @@ ActiverFlagsAffichage()
 ***********************************************************************
 **/
 
-float labelPos[4][4] = {{0.16, 0.40, 0.64, 0.84}, 
-			{0.20, 0.44, 0.68, 0.98}, 
-			{0.24, 0.48, 0.72, 0.92}, 
-			{0.28, 0.52, 0.76, 0.96}};
+float labelPos[4][4] = {{0.16, 0.40, 0.64, 0.84},
+      {0.20, 0.44, 0.68, 0.98},
+      {0.24, 0.48, 0.72, 0.92},
+      {0.28, 0.52, 0.76, 0.96}};
 
 /**
 ***********************************************************************
@@ -284,37 +285,37 @@ int indChamp;
   _Champ *champ;
   int fenetreAffichage;
   int op;
-  
+
   GetFenetreAffichageID(&fenetreAffichage);
   c_wglsetw(fenetreAffichage);
   FldMgrGetChamp(&champ, indChamp);
-  
+
   if (xc.ChampAContourer)
     {
     xc.statuts[EN_TRAIN_DE_DESSINER] = TRUE;
-    
+
     AjusterViewport(&viewp);
     if (indChamp == 0)
       {
       EffacerLaFenetreSiNecessaire();
       }
-    
+
     switch (champ->domaine)
       {
       case XZ:
       case YZ:
-	ManipulerChampBiDimensionnel(indChamp);
-	break;
-	
+      ManipulerChampBiDimensionnel(indChamp);
+      break;
+
       case XY:
-	ManipulerChampBiDimensionnel(indChamp);
-	break;
-	
+      ManipulerChampBiDimensionnel(indChamp);
+      break;
+
       case VALEURS_PONCTUELLES:
-	AfficherValeursPonctuelles(indChamp);
-	break;
+      AfficherValeursPonctuelles(indChamp);
+      break;
       }
-    
+
     AfficherLegende(indChamp);
     AfficherPerimetreFenetre();
     xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
@@ -334,32 +335,32 @@ int indChamp;
   int nbChampsActifs;
   float min,max;
   int op;
-  
+
   nbChampsActifs = FldMgrGetNbChampsActifs();
   FldMgrGetChamp(&champ, indChamp);
   FldMgrGetChamp(&champZero, 0);
+    op = CtrlMgrGetContextualMathOp(indChamp);
 
 
   if (AfficherItem(indChamp, LEGENDE))
     {
-    op = CtrlMgrGetContextualMathOp(indChamp);
     if (xc.statutSuperposition)
       {
       if (op != NO_OP || indChamp == (nbChampsActifs - 1))
-	{
-	AfficherLegendeSup2();
-	}
-      else
-	{
-	AfficherLegende2(*champ);
-	}
+        {
+        AfficherLegendeSup2();
+        }
+            else
+        {
+        AfficherLegende2(*champ);
+        }
       }
     else
       {
       AfficherLegende2(*champ);
       }
     }
-  
+
   if (AfficherItem(indChamp, LEGENDE_COULEUR))
     {
     if (xc.statuts[ZOOM_LOCAL] && AUTO == DictMgrGetMinMaxMode(champZero->nomvar))
@@ -370,71 +371,71 @@ int indChamp;
     else
       {
       switch (champZero->natureTensorielle)
-	{
-	case SCALAIRE:
-	  if (AUTO == DictMgrGetMinMaxMode(champZero->nomvar))
-	    {
-	    min = champZero->fldmin[op];
-	    max = champZero->fldmax[op];
-	    }
-	  else
-	    {
-	    DictMgrGetMinMaxValues(champZero->nomvar,&min,&max);
-	    }
-	  break;
-      
-      
+        {
+        case SCALAIRE:
+          if (AUTO == DictMgrGetMinMaxMode(champZero->nomvar))
+            {
+            min = champZero->fldmin[op];
+            max = champZero->fldmax[op];
+            }
+          else
+            {
+            DictMgrGetMinMaxValues(champZero->nomvar,&min,&max);
+            }
+          break;
+
+
       case VECTEUR:
-	switch (xc.statuts[BARBULES])
-	  {
-	  case FALSE:
-	    if (0 == strcmp(champZero->nomvar, "UU"))
-	      {
-	      if (AUTO == DictMgrGetMinMaxMode(champZero->nomvar))
-		{
-		min = champZero->uumin[op];
-		max = champZero->uumax[op];
-		}
-	      else
-		{
-		DictMgrGetMinMaxValues(champZero->nomvar,&min,&max);
-		}
-	      }
-	    else
-	      {
-	      if (AUTO == DictMgrGetMinMaxMode(champZero->nomvar))
-		{
-		min = champZero->vvmin[op];
-		max = champZero->vvmax[op];
-		}
-	      else
-		{
-		DictMgrGetMinMaxValues(champZero->nomvar,&min,&max);
-		}
-	      }
-	    break;
-	    
-	  case TRUE:
-	    if (AUTO == DictMgrGetMinMaxMode("UV"))
-	      {
-	      min = champZero->uvmin[op];
-	      max = champZero->uvmax[op];
-	      }
-	    else
-	      {
-	      DictMgrGetMinMaxValues("UV",&min,&max);
-	      }
-	    break;
-	  }
-	break;
-	}
-      
+        switch (xc.statuts[BARBULES])
+          {
+          case FALSE:
+            if (0 == strcmp(champZero->nomvar, "UU"))
+              {
+              if (AUTO == DictMgrGetMinMaxMode(champZero->nomvar))
+                {
+                min = champZero->uumin[op];
+                max = champZero->uumax[op];
+                }
+                    else
+                {
+                DictMgrGetMinMaxValues(champZero->nomvar,&min,&max);
+                }
+              }
+            else
+              {
+              if (AUTO == DictMgrGetMinMaxMode(champZero->nomvar))
+                {
+                min = champZero->vvmin[op];
+                max = champZero->vvmax[op];
+                }
+              else
+                {
+                DictMgrGetMinMaxValues(champZero->nomvar,&min,&max);
+                }
+              }
+            break;
+
+          case TRUE:
+            if (AUTO == DictMgrGetMinMaxMode("UV"))
+              {
+              min = champZero->uvmin[op];
+              max = champZero->uvmax[op];
+              }
+            else
+              {
+              DictMgrGetMinMaxValues("UV",&min,&max);
+              }
+            break;
+          }
+        break;
+        }
+
       }
       AfficherLegendeCouleur(recColorTable,
-			     min,max,
-			     champZero->intervalles, champZero->nbIntervalles,
-			     champZero->facteur, 0.85, 0.05, 1.0, 0.95);
-    
+           min,max,
+           champZero->intervalles, champZero->nbIntervalles,
+           champZero->facteur, 0.85, 0.05, 1.0, 0.95);
+
     }
 }
 
@@ -452,29 +453,29 @@ int indChamp;
   int dernierNiveau, op;
   float valMin, valMax, bidon1, bidon2;
    float uutanmin,uutanmax,uvwmin,uvwmax,uumin,uumax,vvmin,vvmax,wwmin,wwmax,nivmin,nivmax;
-  
+
   nbChampsActifs = DiffMgrGetNbChampsAffichables();
   nbChampsActifs = nbChampsActifs > 4 ? 4 : nbChampsActifs;
   op = CtrlMgrGetMathOp();
-  
+
   for (i=0; i < nbChampsActifs; i++)
     {
     FldMgrGetChamp(&champ, i);
     if (ZP == CoupeMgrGetDimensionCoupe())
       {
       if (champ->coupe.coupeValide)
-	dernierNiveau = i;
+  dernierNiveau = i;
       }
     else
       {
       if (champ->seqanim.nbFldsAnim > 0)
-	dernierNiveau = i;
+  dernierNiveau = i;
       }
     }
-  
+
   if (indChamp !=  dernierNiveau && op == NO_OP)
     return;
-  
+
   FldMgrGetChamp(&champ, indChamp);
   if (xc.statuts[LEGENDE])
     {
@@ -487,7 +488,7 @@ int indChamp;
       AfficherLegendeCoupe2(*champ);
       }
     }
-  
+
   FldMgrGetChamp(&champZero, 0);
   if (AfficherItem(0,LEGENDE_COULEUR))
     {
@@ -498,18 +499,18 @@ int indChamp;
     else
       {
       CoupeMgrGetLimitesUVW(&uutanmin,&uutanmax,&uvwmin,&uvwmax,
-			    &uumin,&uumax,&vvmin,&vvmax,
-			    &wwmin,&wwmax,&nivmin,&nivmax);
+          &uumin,&uumax,&vvmin,&vvmax,
+          &wwmin,&wwmax,&nivmin,&nivmax);
       if (0 == strcmp("UU", champZero->nomvar))
-	{
-	valMin = uumin;
-	valMax = uumax;
-	}
+  {
+  valMin = uumin;
+  valMax = uumax;
+  }
       else
-	{
-	valMin = vvmin;
-	valMax = vvmax;
-	}
+  {
+  valMin = vvmin;
+  valMax = vvmax;
+  }
       }
 
     if (T == CoupeMgrGetDimensionCoupe())
@@ -517,18 +518,18 @@ int indChamp;
       valMin = bidon1;
       valMax = bidon2;
       }
-    
+
     valMin *= champZero->facteur;
     valMax *= champZero->facteur;
     if (CUSTOM == DictMgrGetMinMaxMode(champZero->nomvar))
       {
       DictMgrGetMinMaxValues(champZero->nomvar,&valMin,&valMax);
       }
-    AfficherLegendeCouleur(recColorTable, valMin, valMax, 
-			   champZero->intervalles, champZero->nbIntervalles,
-			   champZero->facteur, 0.85, 0.05, 1.0, 0.95);
+    AfficherLegendeCouleur(recColorTable, valMin, valMax,
+         champZero->intervalles, champZero->nbIntervalles,
+         champZero->facteur, 0.85, 0.05, 1.0, 0.95);
     }
-  
+
 }
 
 
@@ -545,21 +546,21 @@ int indChamp;
   int dernierNiveau, op;
   float valMin, valMax, tmin, tmax;
    float uutanmin,uutanmax,uvwmin,uvwmax,uumin,uumax,vvmin,vvmax,wwmin,wwmax,nivmin,nivmax;
-  
+
   nbChampsActifs = DiffMgrGetNbChampsAffichables();
   nbChampsActifs = nbChampsActifs > 4 ? 4 : nbChampsActifs;
   op = CtrlMgrGetMathOp();
-  
+
   for (i=0; i < nbChampsActifs; i++)
     {
     FldMgrGetChamp(&champ, i);
     if (champ->seqanim.nbFldsAnim > 0)
       dernierNiveau = i;
     }
-  
+
   if (indChamp !=  dernierNiveau && op == NO_OP)
     return;
-  
+
   FldMgrGetChamp(&champ, indChamp);
   if (xc.statuts[LEGENDE])
     {
@@ -572,7 +573,7 @@ int indChamp;
       AfficherLegendeCoupe2(*champ);
       }
     }
-  
+
   FldMgrGetChamp(&champZero, 0);
   if (AfficherItem(0,LEGENDE_COULEUR))
     {
@@ -583,34 +584,34 @@ int indChamp;
     else
       {
       SerieMgrGetLimitesUVW(&uutanmin,&uutanmax,&uvwmin,&uvwmax,
-			    &uumin,&uumax,&vvmin,&vvmax,
-			    &wwmin,&wwmax,&nivmin,&nivmax);
+          &uumin,&uumax,&vvmin,&vvmax,
+          &wwmin,&wwmax,&nivmin,&nivmax);
       if (0 == strcmp("UU", champZero->nomvar))
-	{
-	valMin = uumin;
-	valMax = uumax;
-	}
+  {
+  valMin = uumin;
+  valMax = uumax;
+  }
       else
-	{
-	valMin = vvmin;
-	valMax = vvmax;
-	}
+  {
+  valMin = vvmin;
+  valMax = vvmax;
+  }
       }
 
     valMin = tmin;
     valMax = tmax;
-    
+
     valMin *= champZero->facteur;
     valMax *= champZero->facteur;
     if (CUSTOM == DictMgrGetMinMaxMode(champZero->nomvar))
       {
       DictMgrGetMinMaxValues(champZero->nomvar,&valMin,&valMax);
       }
-    AfficherLegendeCouleur(recColorTable, valMin, valMax, 
-			   champZero->intervalles, champZero->nbIntervalles,
-			   champZero->facteur, 0.85, 0.05, 1.0, 0.95);
+    AfficherLegendeCouleur(recColorTable, valMin, valMax,
+         champZero->intervalles, champZero->nbIntervalles,
+         champZero->facteur, 0.85, 0.05, 1.0, 0.95);
     }
-  
+
 }
 
 
@@ -622,28 +623,28 @@ int indChamp;
 AfficherValeursPonctuelles(indChamp)
 int indChamp;
 {
-   _Champ *champ;
+   _Champ *champ, *champ_ref;
    int fontSize;
-   
+
    FldMgrGetChamp(&champ, indChamp);
+   FldMgrGetChamp(&champ_ref, 0);
 
    SetClipMask();
    c_wgllwi(1);
-   
+
    if (indChamp == 0)
       {
       switch(xc.statuts[GEOGRAPHIE])
-	 {
-	 case TRUE:
-	 c_gmpdrw();
-	 break;
-	 
-	 case FALSE:
-	 break;
-	 }
-      
+        {
+        case TRUE:
+        c_gmpdrw();
+        break;
+
+        case FALSE:
+        break;
+        }
       }
-   
+
    if (xc.attributs[indChamp].labelSize == 0)
       {
       fontSize = AttrMgrGetFontSizeLabels();
@@ -652,10 +653,10 @@ int indChamp;
       {
       fontSize = xc.attributs[indChamp].labelSize;
       }
-   
+
    c_wglfsz(fontSize);
    DrawPointValues(champ, indChamp, fontSize, xc.attributs[indChamp].epaisseur,
-		   xc.attributs[indChamp].indCouleurFore, xc.attributs[indChamp].indCouleurBack);
+       xc.attributs[indChamp].indCouleurFore, xc.attributs[indChamp].indCouleurBack, recColorTable, sizeRecColorTable);
    }
 
 
@@ -670,7 +671,7 @@ int ni, nj;
    int facteurLissage;
    float densiteX, densiteY, densitePix;
    int largeur, hauteur;
-   
+
    int   ideb, jdeb, ifin, jfin;
 
 /**
@@ -684,7 +685,7 @@ int ni, nj;
 
    xlissfac = largeur/ni;
    ylissfac = hauteur/nj;
-   
+
    facteurLissage = xlissfac < ylissfac ? ylissfac : xlissfac;
    return facteurLissage;
 **/
@@ -729,20 +730,20 @@ int indMenu;
    XmString label;
    _Champ *champ;
 
-   
+
    FldMgrGetChamp(&champ, FldMgrGetNbChampsActifs() - 1);
 
 
    if (indMenu < 0)
       indMenu = 0;
-   
+
    for (i=0; i < xc.NbMenusIntervalles; i++)
       {
       XtDestroyWidget(xc.menuIntervalleItems[i]);
       }
 
    xc.NbMenusIntervalles = infoChamps[champ->indDict].nbMenuItems;
-   
+
    nbInt = infoChamps[champ->indDict].indIntervalleDeDefaut;
    champ->nbIntervalles = infoChamps[champ->indDict].nbIntervalles[nbInt];
    for (i=0; i < xc.NbMenusIntervalles; i++)
@@ -752,43 +753,43 @@ int indMenu;
       XtSetArg(args[j], XmNheight, hauteurMenus+5); j++;
       XtSetArg(args[j], XmNrecomputeSize, False); j++;
       XtSetArg(args[j], XmNindicatorType, XmONE_OF_MANY); j++;
-      GetFormat(format, infoChamps[champ->indDict].intervallesDeContour[i], 
-		infoChamps[champ->indDict].nbIntervalles[i], infoChamps[champ->indDict].facteurDeConversion);
+      GetFormat(format, infoChamps[champ->indDict].intervallesDeContour[i],
+    infoChamps[champ->indDict].nbIntervalles[i], infoChamps[champ->indDict].facteurDeConversion);
       n = 0;
       while (n < infoChamps[champ->indDict].nbIntervalles[i] && strlen(menuCourant[i]) < 64)
-	 {
-	 if (n == 0 && infoChamps[champ->indDict].nbIntervalles[i] > 1)
-	    strcat(menuCourant[i], "[");
-	 sprintf(tampon,format,infoChamps[champ->indDict].intervallesDeContour[i][n]);
-	 strcat(menuCourant[i], tampon);
-	 if (n >= 0 && n < (infoChamps[champ->indDict].nbIntervalles[i]-1))
-	    strcat(menuCourant[i], ",");
-	 if (infoChamps[champ->indDict].nbIntervalles[i] > 1 && n == (infoChamps[champ->indDict].nbIntervalles[i]-1))
-	    strcat(menuCourant[i], "]");
-	 n++;
-	 }
-      
+   {
+   if (n == 0 && infoChamps[champ->indDict].nbIntervalles[i] > 1)
+      strcat(menuCourant[i], "[");
+   sprintf(tampon,format,infoChamps[champ->indDict].intervallesDeContour[i][n]);
+   strcat(menuCourant[i], tampon);
+   if (n >= 0 && n < (infoChamps[champ->indDict].nbIntervalles[i]-1))
+      strcat(menuCourant[i], ",");
+   if (infoChamps[champ->indDict].nbIntervalles[i] > 1 && n == (infoChamps[champ->indDict].nbIntervalles[i]-1))
+      strcat(menuCourant[i], "]");
+   n++;
+   }
+
       if (n < infoChamps[champ->indDict].nbIntervalles[i]-1)
-	 {
-	 strcat(menuCourant[i], "...]");
-	 }
-      
+   {
+   strcat(menuCourant[i], "...]");
+   }
+
       xc.menuIntervalleItems[i] = (Widget)XmCreateToggleButton(xc.menuIntervalleDeContour, menuCourant[i], args, j);
       XtAddCallback(xc.menuIntervalleItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuIntervalleSelect, (XtPointer) i);
       }
-   
+
    XtManageChildren(xc.menuIntervalleItems, xc.NbMenusIntervalles);
    XtManageChild(xc.menuInt);
-   
+
    for (i=0; i < xc.NbMenusIntervalles; i++)
       {
-      XtSetArg(args[0], XmNset, False);      
+      XtSetArg(args[0], XmNset, False);
       XtSetValues(xc.menuIntervalleItems[i], args, 1);
       }
-   
-   XtSetArg(args[0], XmNset, True);      
+
+   XtSetArg(args[0], XmNset, True);
    XtSetValues(xc.menuIntervalleItems[indMenu], args, 1);
-   
+
    }
 
 
@@ -809,15 +810,15 @@ caddr_t unused1, unused2;
    Arg args[10];
    float *tmp,min,max;
    int fenetreAffichage;
-   
+
    XmString label;
-   
+
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
       return;
       }
-   
+
    GetFenetreAffichageID(&fenetreAffichage);
    c_wglsetw(fenetreAffichage);
    AjusterViewport(&viewp);
@@ -837,16 +838,16 @@ caddr_t unused1, unused2;
       {
       case TRUE:
         i = 0;
-        label = XmStringCreateLtoR(labelSuperpositionOn[lng], XmSTRING_DEFAULT_CHARSET); 
+        label = XmStringCreateLtoR(labelSuperpositionOn[lng], XmSTRING_DEFAULT_CHARSET);
         XtSetArg(args[i], XmNlabelString, label); i++;
         XtSetValues(xc.superposition, args, i);
-        
+
         xc.statutSuperposition = FALSE;
         switch (FldMgrGetNbChampsActifs())
            {
            case 0:
              break;
-             
+
            case 1:
              if (xc.statuts[LEGENDE])
                 {
@@ -854,14 +855,14 @@ caddr_t unused1, unused2;
                 AfficherLegende2(*champ);
                 if (AfficherItem(0,LEGENDE_COULEUR))
                    {
-                   AfficherLegendeCouleur(recColorTable, min, max, champ->intervalles, 
+                   AfficherLegendeCouleur(recColorTable, min, max, champ->intervalles,
                                           champ->nbIntervalles, champ->facteur, 0.85, 0.05, 1.0, 0.95);
                    }
-                
+
                 AfficherPerimetreFenetre();
                 }
              break;
-             
+
            default:
              i = FldMgrGetNbChampsActifs();
              while (1 < FldMgrGetNbChampsActifs())
@@ -869,26 +870,26 @@ caddr_t unused1, unused2;
                 FldMgrRemoveChamp(i-1);
                 i--;
                 }
-             
+
              xc.annulationDemandee = FALSE;
              AfficherBoutonAnnulation();
              AfficherCarte(0);
              EnleverBoutonAnnulation();
-             
+
              CheckMenuIntervalles(infoChamps[champ->indDict].indIntervalleDeDefaut);
              break;
            }
         break;
-        
-        
+
+
       case FALSE:
         i = 0;
-        label = XmStringCreateLtoR(labelSuperpositionOff[lng], XmSTRING_DEFAULT_CHARSET); 
+        label = XmStringCreateLtoR(labelSuperpositionOff[lng], XmSTRING_DEFAULT_CHARSET);
         XtSetArg(args[i], XmNlabelString, label); i++;
         XtSetValues(xc.superposition, args, i);
-        
+
         xc.statutSuperposition = TRUE;
-        
+
         if (1 == FldMgrGetNbChampsActifs())
            {
            if (xc.statuts[LEGENDE])
@@ -905,7 +906,7 @@ caddr_t unused1, unused2;
            }
         break;
       }
-   
+
    XmStringFree(label);
    RedessinerFenetreCoupe();
    RedessinerFenetreSerie();
@@ -948,7 +949,7 @@ int DesactiverWidgetsControle()
 {
    short i;
    Arg  args[10];
-   
+
    i = 0;
    XtSetArg(args[i], XmNsensitive, False); i++;
 
@@ -983,18 +984,18 @@ XtPointer unused1, unused2;
    int nbChamps;
 
    FldMgrGetChamp(&champ, 0);
-   
+
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
       return;
       }
-   
+
    if (champ->champModifie)
       {
       RefuserOperation();
       }
-   
+
    EffacerFenetreAffichage();
    EffacerFenetreCoupe();
    EffacerFenetreSerie();
@@ -1005,7 +1006,7 @@ XtPointer unused1, unused2;
       FldMgrRemoveChamp(i-1);
       i--;
       }
-   
+
    LibererImages();
    /*   GeoMgrClearMapInfo(); */
    xc.ChampAContourer = FALSE;
@@ -1030,11 +1031,11 @@ EffacerFenetre()
    else
       {
       if (8 <= c_wglgpl())
-	 col = xc.attributs[FOND].indCouleurFore;
+   col = xc.attributs[FOND].indCouleurFore;
       else
-	 col = BLANC;
+   col = BLANC;
       }
-   
+
    c_wglcol(col);
    c_wglclr();
    }
@@ -1057,20 +1058,20 @@ EffacerFenetreAffichage()
    int largeurFenetre, hauteurFenetre;
    int fenetreCoupe,fenetreSerie;
    int col;
-   
+
    FldMgrGetChamp(&champ, 0);
    if (champ->domaine != VALEURS_PONCTUELLES)
       {
       if (8 <= c_wglgpl())
-	 col = xc.attributs[FOND].indCouleurFore;
+   col = xc.attributs[FOND].indCouleurFore;
       else
-	 col = xc.attributs[FOND].couleurFore;
+   col = xc.attributs[FOND].couleurFore;
       }
    else
       {
       col = BLANC;
       }
-   
+
    c_wglsetw(fenetreAffichage);
    c_wglcol(col);
    c_wglclr();
@@ -1081,13 +1082,13 @@ EffacerFenetreCoupe()
 {
    int fenetreCoupe;
    int col;
-   
+
    if (CoupeMgrGetStatutCoupe())
       {
       if (8 <= c_wglgpl())
-	 col = xc.attributs[FOND].indCouleurFore;
+   col = xc.attributs[FOND].indCouleurFore;
       else
-	 col = BLANC;
+   col = BLANC;
 
       CoupeMgrGetFenetreCoupeID(&fenetreCoupe);
       c_wglsetw(fenetreCoupe);
@@ -1100,13 +1101,13 @@ EffacerFenetreSerie()
 {
    int fenetreSerie;
    int col;
-   
+
    if (SerieMgrGetStatutSerie())
       {
       if (8 <= c_wglgpl())
-	 col = xc.attributs[FOND].indCouleurFore;
+   col = xc.attributs[FOND].indCouleurFore;
       else
-	 col = BLANC;
+   col = BLANC;
 
       SerieMgrGetFenetreSerieID(&fenetreSerie);
       c_wglsetw(fenetreSerie);
@@ -1144,7 +1145,7 @@ InitFormeMessage()
    Dimension largeur;
 
    char tempStr[128];
-   
+
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
    XtSetArg(args[i], XmNtopWidget, xc.formeAnim); i++;
@@ -1176,9 +1177,9 @@ InitFormeMessage()
    XtSetArg(args[i], XmNvalue, tempStr); i++;
    sprintf(tempStr, "%s", "Normal");
    XtSetValues(xc.labelInfo, args, i);
-   
+
    XmStringFree(label);
-     
+
    }
 
 InitFormeAffichage()
@@ -1186,7 +1187,7 @@ InitFormeAffichage()
    int i;
    Arg args[10];
    XmString label;
-   
+
    i = 0;
    XtSetArg(args[i], XmNleftAttachment, XmATTACH_POSITION); i++;
    XtSetArg(args[i], XmNleftPosition, 0); i++;
@@ -1197,7 +1198,7 @@ InitFormeAffichage()
    XtSetArg(args[i], XmNisHomogeneous, False); i++;
    xc.menuform = (Widget)XmCreateMenuBar(xc.panneauContour,"menuform",args, i);
    XtManageChild(xc.menuform);
-   
+
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
    XtSetArg(args[i], XmNtopWidget, xc.menuform); i++;
@@ -1209,17 +1210,17 @@ InitFormeAffichage()
    XtSetArg(args[i], XmNrightPosition, 100); i++;
    xc.formeAff = (Widget)XmCreateForm(xc.panneauContour, "formeAffichage", args, i);
    XtManageChild(xc.formeAff);
-   
-   
+
+
    InitMenuFichier();
    CalculerHauteurMenus();
-   InitMenuAffichage(); 
+   InitMenuAffichage();
    InitMenuGrille();
    InitMenuVecteurs();
    InitMenuCalculs();
    InitMenuIntervalles();
    InitMenuOptions();
-   
+
    }
 
 /**
@@ -1232,7 +1233,7 @@ InitFormeZoom()
    int i;
    Arg args[10];
    XmString label;
-   
+
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
    XtSetArg(args[i], XmNtopWidget, xc.menuform); i++;
@@ -1244,8 +1245,8 @@ InitFormeZoom()
    XtSetArg(args[i], XmNrightPosition, 100); i++;
    xc.formeZoom = (Widget)XmCreateForm(xc.panneauContour, "formeZoom", args, i);
    XtManageChild(xc.formeZoom);
-   
-   
+
+
    i = 0;
    XtSetArg(args[i], XmNleftAttachment, XmATTACH_POSITION); i++;
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_POSITION); i++;
@@ -1255,7 +1256,7 @@ InitFormeZoom()
    xc.zoom = (Widget)XmCreatePushButton(xc.formeZoom, labelZoom[lng], args, i);
    XtAddCallback(xc.zoom, XmNactivateCallback, (XtCallbackProc) Zoom, NULL);
    XtManageChild(xc.zoom);
-   
+
    i = 0;
    label = XmStringCreateLtoR(labelValeurs[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, label); i++;
@@ -1268,7 +1269,7 @@ InitFormeZoom()
    XtAddCallback(xc.valeursPonctuelles, XmNactivateCallback, (XtCallbackProc) AfficherValeursAuxPtsDeGrille, NULL);
    XtManageChild(xc.valeursPonctuelles);
    XmStringFree(label);
-   
+
    }
 
 /**
@@ -1281,8 +1282,8 @@ InitFormeAnimation()
    int i;
    Arg args[10];
    XmString label;
-   
-   
+
+
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
    XtSetArg(args[i], XmNtopWidget, xc.formeSup); i++;
@@ -1295,7 +1296,7 @@ InitFormeAnimation()
    XtSetArg(args[i], XmNrightPosition, 100); i++;
    xc.formeAnim = (Widget)XmCreateForm(xc.panneauContour, "formeAffichage", args, i);
    XtManageChild(xc.formeAnim);
-   
+
    i = 0;
    label = XmStringCreateLtoR("STOP", XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, label); i++;
@@ -1308,7 +1309,7 @@ InitFormeAnimation()
    XmStringFree(label);
    XtAddCallback(xc.stop, XmNactivateCallback, (XtCallbackProc) PaStop, NULL);
    XtManageChild(xc.stop);
-   
+
    }
 
 
@@ -1362,8 +1363,8 @@ InitFormeSuperposition()
    xc.rafraichir = (Widget)XmCreatePushButton(xc.formeSup, "pushbutton", args, i);
    XtAddCallback(xc.rafraichir, XmNactivateCallback, (XtCallbackProc)RafraichirFenetre, NULL);
    XtManageChild(xc.rafraichir);
-   
-   
+
+
    label = XmStringCreateLtoR(labelEffacer[lng], XmSTRING_DEFAULT_CHARSET);
 
    i = 0;
@@ -1379,7 +1380,7 @@ InitFormeSuperposition()
 
    XmStringFree(label);
 
-   
+
    }
 
 /**
@@ -1393,22 +1394,22 @@ InitMenuAffichage()
    Arg  args[10];
    XmString label;
    XmFontList *fontListe;
-   
+
    label = XmStringCreate(labelMenuAffichage[lng], XmSTRING_DEFAULT_CHARSET);
-   
+
    i = 0;
    XtSetArg(args[i], XmNlabelString, label); i++;
    xc.menuAffichage = (Widget)XmCreatePulldownMenu(xc.menuform,"Affichage",args, i);
-   
+
    i = 0;
    XtSetArg(args[i], XmNsubMenuId, xc.menuAffichage); i++;
    XtSetArg(args[i], XmNlabelString, label); i++;
    xc.menuAff = (Widget)XmCreateCascadeButton(xc.menuform,"menuListe",args, i);
-   
+
    XmStringFree(label);
-   
+
    j = 0;
-   
+
    for (i=0; i < NB_MENU_AFFICHAGE_ITEMS; i++)
       {
       j = 0;
@@ -1417,12 +1418,12 @@ InitMenuAffichage()
       XtSetArg(args[j], XmNrecomputeSize, False); j++;
       XtSetArg(args[j], XmNlabelString, label); j++;
       XtSetArg(args[j], XmNindicatorType, XmONE_OF_MANY); j++;
-      
+
       xc.menuAffichageItems[i] = (Widget)XmCreateToggleButtonGadget(xc.menuAffichage, "item", args, j);
       XtAddCallback(xc.menuAffichageItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuAffichageSelect, NULL);
       XmStringFree(label);
       }
-   
+
    XtManageChildren(xc.menuAffichageItems, NB_MENU_AFFICHAGE_ITEMS);
    XtManageChild(xc.menuAff);
 
@@ -1450,19 +1451,19 @@ InitMenuGrille()
    extern _GrilleMenuItem grmenuitems[];
    static char *labelChampno1[] = { "Champ #1", "Field #1" };
 
-   
+
    i = 0;
    label = XmStringCreate(labelMenuGrille[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, label); i++;
    xc.menuGrille = (Widget)XmCreatePulldownMenu(xc.menuform,"Grille",args, i);
-   
+
    i = 0;
    XtSetArg(args[i], XmNsubMenuId, xc.menuGrille); i++;
    XtSetArg(args[i], XmNlabelString, label); i++;
    xc.menuGr = (Widget)XmCreateCascadeButton(xc.menuform,"menuListe",args, i);
-   
+
    XmStringFree(label);
-   
+
    i = 0;
    j = 0;
    label = XmStringCreate(labelChampno1[lng], XmSTRING_DEFAULT_CHARSET);
@@ -1486,13 +1487,13 @@ InitMenuGrille()
       label = XmStringCreate(grmenuitems[i].nomgrille, XmSTRING_DEFAULT_CHARSET);
       XtSetArg(args[j], XmNheight, hauteurMenus+5); j++;
       XtSetArg(args[j], XmNrecomputeSize, False); j++;
-      XtSetArg(args[j], XmNlabelString, label); j++; 
+      XtSetArg(args[j], XmNlabelString, label); j++;
       XtSetArg(args[j], XmNindicatorType, XmONE_OF_MANY); j++;
       xc.menuGrItems[i] = (Widget)XmCreateToggleButtonGadget(xc.menuGrille, "item", args, j);
       XtAddCallback(xc.menuGrItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuGrilleSelect, (XtPointer) i);
       XmStringFree(label);
       }
-   
+
    XtManageChildren(xc.menuGrItems, nbgi);
    XtManageChild(xc.menuGr);
 
@@ -1508,39 +1509,39 @@ InitMenuVecteurs()
    Arg  args[10];
    XmString label;
    XmFontList *fontListe;
-   
+
    i = 0;
    label = XmStringCreate(labelMenuVecteurs[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, label); i++;
    xc.menuVecteurs = (Widget)XmCreatePulldownMenu(xc.menuform,"Vecteurs",args, i);
-   
+
    i = 0;
    XtSetArg(args[i], XmNsubMenuId, xc.menuVecteurs); i++;
    XtSetArg(args[i], XmNlabelString, label); i++;
    xc.menuVec = (Widget)XmCreateCascadeButton(xc.menuform,"menuListe",args, i);
-   
+
    XmStringFree(label);
-   
+
    for (i=0; i < 3; i++)
      {
      j = 0;
      label = XmStringCreate(VecsStr[i][lng], XmSTRING_DEFAULT_CHARSET);
      XtSetArg(args[j], XmNheight, hauteurMenus+5); j++;
      XtSetArg(args[j], XmNrecomputeSize, False); j++;
-     XtSetArg(args[j], XmNlabelString, label); j++; 
+     XtSetArg(args[j], XmNlabelString, label); j++;
      XtSetArg(args[j], XmNindicatorType, XmONE_OF_MANY); j++;
      xc.menuVecItems[i] = (Widget)XmCreateToggleButtonGadget(xc.menuVecteurs, "item", args, j);
      XtAddCallback(xc.menuVecItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuVecteurSelect, (XtPointer) i);
      XmStringFree(label);
      }
-   
+
    XtManageChildren(xc.menuVecItems, 3);
    XtManageChild(xc.menuVec);
 
-   XtSetArg(args[0], XmNset, True);      
+   XtSetArg(args[0], XmNset, True);
    XtSetValues(xc.menuVecItems[2], args, 1);
-   
-   
+
+
 }
 
 /**
@@ -1555,18 +1556,18 @@ InitMenuFichier()
    XmString label;
 
    static char *labelRecAPropos[] = {"A propos de xrec...", "About xrec..."};
-   
+
    i = 0;
    xc.menuFichier = (Widget)XmCreatePulldownMenu(xc.menuform,labelMenuFichier[lng],args, i);
-   
+
    i = 0;
    XtSetArg(args[i], XmNsubMenuId, xc.menuFichier); i++;
    xc.menuFich = (Widget)XmCreateCascadeButton(xc.menuform,labelMenuFichier[lng],args, i);
-   
+
    i = 0;
    j = 0;
    xc.menuFichierItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuFichier, labelRecAPropos[lng], args, j);
-   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) INFO_REC); 
+   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) INFO_REC);
    i++;
 
    j = 0;
@@ -1575,12 +1576,12 @@ InitMenuFichier()
 
    j = 0;
    xc.menuFichierItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuFichier, labelOuvrir[lng], args, j);
-   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) OUVRIR); 
+   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) OUVRIR);
    i++;
 
    j = 0;
    xc.menuFichierItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuFichier, labelFermer[lng], args, j);
-   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) FERMER); 
+   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) FERMER);
    i++;
 
    j = 0;
@@ -1589,32 +1590,32 @@ InitMenuFichier()
 
    j = 0;
    xc.menuFichierItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuFichier, labelDiapos[lng], args, j);
-   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) DIAPOS); 
+   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) DIAPOS);
    i++;
-   
+
    j = 0;
    xc.menuFichierItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuFichier, labelFilms[lng], args, j);
-   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) FILMS); 
+   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) FILMS);
    i++;
-   
+
    j = 0;
    xc.menuFichierItems[i] = (Widget)XmCreateSeparatorGadget(xc.menuFichier, "ligne", args, j);
    i++;
 
    j = 0;
    xc.menuFichierItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuFichier, labelQuitter[lng], args, j);
-   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) QUITTER); 
+   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) QUITTER);
    i++;
-   
+
    j = 0;
    xc.menuFichierItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuFichier, labelQuitterEtSauver[lng], args, j);
-   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) QUITTER_ET_SAUVER); 
+   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) QUITTER_ET_SAUVER);
    i++;
-   
+
    XtManageChildren(xc.menuFichierItems, i);
    XtManageChild(xc.menuFich);
-   
-   
+
+
    }
 
 /**
@@ -1628,31 +1629,31 @@ InitMenuIntervalles()
    Arg  args[10];
    char *item;
    XmString label;
-   
+
    label = XmStringCreateLtoR(labelMenuIntervalle[lng], XmSTRING_DEFAULT_CHARSET);
-   
+
    i = 0;
    XtSetArg(args[i], XmNlabelString, label); i++;
    xc.menuIntervalleDeContour = (Widget)XmCreatePulldownMenu(xc.menuform,"Fichier",args, i);
-   
+
    i = 0;
    XtSetArg(args[i], XmNsubMenuId, xc.menuIntervalleDeContour); i++;
    XtSetArg(args[i], XmNlabelString, label); i++;
    xc.menuInt = (Widget)XmCreateCascadeButton(xc.menuform,"menuListe",args, i);
-   
 
-   
+
+
    j = 0;
    for (i=0; i < (int)(XtNumber(menuItemFacteurMult)); i++)
       {
       item = menuItemFacteurMult[i];
       label = XmStringCreate(item, XmSTRING_DEFAULT_CHARSET);
-      XtSetArg(args[0], XmNlabelString, label); 
+      XtSetArg(args[0], XmNlabelString, label);
       xc.menuIntervalleItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuIntervalleDeContour, "menu", args,NULL);
       XtAddCallback(xc.menuIntervalleItems[i], XmNactivateCallback, (XtCallbackProc) MenuIntervalleSelect, (XtPointer) i);
       XmStringFree(label);
-      }   
-   
+      }
+
    XtManageChildren(xc.menuIntervalleItems, (int)(XtNumber(menuItemFacteurMult)));
    XtManageChild(xc.menuInt);
    }
@@ -1671,68 +1672,68 @@ InitMenuCalculs()
    XmFontList *fontListe;
 
    label = XmStringCreateLtoR(labelMenuCalculs[lng], XmSTRING_DEFAULT_CHARSET);
-   
+
    i = 0;
    XtSetArg(args[i], XmNlabelString, label); i++;
    xc.menuCalculs = (Widget)XmCreatePulldownMenu(xc.menuform,"Calcul.",args, i);
-   
+
    i = 0;
    XtSetArg(args[i], XmNsubMenuId, xc.menuCalculs); i++;
    XtSetArg(args[i], XmNlabelString, label); i++;
    xc.menuSup = (Widget)XmCreateCascadeButton(xc.menuform,"menuListe",args, i);
-   
+
    XmStringFree(label);
-   
+
    i = 0;
    j = 0;
    XtSetArg(args[j], XmNindicatorType, XmONE_OF_MANY); j++;
-   XtSetArg(args[j], XmNset, True); j++;     
+   XtSetArg(args[j], XmNset, True); j++;
    xc.menuCalculItems[i] = (Widget)XmCreateToggleButtonGadget(xc.menuCalculs, labelMenuCalculsNoOp[lng], args, j);
-   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 0); 
-   
+   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 0);
+
    /*   i++;
-	xc.menuCalculItems[i] = (Widget)XmCreateSeparatorGadget(xc.menuCalculs, "ligne", args, 0);
+  xc.menuCalculItems[i] = (Widget)XmCreateSeparatorGadget(xc.menuCalculs, "ligne", args, 0);
    */
 
    i++;
-   XtSetArg(args[j], XmNset, False);j++;      
+   XtSetArg(args[j], XmNset, False);j++;
    xc.menuCalculItems[i] = (Widget)XmCreateToggleButtonGadget(xc.menuCalculs, labelMenuCalculsSubtract[lng], args, j);
-   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 1); 
-   
+   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 1);
+
    i++;
    xc.menuCalculItems[i] = (Widget)XmCreateToggleButtonGadget(xc.menuCalculs, labelMenuCalculsAdd[lng], args, j);
-   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 2); 
-   
+   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 2);
+
    /*
      i++;
      xc.menuCalculItems[i] = (Widget)XmCreateSeparatorGadget(xc.menuCalculs, "ligne", args, 0);
    */
-   
+
    i++;
    xc.menuCalculItems[i] = (Widget)XmCreateToggleButtonGadget(xc.menuCalculs, labelMenuCalculsAbsSubtract[lng], args, j);
-   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 3); 
+   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 3);
 
    i++;
    xc.menuCalculItems[i] = (Widget)XmCreateToggleButtonGadget(xc.menuCalculs, labelMenuCalculsAbsAdd[lng], args, j);
-   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 4); 
+   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 4);
 
-   /*   
-	i++;
-	xc.menuCalculItems[i] = (Widget)XmCreateSeparatorGadget(xc.menuCalculs, "ligne", args, 0);
-	
-	i++;
-	xc.menuCalculItems[i] = (Widget)XmCreateToggleButtonGadget(xc.menuCalculs, labelMenuCalculModule[lng], args, j);
-	XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 5); 
-	
-	i++;
-	xc.menuCalculItems[i] = (Widget)XmCreateToggleButtonGadget(xc.menuCalculs, labelMenuCalculsSubModule[lng], args, j);
-	XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 6); 
-	
-	i++;
-	xc.menuCalculItems[i] = (Widget)XmCreateToggleButtonGadget(xc.menuCalculs, labelMenuCalculsAddModule[lng], args, j);
-	XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 7); 
+   /*
+  i++;
+  xc.menuCalculItems[i] = (Widget)XmCreateSeparatorGadget(xc.menuCalculs, "ligne", args, 0);
+
+  i++;
+  xc.menuCalculItems[i] = (Widget)XmCreateToggleButtonGadget(xc.menuCalculs, labelMenuCalculModule[lng], args, j);
+  XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 5);
+
+  i++;
+  xc.menuCalculItems[i] = (Widget)XmCreateToggleButtonGadget(xc.menuCalculs, labelMenuCalculsSubModule[lng], args, j);
+  XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 6);
+
+  i++;
+  xc.menuCalculItems[i] = (Widget)XmCreateToggleButtonGadget(xc.menuCalculs, labelMenuCalculsAddModule[lng], args, j);
+  XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 7);
    */
-   
+
    i++;
    XtManageChildren(xc.menuCalculItems, i);
    XtManageChild(xc.menuSup);
@@ -1753,69 +1754,77 @@ InitMenuOptions()
    XmFontList *fontListe;
 
    label = XmStringCreate("Options", XmSTRING_DEFAULT_CHARSET);
-   
+
    i = 0;
    XtSetArg(args[i], XmNlabelString, label); i++;
    xc.menuOptions = (Widget)XmCreatePulldownMenu(xc.menuform,"Options",args, i);
-   
+
    i = 0;
    XtSetArg(args[i], XmNsubMenuId, xc.menuOptions); i++;
    XtSetArg(args[i], XmNlabelString, label); i++;
    xc.menuOpt = (Widget)XmCreateCascadeButton(xc.menuform,"menuListe",args, i);
-   
+
    XmStringFree(label);
-   
+
    i = 0;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelAttributs[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
-   
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
+
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelContours[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
 
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelGeographie[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
-   
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
+
 
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelPalette[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc)  MenuOptionSelect, (XtPointer) i); 
-   
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc)  MenuOptionSelect, (XtPointer) i);
+
    i++;
    xc.menuOptionItems[i] = (Widget)XmCreateSeparatorGadget(xc.menuOptions, "ligne", args, 0);
 
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelMinMax[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
-   
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
+
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelVent[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
-   
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
+
+   i++;
+   j = 0;
+   xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelValeursPonctuelles[lng], args, j);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
+
+   i++;
+   xc.menuOptionItems[i] = (Widget)XmCreateSeparatorGadget(xc.menuOptions, "ligne", args, 0);
+
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelEdition[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
-   
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
+
    i++;
    xc.menuOptionItems[i] = (Widget)XmCreateSeparatorGadget(xc.menuOptions, "ligne", args, 0);
 
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelAnimation[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
 
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelSerie[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
 
    i++;
    xc.menuOptionItems[i] = (Widget)XmCreateSeparatorGadget(xc.menuOptions, "ligne", args, 0);
@@ -1823,14 +1832,14 @@ InitMenuOptions()
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelCoupe[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
    i++;
    j=0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelAnimationVerticale[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
 
-   
-   
+
+
    XtManageChildren(xc.menuOptionItems, i+1);
    XtManageChild(xc.menuOpt);
    }
@@ -1849,7 +1858,7 @@ InitOldMapInfo()
    oldMapInfo.ig2 = -1;
    oldMapInfo.ig3 = -1;
    oldMapInfo.ig4 = -1;
-   
+
    }
 
 
@@ -1874,7 +1883,7 @@ XtPointer unused1, unused2;
       case 0:
       ActiverPanneauAttributs();
       break;
-      
+
       case 1:
       ActiverPanneauContour();
       break;
@@ -1882,7 +1891,7 @@ XtPointer unused1, unused2;
       case 2:
       ActiverPanneauGeo();
       break;
-      
+
       case 3:
       ActiverPanneauPalette();
       break;
@@ -1896,29 +1905,33 @@ XtPointer unused1, unused2;
       break;
 
       case 7:
-      ActiverPanneauEdition();
+      ActiverPanneauValeursPonctuelles();
       break;
 
       case 9:
+      ActiverPanneauEdition();
+      break;
+
+      case 11:
       ActiverPanneauAnimation();
       break;
 
-      case 10:
+      case 12:
       ActiverPanneauSerie();
       break;
 
-      case 12:
+      case 14:
       ActiverPanneauCoupe();
       break;
 
-      case 13:
+      case 15:
       ActiverPanneauAnimationVerticale();
       break;
-      
+
       default:
-	break;
+  break;
       }
-   
+
    }
 
 /**
@@ -1944,7 +1957,7 @@ XtPointer unused1, unused2;
    _Champ *champ;
 
    FldMgrGetChamp(&champ, 0);
-   if (champ->domaine == XZ || champ->domaine == YZ) 
+   if (champ->domaine == XZ || champ->domaine == YZ)
      {
        Beeper();
        return;
@@ -1990,10 +2003,10 @@ XtPointer unused1, unused2;
          c_ezdefset(gdout, gdin);
          }
       }
-   
-   InitMapInfo(mapInfo.type, mapInfo.ni, mapInfo.nj, mapInfo.ig1, mapInfo.ig2, 
+
+   InitMapInfo(mapInfo.type, mapInfo.ni, mapInfo.nj, mapInfo.ig1, mapInfo.ig2,
                mapInfo.ig3, mapInfo.ig4);
-   mapFlags.verifStatutNecessaire = OUI;   
+   mapFlags.verifStatutNecessaire = OUI;
    c_wglgwz(&largeurFenetre, &hauteurFenetre);
    AjusterViewport(&viewp);
    c_xy2fxfy(&rx1, &ry1, 1.0, 1.0);
@@ -2006,13 +2019,13 @@ XtPointer unused1, unused2;
        FldMgrGetFstPrm(champ);
        FldMgrProcessChamp(champ);
        if (champ->coupe.montagnes)
-	 {
-	 free(champ->coupe.montagnes);
-	 champ->coupe.montagnes = NULL;
-	 }
+   {
+   free(champ->coupe.montagnes);
+   champ->coupe.montagnes = NULL;
+   }
        FldMgrPreparerTopo();
      }
-   
+
    AfficherMessageInfoStandard();
    if (drawcode != 9999)
      {
@@ -2038,35 +2051,35 @@ XtPointer unused1, unused2;
   int currentOpt,ier,fenetreCoupe, fenetreSerie;
   float cxmin, cymin, cxmax, cymax;
   _Champ *champ;
-  
+
   currentOpt = xc.statuts[TRAITEMENT_VECTORIEL];
-  
+
   for (i=0; i < 3; i++)
       {
       XtSetArg(args[0], XmNset, False);
       XtSetValues(xc.menuVecItems[i], args, 1);
       }
-  
+
   XtSetArg(args[0], XmNset, True);
   XtSetValues(xc.menuVecItems[(int)unused1], args, 1);
-  
+
   switch ((int)unused1)
     {
     case 0:
       xc.statuts[TRAITEMENT_VECTORIEL] = FALSE;
       break;
-      
+
     case 1:
       xc.statuts[TRAITEMENT_VECTORIEL] = TRUE;
       xc.statuts[BARBULES] = FALSE;
       break;
-      
+
     case 2:
       xc.statuts[TRAITEMENT_VECTORIEL] = TRUE;
       xc.statuts[BARBULES] = TRUE;
       break;
     }
-  
+
   if (xc.statuts[TRAITEMENT_VECTORIEL] != currentOpt)
     {
     for (i=0; i <  FldMgrGetNbChampsActifs(); i++)
@@ -2077,7 +2090,7 @@ XtPointer unused1, unused2;
       FldMgrProcessChamp(champ);
       }
     }
-  
+
   ier = CoupeMgrGetStatutCoupe();
   if (ier == TRUE)
     {
@@ -2086,14 +2099,14 @@ XtPointer unused1, unused2;
     CoupeMgrGetCoupeCoords(&cxmin, &cymin, &cxmax, &cymax);
     ier = PreparerCoupe(cxmin, cymin, cxmax, cymax);
     }
-  
+
   if (ier == TRUE)
     {
     AfficherLigneCoupe();
     CoupeMgrGetFenetreCoupeID(&fenetreCoupe);
     c_wglsetw(fenetreCoupe);
     RedessinerFenetreCoupe();
-    
+
     GetFenetreAffichageID(&fenetreAffichage);
     c_wglsetw(fenetreAffichage);
     }
@@ -2106,26 +2119,26 @@ XtPointer unused1, unused2;
     SerieMgrGetSerieCoords(&cxmin, &cymin, &cxmax, &cymax);
     ier = PreparerSerie(cxmin, cymin, cxmax, cymax);
     }
-  
+
   if (ier == TRUE)
     {
     AfficherLigneSerie();
     SerieMgrGetFenetreSerieID(&fenetreSerie);
     c_wglsetw(fenetreSerie);
     RedessinerFenetreSerie();
-    
+
     GetFenetreAffichageID(&fenetreAffichage);
     c_wglsetw(fenetreAffichage);
     }
   RedessinerFenetres();
   AfficherMessageInfoStandard();
-  
+
   if (xc.statuts[EN_TRAIN_DE_DESSINER])
     {
     Beeper();
     return;
     }
-  
+
 }
 
 /**
@@ -2178,13 +2191,13 @@ XtPointer unused1, unused2;
    i =0;
    while (0 != strcmp(text, statutStr[i][lng]))
       i++;
-          
+
    switch(xc.statuts[i])
       {
       case TRUE:
       xc.statuts[i] = FALSE;
       break;
-      
+
       case FALSE:
       xc.statuts[i] = TRUE;
       break;
@@ -2200,14 +2213,14 @@ XtPointer unused1, unused2;
          wglmapc(14, 64, 64, 64);
          EffacerFenetres();
          break;
-         
+
          case FALSE:
          wglmapc(14, 128, 128, 128);
          break;
          }
 
       break;
-      
+
       case ZOOM_LOCAL:
       break;
 
@@ -2217,37 +2230,37 @@ XtPointer unused1, unused2;
       default:
         break;
       }
-   
+
    switch(i)
       {
       case LEGENDE:
-      FldMgrGetChamp(&champ, 0);
-      if (xc.statuts[LEGENDE_COULEUR] && xc.statuts[COULEURS] && champ->natureTensorielle == SCALAIRE)
-	 {
-	 EffacerLegende2();
-	 if (xc.statuts[LEGENDE])
-	    {
-	    AfficherLegende2(*champ);
-	    }
-	 AfficherPerimetreFenetre();
-	 }
-      else
-	 {
-	 RedessinerFenetres();
-	 }
-      break;
-      
+        FldMgrGetChamp(&champ, 0);
+        if (xc.statuts[LEGENDE_COULEUR] && xc.statuts[COULEURS] && champ->natureTensorielle == SCALAIRE)
+          {
+          EffacerLegende2();
+          if (xc.statuts[LEGENDE])
+            {
+            AfficherLegende2(*champ);
+            }
+          AfficherPerimetreFenetre();
+          }
+        else
+          {
+          RedessinerFenetres();
+          }
+       break;
+
       case AFF_AUTOMATIQUE:
       break;
-      
+
       default:
       if (xc.statuts[AFF_AUTOMATIQUE])
-	 {
-	 RedessinerFenetres();
-	 }
+        {
+        RedessinerFenetres();
+        }
       break;
       }
-   
+
    LibererImages();
    ActiverFlagsAffichage();
    }
@@ -2278,20 +2291,20 @@ caddr_t client_data, call_data;
       {
       case INFO_REC:
       if (GetLogoToggle())
-	 {
-	 c_wglgwz(&largeurFenetre, &hauteurFenetre);
-	 for (i=hauteurFenetre-1; i >= 0; i--)
-	    {
-	    c_wglcol(recColorTable[(int)(sizeRecColorTable* (1.0-(float)i/((float)(hauteurFenetre))))]);
-	    c_wglmvi(0, i);
-	    c_wgldri(largeurFenetre-1, i);
-	    }
-	 
-	 draw_rpn_logo();
+   {
+   c_wglgwz(&largeurFenetre, &hauteurFenetre);
+   for (i=hauteurFenetre-1; i >= 0; i--)
+      {
+      c_wglcol(recColorTable[(int)(sizeRecColorTable* (1.0-(float)i/((float)(hauteurFenetre))))]);
+      c_wglmvi(0, i);
+      c_wgldri(largeurFenetre-1, i);
+      }
+
+   draw_rpn_logo();
          draw_rec_version();
-	 }
-      
-      
+   }
+
+
       strcpy(inforec, recVersion[lng]);
       strcat(inforec, copyright[lng]);
       strcat(inforec, auteurs[lng]);
@@ -2353,10 +2366,10 @@ XtPointer client_data, call_data;
 
    FldMgrGetChamp(&champ, FldMgrGetNbChampsActifs() - 1);
 
-   XtSetArg(args[0], XmNlabelString, &label); 
+   XtSetArg(args[0], XmNlabelString, &label);
    XtGetValues(w, args, 1);
    XmToS(label, &text);
-   
+
    if (champ->indDict >= 0)
       {
       infoChamps[champ->indDict].indIntervalleDeDefaut = (int)client_data;
@@ -2365,25 +2378,25 @@ XtPointer client_data, call_data;
           champ->intervalles[n] = infoChamps[champ->indDict].intervallesDeContour[(int)client_data][n];
 
       for (j=0; j < FldMgrGetNbChampsActifs(); j++)
-	 {
-	 FldMgrGetChamp(&champ2, j);
+   {
+   FldMgrGetChamp(&champ2, j);
          if (0 == strcmp(champ2->nomvar, champ->nomvar))
-	    {
-	    UpdateFld_IntervalleDeContour(champ2, champ->intervalles, champ->nbIntervalles);
-	    }
-	 }
+      {
+      UpdateFld_IntervalleDeContour(champ2, champ->intervalles, champ->nbIntervalles);
+      }
+   }
       }
    else
       {
       sscanf(text, "%f", &FacteurMultDesire);
       for (j=0; j < FldMgrGetNbChampsActifs(); j++)
-	 {
-	 FldMgrGetChamp(&champ2, j);
+   {
+   FldMgrGetChamp(&champ2, j);
          if (0 == strcmp(champ2->nomvar, champ->nomvar))
              UpdateFld_IntervalleDeContour(&champ2, champ->intervalles, 1);
-	 }
+   }
       }
-   
+
    ChangerMenuIntervalles((int)client_data);
    LibererImages();
    RedessinerFenetres();
@@ -2410,7 +2423,7 @@ caddr_t client_data, call_data;
    XtDestroyApplicationContext(XtWidgetToApplicationContext(w));
    c_wgldcm();
    exit(0);
-   
+
    }
 
 /**
@@ -2434,20 +2447,20 @@ caddr_t client_data, call_data;
       {
       return;
       }
-   
+
    strcpy(nomFichierDemarrage, tmp);
-   
+
    strcat(nomFichierDemarrage, "/.startrec");
    fichierDemarrage = fopen(nomFichierDemarrage, "w");
    if (fichierDemarrage == NULL)
       {
       if (lng == 0)
-	 fprintf(stderr,"Impossible d'ouvrir le fichier $HOME/.startrec... \n");
+   fprintf(stderr,"Impossible d'ouvrir le fichier $HOME/.startrec... \n");
       else
-	 fprintf(stderr,"Can't open file $HOME/.startrec... \n");
+   fprintf(stderr,"Can't open file $HOME/.startrec... \n");
       return;
       }
-   
+
    EcrCtlAtr(fichierDemarrage);
    EcrAtrAtr(fichierDemarrage);
    EcrPalAtr(fichierDemarrage);
@@ -2455,7 +2468,7 @@ caddr_t client_data, call_data;
    EcrGeoAtr(fichierDemarrage);
 
    fclose(fichierDemarrage);
-   
+
    Quit(w, client_data, call_data);
    }
 
@@ -2476,21 +2489,21 @@ RedessinerFenetres()
  ******************************************************************************
  ******************************************************************************
  **/
-   
+
 RedessinerFenetreAffichage()
 {
    int i;
-   
+
    xc.annulationDemandee = False;
-   xc.statuts[EN_TRAIN_DE_DESSINER] = TRUE; 
+   xc.statuts[EN_TRAIN_DE_DESSINER] = TRUE;
    for (i=0; i < FldMgrGetNbChampsActifs(); i++)
       {
       if (!c_wglanul())
          AfficherCarte(i);
       }
-   
+
    AfficherLigneCoupe();
-   xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE; 
+   xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
    EnleverBoutonAnnulation();
    }
 
@@ -2503,7 +2516,7 @@ RedessinerFenetreAffichage()
 RedessinerFenetreCoupe()
 {
    int i;
-   
+
    if (!CoupeMgrGetStatutCoupe())
       return;
 
@@ -2512,21 +2525,21 @@ RedessinerFenetreCoupe()
       Beeper();
       return;
       }
-   
+
    AfficherBoutonAnnulation();
-   
+
    CoupeMgrSetMinMax();
    CoupeMgrSetUVWMinMax();
-   xc.statuts[EN_TRAIN_DE_DESSINER] = TRUE; 
+   xc.statuts[EN_TRAIN_DE_DESSINER] = TRUE;
    for (i=0; i < FldMgrGetNbChampsActifs(); i++)
       {
       if (!c_wglanul())
-	 {
+   {
          ManipulerEtAfficherCoupeVerticale(i);
-	 }
+   }
       }
-   
-   xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE; 
+
+   xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
    EnleverBoutonAnnulation();
    }
 
@@ -2538,7 +2551,7 @@ RedessinerFenetreCoupe()
 RedessinerFenetreSerie()
 {
    int i;
-   
+
    if (!SerieMgrGetStatutSerie())
       return;
 
@@ -2547,21 +2560,21 @@ RedessinerFenetreSerie()
       Beeper();
       return;
       }
-   
+
    AfficherBoutonAnnulation();
-   
+
    SerieMgrSetMinMaxSerie();
    SerieMgrSetUVWMinMax();
-   xc.statuts[EN_TRAIN_DE_DESSINER] = TRUE; 
+   xc.statuts[EN_TRAIN_DE_DESSINER] = TRUE;
    for (i=0; i < FldMgrGetNbChampsActifs(); i++)
       {
       if (!c_wglanul())
-	 {
+   {
          ManipulerEtAfficherSerieTemporelle(i);
-	 }
+   }
       }
-   
-   xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE; 
+
+   xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
    EnleverBoutonAnnulation();
    }
 
@@ -2575,7 +2588,7 @@ XtCallbackProc RafraichirFenetre(w, unused1, unused2)
 Widget w;
 caddr_t unused1, unused2;
 {
-   
+
    int i;
 
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
@@ -2583,7 +2596,7 @@ caddr_t unused1, unused2;
       Beeper();
       return;
       }
-   
+
    InvertWidget(w);
    EffacerFenetres();
    RedessinerFenetres();
@@ -2611,47 +2624,47 @@ f77name(xconact)(recs, nbrecs, iun)
    int indChampCourant,nbChampsInitiaux;
    Arg args[5];
    _Champ *champCourant;
-   
+
    xc.flagInterrupt = TRUE;
    nbChampsInitiaux = FldMgrGetNbChampsActifs();
-   
+
    if (*nbrecs > 0)
       {
       for (n=0; n < *nbrecs; n++)
-	 {
-	 if (xc.statutSuperposition == TRUE)
-	    {
-	    ier = FldMgrAddChamp(recs[n], *iun);
+   {
+   if (xc.statutSuperposition == TRUE)
+      {
+      ier = FldMgrAddChamp(recs[n], *iun);
 
-	    if (ier == CHAMP_NON_SUPERPOSABLE)
-	       {
-	       if (1 == FldMgrGetNbChampsActifs())
-		  MessageAvertissement(lblAvrtSup1[lng], AVERTISSEMENT);
-	       else
-		  MessageAvertissement(lblAvrtSup2[lng], AVERTISSEMENT);
-	       
-	       xc.statut = TERMINE;
-	       return NOUVEAU_CHAMP;
-	       }
-	    
-	    if (ier == TROP_DE_CHAMPS)
-	       {
-	       MessageAvertissement(lblAvrtTrop[lng], AVERTISSEMENT);
-	       xc.statut = TERMINE;
-	       return NOUVEAU_CHAMP;
-	       }
-	    
-	    }
-	 else
-	    {
+      if (ier == CHAMP_NON_SUPERPOSABLE)
+         {
+         if (1 == FldMgrGetNbChampsActifs())
+      MessageAvertissement(lblAvrtSup1[lng], AVERTISSEMENT);
+         else
+      MessageAvertissement(lblAvrtSup2[lng], AVERTISSEMENT);
+
+         xc.statut = TERMINE;
+         return NOUVEAU_CHAMP;
+         }
+
+      if (ier == TROP_DE_CHAMPS)
+         {
+         MessageAvertissement(lblAvrtTrop[lng], AVERTISSEMENT);
+         xc.statut = TERMINE;
+         return NOUVEAU_CHAMP;
+         }
+
+      }
+   else
+      {
             ier = FldMgrReplaceChamp(recs[n], *iun);
-	    if (ier == CHAMP_MODIFIE)
-	       {
-	       RefuserOperation();
-	       return NOUVEAU_CHAMP;
-	       }
+      if (ier == CHAMP_MODIFIE)
+         {
+         RefuserOperation();
+         return NOUVEAU_CHAMP;
+         }
             }
-         
+
          ier = CoupeMgrGetStatutCoupe();
          if (ier == TRUE)
             {
@@ -2659,14 +2672,14 @@ f77name(xconact)(recs, nbrecs, iun)
             c_wglsetw(fenetreCoupe);
             CoupeMgrGetCoupeCoords(&cxmin, &cymin, &cxmax, &cymax);
             ier = PreparerCoupe(cxmin, cymin, cxmax, cymax);
-            
+
             if (ier > 0)
               return NOUVEAU_CHAMP;
-            
+
             GetFenetreAffichageID(&fenetreAffichage);
             c_wglsetw(fenetreAffichage);
             }
-         
+
          ier = SerieMgrGetStatutSerie();
          if (ier == TRUE)
             {
@@ -2674,51 +2687,51 @@ f77name(xconact)(recs, nbrecs, iun)
             c_wglsetw(fenetreSerie);
             SerieMgrGetSerieCoords(&cxmin, &cymin, &cxmax, &cymax);
             ier = PreparerSerie(cxmin, cymin, cxmax, cymax);
-            
+
             if (ier > 0)
               return NOUVEAU_CHAMP;
-            
+
             GetFenetreAffichageID(&fenetreAffichage);
             c_wglsetw(fenetreAffichage);
             }
-         
+
          LibererImages();
          indChampCourant = FldMgrGetNbChampsActifs() - 1;
          FldMgrGetChamp(&champCourant, indChampCourant);
-         
+
          if (champCourant->indDict >= 0)
            CheckMenuIntervalles(infoChamps[champCourant->indDict].indIntervalleDeDefaut);
 
          if (HasGridChanged(champCourant->dst.grtyp[0], champCourant->dst.ni, champCourant->dst.nj, 1,
-                            champCourant->dst.ig1, champCourant->dst.ig2, 
+                            champCourant->dst.ig1, champCourant->dst.ig2,
                             champCourant->dst.ig3, champCourant->dst.ig4))
              {
              xc.carteLue = FALSE;
              EffacerFenetreAffichage();
-             InitMapInfo(champCourant->dst.grtyp[0], champCourant->dst.ni, champCourant->dst.nj, 
-                         champCourant->dst.ig1, champCourant->dst.ig2, 
+             InitMapInfo(champCourant->dst.grtyp[0], champCourant->dst.ni, champCourant->dst.nj,
+                         champCourant->dst.ig1, champCourant->dst.ig2,
                          champCourant->dst.ig3, champCourant->dst.ig4);
              c_wglgwz(&largeurFenetre, &hauteurFenetre);
              AjusterViewport(&viewp);
              c_xy2fxfy(&rx1, &ry1, 1.0, 1.0);
              c_xy2fxfy(&rx2, &ry2, (float)mapInfo.ni, (float)mapInfo.nj);
              c_wglssp(rx1, ry1, rx2, ry2, viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, 1);
-	     if (champCourant->domaine == XY)
-	       {
-		 FldMgrDefinirGrille();
-	       }
+       if (champCourant->domaine == XY)
+         {
+     FldMgrDefinirGrille();
+         }
              }
-         
+
          if (champCourant->domaine == XZ || champCourant->domaine == YZ)
             {
             xc.statuts[GEOGRAPHIE] = FALSE;
             }
-         
+
          xc.statut = OK;
          xc.ChampAContourer = TRUE;
          xc.annulationDemandee = FALSE;
          }
-      
+
       op = CtrlMgrGetMathOp();
       if (op == NO_OP)
          {
@@ -2728,12 +2741,12 @@ f77name(xconact)(recs, nbrecs, iun)
          {
          indChampCourant = 0;
          }
-      
+
       if (xc.statutSuperposition == 0)
          {
          indChampCourant = 0;
          }
-      
+
       for (n=indChampCourant; n < FldMgrGetNbChampsActifs(); n++)
          {
          AfficherBoutonAnnulation();
@@ -2741,7 +2754,7 @@ f77name(xconact)(recs, nbrecs, iun)
          EnleverBoutonAnnulation();
          indChampCourant++;
          }
-      
+
       ier = CoupeMgrGetStatutCoupe();
       if (ier == TRUE)
          {
@@ -2749,7 +2762,7 @@ f77name(xconact)(recs, nbrecs, iun)
          CoupeMgrGetFenetreCoupeID(&fenetreCoupe);
          c_wglsetw(fenetreCoupe);
          RedessinerFenetreCoupe();
-         
+
          GetFenetreAffichageID(&fenetreAffichage);
          c_wglsetw(fenetreAffichage);
          }
@@ -2762,7 +2775,7 @@ f77name(xconact)(recs, nbrecs, iun)
          SerieMgrGetFenetreSerieID(&fenetreSerie);
          c_wglsetw(fenetreSerie);
          RedessinerFenetreSerie();
-         
+
          GetFenetreAffichageID(&fenetreAffichage);
          c_wglsetw(fenetreAffichage);
          }
@@ -2773,7 +2786,7 @@ f77name(xconact)(recs, nbrecs, iun)
       AfficherMessageInfoStandard();
       xc.statut = OK;
       }
-   
+
    while (xc.statut == OK)
       {
       XtAppPeekEvent(SuperWidget.contexte, &(xc.theEvent));
@@ -2789,19 +2802,19 @@ f77name(xconact)(recs, nbrecs, iun)
          }
       else
          {
-	 oldMapInfo = mapInfo;
+   oldMapInfo = mapInfo;
          xc.lastColorMap   = xc.colorMap;
          return NOUVEAU_CHAMP;
          }
-      
+
       }
-   
+
    CopierGridInfo(&oldMapInfo, &mapInfo);
    xc.lastColorMap   = xc.colorMap;
-   
-   return xc.statut; 
-   
-   
+
+   return xc.statut;
+
+
    }
 
 
@@ -2816,7 +2829,7 @@ int   *iun;
 {
    int i;
    Arg args[10];
-   
+
    static char *titreFenetre[] = {"Affichage", "Display"};
    static char *titreFenetreControle[] =         { "TableauDeBord", "ControlPanel" };
    char nomShell[128];
@@ -2824,13 +2837,13 @@ int   *iun;
    float *tmpfld;
    int  key, inf, date0, deet, npas, nbits;
    int  datyp, ip1, ip2, ip3;
-   char typvar[3], nomvar[5], etiket[13], grtyp[2]; 
+   char typvar[3], nomvar[5], etiket[13], grtyp[2];
    int  ig1, ig2, ig3, ig4, swa, fstlng, dltf, ubc;
    int  extra1, extra2, extra3;
    float rx1, ry1, rx2, ry2;
-   
+
    int largeurLogo, hauteurLogo, largeurFenetre, hauteurFenetre;
-   
+
    int ni, nj, nk;
    char  typeGrille[2];
    Colormap cmap;
@@ -2859,12 +2872,12 @@ int   *iun;
    lng = c_getulng();
    strcpy(nomShell, XtName(SuperWidget.topLevel));
    strcat(nomShell, titreFenetre[lng]);
- 
+
    recCmap.noPalette = 0;
    recCmap.amplificationMin = 0.0;
    recCmap.reductionMax = 0.0;
 
-   init_plot88();  
+   init_plot88();
    FldMgrInitChamps();
    CtrlMgrSetMathOp(NO_OP);
 
@@ -2878,7 +2891,7 @@ int   *iun;
    un = 1;
    f77name(qqqintx)(&un);
 */
-   
+
 #ifdef GL_WGL
    winconstraints();
 #endif
@@ -2900,13 +2913,13 @@ int   *iun;
      if (4 <= c_wglgpl())
      {
          PgSetCouleurGeographie(15);
-	 }
-	 else
-	 {
-	 PgSetCouleurGeographie(NOIR);
-	 }
-	 }
-	 
+   }
+   else
+   {
+   PgSetCouleurGeographie(NOIR);
+   }
+   }
+
    */
    InitDictionnaire();
    if (4 > c_wglgpl())
@@ -2938,53 +2951,53 @@ int   *iun;
       get_rpn_logo_size(&largeurLogo, &hauteurLogo);
       c_wglgwz(&largeurFenetre, &hauteurFenetre);
       for (i=hauteurFenetre-1; i >= 0; i--)
-	 {
-	 c_wglcol(recColorTable[(int)(sizeRecColorTable * (1.0-(float)i/((float)(hauteurFenetre))))]);
-	 c_wglmvi(0, i);
-	 c_wgldri(largeurFenetre-1, i);
-	 }
-      
+   {
+   c_wglcol(recColorTable[(int)(sizeRecColorTable * (1.0-(float)i/((float)(hauteurFenetre))))]);
+   c_wglmvi(0, i);
+   c_wgldri(largeurFenetre-1, i);
+   }
+
       draw_rpn_logo();
       }
    draw_rec_version();
-   
-   
+
+
    strcpy(nomShell, XtName(SuperWidget.topLevel));
    strcat(nomShell, titreFenetreControle[lng]);
-   
+
    i = 0;
-   if (0 < strlen(panneauContourGeometrie)) 
+   if (0 < strlen(panneauContourGeometrie))
       {
       XtSetArg(args[i],XmNgeometry,panneauContourGeometrie);
       i++;
       }
-      
 
-   xc.topLevel = XtAppCreateShell(nomShell, nomShell, 
-				  applicationShellWidgetClass,
-				  XtDisplay(SuperWidget.topLevel), args, i);
+
+   xc.topLevel = XtAppCreateShell(nomShell, nomShell,
+          applicationShellWidgetClass,
+          XtDisplay(SuperWidget.topLevel), args, i);
    i = 0;
    xc.panneauContour = (Widget)XmCreateForm(xc.topLevel,
-					    "panneauContour",  
-					    args, i);
+              "panneauContour",
+              args, i);
    XtManageChild(xc.panneauContour);
-   
+
    InitFormeAffichage();
    InitFormeZoom();
    InitFormeSuperposition();
-   InitFormeAnimation(); 
-   
-   InitFormeMessage(); 
+   InitFormeAnimation();
+
+   InitFormeMessage();
    InitPanneauxInfo();
-   
+
    XtRealizeWidget(xc.topLevel);
    CheckColormap(xc.topLevel);
    CheckCouleurContoursEtGeo();
    FlusherTousLesEvenements();
    ActiverFlagsAffichage();
-   EnleverBoutonAnnulation();   
+   EnleverBoutonAnnulation();
    XFlush(XtDisplay(xc.topLevel));
-   
+
    return xc.statut;
    }
 
@@ -3030,19 +3043,19 @@ caddr_t client_data, call_data;
 
    c_wglgwz(&largeurFenetre, &hauteurFenetre);
    c_wglcmi(0, 0, largeurFenetre-1, hauteurFenetre-1);
-   
+
    nbMenus = 0;
-   f77name(souris)(&bouton, &event, 
-		   &x0, &y0, &xsize, &ysize, 
-		   &x1, &y1, &x2, &y2, TitreMenu, &nbMenus, 80);
-   
+   f77name(souris)(&bouton, &event,
+       &x0, &y0, &xsize, &ysize,
+       &x1, &y1, &x2, &y2, TitreMenu, &nbMenus, 80);
+
    fni = (float) mapInfo.ni;
    fnj = (float) mapInfo.nj;
-   fx1 = (float) (x1 - x0); 
-   fx2 = (float) (x2 - x0); 
-   fy1 = (float) (y1 - y0); 
-   fy2 = (float) (y2 - y0); 
-   
+   fx1 = (float) (x1 - x0);
+   fx2 = (float) (x2 - x0);
+   fy1 = (float) (y1 - y0);
+   fy2 = (float) (y2 - y0);
+
    switch(event)
       {
       case DRAG:
@@ -3052,30 +3065,30 @@ caddr_t client_data, call_data;
          fx1 = fx2;
          fx2 = temp;
          }
-      
+
       if (fy2 < fy1)
          {
          temp = fy1;
          fy1 = fy2;
          fy2 = temp;
          }
-      
+
       ix1 = (int) fx1; ix2 = (int) fx2;
       iy1 = (int) fy1; iy2 = (int) fy2;
-      
+
       c_wgliax(&newX1, &newY1, ix1, iy1);
       c_wgliax(&newX2, &newY2, ix2, iy2);
-      
+
       c_wglssp(newX1, newY1, newX2, newY2, viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, 1);
       break;
-      
+
       case MOVE:
       ix1 = (int) fx1; ix2 = (int) fx2;
       iy1 = (int) fy1; iy2 = (int) fy2;
-      
+
       c_wgliax(&newX1, &newY1, ix1, iy1);
       c_wgliax(&newX2, &newY2, ix2, iy2);
-      
+
       c_wglgwz(&largeurFenetre, &hauteurFenetre);
       c_wgliax(&oldX1, &oldY1, viewp.vi1, viewp.vj1);
       c_wgliax(&oldX2, &oldY2, viewp.vi2, viewp.vj2);
@@ -3087,10 +3100,10 @@ caddr_t client_data, call_data;
       fy2 = oldY2 - (newY2 - newY1);
 
       AjusterViewport(&viewp);
-      c_wglssp(fx1, fy1, fx2, fy2, 
+      c_wglssp(fx1, fy1, fx2, fy2,
                viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, 1);
       break;
-      
+
       case RESET:
       AjusterViewport(&viewp);
       fx1 = 1.0;
@@ -3102,7 +3115,7 @@ caddr_t client_data, call_data;
       c_wglssp(rx1, ry1, rx2, ry2,
                viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, 1);
       break;
-      
+
       default:
       InvertWidget(w);
       xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
@@ -3114,7 +3127,7 @@ caddr_t client_data, call_data;
    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
    AfficherMessageInfoStandard();
    RedessinerFenetreAffichage();
-   
+
    InvertWidget(w);
    }
 
@@ -3125,16 +3138,16 @@ CalculerHauteurMenus()
    Arg  args[10];
    XmString label;
    XmFontList fontListe;
-   
+
    label = XmStringCreate("123ABChjkq", XmSTRING_DEFAULT_CHARSET);
-   
+
    i = 0;
    XtSetArg(args[i], XmNfontList, &fontListe); i++;
    XtGetValues(xc.menuFich, args, i);
    hauteurMenus = (int) XmStringHeight(fontListe, label);
-   
+
    XmStringFree(label);
-   
+
    }
 
 
@@ -3149,13 +3162,13 @@ AfficherPerimetreFenetre()
    fenetreActive = c_wglgacw();
 
    c_wglcol(xc.attributs[FOND].indCouleurBack);
-  
+
    largeurPinceau = xc.attributs[FOND].epaisseur;
-   
+
    c_wgllwi(largeurPinceau);
    c_wglsld(xc.attributs[FOND].style);
    c_wglgwz(&largeurFenetre, &hauteurFenetre);
-   
+
    c_wglcmi(viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2);
 
    if (fenetreActive == fenetreAffichage)
@@ -3164,10 +3177,10 @@ AfficherPerimetreFenetre()
       c_xy2fxfy(&rx2, &ry2, (float)mapInfo.ni, (float)mapInfo.nj);
       c_wglrlx(rx1, ry1, rx2, ry2);
       }
-   
+
    c_wglcmi(-10,-10,largeurFenetre+10, hauteurFenetre+10);
    c_wglrli(viewp.vi1-1, viewp.vj1-1, viewp.vi2+1, viewp.vj2+1);
-   
+
    c_wglrli((int)(largeurPinceau*0.5),ROUND(0.5*largeurPinceau),
             largeurFenetre-ROUND(0.5*largeurPinceau),hauteurFenetre-(int)(0.5*largeurPinceau));
    c_wgllwi(1);
@@ -3208,7 +3221,7 @@ EnleverBoutonAnnulation()
 AfficherMessageInfoStandard()
 {
 
-   static char *fenetre[] = {"Zoom: [%6.1f,%6.1f,%6.1f,%6.1f]", 
+   static char *fenetre[] = {"Zoom: [%6.1f,%6.1f,%6.1f,%6.1f]",
                               "Zoom:[%6.1f,%6.1f,%6.1f,%6.1f]" };
    float x0, y0, x1, y1;
    int lng;
@@ -3232,10 +3245,10 @@ InitAttributs()
 {
    int r,g,b;
    int lng;
-   
+
    int i, indMin, indMax;
    int nplanes;
-   
+
    c_wgldld(1, 0xcccc);
    c_wgldld(2, 0xf0f0);
    c_wgldld(3, 0xff00);
@@ -3253,21 +3266,21 @@ InitAttributs()
       }
 
    c_wglgetcolrange(&indMin, &indMax);
-   
+
    c_wglgco(NOIR, &r, &g, &b);
    c_wglmco(indMax - OFFSET_FORE_CHAMP1, r, g, b);
    c_wglmco(indMax - OFFSET_GRILLE, r, g, b);
    c_wglmco(indMax - OFFSET_BACK_FOND,   r, g, b);
-   
+
    c_wglgco(BLEU, &r, &g, &b);
    c_wglmco(indMax - OFFSET_FORE_CHAMP2, r, g, b);
-   
+
    c_wglgco(ROUGE, &r, &g, &b);
    c_wglmco(indMax - OFFSET_FORE_CHAMP3, r, g, b);
-   
+
    c_wglgco(VERT, &r, &g, &b);
    c_wglmco(indMax - OFFSET_FORE_CHAMP4, r, g, b);
-   
+
    c_wglgco(BLANC, &r, &g, &b);
    c_wglmco(indMax - OFFSET_BACK_CHAMP1, r, g, b);
    c_wglmco(indMax - OFFSET_BACK_CHAMP2, r, g, b);
@@ -3347,9 +3360,9 @@ InitAttributs()
 CheckCouleurContoursEtGeo()
 {
    int indMin, indMax;
-   
+
    c_wglgetcolrange(&indMin, &indMax);
-   
+
    ResetColorMap(recColorTable, sizeRecColorTable, recCmap.noPalette);
    }
 
@@ -3362,7 +3375,7 @@ AfficherGrille()
    c_wglgvx(&rx1, &ry1, &rx2, &ry2);
    c_fxfy2xy(&x1, &y1, rx1, ry1);
    c_fxfy2xy(&x2, &y2, rx2, ry2);
-   
+
 
    x1--;
    x2++;
@@ -3371,30 +3384,30 @@ AfficherGrille()
 
    if (x1 < 1.0)
       x1 = 1.0;
-   
+
    if (y1 < 1.0)
       y1 = 1.0;
-   
+
    if (x2 > (float)mapInfo.ni)
       x2 = (float)mapInfo.ni;
-   
+
    if (y2 > (float)mapInfo.nj)
       y2 = (float)mapInfo.nj;
-   
+
    c_wgllwi(xc.attributs[GRID].epaisseur);
    c_wglsld(xc.attributs[GRID].style);
    c_wglcol(xc.attributs[GRID].indCouleurFore);
-   
+
    for (j=(int)y1; j <= ROUND(y2); j++)
      {
        for (i=(int)x1; i <= (int)x2; i++)
-	 {
-	   c_xy2fxfy(&rx1, &ry1, (float)(int)i,  (float) j);
-	   c_wglxai(&ix,&iy,rx1,ry1);
-	   c_wglcfi(ix,iy,2);
-	 }
+   {
+     c_xy2fxfy(&rx1, &ry1, (float)(int)i,  (float) j);
+     c_wglxai(&ix,&iy,rx1,ry1);
+     c_wglcfi(ix,iy,2);
+   }
      }
-   
+
    /*   for (j=(int)y1; j <= ROUND(y2); j++)
       {
       c_xy2fxfy(&rx1, &ry1, (float)(int)x1,  (float) j);
@@ -3402,7 +3415,7 @@ AfficherGrille()
       c_xy2fxfy(&rx2, &ry2, (float)ROUND(x2), (float) j);
       c_wgldrx(rx2, ry2);
       }
-   
+
    for (i=(int)x1; i <= (int)x2; i++)
       {
       c_xy2fxfy(&rx1, &ry1, (float)i,  (float)(int)y1);
@@ -3414,7 +3427,7 @@ AfficherGrille()
 
    c_wgllwi(1);
    c_wglsld(0);
-   
+
    }
 
 AfficherGrilleSource(int indchamp)
@@ -3434,7 +3447,7 @@ AfficherGrilleSource(int indchamp)
    c_wglcol(xc.attributs[GRID].indCouleurFore);
 
    grsrc = c_ezqkdef(champ->src.ni, champ->src.nj, champ->src.grtyp,
-		     champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4, 1);
+         champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4, 1);
    grdst = c_ezgetgdout();
    npts = champ->src.ni*champ->src.nj;
    lats = (float *) malloc(npts*sizeof(float));
@@ -3450,13 +3463,13 @@ AfficherGrilleSource(int indchamp)
        y[i+j*champ->src.ni] = (float)(j+1);
        }
      }
-   
+
    ier = c_gdllfxy(grsrc, lats, lons, x, y, npts);
    ier = c_gdxyfll(grdst, x, y, lats, lons, npts);
    ier = c_wglgvx(&x1, &y1, &x2, &y2);
    c_fxfy2xy(&x1, &y1, x1, y1);
    c_fxfy2xy(&x2, &y2, x2, y2);
-   
+
    for (i=0; i < npts; i++)
      {
      if (x[i] > x1 && x[i] < x2 && y[i] > y1 && y[i] < y2)
@@ -3466,14 +3479,14 @@ AfficherGrilleSource(int indchamp)
        c_wglcli(ix,iy,3);
        }
      }
-   
+
    c_wgllwi(1);
    c_wglsld(0);
    free(x);
    free(y);
    free(lats);
    free(lons);
-   
+
    }
 
 
@@ -3481,27 +3494,27 @@ SetClipMask()
 {
    float x1, y1, x2, y2;
    int i1, j1, i2, j2;
-   
+
    c_wglgsx(&x1, &y1, &x2, &y2);
    c_wglxai(&i1, &j1, x1, y1);
    c_wglxai(&i2, &j2, x2, y2);
-   
+
    if (i1 < viewp.vi1)
       i1 = viewp.vi1;
-   
+
    if (j1 < viewp.vj1)
       j1 = viewp.vj1;
-   
+
    if (i2 > viewp.vi2)
       i2 = viewp.vj2;
-   
+
    if (j2 > viewp.vj2)
       j2 = viewp.vj2;
-   
+
    c_wglcmi(i1, j1, i2, j2);
-   
-   
-   
+
+
+
    }
 
 
@@ -3518,10 +3531,10 @@ ComparerGridInfo()
 {
    if (oldMapInfo.ni != mapInfo.ni)
       return  -1;
-   
+
    if (oldMapInfo.nj != mapInfo.nj)
       return  -1;
-   
+
 /**
    if (oldMapInfo.type != mapInfo.type)
       return  -1;
@@ -3550,16 +3563,16 @@ int ig1, ig2, ig3, ig4;
 {
    if (type != mapInfo.type)
       return  0;
-   
+
    if (ni != mapInfo.ni)
       return  0;
-   
+
    if (nj != mapInfo.nj)
       return  0;
-   
+
    if (ig1 != mapInfo.ig1)
       return  0;
-   
+
    if (ig2 != mapInfo.ig2)
       return  0;
 
@@ -3604,7 +3617,7 @@ EffacerLaFenetreSiNecessaire()
 {
    float xdebut, ydebut, xfin, yfin;
    _Champ *champ;
-   
+
    FldMgrGetChamp(&champ, 0);
    if (xc.statuts[COULEURS] == FALSE || champ->domaine == VALEURS_PONCTUELLES)
       {
@@ -3617,13 +3630,13 @@ EffacerLaFenetreSiNecessaire()
       c_fxfy2xy(&xfin, &yfin, xfin, yfin);
       c_wgliax(&xdebut, &ydebut, viewp.vi1, viewp.vj1);
       c_wgliax(&xfin, &yfin, viewp.vi2, viewp.vj2);
-      
+
       if ((xdebut < 0.0) || (xfin > (float)(mapInfo.ni)+1.0) || (ydebut < 0.0) || (yfin > (float)(mapInfo.nj)+1.0))
-	 {
-	 EffacerFenetre();
-	 }
+   {
+   EffacerFenetre();
+   }
       }
-   
+
    }
 
 GetFenetreAffichageID(indFenetre)
@@ -3653,7 +3666,7 @@ char item[],valeur[];
       {
       strcpy(panneauContourGeometrie,valeur);
       }
-      
+
    if (0 == strcmp(item,"couleurs") || 0 == strcmp(item,"colors"))
       {
       indItem = COULEURS;
@@ -3698,7 +3711,7 @@ char item[],valeur[];
       {
       indItem = VALEURS_CENTRALES;
       }
-  
+
       if (0 == strcmp(item,"barbules") || 0 == strcmp(item,"wind_barbs"))
       {
       indItem = BARBULES;
@@ -3723,7 +3736,7 @@ char item[],valeur[];
       {
       xc.statuts[indItem] = TRUE;
       }
-         
+
    if (0 == strcmp(valeur, "off"))
       {
       xc.statuts[indItem] = FALSE;
@@ -3749,7 +3762,7 @@ FILE *fichierDemarrage;
    Window win;
 
    strcpy(tableau, "tableau_de_bord");
-   
+
    disp = XtDisplay(xc.topLevel);
    win  = XtWindow(xc.topLevel);
    i = 0;
@@ -3761,7 +3774,7 @@ FILE *fichierDemarrage;
    sprintf(valeur,"%+d%+d",x,y);
    sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
    fprintf(fichierDemarrage,"%s\n",ligne);
-   
+
 
    for (i=0; i < 12; i++)
       {
@@ -3803,17 +3816,17 @@ FILE *fichierDemarrage;
          strcpy(item,"barbules");
          break;
 
-	 case TOPO:
-	 strcpy(item,"topographie");
-	 break;
+   case TOPO:
+   strcpy(item,"topographie");
+   break;
 
-	 case ZOOM_LOCAL:
-	 strcpy(item,"zoom_local");
-	 break;
+   case ZOOM_LOCAL:
+   strcpy(item,"zoom_local");
+   break;
 
-	 case VALEURS_CENTRALES:
-	 strcpy(item,"valeurs_centrales");
-	 break;
+   case VALEURS_CENTRALES:
+   strcpy(item,"valeurs_centrales");
+   break;
 
          case AFF_AUTOMATIQUE:
          strcpy(item,"redessiner_apres_selection");
@@ -3828,7 +3841,7 @@ FILE *fichierDemarrage;
          {
          strcpy(valeur,"off");
          }
-            
+
       sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
       fprintf(fichierDemarrage,"%s\n",ligne);
       }
@@ -3854,7 +3867,7 @@ CtrlMgrGetMathOp()
 CtrlMgrGetContextualMathOp(indChamp)
 int indChamp;
 {
-   
+
    if (mathOp != NO_OP && 0 == indChamp%2 && ((indChamp+1) >= FldMgrGetNbChampsActifs()))
       {
       return NO_OP;

@@ -3,15 +3,15 @@
 #include <stdio.h>
 #include <math.h>
 #include <malloc.h>
-   
-#define  RADIAN_A_DEGRE		 57.29577951
-#define  DEGRE_A_RADIAN		   0.01745329252
+
+#define  RADIAN_A_DEGRE    57.29577951
+#define  DEGRE_A_RADIAN      0.01745329252
 #define  MISSING                   1.0e+37
 
 #define  GLOBAL                  0
 #define  NORD                    1
 #define  SUD                     2
-   
+
 #define  DEVANT                  0
 #define  DERRIERE                1
 
@@ -31,6 +31,15 @@
 
 #define ZP                       0
 #define T                        1
+
+#define CROIX                    0
+#define CERCLE                   1
+#define RECTANGLE                2
+
+#define PIXELS                   0
+#define DEGRES                   1
+#define KM                       2
+#define NAUTICAL_MILES           3
 
 #define OK                       0
 #define CHAMP_NON_SUPERPOSABLE   1
@@ -70,14 +79,14 @@
 #define COULEURS              0
 #define CONTOURS              1
 #define LABELS                2
-#define VALEURS_CENTRALES     3   
+#define VALEURS_CENTRALES     3
 #define GEOGRAPHIE            4
 #define GRILLE_SOURCE         5
 #define GRILLE                6
 #define LEGENDE               7
 #define LEGENDE_COULEUR       8
 #define LISSAGE               9
-#define ZOOM_LOCAL           10 
+#define ZOOM_LOCAL           10
 #define TOPO                 11
 #define VALEURS_MANQUANTES   12
 #define AFF_AUTOMATIQUE      13
@@ -105,7 +114,7 @@
 #define OFFSET_BACK_CHAMP4  7
 #define OFFSET_FORE_FOND    8
 #define OFFSET_BACK_FOND    9
-#define OFFSET_GRILLE       10 
+#define OFFSET_GRILLE       10
 #define OFFSET_GEO          11
 
 #define LINEAIRE 1
@@ -264,7 +273,7 @@ typedef struct
   int ig1, ig2, ig3, ig4;
 } _GrilleMenuItem;
 
-typedef struct 
+typedef struct
 {
   int iun;
   int cle;
@@ -275,7 +284,7 @@ typedef struct
   int ip1, ip2, ip3;
   char typvar[3];
   char nomvar[5];
-  char etiket[13]; 
+  char etiket[13];
   char pdfdatev[24];
   int swa, lng, dltf, ubc;
   int extra1, extra2, extra3;
@@ -395,7 +404,7 @@ typedef struct
   Widget menuform, menuFich, menuAff, menuInt, menuSup, menuVarSup, menuVec, menuOpt, menuGr;
   Widget menuFichier, menuAffichage, menuIntervalleDeContour, menuVecteurs, menuGrille, menuCalculs, menuVarSuper, menuOptions;
   Widget menuFichierItems[16], menuAffichageItems[16], menuIntervalleItems[32], menuCalculItems[12],menuGrItems[32],menuVecItems[8];
-  Widget menuVarSuperItems[12], menuOptionItems[16];
+  Widget menuVarSuperItems[12], menuOptionItems[24];
   Widget rafraichir, valeursPonctuelles, zoom;
   Widget superposition, effacer, menuEffacageSelectif, menuEff, menuEffItems[4];
   Widget stop;

@@ -41,7 +41,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <varargs.h>
+/*#include <varargs.h>*/
+#include <stdarg.h>
+
 #include <sys/types.h>
 
 #include <vcar.h>
@@ -61,7 +63,7 @@
 
  static  Vcarop  vcarop;
 
-
+
 /*
  *
  *  module    :  GEN_VCAR
@@ -117,7 +119,7 @@
  */
     car = 0;
     n   = 0;
-    while( fgets(str, 73, in ) != NULL ) 
+    while( fgets(str, 73, in ) != NULL )
          {
          if( (ptr = strchr(str,'\n')) != NULL ) ptr[0] = '\0';
 
@@ -125,7 +127,7 @@
  *  sauvegarde le dernier caractere
  */
          if( strlen(str) > 50 && car != 0 )
-           { 
+           {
            fontes[icar][font].npnts=n;
            fontes[icar][font].vecteurs=(PointP2 *)calloc(n, sizeof(PointP2));
            memcpy(fontes[icar][font].vecteurs,vect, n*sizeof(PointP2));
@@ -196,7 +198,7 @@
     return;
     }
 
-
+
 /*
  *
  *  module    :  GET_VCAR
@@ -218,9 +220,7 @@
  *
  */
 
- extern void
- get_vcar ( va_alist )
- va_dcl
+ extern void get_vcar ( int *chaine, ... )
     {
 
     va_list argv;
@@ -231,7 +231,7 @@
  *  boucle sur tous les variables
  */
 
-    va_start(argv);
+    va_start(argv, chaine);
     while( (variable = va_arg(argv,int)) != 0 )
          {
          switch( variable )
@@ -250,7 +250,7 @@
     return;
     }
 
-
+
 /*
  *
  *  module    :  LIR_VCAR
@@ -299,41 +299,41 @@
     for(i = 0; i < 20; i++)
       {
       for(j = 0; j < 64; j++)
-	{
-	fread(&fontes[j][i], sizeof(Vcar) - sizeof(PointP2 *) ,1, in);
-	fontes[j][i].vecteurs = (PointP2 *)malloc(fontes[j][i].npnts*sizeof(PointP2));
-	fread(fontes[j][i].vecteurs,sizeof(PointP2),fontes[j][i].npnts, in);
-	}
+  {
+  fread(&fontes[j][i], sizeof(Vcar) - sizeof(PointP2 *) ,1, in);
+  fontes[j][i].vecteurs = (PointP2 *)malloc(fontes[j][i].npnts*sizeof(PointP2));
+  fread(fontes[j][i].vecteurs,sizeof(PointP2),fontes[j][i].npnts, in);
+  }
       }
 #else
     for(i = 0; i < 20; i++)
       {
       for(j = 0; j < 64; j++)
-	{
-	fread32(&fontes[j][i], sizeof(Vcar) - sizeof(PointP2 *) ,1, in);
-	if (fontes[j][i].npnts == 0)
-	  {
-	  fontes[j][i].vecteurs = (PointP2 *)malloc(1*sizeof(PointP2));
-	  }
-	else
-	  {
-	  fontes[j][i].vecteurs = (PointP2 *)malloc(fontes[j][i].npnts*sizeof(PointP2));
-	  fread32(fontes[j][i].vecteurs,sizeof(PointP2),
-		  fontes[j][i].npnts, in);
-	  }
-	}
+  {
+  fread32(&fontes[j][i], sizeof(Vcar) - sizeof(PointP2 *) ,1, in);
+  if (fontes[j][i].npnts == 0)
+    {
+    fontes[j][i].vecteurs = (PointP2 *)malloc(1*sizeof(PointP2));
+    }
+  else
+    {
+    fontes[j][i].vecteurs = (PointP2 *)malloc(fontes[j][i].npnts*sizeof(PointP2));
+    fread32(fontes[j][i].vecteurs,sizeof(PointP2),
+      fontes[j][i].npnts, in);
+    }
+  }
       }
 #endif
-    
+
     /*
      *  fermeture du fichier
      */
     fclose(in);
-    
+
     return;
     }
 
-
+
 /*
  *
  *  module    :  SET_VCAR
@@ -349,28 +349,29 @@
  *
  *  call      :  SET_VCAR ( args )
  *
- *  arguments :  args    LES VARIABLES ET LES VALEURS SE RAPPORTANT A VCAR  
+ *  arguments :  args    LES VARIABLES ET LES VALEURS SE RAPPORTANT A VCAR
  *
  *  objet     :  CE MODULE INITIALISE UNE LISTE DE VALEURS SE RAPPORTANT A VCAR
  *
  */
 
- extern void
- set_vcar ( va_alist )
- va_dcl
+ extern void set_vcar ( const void *chaine, ... )
     {
 
     va_list argv;
 
     int     variable;
+    int i = 0;
 
 /*
  *  boucle sur tous les variables
  */
 
-    va_start(argv);
+    va_start(argv, chaine);
     while( (variable = va_arg(argv,int)) != 0 )
          {
+         printf("%d --- %d\n", i, variable);
+         i++;
          switch( variable )
                {
                case ANGLE   : vcarop.angle   = va_arg(argv,int); break;
@@ -384,10 +385,11 @@
          }
     va_end(argv);
 
+    printf("On sort de la fonction\n");
     return;
     }
 
-
+
 /*
  *
  *  module    :  VCAR
@@ -403,7 +405,7 @@
  *
  *  call      :  mvchr = VCAR ( chr )
  *
- *  arguments :  chr    LE CARACTERE DONT ON DESIRE LES VECTEURS 
+ *  arguments :  chr    LE CARACTERE DONT ON DESIRE LES VECTEURS
  *               mvchr  LES VECTEURS DU CARACTERES
  *
  *  objet     :  CE MODULE VA CHERCHER LES VECTEURS D'UN CARACTERE DANS
@@ -439,7 +441,7 @@
  *  echelle
  */
     mapx = (float)vcarop.largeur / fontes[(int)car-32][vcarop.fonte].largeur;
-    mapy = (float)vcarop.hauteur / attrib[2][vcarop.fonte]; 
+    mapy = (float)vcarop.hauteur / attrib[2][vcarop.fonte];
 
 /*
  *  cas speciale ou l'origine est le coin inferieur gauche

@@ -12,7 +12,7 @@ RECLIB = $(HOME)/userlibs/$(ARCH)$(ABI)/librec.a
 
 FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
 
-CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I$(HOME)/src/images/gd2/ -DX_WGL
+CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I/usr/include/libxml2 -I$(HOME)/src/images/gd2/ -DX_WGL
 
  OPTIMIZ = -debug -O 0 -optc =-Wall
 #OPTIMIZ = -O 3 -optc =-Wall
@@ -58,7 +58,7 @@ CDECKS= \
          dictxml.c      manipule.c       mapinfo.c       message.c       minmax_mgr.c no_rmnlib.c \
          nocore.c       newdictxml.c opRefusee.c       p_anim.c       p_vanim.c p_attr.c \
          p_avert.c       p_contour.c       p_coupe.c       p_serie.c p_diapo.c \
-         p_edition.c       p_geo.c       p_minmax.c       p_palette.c \
+         p_edition.c       p_geo.c       p_minmax.c       p_palette.c p_valeursponctuelles.c p_valeursmanquantes.c \
          p_vent.c       pack.c       parent.c \
          profil.c       ptval.c       rle.c       serie.c sfcpres.c \
          strutil.c       util.c       valptgr.c       vent.c homelic.c \
@@ -125,6 +125,8 @@ reclib: $(RECLIB)(PointerVent.o) \
 	$(RECLIB)(p_serie.o) \
 	$(RECLIB)(p_vanim.o) \
 	$(RECLIB)(p_vent.o) \
+	$(RECLIB)(p_valeursponctuelles.o) \
+	$(RECLIB)(p_valeursmanquantes.o) \
 	$(RECLIB)(pack.o) \
 	$(RECLIB)(parent.o) \
 	$(RECLIB)(profil.o) \
@@ -185,6 +187,11 @@ xrec-Linux_alpha:
 xrec-Linux:
 	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmnbeta
 
+xrec-zip:
+	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/src/utils/compression/lib/*.o $(HOME)/src/utils/compression/beta/*.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmnbeta
+
+
+
 xrec-phillips:
 	r.build -obj $(REC)/main/rec.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl x_wgl gd_wgl wgl Xm Mrm Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmn_006
 
@@ -193,7 +200,7 @@ xrec-local:
 
 
 xrec-Linux-intel:
-	ifort *.o -o $(TMPDIR)/xrec -C90 -L$(REC)/lib/$(ARCH) -L/usr/X11R6/lib -lrec -lrec_util -lgdb -lwgl -lgd_wgl -lx_wgl -lwgl -llic $(ARMNLIB)/lib/$(ARCH)/librmn-intel.a  -lMrm -lXp -lXext -lX11 -lxml2 -lexpat -lgd2 -lz -lpng -lm -ldl -lc -lld
+	ifort *.o -o $(TMPDIR)/xrec -C90 -L$(REC)/lib/$(ARCH) -L/usr/X11R6/lib -lrec -lrec_util -lgdb -lwgl -lgd_wgl -lx_wgl -lwgl -llic $(ARMNLIB)/lib/$(ARCH)/librmn-intel.a  -lMrm -lXp -lXext -lX11 -lxml2 -lexpat -lgd2 -lz -lpng -lm -ldl -lc 
 
 
 xrec-intel2:

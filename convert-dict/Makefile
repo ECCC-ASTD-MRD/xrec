@@ -8,7 +8,7 @@ SHELL = /bin/sh
 
 CPP = /lib/cpp
 
-RECLIB = $(REC)/lib/$(ARCH)$(ABI)/librec.a
+RECLIB = $(HOME)/userlibs/$(ARCH)$(ABI)/librec.a
 
 FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
 

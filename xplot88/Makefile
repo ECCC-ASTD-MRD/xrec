@@ -8,14 +8,14 @@ SHELL = /bin/sh
 
 CPP = /lib/cpp
 
-REC_UTILLIB = $(REC)/lib/$(ARCH)$(ABI)/librec_util.a
+REC_UTILLIB = $(HOME)/userlibs/$(ARCH)$(ABI)/librec_util.a
 
 FFLAGS = 
 
 CFLAGS = -I$(ARMNLIB)/include -I../include -DX_REC_UTIL
 
-OPTIMIZ = -O 0  -debug
 OPTIMIZ = -O 2
+OPTIMIZ = -O 0  -debug
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_REC_UTIL
 

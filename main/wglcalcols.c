@@ -81,44 +81,40 @@ int nbCol;
    if (nbIntervalles == 1)
       {
       if (intervalles[0] == 0.0)
-	 {
-	 enhancefracs(val,nbVals,min,delta,variation);
-	 for (i=0; i < nbVals; i++)
-	    {
-	    ind = ROUND(nbCol * val[i]);
-	    indices[i] = (ind > nmaxcols) ? nmaxcols : (ind < 0) ? 0 : ind;
-	    }
-	 }
+        {
+        enhancefracs(val,nbVals,min,delta,variation);
+        for (i=0; i < nbVals; i++)
+            {
+            ind = ROUND(nbCol * val[i]);
+            indices[i] = (ind > nmaxcols) ? nmaxcols : (ind < 0) ? 0 : ind;
+            }
+        }
       else
-	 {
-	 invInter = 1.0 / (intervalles[0] * facteur);
-	 for (i=0; i < nbVals; i++)
-	    {
-#if defined (HP) || defined(Alpha)
-	    val[i] = floor((val[i]-min) * invInter);
-#else
-	    val[i] = ffloor((val[i]-min) * invInter);
-#endif
-	    }
+        {
+        invInter = 1.0 / (intervalles[0] * facteur);
+        for (i=0; i < nbVals; i++)
+            {
+            val[i] = ffloor((val[i]-min) * invInter);
+            }
 
-	 enhancefracs(val,nbVals,0.0,delta/(intervalles[0]*facteur),variation);
-	 for  (i=0; i < nbVals; i++)
-	    {
-	    ind = ROUND(nbCol * val[i]);
-	    indices[i] = (ind > nmaxcols) ? nmaxcols : (ind < 0) ? 0 : ind;
-	    }
-	 }
+        enhancefracs(val,nbVals,0.0,delta/(intervalles[0]*facteur),variation);
+        for  (i=0; i < nbVals; i++)
+            {
+            ind = ROUND(nbCol * val[i]);
+            indices[i] = (ind > nmaxcols) ? nmaxcols : (ind < 0) ? 0 : ind;
+            }
+        }
       }
    else
       {
       rmax = (float)nmaxcols / (float)(nbIntervalles);
       for (i=0; i < nbVals; i++)
-	 {
-	 ind = 0;
-	 while ((facteur*intervalles[ind]) <= val[i] && ind < nbIntervalles)
-	    ind++;
-	 indices[i] = (int)(rmax * ind);
-	 }
+        {
+        ind = 0;
+        while ((facteur*intervalles[ind]) <= val[i] && ind < nbIntervalles)
+            ind++;
+        indices[i] = (int)(rmax * ind);
+        }
       }
    }
 
@@ -149,44 +145,40 @@ int nbCol;
    if (nbIntervalles == 1)
       {
       if (intervalles[0] == 0.0)
-	 {
-	 enhancefracs(val,nbVals,min,delta,variation);
-	 for (i=0; i < nbVals; i++)
-	    {
-	    ind = ROUND(nbCol * val[i]);
-	    indices[i] = nbCol * val[i];
-	    }
-	 }
+        {
+        enhancefracs(val,nbVals,min,delta,variation);
+        for (i=0; i < nbVals; i++)
+            {
+            ind = ROUND(nbCol * val[i]);
+            indices[i] = nbCol * val[i];
+            }
+        }
       else
-	 {
-	 invInter = 1.0 / (intervalles[0] * facteur);
-	 for (i=0; i < nbVals; i++)
-	    {
-#if defined  (HP) || defined(Alpha)
-	    val[i] = floor((val[i]-min) * invInter);
-#else
-	    val[i] = ffloor((val[i]-min) * invInter);
-#endif
-	    }
+        {
+        invInter = 1.0 / (intervalles[0] * facteur);
+        for (i=0; i < nbVals; i++)
+            {
+            val[i] = ffloor((val[i]-min) * invInter);
+            }
 
-	 enhancefracs(val,nbVals,0.0,delta/(intervalles[0]*facteur),variation);
-	 for  (i=0; i < nbVals; i++)
-	    {
-	    ind = ROUND(nbCol * val[i]);
-	    indices[i] = nbCol * val[i];
-	    }
-	 }
+        enhancefracs(val,nbVals,0.0,delta/(intervalles[0]*facteur),variation);
+        for  (i=0; i < nbVals; i++)
+            {
+            ind = ROUND(nbCol * val[i]);
+            indices[i] = nbCol * val[i];
+            }
+         }
       }
    else
       {
       rmax = (float)nmaxcols / (float)(nbIntervalles);
       for (i=0; i < nbVals; i++)
-	 {
-	 ind = 0;
-	 while ((facteur*intervalles[ind]) <= val[i] && ind < nbIntervalles)
-	    ind++;
-	 indices[i] = (rmax * ind);
-	 }
+        {
+        ind = 0;
+        while ((facteur*intervalles[ind]) <= val[i] && ind < nbIntervalles)
+            ind++;
+        indices[i] = (rmax * ind);
+        }
       }
    }
 

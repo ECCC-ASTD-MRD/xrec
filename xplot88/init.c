@@ -26,29 +26,28 @@ f77name(initplot88)()
 {
    init_plot88();
 
-   } 
+   }
 
 
 init_plot88()
 {
    char fichierFontes[132];
    char *armnlib;
-   
+   char *bidon = NULL;
+
    armnlib = (char *) getenv("ARMNLIB");
    if (armnlib == NULL)
       {
       printf("$ARMNLIB non definie. Adieu\n");
       exit(-1);
       }
-   
+
    strcpy(fichierFontes, armnlib);
    strcat(fichierFontes, "/data/fontes.bin");
    lir_vcar(fichierFontes);
 
-   set_vcar( YMIROIR, 1, 0 );
-   set_vcar( HAUTEUR, 32,
-	    LARGEUR, 32,
-	    FONTE  ,  0, 0 );
+   set_vcar( bidon, YMIROIR, 1, 0 );
+   set_vcar( bidon, HAUTEUR, 32, LARGEUR, 32,  FONTE  ,  0, 0 );
    }
 
 

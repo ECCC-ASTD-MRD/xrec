@@ -184,17 +184,10 @@ lire_gdb_geo()
  
   if (ex == 0) ex = 1;
   pixperdegree = ex;
-#if defined (SGI)
   if (pixperdegree > 128) 
     {
     pixperdegree = 128;
     }
-#else
-  if (pixperdegree > 64) 
-    {
-    pixperdegree = 64;
-    }
-#endif
 
   fprintf(stderr, "Pixperdegree : %d\n", pixperdegree);
   
