@@ -20,22 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglxai)(i, j, x, y)
-int *i, *j;
-float *x, *y;
-{
-   wglxai(i, j, *x, *y);
-   }
-
-
-/**
-******
-**/
-
-
-wglxai(i, j, x, y)
-int *i, *j;
-float x, y;
+x_wglxai(int *i, int *j, float x, float y)
 {
    float x1, y1;
 

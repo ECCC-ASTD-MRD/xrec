@@ -20,8 +20,7 @@
 
 #include <wgl_x.h>
 
-wgldefncw(winid)
-int winid;
+x_wgldefncw(int winid)
 {
    int i = 0;
    
@@ -57,6 +56,6 @@ int winid;
    /*   pixmapDimensions   = fenetre[fenetreCourante].pixmapDimensions; */
    usSpace            = fenetre[fenetreCourante].usSpace;
 
-   wglgwz(&w,&h);
+   c_wglgwz(&w,&h);
    }
 

@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-wgliniwpx()
+x_wgliniwpx()
 {
    int i;
 

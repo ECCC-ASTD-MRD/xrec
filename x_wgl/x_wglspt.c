@@ -20,18 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglspt)(indpat)
-int *indpat;
-{
-   wglspt(*indpat);
-   }
-
-/**
-******
-**/
-
-wglspt(indpat)
-int indpat;
+x_wglspt(int indpat)
 {
    wglfshlb();
    XSetStipple(wglDisp, wglFillGC, wglPatterns[indpat+128]);

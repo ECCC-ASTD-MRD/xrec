@@ -20,16 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wgldbg)()
-{
-   wgldbg();
-   }
-
-/**
-******
-**/
-
-wgldbg()
+x_wgldbg()
 {
    debugMode = True;
    }

@@ -21,20 +21,9 @@
 #include <wgl_x.h>
 
 extern unsigned int colorbitrange[3][3];
-unsigned int wglcolf();
+unsigned int x_wglcolf(float couleur);
 
-f77name(wglcolf)(couleur)
-float *couleur;
-{
-   wglcolf(*couleur);
-   }
-
-/**
-******
-**/
-
-unsigned int wglcolf(couleur)
-float couleur;
+unsigned int x_wglcolf(float couleur)
 {
    int r,g,b;
    int r1,g1,b1;
@@ -70,7 +59,7 @@ float couleur;
 
 }
 
-unsigned int wglcolfs(float *cols, unsigned int *pixels, int n)
+unsigned int x_wglcolfs(float *cols, unsigned int *pixels, int n)
 {
   int r,g,b;
   int r1,g1,b1;

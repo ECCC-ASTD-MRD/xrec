@@ -20,16 +20,7 @@
 
 #include <wgl_x.h>
 
-int f77name(wglgci)()
-{
-   return wglgci();
-   }
-
-/**
-******
-**/
-
-int wglgci()
+int x_wglgci()
 {
    return currentColor;
    }

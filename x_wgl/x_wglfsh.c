@@ -20,16 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglfsh)()
-{
-   wglfsh();
-   }
-
-/**
-******
-**/
-
-wglfsh()
+x_wglfsh()
 {
    wglfshlb();
    XFlush(wglDisp);

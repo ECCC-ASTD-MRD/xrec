@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-wglinipat()
+x_wglinipat()
 {
    static char DefaultPattern[] =
       {

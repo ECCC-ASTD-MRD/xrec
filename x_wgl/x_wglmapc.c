@@ -20,13 +20,14 @@
 
 #include <wgl_x.h>
 
-wglmapc(int colorIndex, int r, int g, int b)
+x_wglmapc(int colorIndex, int r, int g, int b)
 {
    int res;
-   XColor xcol;
+   XColor xcol, *xcouleurs;
    int coldebut,colfin;
    
    coldebut = 0;
+   xcouleurs = (XColor *) couleurs;
    
 
    if (visualClass == PseudoColor)
@@ -57,7 +58,7 @@ wglmapc(int colorIndex, int r, int g, int b)
         switch (cmap_strategy)
            {
            case READ_ONLY_COLORMAP:
-                wglColorTable[colorIndex]= MatchColorIndexX(r, g, b, couleurs, coldebut, colfin);
+                wglColorTable[colorIndex]= MatchColorIndexX(r, g, b, xcouleurs, coldebut, colfin);
                 if (wglColorTable[colorIndex] > colfin)
                    {
                    fprintf(stderr,"################################!!!!!!!!!!!!!\n");
@@ -70,11 +71,11 @@ wglmapc(int colorIndex, int r, int g, int b)
                 {
                 if (debugMode)
                   printf("Collision avec le colormap de defaut a l'indice: %d\n", colorIndex);
-                wglinstcmap();
-                wglsetwcmap();
+                c_wglinstcmap();
+                c_wglsetwcmap();
                 }
              XStoreColor(wglDisp, cmap, &xcol);
-             couleurs[colorIndex] = xcol;
+             xcouleurs[colorIndex] = xcol;
              wglColorTable[colorIndex] = xcol.pixel;
              break;
            }
@@ -82,7 +83,7 @@ wglmapc(int colorIndex, int r, int g, int b)
         
       default:
         res = XAllocColor(wglDisp, cmap, &xcol); 
-        couleurs[colorIndex] = xcol;
+        xcouleurs[colorIndex] = xcol;
         wglColorTable[colorIndex] = xcol.pixel;
         break;
       }

@@ -20,16 +20,7 @@
 
 #include <wgl_x.h>
 
-int f77name(wglglw)()
-{
-   return wglglw();
-   }
-
-/**
-******
-**/
-
-int wglglw()
+int x_wglglw()
 {
    return currentLineWidth;
    }

@@ -20,16 +20,7 @@
 
 #include <wgl_x.h>
 
-int f77name(wglgmod)()
-{
-   return wglgmod();
-   }
-
-/**
-******
-**/
-
-int wglgmod()
+int x_wglgmod()
 {
    return usSpace.mode;
    }

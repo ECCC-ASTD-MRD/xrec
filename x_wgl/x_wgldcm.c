@@ -20,17 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wgldcm)()
-{
-   wgldcm();
-
-   }
-
-/**
-******
-**/
-
-wgldcm()
+x_wgldcm()
 {
 /**
    int i;

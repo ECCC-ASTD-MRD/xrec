@@ -20,16 +20,7 @@
 
 #include <wgl_x.h>
 
-int f77name(wglgpt)()
-{
-   return wglgpt();
-   }
-
-/**
-******
-**/
-
-int wglgpt()
+int x_wglgpt()
 {
    return currentFillPattern;
    }

@@ -46,7 +46,7 @@ extern Display *wglDisp;
 extern int wglScr;
 extern Window wglWin, wglDrawable;
 extern GC wglLineGC, wglFillGC;
-extern Colormap cmap;
+extern int cmap;
 extern int nbFenetresActives;
 
 /**
@@ -78,48 +78,29 @@ extern unsigned long wglfore, wglback;
  ******************************************************************************
  **/
 
-int f77name(wglopmw)(nomFenetre, wglWinID, lenNomFenetre)
-char nomFenetre[];
-int  *wglWinID;
-int  lenNomFenetre;
-{
-   char nomTemp[256];
-   int  winid;
-
-   strncpy(nomTemp, nomFenetre, lenNomFenetre);
-   nomTemp[lenNomFenetre] = '\0';
-   
-   winid = wglopmw(nomTemp, *wglWinID);
-   return winid;
-   }
-
-/**
-******
-**/
-
-int wglopmw(nomFenetre, wglWinID)
-char *nomFenetre;
-int wglWinID;
-{
+   int x_wglopmw(nomFenetre, wglWinID)
+   char *nomFenetre;
+   int wglWinID;
+   {
    char tempNomFenetre[256];
-   static char       *messageAgrandir[] = {"Agrandissez-moi", "Enlarge me"};
-
-   CreerNouvelleFenetre();
-
-   if (nomFenetre[0] == '?')
+   /**
+      static char       *messageAgrandir[] = {"Agrandissez-moi", "Enlarge me"};
+      
+      CreerNouvelleFenetre();
+      
+      if (nomFenetre[0] == '?')
       sprintf(tempNomFenetre, "X-%s", &nomFenetre[1]);
-   else
+      else
       strcpy(tempNomFenetre, nomFenetre);
       
-   InitWglMotifWindow(tempNomFenetre, wglWinID);
-   XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
-
-   wglssp(0.0, 0.0, (float) (wglWinAttr.width -1), (float) (wglWinAttr.height - 1), 0, 0, 
-            wglWinAttr.width - 1, wglWinAttr.height - 1);
-
-
-/**
-   if (!customWinSize)
+      InitWglMotifWindow(tempNomFenetre, wglWinID);
+      XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
+      
+      c_wglssp(0.0, 0.0, (float) (wglWinAttr.width -1), (float) (wglWinAttr.height - 1), 0, 0, 
+      wglWinAttr.width - 1, wglWinAttr.height - 1);
+      
+      
+      if (!customWinSize)
       {
       InitMessageAgrandir(messageAgrandir[c_getulng()]);
       WaitforWindowResize();
@@ -127,11 +108,11 @@ int wglWinID;
 **/
    XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
 
-   wglcol(NOIR);
-   wglclr(); 
+   c_wglcol(NOIR);
+   c_wglclr(); 
 
-   wglsetw(wglWin);
-   RestorerParametresDeDefaut();
+   c_wglsetw(wglWin);
+   /*    RestorerParametresDeDefaut(); */
    return wglWin;
    }
 
@@ -141,76 +122,76 @@ int wglWinID;
  ******************************************************************************
  **/
 
-
-InitWglMotifWindow(nomFenetre, wglWinID)
-char *nomFenetre;
-int wglWinID;
-{
+/* 
+   InitWglMotifWindow(nomFenetre, wglWinID)
+   char *nomFenetre;
+   int wglWinID;
+   {
    int height, width;
    char *serverID;
-
+   
    static char *geo = "-geometry";
    char geometrie[24];
    char *argv[3];
    int argc;
-
+   
    InitWglDisplayAndScreen(nomFenetre);
-
+   
    serverID = (char *)(ServerVendor(wglDisp));
    if (0 == strcmp(serverID, "Silicon Graphics Inc."))
-      serverIdentifier = SGI;
+   serverIdentifier = SGI;
    else
-      serverIdentifier = 0;
-		       
-
+   serverIdentifier = 0;
+   
+   
    wglfore = WhitePixel(wglDisp, wglScr);
    wglback = BlackPixel(wglDisp, wglScr);
    
    if (!customWinSize)
-      {
-      wglHints.x     = 0;
-      wglHints.y     = 0;
-      wglHints.width = 150;
-      wglHints.height = 30;
-      }
+   {
+   wglHints.x     = 0;
+   wglHints.y     = 0;
+   wglHints.width = 150;
+   wglHints.height = 30;
+   }
    else
-      {
-      sprintf(geometrie, "%dx%d+%d+%d", wglHints.width, wglHints.height, wglHints.x, wglHints.y);
-      argc = 3;
-      argv[0] = nomFenetre;
-      argv[1] = geo;
-      argv[2] = geometrie;
-      }
+   {
+   sprintf(geometrie, "%dx%d+%d+%d", wglHints.width, wglHints.height, wglHints.x, wglHints.y);
+   argc = 3;
+   argv[0] = nomFenetre;
+   argv[1] = geo;
+   argv[2] = geometrie;
+   }
    
    wglWin = XtWindow((Widget)wglWinID);
-
+   
    if (customWinSize)
-      {
-      XSetStandardProperties(wglDisp, wglWin, nomFenetre, nomFenetre, NULL, argv, argc, &wglHints);
-      }
-
+   {
+   XSetStandardProperties(wglDisp, wglWin, nomFenetre, nomFenetre, NULL, argv, argc, &wglHints);
+   }
+   
    wglDrawable = wglWin;
-
+   
    wglLineGC = XCreateGC(wglDisp, wglWin, 0, 0);
    wglFillGC = XCreateGC(wglDisp, wglWin, 0, 0);
-
+   
    XSetBackground(wglDisp, wglLineGC, wglback);
    XSetForeground(wglDisp, wglLineGC, wglfore);
    
    XSetBackground(wglDisp, wglFillGC, wglback);
    XSetForeground(wglDisp, wglFillGC, wglfore);
-  
+   
    if (1 != wglgpl())
-      {
-      if (nbFenetresActives == 1)
-         InitColormap();
-      else
-         XSetWindowColormap(wglDisp, wglWin, cmap);
-      }
- 
+   {
+   if (nbFenetresActives == 1)
+   InitColormap();
+   else
+   XSetWindowColormap(wglDisp, wglWin, cmap);
+   }
+   
    XSync(wglDisp, False);
    InitPatterns();
-
+   
    XSync(wglDisp, False);
    XSetBackground(wglDisp, wglLineGC, wglback);
    XSetForeground(wglDisp, wglLineGC, wglfore);
@@ -221,24 +202,24 @@ int wglWinID;
    
    XSync(wglDisp, False);
    XStoreName(wglDisp, wglWin, nomFenetre);
-
+   
    XSync(wglDisp, False);
    XSelectInput(wglDisp, wglWin, EVENT_MASK);
-
+   
    InitFonte(14);
-
+   
    if (aspectRatio != 0.0)
-      {
-      XSetNormalHints(wglDisp, wglWin, &wglHints);
-      }
-
+   {
+   XSetNormalHints(wglDisp, wglWin, &wglHints);
+   }
+   
    
    XMapRaised(wglDisp, wglWin);
    XtAppNextEvent(SuperWidget.contexte, &wglEvent);
    }
-
-
+   
+*/
 /**
- ******************************************************************************
- ******************************************************************************
- **/
+******************************************************************************
+******************************************************************************
+**/

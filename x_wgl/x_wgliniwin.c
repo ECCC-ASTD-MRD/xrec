@@ -20,8 +20,7 @@
 
 #include <wgl_x.h>
 
-wgliniwin(nomFenetre)
-char *nomFenetre;
+x_wgliniwin(char *nomFenetre)
 {
    char *serverID;
 
@@ -31,15 +30,9 @@ char *nomFenetre;
    char *argv[3];
    int argc;
 
-   wglinids(nomFenetre);
+   x_wglinids(nomFenetre);
 
    serverID = (char *)(ServerVendor(wglDisp));
-   if (0 == strcmp(serverID, "Silicon Graphics Inc."))
-      serverIdentifier = SGI;
-   else
-      serverIdentifier = 0;
-		       
-
    wglfore = WhitePixel(wglDisp, wglScrNum);
    wglback = BlackPixel(wglDisp, wglScrNum);
    
@@ -68,6 +61,7 @@ char *nomFenetre;
    wglWinSetAttr.colormap = DefaultColormap(wglDisp, wglScrNum);
    wglWinSetAttr.background_pixel = BlackPixel(wglDisp, wglScrNum);
    
+   x_wglinicmap(); 
    wglWin = XCreateWindow(wglDisp,  DefaultRootWindow(wglDisp), wglHints.x, wglHints.y, 
 			  wglHints.width, wglHints.height, 5, visInfo.depth,InputOutput,visInfo.visual,
 			  attribmask,  &wglWinSetAttr);
@@ -76,10 +70,10 @@ char *nomFenetre;
       XSetStandardProperties(wglDisp, wglWin, nomFenetre, nomFenetre, NULL, argv, argc, &wglHints);
       }
 
-   if (1 != wglgpl())
+   if (1 != c_wglgpl())
       {
       if (nbFenetresActives <= 1)
-	 wglinicmap(); 
+	 x_wglinicmap(); 
       else
 	 XSetWindowColormap(wglDisp, wglWin, cmap);
       }
@@ -96,27 +90,28 @@ char *nomFenetre;
    XSetBackground(wglDisp, wglFillGC, wglback);
    XSetForeground(wglDisp, wglFillGC, wglfore);
    
-   wglinipat();
+   x_wglinipat();
    if (cmap_strategy == READ_WRITE_COLORMAP)
      {
-     wglsetwcmap();
+       c_wglsetwcmap();
      }
-     
+   
    XStoreName(wglDisp, wglWin, nomFenetre); 
    XSelectInput(wglDisp, wglWin, EVENT_MASK);
-
-   InitFonte(14);
+   
    croix = XCreateFontCursor(wglDisp,XC_cross);
-
+   
    if (aspectRatio != 0.0)
-      {
-      XSetNormalHints(wglDisp, wglWin, &wglHints);
-      }
-
+     {
+       XSetNormalHints(wglDisp, wglWin, &wglHints);
+     }
+   
+   InitFonte(14); 
+   
    FlusherTousLesEvenements();
    XMapRaised(wglDisp, wglWin);
    XFlush(wglDisp);
-
+   
    XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
    while (wglWinAttr.map_state != IsViewable)
       {

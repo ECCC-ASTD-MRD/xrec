@@ -20,18 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglcrb)(couleur)
-int *couleur;
-{
-   wglcrb(*couleur);
-   }
-
-/**
-******
-**/
-
-wglcrb(couleur)
-int couleur;
+x_wglcrb(int couleur)
 {
    rubberBandColor = couleur;
    }

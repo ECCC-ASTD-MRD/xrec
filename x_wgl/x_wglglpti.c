@@ -20,14 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglglpti)(ix, iy)
-int *ix, *iy;
-{
-   wglglpti(ix, iy);
-   }
-
-wglglpti(ix, iy)
-int *ix, *iy;
+x_wglglpti(int *ix, int *iy)
 {
    *ix = wglPts[NbPoints-1].x;
    *iy = wglPts[NbPoints-1].y;

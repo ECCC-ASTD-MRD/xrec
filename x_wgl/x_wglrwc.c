@@ -20,17 +20,7 @@
 
 #include <wgl_x.h>
 
-void f77name(wglrwc)()
-{
-   wglrwc();
-   }
-
-/**
-******
-**/
-
-
-wglrwc()
+x_wglrwc()
 {
    cmap_strategy = READ_WRITE_COLORMAP;
 

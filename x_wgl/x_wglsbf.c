@@ -20,18 +20,9 @@
 
 #include <wgl_x.h>
 
-f77name(wglsbf)()
+x_wglsbf()
 {
-   wglsbf();
-   }
-
-/**
- ******
- **/
-
-wglsbf()
-{
-   wglfbf();
+   c_wglfbf();
    if (bgPix)
       XFreePixmap(wglDisp, bgPix);
    bgPix = NULL;

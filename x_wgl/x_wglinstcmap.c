@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-wglinstcmap()
+x_wglinstcmap()
 {
    int i;
 

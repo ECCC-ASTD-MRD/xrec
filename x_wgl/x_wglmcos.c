@@ -20,21 +20,9 @@
 
 #include <wgl_x.h>
 
-f77name(wglmcos)(couleurs, nbCols, rgbDefs)
-int couleurs[], *nbCols, rgbDefs[][3];
+x_wglmcos(int couleurs[], int nbCols, int rgbDefs[][3])
 {
-   wglmcos(couleurs, *nbCols, rgbDefs);
-   }
-
-/**
- ******
- **/
-
-
-wglmcos(couleurs, nbCols, rgbDefs)
-int couleurs[], nbCols, rgbDefs[][3];
-{
-   if (8 <= wglgpl())
+   if (8 <= x_wglgpl())
       {
       wglmapcs(couleurs, nbCols, rgbDefs);
       }

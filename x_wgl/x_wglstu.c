@@ -20,18 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglstu)(istep, jstep)
-int *istep, *jstep;
-{
-   wglstu(*istep, *jstep);
-   }
-
-/**
-******
-**/
-
-wglstu(istep, jstep)
-int istep, jstep;
+x_wglstu(int istep, int jstep)
 {
    }
 

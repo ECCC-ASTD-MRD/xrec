@@ -20,19 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglgsi)(idebut, jdebut, ifin, jfin)
-int *idebut, *jdebut, *ifin, *jfin;
-{
-   wglgsi(idebut, jdebut, ifin, jfin);
-   }
-
-/**
-******
-**/
-
-
-wglgsi(idebut, jdebut, ifin, jfin)
-int *idebut, *jdebut, *ifin, *jfin;
+x_wglgsi(int *idebut, int *jdebut, int *ifin, int *jfin)
 {
   *idebut = usSpace.idebut;
   *jdebut = usSpace.jdebut;

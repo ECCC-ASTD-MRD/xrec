@@ -20,24 +20,9 @@
 
 #include <wgl_x.h>
 
-f77name(wglgzp)(xsize, ysize, isize, jsize)
-float *xsize, *ysize;
-int *isize, *jsize;
+x_wglgzp(float *xsize, float *ysize, int *isize, int *jsize)
 {
-   wglgzp(xsize, ysize, isize, jsize);
-   }
-
-
-/**
-******
-**/
-
-
-wglgzp(xsize, ysize, isize, jsize)
-float *xsize, *ysize;
-int *isize, *jsize;
-{
-   wglgzx(xsize, ysize);
-   wglgzi(isize, jsize);
+   c_wglgzx(xsize, ysize);
+   c_wglgzi(isize, jsize);
    }
 

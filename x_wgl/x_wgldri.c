@@ -20,18 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wgldri)(i, j)
-int *i, *j;
-{
-   wgldri(*i, *j);
-   }
-
-/**
-******
-**/
-
-wgldri(i, j)
-int i, j;
+x_wgldri(int i, int j)
 {
    wglPts[NbPoints].x = i;
    wglPts[NbPoints].y =  h - j;

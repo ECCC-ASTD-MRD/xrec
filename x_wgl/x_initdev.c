@@ -18,7 +18,6 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <rpnmacros.h>
 #include <wgl_x.h>
 
 f77name(initdev)() 

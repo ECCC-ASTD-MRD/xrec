@@ -20,16 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglfbf)()
-{
-   wglfbf();
-   }
-
-/**
-******
-**/
-
-wglfbf()
+x_wglfbf()
 {
    wglDrawable = wglWin;
    

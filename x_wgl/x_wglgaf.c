@@ -20,16 +20,7 @@
 
 #include <wgl_x.h>
 
-int f77name(wglgaf)()
-{
-   return wglgaf();
-   }
-
-/**
-******
-**/
-
-int wglgaf()
+int x_wglgaf()
 {
    return (!wglForceAspect);
 

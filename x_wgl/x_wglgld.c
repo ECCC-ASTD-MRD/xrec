@@ -20,16 +20,7 @@
 
 #include <wgl_x.h>
 
-int f77name(wglgld)()
-{
-   return wglgld();
-   }
-
-/**
-******
-**/
-
-int wglgld()
+int x_wglgld()
 {
    return currentDashPattern;
    }

@@ -20,18 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglsmk)(masque)
-int *masque;
-{
-   wglsmk(*masque);
-   }
-
-/**
- ******
- **/
-
-wglsmk(masque)
-int masque;
+x_wglsmk(int masque)
 {
    XSetPlaneMask(wglDisp, wglLineGC, (unsigned long) masque);
    currentPlaneMask = masque;

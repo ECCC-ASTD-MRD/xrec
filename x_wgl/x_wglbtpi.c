@@ -20,22 +20,9 @@
 
 #include <wgl_x.h>
 
-Boolean wglbtpi();
+int x_wglbtpi();
 
-Boolean f77name(wglbtpi)(bouton, i, j)
-int *bouton;
-int *i, *j;
-{
-   return (Boolean) wglbtpi(*bouton, i, j);
-   }
-
-/**
- ******
- **/
-
-Boolean wglbtpi(bouton, i, j)
-int bouton;
-int *i, *j;
+int x_wglbtpi(int bouton, int *i, int *j)
 {
    Window root, child;
    int root_x, root_y;

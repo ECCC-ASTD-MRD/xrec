@@ -20,18 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglpsz)(isize, jsize)
-int *isize, *jsize;
-{
-   wglpsz(*isize, *jsize);
-   }
-
-/**
-******
-**/
-
-wglpsz(isize, jsize)
-int isize, jsize;
+x_wglpsz(int isize, int jsize)
 {
    wglHints.width  = isize;
    wglHints.height = jsize;

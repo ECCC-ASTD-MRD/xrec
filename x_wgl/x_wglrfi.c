@@ -20,19 +20,9 @@
 
 #include <wgl_x.h>
 
-f77name(wglrfi)(ia, ja, ib, jb)
-int *ia, *ja, *ib, *jb;
+x_wglrfi(int ia, int ja, int ib, int jb)
 {
-   wglrfi(*ia, *ja, *ib, *jb);
-   }
-
-/**
-******
-**/
-
-wglrfi(ia, ja, ib, jb)
-{
-   XPoint p[5];
+   wgl_point p[5];
 
    wglfshlb();
    p[0].x = ia;

@@ -20,18 +20,9 @@
 
 #include <wgl_x.h>
 
-f77name(wglfsc)()
+x_wglfsc()
 {
-   wglfsc();
-   }
-
-/**
-******
-**/
-
-wglfsc()
-{
-   wglinids("");
-   wglpsz(DisplayWidth(wglDisp, wglScrNum), DisplayHeight(wglDisp, wglScrNum));
+   x_wglinids("");
+   c_wglpsz(DisplayWidth(wglDisp, wglScrNum), DisplayHeight(wglDisp, wglScrNum));
    }
 

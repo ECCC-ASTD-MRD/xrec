@@ -21,7 +21,7 @@
 #include <wgl_x.h>
 
 
-wglsetwcmap()
+x_wglsetwcmap()
 {
    int i, res;
    int plane_masks;
@@ -29,13 +29,13 @@ wglsetwcmap()
    if (visualClass == PseudoColor)
       {
       attribmask = CWColormap | CWBackPixel;
-      wglWinSetAttr.colormap = cmap;
+      wglWinSetAttr.colormap = (Colormap) cmap;
       wglWinSetAttr.background_pixel = BlackPixel(wglDisp, wglScrNum);
       
       XChangeWindowAttributes(wglDisp, wglWin, attribmask, &wglWinSetAttr);
-      wglsetw(wglWin);
+      c_wglsetw(wglWin);
       for (i=0; i < nbFenetresActives; i++)
-        XSetWindowColormap(wglDisp,fenetre[i].wglWin, cmap);
+        XSetWindowColormap(wglDisp,fenetre[i].wglWin, (Colormap) cmap);
       }
    
 }

@@ -20,16 +20,7 @@
 
 #include <wgl_x.h>
 
-int f77name(wglgpl)()
-{
-   return wglgpl();
-   }
-
-/**
-******
-**/
-
-int wglgpl()
+int x_wglgpl()
 {
 
    return visInfo.depth;

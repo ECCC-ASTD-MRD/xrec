@@ -20,16 +20,7 @@
 
 #include <wgl_x.h>
 
-int f77name(wglgdbg)()
-{
-   return wglgdbg();
-   }
-
-/**
-******
-**/
-
-int wglgdbg()
+int x_wglgdbg()
 {
    return debugMode;
    }

@@ -20,18 +20,7 @@
 
 #include <wgl_x.h>
 
-int f77name(wglbti)(i,j)
-int *i, *j;
-{
-   return (wglbti(i, j));
-   }
-
-/**
- ******
- **/
-
-int wglbti(i, j)
-int *i, *j;
+int x_wglbti(int *i, int *j)
 {
    wglfshlb();
    XDefineCursor(wglDisp,wglWin,croix);

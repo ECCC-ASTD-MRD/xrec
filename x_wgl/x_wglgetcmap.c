@@ -20,13 +20,12 @@
 
 #include <wgl_x.h>
 
-wglgetcmap(colormap)
-Colormap *colormap;
+x_wglgetcmap(int *colormap)
 {
    if (visInfo.visual != DefaultVisual(XtDisplay(SuperWidget.topLevel),DefaultScreen(XtDisplay(SuperWidget.topLevel))))
       {
       *colormap = -1;
-      return;
+      return 0;
       }
    
   if (cmap == DefaultColormap(XtDisplay(SuperWidget.topLevel), DefaultScreen(XtDisplay(SuperWidget.topLevel))))

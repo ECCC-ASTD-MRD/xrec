@@ -20,23 +20,12 @@
 
 #include <wgl_x.h>
 
-f77name(wglcol)(couleur)
-int *couleur;
-{
-   wglcol(*couleur);
-   }
-
-/**
-******
-**/
-
-wglcol(couleur)
-int couleur;
+x_wglcol(int couleur)
 {
    int nplanes;
    wglfshlb();
    
-   nplanes = wglgpl();
+   nplanes = c_wglgpl();
 
    switch(nplanes)
       {

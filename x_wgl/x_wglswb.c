@@ -20,16 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglswb)()
-{
-   wglswb();
-   }
-
-/**
-******
-**/
-
-wglswb()
+x_wglswb()
 {
    XSetFunction(wglDisp, wglLineGC, GXcopy);
 

@@ -20,11 +20,11 @@
 
 #include <wgl_x.h>
 
-f77name(wglptxs)(float *xxx, float *yyy, int *npts)
+int x_wglptxs(float *xxx, float *yyy, int *npts)
 {
   int i,j,k;
   int i1, j1, imax;
-  XPoint p[256];
+  wgl_point p[256];
   
   for (j=0; j < *npts; j+=255)
     {

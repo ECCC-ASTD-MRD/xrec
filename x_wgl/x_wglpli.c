@@ -20,26 +20,12 @@
 
 #include <wgl_x.h>
 
-f77name(wglpli)(nbPoints, polygone)
-int *nbPoints;
-int polygone[][2];
-{
-   wglpli(*nbPoints, polygone);
-   }
-
-/**
-******
-**/
-
-
-wglpli(nbPoints, polygone)
-int nbPoints;
-int polygone[][2];
+x_wglpli(int nbPoints, int polygone[][2])
 {
    int i;
-   XPoint p[255], *xptr, *largeP;
+   XPoint p[256], *xptr, *largeP;
    
-   if (nbPoints > 255)
+   if (nbPoints > 256)
       {
       largeP = (XPoint *) calloc(nbPoints, sizeof(XPoint));
       xptr = largeP;
@@ -49,7 +35,7 @@ int polygone[][2];
       xptr = p;
       }
 
-   wglfshlb();
+   c_wglfshlb();
    for (i=0; i < nbPoints; i++)
       {
       xptr[i].x = polygone[i][X];
@@ -57,8 +43,7 @@ int polygone[][2];
       }
 
    XDrawLines(wglDisp, wglDrawable, wglLineGC, xptr, nbPoints, CoordModeOrigin);
-   
-   if (nbPoints > 255)
+   if (nbPoints > 256)
       free(largeP);
 
    }

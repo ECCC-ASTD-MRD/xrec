@@ -20,18 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglgzi)(isize, jsize)
-int *isize, *jsize;
-{
-   wglgzi(isize, jsize);
-   }
-
-/**
-******
-**/
-
-wglgzi(isize, jsize)
-int *isize, *jsize;
+x_wglgzi(int *isize, int *jsize)
 {
    *isize = usSpace.ifin - usSpace.idebut + 1;
    *jsize = usSpace.jfin - usSpace.jdebut + 1;

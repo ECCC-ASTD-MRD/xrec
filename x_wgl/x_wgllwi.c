@@ -20,18 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wgllwi)(lineWidth)
-int *lineWidth;
-{
-   wgllwi(*lineWidth);
-   }
-
-/**
-******
-**/
-
-wgllwi(lineWidth)
-int lineWidth;
+x_wgllwi(int lineWidth)
 {
    wglfshlb();
    if (lineWidth == 1)

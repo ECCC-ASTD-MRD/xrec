@@ -20,15 +20,14 @@
 
 #include <wgl_x.h>
 
-wglinids(nomFenetre)
-char *nomFenetre;
+x_wglinids(char *nomFenetre)
 {
    if (wglDisp == NULL)
       {
       Xinit(nomFenetre);
       wglDisp = /**XOpenDisplay("");**/  XtDisplay(SuperWidget.topLevel);
       wglScrNum = DefaultScreen(wglDisp);
-      if (wglgdbg())
+      if (c_wglgdbg())
 	{
         XSynchronize(wglDisp,True);
 	}

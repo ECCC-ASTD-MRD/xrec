@@ -20,22 +20,8 @@
 
 #include <wgl_x.h>
 
-f77name(wglgsp)(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin)
-float *xdebut, *ydebut, *xfin, *yfin;
-int   *idebut, *jdebut, *ifin, *jfin;
+int x_wglgsp(float *xdebut, float *ydebut, float *xfin, float *yfin, int   *idebut, int   *jdebut, int   *ifin, int   *jfin)
 {
-   wglgsp(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin);
-   }
-
-/**
-******
-**/
-
-
-wglgsp(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin)
-float *xdebut, *ydebut, *xfin, *yfin;
-int   *idebut, *jdebut, *ifin, *jfin;
-{
-   wglgsx(xdebut, ydebut, xfin, yfin);
-   wglgsi(idebut, jdebut, ifin, jfin);
+   c_wglgsx(xdebut, ydebut, xfin, yfin);
+   c_wglgsi(idebut, jdebut, ifin, jfin);
    }

@@ -20,18 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglppo)(ix, iy, isize, jsize)
-int *ix, *iy, *isize, *jsize;
-{
-   wglppo(*ix, *iy, *isize, *jsize);
-   }
-
-/**
-******
-**/
-
-wglppo(ix, iy, isize, jsize)
-int ix, iy, isize, jsize;
+x_wglppo(int ix, int iy, int isize, int jsize)
 {
    wglinids("");
    

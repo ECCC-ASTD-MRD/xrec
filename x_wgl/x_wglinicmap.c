@@ -27,7 +27,7 @@ unsigned int colorbitrange[3][3];
 
 static char *les_couleurs[] = {"white", "black", "red", "cyan", "yellow", "magenta", "green2", "blue", "gray"};
 
-wglinicmap()
+x_wglinicmap()
 {
    int i,plane_masks;
    XColor exact[16],col;
@@ -45,7 +45,10 @@ wglinicmap()
    int nitems_return;
    
    int nbPixs;
+
+   XColor *xcouleurs;
    
+   xcouleurs = (XColor *) couleurs;
 
    defaultVisual = DefaultVisual(wglDisp, wglScrNum);
    visualList = XGetVisualInfo(wglDisp, 0x0, &vtemplate, &nitems_return);
@@ -89,7 +92,7 @@ wglinicmap()
 	   couleurs[i].pixel = i;
 	   wglColorTable[i] = i;
          }
-       XQueryColors(wglDisp, defcmap, &couleurs, 255);
+       XQueryColors(wglDisp, defcmap, xcouleurs, 255);
      }
        
    for (i=0; i < 9; i++)
@@ -98,11 +101,11 @@ wglinicmap()
        if (res == 0)
 	 {
 	   if (visualClass == PseudoColor)
-	     XQueryColors(wglDisp, defcmap, &couleurs, 255);
+	     XQueryColors(wglDisp, defcmap, xcouleurs, 255);
 	   res = XLookupColor(wglDisp, defcmap, les_couleurs[i],  &exact[i], &col);
 	   couleurderemplacement = MatchColorIndexX(col.red/256, col.green/256, col.blue/256, 
 			    couleurs, 0, 254);
-	   exact[i] = couleurs[couleurderemplacement];
+	   exact[i] = xcouleurs[couleurderemplacement];
 	 }
      }
    
@@ -124,7 +127,7 @@ wglinicmap()
      {
        for (i=0; i < 9; i++)
          {
-	   couleurs[exact[i].pixel] = exact[i];
+	   xcouleurs[exact[i].pixel] =  exact[i];
 	   wglColorTable[i] = exact[i].pixel;
          }
      }
@@ -132,7 +135,7 @@ wglinicmap()
      {
        for (i=0; i < 9; i++)
          {
-	   couleurs[i] = exact[i];
+	   xcouleurs[i] =  exact[i];
 	   wglColorTable[i] = exact[i].pixel;
          }
      }
@@ -162,7 +165,7 @@ wglinicmap()
          
          if (res == 0)
             {
-            wglinstcmap();
+            c_wglinstcmap();
             }
          
          if (i != 0)

@@ -20,18 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wgldld)(indDash, dashPattern)
-int *indDash, *dashPattern;
-{
-   wgldld(*indDash, *dashPattern);
-   }
-
-/**
-******
-**/
-
-wgldld(indDash, dashPattern)
-int indDash, dashPattern;
+x_wgldld(int indDash, int dashPattern)
 {
    wgldeflst(indDash, dashPattern);
    }

@@ -20,22 +20,11 @@
 
 #include <wgl_x.h>
 
-f77name(wglgco)(indCol, red, green, blue)
-int *indCol, *red, *green, *blue;
-{
-   wglgco(*indCol, red, green, blue);
-   }
-
-/**
-******
-**/
-
-wglgco(indCol, red, green, blue)
-     int indCol, *red, *green, *blue;
+x_wglgco(int indCol, int *red, int *green, int *blue)
 {
    int nplanes;
 
-   nplanes = wglgpl();
+   nplanes = c_wglgpl();
 
    switch(nplanes)
       {

@@ -20,22 +20,7 @@
 
 #include <wgl_x.h>
 
-Boolean wglbtn();
-
-Boolean f77name(wglbtn)(bouton)
-int *bouton;
-{
-   int val;
-   val = wglbtn(*bouton);
-   return val;
-   }
-
-/**
- ******
- **/
-
-Boolean wglbtn(bouton)
-int bouton;
+int x_wglbtn(int bouton)
 {
    wglfshlb();
 

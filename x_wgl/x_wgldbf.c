@@ -20,16 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wgldbf)()
-{
-   wgldbf();
-   }
-
-/**
-******
-**/
-
-wgldbf()
+x_wgldbf()
 {
    int x, y;
    Window root;
@@ -37,8 +28,8 @@ wgldbf()
    int largeurFenetre, hauteurFenetre, nplanes;
 
    
-   wglgwz(&w,&h);
-   nplanes = wglgpl();
+   c_wglgwz(&w,&h);
+   nplanes = c_wglgpl();
    
    if (bgPix == NULL)
       {
@@ -47,7 +38,7 @@ wgldbf()
    else
       {
       XGetGeometry(wglDisp, bgPix, &root, &x, &y, &width, &height, &border_width, &depth);
-      wglgwz(&largeurFenetre, &hauteurFenetre);
+      c_wglgwz(&largeurFenetre, &hauteurFenetre);
       
       if (largeurFenetre != width && hauteurFenetre != height)
 	 {

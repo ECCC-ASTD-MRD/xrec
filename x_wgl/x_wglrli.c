@@ -20,23 +20,12 @@
 
 #include <wgl_x.h>
 
-f77name(wglrli)(ia, ja, ib, jb)
-int *ia, *ja, *ib, *jb;
+x_wglrli(int ia, int ja, int ib, int jb)
 {
-   wglrli(*ia, *ja, *ib, *jb);
-   }
-
-/**
-******
-**/
-
-
-wglrli(ia, ja, ib, jb)
-{
-   wglmvi(ia, ja);
-   wgldri(ib, ja);
-   wgldri(ib, jb);
-   wgldri(ia, jb);
-   wgldri(ia, ja);
-   wglfshlb();
-   }
+  c_wglmvi(ia, ja);
+  c_wgldri(ib, ja);
+  c_wgldri(ib, jb);
+  c_wgldri(ia, jb);
+  c_wgldri(ia, ja);
+  x_wglfshlb();
+}

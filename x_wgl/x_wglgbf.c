@@ -20,16 +20,7 @@
 
 #include <wgl_x.h>
 
-int f77name(wglgbf)()
-{
-   return wglgbf();
-   }
-
-/**
-******
-**/
-
-int wglgbf()
+int x_wglgbf()
 {
    return True;
 

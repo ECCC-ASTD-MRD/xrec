@@ -20,18 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglncl)(ncolRead, ncolWrite, ncolAnim)
-int *ncolRead, *ncolWrite, *ncolAnim;
-{
-   wglncl(ncolRead, ncolWrite, ncolAnim);
-   }
-
-/**
-******
-**/
-
-wglncl(ncolRead, ncolWrite, ncolAnim)
-int *ncolRead, *ncolWrite, *ncolAnim;
+x_wglncl(int *ncolRead, int *ncolWrite, int *ncolAnim)
 {
       *ncolRead  = 255;
       *ncolWrite = 255;

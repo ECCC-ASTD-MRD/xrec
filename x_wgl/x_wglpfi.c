@@ -20,21 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglpfi)(nbPoints, polygone)
-int *nbPoints;
-int polygone[][2];
-{
-   wglpfi(*nbPoints, polygone);
-   }
-
-/**
-******
-**/
-
-
-wglpfi(nbPoints, polygone)
-int nbPoints;
-int polygone[][2];
+x_wglpfi(int nbPoints, int polygone[][2])
 {
    int i;
    XPoint p[255];

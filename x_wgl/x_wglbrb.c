@@ -20,16 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglbrb)()
-{
-   wglbrb();
-   }
-
-/**
- ******
- **/
-
-wglbrb()
+x_wglbrb()
 {
    }
 

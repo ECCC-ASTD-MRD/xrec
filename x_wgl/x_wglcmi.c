@@ -20,29 +20,18 @@
 
 #include <wgl_x.h>
 
-f77name(wglcmi)(left, bottom, right, top)
-int *left, *bottom, *right, *top;
+x_wglcmi(int left, int bottom, int right, int top)
 {
-   wglcmi(*left, *bottom, *right, *top);
-   }
-
-/**
-******
-**/
-
-wglcmi(left, bottom, right, top)
-int left, bottom, right, top;
-{
-   XRectangle rect;
-   int w,h;
-
-   wglgwz(&w,&h);
-
-   rect.x = (short) left;
-   rect.y = (short) (h - top);
-   rect.width = (unsigned int) (right - left);
-   rect.height = (unsigned int) (top - bottom);
-   
-   XSetClipRectangles(wglDisp, wglLineGC, 0, 0, &rect, 1, Unsorted);
-   XSetClipRectangles(wglDisp, wglFillGC, 0, 0, &rect, 1, Unsorted);
-   }
+  XRectangle rect;
+  int w,h;
+  
+  c_wglgwz(&w,&h);
+  
+  rect.x = (short) left;
+  rect.y = (short) (h - top);
+  rect.width = (unsigned int) (right - left);
+  rect.height = (unsigned int) (top - bottom);
+  
+  XSetClipRectangles(wglDisp, wglLineGC, 0, 0, &rect, 1, Unsorted);
+  XSetClipRectangles(wglDisp, wglFillGC, 0, 0, &rect, 1, Unsorted);
+}

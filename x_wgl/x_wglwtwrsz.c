@@ -20,13 +20,11 @@
 
 #include <wgl_x.h>
 
-wglwtwrsz()
+x_wglwtwrsz()
 {
    Dimension largeurMax, hauteurMax;
    Dimension largeurCourante, hauteurCourante;
    
-/**   wglmesagr(messageAgrandir[lng]); **/
-
    XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
    w = wglWinAttr.width;
    h = wglWinAttr.height;

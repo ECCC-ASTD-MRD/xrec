@@ -20,19 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglpti)(i, j)
-int *i, *j;
-{
-   wglpti(*i, *j);
-   }
-
-/**
-******
-**/
-
-
-wglpti(i, j)
-int i, j;
+x_wglpti(int i, int j)
 {
    XDrawPoint(wglDisp, wglDrawable, wglLineGC, i, h - j);
    }

@@ -20,21 +20,9 @@
 
 #include <wgl_x.h>
 
-f77name(wglgvi)(idebut, jdebut, ifin, jfin)
-int *idebut, *jdebut, *ifin, *jfin;
+x_wglgvi(int *idebut, int *jdebut, int *ifin, int *jfin)
 {
-   wglgvi(idebut, jdebut, ifin, jfin);
-   }
-
-/**
-******
-**/
-
-
-wglgvi(idebut, jdebut, ifin, jfin)
-int *idebut, *jdebut, *ifin, *jfin;
-{
-   wglgwz(&w,&h);
+   c_wglgwz(&w,&h);
 
    *idebut = usSpace.idebut;
    if (*idebut < 0)

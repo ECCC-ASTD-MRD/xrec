@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-wglfshlb()
+x_wglfshlb()
 {
    int i;
 

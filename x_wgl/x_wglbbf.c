@@ -20,26 +20,17 @@
 
 #include <wgl_x.h>
 
-f77name(wglbbf)()
-{
-   wglbbf();
-   }
-
-/**
- ******
- **/
-
-wglbbf()
+x_wglbbf()
 {
    int x, y;
    Window root;
    unsigned int width, height, border_width, depth, nplanes;
    int largeurFenetre, hauteurFenetre;
    
-   nplanes = wglgpl();
+   nplanes = c_wglgpl();
 
    XGetGeometry(wglDisp, bgPix, &root, &x, &y, &width, &height, &border_width, &depth);
-   wglgwz(&largeurFenetre, &hauteurFenetre);
+   c_wglgwz(&largeurFenetre, &hauteurFenetre);
 
    if (largeurFenetre != width || hauteurFenetre != height)
       {

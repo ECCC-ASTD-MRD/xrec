@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-wglgacw()
+x_wglgacw()
 {
    if (fenetreCourante == -1)
       return -1;

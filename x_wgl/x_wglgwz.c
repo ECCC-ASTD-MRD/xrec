@@ -20,18 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglgwz)(isize, jsize)
-int *isize, *jsize;
-{
-   wglgwz(isize, jsize);
-   }
-
-/**
-******
-**/
-
-wglgwz(isize, jsize)
-int *isize, *jsize;
+x_wglgwz(int *isize, int *jsize)
 {
    Window root;
    int x, y;

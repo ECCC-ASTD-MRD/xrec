@@ -20,18 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglcli)(i, j, rayon)
-int *i, *j, *rayon;
-{
-   wglcli(*i, *j, *rayon);
-   }
-
-/**
- ******
- **/
-
-wglcli(i, j, rayon)
-int i, j, rayon;
+x_wglcli(int i, int j, int rayon)
 {
    int idebut, jdebut, ifin, jfin;
    

@@ -20,16 +20,7 @@
 
 #include <wgl_x.h>
 
-int f77name(wglgmk)()
-{
-   return wglgmk();
-   }
-
-/**
-******
-**/
-
-int wglgmk()
+int x_wglgmk()
 {
    return currentPlaneMask;
    }

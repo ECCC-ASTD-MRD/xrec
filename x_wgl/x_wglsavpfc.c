@@ -20,9 +20,8 @@
 
 #include <wgl_x.h>
 
-wglsavpfc()
+x_wglsavpfc()
 {
-  /*
    if (fenetreCourante < 0)
       return;
 
@@ -45,6 +44,5 @@ wglsavpfc()
    fenetre[fenetreCourante].currentPlaneMask = currentPlaneMask;
    fenetre[fenetreCourante].pixmapDimensions = pixmapDimensions;
    fenetre[fenetreCourante].usSpace = usSpace;
-  */
    }
 

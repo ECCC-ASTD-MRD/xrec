@@ -20,19 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglmvi)(i, j)
-int *i, *j;
-{
-   wglmvi(*i, *j);
-   }
-
-/**
-******
-**/
-
-
-wglmvi(i, j)
-int i, j;
+x_wglmvi(int i, int j)
 {
    wglfshlb();
    wglPts[NbPoints].x = i;

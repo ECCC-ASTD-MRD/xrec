@@ -20,16 +20,15 @@
 
 #include <wgl_x.h>
 
-wglmesagr(message)
-char *message;
+x_wglmesgagr(char *message)
 {
    int largeurTexte;
 
-   largeurTexte = wglwsi(message, strlen(message)); 
+   largeurTexte = c_wglwsi(message, strlen(message)); 
 
    XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
-   wglfsz(14);
-   wglpsi((w-largeurTexte)/2,10,message,strlen(message),14,0,0);
+   c_wglfsz(14);
+   c_wglpsi((w-largeurTexte)/2,10,message,strlen(message),14,0,0);
    XFlush(wglDisp);
    
    }

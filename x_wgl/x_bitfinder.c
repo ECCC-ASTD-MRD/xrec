@@ -18,22 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <stdio.h>
+#include <wgl_x.h>
 
 
-testbitfinder(int argc, char **argv)
-{
-   unsigned int mask, idebut, ifin;
-   
-   while (0 == 0)
-      {
-      fscanf(stdin, "%d", &mask);
-      wglbitfinder(mask, &idebut, &ifin);
-      printf("idebut: %d, ifin : %d\n", idebut, ifin);   
-      }
-}
-
-wglbitfinder(unsigned int mask, unsigned int *idebut, unsigned int *ifin)
+x_wglbitfinder(unsigned int mask, unsigned int *idebut, unsigned int *ifin)
 {
    unsigned int the_mask;
    *idebut = 0;
@@ -56,3 +44,47 @@ wglbitfinder(unsigned int mask, unsigned int *idebut, unsigned int *ifin)
       }
    (*ifin)--;
 }
+
+
+printbidon(char *string, float xxx1, float yyy1, float xxx2, float yyy2, 
+	   int iii1, int jjj1, int iii2, int jjj2)   
+{
+  printf("%s: %f %f %f %f - %d %d %d %d \n", string, xxx1, yyy1, xxx2, yyy2, iii1, jjj1, iii2, jjj2);
+}
+
+printbidonetoile(char *string, float *xxx1, float *yyy1, float *xxx2, float *yyy2, 
+	   int *iii1, int *jjj1, int *iii2, int *jjj2)   
+{
+  printf("*** %s: %x %x %x %x - %x %x %x %x \n", string, xxx1, yyy1, xxx2, yyy2, iii1, jjj1, iii2, jjj2);
+  printf("*** %s: %f %f %f %f - %d %d %d %d \n", string, *xxx1, *yyy1, *xxx2, *yyy2, *iii1, *jjj1, *iii2, *jjj2);
+}
+
+     
+ int x_wglopw2(char *nomFenetre)
+{
+   char tempNomFenetre[255];
+   float xxx1, yyy1, xxx2, yyy2;
+   int iii1, www1, iii2, www2;
+
+   iii1 = 0;
+   www1 = 0;
+   iii2 = 640;
+   www2 = 480;
+   xxx1 = 0.0;
+   xxx2=1.0*iii2;
+   yyy1= 0.0;
+   yyy2=1.0*www2;
+   
+   printf("printf fonction %f %f %f %f - %d %d %d %d\n ", 
+	  (float) xxx1, yyy1, xxx2, yyy2, iii1, (int) www1, iii2, (int) www2);
+   printf("printf etoiles %x %x %x %x - %x %x %x %x\n ", &xxx1, &yyy1, &xxx2, &yyy2, &iii1, &www1, &iii2, &www2);
+   printbidon("avant x_wgliniwin", xxx1, yyy1, xxx2, yyy2, iii1, www1, iii2, www2);
+   printbidonetoile("avant x_wgliniwin", &xxx1, &yyy1, &xxx2, &yyy2, &iii1, &www1, &iii2, &www2);
+   printbidon("apres x_wgliniwin", xxx1, yyy1, xxx2, yyy2, iii1, www1, iii2, www2);
+
+   printbidon("avant wglssp", xxx1, yyy1, xxx2, yyy2, iii1, www1, iii2, www2);
+   
+   c_wglssp(xxx1, yyy1, xxx2, yyy2, iii1, www1, iii2, www2, 0);
+   printbidon("apres  wglssp", xxx1, yyy1, xxx2, yyy2, iii1, www1, iii2, www2);
+   }
+

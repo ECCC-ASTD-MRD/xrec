@@ -20,19 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglmcw)(couleur, r, g, b)
-int *couleur, *r, *g, *b;
-{
-   wglmcw(*couleur, *r, *g, *b);
-   }
-
-/**
-******
-**/
-
-
-wglmcw(couleur, r, g, b)
-int couleur, r, g, b;
+x_wglmcw(int couleur, int r, int g, int b)
 {
    wglmapc(couleur, r, g, b);
    }

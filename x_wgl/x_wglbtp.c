@@ -20,20 +20,8 @@
 
 #include <wgl_x.h>
 
-Boolean f77name(wglbtp)(bouton)
-int *bouton;
+int x_wglbtp(int bouton)
 {
    int i,j;
-   return (Boolean) wglbtpi(*bouton, &i, &j);
-   }
-
-/**
- ******
- **/
-
-Boolean wglbtp(bouton)
-int bouton;
-{
-   int i,j;
-   return (Boolean) wglbtpi(bouton, &i, &j);
+   return (int) c_wglbtpi(bouton, &i, &j);
    }

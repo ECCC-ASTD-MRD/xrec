@@ -20,18 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglias)(flagAspect)
-int *flagAspect;
-{
-   wglias(*flagAspect);
-   }
-
-/**
-******
-**/
-
-wglias(flagAspect)
-int flagAspect;
+x_wglias(int flagAspect)
 {
 
    wglForceAspect = !flagAspect;

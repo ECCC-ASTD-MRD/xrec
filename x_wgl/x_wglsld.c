@@ -20,18 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglsld)(indDash)
-int *indDash;
-{
-   wglsld(*indDash);
-   }
-
-/**
- ******
- **/
-
-wglsld(indDash)
-int indDash;
+x_wglsld(int indDash)
 {
    int ind;
 

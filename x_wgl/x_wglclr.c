@@ -20,22 +20,13 @@
 
 #include <wgl_x.h>
 
-f77name(wglclr)()
-{
-   wglclr();
-   }
-
-/**
- ******
- **/
-
-wglclr()
+x_wglclr()
 {
    /**
    XSetWindowBackground(wglDisp, wglWin, couleurs[wglColorTable[currentColor]].pixel);
    XClearWindow(wglDisp, wglWin);
      **/
      wglfshlb();
-     wglcmi( -10, -10, w+10, h+10);
+     c_wglcmi( -10, -10, w+10, h+10);
      XFillRectangle(wglDisp, wglDrawable, wglLineGC, -10, -10, 10+w, 10+h);
    }

@@ -20,8 +20,7 @@
 
 #include <wgl_x.h>
 
-wglinvpat(Pattern)
-char Pattern[];
+x_wglinvpat(char Pattern[])
 {
    int i;
    char swapPat[128];

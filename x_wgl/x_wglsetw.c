@@ -20,19 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglsetw)(winid)
-int *winid;
-{
-   wglsetw(*winid);
-   }
-
-/**
- ******************************************************************************
- ******************************************************************************
- **/
-
-wglsetw(winid)
-int winid;
+x_wglsetw(int winid)
 {
 /**
    if ((Window)winid == fenetre[fenetreCourante].wglWin)

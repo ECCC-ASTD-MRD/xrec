@@ -20,22 +20,9 @@
 
 #include <wgl_x.h>
 
-f77name(wglgvp)(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin)
-float *xdebut, *ydebut, *xfin, *yfin;
-int   *idebut, *jdebut, *ifin, *jfin;
+x_wglgvp(float *xdebut, float *ydebut, float *xfin, float *yfin, int *idebut, int *jdebut, int *ifin, int *jfin)
 {
-   wglgvp(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin);
-   }
-
-/**
-******
-**/
-
-wglgvp(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin)
-float *xdebut, *ydebut, *xfin, *yfin;
-int   *idebut, *jdebut, *ifin, *jfin;
-{
-   wglgvx(xdebut, ydebut, xfin, yfin);
-   wglgvi(idebut, jdebut, ifin, jfin);
+  c_wglgvx(xdebut, ydebut, xfin, yfin);
+  c_wglgvi(idebut, jdebut, ifin, jfin);
    
    }

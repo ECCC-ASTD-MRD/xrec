@@ -20,19 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglclw)(indFenetre)
-int *indFenetre;
-{
-   wglclw(*indFenetre);
-   }
-
-/**
-******
-**/
-
-
-wglclw(indFenetre)
-int indFenetre;
+x_wglclw(int indFenetre)
 {
    int i;
 
@@ -61,8 +49,8 @@ int indFenetre;
    
 **/
 
-   wglsetw(indFenetre);
-   wglsavpfc();
+  x_wglsetw(indFenetre);
+  x_wglsavpfc();
    if (bgPix)
       {
       XFreePixmap(wglDisp, bgPix);
@@ -81,6 +69,6 @@ int indFenetre;
    while (fenetre[i].libre && i < nbFenetresActives)
       i++;
 
-   wgldefncw(fenetre[i].wglWin);
+  x_wgldefncw(fenetre[i].wglWin);
    }
 

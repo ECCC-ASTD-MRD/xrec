@@ -20,15 +20,13 @@
 
 #include <wgl_x.h>
 
-wglmapcs(colorIndexs, nbCols, rgbDefs)
-int colorIndexs[]; 
-int nbCols;
-int rgbDefs[][3];
+x_wglmapcs(int colorIndexs[], int nbCols, int rgbDefs[][3])
 {
    int i, increment;
-   XColor cols[256];
+   XColor cols[256], *xcouleurs;
    int lastCol, ind, lastInd;
 
+   xcouleurs = (XColor *) couleurs;
 
    if (cmap_strategy == READ_ONLY_COLORMAP)
       {
@@ -68,8 +66,8 @@ int rgbDefs[][3];
 	 if (debugMode)
 	    printf("Collision avec le colormap de defaut a l'indice: %d\n", 
                    colorIndexs[i]);
-	 wglinstcmap();
-	 wglsetwcmap();
+	 c_wglinstcmap();
+	 c_wglsetwcmap();
 	 }
       
       }
@@ -83,14 +81,14 @@ int rgbDefs[][3];
       if (debugMode)
 	 printf("indice: %d %d\n", i, colorIndexs[i]);
       
-      couleurs[colorIndexs[i]].red = (unsigned short) rgbDefs[i][0];
-      couleurs[colorIndexs[i]].green = (unsigned short) rgbDefs[i][1];
-      couleurs[colorIndexs[i]].blue = (unsigned short) rgbDefs[i][2];
-      couleurs[colorIndexs[i]].red *= 256;
-      couleurs[colorIndexs[i]].green *= 256;
-      couleurs[colorIndexs[i]].blue *= 256;
+      xcouleurs[colorIndexs[i]].red = (unsigned short) rgbDefs[i][0];
+      xcouleurs[colorIndexs[i]].green = (unsigned short) rgbDefs[i][1];
+      xcouleurs[colorIndexs[i]].blue = (unsigned short) rgbDefs[i][2];
+      xcouleurs[colorIndexs[i]].red *= 256;
+      xcouleurs[colorIndexs[i]].green *= 256;
+      xcouleurs[colorIndexs[i]].blue *= 256;
       
-      couleurs[colorIndexs[i]].flags = DoRed | DoGreen | DoBlue;
+      xcouleurs[colorIndexs[i]].flags = DoRed | DoGreen | DoBlue;
       }
 
 
@@ -100,7 +98,7 @@ int rgbDefs[][3];
       {
       if (colorIndexs[i] != lastCol)
 	 {
-	 cols[ind] = couleurs[colorIndexs[i]];
+	 cols[ind] = xcouleurs[colorIndexs[i]];
 	 lastCol = colorIndexs[i];
 	 ind++;
 	 }

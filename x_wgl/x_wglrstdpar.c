@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-wglrstdpar()
+x_wglrstdpar()
 {
    aspectRatioSet     = False;
    wglForceAspectSet  = False;

@@ -20,21 +20,9 @@
 
 #include <wgl_x.h>
 
-f77name(wglmco)(couleur, r, g, b)
-int *couleur, *r, *g, *b;
+x_wglmco(int couleur, int r, int g , int b)
 {
-   wglmco(*couleur, *r, *g, *b);
-   }
-
-/**
-******
-**/
-
-
-wglmco(couleur, r, g, b)
-int couleur, r, g, b;
-{
-   if (8 <= wglgpl())
+   if (8 <= c_wglgpl())
       {
       wglmapc(couleur, r, g, b);
       }

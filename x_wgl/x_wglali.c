@@ -20,21 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(wglali)(i, j, rayon, angleDebut, angleFin)
-int *i, *j, *rayon;
-float *angleDebut, *angleFin;
-{
-   wglali(*i, *j, *rayon, *angleDebut, *angleFin);
-   }
-
-/**
- ******
- **/
-
-
-wglali(i, j, rayon, angleDebut, angleFin)
-int i, j, rayon;
-float angleDebut, angleFin;
+x_wglali(int i, int j, int rayon, float angleDebut, float angleFin)
 {
    int idebut, jdebut, ifin, jfin;
    int istartAngle, iendAngle;
