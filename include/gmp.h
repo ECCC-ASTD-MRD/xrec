@@ -113,7 +113,7 @@ int NewGeoItem(ListePointsStruct *(*liste), int *nbItems);
 int VerifierSegmentLatlon(float lonMin, float lonMax);
 int gmp_trim(float pts[], int *nbpts, float resolution);
 int gmp_perim(float *xgdmin, float *ygdmin,  float *xgdmax,  float *ygdmax, float  *latMin,  float *lonMin, float *latMax, float *lonMax, int *nbSeg);
-int gmp_convert(ListePointsStruct *(*liste), int *nbItems, float pts[], int nbPoints, float xgdmin, float ygdmin, float xgdmax, float ygdmax, int nbSeg);
+int gmp_convert(ListePointsStruct *liste, int *nbItems, float pts[], int nbPoints, float xgdmin, float ygdmin, float xgdmax, float ygdmax, int nbSeg);
 void LibererCarte(ListePointsStruct *(*liste), int *nbItems);
 int CopierMapInfos(GeoMapInfoStruct *mapInfoSortie, GeoMapInfoStruct *mapInfoEntree);
 int clip(float x1, float y1, float x2, float y2);

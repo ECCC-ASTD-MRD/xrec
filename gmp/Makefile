@@ -1,4 +1,4 @@
-include Makefile_$(ARCH)$(ABI)
+include /usr/local/env/armnlib/include/$(ARCH)$(ABI)/Makefile_addons
 
 .SUFFIXES : 
 
@@ -14,8 +14,8 @@ FFLAGS =
 
 CFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
 
-#OPTIMIZ = -debug -O 0
-OPTIMIZ = -O 3
+OPTIMIZ = -debug -O 0
+#OPTIMIZ = -O 3
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
@@ -109,8 +109,5 @@ recutil_lib: \
 
 
 tgeo:
-	f9032 -L. -L/home/dormrb02/util/xrec/lib/Linux -L/usr/lib/Motif1.2_R6 -L/usr/local/env/armnlib/lib/Linux -L/usr/lib/X11R6 -L/usr/X11R6/lib -tp px -fpic -byteswapio -I. -I/usr/local/env/armnlib/include -O1 -o tgeo *.o ../main/grid.o -lrec -lezscint -lwglx -lStaticXm -lStaticMrm -lXp -lXmu -lXt -lX11 -lm -lrmnbeta2
-
-tgeo2:
-	r.build -bidon -main tgeo -o tgeo -obj tgeo.o -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec_util rec rec_util wgl x_wgl wgl expat Xm Xt X11 gd2 png z m -librmn rmn_x
+	r.build -bidon -main tgeo -o tgeo -obj tgeo.o -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec_util rec rec_util wgl x_wgl wgl gdb expat Xm Xt X11 gd2 png z m -librmn rmn_x
 

@@ -1,4 +1,4 @@
-#include Makefile_$(ARCH)$(ABI)
+include /usr/local/env/armnlib/include/$(ARCH)$(ABI)/Makefile_addons
 
 .SUFFIXES : 
 

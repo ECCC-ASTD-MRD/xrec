@@ -1,4 +1,4 @@
-include Makefile_$(ARCH)$(ABI)
+include /usr/local/env/armnlib/include/$(ARCH)$(ABI)/Makefile_addons
 
 .SUFFIXES : 
 
@@ -15,8 +15,8 @@ FFLAGS =
 CFLAGS =  -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -DX_WGL
 CFLAGS =  -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -DX_WGL 
 
-OPTIMIZ = -O 2
-OPTIMIZ = -debug -O 0
+OPTIMIZ = -O 3
+#OPTIMIZ = -debug -O 0
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 

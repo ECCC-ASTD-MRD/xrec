@@ -1,4 +1,4 @@
-#include Makefile_$(ARCH)$(ABI)
+include /usr/local/env/armnlib/include/$(ARCH)$(ABI)/Makefile_addons
 
 .SUFFIXES : 
 
@@ -169,7 +169,7 @@ xrec-Linux_alpha:
 	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Mrm Xp Xt Xmu X11 gd2 z png m -librmn
 
 xrec-Linux:
-	r.build -bidon -main xrec -o $(TMPDIR)/xrec -obj $(HOME)/src/interp/f_ezscint.o $(HOME)/src/interp/c_ezscint.o -libpath /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl StaticXm StaticMrm Xp Xt Xext X11 xml2 expat gd2 z png m -librmn rmnbeta 
+	r.build -bidon -main xrec -o $(TMPDIR)/xrec -obj $(HOME)/src/interp/f_ezscint.o $(HOME)/src/interp/c_ezscint.o -libpath /usr/X11R6/lib -libappl rec rec_util gdb wgl x_wgl wgl StaticXm StaticMrm Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmnbeta 
 
 xrec-phillips:
 	r.build -bidon -main xrec -shared static -o $(TMPDIR)/xrec -libpath $(REC)/lib/Linux /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Mrm  Xp Xt Xext X11 xml2 expat gd2 z png m -librmn rmnbeta 

@@ -157,7 +157,7 @@ LireLatLon(ListePointsStruct *(*liste), int *nbItems)
 	       }
 	     npts = n + 2;
 	     
-	     gmp_convert(liste, nbItems, pts, npts, xmin, ymin, xmax, ymax, nbSeg);
+	     gmp_convert(*liste, nbItems, pts, npts, xmin, ymin, xmax, ymax, nbSeg);
 	     NewGeoItem(liste,nbItems);
 	     }
 	   
@@ -181,7 +181,7 @@ LireLatLon(ListePointsStruct *(*liste), int *nbItems)
 	       }
 	     
 	     npts = n + 2;
-	     gmp_convert(liste, nbItems, pts, npts, xmin, ymin, xmax, ymax, nbSeg);
+	     gmp_convert(*liste, nbItems, pts, npts, xmin, ymin, xmax, ymax, nbSeg);
 	     NewGeoItem(liste,nbItems);
 	     }         
 	   }

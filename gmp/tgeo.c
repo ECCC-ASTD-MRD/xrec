@@ -49,7 +49,7 @@ f77name(tgeo)()
    c_gmpopti("OUTLINE_COLOR", ROUGE);
    c_gmpopti("GRID_COLOR", ROUGE);
    c_gmpdrw();
-   /*    while (!(c_wglbtn(BGAUCH))); */
+   while (!(c_wglbtn(BGAUCH))); 
 
    c_gmpopti("GRID", 5);
    c_wglcol(BLANC);
@@ -62,7 +62,7 @@ f77name(tgeo)()
    c_gmpopti("OUTLINE_COLOR", ROUGE);
    c_gmpopti("GRID_COLOR", ROUGE);
    c_gmpdrw();
-   /*    while (!(c_wglbtn(BGAUCH))); */
+   while (!(c_wglbtn(BGAUCH))); 
 
    c_wglcol(BLANC);
    c_wglclr();

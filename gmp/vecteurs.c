@@ -31,7 +31,12 @@ TracerVecteurs(ListePointsStruct *itemListe)
    switch (itemListe->statutPRGrille)
       {
       case DEDANS:
-      c_wglplx(itemListe->npts, itemListe->pointsGeo);
+	c_wglmvx(itemListe->pointsGeo[0].x, itemListe->pointsGeo[0].y);
+	for (i=1; i < itemListe->npts; i++)
+	  {
+	  c_wgldrx(itemListe->pointsGeo[i].x, itemListe->pointsGeo[i].y);
+	  }
+	/*       c_wglplx(itemListe->npts, itemListe->pointsGeo); */
       break;
       
       case DEHORS:

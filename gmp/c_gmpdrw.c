@@ -20,10 +20,11 @@
 
 #include <wgl.h>
 #include <gmp.h>
+#include <gdb.h>
 
 extern float gdxmin, gdymin, gdxmax, gdymax;
-extern float xmin, ymin, xmax, ymax;
-extern float old_xmin, old_ymin, old_xmax, old_ymax;
+extern float gmp_xmin, gmp_ymin, gmp_xmax, gmp_ymax;
+extern float old_gmp_xmin, old_gmp_ymin, old_gmp_xmax, old_gmp_ymax;
 extern GeoMapInfoStruct     mapInfo;
 extern GeoMapInfoStruct     oldMapInfo;
 
@@ -56,21 +57,21 @@ void c_gmpdrw()
    c_xy2fxfy(&gdxmin, &gdymin, gdxmin, gdymin);
    c_xy2fxfy(&gdxmax, &gdymax, gdxmax, gdymax);
 
-   c_wglgvx(&xmin, &ymin, &xmax, &ymax);
-   if (xmin < gdxmin)
-      xmin = gdxmin;
+   c_wglgvx(&gmp_xmin, &gmp_ymin, &gmp_xmax, &gmp_ymax);
+   if (gmp_xmin < gdxmin)
+      gmp_xmin = gdxmin;
    
-   if (xmax > gdxmax)
-      xmax = gdxmax;
+   if (gmp_xmax > gdxmax)
+      gmp_xmax = gdxmax;
 		     
-   if (ymin < gdymin)
-      ymin = gdymin;
+   if (gmp_ymin < gdymin)
+      gmp_ymin = gdymin;
    
-   if (ymax > gdymax)
-      ymax = gdymax;
+   if (gmp_ymax > gdymax)
+      gmp_ymax = gdymax;
 
 /*    c_wglcmx(xmin, ymin, xmax, ymax); */
-   if (xmin == old_xmin && xmax == old_xmax && ymin == old_ymin && ymax == old_ymax)
+   if (gmp_xmin == old_gmp_xmin && gmp_xmax == old_gmp_xmax && gmp_ymin == old_gmp_ymin && gmp_ymax == old_gmp_ymax)
       mapFlags.verifStatutNecessaire = NON;
    else
       mapFlags.verifStatutNecessaire = OUI;
@@ -80,10 +81,10 @@ void c_gmpdrw()
       ActiverParamsLigne(mapOptions.styleGeo, mapOptions.couleurGeo, mapOptions.epaisseurGeo);
       if (mapFlags.vecsContinentsLus == NON)
          {
-         xmin = gdxmin;
-         xmax = gdxmax;
-         ymin = gdymin;
-         ymax = gdymax;
+         gmp_xmin = gdxmin;
+         gmp_xmax = gdxmax;
+         gmp_ymin = gdymin;
+         gmp_ymax = gdymax;
          LibererCarte(&vecsContinents, &nbVecsContinents);
          LireFichierGeographie(&vecsContinents, &nbVecsContinents, mapOptions.fichierGeographie, mapOptions.nbFichiersGeographie);
          mapFlags.vecsContinentsLus = OUI;
@@ -98,10 +99,10 @@ void c_gmpdrw()
       ActiverParamsLigne(mapOptions.styleMer, mapOptions.couleurMer, mapOptions.epaisseurMer);
       if (mapFlags.vecsMeridiensLus == NON)
          {
-         xmin = gdxmin;
-         xmax = gdxmax;
-         ymin = gdymin;
-         ymax = gdymax;
+         gmp_xmin = gdxmin;
+         gmp_xmax = gdxmax;
+         gmp_ymin = gdymin;
+         gmp_ymax = gdymax;
          LibererCarte(&vecsMeridiens, &nbVecsMeridiens);
          LireLatLon(&vecsMeridiens, &nbVecsMeridiens);
          mapFlags.vecsMeridiensLus = OUI;
@@ -111,10 +112,10 @@ void c_gmpdrw()
                           mapOptions.styleMer, mapOptions.couleurMer, mapOptions.epaisseurMer);
       }
    
-   old_xmin = xmin;
-   old_xmax = xmax;
-   old_ymin = ymin;
-   old_ymax = ymax;
+   old_gmp_xmin = gmp_xmin;
+   old_gmp_xmax = gmp_xmax;
+   old_gmp_ymin = gmp_ymin;
+   old_gmp_ymax = gmp_ymax;
    }
 
 

@@ -35,10 +35,10 @@ int gmp_perim(float *xgdmin, float *ygdmin,  float *xgdmax,  float *ygdmax, floa
    
    gdid = mapInfo.gdid;
    
-   c_gdxyfll(gdid, &XGrid[0], &YGrid[0], latMin, lonMin, 1);
-   c_gdxyfll(gdid, &XGrid[1], &YGrid[1], latMin, lonMax, 1);
-   c_gdxyfll(gdid, &XGrid[2], &YGrid[2], latMax, lonMin, 1);
-   c_gdxyfll(gdid, &XGrid[3], &YGrid[3], latMax, lonMax, 1);
+   c_gdxyzfll(gdid, &XGrid[0], &YGrid[0], latMin, lonMin, 1);
+   c_gdxyzfll(gdid, &XGrid[1], &YGrid[1], latMin, lonMax, 1);
+   c_gdxyzfll(gdid, &XGrid[2], &YGrid[2], latMax, lonMin, 1);
+   c_gdxyzfll(gdid, &XGrid[3], &YGrid[3], latMax, lonMax, 1);
    
    f77name(aminmax)(xgdmin, xgdmax, XGrid, &quatre, &un);
    f77name(aminmax)(ygdmin, ygdmax, YGrid, &quatre, &un);

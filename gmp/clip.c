@@ -20,15 +20,15 @@
 
 #include <gmp.h>
 
-extern float xmin, xmax, ymin, ymax;
+extern float gmp_xmin, gmp_xmax, gmp_ymin, gmp_ymax;
 int clip(float x1, float y1, float x2, float y2)
 {
    int c1, c2;
    float dx, dy;
    int res;
    
-   c1 = CODE(x1, y1, xmin, ymin, xmax, ymax);
-   c2 = CODE(x2, y2, xmin, ymin, xmax, ymax);
+   c1 = CODE(x1, y1, gmp_xmin, gmp_ymin, gmp_xmax, gmp_ymax);
+   c2 = CODE(x2, y2, gmp_xmin, gmp_ymin, gmp_xmax, gmp_ymax);
    if (x1 == x2 || y1 == y2) return DEHORS;
    
    if (c1 & c2)
@@ -47,62 +47,62 @@ int clip(float x1, float y1, float x2, float y2)
 	 
 	 if (c1)
 	    {
-	    if (x1<xmin)
+	    if (x1<gmp_xmin)
 	       {
-	       y1 += dy * (xmin - x1) / dx;
-	       x1 = xmin;
+	       y1 += dy * (gmp_xmin - x1) / dx;
+	       x1 = gmp_xmin;
 	       }
 	    else
 	       {
-	       if (x1 > xmax)
+	       if (x1 > gmp_xmax)
 		  {
-		  y1 += dy * (xmax - x1) / dx;
-		  x1 =  xmax;
+		  y1 += dy * (gmp_xmax - x1) / dx;
+		  x1 =  gmp_xmax;
 		  }
 	       else
 		  {
-		  if (y1 < ymin)
+		  if (y1 < gmp_ymin)
 		     {
-		     x1 += dx * (ymin - y1) / dy;
-		     y1 = ymin;
+		     x1 += dx * (gmp_ymin - y1) / dy;
+		     y1 = gmp_ymin;
 		     }
 		  else
 		     {
-		     x1 += dx * (ymax - y1) / dy;
-		     y1 = ymax;
+		     x1 += dx * (gmp_ymax - y1) / dy;
+		     y1 = gmp_ymax;
 		     }
 		  }
 	       }
-	    c1 = CODE(x1, y1,xmin, ymin, xmax, ymax);
+	    c1 = CODE(x1, y1,gmp_xmin, gmp_ymin, gmp_xmax, gmp_ymax);
 	    }
 	 else
-	    if (x2<xmin)
+	    if (x2<gmp_xmin)
 	       {
-	       y2 += dy * (xmin - x2) / dx;
-	       x2 = xmin;
+	       y2 += dy * (gmp_xmin - x2) / dx;
+	       x2 = gmp_xmin;
 	       }
 	    else
 	       {
-	       if (x2 > xmax)
+	       if (x2 > gmp_xmax)
 		  {
-		  y2 += dy * (xmax - x2) / dx;
-		  x2 =  xmax;
+		  y2 += dy * (gmp_xmax - x2) / dx;
+		  x2 =  gmp_xmax;
 		  }
 	       else
 		  {
-		  if (y2 < ymin)
+		  if (y2 < gmp_ymin)
 		     {
-		     x2 += dx * (ymin - y2) / dy;
-		     y2 = ymin;
+		     x2 += dx * (gmp_ymin - y2) / dy;
+		     y2 = gmp_ymin;
 		     }
 		  else
 		     {
-		     x2 += dx * (ymax - y2) / dy;
-		     y2 = ymax;
+		     x2 += dx * (gmp_ymax - y2) / dy;
+		     y2 = gmp_ymax;
 		     }
 		  }
 	       }
-	 c2 = CODE(x2, y2,xmin, ymin, xmax, ymax);
+	 c2 = CODE(x2, y2,gmp_xmin, gmp_ymin, gmp_xmax, gmp_ymax);
 	 }
       
       return DEDANS;

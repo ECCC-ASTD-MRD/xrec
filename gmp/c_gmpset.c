@@ -40,8 +40,8 @@ int nbVecsMeridiens = 0;
 int gmpFlagInterrupt = TRUE;
 
 float gdxmin, gdymin, gdxmax, gdymax;
-float xmin, ymin, xmax, ymax;
-float old_xmin, old_ymin, old_xmax, old_ymax;
+float gmp_xmin, gmp_ymin, gmp_xmax, gmp_ymax;
+float old_gmp_xmin, old_gmp_ymin, old_gmp_xmax, old_gmp_ymax;
 
 int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4);
 

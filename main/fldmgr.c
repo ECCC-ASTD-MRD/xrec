@@ -975,7 +975,6 @@ FldMgrLoadTimeAnimationSeq()
 	   {
 	   f77name(difdatr)(&(fmflds[n].seqanim.dates[i]), &(fmflds[n].seqanim.dates[0]),  &dt3);
 	   fmflds[n].seqanim.dt[i] = dt3;
-	   printf("%f\n", (float) fmflds[n].seqanim.dt[i]);
 	   }
 	 }
       else
