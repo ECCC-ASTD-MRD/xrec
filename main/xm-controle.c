@@ -337,21 +337,27 @@ int indChamp;
   nbChampsActifs = FldMgrGetNbChampsActifs();
   FldMgrGetChamp(&champ, indChamp);
   FldMgrGetChamp(&champZero, 0);
-  
-  op = CtrlMgrGetContextualMathOp(indChamp);
-  if (op != NO_OP || (xc.statuts[LEGENDE] && indChamp == (nbChampsActifs - 1)))
+
+
+  if (AfficherItem(indChamp, LEGENDE))
     {
+    op = CtrlMgrGetContextualMathOp(indChamp);
     if (xc.statutSuperposition)
       {
       if (op != NO_OP || indChamp == (nbChampsActifs - 1))
+	{
 	AfficherLegendeSup2();
+	}
+      else
+	{
+	AfficherLegende2(*champ);
+	}
       }
     else
       {
       AfficherLegende2(*champ);
       }
     }
-  
   
   if (AfficherItem(indChamp, LEGENDE_COULEUR))
     {
@@ -530,6 +536,88 @@ int indChamp;
  ***********************************************************************
  **/
 
+AfficherLegendeSerie(indChamp)
+int indChamp;
+{
+  _Champ *champ, *champZero;
+  int i, nbChampsActifs;
+  int dernierNiveau, op;
+  float valMin, valMax, tmin, tmax;
+   float uutanmin,uutanmax,uvwmin,uvwmax,uumin,uumax,vvmin,vvmax,wwmin,wwmax,nivmin,nivmax;
+  
+  nbChampsActifs = DiffMgrGetNbChampsAffichables();
+  nbChampsActifs = nbChampsActifs > 4 ? 4 : nbChampsActifs;
+  op = CtrlMgrGetMathOp();
+  
+  for (i=0; i < nbChampsActifs; i++)
+    {
+    FldMgrGetChamp(&champ, i);
+    if (champ->seqanim.nbFldsAnim > 0)
+      dernierNiveau = i;
+    }
+  
+  if (indChamp !=  dernierNiveau && op == NO_OP)
+    return;
+  
+  FldMgrGetChamp(&champ, indChamp);
+  if (xc.statuts[LEGENDE])
+    {
+    if (xc.statutSuperposition)
+      {
+      AfficherLegendeSup2();
+      }
+    else
+      {
+      AfficherLegendeCoupe2(*champ);
+      }
+    }
+  
+  FldMgrGetChamp(&champZero, 0);
+  if (AfficherItem(0,LEGENDE_COULEUR))
+    {
+    if (champZero->natureTensorielle == SCALAIRE)
+      {
+      SerieMgrGetLimites(&valMin, &valMax, &tmin, &tmax);
+      }
+    else
+      {
+      SerieMgrGetLimitesUVW(&uutanmin,&uutanmax,&uvwmin,&uvwmax,
+			    &uumin,&uumax,&vvmin,&vvmax,
+			    &wwmin,&wwmax,&nivmin,&nivmax);
+      if (0 == strcmp("UU", champZero->nomvar))
+	{
+	valMin = uumin;
+	valMax = uumax;
+	}
+      else
+	{
+	valMin = vvmin;
+	valMax = vvmax;
+	}
+      }
+
+    valMin = tmin;
+    valMax = tmax;
+    
+    valMin *= champZero->facteur;
+    valMax *= champZero->facteur;
+    if (CUSTOM == DictMgrGetMinMaxMode(champZero->nomvar))
+      {
+      DictMgrGetMinMaxValues(champZero->nomvar,&valMin,&valMax);
+      }
+    AfficherLegendeCouleur(recColorTable, valMin, valMax, 
+			   champZero->intervalles, champZero->nbIntervalles,
+			   champZero->facteur, 0.85, 0.05, 1.0, 0.95);
+    }
+  
+}
+
+
+/**
+ ***********************************************************************
+ ***********************************************************************
+ **/
+
 AfficherValeursPonctuelles(indChamp)
 int indChamp;
 {
@@ -643,11 +731,6 @@ int indMenu;
    
    FldMgrGetChamp(&champ, FldMgrGetNbChampsActifs() - 1);
 
-   if (xc.statuts[EN_TRAIN_DE_DESSINER])
-      {
-      Beeper();
-      return;
-      }
 
    if (indMenu < 0)
       indMenu = 0;
@@ -1818,12 +1901,6 @@ XtPointer unused1, unused2;
    XmString label;
    Arg args[10];
 
-   if (xc.statuts[EN_TRAIN_DE_DESSINER])
-      {
-      Beeper();
-      return;
-      }
-
    switch((int)unused1)
       {
       case 0:
@@ -1897,12 +1974,6 @@ XtPointer unused1, unused2;
    float rx1, rx2, ry1, ry2;
    int drawcode;
    _Champ *champ;
-
-   if (xc.statuts[EN_TRAIN_DE_DESSINER])
-      {
-      Beeper();
-      return;
-      }
 
    FldMgrGetChamp(&champ, 0);
    if (champ->domaine == XZ || champ->domaine == YZ) 
@@ -2045,7 +2116,7 @@ XtPointer unused1, unused2;
     CoupeMgrGetFenetreCoupeID(&fenetreCoupe);
     c_wglsetw(fenetreCoupe);
     CoupeMgrGetCoupeCoords(&cxmin, &cymin, &cxmax, &cymax);
-    ier = PreparerCoupeOuSerie(cxmin, cymin, cxmax, cymax);
+    ier = PreparerCoupe(cxmin, cymin, cxmax, cymax);
     }
   
   if (ier == TRUE)
@@ -2054,6 +2125,26 @@ XtPointer unused1, unused2;
     CoupeMgrGetFenetreCoupeID(&fenetreCoupe);
     c_wglsetw(fenetreCoupe);
     RedessinerFenetreCoupe();
+    
+    GetFenetreAffichageID(&fenetreAffichage);
+    c_wglsetw(fenetreAffichage);
+    }
+
+  ier = SerieMgrGetStatutSerie();
+  if (ier == TRUE)
+    {
+    SerieMgrGetFenetreSerieID(&fenetreSerie);
+    c_wglsetw(fenetreSerie);
+    SerieMgrGetSerieCoords(&cxmin, &cymin, &cxmax, &cymax);
+    ier = PreparerSerie(cxmin, cymin, cxmax, cymax);
+    }
+  
+  if (ier == TRUE)
+    {
+    AfficherLigneSerie();
+    SerieMgrGetFenetreSerieID(&fenetreSerie);
+    c_wglsetw(fenetreSerie);
+    RedessinerFenetreSerie();
     
     GetFenetreAffichageID(&fenetreAffichage);
     c_wglsetw(fenetreAffichage);
@@ -2085,12 +2176,6 @@ XtPointer unused1, unused2;
    XmString label;
    Arg args[10];
 
-   if (xc.statuts[EN_TRAIN_DE_DESSINER])
-      {
-      Beeper();
-      return;
-      }
-
    for (i=0; i < 5; i++)
       {
       XtSetArg(args[0], XmNset, False);
@@ -2117,12 +2202,6 @@ XtPointer unused1, unused2;
    XmString label;
    Arg args[10];
    _Champ *champ;
-
-   if (xc.statuts[EN_TRAIN_DE_DESSINER])
-      {
-      Beeper();
-      return;
-      }
 
    XtSetArg(args[0], XmNlabelString, &label);
    XtGetValues(w, args, 1);
@@ -2306,13 +2385,6 @@ XtPointer client_data, call_data;
 
    FldMgrGetChamp(&champ, FldMgrGetNbChampsActifs() - 1);
 
-   if (xc.statuts[EN_TRAIN_DE_DESSINER])
-      {
-      Beeper();
-      return;
-      }
-   
-   
    XtSetArg(args[0], XmNlabelString, &label); 
    XtGetValues(w, args, 1);
    XmToS(label, &text);
@@ -2441,18 +2513,7 @@ RedessinerFenetreAffichage()
 {
    int i;
    
-   if (xc.statuts[EN_TRAIN_DE_DESSINER])
-      {
-      Beeper();
-      /*       return; */
-      }
-   else
-     {
-     AfficherBoutonAnnulation();
-     xc.annulationDemandee = FALSE;
-     }
-   
-
+   xc.annulationDemandee = False;
    xc.statuts[EN_TRAIN_DE_DESSINER] = TRUE; 
    for (i=0; i < FldMgrGetNbChampsActifs(); i++)
       {
@@ -2629,7 +2690,7 @@ f77name(xconact)(recs, nbrecs, iun)
             CoupeMgrGetFenetreCoupeID(&fenetreCoupe);
             c_wglsetw(fenetreCoupe);
             CoupeMgrGetCoupeCoords(&cxmin, &cymin, &cxmax, &cymax);
-            ier = PreparerCoupeOuSerie(cxmin, cymin, cxmax, cymax);
+            ier = PreparerCoupe(cxmin, cymin, cxmax, cymax);
             
             if (ier > 0)
               return NOUVEAU_CHAMP;
@@ -2644,7 +2705,7 @@ f77name(xconact)(recs, nbrecs, iun)
             SerieMgrGetFenetreSerieID(&fenetreSerie);
             c_wglsetw(fenetreSerie);
             SerieMgrGetSerieCoords(&cxmin, &cymin, &cxmax, &cymax);
-            ier = PreparerCoupeOuSerie(cxmin, cymin, cxmax, cymax);
+            ier = PreparerSerie(cxmin, cymin, cxmax, cymax);
             
             if (ier > 0)
               return NOUVEAU_CHAMP;
@@ -2997,12 +3058,6 @@ caddr_t client_data, call_data;
    float oldX1, oldY1, oldX2, oldY2;
    int ix1, ix2, iy1, iy2;
    int largeurFenetre, hauteurFenetre;
-
-   if (xc.statuts[EN_TRAIN_DE_DESSINER])
-      {
-      Beeper();
-      return;
-      }
 
    c_wglsetw(fenetreAffichage);
    InvertWidget(w);

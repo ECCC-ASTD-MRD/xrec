@@ -31,9 +31,6 @@
 #include <sys/times.h>
 #include <sys/param.h>
    
-long times (struct tms *buffer);
-
-struct tms buffer_temps;
 extern SuperWidgetStruct SuperWidget;
 extern Widget            wglTopLevel;
 extern _XContour xc;
@@ -45,6 +42,7 @@ extern Display *wglDisp;
 extern int  wglScrNum;
 extern Window  wglWin, wglDrawable;
 extern GC wglLineGC;
+extern int interpolationTemporelle;
 
 extern void EffacerFenetreAffichage();
 
@@ -64,7 +62,21 @@ static int lng;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-AnimerFrames(nbFrames)
+AnimerFrames(int nbFrames)
+{
+  if (interpolationTemporelle)
+    {
+    AnimerFramesAvecInterpolation(nbFrames);
+    }
+  else
+    {
+    AnimerFramesSansInterpolation(nbFrames);
+    }
+}
+
+/* -------------------------------------------------------------------------------------------------- */
+
+AnimerFramesSansInterpolation(nbFrames)
 int nbFrames;
 {
    int i, j, k, ier, ii;
@@ -85,6 +97,7 @@ int nbFrames;
    int datev;
    double weight;
    float *fld, *fld1, *fld2;
+   double delai;
 
    nbChampsActifs = FldMgrGetNbChampsActifs();
    
@@ -155,6 +168,7 @@ int nbFrames;
    
    if (animInfo.animationRapide)
      {
+     XSynchronize(wglDisp,True);
      if (!animInfo.imagesDejaAllouees || lastLargeur != largeurFenetre || lastHauteur != hauteurFenetre)
        {
        LibererImages();
@@ -185,7 +199,7 @@ int nbFrames;
 	   
 	   if ((*champ).seqanim.clesAnim[i] >= 0)
 	     {
-	     if (champ->natureTensorielle == VECTEUR)
+	     if ((*champ).natureTensorielle == VECTEUR)
 	       {
 	       memcpy((char *) (*champ).uu, (char *)(*champ).seqanim.animUUs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
 	       memcpy((char *) (*champ).vv, (char *)(*champ).seqanim.animVVs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
@@ -193,36 +207,30 @@ int nbFrames;
 	       }
 	     else
 	       {
-	       memcpy((char *) (*champ).fld, (char *)(*champ).seqanim.animFLDs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
-	       FldMgrGetFstPrm(champ);
-	       FldMgrUpdateFldParams(champ);
+	       memcpy((char *) (*champ).fld, (char *)(*champ).seqanim.animFLDs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float));
 	       }
+	     FldMgrGetFstPrm(champ);
+	     FldMgrUpdateFldParams(champ);
 	     }
 	   }
-	 
-	 for (n=0; n < nbChampsActifs; n++)
-	   {
-	   AfficherCarte(n);
-	   }
-	 
-	 FlusherTousLesEvenements();
-	 c_wglswb();
-	 animInfo.flagsImagesChargees[i] = TRUE;
-	 
-	 if (animInfo.animationRapide)
-	   {
-	   XCopyArea(wglDisp, wglWin, animInfo.pixmaps[i], wglLineGC, 0, 0, largeurFenetre, hauteurFenetre, 0, 0);
-	   }
-	 
 	 }
-     
+       
+       for (n=0; n < nbChampsActifs; n++)
+	 {
+	 AfficherCarte(n);
+	 }
+       
+       FlusherTousLesEvenements();
+       c_wglswb();
+       animInfo.flagsImagesChargees[i] = TRUE;
+       
+       if (animInfo.animationRapide)
+	 {
+	 XCopyArea(wglDisp, wglWin, animInfo.pixmaps[i], wglLineGC, 0, 0, largeurFenetre, hauteurFenetre, 0, 0);
+	 }
        }
-     temps1 = times(&buffer_temps);
-     temps2 = times(&buffer_temps) - temps1;
-     while (animInfo.delai > temps2)
-       {
-       temps2 = times(&buffer_temps) - temps1;
-       }
+     delai = (double) animInfo.delai;
+     f77name(micro_sleep)(&delai);
      FlusherTousLesEvenements();
      
      if (animInfo.typeDefilement == DEFILEMENT_AVANT_ARRIERE)
@@ -234,11 +242,9 @@ int nbFrames;
        }
      
      i += increment;
-     
-     
-     
      } while (!c_wglanul() && animationContinue);
    
+   XSynchronize(wglDisp,False);
    UnsetIgnoreMode();
    UnSetCurseur(fenetreAffichage);
    RemettreChampsAJour(i);
@@ -261,7 +267,7 @@ int nbFrames;
    int nbChampsActifs;
    _Champ *champ;
 
-   int npts,temps1, temps2;
+   int temps1, temps2;
    int largeurFenetre, hauteurFenetre, nouvelleLargeur, nouvelleHauteur;
    static int lastLargeur, lastHauteur;
    int animationContinue;
@@ -270,6 +276,7 @@ int nbFrames;
    int datev;
    double weight;
    float *fld, *fld1, *fld2;
+   double delai;
 
    nbChampsActifs = FldMgrGetNbChampsActifs();
    
@@ -278,12 +285,6 @@ int nbFrames;
      return;
      }
    
-   if (nbFrames == 1)
-     {
-     AnimerFrame();
-     return;
-     }
-
    lng = c_getulng();
    GetFenetreAffichageID(&fenetreAffichage);
    c_wglsetw(fenetreAffichage);
@@ -291,8 +292,6 @@ int nbFrames;
    xc.annulationDemandee = False;
    xc.flagInterrupt = False;
    FldMgrGetChamp(&champ, 0);
-   
-   npts = champ->dst.ni*champ->dst.nj*champ->dst.nk;
    
    if ((*champ).champModifie)
      {
@@ -344,19 +343,8 @@ int nbFrames;
    
    nbChampsAnim = (*champ).seqanim.nbFldsAnim;
    
-   if (animInfo.animationRapide)
-     {
-     if (!animInfo.imagesDejaAllouees || lastLargeur != largeurFenetre || lastHauteur != hauteurFenetre)
-       {
-       LibererImages();
-       do
-	 {
-	 } while (AllouerImages() == PAS_ASSEZ_DE_MEMOIRE);
-       }
-     }
-   
-     dt = (double) (champ->deet * champ->npas) / 3600.0;
-     f77name(incdatr)(&datev, &(champ->date), &dt);
+   dt = (double) (champ->deet * champ->npas) / 3600.0;
+   f77name(incdatr)(&datev, &(champ->date), &dt);
    
    do 
      {
@@ -366,77 +354,43 @@ int nbFrames;
      i = i % (*champ).seqanim.nbFldsAnim;
      if (i < 0) i = (*champ).seqanim.nbFldsAnim-1;
      
-     if (animInfo.animationRapide && animInfo.flagsImagesChargees[i])
+     for (n=0; n < nbChampsActifs; n++)
        {
-       XCopyArea(wglDisp, animInfo.pixmaps[i], wglWin, wglLineGC, 0, 0, largeurFenetre, hauteurFenetre, 0, 0);
-       }
-     else
-       {
-       for (n=0; n < nbChampsActifs; n++)
+       FldMgrGetChamp(&champ, n);
+       if (champ->seqanim.nbFldsAnim > 0)
 	 {
-	 FldMgrGetChamp(&champ, n);
-	 if (champ->seqanim.nbFldsAnim > 0)
+	 k = i;
+	 while (dt >= champ->seqanim.dt[k] && k < champ->seqanim.nbFldsAnim)
+	   k++;
+	 if (k == champ->seqanim.nbFldsAnim)
 	   {
-	   k = i;
-	   while (dt >= champ->seqanim.dt[k] && k < champ->seqanim.nbFldsAnim)
-	     k++;
-	   if (k == champ->seqanim.nbFldsAnim)
-	     {
-	     dt = 0.0;
-	     k--;
-	     }
+	   dt = 0.0;
 	   k--;
-	   i = k;
-	   (*champ).seqanim.indChampCourant = i;
-	   (*champ).cle = (*champ).seqanim.clesAnim[i];
-	   
-	   if ((*champ).seqanim.clesAnim[i] >= 0)
-	     {
-	     if (champ->natureTensorielle == VECTEUR)
-	       {
-	       memcpy((char *) (*champ).uu, (char *)(*champ).seqanim.animUUs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
-	       memcpy((char *) (*champ).vv, (char *)(*champ).seqanim.animVVs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
-	       memcpy((char *) (*champ).module, (char *) (*champ).seqanim.animUVs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
-	       }
-	     else
-	       {
-	       fld2 = champ->seqanim.animFLDs[i+1];
-	       fld1 = champ->seqanim.animFLDs[i];
-	       weight = (dt - champ->seqanim.dt[i])/(champ->seqanim.dt[i+1]-champ->seqanim.dt[i]);
-	       for (ii=0; ii < champ->dst.ni*champ->dst.nj; ii++)
-		 {
-		 champ->fld[ii]=((1.0-weight)*fld1[ii]+weight*fld2[ii]);
-		 }
-	       }
-	     FldMgrGetFstPrm(champ);
-	     champ->rnpas = (3600.0 * dt) / champ->deet;
-	     FldMgrUpdateFldParams(champ);
-	     }
+	   }
+	 k--;
+	 i = k;
+	 (*champ).seqanim.indChampCourant = i;
+	 (*champ).cle = (*champ).seqanim.clesAnim[i];
+	 
+	 if ((*champ).seqanim.clesAnim[i] >= 0)
+	   {
+	   f77name(incdatr)(&datev, &champ->date, &dt);
+	   AnimMgrInterpolateTimeField(champ, datev);
 	   }
 	 }
-       
-       for (n=0; n < nbChampsActifs; n++)
-	 {
-	 AfficherCarte(n);
-	 }
-       
-       FlusherTousLesEvenements();
-       c_wglswb();
-       animInfo.flagsImagesChargees[i] = TRUE;
-       
-       if (animInfo.animationRapide)
-	 {
-	 XCopyArea(wglDisp, wglWin, animInfo.pixmaps[i], wglLineGC, 0, 0, largeurFenetre, hauteurFenetre, 0, 0);
-	 }
-       
        }
      
-     temps1 = times(&buffer_temps);
-     temps2 = times(&buffer_temps) - temps1;
-     while (animInfo.delai > temps2)
+     for (n=0; n < nbChampsActifs; n++)
        {
-       temps2 = times(&buffer_temps) - temps1;
+       AfficherCarte(n);
        }
+     
+     FlusherTousLesEvenements();
+     c_wglswb();
+     animInfo.flagsImagesChargees[i] = TRUE;
+     
+     delai = (double) animInfo.delai;
+     f77name(micro_sleep)(&delai);
      FlusherTousLesEvenements();
      
      if (animInfo.typeDefilement == DEFILEMENT_AVANT_ARRIERE)
@@ -454,7 +408,7 @@ int nbFrames;
    lastLargeur = largeurFenetre;
    lastHauteur = hauteurFenetre;
    c_wglfbf();
-   }
+}
 
 /* -------------------------------------------------------------------------------------------------- */
 
@@ -650,4 +604,78 @@ AllouerImages()
    
    
 /* -------------------------------------------------------------------------------------------------- */
+
+AnimMgrInterpolateTimeField(_Champ *champ, int datev)
+{
+  static int lastIndex = 0;
+
+   int i, j, k, ier, n;
+   int annulationDemandee;
+   int statut, increment;
+   
+   int res, fenetreAffichage, status;
+   int nbChampsActifs;
+
+   int npts,temps1, temps2;
+   int op,i_initial;
+   double dt,dt1,dt2;
+   double weight;
+   float *fld, *fld1, *fld2, *uu1, *uu2, *vv1, *vv2, *uv1, *uv2;
+   int ldatev, found;
+   static int last_index;
+
+   npts = champ->dst.ni*champ->dst.nj*champ->dst.nk;
+   ldatev = datev;
+   
+   nbChampsAnim = (*champ).seqanim.nbFldsAnim;
+   
+   f77name(difdatr)(&ldatev, &(champ->date), &dt);
+
+   i = last_index;
+   i = 0;
+   found = 0;
+   if (dt > champ->seqanim.dt[i]) i = 0;
+   while (dt > champ->seqanim.dt[i] && found == 0)
+     {
+     i++;
+     }
+   i--;
+   if (i < 0) i = 0;
+   found = i;
+   if (found == champ->seqanim.nbFldsAnim) 
+     {
+     found = 0;
+     }
+
+   i = (i < champ->seqanim.nbFldsAnim-1 ) ? i : champ->seqanim.nbFldsAnim-2;
+
+   weight = (dt - champ->seqanim.dt[i])/(champ->seqanim.dt[i+1]-champ->seqanim.dt[i]);
+   switch (champ->natureTensorielle)
+     {
+     case SCALAIRE:
+       for (n=0; n < champ->dst.ni*champ->dst.nj; n++)
+	 {
+	 champ->fld[n]=((1.0-weight)*champ->seqanim.animFLDs[i][n]+weight*champ->seqanim.animFLDs[i+1][n]);
+	 }
+       break;
+
+     case VECTEUR:
+       for (n=0; n < champ->dst.ni*champ->dst.nj; n++)
+	 {
+	 champ->uu[n]=((1.0-weight)*champ->seqanim.animUUs[i][n]+weight*champ->seqanim.animUUs[i+1][n]);
+	 champ->vv[n]=((1.0-weight)*champ->seqanim.animVVs[i][n]+weight*champ->seqanim.animVVs[i+1][n]);
+	 champ->module[n]=((1.0-weight)*champ->seqanim.animUVs[i][n]+weight*champ->seqanim.animUVs[i+1][n]);
+	 }
+       break;
+
+     default:
+       break;
+     }
+   
+   FldMgrGetFstPrm(champ);
+   champ->rnpas = (3600.0 * dt) / champ->deet;
+   FldMgrUpdateFldParams(champ);
+   last_index = i;
+   
+}
 

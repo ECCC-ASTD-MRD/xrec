@@ -29,6 +29,8 @@
 
 extern int lng;
 extern GeoMapInfoStruct    mapInfo, oldMapInfo;
+extern GeoMapFlagsStruct    mapFlags;
+
 extern _Viewport    viewp;
 
 static char *lblAvrtRecordsManquants[]={"\nLes descripteurs '^^' et '>>'\nsont manquants. Le champ sera affiche\nsans geographie\n", 
@@ -97,6 +99,7 @@ InitMapInfo(char type, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
    mapInfo.ig2 = ig2;
    mapInfo.ig3 = ig3;
    mapInfo.ig4 = ig4;
+   mapFlags.verifStatutNecessaire = OUI;
 
    if (mapInfo.type != 'X')
      {
@@ -248,10 +251,13 @@ c_ezgdefrec(int ni, int nj, char *grtyp, int ig1, int ig2, int ig3, int ig4)
    int iig4;
    float *bidon = NULL;   
    float un;
+   char lgrtyp[2];
    un = 1.0 * 1.0;
-   grtyp[1] = NULL;
 
-   return c_ezqkdef(ni, nj, grtyp, ig1, ig2, ig3, ig4, 1);
+   lgrtyp[0] = grtyp[0];
+   lgrtyp[1] = NULL;
+
+   return c_ezqkdef(ni, nj, lgrtyp, ig1, ig2, ig3, ig4, 1);
    
 }
 

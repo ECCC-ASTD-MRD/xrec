@@ -341,6 +341,18 @@ int AfficherItem(indChamp,itemAAfficher)
         else return 1;
         break;
         
+      case LEGENDE:
+	if (xc.statuts[LEGENDE] == 0) return 0;
+	if (xc.statutSuperposition  == 0)
+	  {
+	  if (indChamp == (FldMgrGetNbChampsActifs() -1))
+	    return 1;
+	  else
+	    return 0;
+	  }
+	return 1;
+        break;
+
       case LEGENDE_COULEUR:
         if (!xc.statuts[COULEURS]) return 0;
         if (!xc.statuts[LEGENDE_COULEUR]) return 0;

@@ -669,7 +669,7 @@ float *fld, *uut, *uun, *ww, *uvw;
       
       c_wglcmi(0, 0, largeurFenetre-1, hauteurFenetre-1);
       
-      AfficherLegendeCoupe(indChamp);
+      AfficherLegendeSerie(indChamp);
       
       if (xc.statuts[COULEURS])
          {

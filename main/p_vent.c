@@ -38,6 +38,7 @@ Widget pventTopLevel = NULL;
 Widget pventForme, pventFormeMenus, pventFrameVents, pventRc, pventAfficher, pventOk;
 Widget pventPanneauDensite,pventOptionsDensite,pventOptionsDensiteItems[11];
 Widget pventPanneauLongueur,pventOptionsLongueur,pventOptionsLongueurItems[8];
+Widget pventPanneauEpaisseurF,pventOptionsEpaisseurF,pventOptionsEpaisseurFItems[8];
 Widget pventPanneauCroissance,pventOptionsCroissance,pventOptionsCroissanceItems[5];
 Widget pventPanneauEchelleWW,pventOptionsEchelleWW,pventOptionsEchelleWWItems[11];
 Widget pventFormeToggles,pventFormeToggles2,pventFrameToggles;
@@ -53,7 +54,8 @@ static char *labelAfficher[]   = {"Redessiner", "Refresh"};
 
 static char *labelDensite[]    = {"Increment  ", "Increment"};
 static char *labelLongueur[]   = {"Longueur   ", "Length "};
-static char *labelCroissance[] = {"Croissance\ndes fleches", "Arrow\nGrowth"};
+static char *labelEpaisseurF[]   = {"Epaisseur \ndes fleches", "Arrow\nThickness"};
+static char *labelCroissance[] = {  "Croissance\ndes fleches", "Arrow\nGrowth"};
 static char *labelEchelleWW[]  = {"Amplif.   \nWW",          "Amplif.  \nWW"};
 static char *labelAucun[]      = {"Aucun"               , "None"};
 static char *labelFleches[]    = {"Fleches"               , "Arrows"};
@@ -71,6 +73,9 @@ static char
 static char 
    *pventLabelOptionsLongueur[][8] = {{"8", "16", "24", "32           ", "48","64","96","128"},
                                       {"8", "16", "24", "32           ", "48","64","96","128"}};
+static char 
+   *pventLabelOptionsEpaisseurF[][6] = {{"1", "2", "3", "4           ", "5","6"},
+                                      {"1", "2", "3", "4           ", "5","6"}};
 
 static char 
    *pventLabelOptionsEchelleWW[][11] = {{"1", "5", "10", "25           ", "50","100","150","200","400","500","1000"},
@@ -93,8 +98,9 @@ static char
 #define MODULE          1
 
 float densite = -1.0;
-int croissance = -2;
+int croissance = 1;
 int longueur = 32;
+int epaisseurF = 1;
 int displayMode = FLECHES;
 int flagModule  = 0;
 
@@ -187,6 +193,15 @@ caddr_t	client_data;	/*  data from application   */
 caddr_t	call_data;	/*  data from widget class  */
 {
    sscanf(XtName(w),"%d",&longueur);
+   PventAfficher(NULL,NULL,NULL);
+   }
+
+void SetEpaisseurFToggle (w, client_data, call_data) 
+Widget	w;		/*  widget id		*/
+caddr_t	client_data;	/*  data from application   */
+caddr_t	call_data;	/*  data from widget class  */
+{
+   sscanf(XtName(w),"%d",&epaisseurF);
    PventAfficher(NULL,NULL,NULL);
    }
 
@@ -483,6 +498,36 @@ InitPanneauVents()
 **
 **/
 
+   pventOptionsEpaisseurF = (Widget)XmCreatePulldownMenu(pventRc, labelEpaisseurF[lng], NULL, 0);
+
+   for (n=0; n < XtNumber(pventLabelOptionsEpaisseurF[lng]); n++)
+      {
+      i = 0;
+      string = XmStringCreateLtoR(pventLabelOptionsEpaisseurF[lng][n], XmSTRING_DEFAULT_CHARSET);
+      XtSetArg(args[i], XmNlabelString, string); i++;
+      pventOptionsEpaisseurFItems[n] = XmCreatePushButtonGadget(pventOptionsEpaisseurF, pventLabelOptionsEpaisseurF[lng][n], args, i);
+      XmStringFree(string);   
+      XtAddCallback(pventOptionsEpaisseurFItems[n], XmNactivateCallback, (XtCallbackProc) SetEpaisseurFToggle, (XtPointer) n);
+      }
+
+   XtManageChildren(pventOptionsEpaisseurFItems, XtNumber(pventLabelOptionsEpaisseurF[lng]));
+
+   i = 0;
+   currentItem = 0;
+   string = XmStringCreateLtoR(labelEpaisseurF[lng], XmSTRING_DEFAULT_CHARSET); 
+   XtSetArg(args[i], XmNlabelString, string); i++;
+   XtSetArg(args[i], XmNsubMenuId, pventOptionsEpaisseurF); i++;
+   XtSetArg(args[i], XmNmenuHistory, pventOptionsEpaisseurFItems[currentItem]); i++;
+   XtSetArg(args[i], XmNalignment, XmALIGNMENT_BEGINNING); i++;
+   pventPanneauEpaisseurF = XmCreateOptionMenu(pventRc, "option_menu1", args, i);
+   XmStringFree(string);   
+   
+   XtManageChild(pventPanneauEpaisseurF);
+   
+/**
+**
+**/
+
    pventOptionsCroissance = (Widget)XmCreatePulldownMenu(pventRc, labelCroissance[lng], NULL, 0);
 
    for (n=0; n < XtNumber(pventLabelOptionsCroissance[lng]); n++)
@@ -498,7 +543,7 @@ InitPanneauVents()
    XtManageChildren(pventOptionsCroissanceItems, XtNumber(pventLabelOptionsCroissance[lng]));
 
    i = 0;
-   currentItem = 3;
+   currentItem = 2;
    string = XmStringCreateLtoR(labelCroissance[lng], XmSTRING_DEFAULT_CHARSET); 
    XtSetArg(args[i], XmNlabelString, string); i++;
    XtSetArg(args[i], XmNsubMenuId, pventOptionsCroissance); i++;
@@ -594,6 +639,11 @@ WindMgrGetDisplayMode()
 WindMgrGetLongueur()
 {
    return longueur;
+}
+
+WindMgrGetEpaisseur()
+{
+   return epaisseurF;
 }
 
 WindMgrGetModulusState()

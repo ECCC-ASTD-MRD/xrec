@@ -54,10 +54,11 @@ int lenFich;
       clsListeFich[i] = calloc(lenFich+1, sizeof(char));
       strncpy(clsListeFich[i], &(listeFich[lenFich*i]), lenFich);
       strclean(clsListeFich[i]);
-      for (j=0; j < strlen(clsListeFich[i]); j++)
-	 clsListeFich[i][j] = (char)tolower((int)clsListeFich[i][j]);
+      /*      for (j=0; j < strlen(clsListeFich[i]); j++)
+	      clsListeFich[i][j] = (char)tolower((int)clsListeFich[i][j]);
+      */
       }
-
+   
    XFileFermeur(clsListeFich, nfich);
 
    for (i=0; i < *nfich; i++)

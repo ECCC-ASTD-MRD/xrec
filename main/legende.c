@@ -55,17 +55,6 @@ float x1, y1, x2, y2;
   if (contourMax == contourMin)
     return;
   
-  if (contourMin == 0.0)
-    {
-    if (contourMax < 1.0e-4) /* Magie: 1.0e-4 = 1.0e-7 * 1000 pixels (hauteurlegende)*/
-      return;
-    }
-  else
-    {
-    if (fabs((contourMax - contourMin)/contourMin) < (1.0e-4)) /* Magie: 1.0e-4 = 1.0e-7 * 1000 pixels (hauteurlegende)*/
-      return;
-    }
-  
   annulationDemandee = c_wglanul();
   if (annulationDemandee) return;
   cmin = contourMin;
@@ -352,8 +341,7 @@ CalculerHauteurLegende()
 
 
 
-void AfficherLegende2(champ)
-     _Champ champ;
+void AfficherLegende2(_Champ champ)
 {
   int i, couleur;
   
@@ -371,75 +359,68 @@ void AfficherLegende2(champ)
   
   c_wglcol(xc.attributs[FOND].indCouleurBack);
   
-  /**
-     if (xc.statuts[COULEURS])
-     c_wglcol(xc.attributs[FOND].indCouleurBack);
-     else
-     c_wglcol(NOIR);
-     **/
-     
-   if (champ.natureTensorielle == VECTEUR && xc.statuts[BARBULES])
-      {
-      strcpy(tmpStr, champ.titreVariable);
-      strcpy(champ.titreVariable,"UU-VV ");
-      }
-
-   strcpy(tmpStr, champ.titreNiveau);
-   strcat(tmpStr, " - ");
-   strcat(tmpStr, champ.titreEtiquette);
-   strcat(tmpStr, " - ");
-   strcat(tmpStr, champ.titreIntervalle);
-   
-   fontSize = SelectFontSize(tmpStr, viewp.vlargeur, (int)((hauteurFenetre - viewp.vj2) * 0.40));
-   c_wglfsz(fontSize);
-   descent = c_wgldsi("1234", 4);
-   hauteurTexte = c_wglasi("1234",  4); /**  + descent; **/
-   
-
-   LargeurTitre[1] = c_wglwsi(tmpStr, strlen(tmpStr)); 
-
-   LargeurTitre[0] = c_wglwsi(champ.titreVariable, strlen(champ.titreVariable)); 
-   LargeurTitre[2] = c_wglwsi(champ.titreNiveau, strlen(champ.titreNiveau)); 
-   LargeurTitre[3] = c_wglwsi(champ.titreIntervalle, strlen(champ.titreIntervalle)); 
-   LargeurTitre[4] = c_wglwsi(champ.titreUnites, strlen(champ.titreUnites)); 
-   LargeurTitre[5] = c_wglwsi(champ.titreEtiquette, strlen(champ.titreEtiquette)); 
-
-   LargeurTitre[1] = c_wglwsi(tmpStr, strlen(tmpStr)); 
-   c_wglpsi(viewp.vi1 + (int)(0.5 *(viewp.vlargeur - LargeurTitre[0])), 
-	    viewp.vj2+(int)(0.60 * (hauteurFenetre-viewp.vj2-2*hauteurTexte) + hauteurTexte),
-	    champ.titreVariable, strlen(champ.titreVariable), fontSize, 0, 0);
-
-   c_wglpsi(viewp.vi1 + (int)(0.5 *(viewp.vlargeur - LargeurTitre[1])), 
-	    viewp.vj2+(int)(0.30 * (hauteurFenetre-viewp.vj2-2*hauteurTexte)),
-	    tmpStr, strlen(tmpStr), fontSize, 0, 0);
-
-   LargeurTitre[1] = c_wglwsi(champ.titreTemps, strlen(champ.titreTemps));
-   c_wglpsi(viewp.vi1 + (int)(0.5 *(viewp.vlargeur - LargeurTitre[1])), 
-	    (int)(0.50 * (viewp.vj1) - hauteurTexte * 0.5),
-	    champ.titreTemps, strlen(champ.titreTemps), fontSize, 0, 0);
-
-   Largeur = LargeurTitre[0];
-   for (i=1; i < 6; i++)
-      if (LargeurTitre[i] > Largeur)
-	 Largeur = LargeurTitre[i];
-   
-   hauteurTitre[5] = 5;
-   
-   i = 4;
-   while (i >= 0)
-      {
-      hauteurTitre[i] = hauteurTitre[i+1] + hauteurTexte + 2;
-      i--;
-      }
-   
-   HauteurRectangle = hauteurTitre[0]  + hauteurTexte + 2;
-   
-   if (champ.natureTensorielle == VECTEUR)
-      {
-      strcpy(champ.titreVariable,tmpStr);
-      }
-
-   }
+  if (champ.natureTensorielle == VECTEUR && xc.statuts[BARBULES])
+    {
+    strcpy(tmpStr, champ.titreVariable);
+    strcpy(champ.titreVariable,"UU-VV ");
+    }
+  
+  strcpy(tmpStr, champ.titreNiveau);
+  strcat(tmpStr, " - ");
+  strcat(tmpStr, champ.titreEtiquette);
+  strcat(tmpStr, " - ");
+  strcat(tmpStr, champ.titreIntervalle);
+  
+  fontSize = SelectFontSize(tmpStr, viewp.vlargeur, (int)((hauteurFenetre - viewp.vj2) * 0.40));
+  c_wglfsz(fontSize);
+  descent = c_wgldsi("1234", 4);
+  hauteurTexte = c_wglasi("1234",  4); /**  + descent; **/
+  
+  
+  LargeurTitre[1] = c_wglwsi(tmpStr, strlen(tmpStr)); 
+  
+  LargeurTitre[0] = c_wglwsi(champ.titreVariable, strlen(champ.titreVariable)); 
+  LargeurTitre[2] = c_wglwsi(champ.titreNiveau, strlen(champ.titreNiveau)); 
+  LargeurTitre[3] = c_wglwsi(champ.titreIntervalle, strlen(champ.titreIntervalle)); 
+  LargeurTitre[4] = c_wglwsi(champ.titreUnites, strlen(champ.titreUnites)); 
+  LargeurTitre[5] = c_wglwsi(champ.titreEtiquette, strlen(champ.titreEtiquette)); 
+  
+  LargeurTitre[1] = c_wglwsi(tmpStr, strlen(tmpStr)); 
+  c_wglpsi(viewp.vi1 + (int)(0.5 *(viewp.vlargeur - LargeurTitre[0])), 
+	   viewp.vj2+(int)(0.60 * (hauteurFenetre-viewp.vj2-2*hauteurTexte) + hauteurTexte),
+	   champ.titreVariable, strlen(champ.titreVariable), fontSize, 0, 0);
+  
+  c_wglpsi(viewp.vi1 + (int)(0.5 *(viewp.vlargeur - LargeurTitre[1])), 
+	   viewp.vj2+(int)(0.30 * (hauteurFenetre-viewp.vj2-2*hauteurTexte)),
+	   tmpStr, strlen(tmpStr), fontSize, 0, 0);
+  
+  LargeurTitre[1] = c_wglwsi(champ.titreTemps, strlen(champ.titreTemps));
+  c_wglpsi(viewp.vi1 + (int)(0.5 *(viewp.vlargeur - LargeurTitre[1])), 
+	   (int)(0.50 * (viewp.vj1) - hauteurTexte * 0.5),
+	   champ.titreTemps, strlen(champ.titreTemps), fontSize, 0, 0);
+  
+  Largeur = LargeurTitre[0];
+  for (i=1; i < 6; i++)
+    if (LargeurTitre[i] > Largeur)
+      Largeur = LargeurTitre[i];
+  
+  hauteurTitre[5] = 5;
+  
+  i = 4;
+  while (i >= 0)
+    {
+    hauteurTitre[i] = hauteurTitre[i+1] + hauteurTexte + 2;
+    i--;
+    }
+  
+  HauteurRectangle = hauteurTitre[0]  + hauteurTexte + 2;
+  
+  if (champ.natureTensorielle == VECTEUR)
+    {
+    strcpy(champ.titreVariable,tmpStr);
+    }
+  
+}
 
 
 /**
@@ -569,14 +550,6 @@ AfficherLegendeSup2()
 	 }
       }
    
-/**
-   i = 0;
-   while (strlen(texte[i%4]) == 0)
-      {
-      i++;
-      }
-**/
-   
    fontSize = SelectFontSize(texte[ind], (int)(0.5 * viewp.vlargeur - 10.0), viewp.vj1);
    c_wglfsz(fontSize);
    descent = c_wgldsi("1234", 4);
@@ -595,7 +568,7 @@ AfficherLegendeSup2()
    
    c_wgllwi(2);
    
-   if (op != NO_OP && nbChampsActifs >= 2)
+   if (op != NO_OP && nbChampsActifs > 2)
       {
       rect[0][0] = viewp.vi1 + 0.5 * (viewp.vlargeur - largeurMax);
       rect[0][1] = (int)(0.50 * (viewp.vj1) - hauteurTexte * 0.5);
@@ -1186,6 +1159,7 @@ int *largeur, *hauteur;
    
    }
 
+extern void PointerFleche(float xdepart, float ydepart, float dirVent, float vitVent, int rayon, int width);
 
 AfficherLegendeVent(ventMax, offsetX, offsetY, angleFleche)
 float ventMax;
@@ -1194,7 +1168,7 @@ int offsetX, offsetY,angleFleche;
    int hauteurTexte,hauteurLegende;
    int largeurLegende, largeurTexte;
    float x,y;
-   int i,j,rayon,longueur,lwi,tmp;
+   int i,j,rayon,longueur,lwi,linewidth, tmp;
    float fraction;
    char nombre[16];
    int txtOffX,txtOffY;
@@ -1254,10 +1228,8 @@ int offsetX, offsetY,angleFleche;
    c_wgliax(&x,&y, i,j);
    sprintf(nombre,format, ventMax);
    c_wglpsi(i+txtOffX,j+txtOffY, nombre, strlen(nombre), 17, 0, 0);
-   lwi  = ROUND(4.0*longueur/32);
-   lwi  = (lwi<1?1:(lwi>4?4:lwi));
-   c_wgllwi(lwi);
-   PointerFleche(x,y,270.-(float)angleFleche,ventMax,rayon);
+   linewidth = WindMgrGetEpaisseur();
+   PointerFleche(x,y,270.-(float)angleFleche,ventMax,rayon, linewidth);
    
    j = viewp.vj1+offsetY+ROUND(4.5*hauteurTexte);
    c_wgliax(&x,&y, i,j);
@@ -1265,9 +1237,9 @@ int offsetX, offsetY,angleFleche;
    enhancefracs(&fraction,1,0.0,1.0,variation);
    sprintf(nombre,format, fraction*ventMax);
    c_wglpsi(i+txtOffX,j+txtOffY, nombre, strlen(nombre), 17, 0, 0);
-   c_wgllwi(ROUND(0.75*lwi));
+   lwi = ROUND(0.75 * linewidth);
    rayon = longueur * 0.75;
-   PointerFleche(x,y,270.-(float)angleFleche,0.75*ventMax,rayon);
+   PointerFleche(x,y,270.-(float)angleFleche,0.75*ventMax,rayon, lwi);
    
    j = viewp.vj1+offsetY+ROUND(2.5*hauteurTexte);
    c_wgliax(&x,&y, i,j);
@@ -1275,9 +1247,9 @@ int offsetX, offsetY,angleFleche;
    enhancefracs(&fraction,1,0.0,1.0,variation);
    sprintf(nombre,format, fraction*ventMax);
    c_wglpsi(i+txtOffX,j+txtOffY, nombre, strlen(nombre), 17, 0, 0);
-   c_wgllwi(ROUND(0.5*lwi));
+   lwi = ROUND(0.5*linewidth);
    rayon = longueur * 0.5;
-   PointerFleche(x,y,270.-(float)angleFleche,0.50*ventMax,rayon);
+   PointerFleche(x,y,270.-(float)angleFleche,0.50*ventMax,rayon, lwi);
    
    j = viewp.vj1+offsetY+ROUND(0.5*hauteurTexte);
    c_wgliax(&x,&y, i,j);
@@ -1285,9 +1257,9 @@ int offsetX, offsetY,angleFleche;
    enhancefracs(&fraction,1,0.0,1.0,variation);
    sprintf(nombre,format, fraction*ventMax);
    c_wglpsi(i+txtOffX,j+txtOffY, nombre, strlen(nombre), 17, 0, 0);
-   c_wgllwi(1);
+   lwi = ROUND(0.25*linewidth);
    rayon = longueur * 0.25;
-   PointerFleche(x,y,270.-(float)angleFleche,0.25*ventMax,rayon);
+   PointerFleche(x,y,270.-(float)angleFleche,0.25*ventMax,rayon, lwi);
    }
 
 CombinerLegendeDiffChamps(texte, champ1, champ2)

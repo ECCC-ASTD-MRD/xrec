@@ -107,31 +107,6 @@ char *bombe[] = {"Une erreur systeme est survenue.\nCette application pourrait i
  ******************************************************************************
  **/
 
-PreparerCoupeOuSerie(cx1,cy1,cx2,cy2)
-float cx1,cy1,cx2,cy2;
-{
-   int dimensionCoupe;
-
-   dimensionCoupe = CoupeMgrGetDimensionCoupe();
-
-   switch(dimensionCoupe)
-      {
-      case ZP: 
-      PreparerCoupe(cx1,cy1,cx2,cy2);
-      break;
-
-      case T: 
-      PreparerSerie(cx1,cy1,cx2,cy2);
-      break;
-      }
-   }
-
-
-/**
- ******************************************************************************
- ******************************************************************************
- **/
-
 PreparerCoupe(cx1,cy1,cx2,cy2)
 float cx1,cy1,cx2,cy2;
 {

@@ -166,12 +166,14 @@ typedef struct
   float UUmin3d[5],UUmax3d[5];
   float VVmin3d[5],VVmax3d[5];
   float WWmin3d[5],WWmax3d[5];
+  float UVmin3d[5],UVmax3d[5];
   float UVWmin3d[5],UVWmax3d[5];
   float FLDmin2d[5],FLDmax2d[5];
   float UVWTANGmin2d[5],UVWTANGmax2d[5];
   float UVWNORMmin2d[5],UVWNORMmax2d[5];
   float UUmin2d[5],UUmax2d[5];
   float VVmin2d[5],VVmax2d[5];
+  float UVmin2d[5],UVmax2d[5];
   float WWmin2d[5],WWmax2d[5];
   float UVWmin2d[5],UVWmax2d[5];
   float scaleWW;

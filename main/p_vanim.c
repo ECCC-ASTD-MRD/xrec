@@ -45,11 +45,13 @@ Widget          pavLabelDefilement;
 Widget          pavFrameAnimationRapide;
 Widget             pavRadioBoxAnimation;
 Widget                pavToggleAnimationRapide;
-Widget                pavToggleAnimationLente;
 Widget          pavFrameTypeDeDefilement;
 Widget             pavRadioBoxTypeDeDefilement;
 Widget                pavToggleDefilementRegulier;
 Widget                pavToggleDefilementAvantArriere;
+Widget          pavFrameInterpolation;
+Widget             pavRadioBoxInterpolation;
+Widget                pavToggleInterpolation;
 Widget    pavFrameScales;
 Widget       pavFormeScales;
 Widget          pavScaleHeureDebut;
@@ -68,22 +70,16 @@ Widget          pavStop;
 Widget          pavNextFrame;
 Widget          pavNextFrames;
 
-static char *nomPanneauVAnim[] = {"PanneauAnimationiVerticale", "VerticalAnimationPanel"};
+static char *nomPanneauVAnim[] = {"PanneauAnimationVerticale", "VerticalAnimationPanel"};
 static char *labelTopLevel[] = {"Vertical_Animation", "Vertical_Animation"};
 static char *labelOk[] = {"Fermer", "Close"};
 
-static char *labelScaleHeureDebut[] = {"Heure Debut", "Start Hour"};
-static char *labelScaleHeureFin[] =   {"Heure Fin", "End Hour"};
 static char *labelScaleDelai[] = {"Delai", "Delay"};
-static char *labelScaleIntervalle[] = {"Intervalle temporel (minutes)", "Time Interval (minutes)"};
+static char *labelScaleIntervalle[] = {"Increment vertical", "Vertical Increment"};
 
-static char *labelBoucle[] = {"Boucle", "Loop"};
-static char *labelTemps[]  = {"Temps", "Time"};
-static char *labelNiveaux[] = {"Niveaux", "Pressure Levels"};
 static char *labelDefilement[] = {"Defilement", "Sequence"};
-/*static char *labelAnimationRapide[] = {"Animation rapide\n(Conserver images en memoire)", "Fast animation\n(Keep images in memory)"};*/
+static char *labelInterpolation[] = {"Interp. verticale", "Vertical Interpolation"};
 static char *labelAnimationRapide[] = {"Animation rapide", "Fast animation"};
-static char *labelAnimationLente[] = {"Animation standard\n(Regenerer images a chaque fois)", "Regular animation\n(Regenerate frames every time)"};
 static char *labelDefilementRegulier[] = {"Regulier", "Standard"};
 static char *labelDefilementAvantArriere[] = {"Avant-arriere", "Back and forth"};
 
@@ -97,6 +93,7 @@ int pavSelectionTerminee = FALSE;
 static XtCallbackProc PavSetDelai();
 static XtCallbackProc PavSetIntervalle();
 static XtCallbackProc PavToggleAnimationRapide();
+static XtCallbackProc PavToggleInterpolation();
 static XtCallbackProc PavToggleTemps();
 static XtCallbackProc PavToggleNiveaux();
 static XtCallbackProc PavToggleDefilementRegulier();
@@ -108,6 +105,9 @@ static XtCallbackProc PavNextFrames();
 static XtCallbackProc PavLastFrame();
 static XtCallbackProc PavLastFrames();
 XtCallbackProc PavStop();
+int interpolationVerticale = FALSE;
+
+/* -------------------------------------------------------------------------------------------------- */
 
 static XtCallbackProc PavFermer(w, unused1, unused2)
 Widget w;
@@ -117,18 +117,16 @@ caddr_t unused1, unused2;
    DesactiverPanneauVanim();
    }
 
+/* -------------------------------------------------------------------------------------------------- */
+
 InitPanneauAnimVerticale()
 {
-   int i,j;
-   Position height;
+  int i;
    Arg args[16];
-   XmString string;
-   XmStringTable table;
    char nomShell[128];
    XmString label;
 
-   Colormap cmap;
-   int n,lng;
+   int lng;
 
    Xinit("xregarder");
    lng = c_getulng();
@@ -150,69 +148,18 @@ InitPanneauAnimVerticale()
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
    pavFermer = (Widget)XmCreatePushButton(pavFormeAnimPanel, labelOk[lng], args, i);
    XtManageChild(pavFermer);
-   XtAddCallback(pavFermer, XmNactivateCallback, pavFermer, NULL);
+   XtAddCallback(pavFermer, XmNactivateCallback, PavFermer, NULL);
 
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
    XtSetArg(args[i], XmNtopWidget, pavFermer); i++;
-   XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
-   XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++;
-   pavFormeToggles = (Widget)XmCreateForm(pavFormeAnimPanel, labelOk[lng], args, i);
+   pavFormeToggles = (Widget)XmCreateForm(pavFormeAnimPanel, "formeToggles", args, i);
    XtManageChild(pavFormeToggles);
 
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
-   XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++;
-   pavFormeBoucle = (Widget)XmCreateForm(pavFormeToggles, labelOk[lng], args, i);
-   XtManageChild(pavFormeBoucle);
-
-   i = 0;
-   XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
-   XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++;
-   pavLabelBoucle = (Widget)XmCreateLabel(pavFormeBoucle, labelBoucle[lng], args, i);
-   XtManageChild(pavLabelBoucle);
-
-   i = 0;
-   XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
-   XtSetArg(args[i], XmNtopWidget, pavLabelBoucle); i++;
-   XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++;
-   pavFrameBoucle = (Widget)XmCreateFrame(pavFormeBoucle, labelBoucle[lng], args, i);
-   XtManageChild(pavFrameBoucle);
-
-   i = 0;
-   pavRadioBoxBoucle = (Widget)XmCreateRadioBox(pavFrameBoucle, "radiobox", args, i);
-   XtManageChild(pavRadioBoxBoucle);
-
-   i = 0;
-   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
-   XtSetArg(args[i], XmNset, True); i++;
-   XtSetArg(args[i], XmNmarginHeight, 0); i++;
-   XtSetArg(args[i], XmNmarginBottom, 0); i++;
-   XtSetArg(args[i], XmNmarginTop, 0); i++;
-   pavToggleTemps = (Widget) XmCreateToggleButton(pavRadioBoxBoucle, labelTemps[lng], args, i);
-   XtManageChild(pavToggleTemps);
-   XtAddCallback(pavToggleTemps, XmNvalueChangedCallback, pavToggleTemps, NULL);
-   
-   i = 0;
-   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
-   XtSetArg(args[i], XmNmarginHeight, 0); i++;
-   XtSetArg(args[i], XmNmarginBottom, 0); i++;
-   XtSetArg(args[i], XmNmarginTop, 0); i++;
-   pavToggleNiveaux = (Widget)XmCreateToggleButton(pavRadioBoxBoucle, labelNiveaux[lng], args, i);
-   XtManageChild(pavToggleNiveaux);
-   XtAddCallback(pavToggleNiveaux, XmNvalueChangedCallback, pavToggleNiveaux, NULL);
-
-/********************
-*************************
-*************************
-********************/
-
-   i = 0;
-   XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
-   XtSetArg(args[i], XmNleftAttachment, XmATTACH_WIDGET); i++;
-   XtSetArg(args[i], XmNleftWidget, pavFormeBoucle); i++;
-   pavFormeDefilement = (Widget)XmCreateForm(pavFormeToggles, "Defilement", args, i);
+   pavFormeDefilement = (Widget)XmCreateRowColumn(pavFormeToggles, "Defilement", args, i);
    XtManageChild(pavFormeDefilement);
 
    i = 0;
@@ -229,35 +176,21 @@ InitPanneauAnimVerticale()
    XtManageChild(pavFrameAnimationRapide);
 
    i = 0;
-   pavRadioBoxAnimation = (Widget)XmCreateFrame(pavFrameAnimationRapide, "radiobox", args, i);
+   pavRadioBoxAnimation = (Widget)XmCreateRadioBox(pavFrameAnimationRapide, "radiobox", args, i);
    XtManageChild(pavRadioBoxAnimation);
 
    i = 0;
-   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
+   XtSetArg(args[i], XmNvisibleWhenOff, True); i++;
    XtSetArg(args[i], XmNset, False); i++;
-   XtSetArg(args[i], XmNsensitive, False); i++;
    XtSetArg(args[i], XmNmarginHeight, 0); i++;
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    XtSetArg(args[i], XmNindicatorType, XmONE_OF_MANY); i++;
    pavToggleAnimationRapide = (Widget) XmCreateToggleButton(pavRadioBoxAnimation, labelAnimationRapide[lng], args, i);
    XtManageChild(pavToggleAnimationRapide);
-   XtAddCallback(pavToggleAnimationRapide, XmNvalueChangedCallback, pavToggleAnimationRapide, NULL);
+   XtAddCallback(pavToggleAnimationRapide, XmNdisarmCallback, PavToggleAnimationRapide, NULL);
 
-/**   
-   i = 0;
-   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
-   XtSetArg(args[i], XmNmarginHeight, 0); i++;
-   XtSetArg(args[i], XmNmarginBottom, 0); i++;
-   XtSetArg(args[i], XmNmarginTop, 0); i++;
-   pavToggleAnimationLente = (Widget)XmCreateToggleButton(pavRadioBoxAnimation, labelAnimationLente[lng], args, i);
-   XtManageChild(pavToggleAnimationLente);
-**/
-
-/********************
-*************************
-*************************
-********************/
+/* -------------------------------------------------------------------------------------------------- */
  
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
@@ -278,7 +211,7 @@ InitPanneauAnimVerticale()
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pavToggleDefilementRegulier = (Widget) XmCreateToggleButton(pavRadioBoxTypeDeDefilement, labelDefilementRegulier[lng], args, i);
    XtManageChild(pavToggleDefilementRegulier);
-   XtAddCallback(pavToggleDefilementRegulier, XmNvalueChangedCallback, pavToggleDefilementRegulier, NULL);
+   XtAddCallback(pavToggleDefilementRegulier, XmNvalueChangedCallback, PavToggleDefilementRegulier, NULL);
    
    i = 0;
    XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
@@ -287,12 +220,9 @@ InitPanneauAnimVerticale()
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pavToggleDefilementAvantArriere = (Widget)XmCreateToggleButton(pavRadioBoxTypeDeDefilement, labelDefilementAvantArriere[lng], args, i);
    XtManageChild(pavToggleDefilementAvantArriere);
-   XtAddCallback(pavToggleDefilementAvantArriere, XmNvalueChangedCallback, pavToggleDefilementAvantArriere, NULL);
+   XtAddCallback(pavToggleDefilementAvantArriere, XmNvalueChangedCallback, PavToggleDefilementAvantArriere, NULL);
 
-/********************
-*************************
-*************************
-********************/
+/* -------------------------------------------------------------------------------------------------- */
    
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
@@ -306,25 +236,21 @@ InitPanneauAnimVerticale()
    XtSetArg(args[i], XmNorientation, XmVERTICAL); i++;
    pavFormeScales = (Widget)XmCreateRowColumn(pavFrameScales, "form", args, i);
    XtManageChild(pavFormeScales);
-/**
-   i = 0;
-   label = XmStringCreateLtoR(labelScaleHeureDebut[lng], XmSTRING_DEFAULT_CHARSET); 
-   XtSetArg(args[i], XmNorientation, XmHORIZONTAL); i++;
-   XtSetArg(args[i], XmNtitleString, label); i++;
-   XtSetArg(args[i], XmNshowValue, True);  i++;
-   pavScaleHeureDebut = (Widget)XmCreateScale(pavFormeScales, labelScaleHeureDebut[lng], args, i);
-   XtManageChild(pavScaleHeureDebut);
-   XmStringFree(label);
 
    i = 0;
-   label = XmStringCreateLtoR(labelScaleHeureFin[lng], XmSTRING_DEFAULT_CHARSET);
-   XtSetArg(args[i], XmNorientation, XmHORIZONTAL); i++;
-   XtSetArg(args[i], XmNtitleString, label); i++;
-   XtSetArg(args[i], XmNshowValue, True); i++;
-   pavScaleHeureFin = (Widget)XmCreateScale(pavFormeScales, labelScaleHeureFin[lng], args, i);
-   XtManageChild(pavScaleHeureFin);
-   XmStringFree(label);
-**/
+   pavRadioBoxInterpolation = (Widget)XmCreateRadioBox(pavFormeScales, "radiobox", args, i);
+   XtManageChild(pavRadioBoxInterpolation);
+
+   i = 0;
+   XtSetArg(args[i], XmNvisibleWhenOff, True); i++;
+   XtSetArg(args[i], XmNset, False); i++;
+   XtSetArg(args[i], XmNmarginHeight, 0); i++;
+   XtSetArg(args[i], XmNmarginBottom, 0); i++;
+   XtSetArg(args[i], XmNmarginTop, 0); i++;
+   XtSetArg(args[i], XmNindicatorType, XmONE_OF_MANY); i++;
+   pavToggleInterpolation = (Widget) XmCreateToggleButton(pavRadioBoxInterpolation, labelInterpolation[lng], args, i);
+   XtManageChild(pavToggleInterpolation);
+   XtAddCallback(pavToggleInterpolation, XmNdisarmCallback, PavToggleInterpolation, NULL);
 
    i = 0;
    label = XmStringCreateLtoR(labelScaleIntervalle[lng], XmSTRING_DEFAULT_CHARSET);
@@ -333,9 +259,9 @@ InitPanneauAnimVerticale()
    XtSetArg(args[i], XmNshowValue, True); i++;
    XtSetArg(args[i], XmNdecimalPoints, 0); i++;
    XtSetArg(args[i], XmNminimum, 0); i++;
-   XtSetArg(args[i], XmNmaximum, 360); i++;
-   XtSetArg(args[i], XmNvalue, 180); i++;
-   XtSetArg(args[i], XmNscaleMultiple, 30); i++;
+   XtSetArg(args[i], XmNmaximum, 100); i++;
+   XtSetArg(args[i], XmNvalue, 10); i++;
+   XtSetArg(args[i], XmNscaleMultiple, 10); i++;
    pavScaleIntervalle = (Widget)XmCreateScale(pavFormeScales, labelScaleIntervalle[lng], args, i);
    XtManageChild(pavScaleIntervalle);
    XmStringFree(label);
@@ -343,7 +269,7 @@ InitPanneauAnimVerticale()
    XtAddCallback(pavScaleIntervalle, XmNdragCallback, PavSetIntervalle, NULL);
    XtAddCallback(pavScaleIntervalle, XmNvalueChangedCallback, PavSetIntervalle, NULL);
 
-   animInfo.intervalle = 180.0;
+   animInfo.intervalle = 10.0;
    i = 0;
    label = XmStringCreateLtoR(labelScaleDelai[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNtitleString, label); i++;
@@ -361,10 +287,7 @@ InitPanneauAnimVerticale()
 
 
 
-/********************
-*************************
-*************************
-********************/
+/* -------------------------------------------------------------------------------------------------- */
 
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
@@ -382,41 +305,36 @@ InitPanneauAnimVerticale()
    
    i = 0;
    pavLastFrames = (Widget) XmCreatePushButton(pavFormeBoutons, " << ", args, i);
-   XtAddCallback(pavLastFrames, XmNactivateCallback, pavLastFrames, NULL);
    XtManageChild(pavLastFrames);
+   XtAddCallback(pavLastFrames, XmNactivateCallback, PavLastFrames, NULL);
 
    i = 0;
    pavLastFrame = (Widget) XmCreatePushButton(pavFormeBoutons, " <  ", args, i);
-   XtAddCallback(pavLastFrame, XmNactivateCallback, pavLastFrame, NULL);
    XtManageChild(pavLastFrame);
+   XtAddCallback(pavLastFrame, XmNactivateCallback, PavLastFrame, NULL);
 
    i = 0;
    pavStop = (Widget) XmCreatePushButton(pavFormeBoutons, "Stop", args, i);
-   XtAddCallback(pavStop, XmNactivateCallback, pavStop, NULL);
    XtManageChild(pavStop);
+   XtAddCallback(pavStop, XmNactivateCallback, PavStop, NULL);
 
    i = 0;
    pavNextFrame = (Widget) XmCreatePushButton(pavFormeBoutons, "  > ", args, i);
-   XtAddCallback(pavNextFrame, XmNactivateCallback, pavNextFrame, NULL);
    XtManageChild(pavNextFrame);
+   XtAddCallback(pavNextFrame, XmNactivateCallback, PavNextFrame, NULL);
 
    i = 0;
    pavNextFrames = (Widget) XmCreatePushButton(pavFormeBoutons, " >> ", args, i);
-   XtAddCallback(pavNextFrames, XmNactivateCallback, pavNextFrames, NULL);
    XtManageChild(pavNextFrames);
+   XtAddCallback(pavNextFrames, XmNactivateCallback, PavNextFrames, NULL);
 
    animInfo.animationRapide = FALSE;
    }
 
+/* -------------------------------------------------------------------------------------------------- */
+
 ActiverPanneauAnimationVerticale()
 {
-   XEvent pavEvent;
-   Widget pavWidgetParent;
-   
-   Colormap cmap;
-   Arg args[2];
-   int i;
-   
    if (!pavAnimationPanel)
       InitPanneauAnimVerticale();
    
@@ -430,12 +348,14 @@ ActiverPanneauAnimationVerticale()
    
    }
 
+/* -------------------------------------------------------------------------------------------------- */
+
 f77name(xpanpavact)()
 {
    LocalEventLoop(pavAnimationPanel);
    }
 
-
+/* -------------------------------------------------------------------------------------------------- */
 
 DesactiverPanneauVanim()
 {
@@ -444,11 +364,7 @@ DesactiverPanneauVanim()
    XtUnrealizeWidget(pavAnimationPanel);
    }
 
-
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+/* -------------------------------------------------------------------------------------------------- */
 
 static XtCallbackProc PavSetIntervalle(w, client_data, call_data)
 Widget w;
@@ -460,10 +376,7 @@ caddr_t client_data, call_data;
    
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+/* -------------------------------------------------------------------------------------------------- */
 
 static XtCallbackProc PavSetDelai(w, client_data, call_data)
 Widget w;
@@ -476,12 +389,7 @@ caddr_t client_data, call_data;
    }
 
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
-
-
+/* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
 static XtCallbackProc PavNextFrames(w, unused1, unused2)
@@ -501,7 +409,7 @@ caddr_t unused1, unused2;
    DesactiverWidgetsControle();
    AfficherBoutonAnnulation();
    
-   AnimerFrames(2);
+   VAnimerFrames(2);
 
    EnleverBoutonAnnulation();
    InvertWidget(w);
@@ -512,10 +420,7 @@ caddr_t unused1, unused2;
    }
 
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+/* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
 XtCallbackProc PavStop(w, unused1, unused2)
@@ -526,10 +431,7 @@ caddr_t unused1, unused2;
    }
 
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+/* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
 static XtCallbackProc PavLastFrames(w, unused1, unused2)
@@ -549,7 +451,7 @@ caddr_t unused1, unused2;
    DesactiverWidgetsControle();
    AfficherBoutonAnnulation();
    
-   AnimerFrames(-2);
+   VAnimerFrames(-2);
 
    EnleverBoutonAnnulation();
    InvertWidget(w);
@@ -558,6 +460,7 @@ caddr_t unused1, unused2;
    xc.flagInterrupt = TRUE;
    c_gmpopti("ACCEPT_INTERRUPTS", TRUE);
    }
+/* -------------------------------------------------------------------------------------------------- */
 
 
 /**
@@ -578,16 +481,12 @@ caddr_t unused1, unused2;
 
    InvertWidget(w);
    AfficherBoutonAnnulation();
-   AnimerFrames(-1);
+   VAnimerFrames(-1);
    EnleverBoutonAnnulation();
    InvertWidget(w);
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
-
+/* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
 static XtCallbackProc PavNextFrame(w, unused1, unused2)
@@ -603,16 +502,13 @@ caddr_t unused1, unused2;
    InvertWidget(w);
    AfficherBoutonAnnulation();
 
-   AnimerFrames(1);
+   VAnimerFrames(1);
 
    EnleverBoutonAnnulation();
    InvertWidget(w);
    }
 
-/**
- ***********************************************************************
- ***********************************************************************
- **/
+/* -------------------------------------------------------------------------------------------------- */
 
 static XtCallbackProc PavToggleTemps(w, u1, u2)
 Widget w;
@@ -625,6 +521,8 @@ caddr_t u1, u2;
    animInfo.variableBoucle = TEMPS;
    }
 
+/* -------------------------------------------------------------------------------------------------- */
+
 static XtCallbackProc PavToggleNiveaux(w, u1, u2)
 Widget w;
 caddr_t u1, u2;
@@ -636,12 +534,16 @@ caddr_t u1, u2;
    animInfo.variableBoucle = NIVEAUX;
    }
 
+/* -------------------------------------------------------------------------------------------------- */
+
 static XtCallbackProc PavToggleDefilementRegulier(w, u1, u2)
 Widget w;
 caddr_t u1, u2;
 {
    animInfo.typeDefilement = DEFILEMENT_REGULIER;
    }
+
+/* -------------------------------------------------------------------------------------------------- */
 
 static XtCallbackProc PavToggleDefilementAvantArriere(w, u1, u2)
 Widget w;
@@ -650,10 +552,69 @@ caddr_t u1, u2;
    animInfo.typeDefilement = DEFILEMENT_AVANT_ARRIERE;
    }
 
+/* -------------------------------------------------------------------------------------------------- */
+
 static XtCallbackProc PavToggleAnimationRapide(w, u1, u2)
 Widget w;
 caddr_t u1, u2;
 {
-   animInfo.animationRapide = !animInfo.animationRapide;
+  Arg args[2];
+  int i;
+  
+  animInfo.animationRapide = !animInfo.animationRapide;
+  
+  i = 0;
+  if (animInfo.animationRapide)
+    {
+    XtSetArg(args[i], XmNset, True); i++;
+    }
+  else
+    {
+    XtSetArg(args[i], XmNset, False); i++;
+    }
+  XtSetValues(w, args, i);
+
+  if (interpolationVerticale)
+    {
+    i = 0;
+    XtSetArg(args[i], XmNset, False); i++;
+    XtSetValues(pavToggleInterpolation, args, i);
+    interpolationVerticale = False;
+    }
+
+
+
    }
+
+/* -------------------------------------------------------------------------------------------------- */
+
+static XtCallbackProc PavToggleInterpolation(w, u1, u2)
+Widget w;
+caddr_t u1, u2;
+{
+  Arg args[8];
+  int i;
+  
+  interpolationVerticale = !interpolationVerticale;
+  
+  i = 0;
+  if (interpolationVerticale)
+    {
+    XtSetArg(args[i], XmNset, True); i++;
+    }
+  else
+    {
+    XtSetArg(args[i], XmNset, False); i++;
+    }
+  XtSetValues(w, args, i);
+  
+  if (animInfo.animationRapide)
+    {
+    i = 0;
+    XtSetArg(args[i], XmNset, False); i++;
+    XtSetValues(pavToggleAnimationRapide, args, i);
+    animInfo.animationRapide = False;
+    }
+  
+}
 

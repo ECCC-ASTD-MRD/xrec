@@ -47,6 +47,7 @@ extern _Viewport    viewp;
 
 XtCallbackProc PcpNouvelleCoupe();
 XtCallbackProc PcpScanProfil();
+XtCallbackProc PcpStop();
 XtCallbackProc PcpScanCoupe();
 XtCallbackProc PcpScanCoupeVert();
 XtCallbackProc PcpScanCoupeHoriz();
@@ -71,7 +72,7 @@ XtCallbackProc PcpSetEchelleDecroissante();
 Widget pcpTopLevel = NULL;
 Widget pcpForme, pcpFrame, pcpForme1, pcpFrame1, pcpForme2, pcpFrame3, pcpForme3, pcpRC, pcpRC2, pcpAfficher, pcpOk;
 Widget pcpDimensionCoupe, pcpDimensionCoupeZ, pcpDimensionCoupeT, pcpFrameDimensionCoupe, pcpLabelDimensionCoupe;
-Widget pcpScanHoriz, pcpScanVert, pcpScanIncrement, pcpNouvelleCoupe, pcpScanProfil, pcpScanCoupe;
+Widget pcpScanHoriz, pcpScanVert, pcpScanIncrement, pcpNouvelleCoupe, pcpScanProfil, pcpScanCoupe, pcpStop;
 Widget pcpFormeBoutons, pcpFormeBoutons2, pcpFormeEchelle, pcpFormeLimite;
 Widget pcpFrameBoutons, pcpFrameBoutons2, pcpFrameEchelle, pcpFrameLimite;
 Widget pcpLabelEchelle, pcpFrameLineaire, pcpFrameSens, pcpLineariteEchelle, pcpSensEchelle;
@@ -122,6 +123,7 @@ char *labelDimensionCoupe[]  = {"Dimension: ", "Dimension: "};
 char *labelDimensionCoupeZ[] = {"Coord. vert.","Vert. Coord."};
 char *labelDimensionCoupeT[] = {"Temps","Time"};
 
+static char *labelStop[] = {"Stop", "Stop"};
 char *labelProfilVertical[] = {"Profil Vertical", "Vertical Profile"};
 char *labelEchelleVerticale[] = {"Echelle verticale", "Vertical Scale"};
 
@@ -291,6 +293,13 @@ void InitPanneauCoupe()
    pcpScanVert = (Widget)XmCreatePushButton(pcpRC2, labelScanVert[lng], args, i);
    XtAddCallback(pcpScanVert, XmNactivateCallback, PcpScanCoupeVert, NULL);
    XtManageChild(pcpScanVert);
+
+   i = 0;
+   string = XmStringCreateLtoR(labelStop[lng], XmSTRING_DEFAULT_CHARSET);
+   XtSetArg(args[i], XmNlabelString, string); i++;
+   pcpStop = (Widget)XmCreatePushButton(pcpRC2, labelStop[lng], args,i);
+   XtAddCallback(pcpStop, XmNactivateCallback, PcpStop, NULL);
+   XtManageChild(pcpStop);
 
    label = XmStringCreateLtoR(labelScanIncrement[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNtitleString, label); i++;
@@ -610,6 +619,17 @@ DesactiverPanneauCoupe()
  ******************************************************************************
  **/
 
+XtCallbackProc PcpStop(w, arg1, arg2)
+Widget w;
+caddr_t arg1, arg2;
+{
+  xc.annulationDemandee = TRUE;
+   }
+
+/**
+ ******************************************************************************
+ ******************************************************************************
+ **/
 
 
 XtCallbackProc PcpOk(w, unused1, unused2)
@@ -669,6 +689,7 @@ caddr_t unused1, unused2;
    _Champ *champ;
    int lng;
 
+   dimensionCoupe = ZP;
    lng = c_getulng();
 
    InvertWidget(w);
@@ -694,7 +715,7 @@ caddr_t unused1, unused2;
       }
 
    c_wglsetw(fenetreCoupe);
-   ier = PreparerCoupeOuSerie(1.0, 1.0, 1.0, 1.0);
+   ier = PreparerCoupe(1.0, 1.0, 1.0, 1.0);
 
    CoupeMgrSetMinMax();
    CoupeMgrSetUVWMinMax();
@@ -767,7 +788,7 @@ caddr_t unused1, unused2;
 	 RestoreNormalMode();
 	 
 	 c_wglsetw(fenetreCoupe);
-	 ier = PreparerCoupeOuSerie(cx1, cy1, cx2, cy2);
+	 ier = PreparerCoupe(cx1, cy1, cx2, cy2);
 	 RedessinerFenetreCoupe();
 	 c_wglsetw(fenetreAffichage);
 	 break;
@@ -784,7 +805,7 @@ caddr_t unused1, unused2;
 	    {
 	    printf("cx1:%f cy1:%f, cx2:%f cy2:%f\n", cx1,cy1,cx2,cy2);
 	    }
-	 ier = PreparerCoupeOuSerie(cx1, cy1, cx2, cy2);
+	 ier = PreparerCoupe(cx1, cy1, cx2, cy2);
 	 RedessinerFenetreCoupe();
 
 	 c_wglsetw(fenetreAffichage);
@@ -841,6 +862,7 @@ caddr_t unused1, unused2;
    int lng;
    int event;
 
+   dimensionCoupe = ZP;
    SetIgnoreMode();
    lng = c_getulng();
 
@@ -857,7 +879,7 @@ caddr_t unused1, unused2;
       }
 
    c_wglsetw(fenetreCoupe);
-   ier = PreparerCoupeOuSerie(1.0, 1.0, 1.0, 1.0);
+   ier = PreparerCoupe(1.0, 1.0, 1.0, 1.0);
    c_wglcol(NOIR);
    c_wglclr();
    c_wglcol(BLANC);
@@ -899,7 +921,7 @@ caddr_t unused1, unused2;
 	 RestoreNormalMode();
 	 
 	 c_wglsetw(fenetreCoupe);
-	 ier = PreparerCoupeOuSerie(cx1, cy1, cx2, cy2);
+	 ier = PreparerCoupe(cx1, cy1, cx2, cy2);
 	 RedessinerFenetreCoupe();
 	 c_wglswb();
 	 c_wglsetw(fenetreAffichage);
@@ -944,6 +966,7 @@ caddr_t unused1, unused2;
    float xdel, ydel;
    static int status = 0;
 
+   dimensionCoupe = ZP;
    if (status == 1)
      {
      status = 0;
@@ -980,7 +1003,7 @@ caddr_t unused1, unused2;
      c_wglgwz(&largeurFenetre, &hauteurFenetre);
      
      c_wglsetw(fenetreCoupe);
-     ier = PreparerCoupeOuSerie(1.0, 1.0, 1.0, 1.0);
+     ier = PreparerCoupe(1.0, 1.0, 1.0, 1.0);
      c_wglcol(NOIR);
      c_wglclr();
      c_wglcol(BLANC);
@@ -1009,7 +1032,8 @@ caddr_t unused1, unused2;
    if (status == 0)
      xc.annulationDemandee = True;
 
-   while (!c_wglanul())
+   SetIgnoreMode();
+   while (!c_wglanul() && status == 1)
       {
       c_wglsetw(fenetreAffichage);
       c_xy2fxfy(&cx1, &cy1, xdeb, ydeb);
@@ -1017,17 +1041,12 @@ caddr_t unused1, unused2;
 
       EnleverLigneCoupe(lastcx1, lastcy1, lastcx2, lastcy2);
       EnterOverlayMode();
-#ifdef GL_WGL
-      color(1);
-#endif
-#ifdef X_WGL
       c_wglcol(CYAN);
-#endif
       TracerLigne(cx1, cy1, cx2, cy2);
       RestoreNormalMode();
 	 
       c_wglsetw(fenetreCoupe);
-      ier = PreparerCoupeOuSerie(cx1, cy1, cx2, cy2);
+      ier = PreparerCoupe(cx1, cy1, cx2, cy2);
       RedessinerFenetreCoupe();
       c_wglswb();
       c_wglsetw(fenetreAffichage);
@@ -1047,12 +1066,18 @@ caddr_t unused1, unused2;
 	}
       }
    
+   xc.annulationDemandee = False;
    UnsetIgnoreMode();
    c_wglsetw(fenetreCoupe);
    c_wglfbf();
+   xc.statuts[AXE_Y] = TRUE;
+   RedessinerFenetreCoupe();
    c_wglsetw(fenetreAffichage);
+   c_wglfbf();
+   xc.statuts[AXE_Y] = FALSE;
+   RedessinerFenetreAffichage();
+   status=0;
    InvertWidget(w);
-   RedessinerFenetres();
    }
 
 /**
@@ -1081,6 +1106,7 @@ caddr_t unused1, unused2;
    float xdel, ydel;
    static int status = 0;
 
+   dimensionCoupe = ZP;
    if (status == 1)
      {
      status = 0;
@@ -1092,7 +1118,7 @@ caddr_t unused1, unused2;
      xc.annulationDemandee = False;
      }
    
-   lng = c_getulng();
+  lng = c_getulng();
    
    InvertWidget(w);
    if (status == 1)
@@ -1111,20 +1137,18 @@ caddr_t unused1, unused2;
      GetFenetreAffichageID(&fenetreAffichage);
      c_wglsetw(fenetreAffichage);
      EnleverLigneCoupe(lastcx1, lastcy1, lastcx2, lastcy2);
-     /*      RedessinerFenetreAffichage(); */
      c_wglgvx(&xdeb, &ydeb, &xfin, &yfin); 
      c_wglgvi(&ideb, &jdeb, &ifin, &jfin); 
      c_wglgwz(&largeurFenetre, &hauteurFenetre);
      
      c_wglsetw(fenetreCoupe);
-     ier = PreparerCoupeOuSerie(1.0, 1.0, 1.0, 1.0);
+     ier = PreparerCoupe(1.0, 1.0, 1.0, 1.0);
      c_wglcol(NOIR);
      c_wglclr();
      c_wglcol(BLANC);
      
      c_wgldbf();
      c_wglbbf();
-     
      
      RedessinerFenetreAffichage(); 
      EnleverLigneCoupe(lastcx1, lastcy1, lastcx2, lastcy2);
@@ -1148,7 +1172,7 @@ caddr_t unused1, unused2;
      xc.annulationDemandee = True;
 
    SetIgnoreMode();
-   while (!c_wglanul())
+   while (!c_wglanul() && status == 1)
       {
       c_wglsetw(fenetreAffichage);
       c_xy2fxfy(&cx1, &cy1, xdeb, ydeb);
@@ -1156,17 +1180,12 @@ caddr_t unused1, unused2;
 
       EnleverLigneCoupe(lastcx1, lastcy1, lastcx2, lastcy2);
       EnterOverlayMode();
-#ifdef GL_WGL
-      color(1);
-#endif
-#ifdef X_WGL
       c_wglcol(CYAN);
-#endif
       TracerLigne(cx1, cy1, cx2, cy2);
       RestoreNormalMode();
 	 
       c_wglsetw(fenetreCoupe);
-      ier = PreparerCoupeOuSerie(cx1, cy1, cx2, cy2);
+      ier = PreparerCoupe(cx1, cy1, cx2, cy2);
       RedessinerFenetreCoupe();
       c_wglswb();
       c_wglsetw(fenetreAffichage);
@@ -1186,12 +1205,19 @@ caddr_t unused1, unused2;
 	}
       }
    
+   xc.annulationDemandee = False;
    UnsetIgnoreMode();
    c_wglsetw(fenetreCoupe);
    c_wglfbf();
+   xc.statuts[AXE_Y] = TRUE;
+   RedessinerFenetreCoupe();
    c_wglsetw(fenetreAffichage);
+   c_wglfbf();
+   xc.statuts[AXE_Y] = FALSE;
+   RedessinerFenetreAffichage();
+   
+   status=0;
    InvertWidget(w);
-   RedessinerFenetres();
    }
 
 
@@ -1211,13 +1237,14 @@ caddr_t unused1, unused2;
    int event;
    int lng;
    
+   dimensionCoupe = ZP;
    SetIgnoreMode();
    lng = c_getulng();
    
    InvertWidget(w);
    InitFenetreCoupe();
    c_wglsetw(fenetreCoupe);
-   ier = PreparerCoupeOuSerie(1.0, 1.0, 1.0, 1.0);
+   ier = PreparerCoupe(1.0, 1.0, 1.0, 1.0);
 
    c_wglcol(NOIR);
    c_wglclr();
@@ -1260,7 +1287,7 @@ caddr_t unused1, unused2;
       RestoreNormalMode();
 
       c_wglsetw(fenetreCoupe);
-      ier = PreparerCoupeOuSerie(cx1, cy1, cx2, cy2);
+      ier = PreparerCoupe(cx1, cy1, cx2, cy2);
       RedessinerFenetreCoupe();
       c_wglswb();
       c_wglsetw(fenetreAffichage);
@@ -1272,8 +1299,9 @@ caddr_t unused1, unused2;
       } 
    
    c_wglsetw(fenetreCoupe);
-   c_wglfbf();
+   c_wglsbf();
    c_wglsetw(fenetreAffichage);
+   c_wglsbf();
    EnleverLigneCoupe(cx1, cy1, cx2, cy2);
    InvertWidget(w);
    UnsetIgnoreMode();

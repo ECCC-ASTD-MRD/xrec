@@ -343,6 +343,7 @@ _Champ *champ;
  *************************************************************	
  **/
 
+extern void PointerFleche(float xdepart, float ydepart, float dirVent, float vitVent, int rayon, int width);
 
 
 
@@ -361,7 +362,7 @@ float ventmax;
    int increment, incrementX, incrementY;
    int idist, jdist, idist1, idist2, jdist1, jdist2;
    float xdist, ydist, x2, y2,vm;
-   int longueurFleche,largeurFleche,longueur,longueurMax;
+   int longueurFleche,largeurFleche,longueur,longueurMax,epaisseur;
    float densite;
    float temp,uutmp,vvtmp;
    int idensite,annulationDemandee,displayMode;
@@ -373,10 +374,12 @@ float ventmax;
    
    extern float WindMgrGetDensite();
    extern int WindMgrGetLongueur();
+   extern int WindMgrGetEpaisseur();
    extern int WindMgrGetDisplayMode();
 
    densite = WindMgrGetDensite();
    longueur = WindMgrGetLongueur();
+   epaisseur = WindMgrGetEpaisseur();
    displayMode = WindMgrGetDisplayMode();
 
    annulationDemandee = False;
@@ -438,13 +441,10 @@ float ventmax;
 	    {
 	    temp = vit;
 	    enhancefracs(&temp,1,0.0,vm,variation);
-	    largeurFleche  = ROUND(4.0*longueur/32*temp);
+	    largeurFleche  = ROUND(1.0*epaisseur*temp);
 	    longueurFleche = ROUND((float)longueur*temp);
 	    longueurFleche = longueurFleche < 1 ? 1 : longueurFleche;
-	    c_wgllwi(largeurFleche<1?1:(largeurFleche>4?4:largeurFleche));
-	    c_wgllwi(1);
-	    PointerFleche(x, y, dir, vit, longueurFleche);
-	    c_wgllwi(1);
+	    PointerFleche(x, y, dir, vit, longueurFleche, largeurFleche);
 	    }
 
 	 jdist = 0;
@@ -468,6 +468,7 @@ float ventmax;
 	 ri+=densite;
 	 }
       }
+   c_wgllwi(1);
    }
 
 

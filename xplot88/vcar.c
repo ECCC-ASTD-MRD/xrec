@@ -311,9 +311,16 @@
       for(j = 0; j < 64; j++)
 	{
 	fread32(&fontes[j][i], sizeof(Vcar) - sizeof(PointP2 *) ,1, in);
-	fontes[j][i].vecteurs = (PointP2 *)malloc(fontes[j][i].npnts*sizeof(PointP2));
-	fread32(fontes[j][i].vecteurs,sizeof(PointP2),
-		fontes[j][i].npnts, in);
+	if (fontes[j][i].npnts == 0)
+	  {
+	  fontes[j][i].vecteurs = (PointP2 *)malloc(1*sizeof(PointP2));
+	  }
+	else
+	  {
+	  fontes[j][i].vecteurs = (PointP2 *)malloc(fontes[j][i].npnts*sizeof(PointP2));
+	  fread32(fontes[j][i].vecteurs,sizeof(PointP2),
+		  fontes[j][i].npnts, in);
+	  }
 	}
       }
 #endif

@@ -222,30 +222,48 @@ lire_gdb_geo()
 	  break;
 	  
 	case PAYS:
-	  gdb_line(pixperdegree,GDB_LIN_POLIT,get_coastline);
+	  if (pixperdegree > 16)
+	    {
+	    gdb_line(pixperdegree,GDB_LIN_POLIT,get_coastline);
+	    }
 	  break;
 	  
 	case PROVINCES:
-	  gdb_line(pixperdegree,GDB_LIN_ADMIN,get_coastline);
+	  if (pixperdegree > 16)
+	    {
+	    gdb_line(pixperdegree,GDB_LIN_ADMIN,get_coastline);
+	    }
 	  break;
 	  
 	case VILLES:
-	  gdb_line(pixperdegree,GDB_LIN_CITY,get_coastline);
-	  gdb_text(pixperdegree, GDB_TXT_CITY, get_cityname);
+	  if (pixperdegree > 16)
+	    {
+	    gdb_line(pixperdegree,GDB_LIN_CITY,get_coastline);
+	    gdb_text(pixperdegree, GDB_TXT_CITY, get_cityname);
+	    }
 	  break;
 	  
 	case LACS:
-	  gdb_line(pixperdegree,GDB_LIN_LAKE,get_coastline);
+	  if (pixperdegree > 16)
+	    {
+	    gdb_line(pixperdegree,GDB_LIN_LAKE,get_coastline);
+	    }
 	  break;
 	  
 	case RIVIERES:
-	  gdb_line(pixperdegree,GDB_LIN_RIVER,get_coastline);
+	  if (pixperdegree > 16)
+	    {
+	    gdb_line(pixperdegree,GDB_LIN_RIVER,get_coastline);
+	    }
 	  break;
 	  
 	case ROUTES:
-	  gdb_line(pixperdegree,GDB_LIN_ROAD,get_coastline);
+	  if (pixperdegree > 16)
+	    {
+	    gdb_line(pixperdegree,GDB_LIN_ROAD,get_coastline);
+	    }
 	  break;
-
+	  
 	default:
 	  break;
 	  

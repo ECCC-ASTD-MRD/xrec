@@ -22,7 +22,7 @@ extern "C" {
 
 /* stdio is needed for file I/O. */
 #include <stdio.h>
-#include "gd_io.h"
+#include <gd_io.h>
 
 /* The maximum number of palette entries in palette-based images.
 	In the wonderful new world of gd 2.0, you can of course have

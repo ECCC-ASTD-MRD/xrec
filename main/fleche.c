@@ -21,10 +21,7 @@
 #include <wgl.h>
 #include <rec.h>
 
-void PointerFleche(xdepart, ydepart, dirVent, vitVent, rayon)
-float xdepart, ydepart;
-float dirVent, vitVent;
-int rayon;
+void PointerFleche(float xdepart, float ydepart, float dirVent, float vitVent, int rayon, int width)
 {
    float radian  = 0.0174503293;
    float rs, rc;
@@ -32,17 +29,16 @@ int rayon;
    int i, j, i0, j0, i1, j1, i2, j2,i3,j3,i4,j4,i5,j5;
    float fraction;
    int poly[6][2];
-   int width,signe,is,ic;
+   int signe,is,ic;
 
    float copieVitesse,theta;
    float offsetFleche1, offsetFleche2;
 
+   c_wgllwi(width);
    offsetFleche1 = (180.0 - 30.0) * radian;
    offsetFleche2 = (180.0 + 30.0) * radian;
 
    c_wglxai(&idepart, &jdepart, xdepart, ydepart);
-   width = c_wglglw();
-   width=width/2;
    theta = fmod(360.0+270-dirVent,360.0);
    theta = radian * theta;
 
@@ -61,34 +57,15 @@ int rayon;
    i4 = ROUND( 0.33 * rayon  * cos (theta + offsetFleche2));
    j4 = ROUND( 0.33 * rayon  * sin (theta + offsetFleche2));
 
-   is = ROUND((float)width*rs/(float)rayon);
-   ic = ROUND((float)width*rc/(float)rayon);
-   is = 4*sin(theta);
-   ic = 4*cos(theta);
+   is = ROUND((float)width*0.5*rs/(float)rayon);
+   ic = ROUND((float)width*0.5*rc/(float)rayon);
 
    c_wglmvi(i0,j0);
    c_wgldri(i2,j2);
 
    c_wglmvi(i2+i1,j2+j1);
-   c_wgldri(i2,j2);
+   c_wgldri(i2-ic,j2-is);
 
    c_wglmvi(i2+i4,j2+j4);
-   c_wgldri(i2,j2);
-
-   /*
-   poly[0][0] = i2+ic;   poly[0][1] = j2+is;
-   poly[1][0] = i2+i1;poly[1][1] = j2+j1;
-   poly[2][0] = i3;   poly[2][1] = j3;
-   poly[3][0] = i2+ic;   poly[3][1] = j2+is;
-   c_wglpli(4,poly);
-
-
-   poly[0][0] = i2+ic;   poly[0][1] = j2-is;
-   poly[1][0] = i2+i4;poly[1][1] = j2+j4;
-   poly[2][0] = i3;   poly[2][1] = j3;
-   poly[3][0] = i2+ic;   poly[3][1] = j2-is;
-   c_wglpli(4,poly);
-   */
-   
-
+   c_wgldri(i2-ic,j2-is);
    }

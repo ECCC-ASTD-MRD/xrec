@@ -66,6 +66,53 @@ _InfoChamps infoChamps[];
    
    lng = c_getulng();
    strcpy(nomFichierDictionnaire, tmp);
+   
+   if (lng == 0)
+      strcat(nomFichierDictionnaire, "/data/dict_rec.f");
+   else
+      strcat(nomFichierDictionnaire, "/data/dict_rec.e");
+   
+   fichierEntree = fopen(nomFichierDictionnaire, "r");
+   if (fichierEntree == NULL)
+      {
+      if (lng == 0)
+	 printf("Impossible d'ouvrir le fichier $ARMNLIB/data/dict_rec.f... \nImpossible de continuer.\n");
+      else
+	 printf("Can't open file $ARMNLIB/data/dict_rec.e... \nCan't continue.\n");
+      exit(-1);
+      }
+   
+   fclose(fichierEntree);
+
+   f77name(rlx)(nomFichierDictionnaire, strlen(nomFichierDictionnaire));
+   
+   return nbChampsDict;
+   }
+
+/**
+*****************************************************************
+*****************************************************************
+**/
+
+#ifndef HP90
+int LireDictionnaireRMNLIB_XML(infoChamps)
+_InfoChamps infoChamps[];
+{
+   FILE *fichierEntree;
+   int i, j, k;
+   char *tmp, *home;
+   char nomFichierDictionnaire[128];
+   int lng;
+
+   tmp = (char *) getenv("ARMNLIB");
+   if (tmp == NULL)
+      {
+      NoRMNLIB();
+      exit(-1);
+      }
+   
+   lng = c_getulng();
+   strcpy(nomFichierDictionnaire, tmp);
    strcat(nomFichierDictionnaire, "/data/rmndict.xml");
    
    fichierEntree = fopen(nomFichierDictionnaire, "r");
@@ -93,6 +140,7 @@ _InfoChamps infoChamps[];
    fclose(fichierEntree);
    
    }
+#endif
 
 /**
 *****************************************************************

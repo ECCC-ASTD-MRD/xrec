@@ -2677,6 +2677,7 @@ int ind;
    int i,j,k,n, npts;
    float min,max;
    float *tmpmod = NULL;
+   float *tmpuu, *tmpvv, module;
    float opmin[5],opmax[5];
    
    n = ind;
@@ -2746,6 +2747,23 @@ int ind;
 	 fmflds[n].coupe.UVWmin3d[0] = (fmflds[n].coupe.UVWmin3d[0]  < opmin[0]) ? fmflds[n].coupe.UVWmin3d[0] : opmin[0];
 	 fmflds[n].coupe.UVWmax3d[0] = (fmflds[n].coupe.UVWmax3d[0]  > opmax[0]) ? fmflds[n].coupe.UVWmax3d[0] : opmax[0];
 	 }
+
+      module = fmflds[n].coupe.uu3d[0][0]*fmflds[n].coupe.uu3d[0][0]+ fmflds[n].coupe.vv3d[0][0]* fmflds[n].coupe.vv3d[0][0];
+      fmflds[n].coupe.UVmin3d[0] = module;
+      fmflds[n].coupe.UVmax3d[0] = module;
+      for (j=0; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
+	 {
+	 tmpuu = fmflds[n].coupe.uu3d[j];
+	 tmpvv = fmflds[n].coupe.vv3d[j];
+	 for (i=0; i < npts; i++)
+	   {
+	   module = tmpuu[i]*tmpuu[i]+tmpvv[i]*tmpvv[i];
+	   if (fmflds[n].coupe.UVmin3d[0] > module) fmflds[n].coupe.UVmin3d[0] = module;
+	   if (fmflds[n].coupe.UVmax3d[0] < module) fmflds[n].coupe.UVmax3d[0] = module;
+	   }
+	 }
+      fmflds[n].coupe.UVmin3d[0] = sqrt(fmflds[n].coupe.UVmin3d[0]);
+      fmflds[n].coupe.UVmax3d[0] = sqrt(fmflds[n].coupe.UVmax3d[0]);
       
       }
    if (tmpmod)

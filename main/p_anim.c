@@ -56,6 +56,7 @@ Widget    paFrameScales;
 Widget       paFormeScales;
 Widget          paScaleHeureDebut;
 Widget          paScaleHeureFin;
+Widget       paFrameDelai;
 Widget          paScaleDelai;
 Widget    paFrameIntervalle;
 Widget       paFormeIntervalle;
@@ -90,7 +91,7 @@ extern _ColormapInfo recCmap;
 extern int recColorTable[256];
 _AnimInfo animInfo;
 int paSelectionTerminee = FALSE;
-static int interpolationTemporelle = FALSE;
+int interpolationTemporelle = FALSE;
 
 static XtCallbackProc PaSetDelai();
 static XtCallbackProc PaSetIntervalle();
@@ -108,6 +109,8 @@ static XtCallbackProc PaLastFrame();
 static XtCallbackProc PaLastFrames();
 XtCallbackProc PaStop();
 
+/* -------------------------------------------------------------------------------------------------- */
+
 static XtCallbackProc PaFermer(w, unused1, unused2)
 Widget w;
 caddr_t unused1, unused2;
@@ -115,6 +118,8 @@ caddr_t unused1, unused2;
    paSelectionTerminee = TRUE;
    DesactiverPanneauAnim();
    }
+
+/* -------------------------------------------------------------------------------------------------- */
 
 InitPanneauAnim()
 {
@@ -181,9 +186,8 @@ InitPanneauAnim()
    XtManageChild(paRadioBoxAnimation);
 
    i = 0;
-   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
+   XtSetArg(args[i], XmNvisibleWhenOff, True); i++;
    XtSetArg(args[i], XmNset, False); i++;
-   /*    XtSetArg(args[i], XmNsensitive, False); i++; */
    XtSetArg(args[i], XmNmarginHeight, 0); i++;
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
@@ -192,12 +196,8 @@ InitPanneauAnim()
    XtManageChild(paToggleAnimationRapide);
    XtAddCallback(paToggleAnimationRapide, XmNdisarmCallback, PaToggleAnimationRapide, NULL);
 
+/* -------------------------------------------------------------------------------------------------- */
 
-
-   /*
-*************************
-********************/
-   
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
    XtSetArg(args[i], XmNtopWidget, paFrameAnimationRapide); i++;
@@ -210,7 +210,7 @@ InitPanneauAnim()
    XtManageChild(paRadioBoxTypeDeDefilement);
 
    i = 0;
-   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
+   XtSetArg(args[i], XmNvisibleWhenOff, True); i++;
    XtSetArg(args[i], XmNset, True); i++;
    XtSetArg(args[i], XmNmarginHeight, 0); i++;
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
@@ -220,7 +220,7 @@ InitPanneauAnim()
    XtAddCallback(paToggleDefilementRegulier, XmNvalueChangedCallback, PaToggleDefilementRegulier, NULL);
    
    i = 0;
-   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
+   XtSetArg(args[i], XmNvisibleWhenOff, True); i++;
    XtSetArg(args[i], XmNmarginHeight, 0); i++;
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
@@ -228,17 +228,14 @@ InitPanneauAnim()
    XtManageChild(paToggleDefilementAvantArriere);
    XtAddCallback(paToggleDefilementAvantArriere, XmNvalueChangedCallback, PaToggleDefilementAvantArriere, NULL);
 
-/********************
-*************************
-*************************
-********************/
+/* -------------------------------------------------------------------------------------------------- */
    
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
    XtSetArg(args[i], XmNtopWidget, paFormeToggles); i++;
    XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++;
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
-   paFrameScales = (Widget)XmCreateFrame(paFormeAnimPanel, "frame", args, i); i++;
+   paFrameScales = (Widget)XmCreateFrame(paFormeAnimPanel, "frame", args, i); 
    XtManageChild(paFrameScales);
 
    i = 0;
@@ -251,9 +248,8 @@ InitPanneauAnim()
    XtManageChild(paRadioBoxInterpolation);
 
    i = 0;
-   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
+   XtSetArg(args[i], XmNvisibleWhenOff, True); i++;
    XtSetArg(args[i], XmNset, False); i++;
-   /*    XtSetArg(args[i], XmNsensitive, False); i++; */
    XtSetArg(args[i], XmNmarginHeight, 0); i++;
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
@@ -268,8 +264,8 @@ InitPanneauAnim()
    XtSetArg(args[i], XmNtitleString, label); i++;
    XtSetArg(args[i], XmNshowValue, True); i++;
    XtSetArg(args[i], XmNdecimalPoints, 0); i++;
-   XtSetArg(args[i], XmNminimum, 0); i++;
-   XtSetArg(args[i], XmNmaximum, 720); i++;
+   XtSetArg(args[i], XmNminimum, 5); i++;
+   XtSetArg(args[i], XmNmaximum, 725); i++;
    XtSetArg(args[i], XmNvalue, 180); i++;
    XtSetArg(args[i], XmNscaleMultiple, 15); i++;
    paScaleIntervalle = (Widget)XmCreateScale(paFormeScales, labelScaleIntervalle[lng], args, i);
@@ -279,6 +275,14 @@ InitPanneauAnim()
    XtAddCallback(paScaleIntervalle, XmNdragCallback, PaSetIntervalle, NULL);
    XtAddCallback(paScaleIntervalle, XmNvalueChangedCallback, PaSetIntervalle, NULL);
 
+   i = 0;
+   XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
+   XtSetArg(args[i], XmNtopWidget, paFormeScales); i++;
+   XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++;
+   XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
+   paFrameDelai = (Widget)XmCreateFrame(paFormeAnimPanel, "frame", args, i); 
+   XtManageChild(paFrameDelai);
+
    animInfo.intervalle = 180.0;
    animInfo.delai = 0.12;
    i = 0;
@@ -287,10 +291,11 @@ InitPanneauAnim()
    XtSetArg(args[i], XmNorientation, XmHORIZONTAL); i++;
    XtSetArg(args[i], XmNshowValue, True); i++;
    XtSetArg(args[i], XmNdecimalPoints, 2); i++;
-   XtSetArg(args[i], XmNminimum, 2); i++;
+   XtSetArg(args[i], XmNminimum, 0); i++;
    XtSetArg(args[i], XmNvalue, 12); i++;
    XtSetArg(args[i], XmNmaximum, 100); i++;
-   paScaleDelai = (Widget)XmCreateScale(paFormeScales, labelScaleDelai[lng], args, i);
+   XtSetArg(args[i], XmNtopWidget, paScaleIntervalle); i++;
+   paScaleDelai = (Widget)XmCreateScale(paFrameDelai, labelScaleDelai[lng], args, i);
    XtManageChild(paScaleDelai);
    XmStringFree(label);
 
@@ -299,14 +304,11 @@ InitPanneauAnim()
 
 
 
-/********************
-*************************
-*************************
-********************/
+/* -------------------------------------------------------------------------------------------------- */
 
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
-   XtSetArg(args[i], XmNtopWidget, paFrameScales); i++;
+   XtSetArg(args[i], XmNtopWidget, paFrameDelai); i++;
    XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++;
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
    paFrameBoutons = (Widget)XmCreateFrame(paFormeAnimPanel, "frame", args, i); i++;
@@ -346,6 +348,8 @@ InitPanneauAnim()
    animInfo.animationRapide = FALSE;
    }
 
+/* -------------------------------------------------------------------------------------------------- */
+
 ActiverPanneauAnimation()
 {
    XEvent paEvent;
@@ -368,12 +372,14 @@ ActiverPanneauAnimation()
    
    }
 
+/* -------------------------------------------------------------------------------------------------- */
+
 f77name(xpanpaact)()
 {
    LocalEventLoop(paAnimationPanel);
    }
 
-
+/* -------------------------------------------------------------------------------------------------- */
 
 DesactiverPanneauAnim()
 {
@@ -382,11 +388,7 @@ DesactiverPanneauAnim()
    XtUnrealizeWidget(paAnimationPanel);
    }
 
-
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+/* -------------------------------------------------------------------------------------------------- */
 
 static XtCallbackProc PaSetIntervalle(w, client_data, call_data)
 Widget w;
@@ -398,10 +400,7 @@ caddr_t client_data, call_data;
    
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+/* -------------------------------------------------------------------------------------------------- */
 
 static XtCallbackProc PaSetDelai(w, client_data, call_data)
 Widget w;
@@ -409,17 +408,11 @@ caddr_t client_data, call_data;
 {
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
-   animInfo.delai = (float)(donnees->value);
+   animInfo.delai = 0.01 * (float)(donnees->value);
    
    }
 
-
-/**
- ******************************************************************************
- ******************************************************************************
- **/
-
-
+/* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
 static XtCallbackProc PaNextFrames(w, unused1, unused2)
@@ -436,7 +429,7 @@ caddr_t unused1, unused2;
    c_gmpopti("ACCEPT_INTERRUPTS", FALSE);
 
    InvertWidget(w);
-   DesactiverWidgetsControle();
+   /*   DesactiverWidgetsControle(); */
    AfficherBoutonAnnulation();
    
    AnimerFrames(2);
@@ -449,11 +442,7 @@ caddr_t unused1, unused2;
    c_gmpopti("ACCEPT_INTERRUPTS", TRUE);
    }
 
-
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+/* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
 XtCallbackProc PaStop(w, unused1, unused2)
@@ -463,11 +452,7 @@ caddr_t unused1, unused2;
    xc.annulationDemandee = TRUE;
    }
 
-
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+/* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
 static XtCallbackProc PaLastFrames(w, unused1, unused2)
@@ -484,7 +469,7 @@ caddr_t unused1, unused2;
    c_gmpopti("ACCEPT_INTERRUPTS", FALSE);
 
    InvertWidget(w);
-   DesactiverWidgetsControle();
+   /*    DesactiverWidgetsControle(); */
    AfficherBoutonAnnulation();
    
    AnimerFrames(-2);
@@ -497,11 +482,7 @@ caddr_t unused1, unused2;
    c_gmpopti("ACCEPT_INTERRUPTS", TRUE);
    }
 
-
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+/* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
 static XtCallbackProc PaLastFrame(w, unused1, unused2)
@@ -521,11 +502,7 @@ caddr_t unused1, unused2;
    InvertWidget(w);
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
-
+/* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
 static XtCallbackProc PaNextFrame(w, unused1, unused2)
@@ -547,11 +524,7 @@ caddr_t unused1, unused2;
    InvertWidget(w);
    }
 
-/**
- ***********************************************************************
- ***********************************************************************
- **/
-
+/* -------------------------------------------------------------------------------------------------- */
 
 static XtCallbackProc PaToggleDefilementRegulier(w, u1, u2)
 Widget w;
@@ -560,6 +533,7 @@ caddr_t u1, u2;
    animInfo.typeDefilement = DEFILEMENT_REGULIER;
    }
 
+/* -------------------------------------------------------------------------------------------------- */
 static XtCallbackProc PaToggleDefilementAvantArriere(w, u1, u2)
 Widget w;
 caddr_t u1, u2;
@@ -567,6 +541,7 @@ caddr_t u1, u2;
    animInfo.typeDefilement = DEFILEMENT_AVANT_ARRIERE;
    }
 
+/* -------------------------------------------------------------------------------------------------- */
 static XtCallbackProc PaToggleAnimationRapide(Widget w, caddr_t u1, caddr_t u2)
 {
   Arg args[2];
@@ -584,9 +559,20 @@ static XtCallbackProc PaToggleAnimationRapide(Widget w, caddr_t u1, caddr_t u2)
     XtSetArg(args[i], XmNset, False); i++;
     }
   XtSetValues(w, args, i);
+
+  if (interpolationTemporelle)
+    {
+    i = 0;
+    XtSetArg(args[i], XmNset, False); i++;
+    XtSetValues(paToggleInterpolation, args, i);
+    interpolationTemporelle = False;
+    }
+
   
   
 }
+
+/* -------------------------------------------------------------------------------------------------- */
 
 static XtCallbackProc PaToggleInterpolation(w, u1, u2)
 Widget w;
@@ -597,7 +583,7 @@ caddr_t u1, u2;
   
   interpolationTemporelle = !interpolationTemporelle;
   
-    i = 0;
+  i = 0;
   if (interpolationTemporelle)
     {
     XtSetArg(args[i], XmNset, True); i++;
@@ -607,7 +593,14 @@ caddr_t u1, u2;
     XtSetArg(args[i], XmNset, False); i++;
     }
   XtSetValues(w, args, i);
-
+  
+  if (animInfo.animationRapide)
+    {
+    i = 0;
+    XtSetArg(args[i], XmNset, False); i++;
+    XtSetValues(paToggleAnimationRapide, args, i);
+    animInfo.animationRapide = False;
+    }
   
 }
 

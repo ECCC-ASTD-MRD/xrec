@@ -22,7 +22,7 @@
 #include <gd.h>
 #include <stdio.h>
 
-gdImagePtr gdwin = -1;
+gdImagePtr gdwin = (gdImagePtr ) NULL;
 char gdNomFenetre[256];
 
 gd_wglinit()
