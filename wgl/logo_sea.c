@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 #include <rpn_f.xbm>
 #include <rpn_e.xbm>
 #include <service_f.xbm>

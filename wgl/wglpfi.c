@@ -18,11 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglpfi)(nbPoints, polygone)
-int *nbPoints;
-int polygone[][2];
+f77name(wglpfi)(int *nbPoints, int polygone[][2])
 {
    c_wglpfi(*nbPoints, polygone);
    }
@@ -32,19 +30,7 @@ int polygone[][2];
 **/
 
 
-c_wglpfi(nbPoints, polygone)
-int nbPoints;
-int polygone[][2];
+c_wglpfi(int nbPoints, int polygone[][2])
 {
-   int i;
-   XPoint p[255];
-   
-   wglfshlb();
-   for (i=0; i < nbPoints; i++)
-      {
-      p[i].x = polygone[i][X];
-      p[i].y = h - polygone[i][Y];
-      }
-
-   XFillPolygon(wglDisp, wglDrawable, wglFillGC, p, nbPoints, Convex, CoordModeOrigin);
+  wglc_wgl->wglpfi(nbPoints, polygone);
    }

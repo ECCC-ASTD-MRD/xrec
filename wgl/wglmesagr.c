@@ -18,18 +18,12 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-wglmesagr(message)
-char *message;
+wglmesagr(char *message)
 {
    int largeurTexte;
 
-   largeurTexte = c_wglwsi(message, strlen(message)); 
-
-   XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
-   c_wglfsz(14);
-   c_wglpsi((w-largeurTexte)/2,10,message,strlen(message),14,0,0);
-   XFlush(wglDisp);
+   wglc_wgl->wglmesagr(message);
    
    }

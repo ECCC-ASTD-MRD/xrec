@@ -18,18 +18,16 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglglpti)(ix, iy)
-int *ix, *iy;
+f77name(wglglpti)(int *ix, int *iy)
 {
-   c_wglglpti(ix, iy);
-   }
+  c_wglglpti(ix, iy);
+}
 
-c_wglglpti(ix, iy)
-int *ix, *iy;
+c_wglglpti(int *ix, int *iy)
 {
-   *ix = wglPts[NbPoints-1].x;
-   *iy = wglPts[NbPoints-1].y;
-   }
+  *ix = wglPts[NbPoints-1].x;
+  *iy = wglPts[NbPoints-1].y;
+}
 

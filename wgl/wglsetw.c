@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglsetw)(winid)
-int *winid;
+f77name(wglsetw)(int *winid)
 {
    c_wglsetw(*winid);
    }
@@ -31,18 +30,9 @@ int *winid;
  ******************************************************************************
  **/
 
-c_wglsetw(winid)
-int winid;
+c_wglsetw(int winid)
 {
-/**
-   if ((Window)winid == fenetre[fenetreCourante].wglWin)
-      return;
-**/
+   wglc_wgl->wglsetw(winid);
 
-   XFlush(wglDisp);
-   wglfshlb();
-
-   wglsavpfc();
-   wgldefncw(winid);
    }
 

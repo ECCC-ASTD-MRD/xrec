@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglgco)(indCol, red, green, blue)
-int *indCol, *red, *green, *blue;
+f77name(wglgco)(int *indCol, int *red, int *green, int *blue)
 {
    c_wglgco(*indCol, red, green, blue);
    }
@@ -30,25 +29,7 @@ int *indCol, *red, *green, *blue;
 ******
 **/
 
-c_wglgco(indCol, red, green, blue)
-     int indCol, *red, *green, *blue;
+c_wglgco(int indCol, int *red, int *green, int *blue)
 {
-   int nplanes;
-
-   nplanes = c_wglgpl();
-
-   switch(nplanes)
-      {
-      case 8:
-        *red   = couleurs[wglColorTable[indCol % 256]].red / 256;
-        *green = couleurs[wglColorTable[indCol % 256]].green / 256;
-        *blue  = couleurs[wglColorTable[indCol % 256]].blue / 256;
-        break;
-
-      default:
-        *red   = couleurs[indCol].red / 256;
-        *green = couleurs[indCol].green / 256;
-        *blue  = couleurs[indCol].blue / 256;
-        break;
-      }
+  wglc_wgl->wglgco(indCol, red, green, blue);
 }

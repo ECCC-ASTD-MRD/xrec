@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 f77name(wglbbf)()
 {
@@ -31,25 +31,6 @@ f77name(wglbbf)()
 
 c_wglbbf()
 {
-   int x, y;
-   Window root;
-   unsigned int width, height, border_width, depth, nplanes;
-   int largeurFenetre, hauteurFenetre;
-   
-   nplanes = c_wglgpl();
-
-   XGetGeometry(wglDisp, bgPix, &root, &x, &y, &width, &height, &border_width, &depth);
-   c_wglgwz(&largeurFenetre, &hauteurFenetre);
-
-   if (largeurFenetre != width || hauteurFenetre != height)
-      {
-      if (bgPix)
-	 XFreePixmap(wglDisp, bgPix);
-      bgPix = XCreatePixmap(wglDisp, RootWindow(wglDisp, wglScrNum), largeurFenetre, hauteurFenetre, nplanes);
-      }
-
-   w = largeurFenetre;
-   h = hauteurFenetre;
-   wglDrawable = bgPix;
+   wglc_wgl->wglbbf();
    }
 

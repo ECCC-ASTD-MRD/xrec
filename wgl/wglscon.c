@@ -18,9 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+/* #include <wgl_gd.h> */
 #include <wgl.h>
-#include <wgl_gd.h>
-#include <wgl_x.h>
+#include <x_wglfonct.h>
+_wglContexte wglc_x, wglc_gd, wglc_gl, wglc_ps, *wglc_wgl;
 
 f77name(wglscon)(char *contexte, int len_contexte)
 {
@@ -28,7 +29,7 @@ f77name(wglscon)(char *contexte, int len_contexte)
 
   lcl_len_contexte = len_contexte > 8 ? 8 : len_contexte;
   strncpy(lcl_contexte, contexte, lcl_len_contexte);
-  lcl_contexte[lcl_len_contexte-1] = '\0';
+  lcl_contexte[lcl_len_contexte] = '\0';
   c_wglscon(lcl_contexte);
 }
 
@@ -39,7 +40,7 @@ c_wglscon(char *contexte)
     c_wglscon_x();
     return 0;
     }
-  
+  /*  
   if (0 == strcmp(contexte, "gd"))
     {
     c_wglscon_gd();
@@ -57,7 +58,7 @@ c_wglscon(char *contexte)
     c_wglscon_ps();
     return 0;
     }
-  
+  */
   fprintf(stderr, "Contexte non supporte : %s\n",contexte);
 
 }
@@ -65,107 +66,114 @@ c_wglscon(char *contexte)
 c_wglscon_x()
 {
   wglc_x.graphics_library = 0;
-  wglc_x.wglafi = wgl_xafi;
-  wglc_x.wglali = wgl_xali;
-  wglc_x.wglbbf = wgl_xbbf;
-  wglc_x.wglbrb = wgl_xbrb;
-  wglc_x.wglbti = wgl_xbti;
-  wglc_x.wglbtn = wgl_xbtn;
-  wglc_x.wglbtpi = wgl_xbtpi;
-  wglc_x.wglcfi = wgl_xcfi;
-  wglc_x.wglchngfs = wgl_xchngfs;
-  wglc_x.wglcli = wgl_xcli;
-  wglc_x.wglclr = wgl_xclr;
-  wglc_x.wglclw = wgl_xclw;
-  wglc_x.wglcmi = wgl_xcmi;
-  wglc_x.wglcol = wgl_xcol;
-  wglc_x.wglcolf = wgl_xcolf;
-  wglc_x.wglcrb = wgl_xcrb;
-  wglc_x.wgldbf = wgl_xdbf;
-  wglc_x.wgldbg = wgl_xdbg;
-  wglc_x.wgldcm = wgl_xdcm;
-  wglc_x.wgldeflst = wgl_xdeflst;
-  wglc_x.wgldefncw = wgl_xdefncw;
-  wglc_x.wgldld = wgl_xdld;
-  wglc_x.wgldpt = wgl_xdpt;
-  wglc_x.wgldri = wgl_xdri;
-  wglc_x.wglerb = wgl_xerb;
-  wglc_x.wglfbf = wgl_xfbf;
-  wglc_x.wglfsc = wgl_xfsc;
-  wglc_x.wglfsh = wgl_xfsh;
-  wglc_x.wglfshlb = wgl_xfshlb;
-  wglc_x.wglgacw = wgl_xgacw;
-  wglc_x.wglgaf = wgl_xgaf;
-  wglc_x.wglgbf = wgl_xgbf;
-  wglc_x.wglgci = wgl_xgci;
-  wglc_x.wglgco = wgl_xgco;
-  wglc_x.wglgdbg = wgl_xgdbg;
-  wglc_x.wglgetcmap = wgl_xgetcmap;
-  wglc_x.wglgld = wgl_xgld;
-  wglc_x.wglglpti = wgl_xglpti;
-  wglc_x.wglglw = wgl_xglw;
-  wglc_x.wglgmk = wgl_xgmk;
-  wglc_x.wglgmod = wgl_xgmod;
-  wglc_x.wglgpl = wgl_xgpl;
-  wglc_x.wglgpt = wgl_xgpt;
-  wglc_x.wglgsi = wgl_xgsi;
-  wglc_x.wglgsp = wgl_xgsp;
-  wglc_x.wglgvi = wgl_xgvi;
-  wglc_x.wglgvp = wgl_xgvp;
-  wglc_x.wglgwz = wgl_xgwz;
-  wglc_x.wglgzi = wgl_xgzi;
-  wglc_x.wglgzp = wgl_xgzp;
-  wglc_x.wglias = wgl_xias;
-  wglc_x.wgliax = wgl_xiax;
-  wglc_x.wglinicmap = wgl_xinicmap;
-  wglc_x.wglinids = wgl_xinids;
-  wglc_x.wglinipat = wgl_xinipat;
-  wglc_x.wglinit = wgl_xinit;
-  wglc_x.wgliniwin = wgl_xiniwin;
-  wglc_x.wgliniwpx = wgl_xiniwpx;
-  wglc_x.wglinstcmap = wgl_xinstcmap;
-  wglc_x.wglinvpat = wgl_xinvpat;
-  wglc_x.wglkas = wgl_xkas;
-  wglc_x.wgllpt = wgl_xlpt;
-  wglc_x.wgllwi = wgl_xlwi;
-  wglc_x.wglmapc = wgl_xmapc;
-  wglc_x.wglmapcs = wgl_xmapcs;
-  wglc_x.wglmco = wgl_xmco;
-  wglc_x.wglmcos = wgl_xmcos;
-  wglc_x.wglmcw = wgl_xmcw;
-  wglc_x.wglmesagr = wgl_xmesgagr;
-  wglc_x.wglmvi = wgl_xmvi;
-  wglc_x.wglncl = wgl_xncl;
-  wglc_x.wglnewwin = wgl_xnewwin;
-  wglc_x.wglopmw = wgl_xopmw;
-  wglc_x.wglopw = wgl_xopw;
-  wglc_x.wglpfi = wgl_xpfi;
-  wglc_x.wglpli = wgl_xpli;
-  wglc_x.wglppo = wgl_xppo;
-  wglc_x.wglpsz = wgl_xpsz;
-  wglc_x.wglpti = wgl_xpti;
-  wglc_x.wglptis = wgl_xptis;
-  wglc_x.wglrfi = wgl_xrfi;
-  wglc_x.wglrli = wgl_xrli;
-  wglc_x.wglroc = wgl_xroc;
-  wglc_x.wglrstdpar = wgl_xrstdpar;
-  wglc_x.wglrwc = wgl_xrwc;
-  wglc_x.wglsavpfc = wgl_xsavpfc;
-  wglc_x.wglsbf = wgl_xsbf;
-  wglc_x.wglsetw = wgl_xsetw;
-  wglc_x.wglsld = wgl_xsld;
-  wglc_x.wglsmk = wgl_xsmk;
-  wglc_x.wglspt = wgl_xspt;
-  wglc_x.wglssp = wgl_xssp;
-  wglc_x.wglstu = wgl_xstu;
-  wglc_x.wglswb = wgl_xswb;
-  wglc_x.wglxai = wgl_xxai;
+  wglc_x.wglafi = x_wglafi;
+  wglc_x.wglali = x_wglali;
+  wglc_x.wglbbf = x_wglbbf;
+  wglc_x.wglbitfinder = x_wglbitfinder;
+  wglc_x.wglbrb = x_wglbrb;
+  wglc_x.wglbti = x_wglbti;
+  wglc_x.wglbtn = x_wglbtn;
+  wglc_x.wglbtpi = x_wglbtpi;
+  wglc_x.wglcfi = x_wglcfi;
+  wglc_x.wglchngfs = x_wglchngfs;
+  wglc_x.wglcli = x_wglcli;
+  wglc_x.wglclr = x_wglclr;
+  wglc_x.wglclw = x_wglclw;
+  wglc_x.wglcmi = x_wglcmi;
+  wglc_x.wglcol = x_wglcol;
+  wglc_x.wglcolf = x_wglcolf;
+  wglc_x.wglcolfs= x_wglcolfs;
+  wglc_x.wglcrb = x_wglcrb;
+  wglc_x.wgldbf = x_wgldbf;
+  wglc_x.wgldbg = x_wgldbg;
+  wglc_x.wgldcm = x_wgldcm;
+  wglc_x.wgldeflst = x_wgldeflst;
+  wglc_x.wgldefncw = x_wgldefncw;
+  wglc_x.wgldld = x_wgldld;
+  wglc_x.wgldpt = x_wgldpt;
+  wglc_x.wgldri = x_wgldri;
+  wglc_x.wgldsi = x_wgldsi;
+  wglc_x.wglerb = x_wglerb;
+  wglc_x.wglfbf = x_wglfbf;
+  wglc_x.wglfsc = x_wglfsc;
+  wglc_x.wglfsh = x_wglfsh;
+  wglc_x.wglfshlb = x_wglfshlb;
+  wglc_x.wglfsz  = x_wglfsz;
+  wglc_x.wglgacw = x_wglgacw;
+  wglc_x.wglgaf = x_wglgaf;
+  wglc_x.wglgbf = x_wglgbf;
+  wglc_x.wglgci = x_wglgci;
+  wglc_x.wglgco = x_wglgco;
+  wglc_x.wglgdbg = x_wglgdbg;
+  wglc_x.wglgetcmap = x_wglgetcmap;
+  wglc_x.wglgld = x_wglgld;
+  wglc_x.wglglpti = x_wglglpti;
+  wglc_x.wglglw = x_wglglw;
+  wglc_x.wglgmk = x_wglgmk;
+  wglc_x.wglgmod = x_wglgmod;
+  wglc_x.wglgpl = x_wglgpl;
+  wglc_x.wglgpt = x_wglgpt;
+  wglc_x.wglgsi = x_wglgsi;
+  wglc_x.wglgvi = x_wglgvi;
+  wglc_x.wglgvp = x_wglgvp;
+  wglc_x.wglgwz = x_wglgwz;
+  wglc_x.wglgzi = x_wglgzi;
+  wglc_x.wglgzp = x_wglgzp;
+  wglc_x.wglias = x_wglias;
+  wglc_x.wglinicmap = x_wglinicmap;
+  wglc_x.wglinids = x_wglinids;
+  wglc_x.wglinipat = x_wglinipat;
+  wglc_x.wgliniwin = x_wgliniwin;
+  wglc_x.wglinstcmap = x_wglinstcmap;
+  wglc_x.wglinvpat = x_wglinvpat;
+  wglc_x.wglkas = x_wglkas;
+  wglc_x.wgllpt = x_wgllpt;
+  wglc_x.wgllwi = x_wgllwi;
+  wglc_x.wglmapc = x_wglmapc;
+  wglc_x.wglmapcs = x_wglmapcs;
+  wglc_x.wglmco = x_wglmco;
+  wglc_x.wglmcos = x_wglmcos;
+  wglc_x.wglmcw = x_wglmcw;
+  wglc_x.wglmesagr = x_wglmesgagr;
+  wglc_x.wglmvi = x_wglmvi;
+  wglc_x.wglncl = x_wglncl;
+  wglc_x.wglnewwin = x_wglnewwin;
+  wglc_x.wglopmw = x_wglopmw;
+  wglc_x.wglopw = &(x_wglopw);
+  wglc_x.wglpfi = x_wglpfi;
+  wglc_x.wglpli = x_wglpli;
+  wglc_x.wglppo = x_wglppo;
+  wglc_x.wglpsi = x_wglpsi;
+  wglc_x.wglpsz = x_wglpsz;
+  wglc_x.wglpti = x_wglpti;
+  wglc_x.wglptis = x_wglptis;
+  wglc_x.wglptxs = x_wglptxs;
+  wglc_x.wglrfi = x_wglrfi;
+  wglc_x.wglrli = x_wglrli;
+  wglc_x.wglroc = x_wglroc;
+  wglc_x.wglrstdpar = x_wglrstdpar;
+  wglc_x.wglrwc = x_wglrwc;
+  wglc_x.wglsavpfc = x_wglsavpfc;
+  wglc_x.wglsbf = x_wglsbf;
+  wglc_x.wglsetw = x_wglsetw;
+  wglc_x.wglsetwcmap = x_wglsetwcmap;
+  wglc_x.wglsld = x_wglsld;
+  wglc_x.wglsmk = x_wglsmk;
+  wglc_x.wglspt = x_wglspt;
+  wglc_x.wglstu = x_wglstu;
+  wglc_x.wglswb = x_wglswb;
+  wglc_x.wglwtwrsz = x_wglwtwrsz;
+  wglc_x.wglwsi = x_wglwsi;
+  wglc_x.wglhsi = x_wglhsi;
+  wglc_x.wglasi = x_wglasi;
+  wglc_x.wgldsi = x_wgldsi;
 
-  wglc_wgl = wglc_x;
+  wglc_wgl = &wglc_x;
 }
 
 int wglscon_gd()
 {
+/* 
   wglc_gd.graphics_library = 1;
   wglc_gd.wglafi = wgl_gdafi;
   wglc_gd.wglali = wgl_gdali;
@@ -218,7 +226,6 @@ int wglscon_gd()
   wglc_gd.wglgzi = wgl_gdgzi;
   wglc_gd.wglgzp = wgl_gdgzp;
   wglc_gd.wglias = wgl_gdias;
-  wglc_gd.wgliax = wgl_gdiax;
   wglc_gd.wglinicmap = wgl_gdinicmap;
   wglc_gd.wglinids = wgl_gdinids;
   wglc_gd.wglinipat = wgl_gdinipat;
@@ -258,12 +265,12 @@ int wglscon_gd()
   wglc_gd.wglsld = wgl_gdsld;
   wglc_gd.wglsmk = wgl_gdsmk;
   wglc_gd.wglspt = wgl_gdspt;
-  wglc_gd.wglssp = wgl_gdssp;
   wglc_gd.wglstu = wgl_gdstu;
   wglc_gd.wglswb = wgl_gdswb;
   wglc_gd.wglxai = wgl_gdxai;
 
   wglc_wgl = wglc_gd;
+   **/
 }
 
 int wglscon_gl()

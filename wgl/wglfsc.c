@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 f77name(wglfsc)()
 {
@@ -31,7 +31,6 @@ f77name(wglfsc)()
 
 c_wglfsc()
 {
-   wglinids("");
-   c_wglpsz(DisplayWidth(wglDisp, wglScrNum), DisplayHeight(wglDisp, wglScrNum));
+   wglc_wgl->wglfsc();
    }
 

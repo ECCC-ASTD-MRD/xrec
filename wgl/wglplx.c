@@ -18,11 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglplx)(nbPoints, polygone)
-int *nbPoints;
-float polygone[][2];
+f77name(wglplx)(int *nbPoints, float polygone[][2])
 {
    c_wglplx(*nbPoints, polygone);
    }
@@ -32,35 +30,31 @@ float polygone[][2];
  **/
 
 
-c_wglplx(nbPoints, polygone)
-int nbPoints;
-float polygone[][2];
+c_wglplx(int nbPoints, float polygone[][2])
 {
-   int i,j,k;
-   int i1, j1, imax;
-   XPoint p[64];
-   
-   wglfshlb();
-   for (j=0; j < nbPoints; j+=63)
-      {
-      imax = (nbPoints - j) >= 64 ? 64 : nbPoints - j;
-      for (i=j; i < (j+imax); i++)
-	 {
-	 c_wglxai(&i1, &j1, polygone[i][X], polygone[i][Y]);
-	 p[i-j].x = i1;
-	 p[i-j].y = h - j1; 
-	 }
-      
-      if ((currentDashPattern == 0) || (serverIdentifier != SGI))
-	 {
-	 XDrawLines(wglDisp, wglDrawable, wglLineGC, p, i-j, CoordModeOrigin);
-	 }
-      else
-	 {
-	 for (k=0; k < (i-j-1); k++)
-	    XDrawLine(wglDisp, wglDrawable, wglLineGC, p[k].x, p[k].y, p[k+1].x, p[k+1].y);
-	 }
-      }
-   
-   }
+  int i;
+  
+  int p[512], *ipoly, *largeP;
+  
+  if (nbPoints == 0) return;
+  if (nbPoints > 256)
+    {
+    largeP = (int *) malloc(2*sizeof(int)*nbPoints);
+    ipoly = largeP;
+    }
+  else
+    {
+    ipoly = p;
+    }
+  
+  c_wglfshlb();
+  for (i=0; i < nbPoints; i++)
+    {
+    c_wglxai(&(ipoly[2*i]), &(ipoly[2*i+1]), polygone[i][X], polygone[i][Y]);
+    }
+    c_wglpli(nbPoints, ipoly);
+  
+  if (nbPoints > 256)
+    free(largeP);
+}
 

@@ -18,11 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglgzp)(xsize, ysize, isize, jsize)
-float *xsize, *ysize;
-int *isize, *jsize;
+f77name(wglgzp)(float *xsize, float *ysize, int *isize, int *jsize)
 {
    c_wglgzp(xsize, ysize, isize, jsize);
    }
@@ -33,9 +31,7 @@ int *isize, *jsize;
 **/
 
 
-c_wglgzp(xsize, ysize, isize, jsize)
-float *xsize, *ysize;
-int *isize, *jsize;
+c_wglgzp(float *xsize, float *ysize, int *isize, int *jsize)
 {
    c_wglgzx(xsize, ysize);
    c_wglgzi(isize, jsize);

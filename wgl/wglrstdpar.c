@@ -18,16 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 wglrstdpar()
 {
-   aspectRatioSet     = False;
-   wglForceAspectSet  = False;
-   customWinSize      = False;
-   customPlaneMaskSet = False;
-   doubleBufferModeSet = False;
-   doubleBufferMode    = False;
-   currentPlaneMaskSet = False;
-   }
+  wglc_wgl->wglrstdpar();
+}
 

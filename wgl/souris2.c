@@ -35,7 +35,7 @@
 #ifdef X_WGL
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include <wgl_x.h>
+#include <wgl.h>
 #endif
 
 #ifdef GL_WGL
@@ -86,9 +86,9 @@ extern  XEvent                   wglEvent;
 ** Variables globales utilisees dans ce fichier
 **/ 
 
-int ActualColor;
-int   backupx1 = 0, backupx2 = 0, backupy1 = 0, backupy2 = 0;
-int   backupobjet = 0;
+static int ActualColor;
+static int   backupx1 = 0, backupx2 = 0, backupy1 = 0, backupy2 = 0;
+static int   backupobjet = 0;
 
 /**
 ** Routines contenues dans ce fichier
@@ -117,8 +117,7 @@ void trackmouse();
  ******************************************************************************
  **/
 
-int AnalyserDeplacement(x1, y1, x2, y2)
-int *x1, *y1, *x2, *y2;
+int AnalyserDeplacement(int *x1, int *y1, int *x2, int *y2)
 {
    if (abs(*x2 - *x1) < DeplacementMinimal && abs(*y2 - *y1) < DeplacementMinimal)
       return CLIC;

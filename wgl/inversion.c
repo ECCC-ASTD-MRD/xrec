@@ -18,13 +18,12 @@
  * Boston, MA 02111-1307, USA.
  */
 
-unsigned char  InvertChar();
-unsigned short InvertShort();
-unsigned int   InvertInt();
+unsigned char  InvertChar(unsigned char nombre);
+unsigned short InvertShort(unsigned short nombre);
+unsigned int   InvertInt(unsigned int nombre);
 
 
-unsigned char  InvertChar(nombre)
-unsigned char nombre;
+unsigned char  InvertChar(unsigned char nombre)
 {
    char temp, invertedNombre;
    int  i, j;
@@ -39,8 +38,7 @@ unsigned char nombre;
    return (unsigned char) invertedNombre;
    }
 
-unsigned short  InvertShort(nombre)
-unsigned short nombre;
+unsigned short  InvertShort(unsigned short nombre)
 {
    short temp, invertedNombre;
    int  i, j;
@@ -55,8 +53,7 @@ unsigned short nombre;
    return (unsigned short) invertedNombre;
    }
 
-unsigned int  InvertInt(nombre)
-unsigned int nombre;
+unsigned int  InvertInt(unsigned int nombre)
 {
    int temp, invertedNombre;
    int  i, j;

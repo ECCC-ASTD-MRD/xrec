@@ -18,31 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 wglsavpfc()
 {
-   if (fenetreCourante < 0)
-      return;
-
-   fenetre[fenetreCourante].wglWin = wglWin;
-   fenetre[fenetreCourante].wglDrawable = wglDrawable;
-   fenetre[fenetreCourante].wglLineGC = wglLineGC;
-   fenetre[fenetreCourante].wglFillGC = wglFillGC;
-   fenetre[fenetreCourante].bgPix = bgPix;
-   fenetre[fenetreCourante].wglWinAttr = wglWinAttr;
-   fenetre[fenetreCourante].wglWinSetAttr = wglWinSetAttr;
-   fenetre[fenetreCourante].aspectRatio = aspectRatio;
-   fenetre[fenetreCourante].wglForceAspect = wglForceAspect;
-   fenetre[fenetreCourante].customPlaneMask = customPlaneMask;
-   fenetre[fenetreCourante].doubleBufferMode = doubleBufferMode;
-   fenetre[fenetreCourante].currentColor = currentColor;
-   fenetre[fenetreCourante].currentFillStyle = currentFillStyle;
-   fenetre[fenetreCourante].currentFillPattern = currentFillPattern;
-   fenetre[fenetreCourante].currentDashPattern = currentDashPattern;
-   fenetre[fenetreCourante].currentLineWidth = currentLineWidth;
-   fenetre[fenetreCourante].currentPlaneMask = currentPlaneMask;
-   fenetre[fenetreCourante].pixmapDimensions = pixmapDimensions;
-   fenetre[fenetreCourante].usSpace = usSpace;
+  wglc_wgl->wglsavpfc();
    }
 

@@ -18,11 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-int f77name(wglopw)(nomFenetre, lenNomFenetre)
-char nomFenetre[];
-int  lenNomFenetre;
+int f77name(wglopw)(char nomFenetre[], int lenNomFenetre)
 {
    char nomTemp[255];
    int  winid;
@@ -38,50 +36,10 @@ int  lenNomFenetre;
 ******
 **/
 
-int c_wglopw(nomFenetre)
-char *nomFenetre;
+int c_wglopw(char *nomFenetre)
 {
-   char tempNomFenetre[255];
+  c_wglinit();
+   wglc_wgl->wglopw(nomFenetre); 
 
-   wglnewwin();
-
-   if (nomFenetre[0] == '?')
-      sprintf(tempNomFenetre, "X-%s", &nomFenetre[1]);
-   else
-      strcpy(tempNomFenetre, nomFenetre);
-      
-   lng = c_getulng();
-   
-   wgliniwin(tempNomFenetre);
-   XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
-
-   if (!wglForceAspectSet)
-      wglForceAspect = True;
-
-   w = wglWinAttr.width;
-   h = wglWinAttr.height;
-
-   c_wglssp(0.0, 0.0, (float) (w -1), (float) (h - 1), 0, 0, 
-            w - 1, h - 1, 0);
-   usSpace.axex = NULL;
-   usSpace.axey = NULL;
-   usSpace.ni   = 0;
-   usSpace.nj   = 0;
-   bgPix = NULL;
-
-   if (!customWinSize)
-      {
-      wglwtwrsz();
-      }
-
-   XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
-   c_wglgwz(&w,&h);
-
-   c_wglcol(NOIR);
-   c_wglclr(); 
-
-   c_wglsetw(wglWin);
-   wglrstdpar();
-   return wglWin;
    }
 

@@ -18,19 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-wglinids(nomFenetre)
-char *nomFenetre;
+wglinids(char *nomFenetre)
 {
-   if (wglDisp == NULL)
-      {
-      Xinit(nomFenetre);
-      wglDisp = /**XOpenDisplay("");**/  XtDisplay(SuperWidget.topLevel);
-      wglScrNum = DefaultScreen(wglDisp);
-      if (c_wglgdbg())
-	{
-        XSynchronize(wglDisp,True);
-	}
-      }
+  wglc_wgl->wglinids(nomFenetre);
+
    }

@@ -18,22 +18,20 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-Boolean f77name(wglbtp)(bouton)
-int *bouton;
+int f77name(wglbtp)(int *bouton)
 {
    int i,j;
-   return (Boolean) c_wglbtpi(*bouton, &i, &j);
+   return (int) c_wglbtp(*bouton);
    }
 
 /**
  ******
  **/
 
-Boolean c_wglbtp(bouton)
-int bouton;
+int c_wglbtp(int bouton)
 {
    int i,j;
-   return (Boolean) c_wglbtpi(bouton, &i, &j);
+   return (int) c_wglbtpi(bouton, &i, &j);
    }

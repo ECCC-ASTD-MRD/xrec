@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglsld)(indDash)
-int *indDash;
+f77name(wglsld)(int *indDash)
 {
    c_wglsld(*indDash);
    }
@@ -30,26 +29,9 @@ int *indDash;
  ******
  **/
 
-c_wglsld(indDash)
-int indDash;
+c_wglsld(int indDash)
+
 {
-   int ind;
-
-   ind = indDash + 128;
-
-   switch(ind)
-      {
-      case 128:
-      XSetLineAttributes(wglDisp, wglLineGC, currentLineWidth, LineSolid, CapButt,JoinMiter);
-      break;
-
-      default:
-      XSetLineAttributes(wglDisp, wglLineGC, currentLineWidth, LineOnOffDash, CapButt,JoinMiter);
-      XSetDashes(wglDisp, wglLineGC, wglDashPatternOffsets[ind], wglDashPatterns[ind], wglDashPatternLengths[ind]);
-      break;
-      }
-   
-   currentDashPattern = indDash;
-
+  wglc_wgl->wglsld(indDash);
    }
 

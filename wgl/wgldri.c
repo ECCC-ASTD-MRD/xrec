@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wgldri)(i, j)
-int *i, *j;
+f77name(wgldri)(int *i, int *j)
 {
    c_wgldri(*i, *j);
    }
@@ -30,15 +29,7 @@ int *i, *j;
 ******
 **/
 
-c_wgldri(i, j)
-int i, j;
+c_wgldri(int i, int j)
 {
-   wglPts[NbPoints].x = i;
-   wglPts[NbPoints].y =  h - j;
-   NbPoints++;
-   
-   if (NbPoints >= NB_MAX_POINTS)
-      {
-      wglfshlb();
-      } 
+  wglc_wgl->wgldri(i,j);
    }

@@ -19,6 +19,7 @@
  */
 
 #include <stdio.h>
+#include <wgl.h>
 
 
 testbitfinder(int argc, char **argv)
@@ -35,24 +36,6 @@ testbitfinder(int argc, char **argv)
 
 wglbitfinder(unsigned int mask, unsigned int *idebut, unsigned int *ifin)
 {
-   unsigned int the_mask;
-   *idebut = 0;
-   *ifin = 30;
+  wglc_wgl->wglbitfinder(mask, idebut, ifin);
 
-   the_mask = mask;
-   
-   while (the_mask %2 == 0 && *idebut < 32)
-      {
-      the_mask = (the_mask >> 1);
-      (*idebut)++;
-      }
-
-   the_mask = mask;
-   
-   while ((the_mask & 0xA0000000) == 0 && *ifin >= 0)
-      {
-      the_mask = (the_mask << 1);
-      (*ifin)--;
-      }
-   (*ifin)--;
 }

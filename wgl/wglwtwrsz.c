@@ -18,41 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 wglwtwrsz()
 {
-   Dimension largeurMax, hauteurMax;
-   Dimension largeurCourante, hauteurCourante;
-   
-/**   wglmesagr(messageAgrandir[lng]); **/
-
-   XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
-   w = wglWinAttr.width;
-   h = wglWinAttr.height;
-   largeurCourante = w;
-   hauteurCourante = h;
-
-   if (largeurCourante < hauteurCourante)
-      largeurMax = hauteurCourante;
-   else
-      largeurMax = largeurCourante;
-
-   if (hauteurCourante < largeurCourante)
-      hauteurMax = largeurCourante;
-   else
-      hauteurMax = hauteurCourante;
-
-   largeurMax = 150;
-   hauteurMax = 150;
-   while (w <= largeurMax && h <= hauteurMax)
-      {
-      wglmesagr(messageAgrandir[lng]);
-      XtAppNextEvent(SuperWidget.contexte, &wglEvent); 
-      XtDispatchEvent(&wglEvent);
-
-      XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
-      w = wglWinAttr.width;
-      h = wglWinAttr.height;
-      } 
-   }
+  wglc_wgl->wglwtwrsz();
+}

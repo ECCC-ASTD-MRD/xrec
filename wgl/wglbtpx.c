@@ -18,34 +18,22 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-Boolean c_wglbtpx();
+int c_wglbtpx();
 
-Boolean f77name(wglbtpx)(bouton, x, y)
-int *bouton;
-float *x, *y;
+int f77name(wglbtpx)(int *bouton, float *x, float *y)
 {
-   int i,j;
-   int res;
-  
-   res = c_wglbtpi(*bouton, &i, &j);
-   c_wgliax(x, y, i, j);
-   return (Boolean) res;
+   return (int) c_wglbtpx(*bouton, x, y);
    }
 
 /**
  ******
  **/
 
-Boolean c_wglbtpx(bouton, x, y)
-int bouton;
-float *x, *y;
+int c_wglbtpx(int bouton, float *x, float *y)
 {
-   int i,j;
-   int res;
-
-   res = c_wglbtpi(bouton, &i, &j);
-   c_wgliax(x, y, i, j);
-   return (Boolean) res;
+int i,j;
+  c_wglxai(&i, &j, *x, *y); 
+  return (int) wglc_wgl->wglbtpi(bouton, &i, &j);
    }

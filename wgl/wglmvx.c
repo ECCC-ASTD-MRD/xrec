@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglmvx)(x, y)
-float *x, *y;
+f77name(wglmvx)(float *x, float *y)
 {
    c_wglmvx(*x, *y);
    }
@@ -30,12 +29,10 @@ float *x, *y;
 ******
 **/
 
-c_wglmvx(x, y)
-float x,y;
+c_wglmvx(float x, float y)
 {
-   int i,j;
-
-   c_wglxai(&i, &j, x, y);
-   c_wglmvi(i, j);
-   }
+  int i,j;
+  c_wglxai(&i, &j, x, y);
+  wglc_wgl->wglmvi(i,j);
+}
 

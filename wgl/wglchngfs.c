@@ -18,15 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-wglchngfs(NewFillStyle) 
-int  NewFillStyle;
+wglchngfs(int NewFillStyle) 
 {
-if (NewFillStyle != currentFillStyle)
-   {
-   currentFillStyle = NewFillStyle;
-   XSetFillStyle(wglDisp, wglFillGC, currentFillStyle);
-   }
+  wglc_wgl->wglchngfs(NewFillStyle);
    
 }

@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglsmk)(masque)
-int *masque;
+f77name(wglsmk)(int *masque)
 {
    c_wglsmk(*masque);
    }
@@ -30,11 +29,8 @@ int *masque;
  ******
  **/
 
-c_wglsmk(masque)
-int masque;
+c_wglsmk(int masque)
 {
-   XSetPlaneMask(wglDisp, wglLineGC, (unsigned long) masque);
-   currentPlaneMask = masque;
-   customPlaneMask  = True;
+   wglc_wgl->wglsmk(masque);
    }
 

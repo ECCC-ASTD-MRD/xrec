@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wgldrx)(x, y)
-float *x, *y;
+f77name(wgldrx)(float *x, float *y)
 {
    c_wgldrx(*x, *y);
    }
@@ -30,8 +29,7 @@ float *x, *y;
  ******
  **/
 
-c_wgldrx(x, y)
-float x, y;
+c_wgldrx(float x, float y)
 {
    int i, j;
    

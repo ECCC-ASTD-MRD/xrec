@@ -18,11 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglpli)(nbPoints, polygone)
-int *nbPoints;
-int polygone[][2];
+f77name(wglpli)(int *nbPoints, int polygone[][2])
 {
    c_wglpli(*nbPoints, polygone);
    }
@@ -32,34 +30,8 @@ int polygone[][2];
 **/
 
 
-c_wglpli(nbPoints, polygone)
-int nbPoints;
-int polygone[][2];
+c_wglpli (int nbPoints, int polygone[][2])
 {
-   int i;
-   XPoint p[255], *xptr, *largeP;
-   
-   if (nbPoints > 255)
-      {
-      largeP = (XPoint *) calloc(nbPoints, sizeof(XPoint));
-      xptr = largeP;
-      }
-   else
-      {
-      xptr = p;
-      }
-
-   wglfshlb();
-   for (i=0; i < nbPoints; i++)
-      {
-      xptr[i].x = polygone[i][X];
-      xptr[i].y = h - polygone[i][Y];
-      }
-
-   XDrawLines(wglDisp, wglDrawable, wglLineGC, xptr, nbPoints, CoordModeOrigin);
-   
-   if (nbPoints > 255)
-      free(largeP);
-
-   }
+  wglc_wgl->wglpli(nbPoints, polygone);
+}
 

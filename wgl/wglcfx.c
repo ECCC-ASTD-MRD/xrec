@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglcfx)(x, y, rayon)
-float *x, *y, *rayon;
+f77name(wglcfx)(float *x, float *y, float *rayon)
 {
    c_wglcfx(*x, *y, *rayon);
    }
@@ -30,14 +29,12 @@ float *x, *y, *rayon;
  ******
  **/
 
-c_wglcfx(x, y, rayon)
-float x, y, rayon;
+c_wglcfx(float x, float y, float rayon)
 {
+
    int idebut, jdebut, ifin, jfin;
    
    c_wglxai(&idebut, &jdebut, x - rayon, y - rayon);
    c_wglxai(&ifin, &jfin, x + rayon, y + rayon);
-   
-   XFillArc(wglDisp, wglDrawable, wglFillGC, idebut, h - jfin, (ifin - idebut + 1), (jfin - jdebut + 1), 0, 360 * 64);
-   
-   }
+   c_wglcfi(idebut, jdebut, rayon);
+}

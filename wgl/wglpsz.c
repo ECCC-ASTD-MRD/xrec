@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglpsz)(isize, jsize)
-int *isize, *jsize;
+f77name(wglpsz)(int *isize, int *jsize)
 {
    c_wglpsz(*isize, *jsize);
    }
@@ -30,13 +29,8 @@ int *isize, *jsize;
 ******
 **/
 
-c_wglpsz(isize, jsize)
-int isize, jsize;
+c_wglpsz(int isize, int jsize)
 {
-   wglHints.width  = isize;
-   wglHints.height = jsize;
-   wglHints.flags  = USSize;
-
-   customWinSize    = True;
+   wglc_wgl->wglpsz(isize, jsize);
    }
 

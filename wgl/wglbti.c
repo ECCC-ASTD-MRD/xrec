@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-int f77name(wglbti)(i,j)
-int *i, *j;
+int f77name(wglbti)(int *i,int *j)
 {
    return (c_wglbti(i, j));
    }
@@ -30,46 +29,9 @@ int *i, *j;
  ******
  **/
 
-int c_wglbti(i, j)
-int *i, *j;
+int c_wglbti(int *i, int *j)
 {
-   wglfshlb();
-   XDefineCursor(wglDisp,wglWin,croix);
-   while (True)
-      {
-      XtAppNextEvent(SuperWidget.contexte, &wglEvent);
-      switch(wglEvent.type) 
-         {
-         case ButtonPress:
-         if (wglEvent.xbutton.window == wglWin)
-            {
-	    XDefineCursor(wglDisp,wglWin,None);
-            *i = wglEvent.xbutton.x;
-            *j = h - wglEvent.xbutton.y;
-            
-            switch(wglEvent.xbutton.button)
-               {
-               case Button1:
-               return BGAUCH;
-               
-               case Button2:
-               return BMLIEU;
-               
-               case Button3:
-               return BDROIT;
-               }
-	    }
-	 else
-	    {
-	    XBell(wglDisp, 0);
-	    XDefineCursor(wglDisp,wglWin,None);
-	    return NULL;
-	    }
-	 
-	 default:
-	 XtDispatchEvent(&wglEvent);
-	 break;
-	 }
-      }
+  return wglc_wgl->wglbti(i, j);
+
    }
 

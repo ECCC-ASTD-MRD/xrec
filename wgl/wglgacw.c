@@ -18,13 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 c_wglgacw()
 {
-   if (fenetreCourante == -1)
-      return -1;
-   else
-   return fenetre[fenetreCourante].wglWin;
+  wglc_wgl->wglgacw();
    }
 

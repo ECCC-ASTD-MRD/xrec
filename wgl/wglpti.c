@@ -18,22 +18,20 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglpti)(i, j)
-int *i, *j;
+f77name(wglpti)(int *i, int *j)
 {
-   c_wglpti(*i, *j);
-   }
+  c_wglpti(*i, *j);
+}
 
 /**
 ******
 **/
 
 
-c_wglpti(i, j)
-int i, j;
+c_wglpti(int i, int j)
 {
-   XDrawPoint(wglDisp, wglDrawable, wglLineGC, i, h - j);
-   }
+  wglc_wgl->wglpti(i,j);
+}
 

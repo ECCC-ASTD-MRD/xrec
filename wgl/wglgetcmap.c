@@ -18,19 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-c_wglgetcmap(colormap)
-Colormap *colormap;
+c_wglgetcmap(int *colormap)
 {
-   if (visInfo.visual != DefaultVisual(XtDisplay(SuperWidget.topLevel),DefaultScreen(XtDisplay(SuperWidget.topLevel))))
-      {
-      *colormap = -1;
-      return;
-      }
-   
-  if (cmap == DefaultColormap(XtDisplay(SuperWidget.topLevel), DefaultScreen(XtDisplay(SuperWidget.topLevel))))
-      *colormap = -1;
-   else
-      *colormap = cmap;
+  wglc_wgl->wglgetcmap(colormap);
    }

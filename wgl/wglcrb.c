@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglcrb)(couleur)
-int *couleur;
+f77name(wglcrb)(int *couleur)
 {
    c_wglcrb(*couleur);
    }
@@ -30,8 +29,7 @@ int *couleur;
 ******
 **/
 
-c_wglcrb(couleur)
-int couleur;
+c_wglcrb(int couleur)
 {
    rubberBandColor = couleur;
    }

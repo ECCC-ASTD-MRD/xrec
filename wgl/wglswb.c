@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 f77name(wglswb)()
 {
@@ -31,9 +31,6 @@ f77name(wglswb)()
 
 c_wglswb()
 {
-   XSetFunction(wglDisp, wglLineGC, GXcopy);
-
-   wglfshlb();
-   XCopyArea(wglDisp, bgPix, wglWin, wglLineGC, 0, 0, w, h, 0, 0);
+  wglc_wgl->wglswb();
    }
 

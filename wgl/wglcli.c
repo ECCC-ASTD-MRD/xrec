@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglcli)(i, j, rayon)
-int *i, *j, *rayon;
+f77name(wglcli)(int *i, int *j, int *rayon)
 {
    c_wglcli(*i, *j, *rayon);
    }
@@ -30,15 +29,7 @@ int *i, *j, *rayon;
  ******
  **/
 
-c_wglcli(i, j, rayon)
-int i, j, rayon;
+c_wglcli(int i, int j, int rayon)
 {
-   int idebut, jdebut, ifin, jfin;
-   
-   idebut = i - rayon;
-   jdebut = j - rayon;
-   ifin   = i + rayon;
-   jfin   = j + rayon;
-   
-   XDrawArc(wglDisp, wglDrawable, wglLineGC, idebut, h - jfin, (ifin - idebut), (jfin - jdebut), 0, 360 * 64);
+  wglc_wgl->wglcli(i,j,rayon);
    }

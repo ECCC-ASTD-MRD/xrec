@@ -18,71 +18,20 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-Boolean c_wglbtpi();
+int c_wglbtpi();
 
-Boolean f77name(wglbtpi)(bouton, i, j)
-int *bouton;
-int *i, *j;
+int f77name(wglbtpi)(int *bouton, int *i, int *j)
 {
-   return (Boolean) c_wglbtpi(*bouton, i, j);
+   return (int) c_wglbtpi(*bouton, i, j);
    }
 
 /**
  ******
  **/
 
-Boolean c_wglbtpi(bouton, i, j)
-int bouton;
-int *i, *j;
+int c_wglbtpi(int bouton, int *i, int *j)
 {
-   Window root, child;
-   int root_x, root_y;
-   int win_x, win_y;
-   unsigned int mouseButtonMask;
-   Bool res;
-   
-   XDefineCursor(wglDisp,wglWin,croix);
-   wglfshlb();
-   XSync(wglDisp, True);
-   mouseButtonMask = 0;
-   res = XQueryPointer(wglDisp, wglWin, &root, &child, &root_x, &root_y, &win_x, &win_y, &mouseButtonMask);
-   *i = win_x;
-   *j = h - win_y;  
-   res = False;
-   
-   if (mouseButtonMask)
-      {
-      switch(bouton)
-         {
-         case 1:
-         if (mouseButtonMask == Button1Mask)
-            res= True;
-         break;
-         
-         case 2:
-         if (mouseButtonMask == Button2Mask)
-            res= True;
-         break;
-         
-         case 3:
-         if (mouseButtonMask == Button3Mask)
-            res= True;
-         break;
-         
-         case 4:
-         if (mouseButtonMask == (Button1Mask | Button2Mask | Button3Mask))
-            res= True;
-         }
-      
-      }
-   
-   XSync(wglDisp, True);
-   if (!res)
-      {
-      XDefineCursor(wglDisp,wglWin,None);
-      }
-
-   return res;
+  return wglc_wgl->wglbtpi(bouton, i, j);
    }

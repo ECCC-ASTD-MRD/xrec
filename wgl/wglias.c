@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglias)(flagAspect)
-int *flagAspect;
+f77name(wglias)(int *flagAspect)
 {
    c_wglias(*flagAspect);
    }
@@ -30,10 +29,7 @@ int *flagAspect;
 ******
 **/
 
-c_wglias(flagAspect)
-int flagAspect;
+c_wglias(int flagAspect)
 {
-
-   wglForceAspect = !flagAspect;
-   wglForceAspectSet = True;
+  wglc_wgl->wglias(flagAspect);
    }

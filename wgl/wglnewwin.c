@@ -18,43 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 wglnewwin()
 {
-   int i = 0;
-   int fenetreExistanteTrouvee = False;
-
-   wglsavpfc();
-   while (i < nbFenetresActives)
-      {
-      if (fenetre[i].libre)
-	 {
-	 fenetreCourante = i;
-	 i = 32767;
-	 fenetreExistanteTrouvee = True;
-	 }
-      else
-	 {
-	 i++;
-	 }
-      }
-   
-   if (!fenetreExistanteTrouvee)
-      {
-      if (fenetre == NULL)
-	 {
-	 fenetre = (_Fenetre *) calloc(1, sizeof(_Fenetre));
-	 nbFenetresActives = 1;
-	 fenetreCourante = 0;
-	 wglsavpfc();
-	 }
-      else
-	 {
-	 fenetre = (_Fenetre *) realloc(fenetre, (nbFenetresActives+1)*sizeof(_Fenetre));
-	 nbFenetresActives++;
-	 fenetreCourante++;
-	 }
-      }
-
+  wglc_wgl->wglnewwin();
    }

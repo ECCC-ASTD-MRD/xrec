@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglspt)(indpat)
-int *indpat;
+f77name(wglspt)(int *indpat)
 {
    c_wglspt(*indpat);
    }
@@ -30,16 +29,8 @@ int *indpat;
 ******
 **/
 
-c_wglspt(indpat)
-int indpat;
+c_wglspt(int indpat)
 {
-   wglfshlb();
-   XSetStipple(wglDisp, wglFillGC, wglPatterns[indpat+128]);
-   if (indpat == 0 || indpat == 1)
-      wglchngfs(FillSolid); 
-   else
-      wglchngfs(FillStippled); 
-
-   currentFillPattern = indpat;
-   }
+  wglc_wgl->wglspt(indpat);
+}
 

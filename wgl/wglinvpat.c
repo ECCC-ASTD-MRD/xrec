@@ -18,26 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-wglinvpat(Pattern)
-char Pattern[];
+wglinvpat(char Pattern[])
 {
-   int i;
-   char swapPat[128];
-   
-   for (i=0; i < 128; i++)
-      swapPat[i] = Pattern[127 - i];
-   
-   for (i=0; i < 128; i++)
-      swapPat[i]= InvertChar(swapPat[i]);
-
-   for (i=0; i < 32; i++)
-      {
-      Pattern[i*4]   = swapPat[i*4+3];
-      Pattern[i*4+1] = swapPat[i*4+2];
-      Pattern[i*4+2] = swapPat[i*4+1];
-      Pattern[i*4+3] = swapPat[i*4];
-      }
+  wglc_wgl->wglinvpat(Pattern);
    
    } 

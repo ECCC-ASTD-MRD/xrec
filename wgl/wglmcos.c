@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglmcos)(couleurs, nbCols, rgbDefs)
-int couleurs[], *nbCols, rgbDefs[][3];
+f77name(wglmcos)(int couleurs[], int *nbCols, int rgbDefs[][3])
 {
    c_wglmcos(couleurs, *nbCols, rgbDefs);
    }
@@ -31,13 +30,9 @@ int couleurs[], *nbCols, rgbDefs[][3];
  **/
 
 
-c_wglmcos(couleurs, nbCols, rgbDefs)
-int couleurs[], nbCols, rgbDefs[][3];
+c_wglmcos(int couleurs[], int nbCols, int rgbDefs[][3])
 {
-   if (8 <= c_wglgpl())
-      {
-      wglmapcs(couleurs, nbCols, rgbDefs);
-      }
+      wglc_wgl->wglmapcs(couleurs, nbCols, rgbDefs);
    
    }
 

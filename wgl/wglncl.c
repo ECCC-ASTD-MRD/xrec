@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglncl)(ncolRead, ncolWrite, ncolAnim)
-int *ncolRead, *ncolWrite, *ncolAnim;
+f77name(wglncl)(int *ncolRead, int *ncolWrite, int *ncolAnim)
 {
    c_wglncl(ncolRead, ncolWrite, ncolAnim);
    }
@@ -30,11 +29,8 @@ int *ncolRead, *ncolWrite, *ncolAnim;
 ******
 **/
 
-c_wglncl(ncolRead, ncolWrite, ncolAnim)
-int *ncolRead, *ncolWrite, *ncolAnim;
+c_wglncl(int *ncolRead, int *ncolWrite, int *ncolAnim)
 {
-      *ncolRead  = 255;
-      *ncolWrite = 255;
-      *ncolAnim  = 255;
+  wglc_wgl->wglncl(ncolRead, ncolWrite, ncolAnim);
 
    }

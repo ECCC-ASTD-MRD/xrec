@@ -18,29 +18,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 wglfshlb()
 {
-   int i;
+  c_wglfshlb();
+}
 
-   switch(NbPoints)
-      {
-      case 0:
-      case 1:
-      break;
-      
-      case 2:
-      if (wglPts[0].x == wglPts[1].x && wglPts[0].y == wglPts[1].y)
-         XDrawPoint(wglDisp, wglDrawable, wglLineGC, wglPts[0].x, wglPts[0].y);
-      else
-         XDrawLine(wglDisp, wglDrawable, wglLineGC, wglPts[0].x, wglPts[0].y, wglPts[1].x, wglPts[1].y);
-      break;
-
-      default:
-      XDrawLines(wglDisp, wglDrawable, wglLineGC, wglPts, NbPoints, CoordModeOrigin);
-      break;
-      }
-
-   NbPoints = 0;
+c_wglfshlb()
+{
+  wglc_wgl->wglfshlb();
    }

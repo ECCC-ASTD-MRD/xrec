@@ -8,16 +8,16 @@ SHELL = /bin/sh
 
 CPP = /lib/cpp
 
-WGLLIB = $(REC)/lib/$(ARCH)$(ABI)/libwgl.a
+WGLLIB = $(HOME)/userlibs/$(ARCH)$(ABI)/libwgl.a
 
 FFLAGS = 
 
-CFLAGS =  -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I$(REC)/include -DX_WGL
+CFLAGS =  -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -DX_WGL
 
-OPTIMIZ = -debug
 OPTIMIZ = -O 2
+OPTIMIZ = -debug -O 0
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I$(REC)/include -DX_WGL
+CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
 .PRECIOUS:
 
@@ -42,83 +42,37 @@ default: wgllib
 FTNDECKS= \
          unsat.ftn       wwwlpt.ftn
 
-FDECKS= \
-         unsat.f       wwwlpt.f
-
 CDECKS= \
-         bitfinder.c       couleur-util.c       initdev.c       inversion.c \
-         logo_sea.c       pwrit_x.c       souris2.c       wglafi.c \
-         wglafx.c       wglali.c       wglalx.c       wglbbf.c \
-         wglbrb.c       wglbti.c       wglbtn.c       wglbtp.c \
-         wglbtpi.c       wglbtpx.c       wglbtx.c       wglcfi.c \
-         wglcfx.c       wglchngfs.c       wglcli.c       wglclr.c \
-         wglclw.c       wglclx.c       wglcmi.c       wglcmx.c \
-         wglcol.c       wglcolf.c       wglcrb.c       wgldbf.c \
-         wgldbg.c       wgldcm.c       wgldeflst.c       wgldefncw.c \
-         wgldld.c       wgldpt.c       wgldri.c       wgldrx.c \
-         wglerb.c       wglfbf.c       wglfsc.c       wglfsh.c \
-         wglfshlb.c       wglgacw.c       wglgaf.c       wglgbf.c \
-         wglgci.c       wglgco.c       wglgdbg.c       wglgetcmap.c \
-         wglgld.c       wglglpti.c       wglglw.c       wglgmk.c \
-         wglgmod.c       wglgpl.c       wglgpt.c       wglgsi.c \
-         wglgsp.c       wglgsx.c       wglgvi.c       wglgvp.c \
-         wglgvx.c       wglgwz.c       wglgzi.c       wglgzp.c \
-         wglgzx.c       wglias.c       wgliax.c       wglinicmap.c \
-         wglinids.c       wglinipat.c       wglinit.c       wgliniwin.c \
-         wgliniwpx.c       wglinstcmap.c       wglinvpat.c       wglkas.c \
-         wgllpt.c       wgllwi.c       wglmapc.c       wglmapcs.c \
-         wglmco.c       wglmcos.c       wglmcw.c       wglmesagr.c \
-         wglmvi.c       wglmvx.c       wglncl.c       wglnewwin.c \
-         wglopmw.c       wglopw.c       wglpfi.c       wglpfx.c \
-         wglpli.c       wglplx.c       wglppo.c       wglpsz.c \
-         wglpti.c       wglptis.c       wglptx.c       wglrfi.c \
-         wglrfx.c       wglrli.c       wglrlx.c       wglroc.c \
-         wglrstdpar.c       wglrwc.c       wglsavpfc.c       wglsbf.c \
-         wglsetw.c       wglsetwcmap.c       wglsld.c       wglsmk.c \
-         wglspt.c       wglssp.c       wglstu.c       wglswb.c \
-         wglwtwrsz.c       wglxai.c       xmmenu.c
+	bitfinder.c   couleur-util.c  gdwgl.c	   inversion.c\
+	langue.c      logo.c	      logo_sea.c   souris2.c   wglafi.c\
+	wglafx.c      wglali.c	      wglalx.c	   wglasi.c	 wglasx.c\
+	wglbbf.c      wglbrb.c	      wglbti.c	   wglbtn.c	 wglbtp.c\
+	wglbtpi.c     wglbtpx.c       wglbtx.c	   wglcfi.c	 wglcfx.c\
+	wglchngfs.c   wglcli.c	      wglclr.c	   wglclw.c	 wglclx.c\
+	wglcmi.c      wglcmx.c	      wglcol.c	   wglcolf.c	 wglcrb.c\
+	wgldbf.c      wgldbg.c	      wgldcm.c	   wgldeflst.c	 wgldefncw.c\
+	wgldld.c      wgldpt.c	      wgldri.c	   wgldrx.c	 wgldsi.c\
+	wgldsx.c      wglerb.c	      wglfbf.c	   wglfsc.c	 wglfsh.c\
+	wglfshlb.c    wglfsz.c	      wglgacw.c    wglgaf.c	 wglgbf.c\
+	wglgci.c      wglgco.c	      wglgdbg.c    wglgetcmap.c  wglgld.c\
+	wglglpti.c    wglglw.c	      wglgmk.c	   wglgmod.c	 wglgpl.c\
+	wglgpt.c      wglgsi.c	      wglgsp.c	   wglgsx.c	 wglgvi.c\
+	wglgvp.c      wglgvx.c	      wglgwz.c	   wglgzi.c	 wglgzp.c\
+	wglgzx.c      wglhsi.c	      wglhsx.c	   wglias.c	 wgliax.c wgligd.c \
+	wglinicmap.c  wglinids.c      wglinipat.c  wglinit.c	 wgliniwin.c\
+	wgliniwpx.c   wglinstcmap.c   wglinvpat.c  wglkas.c	 wgllpt.c\
+	wgllwi.c      wglmapc.c       wglmapcs.c   wglmco.c	 wglmcos.c\
+	wglmcw.c      wglmesagr.c     wglmvi.c	   wglmvx.c	 wglncl.c\
+	wglnewwin.c   wglopmw.c       wglopw.c	   wglpfi.c	 wglpfx.c\
+	wglpli.c      wglplx.c	      wglppo.c	   wglpsi.c	 wglpsx.c\
+	wglpsz.c      wglpti.c	      wglptis.c    wglptx.c	 wglptxs.c\
+	wglrfi.c      wglrfx.c	      wglrli.c	   wglrlx.c	 wglroc.c\
+	wglrstdpar.c  wglrwc.c	      wglsavpfc.c  wglsbf.c	 wglscon.c\
+	wglsetw.c     wglsetwcmap.c   wglsld.c	   wglsmk.c	 wglspt.c\
+	wglssp.c      wglstu.c	      wglswb.c	   wglwsi.c	 wglwsx.c\
+	wglwtwrsz.c   wglxai.c
 
-FDECKS= \
-         unsat.f       wwwlpt.f
-
-OBJECTS= \
-         bitfinder.o       couleur-util.o       initdev.o       inversion.o \
-         logo_sea.o       pwrit_x.o       souris2.o       unsat.o \
-         wglafi.o       wglafx.o       wglali.o       wglalx.o \
-         wglbbf.o       wglbrb.o       wglbti.o       wglbtn.o \
-         wglbtp.o       wglbtpi.o       wglbtpx.o       wglbtx.o \
-         wglcfi.o       wglcfx.o       wglchngfs.o       wglcli.o \
-         wglclr.o       wglclw.o       wglclx.o       wglcmi.o \
-         wglcmx.o       wglcol.o       wglcolf.o       wglcrb.o \
-         wgldbf.o       wgldbg.o       wgldcm.o       wgldeflst.o \
-         wgldefncw.o       wgldld.o       wgldpt.o       wgldri.o \
-         wgldrx.o       wglerb.o       wglfbf.o       wglfsc.o \
-         wglfsh.o       wglfshlb.o       wglgacw.o       wglgaf.o \
-         wglgbf.o       wglgci.o       wglgco.o       wglgdbg.o \
-         wglgetcmap.o       wglgld.o       wglglpti.o       wglglw.o \
-         wglgmk.o       wglgmod.o       wglgpl.o       wglgpt.o \
-         wglgsi.o       wglgsp.o       wglgsx.o       wglgvi.o \
-         wglgvp.o       wglgvx.o       wglgwz.o       wglgzi.o \
-         wglgzp.o       wglgzx.o       wglias.o       wgliax.o \
-         wglinicmap.o       wglinids.o       wglinipat.o       wglinit.o \
-         wgliniwin.o       wgliniwpx.o       wglinstcmap.o       wglinvpat.o \
-         wglkas.o       wgllpt.o       wgllwi.o       wglmapc.o \
-         wglmapcs.o       wglmco.o       wglmcos.o       wglmcw.o \
-         wglmesagr.o       wglmvi.o       wglmvx.o       wglncl.o \
-         wglnewwin.o       wglopmw.o       wglopw.o       wglpfi.o \
-         wglpfx.o       wglpli.o       wglplx.o       wglppo.o \
-         wglpsz.o       wglpti.o       wglptis.o       wglptx.o \
-         wglrfi.o       wglrfx.o       wglrli.o       wglrlx.o \
-         wglroc.o       wglrstdpar.o       wglrwc.o       wglsavpfc.o \
-         wglsbf.o       wglsetw.o       wglsetwcmap.o       wglsld.o \
-         wglsmk.o       wglspt.o       wglssp.o       wglstu.o \
-         wglswb.o       wglwtwrsz.o       wglxai.o       wwwlpt.o \
-         xmmenu.o
-
-unsat.f: unsat.ftn 
-wwwlpt.f: wwwlpt.ftn 
-
-obj: $(CDECKS) $(FDECKS) $(OBJECTS) 
+obj: $(CDECKS) $(FDECKS)
 #Produire les fichiers objets (.o) pour tous les fichiers
 
 qclean:
@@ -133,18 +87,21 @@ qclean:
 	fi
 	rm *.o
 
-wgllib: $(WGLLIB)(bitfinder.o) \
+wgllib:	$(WGLLIB)(bitfinder.o) \
 	$(WGLLIB)(couleur-util.o) \
-	$(WGLLIB)(initdev.o) \
+	$(WGLLIB)(langue.o) \
+	$(WGLLIB)(gdwgl.o) \
 	$(WGLLIB)(inversion.o) \
+	$(WGLLIB)(logo.o) \
 	$(WGLLIB)(logo_sea.o) \
-	$(WGLLIB)(pwrit_x.o) \
 	$(WGLLIB)(souris2.o) \
 	$(WGLLIB)(unsat.o) \
 	$(WGLLIB)(wglafi.o) \
 	$(WGLLIB)(wglafx.o) \
 	$(WGLLIB)(wglali.o) \
 	$(WGLLIB)(wglalx.o) \
+	$(WGLLIB)(wglasi.o) \
+	$(WGLLIB)(wglasx.o) \
 	$(WGLLIB)(wglbbf.o) \
 	$(WGLLIB)(wglbrb.o) \
 	$(WGLLIB)(wglbti.o) \
@@ -174,11 +131,14 @@ wgllib: $(WGLLIB)(bitfinder.o) \
 	$(WGLLIB)(wgldpt.o) \
 	$(WGLLIB)(wgldri.o) \
 	$(WGLLIB)(wgldrx.o) \
+	$(WGLLIB)(wgldsi.o) \
+	$(WGLLIB)(wgldsx.o) \
 	$(WGLLIB)(wglerb.o) \
 	$(WGLLIB)(wglfbf.o) \
 	$(WGLLIB)(wglfsc.o) \
 	$(WGLLIB)(wglfsh.o) \
 	$(WGLLIB)(wglfshlb.o) \
+	$(WGLLIB)(wglfsz.o) \
 	$(WGLLIB)(wglgacw.o) \
 	$(WGLLIB)(wglgaf.o) \
 	$(WGLLIB)(wglgbf.o) \
@@ -203,8 +163,11 @@ wgllib: $(WGLLIB)(bitfinder.o) \
 	$(WGLLIB)(wglgzi.o) \
 	$(WGLLIB)(wglgzp.o) \
 	$(WGLLIB)(wglgzx.o) \
+	$(WGLLIB)(wglhsi.o) \
+	$(WGLLIB)(wglhsx.o) \
 	$(WGLLIB)(wglias.o) \
 	$(WGLLIB)(wgliax.o) \
+	$(WGLLIB)(wgligd.o) \
 	$(WGLLIB)(wglinicmap.o) \
 	$(WGLLIB)(wglinids.o) \
 	$(WGLLIB)(wglinipat.o) \
@@ -233,6 +196,8 @@ wgllib: $(WGLLIB)(bitfinder.o) \
 	$(WGLLIB)(wglpli.o) \
 	$(WGLLIB)(wglplx.o) \
 	$(WGLLIB)(wglppo.o) \
+	$(WGLLIB)(wglpsi.o) \
+	$(WGLLIB)(wglpsx.o) \
 	$(WGLLIB)(wglpsz.o) \
 	$(WGLLIB)(wglpti.o) \
 	$(WGLLIB)(wglptis.o) \
@@ -247,6 +212,7 @@ wgllib: $(WGLLIB)(bitfinder.o) \
 	$(WGLLIB)(wglrwc.o) \
 	$(WGLLIB)(wglsavpfc.o) \
 	$(WGLLIB)(wglsbf.o) \
+	$(WGLLIB)(wglscon.o) \
 	$(WGLLIB)(wglsetw.o) \
 	$(WGLLIB)(wglsetwcmap.o) \
 	$(WGLLIB)(wglsld.o) \
@@ -255,9 +221,8 @@ wgllib: $(WGLLIB)(bitfinder.o) \
 	$(WGLLIB)(wglssp.o) \
 	$(WGLLIB)(wglstu.o) \
 	$(WGLLIB)(wglswb.o) \
+	$(WGLLIB)(wglwsi.o) \
+	$(WGLLIB)(wglwsx.o) \
 	$(WGLLIB)(wglwtwrsz.o) \
 	$(WGLLIB)(wglxai.o) \
-	$(WGLLIB)(wwwlpt.o) \
-	$(WGLLIB)(xmmenu.o)
-
-
+	$(WGLLIB)(wwwlpt.o)

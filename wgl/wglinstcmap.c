@@ -18,34 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 c_wglinstcmap()
 {
-   int i;
+  wglc_wgl->wglinstcmap();
 
-   if (cmap_strategy == READ_ONLY_COLORMAP)
-      {
-      return;
-      }
-   
-   for (i=0; i < 256; i++)
-      {
-      couleurs[i].pixel = i;
-      }
-   
-   if (visualClass == PseudoColor)
-      {
-      XQueryColors(wglDisp, DefaultColormap(wglDisp,wglScrNum), couleurs, 255);
-      
-      cmap    = XCreateColormap (wglDisp, RootWindow (wglDisp,wglScrNum), visInfo.visual, AllocAll);   
-      for (i=0; i < 255; i++)
-         {
-         XStoreColor(wglDisp, cmap, &couleurs[i]);
-         wglWritablePixs[i] = True;
-         }
-      
-      XInstallColormap(wglDisp, cmap);
-      }
-   
 }

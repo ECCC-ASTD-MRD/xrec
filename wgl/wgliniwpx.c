@@ -18,14 +18,11 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 wgliniwpx()
 {
-   int i;
-
-   for (i=0; i < 255; i++)
-      wglWritablePixs[i] = False;
+   wglc_wgl->wgliniwpx();
    }
 
 

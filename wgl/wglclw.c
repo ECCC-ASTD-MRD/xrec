@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglclw)(indFenetre)
-int *indFenetre;
+f77name(wglclw)(int *indFenetre)
 {
    c_wglclw(*indFenetre);
    }
@@ -31,56 +30,8 @@ int *indFenetre;
 **/
 
 
-c_wglclw(indFenetre)
-int indFenetre;
+c_wglclw(int indFenetre)
 {
-   int i;
-
-/**
-   if (cmap != DefaultColormap(wglDisp, wglScrNum))
-      {
-      XFreeColormap(wglDisp, cmap);
-      }
-   else
-      {
-      i = 0;
-      while (!wglWritablePixs[i] && i < 255)
-         i++;
-      XFreeColors(wglDisp, cmap, &(pix[i]), 255 - i, 0);
-      }
-
-   customWinSize = False;
-   aspectRatio   = 0.0;
-
-   XFreePixmap(wglDisp, wglPatterns[0]);
-   for (i=1; i < 257; i++)
-      {
-      if (wglPatterns[i] != wglPatterns[0])
-         XFreePixmap(wglDisp, wglPatterns[i]);
-      }
-   
-**/
-
-   c_wglsetw(indFenetre);
-   wglsavpfc();
-   if (bgPix)
-      {
-      XFreePixmap(wglDisp, bgPix);
-      bgPix = NULL;
-      }
-
-   XFreeGC(wglDisp, wglLineGC);
-   XFreeGC(wglDisp, wglFillGC);
-   XDestroyWindow(wglDisp, indFenetre);
-   
-   memset((char *) &fenetre[fenetreCourante], NULL, sizeof(_Fenetre));
-   
-   fenetre[fenetreCourante].libre = True;
-   i = 0;
-   nbFenetresActives--;
-   while (fenetre[i].libre && i < nbFenetresActives)
-      i++;
-
-   wgldefncw(fenetre[i].wglWin);
+   wglc_wgl->wglclw(indFenetre);
    }
 

@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglkas)(xAspect, yAspect)
-int *xAspect, *yAspect;
+f77name(wglkas)(int *xAspect, int *yAspect)
 {
    c_wglkas(*xAspect, *yAspect);
    }
@@ -30,16 +29,7 @@ int *xAspect, *yAspect;
 ******
 **/
 
-c_wglkas(xAspect, yAspect)
-int xAspect, yAspect;
+c_wglkas(int xAspect, int yAspect)
 {
-   aspectRatio = (float)(xAspect) / (float)(yAspect);
-   wglHints.min_aspect.x = xAspect;
-   wglHints.min_aspect.y = yAspect;
-
-   wglHints.max_aspect.x = xAspect;
-   wglHints.max_aspect.y = yAspect;
-   wglHints.flags = PAspect;
-
-   aspectRatioSet = True;
-   }
+  wglc_wgl->wglkas(xAspect, yAspect);
+}

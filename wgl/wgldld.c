@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wgldld)(indDash, dashPattern)
-int *indDash, *dashPattern;
+f77name(wgldld)(int *indDash, int *dashPattern)
 {
    c_wgldld(*indDash, *dashPattern);
    }
@@ -30,8 +29,7 @@ int *indDash, *dashPattern;
 ******
 **/
 
-c_wgldld(indDash, dashPattern)
-int indDash, dashPattern;
+c_wgldld(int indDash, int dashPattern)
 {
-   wgldeflst(indDash, dashPattern);
+  wglc_wgl->wgldld(indDash, dashPattern);
    }

@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglgzi)(isize, jsize)
-int *isize, *jsize;
+f77name(wglgzi)(int *isize, int *jsize)
 {
    c_wglgzi(isize, jsize);
    }
@@ -30,9 +29,7 @@ int *isize, *jsize;
 ******
 **/
 
-c_wglgzi(isize, jsize)
-int *isize, *jsize;
+c_wglgzi(int *isize, int *jsize)
 {
-   *isize = usSpace.ifin - usSpace.idebut + 1;
-   *jsize = usSpace.jfin - usSpace.jdebut + 1;
+  wglc_wgl->wglgzi(isize, jsize);
    }

@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglmco)(couleur, r, g, b)
-int *couleur, *r, *g, *b;
+f77name(wglmco)(int *couleur, int *r, int *g, int *b)
 {
    c_wglmco(*couleur, *r, *g, *b);
    }
@@ -31,13 +30,8 @@ int *couleur, *r, *g, *b;
 **/
 
 
-c_wglmco(couleur, r, g, b)
-int couleur, r, g, b;
+c_wglmco(int couleur, int r, int g, int b)
 {
-   if (8 <= c_wglgpl())
-      {
-      wglmapc(couleur, r, g, b);
-      }
-
+  wglc_wgl->wglmco(couleur, r, g, b);
    }
 

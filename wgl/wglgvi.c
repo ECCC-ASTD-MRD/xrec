@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglgvi)(idebut, jdebut, ifin, jfin)
-int *idebut, *jdebut, *ifin, *jfin;
+f77name(wglgvi)(int *idebut, int *jdebut, int *ifin, int *jfin)
 {
    c_wglgvi(idebut, jdebut, ifin, jfin);
    }
@@ -31,8 +30,7 @@ int *idebut, *jdebut, *ifin, *jfin;
 **/
 
 
-c_wglgvi(idebut, jdebut, ifin, jfin)
-int *idebut, *jdebut, *ifin, *jfin;
+c_wglgvi(int *idebut, int *jdebut, int *ifin, int *jfin)
 {
    c_wglgwz(&w,&h);
 

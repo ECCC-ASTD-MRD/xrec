@@ -18,16 +18,11 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-c_wglptis(pts, npts)
-XPoint pts[];
-int npts;
+c_wglptis(wgl_point pts[], int npts)
 {
-  int i;
-  for(i=0; i < npts; i++)
-	pts[i].y = h - pts[i].y;
-  XDrawPoints(wglDisp, wglWin, wglLineGC, pts, npts, CoordModeOrigin);
+  wglc_wgl->wglptis(pts, npts);
    }
 
 

@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglrli)(ia, ja, ib, jb)
-int *ia, *ja, *ib, *jb;
+f77name(wglrli)(int *ia, int *ja, int *ib, int *jb)
 {
    c_wglrli(*ia, *ja, *ib, *jb);
    }
@@ -31,7 +30,7 @@ int *ia, *ja, *ib, *jb;
 **/
 
 
-c_wglrli(ia, ja, ib, jb)
+c_wglrli(int ia, int ja, int ib, int jb)
 {
    c_wglmvi(ia, ja);
    c_wgldri(ib, ja);

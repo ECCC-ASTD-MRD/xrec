@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglppo)(ix, iy, isize, jsize)
-int *ix, *iy, *isize, *jsize;
+f77name(wglppo)(int *ix, int *iy, int *isize, int *jsize)
 {
    c_wglppo(*ix, *iy, *isize, *jsize);
    }
@@ -30,16 +29,8 @@ int *ix, *iy, *isize, *jsize;
 ******
 **/
 
-c_wglppo(ix, iy, isize, jsize)
-int ix, iy, isize, jsize;
+c_wglppo(int ix, int iy, int isize, int jsize)
 {
-   wglinids("");
+  wglc_wgl->wglppo(ix, iy, isize, jsize);
    
-   wglHints.x = ix;
-   wglHints.y = DisplayHeight(wglDisp, wglScrNum) - iy - jsize;
-   wglHints.width = isize;
-   wglHints.height = jsize;
-   wglHints.flags = USPosition | USSize;
-
-   customWinSize = True;
    }

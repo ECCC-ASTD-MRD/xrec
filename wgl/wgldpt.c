@@ -18,11 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wgldpt)(indpat, ipatsz, iptrn)
-int *indpat, *ipatsz;
-char iptrn[];
+f77name(wgldpt)(int *indpat, int *ipatsz, char iptrn[])
 {
    c_wgldpt(*indpat, *ipatsz, iptrn);
             
@@ -32,13 +30,8 @@ char iptrn[];
 ******
 **/
 
-c_wgldpt(indpat, ipatsz, iptrn)
-int indpat, ipatsz;
-char iptrn[];
+c_wgldpt(int indpat, int ipatsz, char iptrn[])
 {
-   wglinvpat(iptrn);
-   wglPatterns[indpat+128]=XCreateBitmapFromData(wglDisp, wglWin, iptrn, ipatsz, ipatsz); 
-   if (indpat == 1)
-      wglPatterns[indpat-1+128]=XCreateBitmapFromData(wglDisp, wglWin, iptrn, ipatsz, ipatsz); 
+  wglc_wgl->wgldpt(indpat, ipatsz, iptrn);
    }
 

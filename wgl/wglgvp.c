@@ -18,11 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglgvp)(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin)
-float *xdebut, *ydebut, *xfin, *yfin;
-int   *idebut, *jdebut, *ifin, *jfin;
+f77name(wglgvp)(float *xdebut, float *ydebut, float *xfin, float *yfin, int *idebut, int *jdebut, int *ifin, int *jfin)
 {
    c_wglgvp(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin);
    }
@@ -31,11 +29,9 @@ int   *idebut, *jdebut, *ifin, *jfin;
 ******
 **/
 
-c_wglgvp(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin)
-float *xdebut, *ydebut, *xfin, *yfin;
-int   *idebut, *jdebut, *ifin, *jfin;
+c_wglgvp(float *xdebut, float *ydebut, float *xfin, float *yfin, int *idebut, int *jdebut, int *ifin, int *jfin)
 {
    c_wglgvx(xdebut, ydebut, xfin, yfin);
-   c_wglgvi(idebut, jdebut, ifin, jfin);
+   wglc_wgl->wglgvi(idebut, jdebut, ifin, jfin);
    
    }

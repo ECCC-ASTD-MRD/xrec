@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglcfi)(i, j, rayon)
-int *i, *j, *rayon;
+f77name(wglcfi)(int *i, int *j, int *rayon)
 {
    c_wglcfi(*i, *j, *rayon);
    }
@@ -30,15 +29,7 @@ int *i, *j, *rayon;
  ******
  **/
 
-c_wglcfi(i, j, rayon)
-int i, j, rayon;
+c_wglcfi(int i, int j, int rayon)
 {
-   int idebut, jdebut, ifin, jfin;
-   
-   idebut = i - rayon;
-   jdebut = j - rayon;
-   ifin   = i + rayon;
-   jfin   = j + rayon;
-   
-   XFillArc(wglDisp, wglDrawable, wglFillGC, idebut, h - jfin, (ifin - idebut + 1), (jfin - jdebut + 1), 0, 360 * 64);
-   }
+  wglc_wgl->wglcfi(i, j, rayon);
+}

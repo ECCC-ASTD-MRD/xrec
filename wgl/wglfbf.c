@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 f77name(wglfbf)()
 {
@@ -31,7 +31,7 @@ f77name(wglfbf)()
 
 c_wglfbf()
 {
-   wglDrawable = wglWin;
+   wglc_wgl->wglfbf();
    
    }
 

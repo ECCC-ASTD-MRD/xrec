@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 f77name(wgldbg)()
 {
@@ -31,5 +31,5 @@ f77name(wgldbg)()
 
 c_wgldbg()
 {
-   debugMode = True;
+   debugMode = 1;
    }

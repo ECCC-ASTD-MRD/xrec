@@ -18,12 +18,11 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-Boolean c_wglbtn();
+int c_wglbtn();
 
-Boolean f77name(wglbtn)(bouton)
-int *bouton;
+int f77name(wglbtn)(int *bouton)
 {
    int val;
    val = c_wglbtn(*bouton);
@@ -34,77 +33,8 @@ int *bouton;
  ******
  **/
 
-Boolean c_wglbtn(bouton)
-int bouton;
+int c_wglbtn(int bouton)
 {
-   wglfshlb();
-
-   XDefineCursor(wglDisp,wglWin,croix);
-   while (True)
-      {
-      XtAppNextEvent(SuperWidget.contexte, &wglEvent);
-      switch(wglEvent.type) 
-         {
-         case ButtonPress:
-         if (wglEvent.xbutton.window != wglWin)
-	    {
-	    XDefineCursor(wglDisp,wglWin,None);
-	    XBell(wglDisp, 0);
-	    }
-	 else
-	    {
-	    XDefineCursor(wglDisp,wglWin,None);
-	    switch(bouton)
-	       {
-	       case BGAUCH:
-	       switch(wglEvent.xbutton.button)
-		  {
-		  case Button1:
-		  return True;
-		  
-		  default:
-		  return False;
-		  }
-	       
-	       case BMLIEU:
-	       switch(wglEvent.xbutton.button)
-		  {
-		  case Button2:
-		  return True;
-		  
-		  default:
-		  return False;
-		  }
-	       
-	       case BDROIT:
-	       switch(wglEvent.xbutton.button)
-		  {
-		  case Button3:
-		  return True;
-		  
-		  default:
-		  return False;
-		  }
-	       
-	       case BTOUS:
-	       switch(wglEvent.xbutton.button)
-		  {
-		  case Button1:
-		  case Button2:
-		  case Button3:
-		  return True;
-		  
-		  default:
-		  return False;
-		  }
-	       }
-            }
-         
-         default:
-         XtDispatchEvent(&wglEvent);
-         }
-      }
-   
-   XDefineCursor(wglDisp,wglWin,None);
+  return wglc_wgl->wglbtn(bouton);
    }
 

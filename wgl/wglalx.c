@@ -18,38 +18,39 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 /**
 ------------------------------------------
 ------------------------------------------
 **/
 
-f77name(wglalx)(x, y, rayon, angleDebut, angleFin)
-float *x, *y, *rayon, *angleDebut, *angleFin;
+f77name(wglalx)(float *x, float *y, float *rayon, float *angleDebut, float *angleFin)
+
 {
-   c_wglalx(*x, *y, *rayon, *angleDebut, *angleFin);
+   return c_wglalx(*x, *y, *rayon, *angleDebut, *angleFin);
    }
 
 /**
  ******
  **/
 
-c_wglalx(x, y, rayon, angleDebut, angleFin)
-float x, y, rayon, angleDebut, angleFin;
+int c_wglalx(float x, float y, float rayon, float angleDebut, float angleFin)
 {
-   int idebut, jdebut, ifin, jfin;
-   int width, height;
-   int istartAngle, iendAngle;
-   
-   c_wglxai(&idebut, &jdebut, x - rayon, y - rayon);
-   c_wglxai(&ifin, &jfin, x + rayon, y + rayon);
-   
-   width = ifin - idebut + 1;
-   height = jfin -jdebut + 1;
-
-   istartAngle = (int) (angleDebut * 64.0);
-   iendAngle   = (int) ((angleFin - angleDebut) * 64.0);
-   XDrawArc(wglDisp, wglDrawable, wglLineGC, idebut, h - jfin, width, height, istartAngle, iendAngle);
-   
-   }
+  int i,j;
+  int idebut, jdebut, ifin, jfin;
+  int width, height;
+  int istartAngle, iendAngle;
+  
+  c_wglxai(&idebut, &jdebut, x - rayon, y - rayon);
+  c_wglxai(&ifin, &jfin, x + rayon, y + rayon);
+  c_wglxai(&i, &j, x, y);
+  
+  width = ifin - idebut + 1;
+  height = jfin -jdebut + 1;
+  
+  istartAngle = (int) (angleDebut * 64.0);
+  iendAngle   = (int) ((angleFin - angleDebut) * 64.0);
+  c_wglali(i, j, rayon, angleDebut, angleFin);
+  return 0;
+}

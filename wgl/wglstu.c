@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglstu)(istep, jstep)
-int *istep, *jstep;
+f77name(wglstu)(int *istep, int *jstep)
 {
    c_wglstu(*istep, *jstep);
    }
@@ -30,8 +29,7 @@ int *istep, *jstep;
 ******
 **/
 
-c_wglstu(istep, jstep)
-int istep, jstep;
+c_wglstu(int istep, int jstep)
 {
    }
 

@@ -18,25 +18,11 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglptxs)(float *xxx, float *yyy, int *npts)
+c_wglptxs(float *xxx, float *yyy, int *npts)
 {
-  int i,j,k;
-  int i1, j1, imax;
-  XPoint p[256];
-  
-  for (j=0; j < *npts; j+=255)
-    {
-    imax = (*npts - j) >= 256 ? 256 : *npts - j;
-    for (i=j; i < (j+imax); i++)
-      {
-      p[i-j].x = (short)(ROUND(((xxx[i] - usSpace.xdebut) * usSpace.densiteX) + usSpace.idebut));
-      p[i-j].y = (short)(h - ROUND(((yyy[i] - usSpace.ydebut) * usSpace.densiteY) + usSpace.jdebut));
-      }
-    
-    XDrawPoints(wglDisp, wglDrawable, wglLineGC, p, imax, CoordModeOrigin);
-    
-    }
+  wglc_wgl->wglptxs(xxx, yyy, npts);
+
 }
 

@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 void f77name(wglrwc)()
 {
@@ -32,7 +32,7 @@ void f77name(wglrwc)()
 
 c_wglrwc()
 {
-   cmap_strategy = READ_WRITE_COLORMAP;
+  wglc_wgl->wglrwc();
 
    }
 

@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglgsx)(xdebut, ydebut, xfin, yfin)
-float *xdebut, *ydebut, *xfin, *yfin;
+f77name(wglgsx)(float *xdebut, float *ydebut, float *xfin, float *yfin)
 {
    c_wglgsx(xdebut, ydebut, xfin, yfin);
    }
@@ -31,8 +30,7 @@ float *xdebut, *ydebut, *xfin, *yfin;
 **/
 
 
-c_wglgsx(xdebut, ydebut, xfin, yfin)
-float *xdebut, *ydebut, *xfin, *yfin;
+c_wglgsx(float *xdebut, float *ydebut, float *xfin, float *yfin)
 {
    switch (usSpace.mode)
       {
@@ -62,4 +60,5 @@ float *xdebut, *ydebut, *xfin, *yfin;
       }
 
    }
+
 

@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglgzx)(xsize, ysize)
-float *xsize, *ysize;
+f77name(wglgzx)(float *xsize, float *ysize)
 {
    c_wglgzx(xsize, ysize);
    }
@@ -31,8 +30,7 @@ float *xsize, *ysize;
 ******
 **/
 
-c_wglgzx(xsize, ysize)
-float *xsize, *ysize;
+c_wglgzx(float *xsize, float *ysize)
 {
    switch (usSpace.mode)
       {

@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglmvi)(i, j)
-int *i, *j;
+f77name(wglmvi)(int *i, int *j)
 {
    c_wglmvi(*i, *j);
    }
@@ -31,12 +30,8 @@ int *i, *j;
 **/
 
 
-c_wglmvi(i, j)
-int i, j;
+c_wglmvi(int i, int j)
 {
-   wglfshlb();
-   wglPts[NbPoints].x = i;
-   wglPts[NbPoints].y =  h - j;
-   NbPoints++;
-   }
+  wglc_wgl->wglmvi(i,j);
+}
 

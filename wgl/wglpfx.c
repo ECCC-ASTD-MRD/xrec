@@ -18,13 +18,11 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglpfx)(nbPoints, polygone)
-int *nbPoints;
-float polygone[][2];
+f77name(wglpfx)(int *nbPoints, float polygone[][2])
 {
-   c_wglpfx(*nbPoints, polygone);
+   return c_wglpfx(*nbPoints, polygone);
    }
 
 /**
@@ -32,21 +30,23 @@ float polygone[][2];
  **/
 
 
-c_wglpfx(nbPoints, polygone)
-int nbPoints;
-float polygone[][2];
+c_wglpfx(int nbPoints, float polygone[][2])
 {
-   int i;
-   int i1, j1;
-   XPoint p[255];
-   
-   wglfshlb();
-   for (i=0; i < nbPoints; i++)
-      {
-      c_wglxai(&i1, &j1, polygone[i][X], polygone[i][Y]);
-      p[i].x = i1;
-      p[i].y = h - j1; 
-      }
+  int *ipoly;
+  int i, i1, j1;
+  
+  ipoly = (int *) malloc(2*sizeof(int)*nbPoints);
+  
+  c_wglfshlb();
+  for (i=0; i < nbPoints; i++)
+    {
+      c_wglxai(&(ipoly[2*i]), &(ipoly[2*i+1]), polygone[i][X], polygone[i][Y]);
+    }
+  
+  c_wglpfi(nbPoints, ipoly);
+  
+  free(ipoly);
 
-   XFillPolygon(wglDisp, wglDrawable, wglFillGC, p,nbPoints, Convex, CoordModeOrigin);
-   }
+  return 0;
+  
+}

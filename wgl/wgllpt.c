@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 f77name(wgllpt)()
 {
@@ -34,16 +34,5 @@ c_wgllpt()
    char nomFichierPatrons[128];
    char *tmp;
 
-   tmp = (char *) getenv("ARMNLIB");
-
-   if (tmp == NULL)
-      {
-      printf("<c_wgllpt>: La valeur de la variable d'environnement ARMNLIB est inconnue... \nImpossible de continuer.\n");
-      exit(-1);
-      }
-      
-   strcpy(nomFichierPatrons, tmp);
-   strcat(nomFichierPatrons, "/data/patrns");
-
-   f77name(wwwlpt)(nomFichierPatrons, strlen(nomFichierPatrons));
+   wglc_wgl->wgllpt();
    }

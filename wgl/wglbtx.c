@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-int f77name(wglbtx)(x, y)
-float *x, *y;
+int f77name(wglbtx)(float *x, float *y)
 {
    return (c_wglbtx(x, y));
    }
@@ -30,49 +29,11 @@ float *x, *y;
  ******
  **/
 
-int c_wglbtx(x, y)
-float *x, *y;
+int c_wglbtx(float *x, float *y)
 {
-   int i, j;
-   
-   wglfshlb();
-   XDefineCursor(wglDisp,wglWin,croix);
-   while (True)
-      {
-      XtAppPeekEvent(SuperWidget.contexte, &wglEvent);
-      switch(wglEvent.type) 
-         {
-         case ButtonPress:
-	 XDefineCursor(wglDisp,wglWin,None);
-         if (wglEvent.xbutton.window == wglWin)
-            {
-	    XtAppNextEvent(SuperWidget.contexte, &wglEvent);
-            i = wglEvent.xbutton.x;
-            j = h - wglEvent.xbutton.y;
-            c_wgliax(x, y, i, j);
-            
-            switch(wglEvent.xbutton.button)
-               {
-               case Button1:
-               return BGAUCH;
-               
-               case Button2:
-               return BMLIEU;
-               
-               case Button3:
-               return BDROIT;
-               }
-	    }
-	 else
-	    {
-	    XDefineCursor(wglDisp,wglWin,None);
-	    return NIL;
-	    }
-            
-	 default:
-	 XtAppNextEvent(SuperWidget.contexte, &wglEvent);
-	 XtDispatchEvent(&wglEvent);
-	 break;
-         }
-      }
-   }
+  int i, j, bouton;
+  
+  bouton = c_wglbti(&i, &j);
+  c_wgliax(x, y, i, j);
+  return bouton;
+}

@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 int f77name(wglgpl)()
 {
@@ -32,7 +32,5 @@ int f77name(wglgpl)()
 int c_wglgpl()
 {
 
-   return visInfo.depth;
-   return DisplayPlanes(wglDisp, wglScrNum);
-
+  wglc_wgl->wglgpl();
    }

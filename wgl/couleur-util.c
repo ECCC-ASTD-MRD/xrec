@@ -25,10 +25,7 @@
 
 int hsvTable[256][3];
 
-int MatchColorIndex(r, g, b, colorTable, colDebut, colFin)
-int r, g, b;
-int colorTable[][3];
-int   colDebut, colFin;
+int MatchColorIndex(int r, int g, int b, int colorTable[][3], int colDebut, int colFin)
 {
    int i, iMin;
    int dr, dg, db, diff, minDiff;
@@ -59,14 +56,12 @@ int   colDebut, colFin;
    }
 
 
-int dist(dr, dg, db)
-int dr, dg, db;
+int dist(int dr, int dg, int db)
 {
    return dr*dr + db*db + dg*dg;
    }
 
-float maximum(a, b, c)
-float a,b,c;
+float maximum(float a, float b, float c)
 {
    float max;
 
@@ -80,8 +75,7 @@ float a,b,c;
    return max;
    }
 
-float minimum(a, b, c)
-float a,b,c;
+float minimum(float a, float b, float c)
 {
    float min;
 
@@ -95,8 +89,7 @@ float a,b,c;
    return min;
    }
 
-void rgbahsv_(h,s,v,r,g,b)
-int *h,*s,*v,*r,*g,*b;
+void rgbahsv_(int *h,int *s,int *v,int *r,int *g,int *b)
 {
    int r1,g1,b1,h1,s1,v1;
 
@@ -112,8 +105,7 @@ int *h,*s,*v,*r,*g,*b;
      
    }
 
-void hsvargb_(r,g,b,h,s,v)
-int *r,*g,*b,*h,*s,*v;
+void hsvargb_(int *h,int *s,int *v,int *r,int *g,int *b)
 {
    int r1,g1,b1,h1,s1,v1;
 
@@ -129,9 +121,7 @@ int *r,*g,*b,*h,*s,*v;
      
    }
 
-int RGBaHSV(r,g,b,h,s,v)
-int r,g,b;
-int *h, *s, *v;
+int RGBaHSV(int r,int g,int b,int *h,int *s, int *v)
 {
    float cmin, cmax;
    float fh, fs, fv;
@@ -183,9 +173,7 @@ int *h, *s, *v;
    }
 
 
-int HSVaRGB(h,s,v, r, g, b)
-int h, s, v;
-int *r,*g,*b;
+int HSVaRGB(int h,int s,int v, int *r, int *g, int *b)
 {
    float fh, fs, fv;
    float fr,fg,fb;
@@ -298,10 +286,7 @@ InitHSVTable()
    
    }
 
-BuildColIndexTable(indTable, hsvTable, nbCol, colDebut, colFin, mode)
-int indTable[];
-int hsvTable[][3];
-int nbCol, colDebut, colFin, mode;
+BuildColIndexTable(int indTable[], int hsvTable[][3], int nbCol, int colDebut, int colFin, int mode)
 {
    int i, j, indcol;
    float delcol;

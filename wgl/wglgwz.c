@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglgwz)(isize, jsize)
-int *isize, *jsize;
+f77name(wglgwz)(int *isize, int *jsize)
 {
    c_wglgwz(isize, jsize);
    }
@@ -30,15 +29,9 @@ int *isize, *jsize;
 ******
 **/
 
-c_wglgwz(isize, jsize)
-int *isize, *jsize;
+c_wglgwz(int *isize, int *jsize)
 {
-   Window root;
-   int x, y;
-   int border,depth;
+  wglc_wgl->wglgwz(isize, jsize);
 
-   XGetGeometry(wglDisp,wglDrawable, &root, &x,&y,isize,jsize,&border,&depth);
-   w  = *isize;
-   h = *jsize;
    }
 

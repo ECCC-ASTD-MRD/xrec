@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
-f77name(wglcmi)(left, bottom, right, top)
-int *left, *bottom, *right, *top;
+f77name(wglcmi)(int *left, int *bottom, int *right, int *top)
 {
    c_wglcmi(*left, *bottom, *right, *top);
    }
@@ -30,19 +29,8 @@ int *left, *bottom, *right, *top;
 ******
 **/
 
-c_wglcmi(left, bottom, right, top)
-int left, bottom, right, top;
+c_wglcmi(int left, int bottom, int right, int top)
 {
-   XRectangle rect;
-   int w,h;
+  wglc_wgl->wglcmi(left, bottom, right, top);
 
-   c_wglgwz(&w,&h);
-
-   rect.x = (short) left;
-   rect.y = (short) (h - top);
-   rect.width = (unsigned int) (right - left);
-   rect.height = (unsigned int) (top - bottom);
-   
-   XSetClipRectangles(wglDisp, wglLineGC, 0, 0, &rect, 1, Unsorted);
-   XSetClipRectangles(wglDisp, wglFillGC, 0, 0, &rect, 1, Unsorted);
    }

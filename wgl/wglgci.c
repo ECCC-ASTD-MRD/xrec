@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 int f77name(wglgci)()
 {
@@ -31,6 +31,6 @@ int f77name(wglgci)()
 
 int c_wglgci()
 {
-   return currentColor;
+   wglc_wgl->wglgci();
    }
 

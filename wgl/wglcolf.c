@@ -18,10 +18,9 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 extern unsigned int colorbitrange[3][3];
-unsigned int c_wglcolf();
 
 f77name(wglcolf)(couleur)
 float *couleur;
@@ -33,72 +32,14 @@ float *couleur;
 ******
 **/
 
-unsigned int c_wglcolf(couleur)
-float couleur;
+unsigned int c_wglcolf(float couleur)
 {
-   int r,g,b;
-   int r1,g1,b1;
-   int r2,g2,b2;
-   unsigned int icol, pixel;
-   float dcol;
-   int normal;
-
-   wglfshlb();
-   
-   icol = (int) couleur;
-   dcol = couleur - icol;
-   r1=couleurs[icol].red;
-   g1=couleurs[icol].green;
-   b1=couleurs[icol].blue;
-
-   r2=couleurs[icol+1].red;
-   g2=couleurs[icol+1].green;
-   b2=couleurs[icol+1].blue;
-   
-   r = r1 + dcol * (r2-r1);
-   g = g1 + dcol * (g2-g1);
-   b = b1 + dcol * (b2-b1);
-
-   pixel =  ((r * colorbitrange[0][2]) >>16) << colorbitrange[0][0];
-   pixel += ((g * colorbitrange[1][2]) >>16)<< colorbitrange[1][0];
-   pixel += ((b * colorbitrange[2][2]) >>16)<< colorbitrange[2][0];
-
-   XSetForeground(wglDisp, wglLineGC, pixel);
-   XSetForeground(wglDisp, wglFillGC, pixel);
-
-   return pixel;
-
+  wglc_wgl->wglcolf(couleur);
 }
 
 unsigned int c_wglcolfs(float *cols, unsigned int *pixels, int n)
 {
-  int r,g,b;
-  int r1,g1,b1;
-  int r2,g2,b2;
-  unsigned int icol, pixel;
-  float dcol;
-  int i,normal;
-  
-  for (i=0; i < n; i++)
-    {
-    icol = (int) cols[i];
-    dcol = cols[i] - icol;
-    r1=couleurs[icol].red;
-    g1=couleurs[icol].green;
-    b1=couleurs[icol].blue;
-    
-    r2=couleurs[icol+1].red;
-    g2=couleurs[icol+1].green;
-    b2=couleurs[icol+1].blue;
-    
-    r = r1 + dcol * (r2-r1);
-    g = g1 + dcol * (g2-g1);
-    b = b1 + dcol * (b2-b1);
-    
-    pixels[i] =  ((r*colorbitrange[0][2])>>16) << colorbitrange[0][0];
-    pixels[i] += ((g*colorbitrange[1][2])>>16) << colorbitrange[1][0];
-    pixels[i] += ((b*colorbitrange[2][2])>>16) << colorbitrange[2][0];
-    }
+  wglc_wgl->wglcolfs(cols, pixels, n);
 }
 
 unsigned int c_wglcolfs_fst(float *cols, unsigned int *pixels, int n)

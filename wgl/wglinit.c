@@ -18,146 +18,8 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <stdio.h>
+#include <wgl.h>
 
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/Xatom.h>
-
-#include <X11/Intrinsic.h>
-#include <X11/StringDefs.h>
-#include <X11/cursorfont.h>
-
-#include <xinit.h>
-#include <c_wgl.h>
-#include <rpnmacros.h>
-#include <malloc.h>
-#include <math.h>
-
-/**
-** Declaration des constantes globales
-**/
-
-
-#define SGI 13
-#define NB_MAX_POINTS   1024 
-
-int serverIdentifier = 0;
-
-/**
- ** Variable globale necessaire pour compiler sur les SUN, autrement non utilisee.
- **/ 
-
-#ifdef SUN
-int units;
-#endif
-
-/**
- ** Widget de base
- **/
-
-extern SuperWidgetStruct SuperWidget; 
-
-/**
-** Variables de base utilisees par X
-**/
-
-Display *wglDisp = NULL;
-int wglScrNum;
-Window wglWin, wglDrawable;
-GC wglLineGC, wglFillGC;
-Pixmap bgPix = NULL;
-int visualClass;
-int cmap_strategy = 1001; /* READ_WRITE_COLORMAP */
-XVisualInfo visInfo;
-Cursor croix;
-
-/**
- ** Attributs de la fenetre
- **/
-
-XWindowAttributes wglWinAttr;
-XSetWindowAttributes wglWinSetAttr;
-unsigned long attribmask;
-XSizeHints wglHints;
-
-float  aspectRatio = 0.0;
-int  wglForceAspect = True;
-
-/**
- ** Variables liees a l'utilisation des couleurs
- **/ 
-
-XColor couleurs[4096];
-XPoint wglPts[NB_MAX_POINTS];
-int NbPoints = 0;
-int cmap;
-unsigned long wglfore, wglback;
-int w,h;
-
-int     rubberBandColor      = CYAN;
-
-int     pix[4096];
-int     wglColorTable[4096];
-int     wglWritablePixs[4096];
-
-/**
- ** Variables liees aux evenements
- **/ 
-
-XEvent wglEvent;
-
-/**
- ** Variables liees aux patrons
- **/ 
-
-Pixmap wglPatterns[257];
-char   wglDashPatterns[257][16];
-int    wglDashPatternLengths[257];
-int    wglDashPatternOffsets[257];
-
-/**
- ** Variables liees aux fontes
- **/ 
-
-XFontStruct *fonte;
-XFontStruct *fontes[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-
-/**
- ** Flags divers
- **/
-
-int debugMode = False;
-int customWinSize =   False;
-int customPlaneMask = False;
-int doubleBufferMode =   False;
-
-int  aspectRatioSet     = False;
-int   wglForceAspectSet  = False;
-int   customPlaneMaskSet = False;
-int   doubleBufferModeSet = False;
-int   currentPlaneMaskSet = False;
-
-/**
- ** Indicateurs divers
- **/
-
-int        currentColor         = 0;
-int        currentFillStyle     = FillSolid;
-int        currentFillPattern   = 0;
-int        currentDashPattern   = 0;
-int        currentLineWidth     = 0;
-int        currentPlaneMask     = AllPlanes;
-XRectangle pixmapDimensions = { 0, 0, 0, 0 };
-
-int        lng;
-char       *messageAgrandir[] = {"Agrandissez-moi", "Enlarge me"};
-
-/**
-******************************************************************************
-******************************************************************************
-**/
-   
 
 /**
  ** Structure de base pour faire le lien entre l'espace pixel et l'espace reel.
@@ -168,34 +30,51 @@ UserSpaceInfo usSpace = { 0, 0, 0, 0,
 			     0.0, 0.0, 0.0, 0.0, 
 			     0.0, 0.0,
 			     0, 0, 0, 0 };
+
+float  aspectRatio = 0.0;
+int  wglForceAspect = 1;
+
 /**
- ** Definition de la structure utilisee pour la gestion de fenetres multiples
- **/
+ ** Variables liees a l'utilisation des couleurs
+ **/ 
 
-typedef struct
+wgl_color couleurs[4096];
+wgl_point wglPts[NB_MAX_POINTS];
+int NbPoints = 0;
+unsigned long wglfore, wglback;
+int w,h;
+
+int     rubberBandColor      = CYAN;
+
+int     pix[4096];
+int     wglColorTable[4096];
+int     wglWritablePixs[4096];
+
+int unsigned long wglPatterns[257];
+char   wglDashPatterns[257][16];
+int    wglDashPatternLengths[257];
+int    wglDashPatternOffsets[257];
+int        lng;
+
+int debugMode = 0;
+int customWinSize =   0;
+int customPlaneMask = 0;
+int doubleBufferMode =   0;
+
+int  aspectRatioSet     = 0;
+int   wglForceAspectSet  = 0;
+int   customPlaneMaskSet = 0;
+int   doubleBufferModeSet = 0;
+int   currentPlaneMaskSet = 0;
+
+int        currentColor         = 0;
+int        currentFillPattern   = 0;
+int        currentDashPattern   = 0;
+int        currentLineWidth     = 0;
+
+
+c_wglinit()
 {
-   Window wglWin, wglDrawable;
-   GC wglLineGC, wglFillGC;
-   Pixmap bgPix;
-   XWindowAttributes wglWinAttr;
-   XSetWindowAttributes wglWinSetAttr;
-   int libre;
-   float  aspectRatio;
-   int  wglForceAspect;
-   int customPlaneMask;
-   int doubleBufferMode;
-   int currentColor;
-   int currentFillStyle;
-   int currentFillPattern;
-   int currentDashPattern;
-   int currentLineWidth;
-   int currentPlaneMask;
-   XRectangle pixmapDimensions;
-   UserSpaceInfo usSpace;
-   } _Fenetre;
-
-_Fenetre *fenetre = NULL;
-int nbFenetresActives = 0;
-int fenetreCourante = -1;
-
-
+  static int once = 0;
+  once = 1;
+}

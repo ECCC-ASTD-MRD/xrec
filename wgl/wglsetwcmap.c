@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_x.h>
+#include <wgl.h>
 
 
 c_wglsetwcmap()
@@ -26,16 +26,6 @@ c_wglsetwcmap()
    int i, res;
    int plane_masks;
    
-   if (visualClass == PseudoColor)
-      {
-      attribmask = CWColormap | CWBackPixel;
-      wglWinSetAttr.colormap = cmap;
-      wglWinSetAttr.background_pixel = BlackPixel(wglDisp, wglScrNum);
-      
-      XChangeWindowAttributes(wglDisp, wglWin, attribmask, &wglWinSetAttr);
-      c_wglsetw(wglWin);
-      for (i=0; i < nbFenetresActives; i++)
-        XSetWindowColormap(wglDisp,fenetre[i].wglWin, cmap);
-      }
+   wglc_wgl->wglsetwcmap();
    
 }
