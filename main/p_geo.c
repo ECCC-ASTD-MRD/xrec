@@ -24,168 +24,411 @@
 #include <Xm/RowColumn.h>
 
 #include <xinit.h>
-#include <rec.h>
 #include <wgl.h>
 #include <rpnmacros.h>
-
-#define OUI 1
-#define NON 0
+#include <gmp.h>
 
 extern SuperWidgetStruct SuperWidget;
-extern _XContour   xc;
+extern int facteurLissage;
+extern GeoMapFlagsStruct   mapFlags;
 
-static XtCallbackProc PgCouleur();
 static XtCallbackProc PgResolution();
 static XtCallbackProc PgOk();
 static XtCallbackProc PgAfficher();
 static XtCallbackProc PgMeridiens();
-static XtCallbackProc PgPolitique();
+static XtCallbackProc PgActive();
 static XtCallbackProc PgEspaceMeridiens();
 static XtCallbackProc PgEpaisseur();
 
-Widget pgTopLevel = NULL;
-Widget pgForme, pgFrame, pgRC, pgAfficher, pgOk;
-Widget pgResolution, pgCouleur, pgEpaisseur, pgMeridiens, pgPolitique, pgEspaceMeridiens;
-Widget pgOptionsResolution, pgOptionsCouleur, pgOptionsEpaisseur, pgOptionsMeridiens, pgOptionsPolitique, pgOptionsEspaceMeridiens;
-Widget pgOptionsResolutionItems[9], pgOptionsCouleurItems[8], pgOptionsEpaisseurItems[5], pgOptionsMeridiensItems[2];
-Widget pgOptionsPolitiqueItems[2], pgOptionsEspaceMeridiensItems[7];
-int pgSelectionTerminee = False;
+
+
+#define OUI 1
+#define NON 0
 
 static int resolution = 50;
 static int espacementMeridiens = 10;
 int epaisseur = 1;
 int couleurGeo = GRIS;
-int frontieresPolitiques = OUI;
+int frontieresActives = OUI;
 int meridiens = OUI;
 
 char panneauGeoGeometrie[32];
 
-   static char *nomPanneauGeo[] = {"PanneauGeo", "GeoPanel"};
-   static char *labelTopLevel[] = {"Geographie", "Geography"};
-   static char *labelOk[] = {"Fermer", "Close"};
-   static char *labelAfficher[] = {"Redessiner", "Redraw"};
 
-   static char *labelResolution[] = {"Resolution\n(degres)  ", "Resolution\n(degrees) "};
-   static char *labelCouleur[] = {"Couleur   ", "Color     "};
-   static char *labelEpaisseur[] = {"Epaisseur \ndes lignes", "Line      \nEpaisseur "};
-   static char *labelMeridiens[] = {"Meridiens ", "Meridiens "};
-   static char *labelPolitique[] = {"Frontieres\npolitiques", "Political \nBoundaries"};
-   static char *labelEspaceMeridiens[] = {"Espacement\nmeridiens", "Meridian  \ngrid      "};
+Widget pgTopLevel = NULL;
+Widget pgForme, pgFormeChamps, pgFormeAttributs, pgFrameChamps, pgFrameAttributs, pgRC, pgAfficher, pgOk;
+Widget pgPanneauStyle, pgCouleur, pgPanneauCouleur, pgPanneauEpaisseur;
+Widget pgOptionsStyle, pgOptionsCouleur, pgOptionsEpaisseur, pgOptionsActive;
+Widget pgOptionsStyleItems[7], pgOptionsCouleurItems[9], pgOptionsEpaisseurItems[5];
+Widget pgActive, pgOptionsActive, pgOptionsActiveItems[2];
+Widget pgListeItems, pgChamps[6];
+Widget pgSeparateur1,pgSeparateur2;
+Widget pgPanneauContours,pgOptionsContours,pgContourItems[3];
+Widget pgPanneauLabels,pgOptionsLabels,pgLabelItems[3];
+Widget pgPanneauValeursCentrales,pgOptionsValeursCentrales,pgValeurItems[3];
+Widget pgPanneauTailleValeursCentrales,pgOptionsTailleValeursCentrales,pgTailleValeurItems[13];
+Widget pgRowCol, pgToggleBox, pgToggleItems[14];
 
-   static char *labelOptionsResolution[][10] = {{"Maximum","0.01   ", "0.05", "0.1", "0.2", "0.4", "0.5", "0.75", "1.0", "2.0"}, 
-						  {"Maximum","0.01   ", "0.05", "0.1", "0.2", "0.4", "0.5", "0.75", "1.0", "2.0"}};
-   static char *labelOptionsCouleur[][9] = {{"blanc", "noir", "rouge", "cyan", "jaune", "magenta", "vert", "bleu", "gris"},
+static char *nomPanneauContour[] = {"PanneauGeo", "GeoPanel"};
+static char *labelTopLevel[] = {"Geographie", "Geo"};
+static char *labelChamps[][14] = { 
+{"Continents", "Lat-lon", "Pays", 
+ "Provinces", "Villes", "Lacs", "Rivieres", "Routes", "Rails", 
+ "Utilites", "Canaux", "Topographie", "Bathymetrie", "Type de Terrain"},
+{"Continents", "Lat-lon", "Countries","Provinces", "Cities", "Lakes", "Rivers", "Roads", "Rails", 
+   "Utilities", "Canals", "Topography", "Bathymetry", "Terrain Type"}};
+
+static char *pgValCentraleFontSize[][13] = {
+{"10                  ","15","20","25","30","35","40","50","60","70","80","90","100"},
+{"10                  ","15","20","25","30","35","40","50","60","70","80","90","100"}};
+
+
+static char *pgLabelFontSize[][6] = {{"Auto","12                  ", "14", "17", "18", "24"},
+{ "Auto","12                  ", "14", "17", "18", "24"}};
+
+static char *pgLabelTailleValeursCentrales[] = {"Taille val.\ncentrales","Central val.\nSize"};
+static char *labelOptionsCouleur[][9] = {{"blanc", "noir", "rouge", "cyan", "jaune", "magenta", "vert", "bleu", "gris"},
 						{"white", "black", "red", "cyan", "yellow", "magenta", "green", "blue", "gray"}};
-   static char *labelOptionsEpaisseur[][5] = {{"1      ", "2", "3", "4", "5"}, {"1      ", "2", "3", "4", "5"}};
-   static char *labelOptionsMeridiens[][2] = {{"Oui    ", "Non"},{"Yes    ", "No"}};
-   static char *labelOptionsPolitique[][2] = {{"Oui    ", "Non"},{"Yes    ", "No"}};
-   static char *labelOptionsEspaceMeridiens[][8] = {{"5.0    ", "10.0", "15.0", "20.0", "30.0", "45.0", "60.0", "90.0"},
-						       {"5.0    ", "10.0", "15.0", "20.0", "30.0", "45.0", "60.0","90.0"}};
+
+static char *activationSelect[][3] = {
+{"Selon menu Affichage", "Toujours", "Jamais"},
+{"According to Display menu", "Always", "Never"}};
 
 
-void InitPanneauGeo()
+
+static char *colors[][9] = { {"blanc","noir","rouge","cyan", "jaune", "magenta","vert","bleu","gris"},
+{"white","black","red","cyan","yellow","magenta","green","blue","gray"}};
+
+
+static char *labelOk[] = {"Fermer", "Close"};
+static char *labelAfficher[] = {"Redessiner", "Refresh"};
+
+
+#define COULEUR   0
+#define EPAISSEUR 1
+#define STYLE     2
+
+
+
+static char *labelStyle[] = {"Style     ", "Style     "};
+static char *labelCouleur[] = {"Couleur   ", "Color     "};
+static char *labelEpaisseur[] = {"Epaisseur \ndes lignes", "Line      \nThickness "};
+static char *labelTraitementVectoriel[] = {"Traitement\nVectoriel","Vector\nProcessing"};
+
+static char *pgLabelOptionsStyle[]= { "--------------------", 
+				      "--  --  --  --  --  ", 
+				      "----    ----   -----", 
+				      "--------      ------"}; 
+
+static char *pgLabelOptionsCouleur[][9] = {{"blanc               ", "noir","rouge","cyan","jaune","magenta","vert","bleu","gris"},
+					    {"white               ", "black","red","cyan","yellow","magenta","green","blue", "gray"}};
+static char *pgLabelOptionsEpaisseur[]= {"1                   ", "2", "3", "4", "5"};
+static Pixel indCouleurs[16];
+
+int currentGeoToggle = CONTINENTS;
+int pgSelectionTerminee;
+char panneauContoursGeometrie[32];
+static int nbItemsListe = 8;
+
+void CheckGeoToggles (Widget w, caddr_t client_data, caddr_t call_data) 
 {
-   int i,n;
+  int lng;
+  Arg args[3];
+  int i,j, n, ind, pos;
+  Pixel back, fore;
+  static int last_pos = -1;
+  
+  pos = (int)client_data;
+  
+  fprintf(stderr, "pos: %d\n", pos);
+  currentGeoToggle=pos;
+  
+  
+  XtSetArg(args[0], XmNbackground, &back);
+  XtSetArg(args[1], XmNforeground, &fore);
+  if (pos == last_pos)
+    {
+      XtGetValues(pgToggleItems[(pos+1)%8], args, 2);
+    } 
+  
+  else
+    {
+      XtGetValues(w, args, 2);
+    }
+  
+  
+  /*
+  XtSetArg(args[2], XmNindicatorOn, XmINDICATOR_CHECK_BOX);
+  XtSetArg(args[3], XmNselectColor, XmREVERSED_GROUND_COLORS);
+  */
+  
+  XtSetArg(args[0], XmNbackground, back);
+  XtSetArg(args[1], XmNforeground, fore);
+  for (i=0; i < 8; i++)
+    {
+      XtSetValues(pgToggleItems[i], args, 2);
+    }
+
+  XtSetArg(args[0], XmNbackground, fore);
+  XtSetArg(args[1], XmNforeground, back);
+  XtSetValues(w, args, 2);
+  
+  /*
+  XtSetArg(args[0], XmNbackground, indCouleurs[BLANC]);
+
+  XtSetArg(args[1], XmNindicatorOn, XmINDICATOR_CHECK_BOX);
+  XtSetArg(args[2], XmNselectColor, XmREVERSED_GROUND_COLORS);
+  XtSetValues(w, args, 1);  */
+
+  last_pos = pos;
+  
+  XtSetArg(args[0], XmNbackground, &back);
+  XtSetArg(args[1], XmNforeground, &fore);
+  XtGetValues(pgOptionsCouleurItems[mapFlags.indCouleur[currentGeoToggle]], args, 2);
+  
+  XtSetArg(args[0], XmNbackground, back);
+  XtSetArg(args[1], XmNforeground, fore);
+  XtSetValues(pgPanneauCouleur, args, 2);
+  
+  XtSetArg(args[0], XmNmenuHistory, pgOptionsCouleurItems[mapFlags.indCouleur[currentGeoToggle]]);
+  XtSetValues(pgPanneauCouleur, args, 1);
+  
+  XtSetArg(args[0], XmNmenuHistory, pgOptionsEpaisseurItems[mapFlags.epaisseur[currentGeoToggle]]);
+  XtSetValues(pgPanneauEpaisseur, args, 1);
+  
+  
+  XtSetArg(args[0], XmNmenuHistory, pgOptionsStyleItems[mapFlags.style[currentGeoToggle]]);
+  XtSetValues(pgPanneauStyle, args, 1);
+  
+  if (mapFlags.etat[currentGeoToggle] == OUI)
+    {
+      mapFlags.etat[currentGeoToggle] = NON;
+    }
+  else
+    {
+      mapFlags.etat[currentGeoToggle] = OUI;
+      mapFlags.verifStatutNecessaire = OUI;
+    }
+  RedessinerFenetres();
+}
+
+/****
+***********************************************************************
+***********************************************************************
+****/
+
+void SetGeoColorToggle (Widget w, caddr_t client_data, caddr_t call_data) 
+{
+  int r, g, b;
+  Arg args[2];
+  Pixel back, fore;
+  
+  XtSetArg(args[0], XmNbackground, &back);
+  XtSetArg(args[1], XmNforeground, &fore);
+  XtGetValues(w, args, 2);
+  
+  XtSetArg(args[0], XmNbackground, back);
+  XtSetArg(args[1], XmNforeground, fore);
+  XtSetValues(pgPanneauCouleur, args, 2);
+  
+  
+  mapFlags.indCouleur[currentGeoToggle] =  (int)client_data;
+  
+}
+
+/****
+***********************************************************************
+***********************************************************************
+****/
+
+void SetGeoThicknessToggle (w, client_data, call_data) 
+     Widget	w;		/*  widget id		*/
+caddr_t	client_data;	/*  data from application   */
+caddr_t	call_data;	/*  data from widget class  */
+{
+  mapFlags.epaisseur[currentGeoToggle] = atoi(XtName(w));
+}
+
+/****
+***********************************************************************
+***********************************************************************
+****/
+
+void SetGeoStyleToggle (w, client_data, call_data) 
+Widget	w;		/*  widget id		*/
+caddr_t	client_data;	/*  data from application   */
+caddr_t	call_data;	/*  data from widget class  */
+{
+   mapFlags.style[currentGeoToggle] = (int)client_data;
+
+   switch ((int)client_data)
+      {
+      case 0:
+      mapFlags.style[currentGeoToggle] = 0;
+      break;
+      
+      case 1:
+      case 2:
+      case 3:
+      mapFlags.style[currentGeoToggle] = 1;
+      break;
+      }
+   }
+
+/****
+***********************************************************************
+***********************************************************************
+****/
+
+static XtCallbackProc PgOk(w, unused1, unused2)
+Widget w;
+caddr_t unused1, unused2;
+{
+   pgSelectionTerminee = TRUE;
+   DesactiverPanneauGeo();
+   }
+
+/****
+***********************************************************************
+***********************************************************************
+****/
+
+static XtCallbackProc PgAfficher(w, unused1, unused2)
+Widget w;
+caddr_t unused1, unused2;
+{
+   int i;
+
+   RedessinerFenetres();
+
+   }
+
+/***
+***************************************************************************
+***************************************************************************
+***/
+
+InitPanneauGeo()
+{
+   int i,j;
    Arg args[6];
    XmString string;
-   Pixel indCouleurs[16];
-   char nomShell[128];
+   char *gdb_path;
 
-   float ftemp;
-   int itemp;
-   int indItem;
- 
-   int lng;
+   int n,lng;
+   char nomShell[128];
+   Pixel indCouleurs[16];
    Colormap cmap;
+   XmStringTable table;
 
    Xinit("xregarder");
    lng = c_getulng();
 
    i = 0;
    strcpy(nomShell, XtName(SuperWidget.topLevel));
-   strcat(nomShell, nomPanneauGeo[lng]);
+   strcat(nomShell, nomPanneauContour[lng]);
+   i = 0;
    pgTopLevel = XtAppCreateShell(nomShell, nomShell, 
                                    applicationShellWidgetClass,
                                    XtDisplay(SuperWidget.topLevel), args, i);
-
-   pgForme = (Widget) XmCreateForm(pgTopLevel, "form", NULL, 0);
+   i = 0;
+   pgForme = (Widget) XmCreateForm(pgTopLevel, "form", args, i);
    XtManageChild(pgForme);
 
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
    pgOk = (Widget)XmCreatePushButton(pgForme, labelOk[lng], args, i);
-   XtAddCallback(pgOk, XmNactivateCallback, PgOk, NULL);
+   XtAddCallback(pgOk, XmNactivateCallback, (XtCallbackProc)  PgOk, NULL);
    XtManageChild(pgOk);
 
    i = 0;
-   XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_WIDGET); i++;
    XtSetArg(args[i], XmNrightWidget, pgOk); i++;
+   XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    pgAfficher = (Widget)XmCreatePushButton(pgForme, labelAfficher[lng], args, i);
-   XtAddCallback(pgAfficher, XmNactivateCallback, PgAfficher, NULL);
+   XtAddCallback(pgAfficher, XmNactivateCallback, (XtCallbackProc)  PgAfficher, NULL);
    XtManageChild(pgAfficher);
 
-   i = 0;
+   i=0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
    XtSetArg(args[i], XmNtopWidget, pgOk); i++;
    XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++;
-   pgFrame = (Widget) XmCreateFrame(pgForme, "form", args, i);
-   XtManageChild(pgFrame);
+   pgFrameChamps = (Widget) XmCreateFrame(pgForme, "form", args, i);
+   XtManageChild(pgFrameChamps);
+
+   i = 0;
+   pgFormeChamps = (Widget) XmCreateForm(pgFrameChamps, "form", args, i);
+   XtManageChild(pgFormeChamps);
+
+   pgRowCol = XmCreateRowColumn (pgFormeChamps, "rowcolumn", args, i);
+   i = 0; 
+   XtSetArg (args[i], XmNpacking, XmPACK_COLUMN); i++; 
+   XtSetArg (args[i], XmNnumColumns, 1); i++; 
+   pgToggleBox = XmCreateRowColumn (pgRowCol, "togglebox", args, i); 
+   /* simply loop through the strings creating a widget for each one */ 
+
+   gdb_path = (char *) getenv("GDB_PATH");
+
+   for (i = 0; i < 8; i++) 
+     { 
+     /*
+       XtSetArg(args[0], XmNindicatorOn, XmINDICATOR_CHECK_BOX);
+       XtSetArg(args[1], XmNselectColor, XmREVERSED_GROUND_COLORS);
+     */
+     XtSetArg (args[0], XmNvisibleWhenOff, False);
+     pgToggleItems[i] = (Widget) XmCreateToggleButton(pgToggleBox, labelChamps[lng][i], args, 1); 
+     XtAddCallback (pgToggleItems[i], XmNvalueChangedCallback, (XtCallbackProc) CheckGeoToggles, (XtPointer) i); 
+     XtManageChild (pgToggleItems[i]); 
+     }
+   XtManageChild(pgToggleBox);
+   XtManageChild(pgRowCol);
+   
+   if (gdb_path == NULL)
+     {
+     XtSetArg (args[0], XmNsensitive, False);
+     XtSetValues(pgToggleItems[VILLES], args, 1);
+     XtSetValues(pgToggleItems[LACS], args, 1);
+     XtSetValues(pgToggleItems[RIVIERES], args, 1);
+     XtSetValues(pgToggleItems[ROUTES], args, 1);
+     mapFlags.etat[VILLES]=NON;
+     mapFlags.etat[LACS]=NON;
+     mapFlags.etat[RIVIERES]=NON;
+     mapFlags.etat[ROUTES]=NON;
+     }
+
+   
+   i = 0;
+   XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
+   XtSetArg(args[i], XmNtopWidget, pgOk); i++;
+   XtSetArg(args[i], XmNleftAttachment, XmATTACH_WIDGET); i++;
+   XtSetArg(args[i], XmNleftWidget, pgFrameChamps); i++;
+   pgFormeAttributs = (Widget) XmCreateForm(pgForme, "form", args, i);
+   XtManageChild(pgFormeAttributs);
+
+   i = 0;
+   pgFrameAttributs = (Widget) XmCreateFrame(pgFormeAttributs, "form", args, i);
+   XtManageChild(pgFrameAttributs);
 
 /* Create RowColumn in pgTopLevel */
 
    i = 0;
-   XtSetArg(args[i], XmNnumColumns, 3); i++;
-   XtSetArg(args[i], XmNpacking, XmPACK_COLUMN); i++;
-   XtSetArg(args[i], XmNorientation, XmHORIZONTAL); i++;
-   pgRC = XmCreateRowColumn(pgFrame, "pgRC", args, i);
+   XtSetArg(args[i], XmNnumColumns, 1); i++;
+   XtSetArg(args[i], XmNorientation, XmVERTICAL); i++;
+   XtSetArg(args[i], XmNpacking, XmPACK_TIGHT); i++;
+   pgRC = XmCreateRowColumn(pgFrameAttributs, "pgRC", args, i);
    XtManageChild(pgRC);
-
-   pgOptionsResolution = (Widget)XmCreatePulldownMenu(pgRC, labelResolution[lng], NULL, 0);
-
-   for (n=0; n < XtNumber(labelOptionsResolution[lng]); n++)
-	{
-	i = 0;
-	string = XmStringCreateLtoR(labelOptionsResolution[lng][n], XmSTRING_DEFAULT_CHARSET);
-	XtSetArg(args[i], XmNlabelString, string); i++;
-	pgOptionsResolutionItems[n] = XmCreatePushButtonGadget(pgOptionsResolution, labelOptionsResolution[lng][n], args, i);
-	XmStringFree(string);   
-	XtAddCallback(pgOptionsResolutionItems[n], XmNactivateCallback, PgResolution, labelOptionsResolution[lng][n]);
-	}
-
-   XtManageChildren(pgOptionsResolutionItems, XtNumber(labelOptionsResolution[lng]));
-
-   indItem = 5;
-   for (n=0; n < 9; n++)
-      {
-      sscanf(labelOptionsResolution[0][n],"%f",&ftemp);
-      if (resolution == (int)(ftemp*100+0.5))
-         {
-         indItem = n;
-         }
-      }
-
-   i = 0;
-   string = XmStringCreateLtoR(labelResolution[lng], XmSTRING_DEFAULT_CHARSET); 
-   XtSetArg(args[i], XmNlabelString, string); i++;
-   XtSetArg(args[i], XmNalignment, XmALIGNMENT_BEGINNING); i++;
-   XtSetArg(args[i], XmNsubMenuId, pgOptionsResolution); i++;
-   XtSetArg(args[i], XmNmenuHistory, pgOptionsResolutionItems[indItem]); i++;
-   pgResolution = XmCreateOptionMenu(pgRC, "option_menu1", args, i);
-   XmStringFree(string);   
-
-   XtManageChild(pgResolution);
 
 /**
 ****
 **/
-
-   pgOptionsCouleur = (Widget)XmCreatePulldownMenu(pgRC, labelCouleur[lng], NULL, 0);
-
    InitPixelsCouleursDeBase(indCouleurs);
 
-   for (n=0; n < XtNumber(labelOptionsCouleur[lng]); n++)
+   i = 0;
+   XtSetArg(args[i], XmNbackground, indCouleurs[0]); i++;
+   pgOptionsCouleur = (Widget)XmCreatePulldownMenu(pgRC, labelCouleur[lng], args, i);
+   
+   for (n=0; n < XtNumber(pgLabelOptionsCouleur[lng]); n++)
 	{
 	i = 0;
 	XtSetArg(args[i], XmNbackground, indCouleurs[n]); i++;
@@ -193,7 +436,6 @@ void InitPanneauGeo()
 	   {
 	   case JAUNE:
 	   case BLANC:
-	   case GRIS:
 	   case CYAN:
 	   XtSetArg(args[i], XmNforeground, indCouleurs[NOIR]); i++;
 	   break;
@@ -203,28 +445,27 @@ void InitPanneauGeo()
 	   break;
 	   }
 	   
-	pgOptionsCouleurItems[n] = (Widget)XmCreatePushButton(pgOptionsCouleur, labelOptionsCouleur[lng][n], args, i);
-	XtAddCallback(pgOptionsCouleurItems[n], XmNactivateCallback, PgCouleur, labelOptionsCouleur[lng][n]);
+	pgOptionsCouleurItems[n] = (Widget) XmCreatePushButton(pgOptionsCouleur, pgLabelOptionsCouleur[lng][n], args, i);
+	XtAddCallback(pgOptionsCouleurItems[n], XmNactivateCallback, (XtCallbackProc)  SetGeoColorToggle, (XtPointer) n);
 	}
 
-   XtManageChildren(pgOptionsCouleurItems, XtNumber(labelOptionsCouleur[lng]));
+   XtManageChildren(pgOptionsCouleurItems, XtNumber(pgLabelOptionsCouleur[lng]));
 
    i = 0;
    string = XmStringCreateLtoR(labelCouleur[lng], XmSTRING_DEFAULT_CHARSET); 
    XtSetArg(args[i], XmNlabelString, string); i++;
    XtSetArg(args[i], XmNsubMenuId, pgOptionsCouleur); i++;
-   XtSetArg(args[i], XmNmenuHistory, pgOptionsCouleurItems[couleurGeo]); i++;
+   XtSetArg(args[i], XmNmenuHistory, pgOptionsCouleurItems[0]); i++;
    XtSetArg(args[i], XmNalignment, XmALIGNMENT_BEGINNING); i++;
-   pgCouleur = XmCreateOptionMenu(pgRC, "option_menu1", args, i);
+   pgPanneauCouleur = XmCreateOptionMenu(pgRC, "option_menu1", args, i);
    XmStringFree(string);   
 
    i = 0;
-   XtSetArg(args[i], XmNbackground, indCouleurs[8]); i++;
-   XtSetArg(args[i], XmNforeground, indCouleurs[NOIR]); i++;
-   XtSetValues(pgCouleur, args, i);
+   XtSetArg(args[i], XmNbackground, indCouleurs[NOIR]); i++;
+   XtSetArg(args[i], XmNforeground, indCouleurs[BLANC]); i++;
+   XtSetValues(XmOptionLabelGadget(pgPanneauCouleur), args, i);
 
-
-   XtManageChild(pgCouleur);
+   XtManageChild(pgPanneauCouleur);
 
 /**
 ****
@@ -232,125 +473,192 @@ void InitPanneauGeo()
 
    pgOptionsEpaisseur = (Widget)XmCreatePulldownMenu(pgRC, labelEpaisseur[lng], NULL, 0);
 
-   for (n=0; n < XtNumber(labelOptionsEpaisseur[lng]); n++)
+   for (n=0; n < XtNumber(pgLabelOptionsEpaisseur[lng]); n++)
 	{
 	i = 0;
-	string = XmStringCreateLtoR(labelOptionsEpaisseur[lng][n], XmSTRING_DEFAULT_CHARSET);
-	XtSetArg(args[i], XmNlabelString, string); i++;
-	pgOptionsEpaisseurItems[n] = XmCreatePushButtonGadget(pgOptionsEpaisseur, labelOptionsEpaisseur[lng][n], args, i);
-	XmStringFree(string);   
-	XtAddCallback(pgOptionsEpaisseurItems[n], XmNactivateCallback, PgEpaisseur, labelOptionsEpaisseur[lng][n]);
+	pgOptionsEpaisseurItems[n] = XmCreatePushButtonGadget(pgOptionsEpaisseur, pgLabelOptionsEpaisseur[n], args, i);
+	XtAddCallback(pgOptionsEpaisseurItems[n], XmNactivateCallback, (XtCallbackProc)  SetGeoThicknessToggle, (XtPointer) n);
 	}
 
-   XtManageChildren(pgOptionsEpaisseurItems, XtNumber(labelOptionsEpaisseur[lng]));
+   XtManageChildren(pgOptionsEpaisseurItems, XtNumber(pgLabelOptionsEpaisseur[lng]));
 
    i = 0;
    string = XmStringCreateLtoR(labelEpaisseur[lng], XmSTRING_DEFAULT_CHARSET); 
    XtSetArg(args[i], XmNlabelString, string); i++;
    XtSetArg(args[i], XmNsubMenuId, pgOptionsEpaisseur); i++;
-   XtSetArg(args[i], XmNmenuHistory, pgOptionsEpaisseurItems[epaisseur-1]); i++;
+   XtSetArg(args[i], XmNmenuHistory, pgOptionsEpaisseurItems[0]); i++;
    XtSetArg(args[i], XmNalignment, XmALIGNMENT_BEGINNING); i++;
-   pgEpaisseur = XmCreateOptionMenu(pgRC, "option_menu1", args, i);
+   pgPanneauEpaisseur = XmCreateOptionMenu(pgRC, "option_menu1", args, i);
    XmStringFree(string);   
 
-   XtManageChild(pgEpaisseur);
+   XtManageChild(pgPanneauEpaisseur);
 
 /**
-****
+**
 **/
 
-   pgOptionsMeridiens = (Widget)XmCreatePulldownMenu(pgRC, labelMeridiens[lng], NULL, 0);
+   pgOptionsStyle = (Widget)XmCreatePulldownMenu(pgRC, labelStyle[lng], NULL, 0);
 
-   for (n=0; n < XtNumber(labelOptionsMeridiens[lng]); n++)
-	{
-	i = 0;
-	pgOptionsMeridiensItems[n] = XmCreatePushButtonGadget(pgOptionsMeridiens, labelOptionsMeridiens[lng][n], args, i);
-	XtAddCallback(pgOptionsMeridiensItems[n], XmNactivateCallback, PgMeridiens, (XtPointer) n);
-	}
-
-   XtManageChildren(pgOptionsMeridiensItems, XtNumber(labelOptionsMeridiens[lng]));
-
-   i = 0;
-   string = XmStringCreateLtoR(labelMeridiens[lng], XmSTRING_DEFAULT_CHARSET); 
-   XtSetArg(args[i], XmNlabelString, string); i++;
-   XtSetArg(args[i], XmNsubMenuId, pgOptionsMeridiens); i++;
-   XtSetArg(args[i], XmNmenuHistory, pgOptionsMeridiensItems[!meridiens]); i++;
-   XtSetArg(args[i], XmNalignment, XmALIGNMENT_BEGINNING); i++;
-   pgMeridiens = XmCreateOptionMenu(pgRC, labelMeridiens[lng], args, i);
-   XmStringFree(string);   
-
-   XtManageChild(pgMeridiens);
-
-/**
-****
-**/
-
-   pgOptionsPolitique = (Widget)XmCreatePulldownMenu(pgRC, labelPolitique[lng], NULL, 0);
-
-   for (n=0; n < XtNumber(labelOptionsPolitique[lng]); n++)
-	{
-	i = 0;
-	pgOptionsPolitiqueItems[n] = XmCreatePushButtonGadget(pgOptionsPolitique, labelOptionsPolitique[lng][n], args, i);
-	XtAddCallback(pgOptionsPolitiqueItems[n], XmNactivateCallback, PgPolitique, (XtPointer) n);
-	}
-
-   XtManageChildren(pgOptionsPolitiqueItems, XtNumber(labelOptionsPolitique[lng]));
-
-   i = 0;
-   string = XmStringCreateLtoR(labelPolitique[lng], XmSTRING_DEFAULT_CHARSET); 
-   XtSetArg(args[i], XmNlabelString, string); i++;
-   XtSetArg(args[i], XmNsubMenuId, pgOptionsPolitique); i++;
-   XtSetArg(args[i], XmNmenuHistory, pgOptionsPolitiqueItems[!frontieresPolitiques]); i++;
-   XtSetArg(args[i], XmNalignment, XmALIGNMENT_BEGINNING); i++;
-   pgPolitique = XmCreateOptionMenu(pgRC, labelPolitique[lng], args, i);
-   XmStringFree(string);   
-
-   XtManageChild(pgPolitique);
-
-/**
-****
-**/
-
-   pgOptionsEspaceMeridiens = (Widget)XmCreatePulldownMenu(pgRC, labelEspaceMeridiens[lng], NULL, 0);
-
-   for (n=0; n < XtNumber(labelOptionsEspaceMeridiens[lng]); n++)
-	{
-	i = 0;
-	string = XmStringCreateLtoR(labelOptionsEspaceMeridiens[lng][n], XmSTRING_DEFAULT_CHARSET);
-	XtSetArg(args[i], XmNlabelString, string); i++;
-	pgOptionsEspaceMeridiensItems[n] = XmCreatePushButtonGadget(pgOptionsEspaceMeridiens, labelOptionsEspaceMeridiens[lng][n], args, i);
-	XmStringFree(string);   
-	XtAddCallback(pgOptionsEspaceMeridiensItems[n], XmNactivateCallback, PgEspaceMeridiens, labelOptionsEspaceMeridiens[lng][n]);
-	}
-
-   XtManageChildren(pgOptionsEspaceMeridiensItems, XtNumber(labelOptionsEspaceMeridiens[lng]));
-
-   indItem = 1;
-   for (n=0; n < 7; n++)
-      {
-      sscanf(labelOptionsEspaceMeridiens[0][n],"%f",&ftemp);
-      if (espacementMeridiens == (int)(ftemp+0.5))
-         {
-         indItem = n;
-         }
-      }
-
-
-   i = 0;
-   string = XmStringCreateLtoR(labelEspaceMeridiens[lng], XmSTRING_DEFAULT_CHARSET); 
-   XtSetArg(args[i], XmNlabelString, string); i++;
-   XtSetArg(args[i], XmNsubMenuId, pgOptionsEspaceMeridiens); i++;
-   XtSetArg(args[i], XmNmenuHistory, pgOptionsEspaceMeridiensItems[indItem]); i++;
-   XtSetArg(args[i], XmNalignment, XmALIGNMENT_BEGINNING); i++;
-   pgEspaceMeridiens = XmCreateOptionMenu(pgRC, "option_menu1", args, i);
-   XmStringFree(string);   
-
-   XtManageChild(pgEspaceMeridiens);
+   for (n=0; n < XtNumber(pgLabelOptionsStyle[lng]); n++)
+     {
+     i = 0;
+     string = XmStringCreateLtoR(pgLabelOptionsStyle[n], XmSTRING_DEFAULT_CHARSET); 
+     XtSetArg(args[i], XmNlabelString, string); i++;
+     pgOptionsStyleItems[n] = XmCreatePushButtonGadget(pgOptionsStyle, pgLabelOptionsStyle[n], args, i);
+     XmStringFree(string);   
+     XtAddCallback(pgOptionsStyleItems[n], XmNactivateCallback, (XtCallbackProc)  SetGeoStyleToggle, (XtPointer) n);
+     }
    
+   XtManageChildren(pgOptionsStyleItems, XtNumber(pgLabelOptionsStyle[lng]));
    
+   i = 0;
+   string = XmStringCreateLtoR(labelStyle[lng], XmSTRING_DEFAULT_CHARSET); 
+   XtSetArg(args[i], XmNlabelString, string); i++;
+   XtSetArg(args[i], XmNsubMenuId, pgOptionsStyle); i++;
+   XtSetArg(args[i], XmNmenuHistory, pgOptionsStyleItems[0]); i++;
+   XtSetArg(args[i], XmNalignment, XmALIGNMENT_BEGINNING); i++;
+   pgPanneauStyle = XmCreateOptionMenu(pgRC, "option_menu1", args, i);
+   XmStringFree(string);   
+   
+   XtManageChild(pgPanneauStyle);
+   
+   /**
+    **
+    **/
+   
+   n = 0;
+   pgSeparateur1 =  (Widget) XmCreateSeparator(pgRC, "sep 1", args, (XtPointer) n);
+   XtManageChild(pgSeparateur1);
+
+   
+   XtSetArg (args[0], XmNset, True);
+   for (i=0; i < 8; i++)
+     {
+     if (mapFlags.etat[i] == OUI)
+       {
+       XtSetValues(pgToggleItems[i], args, 1);
+       }
+     }
    
    }
 
+/****
+***********************************************************************
+***********************************************************************
+****/
+
+
+EcrGeoAtr(fichierDemarrage)
+FILE *fichierDemarrage;
+{
+   char tableau[32];
+   char ligne[80];
+   char item[32],valeur[32];
+   int i,indSuf;
+
+   /*
+   Arg  args[10];
+   XmString label;
+   XmFontList fontListe;
+   char *geom;
+   Window root;
+   Position x,y;
+   Display *disp;
+   Window win;
+   strcpy(tableau, "contours");
+   
+   strcpy(item,"geometrie");
+   if (pgTopLevel)
+      {
+      disp = XtDisplay(pgTopLevel);
+      win  = XtWindow(pgTopLevel);
+      i = 0;
+      XtSetArg(args[i], XmNx, &x); i++;
+      XtSetArg(args[i], XmNy, &y); i++;
+      XtGetValues(pgTopLevel, args, i);
+      
+      sprintf(valeur,"%+d%+d",x,y);
+      sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
+      fprintf(fichierDemarrage,"%s\n",ligne);
+      }
+   else
+      {
+      if (strlen(panneauContoursGeometrie) > 0)
+         {
+         strcpy(valeur,panneauContoursGeometrie);
+         sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
+         fprintf(fichierDemarrage,"%s\n",ligne);
+         }
+      }
+
+   for (i=0; i < 34; i++)
+      {
+      switch (i)
+	 {
+	 case FOND:
+	 indSuf =0;
+	 break;
+
+	 case GRID:
+	 indSuf = 1;
+	 break;
+
+	 default:
+	 indSuf = 2;
+	 break;
+	 }
+	 
+      strcpy(item,"couleur_");
+      strcat(item,suffixes[0][indSuf]);
+      if (i < 32)
+	 {
+	 sprintf(item,"%s_%02d",item,i+1);
+	 }
+      strcpy(valeur,colors[0][mapFlags.[i].couleurFore]);
+      sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
+      fprintf(fichierDemarrage,"%s\n",ligne);
+
+      strcpy(item,"epaisseur_");
+      strcat(item,suffixes[0][indSuf]);
+      if (i < 32)
+	 {
+	 sprintf(item,"%s_%02d",item,i+1);
+	 }
+      sprintf(valeur,"%2d",mapFlags.[i].epaisseur);
+      sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
+      fprintf(fichierDemarrage,"%s\n",ligne);
+
+      strcpy(item,"style_");
+      strcat(item,suffixes[0][indSuf]);
+      if (i < 32)
+	 {
+	 sprintf(item,"%s_%02d",item,i+1);
+	 }
+      if (mapFlags.[i].codeDash > 0)
+         sprintf(valeur,"%2d",mapFlags.[i].style+3*(mapFlags.[i].codeDash-1));
+      else
+         sprintf(valeur,"%2d",mapFlags.[i].style);
+
+      sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
+      fprintf(fichierDemarrage,"%s\n",ligne);
+      }
+   
+   */
+   }
+
+
+/****
+***********************************************************************
+***********************************************************************
+****/
+
+PGSplitItem(attribut, ind, item)   
+int *attribut;
+int *ind;
+char *item;
+{
+   
+   }
 
 ActiverPanneauGeo()
 {
@@ -388,20 +696,23 @@ DesactiverPanneauGeo()
    }
 
 
-static XtCallbackProc PgOk(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
-{
-   pgSelectionTerminee = TRUE;
-   DesactiverPanneauGeo();
-   }
-
-static XtCallbackProc PgAfficher(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
-{
-   RedessinerFenetreAffichage();
-   }
+/*
+  static XtCallbackProc PgOk(w, unused1, unused2)
+  Widget w;
+  caddr_t unused1, unused2;
+  {
+  pgSelectionTerminee = TRUE;
+  DesactiverPanneauGeo();
+  }
+  
+  static XtCallbackProc PgAfficher(w, unused1, unused2)
+  Widget w;
+  caddr_t unused1, unused2;
+  {
+  RedessinerFenetreAffichage();
+  }
+  
+*/
 
 static XtCallbackProc PgResolution(w, unused1, unused2)
 Widget w;
@@ -420,60 +731,6 @@ caddr_t unused1, unused2;
    PgSetResolution((int)(100.0*res+0.5));   
    }
 
-static XtCallbackProc PgCouleur(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
-{
-  int couleur, r, g, b;
-  Pixel back, fore; 
-  Arg args[2];
-
-  int indmin, indmax;
-
-  c_wglgetcolrange(&indmin, &indmax);
-
-  XtSetArg(args[0], XmNbackground, &back);
-  XtSetArg(args[1], XmNforeground, &fore);
-  XtGetValues(w, args, 2);
-  
-  XtSetArg(args[0], XmNbackground, back);
-  XtSetArg(args[1], XmNforeground, fore);
-  XtSetValues(pgCouleur, args, 2);
-  
-  if (0 == strcmp(XtName(w),"gris") || 0 == strcmp(XtName(w), "gray"))
-     {
-     if (8 <= c_wglgpl())
-        {
-	c_wglmco(indmax-OFFSET_GEO, 100, 100, 100);
-        couleurGeo = GRIS;
-        }
-     else
-	c_wglmco(15, 128, 128, 128);
-     return;
-     }
-  
-  
-  couleur = 0;
-  while (0 != strcmp(XtName(w), XtName(pgOptionsCouleurItems[couleur])))
-     couleur++;
-  
-  couleurGeo = couleur;
-#ifdef GL_WGL
-  if (8 <= c_wglgpl())
-     {
-     c_wglgco(couleur, &r, &g, &b);
-     c_wglmco(indmax-OFFSET_GEO, r, g, b);
-     }
-  else
-     {
-     c_gmpopti("GRID_COLOR", couleur);
-     c_gmpopti("OUTLINE_COLOR", couleur);
-     }
-#else
-  PgSetCouleurGeographie(couleur);
-#endif
-  }
-
 static XtCallbackProc PgMeridiens(w, unused1, unused2)
 Widget w;
 caddr_t unused1, unused2;
@@ -490,7 +747,7 @@ caddr_t unused1, unused2;
       }
    }
 
-static XtCallbackProc PgPolitique(w, unused1, unused2)
+static XtCallbackProc PgActive(w, unused1, unused2)
 Widget w;
 caddr_t unused1, unused2;
 {
@@ -498,11 +755,11 @@ caddr_t unused1, unused2;
    switch ((int)unused1)
       {
       case 0:
-      PgSetFrontieresPolitiques(OUI);
+      PgSetFrontieresActives(OUI);
       break;
       
       case 1:
-      PgSetFrontieresPolitiques(NON);
+      PgSetFrontieresActives(NON);
       break;
       }
    }
@@ -532,162 +789,10 @@ f77name(c_sgeoatr)(item,valeur,lenItem,lenValeur)
 char item[],valeur[];
 int lenItem,lenValeur;
 {
-   Arg args[10];
-   int i,j;
-   int indItem;
-   int found;
-   float res;
-   char tmpItem1[32],tmpItem2[32];
 
-
-   item[lenItem-1] = '\0';
-   valeur[lenValeur-1] = '\0';
-   nettoyer(item);
-   nettoyer(valeur);
-
-   if (0 == strcmp(item,"geometrie") || 0 == strcmp(item,"geometry"))
-      {
-      strcpy(panneauGeoGeometrie,valeur);
-      return;
-      }
-
-   if (0 == strcmp(item, "resolution"))
-      {
-      sscanf(valeur,"%f",&res);
-      PgSetResolution( (int) (100.0 * res));
-      return;
-      }
-      
-   if (0 == strcmp(item, "epaisseur"))
-      {
-      PgSetEpaisseur(atoi(valeur));
-      return;
-      }
-      
-   if (0 == strcmp(item, "frontieres_politiques"))
-      {
-      if (0 == strcmp(valeur,"on"))
-         {
-         PgSetFrontieresPolitiques(OUI);
-         }
-      else
-         {
-         PgSetFrontieresPolitiques(NON);
-         }
-      return;
-      }
-      
-   if (0 == strcmp(item, "meridiens"))
-      {
-      if (0 == strcmp(valeur,"on"))
-         {
-         PgSetMeridiens(OUI);
-         }
-      else
-         {
-         PgSetMeridiens(NON);
-         }
-      return;
-      }
-      
-   if (0 == strcmp(item, "espacement_meridiens"))
-      {
-      PgSetEspacementMeridiens(atoi(valeur));
-      return;
-      }
-      
-   if (0 == strcmp(item, "couleur"))
-      {
-      for (j=0; j < 9; j++)
-         {
-         if (0 == strcmp(valeur,labelOptionsCouleur[0][j]) || 0 == strcmp(valeur,labelOptionsCouleur[1][j]))
-            {
-            PgSetCouleurGeographie(j);
-            }
-         }
-      }
    }
       
          
-
-EcrGeoAtr(fichierDemarrage)
-FILE *fichierDemarrage;
-{
-   char tableau[32];
-   char ligne[80];
-   char item[32],valeur[32];
-   int i;
-
-   Arg  args[10];
-   char *geom;
-   Window root;
-   Position x,y;
-   Display *disp;
-   Window win;
-   strcpy(tableau, "geographie");
-   
-   strcpy(item,"geometrie");
-   if (pgTopLevel)
-      {
-      disp = XtDisplay(pgTopLevel);
-      win  = XtWindow(pgTopLevel);
-      i = 0;
-      XtSetArg(args[i], XmNx, &x); i++;
-      XtSetArg(args[i], XmNy, &y); i++;
-      XtGetValues(pgTopLevel, args, i);
-      
-      sprintf(valeur,"%+d%+d",x,y);
-      sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
-      fprintf(fichierDemarrage,"%s\n",ligne);
-      }
-   else
-      {
-      if (strlen(panneauGeoGeometrie) > 0)
-         {
-         strcpy(valeur,panneauGeoGeometrie);
-         sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
-         fprintf(fichierDemarrage,"%s\n",ligne);
-         }
-      }
-
-   strcpy(item,"couleur");
-   strcpy(valeur,labelOptionsCouleur[0][couleurGeo]);
-   sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
-   fprintf(fichierDemarrage,"%s\n",ligne);
-   
-   strcpy(item,"epaisseur");
-   sprintf(valeur,"%2d",epaisseur);
-   sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
-   fprintf(fichierDemarrage,"%s\n",ligne);
-   
-   strcpy(item,"frontieres_politiques");
-   if (frontieresPolitiques == OUI)
-      strcpy(valeur, "on");
-   else
-      strcpy(valeur,"off");
-   sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
-   fprintf(fichierDemarrage,"%s\n",ligne);
-   
-   
-   strcpy(item,"meridiens");
-   if (meridiens  == OUI)
-      strcpy(valeur, "on");
-   else
-      strcpy(valeur,"off");
-   sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
-   fprintf(fichierDemarrage,"%s\n",ligne);
-   
-   
-   strcpy(item,"resolution");
-   sprintf(valeur,"%6.3f",(float)(resolution*0.01));
-   sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
-   fprintf(fichierDemarrage,"%s\n",ligne);
-
-   strcpy(item,"espacement_meridiens");
-   sprintf(valeur,"%6.0f",(float)espacementMeridiens);
-   sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
-   fprintf(fichierDemarrage,"%s\n",ligne);
-   }
 
 
 PgSetMeridiens(valeur)
@@ -705,19 +810,12 @@ int valeur;
 
    }
 
-PgSetFrontieresPolitiques(valeur)
+PgSetFrontieresActives(valeur)
 int valeur;
 {
    char valeurStr[8];
 
-   frontieresPolitiques = valeur;
-
-   if (frontieresPolitiques == OUI)
-      strcpy(valeurStr,"GEOPOL");
-   else
-      strcpy(valeurStr,"GEO");
-      
-   c_gmpopts("OUTLINE", valeurStr);
+   frontieresActives = valeur;
 
    }
 
@@ -737,30 +835,10 @@ int valeur;
    c_gmpopti("GRID", espacementMeridiens);
    }
 
-PgSetCouleurGeographie(valeur)
-int valeur;
-{
-   int couleur, r, g, b;
-   int indmin, indmax;
-
-   couleurGeo = valeur;
-   c_wglgetcolrange(&indmin, &indmax);
-   c_wglgco(couleurGeo, &r, &g, &b);
-   c_wglmco(indmax-OFFSET_GEO, r, g, b);
-   c_gmpopti("GRID_COLOR", indmax-OFFSET_GEO);
-   c_gmpopti("OUTLINE_COLOR", indmax-OFFSET_GEO);
-   }
-
 PgSetResolution(valeur)
 int valeur;
 {
    resolution = valeur;
    c_gmpopti("RESOLUTION",resolution);
    }
-
-
-
-
-
-
 

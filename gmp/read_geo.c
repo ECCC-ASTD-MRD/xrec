@@ -27,70 +27,7 @@ extern GeoMapOptionsStruct mapOptions;
 static ListePointsStruct *gdb_liste;
 static int gdb_nbItems;
 
- extern void
- get_coastline(int type, int n,
-	       float lat0, float lon0, float lat1, float lon1,
-	       float *ll )
-{
-  float pts[24000];
-  char *tmp;
-  
-  int res;
-  int npts,i, j, nbSeg;
-  float xmin, xmax;
-  float ymin, ymax;
-  float latMin, latMax, lonMin, lonMax;
-  int oldNbItems = 0;
-  
-  latMin = lat0;
-  latMax = lat1;
-  lonMin = lon0;
-  lonMax = lon1;
-  if (lonMin < 0.0) lonMin += 360.0;
-  if (lonMax < 0.0) lonMax += 360.0;
-  
-  /*  for(i=0;i<n;++i) 
-      {
-      printf("%i (%f %f)\n",i,*ll++,*ll++);
-      }
-  */
-  res = gmp_perim(&xmin, &ymin, &xmax, &ymax, &latMin, &lonMin, &latMax, &lonMax, &nbSeg);
-  /*   printf("%d [%f %f], [%f %f] %d\n", res, latMin, lonMin, latMax, lonMax, nbSeg); */
-  if (res != 0)
-    {
-    if (n > 12000) n=12000;
-    for (i=0; i < 2*n; i+=2)
-      {
-      pts[i] = ll[i];
-      pts[i+1]=ll[i+1];
-      }
-    npts = 2*n;
-    
-    /*     gmp_trim(pts, &npts,mapOptions.resolution); */
-    gmp_convert(gdb_liste, &gdb_nbItems, pts, npts, xmin, ymin, xmax, ymax, nbSeg);
-    
-    for (i=oldNbItems; i < gdb_nbItems; i++)
-      {
-      switch(mapOptions.styleGeo)
-	{
-	case LIGNE:
-	case TIRET:
-	  TracerVecteurs(&(gdb_liste[i]));
-	  break;
-	  
-	case POINT:
-	  TracerPoints(&(gdb_liste[i]));
-	  break;
-	}
-      }
-    NewGeoItem(&gdb_liste,&gdb_nbItems);
-    oldNbItems = gdb_nbItems-1;
-  }
-}
-
-
-
-LireFichierGeographie(ListePointsStruct *(*liste), int *nbItems, char *nomFichier[], int nbFichiers)
+lire_geo(ListePointsStruct *(*liste), int *nbItems, char *nomFichier[], int nbFichiers)
 {
    float pts[200];
    int deuxCents = 200;

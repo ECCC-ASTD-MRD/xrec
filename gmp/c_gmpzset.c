@@ -113,8 +113,8 @@ int c_gmpzset(char grtyp, int ni, int nj,  int ig1, int ig2, int ig3, int ig4, c
    res = ComparerMapInfos(oldMapInfo, mapInfo);
    if (res == PAS_PAREIL)
       {
-      mapFlags.vecsContinentsLus = NON;
-      mapFlags.vecsMeridiensLus  = NON;
+      mapFlags.lu[CONTINENTS] = NON;
+      mapFlags.lu[LATLON] = NON;
       }
    
    CopierMapInfos(&oldMapInfo, &mapInfo);

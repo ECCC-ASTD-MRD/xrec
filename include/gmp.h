@@ -22,6 +22,9 @@
 #define  PAREIL                 1
 #define  PAS_PAREIL             0
 
+#define  RMN_GEO                0
+#define  GDB_GEO                1
+
 #define  ROUND(x) (int)(x+0.5)
 #define  INT(x)   (int)(x)
 #ifndef FALSE
@@ -53,12 +56,31 @@ typedef struct
   float *lat, *lon, *x, *y;
 } GeoMapInfoStruct;
 
+#define CONTINENTS   0
+#define LATLON       1
+#define PAYS         2 
+#define PROVINCES    3
+#define VILLES       4
+#define LACS         5
+#define RIVIERES     6
+#define ROUTES       7 
+#define RAILS        8
+#define UTILITES     9
+#define CANAUX      10
+#define TOPOGRAPHIE 11
+#define BATHYMETRIE 12 
+#define TERRAIN     13
+
+#define NMAP_FLAGS 16
+
 typedef struct
 {
-  int continents;
-  int meridiens;
-  int vecsContinentsLus;
-  int vecsMeridiensLus;
+  int etat[NMAP_FLAGS];
+  int epaisseur[NMAP_FLAGS];
+  int style[NMAP_FLAGS];
+  int couleur[NMAP_FLAGS][3];
+  int indCouleur[NMAP_FLAGS];
+  int lu[NMAP_FLAGS];
   int typeValide;
   int clipNecessaire;
   int verifStatutNecessaire;

@@ -28,6 +28,9 @@ void AfficherVecteurs(ListePointsStruct *liste, int nbItems, int style, int coul
    int i, linewidth;
    int largeurFenetre, hauteurFenetre;
 
+   c_wgllwi(epaisseur);
+   c_wglcol(couleur);
+   c_wglsld(style);
    switch(mapFlags.verifStatutNecessaire)
       {
       case OUI:

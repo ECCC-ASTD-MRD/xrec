@@ -78,59 +78,61 @@ int gmp_convert(ListePointsStruct *liste, int *nbItems, float pts[], int nbPoint
    f77name(aminmax)(&xmin, &xmax, x, &npts, &un);
    f77name(aminmax)(&ymin, &ymax, y, &npts, &un);
    
-   if (npts > 0)
+   f77name(aminmax)(&liste[currentItem].xmin,&liste[currentItem].xmax,x,&npts,&un);
+   f77name(aminmax)(&liste[currentItem].ymin,&liste[currentItem].ymax,y,&npts,&un);
+   if (npts <= 0)
+     {
+     fprintf(stderr,"<gmp_convert: npts negatif! : %d\n", npts);
+     return;
+     }
+   liste[currentItem].npts = npts;
+   liste[currentItem].statutPRGrille = 1;
+   liste[currentItem].pointsGeo = (PointGeoStruct *) calloc((npts), sizeof(PointGeoStruct));
+   for (n=0; n < npts; n++)
+     {
+     liste[currentItem].pointsGeo[n].x = x[n];
+     liste[currentItem].pointsGeo[n].y = y[n];
+     }
+}
+   /* 
+      if (npts > 0)
       {
       switch(type)
-         {
-         case 'N':
-         case 'S':
-	   detected = 0;
-         break;
-         
-         default:
-	   n = 1;
-	   detected = 0;
-	   while (n < npts && !detected)
-	     {
-	     if (fabs(x[n] - x[n-1]) > (0.85*mapInfo.ni))
-	       {
+      {
+      case 'N':
+      case 'S':
+      detected = 0;
+      break;
+      
+      default:
+      n = 1;
+      detected = 0;
+      while (n < npts && !detected)
+      {
+      if (fabs(x[n] - x[n-1]) > (0.85*mapInfo.ni))
+      {
 	       detected = 1;
 	       }
-	     n++;
-
-	     }
-	   break;
-         }
-      
-      if (!detected)
-	{
-	f77name(aminmax)(&liste[currentItem].xmin,&liste[currentItem].xmax,x,&npts,&un);
-	f77name(aminmax)(&liste[currentItem].ymin,&liste[currentItem].ymax,y,&npts,&un);
-	if (npts <= 0)
-	  {
-	  fprintf(stderr,"<gmp_convert: npts negatif! : %d\n", npts);
-	  return;
-	  }
-	liste[currentItem].npts = npts;
-	liste[currentItem].statutPRGrille = 1;
-	liste[currentItem].pointsGeo = (PointGeoStruct *) calloc((npts), sizeof(PointGeoStruct));
-	for (n=0; n < npts; n++)
-	  {
-	  liste[currentItem].pointsGeo[n].x = x[n];
-	  liste[currentItem].pointsGeo[n].y = y[n];
-	  }
-	}
-      else
-	{
-	liste[currentItem].pointsGeo = (PointGeoStruct *) calloc((npts), sizeof(PointGeoStruct));
-	liste[currentItem].xmin = 1.0;
-	liste[currentItem].xmax = 1.0;
-	liste[currentItem].ymin = 1.0;
-	liste[currentItem].ymax = 1.0;
-	liste[currentItem].npts = 1;
-	}
-      }
-   }
-   
-
+	       n++;
+	       
+	       }
+	       break;
+	       }
+	       
+	       if (!detected)
+	       {
+	       }
+	       else
+	       {
+	       liste[currentItem].pointsGeo = (PointGeoStruct *) calloc((npts), sizeof(PointGeoStruct));
+	       liste[currentItem].xmin = 1.0;
+	       liste[currentItem].xmax = 1.0;
+	       liste[currentItem].ymin = 1.0;
+	       liste[currentItem].ymax = 1.0;
+	       liste[currentItem].npts = 1;
+	       }
+	       }
+	       }
+	       
+   */
 

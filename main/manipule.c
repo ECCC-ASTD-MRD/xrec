@@ -97,7 +97,7 @@ int indChamp;
          }
       }
    
-   if (xc.statuts[TOPOGRAPHIE])
+   if (xc.statuts[TOPO])
       {
       if (champ->coupe.montagnes == NULL)
 	 {
@@ -105,7 +105,7 @@ int indChamp;
 	 }
       }
    
-   if (op != NO_OP || xc.statuts[TOPOGRAPHIE])
+   if (op != NO_OP || xc.statuts[TOPO])
       {
       if (op != NO_OP)
 	 {
@@ -178,7 +178,7 @@ int indChamp;
 	 }
       }
    
-   if (champ->coupe.montagnes && xc.statuts[TOPOGRAPHIE])
+   if (champ->coupe.montagnes && xc.statuts[TOPO])
       {
       if (champ->ip1 > 0 && champ->ip1 < 2000) 
 	{

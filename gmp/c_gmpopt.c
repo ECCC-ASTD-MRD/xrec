@@ -44,8 +44,8 @@ int c_gmpopts(char *option, char *valeur)
 	mapOptions.fichierGeographie[0] = GEOGRHR;
 	mapOptions.fichierGeographie[1] = NULL;
 	mapOptions.nbFichiersGeographie = 1;
-	mapFlags.vecsContinentsLus = NON;
-	mapFlags.vecsMeridiensLus = NON;
+	mapFlags.lu[CONTINENTS] = NON;
+	mapFlags.lu[LATLON] = NON;
 	}
       
       if (0 == strcmp(valeur, "GEOPOL"))
@@ -53,8 +53,8 @@ int c_gmpopts(char *option, char *valeur)
 	mapOptions.fichierGeographie[0] = GEOGRHR;
 	mapOptions.fichierGeographie[1] = GEOPOHR;
 	mapOptions.nbFichiersGeographie = 2;
-	mapFlags.vecsContinentsLus = NON;
-	mapFlags.vecsMeridiensLus = NON;
+	mapFlags.lu[CONTINENTS] = NON;
+	mapFlags.lu[LATLON] = NON;
 	}
       }
     else
@@ -64,8 +64,8 @@ int c_gmpopts(char *option, char *valeur)
 	mapOptions.fichierGeographie[0] = GEOGRLR;
 	mapOptions.fichierGeographie[1] = NULL;
 	mapOptions.nbFichiersGeographie = 1;
-	mapFlags.vecsContinentsLus = NON;
-	mapFlags.vecsMeridiensLus = NON;
+	mapFlags.lu[CONTINENTS] = NON;
+	mapFlags.lu[LATLON] = NON;
 	}
       
       if (0 == strcmp(valeur, "GEOPOL"))
@@ -73,8 +73,8 @@ int c_gmpopts(char *option, char *valeur)
 	mapOptions.fichierGeographie[0] = GEOPOLR;
 	mapOptions.fichierGeographie[1] = NULL;
 	mapOptions.nbFichiersGeographie = 1;
-	mapFlags.vecsContinentsLus = NON;
-	mapFlags.vecsMeridiensLus = NON;
+	mapFlags.lu[CONTINENTS] = NON;
+	mapFlags.lu[LATLON] = NON;
 	}
       }
     
@@ -84,9 +84,9 @@ int c_gmpopts(char *option, char *valeur)
   if (0 == strcmp(option, "MERIDIENS"))
     {
     if (0 == strcmp(valeur, "OUI"))
-      mapFlags.meridiens = OUI;
+      mapFlags.etat[LATLON] = OUI;
     else
-      mapFlags.meridiens = NON;
+      mapFlags.etat[LATLON] = NON;
     return 1;
     }
   
@@ -178,18 +178,18 @@ int c_gmpopti(char *option, wordint valeur)
   if (0 == strcmp(option, "GRID"))
     {
     mapOptions.intervalleMeridiens = (float) (int) valeur;
-    mapFlags.vecsMeridiensLus = NON;
-    mapFlags.vecsContinentsLus= NON;
+    mapFlags.lu[LATLON]= NON;
+    mapFlags.lu[CONTINENTS]= NON;
     if (mapOptions.intervalleMeridiens == 0.0)
-         mapFlags.meridiens = NON;
+         mapFlags.etat[LATLON] = NON;
     return 1;
     }
   
   if (0 == strcmp(option, "RESOLUTION"))
     {
     mapOptions.resolution = (float)(0.01 * (int)valeur);
-    mapFlags.vecsContinentsLus = NON;
-    mapFlags.vecsMeridiensLus = NON;
+    mapFlags.lu[CONTINENTS] = NON;
+    mapFlags.lu[LATLON] = NON;
     if ((0 == strcmp(mapOptions.fichierGeographie[0], GEOPOLR)) || mapOptions.fichierGeographie[1])
       c_gmpopts("OUTLINE", "GEOPOL");
     else

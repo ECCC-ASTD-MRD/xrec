@@ -25,23 +25,25 @@
 #include <gmp.h>
 #include <math.h>
 
-GeoMapInfoStruct     mapInfo = { ' ', -1, -1, -1, -1, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0 };
-GeoMapInfoStruct  oldMapInfo = { ' ', -1, -1, -1, -1, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0 };
-GeoMapInfoStruct nullMapInfo = { ' ', -1, -1, -1, -1, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0 };
+extern GeoMapInfoStruct     mapInfo;
+extern GeoMapInfoStruct  oldMapInfo;
+extern GeoMapInfoStruct nullMapInfo;
 
-GeoMapOptionsStruct mapOptions = { GEOPOLR, NULL, 1, 10.0, NON, OUI, LIGNE,7,1, LIGNE,7,1,0,2,7,1, 0.01 };
+extern GeoMapOptionsStruct mapOptions;
 
-GeoMapFlagsStruct   mapFlags = { OUI, OUI, NON, NON, NON };
-ListePointsStruct *vecsContinents = NULL;
-ListePointsStruct *vecsMeridiens  = NULL;
+extern GeoMapFlagsStruct   mapFlags;
+extern ListePointsStruct *gmp_vecs[NMAP_FLAGS];
 
-int nbVecsContinents = 0;
-int nbVecsMeridiens = 0;
-int gmpFlagInterrupt = TRUE;
+
+extern int gmp_nbVecs[];
+extern int nbVecsContinents;
+extern int nbVecsMeridiens;
+extern int gmpFlagInterrupt;
 
 float gdxmin, gdymin, gdxmax, gdymax;
 float gmp_xmin, gmp_ymin, gmp_xmax, gmp_ymax;
 float old_gmp_xmin, old_gmp_ymin, old_gmp_xmax, old_gmp_ymax;
+int   geography_source = -1;
 
 int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4);
 
@@ -62,6 +64,7 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
    int gdid,res;
    char lgrtyp[2];
 
+   c_gmpinit();
 
    iig1 = ig1; 
    iig2 = ig2; 
@@ -216,8 +219,8 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
    res = ComparerMapInfos(oldMapInfo, mapInfo);
    if (res == PAS_PAREIL)
       {
-      mapFlags.vecsContinentsLus = NON;
-      mapFlags.vecsMeridiensLus  = NON;
+      mapFlags.lu[CONTINENTS] = NON;
+      mapFlags.lu[LATLON] = NON;
       }
    
    CopierMapInfos(&oldMapInfo, &mapInfo);

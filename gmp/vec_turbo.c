@@ -28,7 +28,8 @@ TracerVecteursModeTurbo(ListePointsStruct *itemListe)
    switch (itemListe->statutPRGrille)
       {
       case DEDANS:
-      c_wglplx(itemListe->npts, itemListe->pointsGeo);
+	if (itemListe->npts > 0)
+	  c_wglplx(itemListe->npts, itemListe->pointsGeo);
       break;
       
       case DEHORS:

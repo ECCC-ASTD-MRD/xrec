@@ -2155,7 +2155,7 @@ XtPointer unused1, unused2;
       case ZOOM_LOCAL:
       break;
 
-      case TOPOGRAPHIE:
+      case TOPO:
       break;
 
       default:
@@ -2785,24 +2785,26 @@ int   *iun;
    PgSetResolution(50);
    PgSetMeridiens(OUI);
    PgSetEspacementMeridiens(10);
-   PgSetFrontieresPolitiques(OUI);
+   PgSetFrontieresActives(OUI);
    c_wglgetcolrange(&indMin, &indMax);
-   if (8 <= c_wglgpl())
-      {
-      PgSetCouleurGeographie(GRIS);
-      }
-   else
-      {
-      if (4 <= c_wglgpl())
-	 {
+   /*
+     if (8 <= c_wglgpl())
+     {
+     PgSetCouleurGeographie(GRIS);
+     }
+     else
+     {
+     if (4 <= c_wglgpl())
+     {
          PgSetCouleurGeographie(15);
 	 }
-      else
+	 else
 	 {
 	 PgSetCouleurGeographie(NOIR);
 	 }
-      }
-
+	 }
+	 
+   */
    InitDictionnaire();
    if (4 > c_wglgpl())
       {
@@ -3615,7 +3617,7 @@ char item[],valeur[];
 
    if (0 == strcmp(item,"topographie") || 0 == strcmp(item,"topography"))
       {
-      indItem = TOPOGRAPHIE;
+      indItem = TOPO;
       }
 
    if (0 == strcmp(item,"zoom_local") || 0 == strcmp(item,"local_zoom"))
@@ -3712,7 +3714,7 @@ FILE *fichierDemarrage;
          strcpy(item,"barbules");
          break;
 
-	 case TOPOGRAPHIE:
+	 case TOPO:
 	 strcpy(item,"topographie");
 	 break;
 

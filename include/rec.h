@@ -77,7 +77,7 @@
 #define LEGENDE_COULEUR       8
 #define LISSAGE               9
 #define ZOOM_LOCAL           10 
-#define TOPOGRAPHIE          11
+#define TOPO          11
 #define AFF_AUTOMATIQUE      12
 #define BARBULES             13
 #define AXE_X                14

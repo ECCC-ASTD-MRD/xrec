@@ -1400,7 +1400,7 @@ CoupeMgrGetSensEchelle()
 
 CoupeMgrGetToggleTopo()
 {
-   return xc.statuts[TOPOGRAPHIE];
+   return xc.statuts[TOPO];
    
    }
 

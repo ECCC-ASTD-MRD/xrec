@@ -21,6 +21,7 @@
 #include <wgl.h>
 #include <gmp.h>
 #include <gdb.h>
+#include <rec.h>
 
 extern float gdxmin, gdymin, gdxmax, gdymax;
 extern float gmp_xmin, gmp_ymin, gmp_xmax, gmp_ymax;
@@ -33,9 +34,12 @@ extern GeoMapOptionsStruct mapOptions;
 
 extern ListePointsStruct *vecsContinents;
 extern ListePointsStruct *vecsMeridiens;
+extern ListePointsStruct *gmp_vecs[];
+extern int gmp_nbVecs[];
 extern int nbVecsContinents;
 extern int nbVecsMeridiens;
 extern int gmpFlagInterrupt;
+extern _XContour xc;
 
 void c_gmpdrw();
 
@@ -46,76 +50,57 @@ f77name(gmpdrw)()
 
 void c_gmpdrw()
 {
-   if (mapFlags.typeValide == NON)
-      return;
-
-
-   gdxmin = 1.0;
-   gdxmax = (float) mapInfo.ni;
-   gdymin = 1.0;
-   gdymax = (float) mapInfo.nj;
-   c_xy2fxfy(&gdxmin, &gdymin, gdxmin, gdymin);
-   c_xy2fxfy(&gdxmax, &gdymax, gdxmax, gdymax);
-
-   c_wglgvx(&gmp_xmin, &gmp_ymin, &gmp_xmax, &gmp_ymax);
-   if (gmp_xmin < gdxmin)
-      gmp_xmin = gdxmin;
-   
-   if (gmp_xmax > gdxmax)
-      gmp_xmax = gdxmax;
-		     
-   if (gmp_ymin < gdymin)
-      gmp_ymin = gdymin;
-   
-   if (gmp_ymax > gdymax)
-      gmp_ymax = gdymax;
-
-/*    c_wglcmx(xmin, ymin, xmax, ymax); */
-   if (gmp_xmin == old_gmp_xmin && gmp_xmax == old_gmp_xmax && gmp_ymin == old_gmp_ymin && gmp_ymax == old_gmp_ymax)
-      mapFlags.verifStatutNecessaire = NON;
-   else
+  int i;
+  if (mapFlags.typeValide == NON)
+    return;
+  
+  
+  c_wglgvx(&gmp_xmin, &gmp_ymin, &gmp_xmax, &gmp_ymax);
+  if (mapFlags.verifStatutNecessaire == NON && gmp_xmin == old_gmp_xmin && gmp_xmax == old_gmp_xmax && gmp_ymin == old_gmp_ymin && gmp_ymax == old_gmp_ymax)
+    mapFlags.verifStatutNecessaire = NON;
+  else
       mapFlags.verifStatutNecessaire = OUI;
-   
-   if (mapFlags.continents == OUI)
+  
+  if (mapFlags.verifStatutNecessaire == OUI)
+    {
+    LibererCarte(&(gmp_vecs[CONTINENTS]), &gmp_nbVecs[CONTINENTS]);
+    LibererCarte(&(gmp_vecs[PAYS]), &gmp_nbVecs[PAYS]);
+    LibererCarte(&(gmp_vecs[PROVINCES]), &gmp_nbVecs[PROVINCES]);
+    LibererCarte(&(gmp_vecs[RIVIERES]), &gmp_nbVecs[RIVIERES]);
+    lire_geo();
+    }
+  else
+    {
+    for (i=0; i < 8; i++)
       {
-      ActiverParamsLigne(mapOptions.styleGeo, mapOptions.couleurGeo, mapOptions.epaisseurGeo);
-      if (mapFlags.vecsContinentsLus == NON)
-         {
-         gmp_xmin = gdxmin;
-         gmp_xmax = gdxmax;
-         gmp_ymin = gdymin;
-         gmp_ymax = gdymax;
-         LibererCarte(&vecsContinents, &nbVecsContinents);
-         LireFichierGeographie(&vecsContinents, &nbVecsContinents, mapOptions.fichierGeographie, mapOptions.nbFichiersGeographie);
-         mapFlags.vecsContinentsLus = OUI;
-         }
-      else
-         AfficherVecteurs(vecsContinents, nbVecsContinents, mapOptions.styleGeo, mapOptions.couleurGeo, mapOptions.epaisseurGeo);
+      if (mapFlags.etat[i] == OUI)
+	{
+	AfficherVecteurs(gmp_vecs[i], gmp_nbVecs[i], mapFlags.style[i], mapFlags.indCouleur[i], mapFlags.epaisseur[i]);
+	}
       }
-   
-
-   if (mapFlags.meridiens == OUI)
+    }
+  
+  
+  if (mapFlags.etat[LATLON] == OUI)
+    {
+    ActiverParamsLigne(mapFlags.style[LATLON], mapFlags.indCouleur[LATLON], 
+		       mapFlags.epaisseur[LATLON]);
+    if (mapFlags.lu[LATLON] == NON)
       {
-      ActiverParamsLigne(mapOptions.styleMer, mapOptions.couleurMer, mapOptions.epaisseurMer);
-      if (mapFlags.vecsMeridiensLus == NON)
-         {
-         gmp_xmin = gdxmin;
-         gmp_xmax = gdxmax;
-         gmp_ymin = gdymin;
-         gmp_ymax = gdymax;
-         LibererCarte(&vecsMeridiens, &nbVecsMeridiens);
-         LireLatLon(&vecsMeridiens, &nbVecsMeridiens);
-         mapFlags.vecsMeridiensLus = OUI;
-         }
-      else
-         AfficherVecteurs(vecsMeridiens, nbVecsMeridiens, 
-                          mapOptions.styleMer, mapOptions.couleurMer, mapOptions.epaisseurMer);
+      LibererCarte(&(gmp_vecs[LATLON]), &gmp_nbVecs[LATLON]);
+      LireLatLon(&(gmp_vecs[LATLON]), &gmp_nbVecs[LATLON]);
+      mapFlags.lu[LATLON]= OUI;
       }
-   
-   old_gmp_xmin = gmp_xmin;
-   old_gmp_xmax = gmp_xmax;
-   old_gmp_ymin = gmp_ymin;
-   old_gmp_ymax = gmp_ymax;
-   }
+    else
+      AfficherVecteurs(gmp_vecs[LATLON], gmp_nbVecs[LATLON], 
+		       mapFlags.style[LATLON], mapFlags.indCouleur[LATLON], mapFlags.epaisseur[LATLON]);
+    }
+  
+  old_gmp_xmin = gmp_xmin;
+  old_gmp_xmax = gmp_xmax;
+  old_gmp_ymin = gmp_ymin;
+  old_gmp_ymax = gmp_ymax;
+  mapFlags.verifStatutNecessaire = NON;
+}
 
 
