@@ -35,7 +35,7 @@ x_wglpli(int nbPoints, int polygone[][2])
       xptr = p;
       }
 
-   c_wglfshlb();
+   x_wglfshlb();
    for (i=0; i < nbPoints; i++)
       {
       xptr[i].x = polygone[i][X];

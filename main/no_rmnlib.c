@@ -23,23 +23,23 @@
    
 NoRMNLIB()
 {
-   int lng;
-   
-   lng = c_getulng();
-   
-   switch (lng)
-      {
-      case 0:
+  int lng;
+  
+  lng = c_getulng();
+  
+  switch (lng)
+    {
+    case 0:
       printf("La valeur de la variable d'environnement ARMNLIB est inconnue...\nImpossible de continuer");
       break;
       
-      default:
+    default:
       printf("The value of the environment variable ARMNLIB is unknown...\nCan't continue");
       break;
-      }
-   
-   exit(-1);
-   
-   }
+    }
+  
+  exit(-1);
+  
+}
 
 

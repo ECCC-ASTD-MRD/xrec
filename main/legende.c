@@ -36,342 +36,342 @@ int nbIntervalles;
 float facteur;
 float x1, y1, x2, y2;
 {
-   float x;
-   float contourCourant, contourLimite;
-   int i,j, k, n,increment, milieu, imax;
-   char nombre[32], format[32];
-   float pos, hauteurTexte;
-   float cmin, cmax, inter;
-   float xa, ya, xb, yb;
-   int   ia, ja, ib, jb;
-   int oldAspectRatioFlag;
-   int transformationFenetre,annulationDemandee,fz;
-   
-   int i1, j1, i2, j2, largeur, hauteur,indcol;
-   float fraction, px, py;
-   int largeurLegende, hauteurLegende, longueurString;
-   int variation = PaletteMgrGetVariation();
-
-   if (contourMax == contourMin)
+  float x;
+  float contourCourant, contourLimite;
+  int i,j, k, n,increment, milieu, imax;
+  char nombre[32], format[32];
+  float pos, hauteurTexte;
+  float cmin, cmax, inter;
+  float xa, ya, xb, yb;
+  int   ia, ja, ib, jb;
+  int oldAspectRatioFlag;
+  int transformationFenetre,annulationDemandee,fz;
+  
+  int i1, j1, i2, j2, largeur, hauteur,indcol;
+  float fraction, px, py;
+  int largeurLegende, hauteurLegende, longueurString;
+  int variation = PaletteMgrGetVariation();
+  
+  if (contourMax == contourMin)
+    return;
+  
+  if (contourMin == 0.0)
+    {
+    if (contourMax < 1.0e-4) /* Magie: 1.0e-4 = 1.0e-7 * 1000 pixels (hauteurlegende)*/
       return;
-
-   if (contourMin == 0.0)
-     {
-     if (contourMax < 1.0e-4) /* Magie: 1.0e-4 = 1.0e-7 * 1000 pixels (hauteurlegende)*/
-       return;
-     }
-   else
-     {
-     if (fabs((contourMax - contourMin)/contourMin) < (1.0e-4)) /* Magie: 1.0e-4 = 1.0e-7 * 1000 pixels (hauteurlegende)*/
-       return;
-     }
-
-   annulationDemandee = c_wglanul();
-   if (annulationDemandee) return;
-   cmin = contourMin;
-   cmax = contourMax;
-   transformationFenetre = c_wglgmod();
-   c_wglgsp(&xa, &ya, &xb, &yb, &ia, &ja, &ib, &jb); 
-
-   if (intervalles[0] != 0.0 && nbIntervalles == 1)
-      AjusterMinMax(&cmin, &cmax, facteur, intervalles[0]);
-   
-   GetFormat(format, intervalles, nbIntervalles, facteur);
-   oldAspectRatioFlag = c_wglgaf();
-   c_wglias(TRUE);
-   c_wglgwz(&largeur, &hauteur);
-   i1 = x1 * largeur;
-   i2 = x2 * largeur;
-   j1 = y1 * hauteur;
-   j2 = y2 * largeur;
-   
-   c_wglfsz(14);
-   largeurLegende = CalculerLargeurLegendeCouleur();
-   hauteurLegende = (int)(0.8 * hauteur);
-
-   c_wglssp(0.0, 0.0, 100.0, 256.0, 
-	    largeur - 5 - largeurLegende, (int)(hauteur * 0.15), largeur - 5, (int)(hauteur * 0.85), 1);
-   c_wglcol(xc.attributs[FOND].indCouleurFore);
-   c_wglrfx(-1.0, -10.0, 101.0, 266.0);
-
-   c_wglcmx(0.0, 0.0, 100.0, 256.0);
-
-   if (nbIntervalles == 1)
+    }
+  else
+    {
+    if (fabs((contourMax - contourMin)/contourMin) < (1.0e-4)) /* Magie: 1.0e-4 = 1.0e-7 * 1000 pixels (hauteurlegende)*/
+      return;
+    }
+  
+  annulationDemandee = c_wglanul();
+  if (annulationDemandee) return;
+  cmin = contourMin;
+  cmax = contourMax;
+  transformationFenetre = c_wglgmod();
+  c_wglgsp(&xa, &ya, &xb, &yb, &ia, &ja, &ib, &jb); 
+  
+  if (intervalles[0] != 0.0 && nbIntervalles == 1)
+    AjusterMinMax(&cmin, &cmax, facteur, intervalles[0]);
+  
+  GetFormat(format, intervalles, nbIntervalles, facteur);
+  oldAspectRatioFlag = c_wglgaf();
+  c_wglias(TRUE);
+  c_wglgwz(&largeur, &hauteur);
+  i1 = x1 * largeur;
+  i2 = x2 * largeur;
+  j1 = y1 * hauteur;
+  j2 = y2 * largeur;
+  
+  c_wglfsz(14);
+  largeurLegende = CalculerLargeurLegendeCouleur();
+  hauteurLegende = (int)(0.8 * hauteur);
+  
+  c_wglssp(0.0, 0.0, 100.0, 256.0, 
+	   largeur - 5 - largeurLegende, (int)(hauteur * 0.15), largeur - 5, (int)(hauteur * 0.85), 1);
+  c_wglcol(xc.attributs[FOND].indCouleurFore);
+  c_wglrfx(-1.0, -10.0, 101.0, 266.0);
+  
+  c_wglcmx(0.0, 0.0, 100.0, 256.0);
+  
+  if (nbIntervalles == 1)
+    {
+    if (intervalles[0] == 0.0 && nbIntervalles == 1)
+      inter = (cmax - cmin) / (0.7*hauteurLegende);
+    else
+      inter = intervalles[0] * facteur;
+    }
+  
+  if (nbIntervalles == 1)
+    {
+    contourCourant = cmin;
+    n = 0;
+    while (contourCourant <= cmax && !annulationDemandee)
       {
-      if (intervalles[0] == 0.0 && nbIntervalles == 1)
-	 inter = (cmax - cmin) / (0.7*hauteurLegende);
+      fraction = contourCourant;
+      enhancefracs(&fraction,1,cmin,cmax-cmin,variation);
+      
+      i = ROUND(255 * (contourCourant - cmin) / (cmax - cmin));
+      j = ROUND(255 * ((contourCourant+inter) - cmin) / (cmax - cmin));
+      
+      if (8 < c_wglgpl())
+	{
+	c_wglcolf(colorTable[0] + (contourCourant-cmin)/(cmax-cmin)*(colorTable[255]-colorTable[0]));
+	}
       else
-	 inter = intervalles[0] * facteur;
+	{
+	c_wglcol(colorTable[ROUND(255*fraction)]);
+	}
+      c_wglrfx(10.0/largeurLegende*100.0, (float)(i), 40.0/largeurLegende*100.0, (float)(j));
+      contourCourant += inter;
+      n++;
+      if (0 == (n% 16))
+	annulationDemandee = c_wglanul();
       }
-     
-   if (nbIntervalles == 1)
+    }
+  else
+    {
+    if (cmin < intervalles[0])
+      contourCourant = 0.0;
+    else
+      contourCourant = 1.0;
+    
+    if (cmax > intervalles[nbIntervalles - 1])
+      contourLimite = (float)nbIntervalles;
+    else
+      contourLimite = (float)(nbIntervalles-1);
+    
+    while (contourCourant <= (float)(nbIntervalles))
       {
-      contourCourant = cmin;
-      n = 0;
-      while (contourCourant <= cmax && !annulationDemandee)
-	 {
-	 fraction = contourCourant;
-	 enhancefracs(&fraction,1,cmin,cmax-cmin,variation);
-
-	 i = ROUND(255 * (contourCourant - cmin) / (cmax - cmin));
-	 j = ROUND(255 * ((contourCourant+inter) - cmin) / (cmax - cmin));
-	 
-         if (8 < c_wglgpl())
-            {
-            c_wglcolf(colorTable[0] + (contourCourant-cmin)/(cmax-cmin)*(colorTable[255]-colorTable[0]));
-            }
-         else
-            {
-            c_wglcol(colorTable[ROUND(255*fraction)]);
-            }
-	 c_wglrfx(10.0/largeurLegende*100.0, (float)(i), 40.0/largeurLegende*100.0, (float)(j));
-	 contourCourant += inter;
-	 n++;
-	 if (0 == (n% 16))
-	    annulationDemandee = c_wglanul();
-	 }
+      i = ROUND(255 * (contourCourant ) / (float)(nbIntervalles+1));
+      j = ROUND(255 * (contourCourant+1.0) / (float)(nbIntervalles+1));
+      
+      c_wglcol(colorTable[ROUND(255 * contourCourant / (float)nbIntervalles)]);
+      c_wglrfx(10.0/largeurLegende*100.0, (float)(i), 40.0/largeurLegende*100.0, (float)(j));
+      contourCourant += 1.0;
       }
-   else
+    }
+  
+  if (annulationDemandee) return;
+  contourCourant = cmin;
+  sprintf(nombre, "%6.0f", (contourCourant/facteur));
+  longueurString = strlen(nombre);
+  hauteurTexte =  c_wglhsx(nombre, longueurString) - c_wgldsx(nombre, longueurString);
+  
+  if (nbIntervalles == 1)
+    x = (255.0 * inter) / (cmax - cmin);
+  else
+    x = 255.0 / (float)nbIntervalles;
+  
+  increment = 1;
+  if ((3 * hauteurTexte) >= x)
+    {
+    while ((float)(increment*x) < (3.0 * hauteurTexte))
+      increment++;
+    }
+  
+  
+  c_wglcmx(0.0, 0.0, 100.0, 266.0);
+  c_wglcol(xc.attributs[FOND].indCouleurBack);
+  fz = AttrMgrGetFontSizeColorTable();
+  k = 0;
+  if (nbIntervalles == 1)
+    {
+    while (contourCourant <= cmax)
       {
-      if (cmin < intervalles[0])
-	  contourCourant = 0.0;
+      pos = (255.0 * (contourCourant - cmin) / (cmax - cmin));
+      sprintf(nombre, format, contourCourant/facteur);
+      longueurString=strlen(nombre);
+      px = 45.0/largeurLegende*100.0;
+      c_wglpsx((float)px, (float)pos, (char *)nombre, (int)longueurString, fz, (int)0, (int)0);
+      contourCourant += (inter*increment);
+      }
+    }
+  else
+    {
+    if (cmin < intervalles[0])
+      i = 0;
+    else
+      i = 1;
+    
+    if (cmax > intervalles[nbIntervalles-1])
+      imax = nbIntervalles+1;
+    else
+      imax = nbIntervalles;
+    
+    while (i <= imax)
+      {
+      if (i == 0)
+	{
+	contourCourant = cmin/facteur;
+	}
       else
-	  contourCourant = 1.0;
-
-      if (cmax > intervalles[nbIntervalles - 1])
-	  contourLimite = (float)nbIntervalles;
-      else
-	  contourLimite = (float)(nbIntervalles-1);
-
-      while (contourCourant <= (float)(nbIntervalles))
-	 {
-	 i = ROUND(255 * (contourCourant ) / (float)(nbIntervalles+1));
-	 j = ROUND(255 * (contourCourant+1.0) / (float)(nbIntervalles+1));
-	 
-	 c_wglcol(colorTable[ROUND(255 * contourCourant / (float)nbIntervalles)]);
-	 c_wglrfx(10.0/largeurLegende*100.0, (float)(i), 40.0/largeurLegende*100.0, (float)(j));
-	 contourCourant += 1.0;
-	 }
+	{
+	if (i == (nbIntervalles+1))
+	  contourCourant = cmax/facteur;
+	else
+	  contourCourant = intervalles[i-1];
+	}
+      
+      pos = (255.0 * i / (nbIntervalles+1));
+      sprintf(nombre, format, contourCourant);
+      longueurString = strlen(nombre);
+      px = 45.0/largeurLegende*100.0;
+      printf("<avant wglpsx>: %f %f %s %d %d %d %d\n", px, pos, nombre, longueurString, fz, 0,0);	 
+      c_wglpsx(px, pos, nombre, longueurString, fz, 0, 0);
+      i++;
       }
-   
-   if (annulationDemandee) return;
-   contourCourant = cmin;
-   sprintf(nombre, "%6.0f", (contourCourant/facteur));
-   longueurString = strlen(nombre);
-   hauteurTexte =  c_wglhsx(nombre, longueurString) - c_wgldsx(nombre, longueurString);
-   
-   if (nbIntervalles == 1)
-      x = (255.0 * inter) / (cmax - cmin);
-   else
-      x = 255.0 / (float)nbIntervalles;
-   
-   increment = 1;
-   if ((3 * hauteurTexte) >= x)
-      {
-      while ((float)(increment*x) < (3.0 * hauteurTexte))
-	 increment++;
-      }
-   
-   
-   c_wglcmx(0.0, 0.0, 100.0, 266.0);
-   c_wglcol(xc.attributs[FOND].indCouleurBack);
-   fz = AttrMgrGetFontSizeColorTable();
-   k = 0;
-   if (nbIntervalles == 1)
-      {
-      while (contourCourant <= cmax)
-	 {
-	 pos = (255.0 * (contourCourant - cmin) / (cmax - cmin));
-	 sprintf(nombre, format, contourCourant/facteur);
-	 longueurString=strlen(nombre);
-	 px = 45.0/largeurLegende*100.0;
-	 c_wglpsx((float)px, (float)pos, (char *)nombre, (int)longueurString, fz, (int)0, (int)0);
-	 contourCourant += (inter*increment);
-	 }
-      }
-   else
-      {
-      if (cmin < intervalles[0])
-	 i = 0;
-      else
-	 i = 1;
-
-      if (cmax > intervalles[nbIntervalles-1])
-	 imax = nbIntervalles+1;
-      else
-	 imax = nbIntervalles;
-
-      while (i <= imax)
-	 {
-	 if (i == 0)
-	    {
-	    contourCourant = cmin/facteur;
-	    }
-	 else
-	    {
-	    if (i == (nbIntervalles+1))
-	       contourCourant = cmax/facteur;
-	    else
-	       contourCourant = intervalles[i-1];
-	    }
-	 
-	 pos = (255.0 * i / (nbIntervalles+1));
-	 sprintf(nombre, format, contourCourant);
-	 longueurString = strlen(nombre);
-	 px = 45.0/largeurLegende*100.0;
-	 printf("<avant wglpsx>: %f %f %s %d %d %d %d\n", px, pos, nombre, longueurString, fz, 0,0);	 
-	 c_wglpsx(px, pos, nombre, longueurString, fz, 0, 0);
-	 i++;
-	 }
-      }
-   
-   c_wglias(oldAspectRatioFlag);
-   c_wglssp(xa, ya, xb, yb, ia, ja, ib, jb, transformationFenetre); 
-   
-   
-   }
+    }
+  
+  c_wglias(oldAspectRatioFlag);
+  c_wglssp(xa, ya, xb, yb, ia, ja, ib, jb, transformationFenetre); 
+  
+  
+}
 
 AjusterViewport(viewp)
-_Viewport *viewp;
+     _Viewport *viewp;
 {
-   static int oldLargeurFenetre = 0;
-   static int oldHauteurFenetre = 0;
-   static int oldFlagLegende = 0;
-   static int lastInd = -1;
-   static char lastnomvar[5] = {"\0\0\0\0\0"};
-   _Champ *champ;
-
-   int largeurFenetre, hauteurFenetre, largeurLegendeCouleur, hauteurLegende, flagLegende;
-   int largeurAxeY;
-
-   FldMgrGetChamp(&champ, 0);
-   c_wglgwz(&largeurFenetre, &hauteurFenetre);
-
-   if (!xc.statuts[LEGENDE] && !xc.statuts[LEGENDE_COULEUR])
-      {
-      viewp->vlargeur = largeurFenetre;
-      viewp->vhauteur = hauteurFenetre;
-      viewp->vi1 = 0;
-      viewp->vi2 = largeurFenetre - 1;
-      viewp->vj1 = 0;
-      viewp->vj2 = hauteurFenetre - 1;
-      return;
-      }
-
-   if (AfficherItem(0, LEGENDE_COULEUR))
-      flagLegende = TRUE;
-   else
-      flagLegende = FALSE;
-
-/**
-  if (largeurFenetre == oldLargeurFenetre && hauteurFenetre == oldHauteurFenetre && flagLegende == oldFlagLegende &&
-      0 == strcmp(lastnomvar, champ->nomvar) && lastInd == infoChamps[champ->indDict].indIntervalleDeDefaut)
-      {
-      strcpy(lastnomvar, champ->nomvar);
-      lastInd = infoChamps[champ->indDict].indIntervalleDeDefaut;
-      return;
-      }
-**/
-
-   strcpy(lastnomvar, champ->nomvar);
-   lastInd = infoChamps[champ->indDict].indIntervalleDeDefaut;
-
-   largeurLegendeCouleur = CalculerLargeurLegendeCouleur();
-   hauteurLegende = CalculerHauteurLegende();
-   
-   if (xc.statuts[AXE_Y] == TRUE)
-      {
-      largeurAxeY = c_wglwsi("123456", 6);
-      }
-   else
-      {
-      largeurAxeY = 0;
-      }
-
-   viewp->vlargeur = largeurFenetre - largeurLegendeCouleur - largeurAxeY - 20;
-   viewp->vratio   = (float)(viewp->vlargeur) / (float)(largeurFenetre);
-   viewp->vhauteur = ROUND(viewp->vratio * hauteurFenetre);
-   
-   if ((hauteurFenetre - viewp->vhauteur) < 2 * hauteurLegende)
-      {
-      viewp->vhauteur = hauteurFenetre - 2 * hauteurLegende - 20;
-      viewp->vratio   = (float)(viewp->vhauteur) / (float)(hauteurFenetre);
-      viewp->vlargeur = ROUND(viewp->vratio * (largeurFenetre - largeurLegendeCouleur - largeurAxeY - 20));
-      viewp->vratio   = (float)(viewp->vlargeur) / (float)(largeurFenetre);
-      viewp->vhauteur = ROUND(viewp->vratio * hauteurFenetre);
-      }
-
-   viewp->vi1      = 10+largeurAxeY+(largeurFenetre-viewp->vlargeur-largeurLegendeCouleur-largeurAxeY-20)/2;
-   viewp->vi2      = viewp->vi1 + viewp->vlargeur;
-   viewp->vj1      = ROUND((hauteurFenetre - viewp->vhauteur) * 0.5);
-   viewp->vj2      = viewp->vj1 + viewp->vhauteur;
-   
-   oldLargeurFenetre = largeurFenetre;
-   oldHauteurFenetre = hauteurFenetre;
-   oldFlagLegende = flagLegende;
-   }
+  static int oldLargeurFenetre = 0;
+  static int oldHauteurFenetre = 0;
+  static int oldFlagLegende = 0;
+  static int lastInd = -1;
+  static char lastnomvar[5] = {"\0\0\0\0\0"};
+  _Champ *champ;
+  
+  int largeurFenetre, hauteurFenetre, largeurLegendeCouleur, hauteurLegende, flagLegende;
+  int largeurAxeY;
+  
+  FldMgrGetChamp(&champ, 0);
+  c_wglgwz(&largeurFenetre, &hauteurFenetre);
+  
+  if (!xc.statuts[LEGENDE] && !xc.statuts[LEGENDE_COULEUR])
+    {
+    viewp->vlargeur = largeurFenetre;
+    viewp->vhauteur = hauteurFenetre;
+    viewp->vi1 = 0;
+    viewp->vi2 = largeurFenetre - 1;
+    viewp->vj1 = 0;
+    viewp->vj2 = hauteurFenetre - 1;
+    return;
+    }
+  
+  if (AfficherItem(0, LEGENDE_COULEUR))
+    flagLegende = TRUE;
+  else
+    flagLegende = FALSE;
+  
+  /**
+     if (largeurFenetre == oldLargeurFenetre && hauteurFenetre == oldHauteurFenetre && flagLegende == oldFlagLegende &&
+     0 == strcmp(lastnomvar, champ->nomvar) && lastInd == infoChamps[champ->indDict].indIntervalleDeDefaut)
+     {
+     strcpy(lastnomvar, champ->nomvar);
+     lastInd = infoChamps[champ->indDict].indIntervalleDeDefaut;
+     return;
+     }
+  **/
+  
+  strcpy(lastnomvar, champ->nomvar);
+  lastInd = infoChamps[champ->indDict].indIntervalleDeDefaut;
+  
+  largeurLegendeCouleur = CalculerLargeurLegendeCouleur();
+  hauteurLegende = CalculerHauteurLegende();
+  
+  if (xc.statuts[AXE_Y] == TRUE)
+    {
+    largeurAxeY = c_wglwsi("123456", 6);
+    }
+  else
+    {
+    largeurAxeY = 0;
+    }
+  
+  viewp->vlargeur = largeurFenetre - largeurLegendeCouleur - largeurAxeY - 20;
+  viewp->vratio   = (float)(viewp->vlargeur) / (float)(largeurFenetre);
+  viewp->vhauteur = ROUND(viewp->vratio * hauteurFenetre);
+  
+  if ((hauteurFenetre - viewp->vhauteur) < 2 * hauteurLegende)
+    {
+    viewp->vhauteur = hauteurFenetre - 2 * hauteurLegende - 20;
+    viewp->vratio   = (float)(viewp->vhauteur) / (float)(hauteurFenetre);
+    viewp->vlargeur = ROUND(viewp->vratio * (largeurFenetre - largeurLegendeCouleur - largeurAxeY - 20));
+    viewp->vratio   = (float)(viewp->vlargeur) / (float)(largeurFenetre);
+    viewp->vhauteur = ROUND(viewp->vratio * hauteurFenetre);
+    }
+  
+  viewp->vi1      = 10+largeurAxeY+(largeurFenetre-viewp->vlargeur-largeurLegendeCouleur-largeurAxeY-20)/2;
+  viewp->vi2      = viewp->vi1 + viewp->vlargeur;
+  viewp->vj1      = ROUND((hauteurFenetre - viewp->vhauteur) * 0.5);
+  viewp->vj2      = viewp->vj1 + viewp->vhauteur;
+  
+  oldLargeurFenetre = largeurFenetre;
+  oldHauteurFenetre = hauteurFenetre;
+  oldFlagLegende = flagLegende;
+}
 
 CalculerLargeurLegendeCouleur()
 {
-   int i, largeurLegende;
-   int exposant = 0;
-   float rmint;
-   _Champ *champ;
-
-   FldMgrGetChamp(&champ, 0);
-   
-   if (AfficherItem(0, LEGENDE_COULEUR))
+  int i, largeurLegende;
+  int exposant = 0;
+  float rmint;
+  _Champ *champ;
+  
+  FldMgrGetChamp(&champ, 0);
+  
+  if (AfficherItem(0, LEGENDE_COULEUR))
+    {
+    c_wglfsz(AttrMgrGetFontSizeColorTable());
+    for (i=0; i < champ->nbIntervalles; i++)
       {
-      c_wglfsz(AttrMgrGetFontSizeColorTable());
-      for (i=0; i < champ->nbIntervalles; i++)
-	 {
-	 rmint = champ->intervalles[i];
-	 if (rmint != 0.0 && (fabs(rmint) < 1.0e-3 || fabs(rmint) > 1.0e5))
-	    exposant = 1;
-	 }
-
-      if (exposant)
-	 largeurLegende = 15 + 35 + c_wglwsi("1.00e+05", 8);
-      else
-	 largeurLegende = 15 + 35 + c_wglwsi("123456", 6);
-      return largeurLegende;
+      rmint = champ->intervalles[i];
+      if (rmint != 0.0 && (fabs(rmint) < 1.0e-3 || fabs(rmint) > 1.0e5))
+	exposant = 1;
       }
-   else
-      return 0;
-   }
+    
+    if (exposant)
+      largeurLegende = 15 + 35 + c_wglwsi("1.00e+05", 8);
+    else
+      largeurLegende = 15 + 35 + c_wglwsi("123456", 6);
+    return largeurLegende;
+    }
+  else
+    return 0;
+}
 
 CalculerHauteurLegende()
 {
-   int hauteurLegende,fz;
-
-   
-   c_wglfsz(AttrMgrGetFontSizeLegend());
-   hauteurLegende = ROUND(2.5 * c_wglasi("123456", 6));
-   return hauteurLegende;
-   }
+  int hauteurLegende,fz;
+  
+  
+  c_wglfsz(AttrMgrGetFontSizeLegend());
+  hauteurLegende = ROUND(2.5 * c_wglasi("123456", 6));
+  return hauteurLegende;
+}
 
 
 
 void AfficherLegende2(champ)
-_Champ champ;
+     _Champ champ;
 {
-   int i, couleur;
-
-   int LargeurTitre[6], Largeur; 
-   int HauteurRectangle, hauteurTitre[6];
-   int hauteurTexte, descent;
-   int largeurFenetre, hauteurFenetre;
-   int fontSize;
-   char tmpStr[132];
-
-   c_wglgwz(&largeurFenetre, &hauteurFenetre);
-   c_wglcmi(0, 0, largeurFenetre, hauteurFenetre);
-
-   EffacerLegende2();
-
-   c_wglcol(xc.attributs[FOND].indCouleurBack);
-   
-   /**
+  int i, couleur;
+  
+  int LargeurTitre[6], Largeur; 
+  int HauteurRectangle, hauteurTitre[6];
+  int hauteurTexte, descent;
+  int largeurFenetre, hauteurFenetre;
+  int fontSize;
+  char tmpStr[132];
+  
+  c_wglgwz(&largeurFenetre, &hauteurFenetre);
+  c_wglcmi(0, 0, largeurFenetre, hauteurFenetre);
+  
+  EffacerLegende2();
+  
+  c_wglcol(xc.attributs[FOND].indCouleurBack);
+  
+  /**
      if (xc.statuts[COULEURS])
      c_wglcol(xc.attributs[FOND].indCouleurBack);
      else

@@ -22,11 +22,7 @@
 
 x_wglclr()
 {
-   /**
-   XSetWindowBackground(wglDisp, wglWin, couleurs[wglColorTable[currentColor]].pixel);
-   XClearWindow(wglDisp, wglWin);
-     **/
-     wglfshlb();
-     c_wglcmi( -10, -10, w+10, h+10);
-     XFillRectangle(wglDisp, wglDrawable, wglLineGC, -10, -10, 10+w, 10+h);
-   }
+  x_wglfshlb();
+  x_wglcmi( -10, -10, w+10, h+10);
+  XFillRectangle(wglDisp, wglDrawable, wglLineGC, -10, -10, 10+w, 10+h);
+}

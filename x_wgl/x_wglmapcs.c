@@ -64,8 +64,8 @@ x_wglmapcs(int colorIndexs[], int nbCols, int rgbDefs[][3])
 	 if (debugMode)
 	    printf("Collision avec le colormap de defaut a l'indice: %d\n", 
                    colorIndexs[i]);
-	 c_wglinstcmap();
-	 c_wglsetwcmap();
+	 x_wglinstcmap();
+	 x_wglsetwcmap();
 	 }
       
       }

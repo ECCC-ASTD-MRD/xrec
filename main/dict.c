@@ -24,21 +24,14 @@
 #include <ctype.h>
 #include <malloc.h>
 #include <rec.h>
+#include <xinit.h>
 #include <rpnmacros.h>
+#include <expat.h>
    
-static int nbChampsDict = 0;
+int nbChampsDict = 0;
 _InfoChamps *infoChamps = NULL;
 
-/**
-main()
-{
-   int nbChamps, indChamp;
-
-   nbChamps = LireDictionnaire(infoChamps);
-   indChamp = ChercherNomVar("GZ", infoChamps, nbChamps);
-   printf("%d\n", indChamp);
-   }
-**/
+int LireDictionnaireXML(FILE *fichierEntree);
 
 /**
 *****************************************************************
@@ -73,27 +66,32 @@ _InfoChamps infoChamps[];
    
    lng = c_getulng();
    strcpy(nomFichierDictionnaire, tmp);
-   
-   if (lng == 0)
-      strcat(nomFichierDictionnaire, "/data/dict_rec.f");
-   else
-      strcat(nomFichierDictionnaire, "/data/dict_rec.e");
+   strcat(nomFichierDictionnaire, "/data/rmndict.xml");
    
    fichierEntree = fopen(nomFichierDictionnaire, "r");
    if (fichierEntree == NULL)
       {
-      if (lng == 0)
-	 printf("Impossible d'ouvrir le fichier $ARMNLIB/data/dict_rec.f... \nImpossible de continuer.\n");
-      else
-	 printf("Can't open file $ARMNLIB/data/dict_rec.e... \nCan't continue.\n");
-      exit(-1);
+      switch (lng)
+	{
+	case FRANCAIS:
+	  printf("Impossible d'ouvrir le fichier $ARMNLIB/data/dict_rec.f... \nImpossible de continuer.\n");
+	  exit(-1);	 
+	  break;
+	  
+	case ENGLISH:
+	  printf("Can't open file $ARMNLIB/data/dict_rec.e... \nCan't continue.\n");
+	  exit(-1);
+	  break;
+	}
+      
       }
    
-   fclose(fichierEntree);
-
-   f77name(rlx)(nomFichierDictionnaire, strlen(nomFichierDictionnaire));
+   LireDictionnaireXML(fichierEntree);
    
-   return nbChampsDict;
+   fprintf(stderr,"Nombre de variables lues du dict. XML : %d\n", nbChampsDict);
+
+   fclose(fichierEntree);
+   
    }
 
 /**
@@ -492,7 +490,6 @@ char nomvar[];
    pos = ChercherNomVar(nomvar);
    return infoChamps[pos].minmaxSource;
    }
-
 
 
 

@@ -25,7 +25,7 @@ x_wglcol(int couleur)
    int nplanes;
    wglfshlb();
    
-   nplanes = c_wglgpl();
+   nplanes = x_wglgpl();
 
    switch(nplanes)
       {

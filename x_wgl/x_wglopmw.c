@@ -108,10 +108,10 @@ extern unsigned long wglfore, wglback;
 **/
    XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
 
-   c_wglcol(NOIR);
-   c_wglclr(); 
+   x_wglcol(NOIR);
+   x_wglclr(); 
 
-   c_wglsetw(wglWin);
+   x_wglsetw(wglWin);
    /*    RestorerParametresDeDefaut(); */
    return wglWin;
    }

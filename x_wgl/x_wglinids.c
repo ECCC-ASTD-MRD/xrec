@@ -27,7 +27,7 @@ x_wglinids(char *nomFenetre)
       Xinit(nomFenetre);
       wglDisp = /**XOpenDisplay("");**/  XtDisplay(SuperWidget.topLevel);
       wglScrNum = DefaultScreen(wglDisp);
-      if (c_wglgdbg())
+      if (x_wglgdbg())
 	{
         XSynchronize(wglDisp,True);
 	}

@@ -23,6 +23,6 @@
 x_wglgvp(float *xdebut, float *ydebut, float *xfin, float *yfin, int *idebut, int *jdebut, int *ifin, int *jfin)
 {
   c_wglgvx(xdebut, ydebut, xfin, yfin);
-  c_wglgvi(idebut, jdebut, ifin, jfin);
+  x_wglgvi(idebut, jdebut, ifin, jfin);
    
    }

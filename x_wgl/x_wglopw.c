@@ -71,12 +71,12 @@ void c_wglssp(float xdebut, float ydebut, float xfin, float yfin, int idebut, in
       }
 
    XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
-   c_wglgwz(&w,&h);
+   x_wglgwz(&w,&h);
 
-   c_wglcol(NOIR);
-   c_wglclr(); 
+   x_wglcol(NOIR);
+   x_wglclr(); 
 
-   c_wglsetw(wglWin);
+   x_wglsetw(wglWin);
    x_wglrstdpar();
 
    return wglWin;

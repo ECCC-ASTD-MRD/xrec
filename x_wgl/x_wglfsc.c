@@ -23,6 +23,6 @@
 x_wglfsc()
 {
    x_wglinids("");
-   c_wglpsz(DisplayWidth(wglDisp, wglScrNum), DisplayHeight(wglDisp, wglScrNum));
+   x_wglpsz(DisplayWidth(wglDisp, wglScrNum), DisplayHeight(wglDisp, wglScrNum));
    }
 

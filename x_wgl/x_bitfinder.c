@@ -60,6 +60,7 @@ printbidonetoile(char *string, float *xxx1, float *yyy1, float *xxx2, float *yyy
 }
 
      
+/* 
  int x_wglopw2(char *nomFenetre)
 {
    char tempNomFenetre[255];
@@ -88,3 +89,4 @@ printbidonetoile(char *string, float *xxx1, float *yyy1, float *xxx2, float *yyy
    printbidon("apres  wglssp", xxx1, yyy1, xxx2, yyy2, iii1, www1, iii2, www2);
    }
 
+   */

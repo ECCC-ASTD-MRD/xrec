@@ -28,8 +28,8 @@ x_wgldbf()
    int largeurFenetre, hauteurFenetre, nplanes;
 
    
-   c_wglgwz(&w,&h);
-   nplanes = c_wglgpl();
+   x_wglgwz(&w,&h);
+   nplanes = x_wglgpl();
    
    if (bgPix == NULL)
       {
@@ -38,7 +38,7 @@ x_wgldbf()
    else
       {
       XGetGeometry(wglDisp, bgPix, &root, &x, &y, &width, &height, &border_width, &depth);
-      c_wglgwz(&largeurFenetre, &hauteurFenetre);
+      x_wglgwz(&largeurFenetre, &hauteurFenetre);
       
       if (largeurFenetre != width && hauteurFenetre != height)
 	 {

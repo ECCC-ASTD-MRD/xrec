@@ -1828,6 +1828,9 @@ _Champ *champ;
    MessageInfo(texteLecture, 1);
 
    champ->fld = (float *) (calloc(champ->src.ni * champ->src.nj * champ->src.nk, sizeof(float)));
+   ni = champ->src.ni;
+   nj = champ->src.nj;
+   nk = champ->src.nk;
    ier = c_fstluk(champ->fld, champ->cle, &ni, &nj, &nk);
  
    champ->champModifie = False;
@@ -3255,3 +3258,30 @@ FldMgrDefinirGrille()
 }
 
 
+int c_xrecluk(float *fld, int cle, int *ni, int *nj, int *nk)
+{
+  _Champ bidon;
+  double *fld64;
+  int i, ier, npts;
+
+
+  npts = *ni* *nj * *nk;
+  bidon.cle = cle;
+  FldMgrGetFstPrm(&bidon);
+
+  if (bidon.nbits == 64)
+    {
+    fld64 = (double *) malloc (npts * sizeof(double));
+    ier = c_fstluk(fld64, cle, ni, nj, nk);
+    for (i=0; i < npts; i++)
+      {
+      fld[i] = (float) fld64[i];
+      }
+    free(fld64);
+    }
+  else
+    {
+    return c_fstluk(fld, cle, ni, nj, nk);
+    }
+
+}

@@ -59,6 +59,6 @@ x_wgldefncw(int winid)
    /*   pixmapDimensions   = fenetre[fenetreCourante].pixmapDimensions; */
    usSpace            = fenetre[fenetreCourante].usSpace;
 
-   c_wglgwz(&w,&h);
+   x_wglgwz(&w,&h);
    }
 

@@ -28,7 +28,6 @@ void AfficherVecteurs(ListePointsStruct *liste, int nbItems, int style, int coul
    int i, linewidth;
    int largeurFenetre, hauteurFenetre;
 
-   linewidth = c_wglglw();
    switch(mapFlags.verifStatutNecessaire)
       {
       case OUI:
@@ -45,12 +44,6 @@ void AfficherVecteurs(ListePointsStruct *liste, int nbItems, int style, int coul
             TracerPoints(&liste[i]);
             break;
             }
-
-	 if (0 == (i % 64) && linewidth > 1  && gmpFlagInterrupt)
-	    {
-	    if (c_wglanul())
-	       return;
-	    }
         }
       break;
 
@@ -68,12 +61,6 @@ void AfficherVecteurs(ListePointsStruct *liste, int nbItems, int style, int coul
             TracerPointsModeTurbo(&liste[i]);
             break;
             }
-
-	 if (0 == (i % 64) && linewidth > 1  && gmpFlagInterrupt)
-	    {
-	    if (c_wglanul())
-	       return;
-	    }
          }
       }
    }

@@ -161,7 +161,7 @@ x_wglinicmap()
          
          if (res == 0)
             {
-            c_wglinstcmap();
+            x_wglinstcmap();
             }
          
          if (i != 0)

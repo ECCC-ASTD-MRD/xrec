@@ -22,7 +22,7 @@
 
 x_wglgvi(int *idebut, int *jdebut, int *ifin, int *jfin)
 {
-   c_wglgwz(&w,&h);
+   x_wglgwz(&w,&h);
 
    *idebut = usSpace.idebut;
    if (*idebut < 0)

@@ -70,7 +70,7 @@ x_wgliniwin(char *nomFenetre)
       XSetStandardProperties(wglDisp, wglWin, nomFenetre, nomFenetre, NULL, argv, argc, &wglHints);
       }
 
-   if (1 != c_wglgpl())
+   if (1 != x_wglgpl())
       {
       if (nbFenetresActives <= 1)
 	 x_wglinicmap(); 
@@ -93,7 +93,7 @@ x_wgliniwin(char *nomFenetre)
    x_wglinipat();
    if (cmap_strategy == READ_WRITE_COLORMAP)
      {
-       c_wglsetwcmap();
+       x_wglsetwcmap();
      }
    
    XStoreName(wglDisp, wglWin, nomFenetre); 

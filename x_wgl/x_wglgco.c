@@ -24,7 +24,7 @@ x_wglgco(int indCol, int *red, int *green, int *blue)
 {
    int nplanes;
 
-   nplanes = c_wglgpl();
+   nplanes = x_wglgpl();
 
    switch(nplanes)
       {

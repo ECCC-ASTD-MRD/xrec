@@ -29,11 +29,9 @@ int gmp_perim(float *xgdmin, float *ygdmin,  float *xgdmax,  float *ygdmax, floa
    float XGrid[4], YGrid[4];
    int quatre, un;
    char type;
-   float xmin, xmax, ymin, ymax;
 
    un = 1;
    quatre = 4;
-   c_wglgvx(&xmin, &ymin, &xmax, &ymax);
    
    gdid = mapInfo.gdid;
    
@@ -45,12 +43,12 @@ int gmp_perim(float *xgdmin, float *ygdmin,  float *xgdmax,  float *ygdmax, floa
    f77name(aminmax)(xgdmin, xgdmax, XGrid, &quatre, &un);
    f77name(aminmax)(ygdmin, ygdmax, YGrid, &quatre, &un);
    
-   res = clip(*xgdmin, *ygdmin, *xgdmax, *ygdmax, xmin, ymin, xmax, ymax);
+   res = clip(*xgdmin, *ygdmin, *xgdmax, *ygdmax);
    
    if ((*xgdmax - *xgdmin) > 0.85 * 360.0)
      *nbSeg = 2;
    else
      *nbSeg = 1;
-   return 1;
+   return res;
 }
 

@@ -5,7 +5,7 @@
     <nomvar>AL</nomvar>
     <description>
         <francais>AL (Albedo de  surface)</francais>
-        <english>AL (Albedo de  surface)</english>
+        <english>AL (Surface Albedo)</english>
     </description>
     <units>(sans unites),</units>
     <color_palette>
@@ -28,7 +28,7 @@
     <nomvar>AP</nomvar>
     <description>
         <francais>AP (Albedo planetaire)</francais>
-        <english>AP (Albedo planetaire)</english>
+        <english>AP (Planetary Albedo)</english>
     </description>
     <units>(sans unites)</units>
     <color_palette>
@@ -51,7 +51,7 @@
     <nomvar>DD</nomvar>
     <description>
         <francais>DD (Divergence isobarique)</francais>
-        <english>DD (Divergence isobarique)</english>
+        <english>DD (Isobaric Divergence)</english>
     </description>
     <units>(/sec),</units>
     <color_palette>
@@ -80,7 +80,7 @@
     <nomvar>GZ</nomvar>
     <description>
         <francais>GZ (Hauteur du geopotentiel)</francais>
-        <english>GZ (Hauteur du geopotentiel)</english>
+        <english>GZ (Geopotential Height)</english>
     </description>
     <units>decametres,</units>
     <color_palette>
@@ -108,7 +108,7 @@
     <nomvar>ES</nomvar>
     <description>
         <francais>ES (Depression du point de rosee)</francais>
-        <english>ES (Depression du point de rosee)</english>
+        <english>ES (Dew Point Depression)</english>
     </description>
     <units>deg C</units>
     <color_palette>
@@ -137,7 +137,7 @@
     <nomvar>TT</nomvar>
     <description>
         <francais>TT (Temperature de l air)</francais>
-        <english>TT (Temperature de l air)</english>
+        <english>TT (Air Temperature)</english>
     </description>
     <units>deg C</units>
     <color_palette>
@@ -166,7 +166,7 @@
     <nomvar>DS</nomvar>
     <description>
         <francais>DS (Divergence niveaux sigma)</francais>
-        <english>DS (Divergence niveaux sigma)</english>
+        <english>DS (Divergence (sigma levels))</english>
     </description>
     <units>/sec</units>
     <color_palette>
@@ -195,7 +195,7 @@
     <nomvar>DZ</nomvar>
     <description>
         <francais>GZ (Epaisseur)</francais>
-        <english>GZ (Epaisseur)</english>
+        <english>DZ (Thickness)</english>
     </description>
     <units>decametres</units>
     <color_palette>
@@ -226,7 +226,7 @@
     <nomvar>FC</nomvar>
     <description>
         <francais>FC (Flux de chaleur sensible)</francais>
-        <english>FC (Flux de chaleur sensible)</english>
+        <english>FQ (Momentum Flux)</english>
     </description>
     <units>W/m2</units>
     <color_palette>
@@ -251,7 +251,7 @@
     <nomvar>FQ</nomvar>
     <description>
         <francais>FQ (Flux de quantite de mouvement)</francais>
-        <english>FQ (Flux de quantite de mouvement)</english>
+        <english>FV (Latent Heat Flux)</english>
     </description>
     <units>pascals</units>
     <color_palette>
@@ -281,7 +281,7 @@
     <nomvar>FV</nomvar>
     <description>
         <francais>FV (Flux de chaleur latente)</francais>
-        <english>FV (Flux de chaleur latente)</english>
+        <english>FV (Latent Heat Flux)</english>
     </description>
     <units>W/m2</units>
     <color_palette>
@@ -307,7 +307,7 @@
     <nomvar>GL</nomvar>
     <description>
         <francais>GL (Etendue, de, glace)</francais>
-        <english>GL (Etendue, de, glace)</english>
+        <english>GL (Ice Cover)</english>
     </description>
     <units>(sans unites)</units>
     <color_palette>
@@ -330,7 +330,7 @@
     <nomvar> H</nomvar>
     <description>
         <francais>H (Hauteur de la couche limite)</francais>
-        <english>H (Hauteur de la couche limite)</english>
+        <english>H (Boundary Layer Height)</english>
     </description>
     <units>metres</units>
     <color_palette>
@@ -355,7 +355,7 @@
     <nomvar>HR</nomvar>
     <description>
         <francais>HR (Humidite relative)</francais>
-        <english>HR (Humidite relative)</english>
+        <english>HR (Relative Humidity)</english>
     </description>
     <units>(sans unites)</units>
     <color_palette>
@@ -384,7 +384,7 @@
     <nomvar>HS</nomvar>
     <description>
         <francais>HS (Fraction evaporation potentielle)</francais>
-        <english>HS (Fraction evaporation potentielle)</english>
+        <english>HS (Potential Evaporation Fraction)</english>
     </description>
     <units>(sans unites)</units>
     <color_palette>
@@ -409,7 +409,7 @@
     <nomvar>HU</nomvar>
     <description>
         <francais>HU (Humidite specifique)</francais>
-        <english>HU (Humidite specifique)</english>
+        <english>HU (Specific Humidity)</english>
     </description>
     <units>kg/kg</units>
     <color_palette>
@@ -434,7 +434,7 @@
     <nomvar>IZ</nomvar>
     <description>
         <francais>IZ (Image, satellite, sp., infra-rouge)</francais>
-        <english>IZ (Image, satellite, sp., infra-rouge)</english>
+        <english>IZ (Infra-red Satellite Image)</english>
     </description>
     <units>(sans unites)</units>
     <color_palette>
@@ -464,7 +464,7 @@
     <nomvar>ME</nomvar>
     <description>
         <francais>ME (Topographie)</francais>
-        <english>ME (Topographie)</english>
+        <english>ME (Topography)</english>
     </description>
     <units>m</units>
     <color_palette>
@@ -490,7 +490,7 @@
     <nomvar>MG</nomvar>
     <description>
         <francais>MG (Masque global terre-mer)</francais>
-        <english>MG (Masque global terre-mer)</english>
+        <english>MG (Land-Sea Mask)</english>
     </description>
     <units>(sans unites)</units>
     <color_palette>
@@ -513,7 +513,7 @@
     <nomvar>MT</nomvar>
     <description>
         <francais>MT (Topographie geopotentielle)</francais>
-        <english>MT (Topographie geopotentielle)</english>
+        <english>MT (Geopotential Topography)</english>
     </description>
     <units>m2/s2</units>
     <color_palette>
@@ -539,7 +539,7 @@
     <nomvar>MX</nomvar>
     <description>
         <francais>MX (Topographie geopotentielle)</francais>
-        <english>MX (Topographie geopotentielle)</english>
+        <english>MX (Geopotential Topography)</english>
     </description>
     <units>m2/s2</units>
     <color_palette>
@@ -565,7 +565,7 @@
     <nomvar>MZ</nomvar>
     <description>
         <francais>MZ (Image satellite sp. vapeur d eau)</francais>
-        <english>MZ (Image satellite sp. vapeur d eau)</english>
+        <english>MZ (Water Vapor Satellite Image)</english>
     </description>
     <units>(sans unites)</units>
     <color_palette>
@@ -595,7 +595,7 @@
     <nomvar>NB</nomvar>
     <description>
         <francais>NB (Etendue de nuages bas)</francais>
-        <english>NB (Etendue de nuages bas)</english>
+        <english>NB (Low Cloud Cover)</english>
     </description>
     <units>(sans unites)</units>
     <color_palette>
@@ -619,7 +619,7 @@
     <nomvar>NE</nomvar>
     <description>
         <francais>NE (Etendue de neige)</francais>
-        <english>NE (Etendue de neige)</english>
+        <english>NE (Snow Cover)</english>
     </description>
     <units>(sans unites)</units>
     <color_palette>
@@ -643,7 +643,7 @@
     <nomvar>NM</nomvar>
     <description>
         <francais>NM (Etendue de nuages moyens)</francais>
-        <english>NM (Etendue de nuages moyens)</english>
+        <english>NM (Middle Cloud Cover)</english>
     </description>
     <units>(sans unites)</units>
     <color_palette>
@@ -667,7 +667,7 @@
     <nomvar>NH</nomvar>
     <description>
         <francais>NH (Etendue de nuages eleves)</francais>
-        <english>NH (Etendue de nuages eleves)</english>
+        <english>NH (High Cloud Cover)</english>
     </description>
     <units>(sans unites)</units>
     <color_palette>
@@ -691,7 +691,7 @@
     <nomvar>NT</nomvar>
     <description>
         <francais>NT (Couvert nuageux)</francais>
-        <english>NT (Couvert nuageux)</english>
+        <english>NT (Total Cloud Cover)</english>
     </description>
     <units>(sans unites)</units>
     <color_palette>
@@ -715,7 +715,7 @@
     <nomvar>P0</nomvar>
     <description>
         <francais>P0 (Pression a la surface)</francais>
-        <english>P0 (Pression a la surface)</english>
+        <english>P0 (Surface Pressure)</english>
     </description>
     <units>millibars</units>
     <color_palette>
@@ -747,7 +747,7 @@
     <nomvar>PN</nomvar>
     <description>
         <francais>PN (Pression au niveau de la mer)</francais>
-        <english>PN (Pression au niveau de la mer)</english>
+        <english>PN (Sea Level Pressure)</english>
     </description>
     <units>millibars</units>
     <color_palette>
@@ -771,7 +771,7 @@
     <nomvar>PR</nomvar>
     <description>
         <francais>PR (Accumulation de precipitations)</francais>
-        <english>PR (Accumulation de precipitations)</english>
+        <english>PR (Precipation Accumulation)</english>
     </description>
     <units>metres</units>
     <color_palette>
@@ -800,7 +800,7 @@
     <nomvar>PC</nomvar>
     <description>
         <francais>PC (Accumulation de precipitation convective)</francais>
-        <english>PC (Accumulation de precipitation convective)</english>
+        <english>PC (Convective Precipation Accumulation)</english>
     </description>
     <units>metres</units>
     <color_palette>
@@ -829,7 +829,7 @@
     <nomvar>QG</nomvar>
     <description>
         <francais>QG (Humidite surface du sol)</francais>
-        <english>QG (Humidite surface du sol)</english>
+        <english>QG (Ground humidity)</english>
     </description>
     <units>kg/kg</units>
     <color_palette>
@@ -852,7 +852,7 @@
     <nomvar>QQ</nomvar>
     <description>
         <francais>QQ (Tourbillon absolu)</francais>
-        <english>QQ (Tourbillon absolu)</english>
+        <english>QQ (Absolute Vorticity)</english>
     </description>
     <units>/sec</units>
     <color_palette>
@@ -876,7 +876,7 @@
     <nomvar>QR</nomvar>
     <description>
         <francais>QR (Tourbillon relatif)</francais>
-        <english>QR (Tourbillon relatif)</english>
+        <english>QR (Relative Vorticity)</english>
     </description>
     <units>/sec</units>
     <color_palette>
@@ -900,7 +900,7 @@
     <nomvar>QS</nomvar>
     <description>
         <francais>QS (Tourbillon relatif niv.sigma)</francais>
-        <english>QS (Tourbillon relatif niv.sigma)</english>
+        <english>QS (Absolute Vorticity (sigma levels)</english>
     </description>
     <units>/sec</units>
     <color_palette>
@@ -924,7 +924,7 @@
     <nomvar>RN</nomvar>
     <description>
         <francais>RN (Accum. de precip. stratiforme)</francais>
-        <english>RN (Accum. de precip. stratiforme)</english>
+        <english>RN (Stratiform Precipitation Accumulation)</english>
     </description>
     <units>metres</units>
     <color_palette>
@@ -950,7 +950,7 @@
     <nomvar>RR</nomvar>
     <description>
         <francais>RR (Taux de precipitation liquide)</francais>
-        <english>RR (Taux de precipitation liquide)</english>
+        <english>RR (Liquid Precipitation Rate)</english>
     </description>
     <units>m/s</units>
     <color_palette>
@@ -974,7 +974,7 @@
     <nomvar>RT</nomvar>
     <description>
         <francais>RT (Taux de precipitation total)</francais>
-        <english>RT (Taux de precipitation total)</english>
+        <english>RT (Total Precipitation Rate)</english>
     </description>
     <units>m/s</units>
     <color_palette>
@@ -998,7 +998,7 @@
     <nomvar>RC</nomvar>
     <description>
         <francais>RC (Taux de precipitation convective)</francais>
-        <english>RC (Taux de precipitation convective)</english>
+        <english>RC (Convective Precipitation Rate)</english>
     </description>
     <units>m/s</units>
     <color_palette>
@@ -1022,7 +1022,7 @@
     <nomvar>SN</nomvar>
     <description>
         <francais>SN (Accum. de precip. convective)</francais>
-        <english>SN (Accum. de precip. convective)</english>
+        <english>SN (Convective Precipitation Rate)</english>
     </description>
     <units>metres</units>
     <color_palette>
@@ -1048,7 +1048,7 @@
     <nomvar>SR</nomvar>
     <description>
         <francais>SR (Taux de precipitation solide)</francais>
-        <english>SR (Taux de precipitation solide)</english>
+        <english>SR (Solid Precipitation Rate)</english>
     </description>
     <units>m/s</units>
     <color_palette>
@@ -1072,7 +1072,7 @@
     <nomvar>TG</nomvar>
     <description>
         <francais>TG (Temperature a la surface)</francais>
-        <english>TG (Temperature a la surface)</english>
+        <english>TG (Ground Temperature)</english>
     </description>
     <units>deg K</units>
     <color_palette>
@@ -1099,7 +1099,7 @@
     <nomvar>TH</nomvar>
     <description>
         <francais>TH (Temperature potentielle)</francais>
-        <english>TH (Temperature potentielle)</english>
+        <english>TH (Potential Temperature)</english>
     </description>
     <units>deg K</units>
     <color_palette>
@@ -1126,7 +1126,7 @@
     <nomvar>TM</nomvar>
     <description>
         <francais>TM (Temperature de la mer)</francais>
-        <english>TM (Temperature de la mer)</english>
+        <english>TM (Sea Surface Temperature)</english>
     </description>
     <units>deg K</units>
     <color_palette>
@@ -1153,7 +1153,7 @@
     <nomvar>TP</nomvar>
     <description>
         <francais>TP (Temperature profonde du sol)</francais>
-        <english>TP (Temperature profonde du sol)</english>
+        <english>TP (Deep Soil Temperature)</english>
     </description>
     <units>deg C</units>
     <color_palette>
@@ -1180,7 +1180,7 @@
     <nomvar>TR</nomvar>
     <description>
         <francais>TR (Temperature profonde du sol)</francais>
-        <english>TR (Temperature profonde du sol)</english>
+        <english>TR (Deep Soil Temperature)</english>
     </description>
     <units>deg C</units>
     <color_palette>
@@ -1207,7 +1207,7 @@
     <nomvar>TS</nomvar>
     <description>
         <francais>TS (Temperature a la surface)</francais>
-        <english>TS (Temperature a la surface)</english>
+        <english>TS (Surface Temperature)</english>
     </description>
     <units>deg C</units>
     <color_palette>
@@ -1234,7 +1234,7 @@
     <nomvar>TZ</nomvar>
     <description>
         <francais>TZ (Temperature de l air)</francais>
-        <english>TZ (Temperature de l air)</english>
+        <english>TZ (Air Temperature)</english>
     </description>
     <units>deg C</units>
     <color_palette>
@@ -1261,7 +1261,7 @@
     <nomvar>UU</nomvar>
     <description>
         <francais>UU (Vent est-ouest)</francais>
-        <english>UU (Vent est-ouest)</english>
+        <english>UU (X Component of the Wind)</english>
     </description>
     <units>noeuds</units>
     <color_palette>
@@ -1288,7 +1288,7 @@
     <nomvar>UV</nomvar>
     <description>
         <francais>UV (Module du vent)</francais>
-        <english>UV (Module du vent)</english>
+        <english>UV (Wind Modulus)</english>
     </description>
     <units>noeuds</units>
     <color_palette>
@@ -1315,7 +1315,7 @@
     <nomvar>VT</nomvar>
     <description>
         <francais>VT (Temperature virtuelle)</francais>
-        <english>VT (Temperature virtuelle)</english>
+        <english>VT (Virtual Temperature)</english>
     </description>
     <units>deg C</units>
     <color_palette>
@@ -1342,7 +1342,7 @@
     <nomvar>VV</nomvar>
     <description>
         <francais>VV (Vent nord-sud)</francais>
-        <english>VV (Vent nord-sud)</english>
+        <english>VV (Y Component of the Wind)</english>
     </description>
     <units>noeuds</units>
     <color_palette>
@@ -1369,7 +1369,7 @@
     <nomvar>VZ</nomvar>
     <description>
         <francais>VZ (Image satellite sp. visible)</francais>
-        <english>VZ (Image satellite sp. visible)</english>
+        <english>Visible Satellite Image</english>
     </description>
     <units>(sans unites)</units>
     <color_palette>
@@ -1399,7 +1399,7 @@
     <nomvar>WG</nomvar>
     <description>
         <francais>WG (Humidite a la surface)</francais>
-        <english>WG (Humidite a la surface)</english>
+        <english>WG (Ground Humidity)</english>
     </description>
     <units>???</units>
     <color_palette>
@@ -1423,7 +1423,7 @@
     <nomvar>WR</nomvar>
     <description>
         <francais>WR (Humidite profonde du sol)</francais>
-        <english>WR (Humidite profonde du sol)</english>
+        <english>WR (Deep Soil Humidity)</english>
     </description>
     <units>???</units>
     <color_palette>
@@ -1447,7 +1447,7 @@
     <nomvar>WW</nomvar>
     <description>
         <francais>WW (Mouvement vertical)</francais>
-        <english>WW (Mouvement vertical)</english>
+        <english>WW (Vertical Motion)</english>
     </description>
     <units>pascals/s</units>
     <color_palette>
@@ -1481,7 +1481,7 @@
     <nomvar>WS</nomvar>
     <description>
         <francais>WS (Mouvement vertical niv.sigma)</francais>
-        <english>WS (Mouvement vertical niv.sigma)</english>
+        <english>WS (Vertical motion (sigma levels)</english>
     </description>
     <units>/sec</units>
     <color_palette>
@@ -1512,7 +1512,7 @@
     <nomvar>Z0</nomvar>
     <description>
         <francais>Z0 (longueur de rugosite)</francais>
-        <english>Z0 (longueur de rugosite)</english>
+        <english>Z0 (Roughness Length)</english>
     </description>
     <units>metres</units>
     <color_palette>
@@ -1536,7 +1536,7 @@
     <nomvar>ZP</nomvar>
     <description>
         <francais>ZP (log. longueur de rugosite)</francais>
-        <english>ZP (log. longueur de rugosite)</english>
+        <english>ZP (Log(Roughness Length))</english>
     </description>
     <units>log (metres)</units>
     <color_palette>

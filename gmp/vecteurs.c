@@ -25,10 +25,8 @@ TracerVecteurs(ListePointsStruct *itemListe)
 {
    int i, res;
    
-   float xmin, xmax, ymin, ymax;
 
-   c_wglgvx(&xmin, &ymin, &xmax, &ymax);
-   itemListe->statutPRGrille= clip(itemListe->xmin, itemListe->ymin, itemListe->xmax, itemListe->ymax, xmin, ymin, xmax, ymax);
+   itemListe->statutPRGrille= clip(itemListe->xmin, itemListe->ymin, itemListe->xmax, itemListe->ymax);
    
    switch (itemListe->statutPRGrille)
       {

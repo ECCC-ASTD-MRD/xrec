@@ -26,7 +26,7 @@
 
 extern GeoMapInfoStruct     mapInfo;
 
-gmp_convert(ListePointsStruct *(*liste), int *nbItems, float pts[], int nbPoints, float xgdmin, float ygdmin, float xgdmax, float ygdmax, int nbSeg)
+int gmp_convert(ListePointsStruct *(*liste), int *nbItems, float pts[], int nbPoints, float xgdmin, float ygdmin, float xgdmax, float ygdmax, int nbSeg)
 {
    wordint i, j, n,lastN,base;
    ftnfloat deltaxmax;

@@ -408,7 +408,6 @@
     <nomvar>HU</nomvar>
     <description>
         <francais>HU (Humidite specifique)</francais>
-        <english>HU (Humidite specifique)</english>
     </description>
     <units>kg/kg</units>
     <color_palette>
@@ -1233,7 +1232,6 @@
     <nomvar>TZ</nomvar>
     <description>
         <francais>TZ (Air Temperature)</francais>
-        <english>TZ (Air Temperature)</english>
     </description>
     <units>deg C</units>
     <color_palette>
@@ -1260,7 +1258,6 @@
     <nomvar>UU</nomvar>
     <description>
         <francais>UU (X Component of the Wind)</francais>
-        <english>UU (X Component of the Wind)</english>
     </description>
     <units>knots</units>
     <color_palette>
@@ -1287,7 +1284,6 @@
     <nomvar>UV</nomvar>
     <description>
         <francais>UV (Wind Modulus)</francais>
-        <english>UV (Wind Modulus)</english>
     </description>
     <units>knots</units>
     <color_palette>
@@ -1314,7 +1310,6 @@
     <nomvar>VT</nomvar>
     <description>
         <francais>VT (Virtual Temperature)</francais>
-        <english>VT (Virtual Temperature)</english>
     </description>
     <units>deg C</units>
     <color_palette>
@@ -1341,7 +1336,6 @@
     <nomvar>VV</nomvar>
     <description>
         <francais>VV (Y Component of the Wind)</francais>
-        <english>VV (Y Component of the Wind)</english>
     </description>
     <units>knots</units>
     <color_palette>

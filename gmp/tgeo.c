@@ -29,119 +29,48 @@ f77name(tgeo)()
    float xg1,xg2,xg3,xg4;
    int ig1, ig2, ig3, ig4;
    char grtyp;
-   int ni,nj;
+   int ni,nj,gdid;
 
    c_wglscon("x");
-   x_wglopw("test-geo");
+   c_wglpsz(800, 600);
+   c_wglopw("test-geo");
    mapFlags.continents = OUI;
    
 
-   /*   c_gmpopt("GRID", 5);
-   c_wglcol(BLANC);
-   c_wglssp(1., 1., 151., 151., 0,0,0,0,0);
-   c_wgldbf();
-   c_wglbbf();
-   grtyp = 'T';
-   ni = 151;
-   nj = 151;
-   xg1 = 100000.0;
-   xg2 = 0.0;
-   xg4 = 260.0;
-
-   c_gmpopt("RESOLUTION", 1);
-   c_gmpopt("OUTLINE_COLOR", ROUGE);
-   c_gmpopt("GRID_COLOR", ROUGE);
-   for (i=-90; i < 90; i+=2)
-     {
-     xg3 = i * 1.0;
-     f77name(cxgaig)(&grtyp,&ig1, &ig2, &ig3, &ig4, &xg1, &xg2, &xg3, &xg4);
-     c_gmpset('T', 151, 151, ig1, ig2, ig3, ig4);
-     c_wglcol(BLANC);
-     c_wglclr();
-     c_gmpdrw();
-     c_wglswb();
-     }
-   while (!(c_wglbtn(BGAUCH)));
-
-
-   for (i=0; i < 360; i+=2)
-     {
-     xg3 = 45.0;
-     xg4 = i * 1.0;
-     f77name(cxgaig)(&grtyp,&ig1, &ig2, &ig3, &ig4, &xg1, &xg2, &xg3, &xg4);
-     c_gmpset('T', 151, 151, ig1, ig2, ig3, ig4);
-     c_wglcol(BLANC);
-     c_wglclr();
-     c_gmpdrw();
-     c_wglswb();
-     }
-   while (!(c_wglbtn(BGAUCH)));
-   
-
-   return;
-   */
    c_gmpopti("GRID", 5);
    c_wglcol(BLANC);
+   c_wgllwi(1);
    c_wglclr();
-   c_wglssp(1., 1., 121., 61., 0,0,0,0,0);
-   c_gmpset('L', 121, 61, 3, 7, 13890, 24020);
+   gdid= c_ezqkdef(361, 181, "B", 0, 0, 0, 0, 0);
+   gdid = c_ezdefset(gdid, gdid);
+   c_wglssp(1., 1., 361., 181., 0,0,0,0,0);
+   c_gmpset('B', 361, 181, 0, 0, 0, 0);
    c_gmpopti("RESOLUTION", 1);
    c_gmpopti("OUTLINE_COLOR", ROUGE);
    c_gmpopti("GRID_COLOR", ROUGE);
    c_gmpdrw();
-   while (!(c_wglbtn(BGAUCH)));
+   /*    while (!(c_wglbtn(BGAUCH))); */
 
    c_gmpopti("GRID", 5);
    c_wglcol(BLANC);
    c_wglclr();
    c_wglssp(1., 1., 360., 180., 0,0,0,0,0);
+   gdid= c_ezqkdef(360, 180, "G", 0, 0, 0, 0, 0);
+   gdid = c_ezdefset(gdid, gdid);
    c_gmpset('G', 360, 180, 0, 0, 0, 0);
    c_gmpopti("RESOLUTION", 1);
    c_gmpopti("OUTLINE_COLOR", ROUGE);
    c_gmpopti("GRID_COLOR", ROUGE);
    c_gmpdrw();
-   while (!(c_wglbtn(BGAUCH)));
-
-   c_gmpopti("GRID", 5);
-   c_wglcol(BLANC);
-   c_wglclr();
-   c_wglssp(1., 1., 360., 180., 0,0,0,0,0);
-   c_gmpset('E', 360, 180, 1410, 370, 55520, 49600);
-   c_gmpopti("RESOLUTION", 1);
-   c_gmpopti("OUTLINE_COLOR", ROUGE);
-   c_gmpopti("GRID_COLOR", ROUGE);
-   c_gmpdrw();
-   while (!(c_wglbtn(BGAUCH)));
+   /*    while (!(c_wglbtn(BGAUCH))); */
 
    c_wglcol(BLANC);
    c_wglclr();
    c_gmpdrw();
-   while (!(c_wglbtn(BGAUCH)));
    
    c_wglcol(BLANC);
    c_wglclr();
    c_gmpdrw();
-   while (!(c_wglbtn(BGAUCH)));
-   
-   c_wglcol(BLANC);
-   c_wglclr();
-   c_wglssp(0., 0., 360., 180., 0,0,0,0,0);
-   c_gmpset('E', 360, 180, 900, 0, 43200, 43200);
-   c_gmpopti("RESOLUTION", 10);
-   c_gmpopti("OUTLINE_COLOR", BLEU);
-   c_gmpopti("GRID_COLOR", BLEU);
-   c_gmpdrw();
-   while (!(c_wglbtn(BGAUCH)));
-   
-   c_wglcol(BLANC);
-   c_wglclr();
-   c_gmpdrw();
-   while (!(c_wglbtn(BGAUCH)));
-   
-   c_wglcol(BLANC);
-   c_wglclr();
-   c_gmpdrw();
-   while (!(c_wglbtn(BGAUCH)));
    
    for (i=0000; i <= 36000; i+=3000)
       {
@@ -152,19 +81,19 @@ f77name(tgeo)()
       c_gmpopti("GRID_COLOR", 5);
       c_gmpopti("GRID", 5);
       c_wglssp(1., 1., 181., 181., 0, 0, 0, 0, 0);
+      gdid= c_ezqkdef(181,181,"L", 100, 100, 0, i, 0);
+      gdid = c_ezdefset(gdid, gdid);
       c_gmpset('L', 181, 181, 100,  100, 0, i);
       c_gmpdrw();
-      while (!(c_wglbtn(BGAUCH)));
       c_wglcol(NOIR);
       c_wglclr();
       c_gmpdrw();
-      while (!(c_wglbtn(BGAUCH)));
       c_wglcol(NOIR);
       c_wglclr();
       c_gmpdrw();
-      while (!(c_wglbtn(BGAUCH)));
       }
 
+   exit(0);
    c_wglcol(NOIR);
    c_wglclr();
    c_wglssp(1., 1., 851., 651., 0, 0, 0, 0, 0);

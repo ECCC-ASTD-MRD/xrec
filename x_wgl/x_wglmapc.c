@@ -73,8 +73,8 @@ x_wglmapc(int colorIndex, int r, int g, int b)
 	     {
 	       if (debugMode)
 		 printf("Collision avec le colormap de defaut a l'indice: %d\n", colorIndex);
-	       c_wglinstcmap();
-	       c_wglsetwcmap();
+	       x_wglinstcmap();
+	       x_wglsetwcmap();
 	     }
 	   XStoreColor(wglDisp, (Colormap) cmap, &xcol);
 	   xcouleurs[colorIndex] = xcol;

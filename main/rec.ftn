@@ -30,7 +30,7 @@
       parameter (quitter = -1)
 
       integer xfslfer97
-      integer fstouv, fclos, fstfrm, indfich, lenfich
+      integer fstouv, fclos, fstfrm, indfich, lenfich, fstopl
 
       integer nf, oldnf
 
@@ -45,8 +45,8 @@
       integer fnom, fstopi, ezsetopt
       external fnom, fstopi, ezsetopt
       
-      character*128   nomfich
-      character*128     vide
+      character*512   nomfich
+      character*512     vide
       integer        recs(maxrecs)
       integer        nbrecs
       integer lnkdiun(maxfich)
@@ -61,10 +61,10 @@
       integer indmin, indmax, level
       
       character * 8   cle(132)
-      character * 128 def(132), val(132)
-      character * 128 nfich(maxfich)
-      character*64 tmpdir,sortiexrec
-      character*128 temporaire
+      character * 512 def(132), val(132)
+      character * 512 nfich(maxfich)
+      character*128 tmpdir,sortiexrec
+      character*512 temporaire
       
 
       character*16 ezopt,ezval
@@ -106,7 +106,7 @@
 
       nf = 1
       if (val(1).eq.def(1)) then
-         call selfic(val, 124, 128, nf)
+         call selfic(val, 124, 512, nf)
       endif
 
       if (nf.eq.0.or.val(1).eq.vide) then
@@ -114,7 +114,8 @@
          print *, 'Bonne chance - Good Luck'
          stop
       endif
-
+      
+      ier = fstopl('REDUCTION32',.true.,.false.)
       call recopnf(nbrecs, val, def, lnkdiun, nf)
 
       if (val(129).eq.'NON') then
@@ -162,7 +163,7 @@
       if (inf.eq.ouvrir) then
          oldnf = nf
          call allpdown
-         call selfic(val(oldnf+1), 124-oldnf, 128, nf)
+         call selfic(val(oldnf+1), 124-oldnf, 512, nf)
          call allpup
          if (nf.eq.0)  then
             nf=oldnf
@@ -221,7 +222,7 @@ c     ****************************************************************
       subroutine recopnf(nbrecs, val, def, lnkdiun, nf)
       implicit none
       integer nbrecs
-      character*128 val(*), def(*)
+      character*512 val(*), def(*)
       integer tol
       integer lnkdiun(*)
       integer nf
@@ -289,7 +290,7 @@ c     ****************************************************************
       subroutine recckar(iun, aspect)
       implicit none
       integer iun
-      character*128 aspect
+      character*(*) aspect
 
       integer fstinf
       external fstinf
@@ -365,7 +366,7 @@ c     ****************************************************************
       character *(*) filename
 
       character * 8   cle(48)
-      character * 128 def(48), val(48)
+      character * 512 def(48), val(48)
 
       common /ccardprm/ cle, def, val
       filename = val(42)

@@ -25,7 +25,7 @@ x_wglcmi(int left, int bottom, int right, int top)
   XRectangle rect;
   int w,h;
   
-  c_wglgwz(&w,&h);
+  x_wglgwz(&w,&h);
   
   rect.x = (short) left;
   rect.y = (short) (h - top);

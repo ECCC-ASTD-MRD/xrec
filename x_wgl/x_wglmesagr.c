@@ -24,11 +24,11 @@ x_wglmesgagr(char *message)
 {
    int largeurTexte;
 
-   largeurTexte = c_wglwsi(message, strlen(message)); 
+   largeurTexte = x_wglwsi(message, strlen(message)); 
 
    XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
-   c_wglfsz(14);
-   c_wglpsi((w-largeurTexte)/2,10,message,strlen(message),14,0,0);
+   x_wglfsz(14);
+   x_wglpsi((w-largeurTexte)/2,10,message,strlen(message),14,0,0);
    XFlush(wglDisp);
    
    }

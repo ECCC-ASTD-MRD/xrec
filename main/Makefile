@@ -14,8 +14,8 @@ FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
 
 CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(HOME)/src/gd2/ -DX_WGL
 
-#@OPTIMIZ = -O 3
-OPTIMIZ = -debug -O 0
+OPTIMIZ = -O 3
+#OPTIMIZ = -debug -O 0
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
@@ -53,7 +53,7 @@ CDECKS= \
          geometrie.c       grid_status.c       grille.c \
          hilo.c       i2rgdint.c       inversion.c \
          lclevent.c       legende.c       logo_rpn.c \
-         manipule.c       mapinfo.c       message.c       no_rmnlib.c \
+         dictxml.c      manipule.c       mapinfo.c       message.c       no_rmnlib.c \
          nocore.c       opRefusee.c       p_anim.c       p_attr.c \
          p_avert.c       p_contour.c       p_coupe.c       p_diapo.c \
          p_edition.c       p_geo.c       p_minmax.c       p_palette.c \
@@ -109,6 +109,7 @@ reclib: $(RECLIB)(convip.o) \
 	$(RECLIB)(legende.o) \
 	$(RECLIB)(logo_rpn.o) \
 	$(RECLIB)(manipule.o) \
+	$(RECLIB)(dictxml.o) \
 	$(RECLIB)(mapinfo.o) \
 	$(RECLIB)(message.o) \
 	$(RECLIB)(no_rmnlib.o) \
@@ -168,13 +169,16 @@ xrec-Linux_alpha:
 	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Mrm Xp Xt Xmu X11 gd2 z png m -librmn
 
 xrec-Linux:
-	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl StaticXm StaticMrm Xp Xt Xext X11 expat gd2 z png m -librmn rmnbeta
+	r.build -bidon -main xrec -o $(TMPDIR)/xrec -obj $(HOME)/src/interp/f_ezscint.o $(HOME)/src/interp/c_ezscint.o -libpath /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl StaticXm StaticMrm Xp Xt Xext X11 xml2 expat gd2 z png m -librmn rmnbeta 
+
+xrec-phillips:
+	r.build -bidon -main xrec -shared static -o $(TMPDIR)/xrec -libpath $(REC)/lib/Linux /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Mrm  Xp Xt Xext X11 xml2 expat gd2 z png m -librmn rmnbeta 
 
 xrec-local:
 	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Mrm Xp Xt Xext X11 gd2 z png m -librmn rmn_x
 
 xrec-IRIX64:
-	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Xt X11 gd2 png z m -librmn  rmnbeta
+	r.build -bidon -main xrec -o $(TMPDIR)/xrec -obj /home/dormrb02/LIB2000/pub/fstd98/fstd98.o -libpath $(REC)/lib/IRIX64 /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Xt X11 expat gd2 png z m -librmn rmnbeta
 
 xrec-HP-UX:
 	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Xt X11 gd2 png z m -librmn  rmnbeta

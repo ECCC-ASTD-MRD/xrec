@@ -23,5 +23,5 @@
 int x_wglbtp(int bouton)
 {
    int i,j;
-   return (int) c_wglbtpi(bouton, &i, &j);
+   return (int) x_wglbtpi(bouton, &i, &j);
    }

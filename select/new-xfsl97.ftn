@@ -43,7 +43,7 @@
       character*2 typvar 
       character*1 grtyp
       character*12 etiket
-      character*160  titre
+      character*128  titre
 
       integer key, date0, deet, npas, ni, nj, nk, nbits, datyp 
       integer ip1, ip2, ip3, swa, lng, dltf, ubc
@@ -81,7 +81,7 @@
       nbdes = 7
       call initid97(idents, maxdes)
       call inittab97(tableau, table, ligne)
-      write(titre, 5) nomfich
+      write(titre, 5) nomfich(1:min(len(nomfich),128))
 
 *    
 *    

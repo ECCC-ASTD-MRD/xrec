@@ -69,6 +69,7 @@ void c_gmpdrw()
    if (ymax > gdymax)
       ymax = gdymax;
 
+/*    c_wglcmx(xmin, ymin, xmax, ymax); */
    if (xmin == old_xmin && xmax == old_xmax && ymin == old_ymin && ymax == old_ymax)
       mapFlags.verifStatutNecessaire = NON;
    else

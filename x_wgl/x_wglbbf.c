@@ -27,10 +27,10 @@ x_wglbbf()
    unsigned int width, height, border_width, depth, nplanes;
    int largeurFenetre, hauteurFenetre;
    
-   nplanes = c_wglgpl();
+   nplanes = x_wglgpl();
 
    XGetGeometry(wglDisp, bgPix, &root, &x, &y, &width, &height, &border_width, &depth);
-   c_wglgwz(&largeurFenetre, &hauteurFenetre);
+   x_wglgwz(&largeurFenetre, &hauteurFenetre);
 
    if (largeurFenetre != width || hauteurFenetre != height)
       {

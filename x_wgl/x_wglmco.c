@@ -22,7 +22,7 @@
 
 x_wglmco(int couleur, int r, int g , int b)
 {
-   if (8 <= c_wglgpl())
+   if (8 <= x_wglgpl())
       {
       wglmapc(couleur, r, g, b);
       }

@@ -116,7 +116,7 @@ int gmp_perim(float *xgdmin, float *ygdmin,  float *xgdmax,  float *ygdmax, floa
 int gmp_convert(ListePointsStruct *(*liste), int *nbItems, float pts[], int nbPoints, float xgdmin, float ygdmin, float xgdmax, float ygdmax, int nbSeg);
 void LibererCarte(ListePointsStruct *(*liste), int *nbItems);
 int CopierMapInfos(GeoMapInfoStruct *mapInfoSortie, GeoMapInfoStruct *mapInfoEntree);
-int clip(float x1, float y1, float x2, float y2, float  xmin, float ymin, float xmax, float ymax);
+int clip(float x1, float y1, float x2, float y2);
 int gmp_llfgr(float *lat, float *lon, float x, float y, float latOrigine, float lonOrigine, float deltaLat, float deltaLon);
 int c_grfll(float *x, float *y, float lat, float lon, float latOrigine, float lonOrigine, float deltaLat, float deltaLon, float xOrigine, float yOrigine, int   orientation);
 int c_gmpzset(char grtyp, int ni, int nj,  int ig1, int ig2, int ig3, int ig4, char typeref, int ig1ref, int ig2ref, int ig3ref, int ig4ref);
@@ -126,21 +126,3 @@ void c_gmpl2g(float *x,float *y,float lat,float lon);
 void c_gmpg2l(float *lat,float *lon,float x,float y);
 void c_gmpdrw();
 void AfficherVecteurs(ListePointsStruct *liste, int nbItems, int style, int couleur, int epaisseur);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
