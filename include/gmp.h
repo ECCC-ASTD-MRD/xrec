@@ -101,6 +101,14 @@ typedef struct
   PointGeoStruct *pointsGeo;
 } ListePointsStruct;
 
+typedef struct 
+{
+  char text[32];
+  float lat, lon;
+  float x, y;
+  int statutPRGrille;
+} ListeTextStruct;
+
 typedef struct
 {
   char  *fichierGeographie[2];
@@ -148,3 +156,4 @@ void c_gmpl2g(float *x,float *y,float lat,float lon);
 void c_gmpg2l(float *lat,float *lon,float x,float y);
 void c_gmpdrw();
 void AfficherVecteurs(ListePointsStruct *liste, int nbItems, int style, int couleur, int epaisseur);
+void c_gmpDrawCityName(float x, float y, char *text);

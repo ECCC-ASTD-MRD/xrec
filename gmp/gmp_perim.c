@@ -46,17 +46,6 @@ int gmp_perim(float *xgdmin, float *ygdmin,  float *xgdmax,  float *ygdmax, floa
 
    res = clip(*xgdmin, *ygdmin, *xgdmax, *ygdmax);
    
-   /*
-   if (*ygdmin == *ygdmax)
-     {
-     fprintf(stderr, "gmp_perim, res = %d\n", res);
-     }
-
-      if ((*xgdmax - *xgdmin) > 0.85 * 360.0)
-      *nbSeg = 2;
-      else
-      *nbSeg = 1;
-      */
    *nbSeg = 1;
    return res;
 }

@@ -27,7 +27,6 @@ TracerVecteurs(ListePointsStruct *itemListe)
    
 
    itemListe->statutPRGrille= clip(itemListe->xmin, itemListe->ymin, itemListe->xmax, itemListe->ymax);
-   itemListe->statutPRGrille= DEDANS;
    
    switch (itemListe->statutPRGrille && itemListe ->npts > 0)
       {

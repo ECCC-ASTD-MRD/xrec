@@ -2781,6 +2781,7 @@ int   *iun;
 #endif
 
 
+   c_gmpinit();
    PgSetResolution(50);
    PgSetMeridiens(OUI);
    PgSetEspacementMeridiens(10);
@@ -2812,6 +2813,7 @@ int   *iun;
       xc.statuts[LEGENDE_COULEUR] = FALSE;
       }
 
+   xc.statuts[GEOGRAPHIE] = TRUE;
    xc.statutSuperposition = FALSE;
    xc.carteLue = FALSE;
    xc.NbMenusIntervalles = XtNumber(menuItemFacteurMult);
@@ -2880,7 +2882,6 @@ int   *iun;
    EnleverBoutonAnnulation();   
    XFlush(XtDisplay(xc.topLevel));
    
-   c_gmpinit();
    return xc.statut;
    }
 

@@ -43,3 +43,25 @@ NewGeoItem(ListePointsStruct *(*liste), int *nbItems)
   liste[0][*nbItems].npts = -13;
   (*nbItems)++;
 }
+
+
+NewTextItem(ListeTextStruct *(*liste), int *nbItems)
+{
+  int nbytes;
+  
+  if (*nbItems == 0)
+    {
+    *liste = (ListeTextStruct *) calloc(256,sizeof(ListeTextStruct));
+    }
+  else
+    {
+    if ((*nbItems % 256) == 0)
+      {
+      nbytes = (*nbItems+256)*sizeof(ListeTextStruct);
+      *liste = (ListeTextStruct *) realloc((ListeTextStruct *) *liste, (unsigned int) nbytes);
+      }
+    }
+  
+  
+  (*nbItems)++;
+}

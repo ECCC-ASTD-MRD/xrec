@@ -29,7 +29,6 @@ int clip(float x1, float y1, float x2, float y2)
    
    c1 = CODE(x1, y1, gmp_xmin, gmp_ymin, gmp_xmax, gmp_ymax);
    c2 = CODE(x2, y2, gmp_xmin, gmp_ymin, gmp_xmax, gmp_ymax);
-   /*    if (x1 == x2 || y1 == y2) return DEHORS; */
    
    if (c1 & c2)
       {

@@ -219,7 +219,7 @@ float x1, y1, x2, y2;
       sprintf(nombre, format, contourCourant);
       longueurString = strlen(nombre);
       px = 45.0/largeurLegende*100.0;
-      printf("<avant wglpsx>: %f %f %s %d %d %d %d\n", px, pos, nombre, longueurString, fz, 0,0);	 
+      /*       printf("<avant wglpsx>: %f %f %s %d %d %d %d\n", px, pos, nombre, longueurString, fz, 0,0);	  */
       c_wglpsx(px, pos, nombre, longueurString, fz, 0, 0);
       i++;
       }

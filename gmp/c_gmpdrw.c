@@ -35,6 +35,10 @@ extern GeoMapOptionsStruct mapOptions;
 extern ListePointsStruct *vecsContinents;
 extern ListePointsStruct *vecsMeridiens;
 extern ListePointsStruct *gmp_vecs[];
+
+extern ListeTextStruct *gmp_cities;
+extern int gmp_nbCities;
+
 extern int gmp_nbVecs[];
 extern int nbVecsContinents;
 extern int nbVecsMeridiens;
@@ -50,7 +54,8 @@ f77name(gmpdrw)()
 
 void c_gmpdrw()
 {
-  int i;
+  int i,n;
+
   if (mapFlags.typeValide == NON)
     return;
   
@@ -66,38 +71,35 @@ void c_gmpdrw()
     LibererCarte(&(gmp_vecs[CONTINENTS]), &gmp_nbVecs[CONTINENTS]);
     LibererCarte(&(gmp_vecs[PAYS]), &gmp_nbVecs[PAYS]);
     LibererCarte(&(gmp_vecs[PROVINCES]), &gmp_nbVecs[PROVINCES]);
-    LibererCarte(&(gmp_vecs[RIVIERES]), &gmp_nbVecs[RIVIERES]);
+    LibererCarte(&(gmp_vecs[LATLON]), &gmp_nbVecs[LATLON]);
     lire_geo();
     }
   else
     {
     for (i=0; i < 8; i++)
       {
-      if (mapFlags.etat[i] == OUI && i != LATLON)
+      if (mapFlags.etat[i] == OUI)
 	{
-	ActiverParamsLigne(mapFlags.style[i], mapFlags.indCouleur[i], mapFlags.epaisseur[i]);
-	AfficherVecteurs(gmp_vecs[i], gmp_nbVecs[i], mapFlags.style[i], mapFlags.indCouleur[i], mapFlags.epaisseur[i]);
+	switch (i)
+	  {
+	  case VILLES:
+	    for (n=0; n < gmp_nbCities; n++)
+	      {
+	      c_gmpDrawCityName(gmp_cities[n].x, gmp_cities[n].y, (char *)gmp_cities[n].text);
+	      }
+	    /* absence de break intentionnelle */
+	    
+	  default:
+	    ActiverParamsLigne(mapFlags.style[i], mapFlags.indCouleur[i], mapFlags.epaisseur[i]);
+	    AfficherVecteurs(gmp_vecs[i], gmp_nbVecs[i], mapFlags.style[i], mapFlags.indCouleur[i], mapFlags.epaisseur[i]);
+	    break;
+	    
+	  }
+	
 	}
       }
     }
-  
-  
-  if (mapFlags.etat[LATLON] == OUI)
-    {
-    ActiverParamsLigne(mapFlags.style[LATLON], mapFlags.indCouleur[LATLON], 
-		       mapFlags.epaisseur[LATLON]);
-    if (mapFlags.lu[LATLON] == NON)
-      {
-      LibererCarte(&(gmp_vecs[LATLON]), &gmp_nbVecs[LATLON]);
-      LireLatLon(&(gmp_vecs[LATLON]), &gmp_nbVecs[LATLON]);
-      mapFlags.lu[LATLON]= OUI;
-      }
-    else
-      {
-      AfficherVecteurs(gmp_vecs[LATLON], gmp_nbVecs[LATLON], 
-		       mapFlags.style[LATLON], mapFlags.indCouleur[LATLON], mapFlags.epaisseur[LATLON]);
-      }
-    }
+      
   
   old_gmp_xmin = gmp_xmin;
   old_gmp_xmax = gmp_xmax;
