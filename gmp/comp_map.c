@@ -21,8 +21,7 @@
 #include <gmp.h>
 #include <math.h>
 
-ComparerMapInfos(mapInfo1, mapInfo2)
-GeoMapInfoStruct mapInfo1, mapInfo2;
+ComparerMapInfos(GeoMapInfoStruct mapInfo1, GeoMapInfoStruct mapInfo2)
 {
    if (mapInfo1.type != mapInfo2.type || mapInfo1.typeref != mapInfo2.typeref)
       return  PAS_PAREIL;

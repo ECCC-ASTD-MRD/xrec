@@ -24,8 +24,7 @@
 
 extern GeoMapInfoStruct     mapInfo;
 
-void c_gmpl2g(x,y,lat,lon)
-float *x,*y,lat,lon;
+void c_gmpl2g(float *x,float *y,float lat,float lon)
 {
    float tmpLat, tmpLon;
    float xori, yori;

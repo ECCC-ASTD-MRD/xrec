@@ -20,10 +20,7 @@
 
 #include <gmp.h>
 
-extern float  xmin, ymin, xmax, ymax;
-
-clip(x1, y1, x2, y2)
-float x1, y1, x2, y2;
+int clip(float x1, float y1, float x2, float y2, float  xmin, float ymin, float xmax, float ymax)
 {
    int c1, c2;
    float dx, dy;

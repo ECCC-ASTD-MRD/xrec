@@ -33,7 +33,8 @@ int f77name(wglbtpx)(int *bouton, float *x, float *y)
 
 int c_wglbtpx(int bouton, float *x, float *y)
 {
-int i,j;
-  c_wglxai(&i, &j, *x, *y); 
-  return (int) wglc_wgl->wglbtpi(bouton, &i, &j);
-   }
+  int i,j, res;
+  res =  wglc_wgl->wglbtpi(bouton, &i, &j);
+  c_wgliax(x, y, i, j);
+  return res;
+}

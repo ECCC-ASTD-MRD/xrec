@@ -19,7 +19,7 @@
  */
 
 #include <stdio.h>
-#include <c_wgl.h>
+#include <wgl.h>
 /**
    static char *messNouveauProfil[] = {"\
 Dans la fenetre d'affichage...\n\n\

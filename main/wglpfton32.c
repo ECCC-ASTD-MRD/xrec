@@ -19,7 +19,7 @@
  */
 
 #include <rec.h>
-#include <c_wgl.h>
+#include <wgl_x.h>
 
 /**
   objet:    c_wglpfton
@@ -42,14 +42,6 @@
 
 #define C_TO_FTN(i,j,ni)  (int)((ni) * (j) + i)
 
-extern Display *wglDisp;
-extern Screen  wglScrNum;
-extern Window  wglDrawable;
-extern GC wglFillGC;
-extern XVisualInfo visInfo;
-extern XColor couleurs[256];
-
-extern int     wglColorTable[256];
 extern _Viewport    viewp;
 
 
@@ -87,7 +79,6 @@ int colorTable[], ncol, flagInterrupt, lissfac;
   float fraction;
    
   unsigned int pixel;
-  extern unsigned int c_wglcolf();
   float rfac, eps;
   float *tmpVals;
   float *tmpInds;

@@ -36,13 +36,13 @@ unsigned int x_wglcolf(float couleur)
    
    icol = (int) couleur;
    dcol = couleur - icol;
-   r1=couleurs[icol].red;
-   g1=couleurs[icol].green;
-   b1=couleurs[icol].blue;
+   r1=xcouleurs[icol].red;
+   g1=xcouleurs[icol].green;
+   b1=xcouleurs[icol].blue;
 
-   r2=couleurs[icol+1].red;
-   g2=couleurs[icol+1].green;
-   b2=couleurs[icol+1].blue;
+   r2=xcouleurs[icol+1].red;
+   g2=xcouleurs[icol+1].green;
+   b2=xcouleurs[icol+1].blue;
    
    r = r1 + dcol * (r2-r1);
    g = g1 + dcol * (g2-g1);
@@ -72,13 +72,13 @@ unsigned int x_wglcolfs(float *cols, unsigned int *pixels, int n)
     {
     icol = (int) cols[i];
     dcol = cols[i] - icol;
-    r1=couleurs[icol].red;
-    g1=couleurs[icol].green;
-    b1=couleurs[icol].blue;
+    r1=xcouleurs[icol].red;
+    g1=xcouleurs[icol].green;
+    b1=xcouleurs[icol].blue;
     
-    r2=couleurs[icol+1].red;
-    g2=couleurs[icol+1].green;
-    b2=couleurs[icol+1].blue;
+    r2=xcouleurs[icol+1].red;
+    g2=xcouleurs[icol+1].green;
+    b2=xcouleurs[icol+1].blue;
     
     r = r1 + dcol * (r2-r1);
     g = g1 + dcol * (g2-g1);
@@ -90,7 +90,7 @@ unsigned int x_wglcolfs(float *cols, unsigned int *pixels, int n)
     }
 }
 
-unsigned int wglcolfs_fst(float *cols, unsigned int *pixels, int n)
+unsigned int x_wglcolfs_fst(float *cols, unsigned int *pixels, int n)
 {
   int r,g,b;
   int r1,g1,b1;
@@ -112,6 +112,6 @@ unsigned int wglcolfs_fst(float *cols, unsigned int *pixels, int n)
     {
     icol = (int) cols[i];
     
-    pixels[i] =  (((couleurs[icol].red * ir2) >>16) << ir0) + (((couleurs[icol].green * ig2) >>16) << ig0) + (((couleurs[icol].blue*ib2) >>16) << ib0);
+    pixels[i] =  (((xcouleurs[icol].red * ir2) >>16) << ir0) + (((xcouleurs[icol].green * ig2) >>16) << ig0) + (((xcouleurs[icol].blue*ib2) >>16) << ib0);
     }
 }

@@ -20,8 +20,6 @@
 
 #include <wgl_x.h> 
 
-int printbidon(char *string, float xxx1, float yyy1, float xxx2, float yyy2, 
-	       int iii1, int jjj1, int iii2, int jjj2);
 void c_wglssp(float xdebut, float ydebut, float xfin, float yfin, int idebut, int jdebut, int ifin, int jfin, int mode);
 
  int x_wglopw(char *nomFenetre)
@@ -31,38 +29,21 @@ void c_wglssp(float xdebut, float ydebut, float xfin, float yfin, int idebut, in
    int iii1, www1, iii2, www2;
 
    x_wglinit();
-   x_wglnewwin();
 
       
    lng = c_getulng();
-   
-   iii1 = 0;
-   www1 = 0;
-   iii2 = 640;
-   www2 = 480;
-   xxx1 = 0.0;
-   xxx2=1.0*iii2;
-   yyy1= 0.0;
-   yyy2=1.0*www2;
    
       if (nomFenetre[0] == '?')
       sprintf(tempNomFenetre, "X-%s", &nomFenetre[1]);
    else
       strcpy(tempNomFenetre, nomFenetre);
    
-   printf("printf fonction %f %f %f %f - %d %d %d %d\n ", xxx1, yyy1, xxx2, yyy2, iii1, www1, iii2, www2);
-   printf("printf etoiles %x %x %x %x - %x %x %x %x\n ", &xxx1, &yyy1, &xxx2, &yyy2, &iii1, &www1, &iii2, &www2);
-   printbidon("avant x_wgliniwin", xxx1, yyy1, xxx2, yyy2, iii1, www1, iii2, www2);
-   printbidonetoile("avant x_wgliniwin", &xxx1, &yyy1, &xxx2, &yyy2, &iii1, &www1, &iii2, &www2);
-       x_wgliniwin(tempNomFenetre);
-   printbidon("apres x_wgliniwin", xxx1, yyy1, xxx2, yyy2, iii1, www1, iii2, www2);
-
    if (!wglForceAspectSet)
       wglForceAspect = True;
 
+   x_wglnewwin();
+   x_wgliniwin(tempNomFenetre);
    XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
-
-   printbidon("apres x_getwindowattrib", xxx1, yyy1, xxx2, yyy2, iii1, www1, iii2, www2);
 
    w = wglWinAttr.width;
    h = wglWinAttr.height;
@@ -76,10 +57,7 @@ void c_wglssp(float xdebut, float ydebut, float xfin, float yfin, int idebut, in
    yyy1= 0.0;
    yyy2=1.0*www2;
    
-   printbidon("avant wglssp", xxx1, yyy1, xxx2, yyy2, iii1, www1, iii2, www2);
-   
    c_wglssp(xxx1, yyy1, xxx2, yyy2, iii1, www1, iii2, www2, 0);
-   printbidon("apres  wglssp", xxx1, yyy1, xxx2, yyy2, iii1, www1, iii2, www2);
    usSpace.axex = NULL;
    usSpace.axey = NULL;
    usSpace.ni   = 0;

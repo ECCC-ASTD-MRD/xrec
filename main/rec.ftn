@@ -96,6 +96,7 @@
       
 
       call qqqnocore
+      call wglscon('x')
       ezopt = 'EXTRAP_DEGREE'
       ezval = 'MAXIMUM'
       ier = ezsetopt(ezopt,ezval)

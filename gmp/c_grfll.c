@@ -23,10 +23,7 @@
 
 extern GeoMapInfoStruct mapInfo;
 
-c_grfll(x, y, lat, lon, latOrigine, lonOrigine, deltaLat, deltaLon, xOrigine, yOrigine, orientation)
-float *x, *y;
-float lat, lon, latOrigine, lonOrigine, deltaLat, deltaLon, xOrigine, yOrigine;
-int   orientation;
+c_grfll(float *x, float *y, float lat, float lon, float latOrigine, float lonOrigine, float deltaLat, float deltaLon, float xOrigine, float yOrigine, int   orientation)
 {
    *x = fmod((lon - lonOrigine)+360.,360.) / deltaLon + xOrigine;
 

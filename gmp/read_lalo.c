@@ -33,9 +33,7 @@ extern GeoMapFlagsStruct    mapFlags;
 extern GeoMapOptionsStruct mapOptions;
 
 
-LireLatLon(liste, nbItems)
-ListePointsStruct *(*liste);
-int *nbItems;
+LireLatLon(ListePointsStruct *(*liste), int *nbItems)
 {
    FILE *FichierEntree;
    float pts[20480];

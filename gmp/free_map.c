@@ -21,9 +21,7 @@
 #include <gmp.h>
 #include <stdio.h>
 
-void LibererCarte(liste, nbItems)
-ListePointsStruct *(*liste);
-int *nbItems;
+void LibererCarte(ListePointsStruct *(*liste), int *nbItems)
 {
    int i;
    

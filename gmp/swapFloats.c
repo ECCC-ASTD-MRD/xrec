@@ -19,8 +19,7 @@
  */
 
 
-int swapFloats(a, b)
-float *a, *b;
+int swapFloats(float *a, float *b)
 {
    float temp;
 

@@ -21,15 +21,13 @@
 #include <gmp.h>
 #include <math.h>
 
-gmp_trim(pts, nbpts, resolution)
-float pts[];
-int *nbpts;
-float resolution;
+gmp_trim(float pts[], int *nbpts, float resolution)
 {
    int i,j, newnbpts;
    float lastLat, lastLon;
    float newpts[200];
    
+   return 0;
    lastLat = pts[0];
    lastLon = pts[1];
    newpts[0] = pts[0];

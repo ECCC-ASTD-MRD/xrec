@@ -20,6 +20,7 @@
 
 #include <math.h>
 #include <rec.h>
+#include <wgl.h>
 #include <rpnmacros.h>
 
 #define C2FTN(i,j,ni)  (int)((ni) * (j) + i)

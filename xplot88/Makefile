@@ -12,11 +12,12 @@ REC_UTILLIB = $(REC)/lib/$(ARCH)$(ABI)/librec_util.a
 
 FFLAGS = 
 
-CFLAGS = -I$(ARMNLIB)/include -I$(REC)/include -DX_REC_UTIL
+CFLAGS = -I$(ARMNLIB)/include -I../include -DX_REC_UTIL
 
 OPTIMIZ = -O 2
+OPTIMIZ = -O 0  -debug
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I$(REC)/include -DX_REC_UTIL
+CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_REC_UTIL
 
 .PRECIOUS:
 
@@ -50,10 +51,6 @@ CDECKS= \
 FDECKS= \
          xopget.f       xopset.f
 
-OBJECTS= \
-         init.o       vcar.o       xopget.o       xopset.o \
-         xplot88.o
-
 COMDECKS= \
          impnone.cdk       libra.cdk
 
@@ -63,7 +60,7 @@ FICHIERS = $(FDECKS) $(CDECKS) $(ASDECKS) $(HDECKS)
 xopget.f: xopget.ftn 	impnone.cdk 	libra.cdk 
 xopset.f: xopset.ftn 	impnone.cdk 	libra.cdk 
 
-obj: $(FTNDECKS) $(FDECKS) $(CDECKS) $(OBJECTS) 
+obj: $(FTNDECKS) $(FDECKS) $(CDECKS)
 #Produire les fichiers objets (.o) pour tous les fichiers
 
 qclean:

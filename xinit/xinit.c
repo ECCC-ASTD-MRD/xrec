@@ -30,7 +30,6 @@
 #include <xinit.h>
 #include <ctype.h>
 #include <rpnmacros.h>
-#include <wgl_contexte.h>
 
 #define DEFAULT_RESOURCE_DIR "/usr/local/env/armnlib/data"
 #define INITIALISATION_COMPLETEE 101

@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <rpnmacros.h>
+#include <wgl.h>
 #include <gmp.h>
 
 extern float gdxmin, gdymin, gdxmax, gdymax;
@@ -68,8 +68,6 @@ void c_gmpdrw()
    
    if (ymax > gdymax)
       ymax = gdymax;
-
-   c_wglcmx(xmin, ymin, xmax, ymax);
 
    if (xmin == old_xmin && xmax == old_xmax && ymin == old_ymin && ymax == old_ymax)
       mapFlags.verifStatutNecessaire = NON;

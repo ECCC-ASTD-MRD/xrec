@@ -10,13 +10,13 @@ CPP = /lib/cpp
 
 REC_UTILLIB = $(REC)/lib/$(ARCH)$(ABI)/librec_util.a
 
-FFLAGS = -I$(ARMNLIB)/include -I$(REC)/include -DX_WGL
+FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
 
-CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I$(REC)/include -DX_WGL
+CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -DX_WGL
 
 OPTIMIZ = -O 2
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I$(REC)/include -DX_WGL
+CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
 .PRECIOUS: $(REC_UTILLIB)
 
@@ -44,11 +44,9 @@ FDECKS=
 
 CDECKS=  edit.c outil.c repertoire.c select.c
 
-OBJECTS= edit.o outil.o repertoire.o select.o
-
 COMDECKS= 
 
-obj: $(FTNDECKS) $(FDECKS) $(CDECKS) $(OBJECTS) 
+obj: $(FTNDECKS) $(FDECKS) $(CDECKS) 
 #Produire les fichiers objets (.o) pour tous les fichiers
 
 

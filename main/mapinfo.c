@@ -23,7 +23,7 @@
 #include <rpnmacros.h>
 #include <xinit.h>
 #include <gmp.h>
-#include <c_wgl.h>
+#include <wgl.h>
 #include <souris.h>
 #include <rec.h>
 

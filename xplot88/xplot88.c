@@ -40,7 +40,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <vcar.h>
-#include <rpnmacros.h>
+#include <wgl.h>
 
  static int  lst_x;
  static int  lst_y;

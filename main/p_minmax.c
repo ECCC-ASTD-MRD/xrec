@@ -22,7 +22,7 @@
 
 #include <rpnmacros.h>
 #include <rec.h>
-#include <c_wgl.h>
+#include <wgl.h>
 #include <xinit.h>
 
 extern SuperWidgetStruct SuperWidget;

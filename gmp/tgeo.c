@@ -18,10 +18,8 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <stdio.h>
-#include <c_wgl.h>
+#include <wgl.h>
 #include <gmp.h>
-#include <rpnmacros.h>
 
 extern GeoMapFlagsStruct   mapFlags;
 f77name(tgeo)()
@@ -33,7 +31,8 @@ f77name(tgeo)()
    char grtyp;
    int ni,nj;
 
-   c_wglopw("test-geo");
+   c_wglscon("x");
+   x_wglopw("test-geo");
    mapFlags.continents = OUI;
    
 
@@ -278,17 +277,17 @@ f77name(tgeo)()
    c_wglrlx(1.0, 1.0, 151.0, 100.0);
 
    c_wglcol(BLANC);
-   c_wglssp(1.0, 1.0, 151.0, 100.0, 0, 0, 200, 200);
+   c_wglssp(1.0, 1.0, 151.0, 100.0, 0, 0, 200, 200, 0);
    c_gmpset('N',  151, 100, 820,  465,  2100,  1000);
    c_gmpdrw();
 
-   c_wglssp(1.0, 1.0, 151.0, 100.0, 200, 000, 400, 200);
+   c_wglssp(1.0, 1.0, 151.0, 100.0, 200, 000, 400, 200, 0);
    c_gmpdrw();
  
-   c_wglssp(1.0, 1.0, 151.0, 100.0, 200, 200, 400, 400);
+   c_wglssp(1.0, 1.0, 151.0, 100.0, 200, 200, 400, 400, 0);
    c_gmpdrw();
  
-   c_wglssp(1.0, 1.0, 151.0, 100.0, 000, 200, 200, 400);
+   c_wglssp(1.0, 1.0, 151.0, 100.0, 000, 200, 200, 400, 0);
    c_gmpdrw();
  
    while (!(c_wglbtn(BGAUCH)));
@@ -387,9 +386,4 @@ f77name(tgeo)()
 
 
 
-   }
-
-c_wglanul()
-{
-   return 0;
    }

@@ -12,12 +12,12 @@ REC_UTILLIB = $(REC)/lib/$(ARCH)$(ABI)/librec_util.a
 
 FFLAGS = 
 
-CFLAGS =  -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I$(REC)/include -DX_WGL
+CFLAGS =  -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -DX_WGL
 
 #OPTIMIZ = -O 2
 OPTIMIZ = -O 0 -debug
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I$(REC)/include -DX_WGL
+CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
 .PRECIOUS:
 
@@ -49,22 +49,14 @@ CDECKS= \
          flush.c       langue.c       parent.c \
          strutil.c       widgets-util.c       xinit.c       xrecsel.c
 
-OBJECTS= \
-         flush.o       langue.o       new-xfsl97.o \
-         parent.o       strutil.o \
-         widgets-util.o xinit.o \
-         xrecsel.o
-
 COMDECKS= \
          xfsl.cdk
 
-new-xfsl97.o:	new-xfsl97.ftn 
-
-obj: $(CDECKS) $(FDECKS) $(OBJECTS)
+obj: $(CDECKS) $(FDECKS) 
 #Produire les fichiers objets (.o) pour tous les fichiers
 
 
-rec_utillib:	$\
+rec_utillib:	\
 	$(REC_UTILLIB)(flush.o) \
 	$(REC_UTILLIB)(langue.o) \
 	$(REC_UTILLIB)(parent.o) \

@@ -18,8 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <c_wgl.h>
-#include <rpnmacros.h>
+#include <wgl.h>
 #include <vcar.h>
    
 f77name(xfrstpt)(x, y)		

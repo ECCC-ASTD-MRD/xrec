@@ -44,26 +44,5 @@ unsigned int c_wglcolfs(float *cols, unsigned int *pixels, int n)
 
 unsigned int c_wglcolfs_fst(float *cols, unsigned int *pixels, int n)
 {
-  int r,g,b;
-  int r1,g1,b1;
-  int r2,g2,b2;
-  unsigned int icol, pixel;
-  float dcol;
-  int i,normal;
-  int ir0,ig0,ib0,ir2,ig2,ib2;
-
-  ir0 = colorbitrange[0][0];
-  ig0 = colorbitrange[1][0];
-  ib0 = colorbitrange[2][0];
-
-  ir2 = colorbitrange[0][2];
-  ig2 = colorbitrange[1][2];
-  ib2 = colorbitrange[2][2];
-  
-  for (i=0; i < n; i++)
-    {
-    icol = (int) cols[i];
-    
-    pixels[i] =  (((couleurs[icol].red * ir2) >>16) << ir0) + (((couleurs[icol].green * ig2) >>16) << ig0) + (((couleurs[icol].blue*ib2) >>16) << ib0);
-    }
+  wglc_wgl->wglcolfs_fst(cols, pixels, n);
 }

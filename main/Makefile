@@ -2,7 +2,7 @@
 
 .SUFFIXES : 
 
-.SUFFIXES : .ftn .c .o 
+.SUFFIXES : .ftn .f .c .o 
 
 SHELL = /bin/sh
 
@@ -10,14 +10,14 @@ CPP = /lib/cpp
 
 RECLIB = $(REC)/lib/$(ARCH)$(ABI)/librec.a
 
-FFLAGS = -I$(ARMNLIB)/include -I$(REC)/include -DX_WGL
+FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
 
 CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(HOME)/src/gd2/ -DX_WGL
 
 #@OPTIMIZ = -O 3
 OPTIMIZ = -debug -O 0
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I$(REC)/include -DX_WGL
+CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
 .PRECIOUS: $(RECLIB)
 
@@ -51,7 +51,7 @@ CDECKS= \
          coupe.c       dict.c       diffmgr.c       enhance.c \
          fenlatlon.c       fermeur.c       fldmgr.c       fleche.c \
          geometrie.c       grid_status.c       grille.c \
-         hilo.c       i2rgdint.c       igd.c       inversion.c \
+         hilo.c       i2rgdint.c       inversion.c \
          lclevent.c       legende.c       logo_rpn.c \
          manipule.c       mapinfo.c       message.c       no_rmnlib.c \
          nocore.c       opRefusee.c       p_anim.c       p_attr.c \
@@ -64,38 +64,8 @@ CDECKS= \
          wgllab.c       wglpfton.c       wglpfton32.c       widgets-util.c \
          xm-controle.c
 
-OBJECTS= \
-         convip.o       convpr.o       defvar.o       drlstl.o \
-         grid.o              new-xfsl.o       readrec.o \
-         rec.o       recgrille.o       rlx.o       setcoupe.o \
-         setitem.o       statfld4.o       unsat.o       wglrfton.o \
-         PointerVent.o       aff_coupe.o       anim4.o       aux.o \
-         bidim.o       cmap.o       contour.o       \
-         couleur.o       coupe.o       defvar.o \
-         dict.o       diffmgr.o       drlstl.o       enhance.o \
-         fenlatlon.o       fermeur.o       fldmgr.o       fleche.o \
-         geometrie.o       grid.o       grid_status.o \
-         grille.o       hilo.o       i2rgdint.o       igd.o \
-         inversion.o              lclevent.o       legende.o \
-                logo_rpn.o       manipule.o       mapinfo.o \
-         message.o       new-xfsl.o       no_rmnlib.o       nocore.o \
-         opRefusee.o       p_anim.o       p_attr.o       p_avert.o \
-         p_contour.o       p_coupe.o       p_diapo.o       p_edition.o \
-         p_geo.o       p_minmax.o       p_palette.o        \
-         p_vent.o       pack.o       parent.o       profil.o \
-         ptval.o       readrec.o       rec.o       recgrille.o \
-         rle.o       rlx.o       setcoupe.o       setitem.o \
-         sfcpres.o       statfld4.o       strutil.o       unsat.o \
-         util.o       valptgr.o       vent.o       wglanul.o \
-         wglcalcols.o       wglcont.o       wglfton.o       wgllab.o \
-         wglpfton.o       wglpfton32.o       wglrfton.o       widgets-util.o \
-         xm-controle.o
-
 COMDECKS= \
          impnone.cdk       qqqxtrp.cdk
-
-xm-controle.o:	../include/rec_version.h
-logo_rpn.o:	../include/rec_version.h
 
 reclib: $(RECLIB)(convip.o) \
 	$(RECLIB)(convpr.o) \
@@ -134,7 +104,6 @@ reclib: $(RECLIB)(convip.o) \
 	$(RECLIB)(grille.o) \
 	$(RECLIB)(hilo.o) \
 	$(RECLIB)(i2rgdint.o) \
-	$(RECLIB)(igd.o) \
 	$(RECLIB)(inversion.o) \
 	$(RECLIB)(lclevent.o) \
 	$(RECLIB)(legende.o) \
@@ -176,6 +145,7 @@ reclib: $(RECLIB)(convip.o) \
 	$(RECLIB)(widgets-util.o) \
 	$(RECLIB)(xm-controle.o) 
 
+
 xrec2000:
 	r.build -bidon -main xrec -o xrec -libpath $(REC)/lib/$(ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec ezscint wglx Xm Xt X11 m -librmn 
 
@@ -183,7 +153,7 @@ xrec-stereo-linux:
 	r.build -bidon -main xrec -o xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec wglx StaticXm StaticMrm Xp Xt Xmu X11 gd2 z png m -librmn rmnbeta
 
 xrec-stereo:
-	r.build -bidon -main xrec -o xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec wglx Xm Xt X11 gd2 png z m -librmn  rmnbeta
+	r.build -bidon -main xrec -o xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec wglx Xm Xt X11 gd2 png z m -librmn  rmn_x
 
 xrec-ezscint:
 	r.build -bidon -main xrec -o xrec -libpath $(REC)/lib/$(ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec wglx Xm Xt X11 m -obj $(REC)/interp/c_ezscint.o $(REC)/interp/f_ezscint.o -librmn  rmnbeta
@@ -195,11 +165,17 @@ xrec:
 	r.build -bidon -main xrec -o xrec -libpath $(REC)/lib/$(ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec ezscint wglx Xm Xt X11 m -librmn -fstd89
 
 xrec-Linux_alpha:
-	r.build -bidon -main xrec -o xrec -libpath $(REC)/lib/$(ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec wglx Xm Xp Xt Xext X11 gd2 z png m -librmn rmn_x
+	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Mrm Xp Xt Xmu X11 gd2 z png m -librmn
 
 xrec-Linux:
-	r.build -bidon -main xrec -o xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl gd_wgl wglx StaticXm StaticMrm Xp Xt Xmu X11 gd2 z png m -librmn rmnbeta
+	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl StaticXm StaticMrm Xp Xt Xext X11 gd2 z png m -librmn rmnbeta
+
+xrec-local:
+	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Mrm Xp Xt Xext X11 gd2 z png m -librmn rmn_x
 
 xrec-IRIX64:
-	r.build -bidon -main xrec -o xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl gd_wgl Xm Xt X11 gd2 png z m -librmn  rmnbeta
+	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Xt X11 gd2 png z m -librmn  rmnbeta
+
+xrec-HP-UX:
+	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Xt X11 gd2 png z m -librmn  rmnbeta
 

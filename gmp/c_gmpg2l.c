@@ -23,8 +23,7 @@
 
 extern GeoMapInfoStruct     mapInfo;
 
-void c_gmpg2l(lat,lon,x,y)
-float *lat,*lon,x,y;
+void c_gmpg2l(float *lat,float *lon,float x,float y)
 {
    int un = 1;
    float tmpX, tmpY;

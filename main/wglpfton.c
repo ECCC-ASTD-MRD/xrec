@@ -19,7 +19,7 @@
  */
 
 #include <rec.h>
-#include <c_wgl.h>
+#include <wgl_x.h>
 
 /**
   objet:    c_wglpfton
@@ -39,19 +39,9 @@
     lissfac: niveau de lissage demande
 **/
 
-
+extern _Viewport viewp;
+extern int recColorTable[];
 #define C_TO_FTN(i,j,ni)  (int)((ni) * (j) + i)
-
-extern Display *wglDisp;
-extern Screen  wglScrNum;
-extern Window  wglDrawable;
-extern GC wglFillGC;
-extern XVisualInfo visInfo;
-extern XColor couleurs[256];
-
-extern int     wglColorTable[256];
-extern _Viewport    viewp;
-
 
 c_wglpfton(fld, ni, nj, intervalles, nbIntervalles, facteur, min, max, colorTable, ncol, flagInterrupt, lissfac)
 float *fld;
@@ -215,7 +205,7 @@ int colorTable[], ncol, flagInterrupt, lissfac;
      for (i=idebut; i <= ifin; i++)
        {
        k = (largeur * (j-jdebut) + (i - idebut));
-       pixdata[k] = (char) couleurs[wglColorTable[colorTable[tmpInds[k]]]].pixel;
+       pixdata[k] = (char) recColorTable[tmpInds[k]];
        }
      }
    

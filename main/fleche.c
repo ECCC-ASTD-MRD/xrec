@@ -18,6 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <wgl.h>
 #include <rec.h>
 
 void PointerFleche(xdepart, ydepart, dirVent, vitVent, rayon)

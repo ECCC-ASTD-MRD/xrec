@@ -18,11 +18,8 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <xinit.h>
-#include <c_wgl.h>
+#include <wgl_x.h>
 #include <Xm/Xm.h>
-
-extern SuperWidgetStruct SuperWidget;
 
 InitPixelsCouleursDeBase(indCouleurs)
 Pixel indCouleurs[];

@@ -25,7 +25,7 @@
 
 #include <xinit.h>
 #include <rec.h>
-#include <c_wgl.h>
+#include <wgl.h>
 #include <rpnmacros.h>
 
 #define OUI 1

@@ -19,6 +19,7 @@
  */
 
 #include <rec.h>
+#include <wgl.h>
 #include <rpnmacros.h>
 #include <vcar.h>
 

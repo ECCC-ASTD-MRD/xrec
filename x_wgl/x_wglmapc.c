@@ -23,24 +23,22 @@
 x_wglmapc(int colorIndex, int r, int g, int b)
 {
    int res;
-   XColor xcol, *xcouleurs;
+   XColor xcol;
    int coldebut,colfin;
    
    coldebut = 0;
-   xcouleurs = (XColor *) couleurs;
    
-
    if (visualClass == PseudoColor)
-      {
-      colorIndex = colorIndex % 256;
-      colfin   = 254;
-      }
+     {
+       colorIndex = colorIndex % 256;
+       colfin   = 254;
+     }
    
    if (colorIndex < 32 && !customPlaneMask)
      return;
    
    if (debugMode)
-      printf("indice: %d\n", colorIndex);
+     printf("indice: %d\n", colorIndex);
    
    xcol.pixel = colorIndex;
    xcol.red = (unsigned short) r;
@@ -51,38 +49,42 @@ x_wglmapc(int colorIndex, int r, int g, int b)
    xcol.blue *= 256;
    
    xcol.flags = DoRed | DoGreen | DoBlue;
+
+   couleurs[colorIndex].r = r;
+   couleurs[colorIndex].g = g;
+   couleurs[colorIndex].b = b;
    
    switch (visualClass)
-      {
-      case PseudoColor:
-        switch (cmap_strategy)
-           {
-           case READ_ONLY_COLORMAP:
-                wglColorTable[colorIndex]= MatchColorIndexX(r, g, b, xcouleurs, coldebut, colfin);
-                if (wglColorTable[colorIndex] > colfin)
-                   {
-                   fprintf(stderr,"################################!!!!!!!!!!!!!\n");
-                   exit(1);
-                   }
-             break;
-             
-           default:
-             if (wglWritablePixs[colorIndex] == False)
-                {
-                if (debugMode)
-                  printf("Collision avec le colormap de defaut a l'indice: %d\n", colorIndex);
-                c_wglinstcmap();
-                c_wglsetwcmap();
-                }
-             XStoreColor(wglDisp, cmap, &xcol);
-             xcouleurs[colorIndex] = xcol;
-             wglColorTable[colorIndex] = xcol.pixel;
-             break;
-           }
-        break;
-        
+     {
+     case PseudoColor:
+       switch (cmap_strategy)
+	 {
+	 case READ_ONLY_COLORMAP:
+	   wglColorTable[colorIndex]= MatchColorIndexX(r, g, b, xcouleurs, coldebut, colfin);
+	   if (wglColorTable[colorIndex] > colfin)
+	     {
+	       fprintf(stderr,"################################!!!!!!!!!!!!!\n");
+	       exit(1);
+	     }
+	   break;
+	   
+	 default:
+	   if (wglWritablePixs[colorIndex] == False)
+	     {
+	       if (debugMode)
+		 printf("Collision avec le colormap de defaut a l'indice: %d\n", colorIndex);
+	       c_wglinstcmap();
+	       c_wglsetwcmap();
+	     }
+	   XStoreColor(wglDisp, (Colormap) cmap, &xcol);
+	   xcouleurs[colorIndex] = xcol;
+	   wglColorTable[colorIndex] = xcol.pixel;
+	   break;
+	 }
+       break;
+       
       default:
-        res = XAllocColor(wglDisp, cmap, &xcol); 
+        res = XAllocColor(wglDisp, (Colormap) cmap, &xcol); 
         xcouleurs[colorIndex] = xcol;
         wglColorTable[colorIndex] = xcol.pixel;
         break;

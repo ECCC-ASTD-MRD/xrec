@@ -23,7 +23,7 @@
 #include <rpnmacros.h>
 #include <math.h>
 #include <gmp.h>
-#include <c_wgl.h>
+#include <wgl.h>
 
 static char *lblAvrtRecordsManquants[]={"\nLes descripteurs '^^' et '>>'\nsont manquants. Le champ sera affiche\nsans geographie\n", 
                                "\nThe records '^^' and '>>' are missing.\nThe field will be displayed without geography\n"};

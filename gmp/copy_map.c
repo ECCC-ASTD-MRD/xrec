@@ -21,8 +21,7 @@
 #include <gmp.h>
 #include <math.h>
 
-CopierMapInfos(mapInfoSortie, mapInfoEntree)
-GeoMapInfoStruct *mapInfoSortie, *mapInfoEntree;
+CopierMapInfos(GeoMapInfoStruct *mapInfoSortie, GeoMapInfoStruct *mapInfoEntree)
 {
    int i, nbBytes;
    char *ptr;

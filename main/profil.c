@@ -19,7 +19,7 @@
  */
 
 #include <stdio.h>
-#include <c_wgl.h>
+#include <wgl.h>
 #include <rpnmacros.h>
    
 courbe(x, y, npts, xmin, xmax, ymin, ymax, intX, nbIntX, intY, nbIntY, axeXRenverse, axeYRenverse, i1, j1, i2, j2)
@@ -45,7 +45,7 @@ int i1, j1, i2, j2;
    c_wgllwi(2);
    
    ProfilCalculerCoordsFenetre(&wini1, &winj1, &wini2, &winj2, i1, j1, i2, j2);
-   c_wglssp(xmin, ymax, xmax, ymin, wini1, winj1, wini2, winj2);
+   c_wglssp(xmin, ymax, xmax, ymin, wini1, winj1, wini2, winj2, 0);
    c_wglrli(i1, j1, i2, j2);
    c_wglrlx(xmin, ymin, xmax, ymax);
 

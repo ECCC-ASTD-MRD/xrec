@@ -12,11 +12,11 @@ REC_UTILLIB = $(REC)/lib/$(ARCH)$(ABI)/librec_util.a
 
 FFLAGS = 
 
-CFLAGS =  -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I$(REC)/include -DX_WGL
+CFLAGS =  -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -DX_WGL
 
 OPTIMIZ = -O 2
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I$(REC)/include -DX_WGL
+CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
 .PRECIOUS:
 
@@ -55,13 +55,6 @@ FDECKS= \
 	 xdashget.f 	 xdashi.f 	 xdashset.f 	 xfdvdld.f \
 	 xfrstd.f 	 xkurv1s.f 	 xkurv2s.f 	 xlastd.f \
 	 xlined.f 	 xvectd.f
-
-
-OBJECTS= \
-	 unsat-xdash.o 	 xcfvld.o 	 xcurved.o 	 xdashbd.o \
-	 xdashd.o 	 xdashget.o 	 xdashi.o 	 xdashset.o \
-	 xfdvdld.o 	 xfrstd.o 	 xkurv1s.o 	 xkurv2s.o \
-	 xlastd.o 	 xlined.o 	 xvectd.o
 
 
 COMDECKS= \
@@ -114,7 +107,7 @@ qclean:
 	rm *.o ;\
 	fi
 
-obj: $(CDECKS) $(FDECKS) $(OBJECTS) 
+obj: $(CDECKS) $(FDECKS)
 #Produire les fichiers objets (.o) pour tous les fichiers
 
 

@@ -18,10 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <wgl.h>
 #include <gmp.h>
 
-TracerPointsModeTurbo(itemListe)
-ListePointsStruct *itemListe;
+TracerPointsModeTurbo(ListePointsStruct *itemListe)
 {
    register int n;
    

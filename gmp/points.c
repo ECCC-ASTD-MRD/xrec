@@ -18,14 +18,16 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <wgl.h>
 #include <gmp.h>
 
-TracerPoints(itemListe)
-ListePointsStruct *itemListe;
+TracerPoints(ListePointsStruct *itemListe)
 {
    int n, i, res;
-   
-   itemListe->statutPRGrille = clip(itemListe->xmin, itemListe->ymin, itemListe->xmax, itemListe->ymax);
+
+   float xmin, xmax, ymin, ymax;
+   c_wglgvx(&xmin, &ymin, &xmax, &ymax);
+   itemListe->statutPRGrille = clip(itemListe->xmin, itemListe->ymin, itemListe->xmax, itemListe->ymax, xmin, ymin, xmax, ymax);
    
    if (itemListe->statutPRGrille != DEHORS)
       {

@@ -22,14 +22,22 @@
 
 x_wglgetcmap(int *colormap)
 {
-   if (visInfo.visual != DefaultVisual(XtDisplay(SuperWidget.topLevel),DefaultScreen(XtDisplay(SuperWidget.topLevel))))
-      {
-      *colormap = -1;
+
+  if (8 < x_wglgpl())
+    {
+      *colormap = DefaultColormap(wglDisp, wglScrNum);
       return 0;
-      }
-   
+    }
+  
+  if (visInfo.visual != DefaultVisual(XtDisplay(SuperWidget.topLevel),DefaultScreen(XtDisplay(SuperWidget.topLevel))))
+    {
+      *colormap = (Colormap) -1;
+      return 0;
+    }
+  
   if (cmap == DefaultColormap(XtDisplay(SuperWidget.topLevel), DefaultScreen(XtDisplay(SuperWidget.topLevel))))
-      *colormap = -1;
-   else
-      *colormap = cmap;
-   }
+    *colormap = (Colormap) -1;
+  else
+    *colormap = (Colormap) cmap;
+      return 0;
+}

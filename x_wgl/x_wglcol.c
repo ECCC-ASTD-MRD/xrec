@@ -51,8 +51,8 @@ x_wglcol(int couleur)
         break;
 
       default:
-        XSetForeground(wglDisp, wglLineGC, couleurs[couleur].pixel);
-        XSetForeground(wglDisp, wglFillGC, couleurs[couleur].pixel);
+        XSetForeground(wglDisp, wglLineGC, xcouleurs[couleur].pixel);
+        XSetForeground(wglDisp, wglFillGC, xcouleurs[couleur].pixel);
         currentColor = couleur;
         break;
       }

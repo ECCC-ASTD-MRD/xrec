@@ -45,6 +45,7 @@ GC wglLineGC, wglFillGC;
 Pixmap bgPix = (Pixmap) NULL;
 int visualClass;
 Colormap cmap;
+XColor xcouleurs[4096];
 int cmap_strategy = 1001; /* READ_WRITE_COLORMAP */
 XVisualInfo visInfo;
 Cursor croix;

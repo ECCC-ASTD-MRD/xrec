@@ -19,7 +19,7 @@
  */
 
 #include <xinit.h>
-#include <c_wgl.h>
+#include <wgl.h>
 #include <rec.h>
 
 extern SuperWidgetStruct SuperWidget;

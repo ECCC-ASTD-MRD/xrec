@@ -8,15 +8,15 @@ SHELL = /bin/sh
 
 CPP = /lib/cpp
 
-WGLLIB = $(REC)/lib/$(ARCH)$(ABI)/libwglx.a
+WGLLIB = $(REC)/lib/$(ARCH)$(ABI)/libx_wgl.a
 
-FFLAGS = -I$(ARMNLIB)/include -I$(REC)/include -DX_WGL
+FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
 
-CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I$(REC)/include -DX_WGL
+CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -DX_WGL
 
-OPTIMIZ = -debug
+OPTIMIZ = -debug -O 0
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I$(REC)/include -DX_WGL
+CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
 .PRECIOUS: $(WGLLIB)
 
@@ -45,12 +45,9 @@ FDECKS=
 CDECKS= \
          xinit.c 
 
-OBJECTS= \
-         xinit.o 
-
 COMDECKS= 
 
-obj: $(FTNDECKS) $(FDECKS) $(CDECKS) $(OBJECTS) 
+obj: $(FTNDECKS) $(FDECKS) $(CDECKS)
 #Produire les fichiers objets (.o) pour tous les fichiers
 
 

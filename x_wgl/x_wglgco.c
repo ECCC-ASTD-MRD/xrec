@@ -29,15 +29,15 @@ x_wglgco(int indCol, int *red, int *green, int *blue)
    switch(nplanes)
       {
       case 8:
-        *red   = couleurs[wglColorTable[indCol % 256]].red / 256;
-        *green = couleurs[wglColorTable[indCol % 256]].green / 256;
-        *blue  = couleurs[wglColorTable[indCol % 256]].blue / 256;
+        *red   = xcouleurs[wglColorTable[indCol % 256]].red / 256;
+        *green = xcouleurs[wglColorTable[indCol % 256]].green / 256;
+        *blue  = xcouleurs[wglColorTable[indCol % 256]].blue / 256;
         break;
 
       default:
-        *red   = couleurs[indCol].red / 256;
-        *green = couleurs[indCol].green / 256;
-        *blue  = couleurs[indCol].blue / 256;
+        *red   = xcouleurs[indCol].red / 256;
+        *green = xcouleurs[indCol].green / 256;
+        *blue  = xcouleurs[indCol].blue / 256;
         break;
       }
 }

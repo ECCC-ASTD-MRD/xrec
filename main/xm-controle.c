@@ -30,7 +30,7 @@
 #include <xinit.h>
 #include <math.h>
 #include <gmp.h>
-#include <c_wgl.h>
+#include <wgl.h>
 #include <souris.h>
 #include <rec_version.h>
 
@@ -2734,6 +2734,7 @@ int   *iun;
    Colormap cmap;
    int indMin, indMax,un;
 
+   c_wglscon("x");
    strcpy(panneauContourGeometrie,"");
    xc.ChampAContourer = FALSE;
    xc.statut = OK;
@@ -2820,6 +2821,7 @@ int   *iun;
      sizeRecColorTable = 4096;
    else
      sizeRecColorTable = 256;
+
      sizeRecColorTable = 256;
 
    ResetColorMap(recColorTable, sizeRecColorTable, recCmap.noPalette);

@@ -29,8 +29,11 @@ x_wgldefncw(int winid)
 
    if (i == nbFenetresActives)
       {
-      printf("Fenetre non existante\n\n");
-      exit(1);
+      if (i == 0) nbFenetresActives = -1;
+      return;
+      /*      printf("Fenetre non existante\n\n");
+	      exit(1);
+      */
       }
 
    fenetreCourante = i;

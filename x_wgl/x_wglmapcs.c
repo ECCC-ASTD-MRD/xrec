@@ -23,10 +23,8 @@
 x_wglmapcs(int colorIndexs[], int nbCols, int rgbDefs[][3])
 {
    int i, increment;
-   XColor cols[256], *xcouleurs;
+   XColor cols[256];
    int lastCol, ind, lastInd;
-
-   xcouleurs = (XColor *) couleurs;
 
    if (cmap_strategy == READ_ONLY_COLORMAP)
       {
@@ -109,7 +107,7 @@ x_wglmapcs(int colorIndexs[], int nbCols, int rgbDefs[][3])
       {
       for (i=0; i < ind;i++)
          {
-         XStoreColors(wglDisp, cmap, &cols[i], 1);
+         XStoreColors(wglDisp, (Colormap) cmap, &cols[i], 1);
          }
       }
    else

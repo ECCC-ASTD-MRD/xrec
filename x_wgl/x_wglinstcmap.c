@@ -31,17 +31,17 @@ x_wglinstcmap()
    
    for (i=0; i < 256; i++)
       {
-      couleurs[i].pixel = i;
+      xcouleurs[i].pixel = i;
       }
    
    if (visualClass == PseudoColor)
       {
-      XQueryColors(wglDisp, DefaultColormap(wglDisp,wglScrNum), couleurs, 255);
+      XQueryColors(wglDisp, DefaultColormap(wglDisp,wglScrNum), xcouleurs, 255);
       
       cmap    = XCreateColormap (wglDisp, RootWindow (wglDisp,wglScrNum), visInfo.visual, AllocAll);   
       for (i=0; i < 255; i++)
          {
-         XStoreColor(wglDisp, cmap, &couleurs[i]);
+         XStoreColor(wglDisp, cmap, &xcouleurs[i]);
          wglWritablePixs[i] = True;
          }
       

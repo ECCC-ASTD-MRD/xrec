@@ -654,9 +654,9 @@ PdCreatePNGimage(char *nomFichierPNG)
     case 8:
       for (i=0; i < 256; i++)
 	{
-	rgb[i][0] = couleurs[i].red / 256;
-	rgb[i][1] = couleurs[i].green / 256;
-	rgb[i][2] = couleurs[i].blue / 256;
+	rgb[i][0] = couleurs[i].r;
+	rgb[i][1] = couleurs[i].g;
+	rgb[i][2] = couleurs[i].b;
 	}
       
       for (i=0; i < 256; i++)

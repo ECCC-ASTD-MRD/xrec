@@ -19,6 +19,7 @@
  */
 
 #include <math.h>
+#include <wgl.h>
 
 void PointerVent(xdepart, ydepart, dirVent, vitVent, rayon)
 float xdepart, ydepart;

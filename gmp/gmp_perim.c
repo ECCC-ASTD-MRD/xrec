@@ -18,24 +18,22 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <wgl.h>
 #include <gmp.h>
-#include <rpnmacros.h>
-
 
 extern GeoMapInfoStruct     mapInfo;
 
-int gmp_perim(xgdmin, ygdmin, xgdmax, ygdmax, latMin, lonMin, latMax, lonMax, nbSeg)
-float *xgdmin, *ygdmin, *xgdmax, *ygdmax;
-float *latMin, *latMax, *lonMin, *lonMax;
-int *nbSeg;
+int gmp_perim(float *xgdmin, float *ygdmin,  float *xgdmax,  float *ygdmax, float  *latMin,  float *lonMin, float *latMax, float *lonMax, int *nbSeg)     
 {
    int i, gdid, res;
    float XGrid[4], YGrid[4];
    int quatre, un;
    char type;
+   float xmin, xmax, ymin, ymax;
 
    un = 1;
    quatre = 4;
+   c_wglgvx(&xmin, &ymin, &xmax, &ymax);
    
    gdid = mapInfo.gdid;
    
@@ -47,7 +45,7 @@ int *nbSeg;
    f77name(aminmax)(xgdmin, xgdmax, XGrid, &quatre, &un);
    f77name(aminmax)(ygdmin, ygdmax, YGrid, &quatre, &un);
    
-   res = clip(*xgdmin, *ygdmin, *xgdmax, *ygdmax);
+   res = clip(*xgdmin, *ygdmin, *xgdmax, *ygdmax, xmin, ymin, xmax, ymax);
    
    if ((*xgdmax - *xgdmin) > 0.85 * 360.0)
      *nbSeg = 2;

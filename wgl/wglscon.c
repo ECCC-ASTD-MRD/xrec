@@ -83,6 +83,7 @@ c_wglscon_x()
   wglc_x.wglcol = x_wglcol;
   wglc_x.wglcolf = x_wglcolf;
   wglc_x.wglcolfs= x_wglcolfs;
+  wglc_x.wglcolfs_fst= x_wglcolfs_fst;
   wglc_x.wglcrb = x_wglcrb;
   wglc_x.wgldbf = x_wgldbf;
   wglc_x.wgldbg = x_wgldbg;

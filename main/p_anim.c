@@ -21,7 +21,7 @@
 #include <Xm/Xm.h>
 
 #include <xinit.h>
-#include <c_wgl.h>
+#include <wgl.h>
 #include <rpnmacros.h>
 #include <rec.h>
 

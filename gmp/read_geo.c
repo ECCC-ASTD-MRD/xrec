@@ -26,11 +26,7 @@ extern GeoMapOptionsStruct mapOptions;
 
 
 
-LireFichierGeographie(liste, nbItems, nomFichier, nbFichiers)
-ListePointsStruct *(*liste);
-int *nbItems;
-char *nomFichier[];
-int nbFichiers;
+LireFichierGeographie(ListePointsStruct *(*liste), int *nbItems, char *nomFichier[], int nbFichiers)
 {
    float pts[200];
    int deuxCents = 200;

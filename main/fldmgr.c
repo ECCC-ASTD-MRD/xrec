@@ -22,7 +22,7 @@
 #include <rpnmacros.h>
 #include <memory.h>
 #include <math.h>
-#include <c_wgl.h>
+#include <wgl.h>
 #include <gmp.h>
 
 #define C_TO_FTN(i,j,ni)  (int)((ni) * (j) + i)

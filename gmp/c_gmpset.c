@@ -21,17 +21,9 @@
 #include <string.h>
 #include <fcntl.h>
 #include <stdio.h>
-#include <gmp.h>
 #include <rpnmacros.h>
+#include <gmp.h>
 #include <math.h>
-
-   
-void LibererCarte();
-
-int   c_gmpset();
-void  c_gmpdrw();
-void  c_gmpg2l();
-void  c_gmpl2g();
 
 GeoMapInfoStruct     mapInfo = { ' ', -1, -1, -1, -1, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0 };
 GeoMapInfoStruct  oldMapInfo = { ' ', -1, -1, -1, -1, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0 };
@@ -51,9 +43,9 @@ float gdxmin, gdymin, gdxmax, gdymax;
 float xmin, ymin, xmax, ymax;
 float old_xmin, old_ymin, old_xmax, old_ymax;
 
-int f77name(gmpset)(grtyp, ni, nj, ig1, ig2, ig3, ig4)
-char grtyp[];
-int *ni, *nj, *ig1, *ig2, *ig3, *ig4;
+int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4);
+
+int f77name(gmpset)(char *grtyp, int *ni, int *nj, int *ig1, int *ig2, int *ig3, int *ig4)
 {
   c_gmpset(*grtyp, *ni, *nj, *ig1, *ig2, *ig3, *ig4);
    }
@@ -64,9 +56,7 @@ int *ni, *nj, *ig1, *ig2, *ig3, *ig4;
  ******************************************************************************
  **/
 
-int c_gmpset(grtyp, ni, nj, ig1, ig2, ig3, ig4)
-char grtyp;
-int ni, nj, ig1, ig2, ig3, ig4;
+int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
 {
    int iig1, iig2, iig3, iig4;
    int gdid,res;

@@ -295,29 +295,34 @@
  *  lecture des fontes vectorielles binaires
  */
 
-    for(i = 0; i < 20; i++)
-       {
-       for(j = 0; j < 64; j++)
-          {
 #if defined (hp720) || defined (SGI)
-          fread(&fontes[j][i], sizeof(Vcar) - sizeof(PointP2 *) ,1, in);
-          fontes[j][i].vecteurs = (PointP2 *)malloc(fontes[j][i].npnts*sizeof(PointP2));
-          fread(fontes[j][i].vecteurs,sizeof(PointP2),
-		fontes[j][i].npnts, in);
+    for(i = 0; i < 20; i++)
+      {
+      for(j = 0; j < 64; j++)
+	{
+	fread(&fontes[j][i], sizeof(Vcar) - sizeof(PointP2 *) ,1, in);
+	fontes[j][i].vecteurs = (PointP2 *)malloc(fontes[j][i].npnts*sizeof(PointP2));
+	fread(fontes[j][i].vecteurs,sizeof(PointP2),fontes[j][i].npnts, in);
+	}
+      }
 #else
-          fread32(&fontes[j][i], sizeof(Vcar) - sizeof(PointP2 *) ,1, in);
-          fontes[j][i].vecteurs = (PointP2 *)malloc(fontes[j][i].npnts*sizeof(PointP2));
-          fread32(fontes[j][i].vecteurs,sizeof(PointP2),
+    for(i = 0; i < 20; i++)
+      {
+      for(j = 0; j < 64; j++)
+	{
+	fread32(&fontes[j][i], sizeof(Vcar) - sizeof(PointP2 *) ,1, in);
+	fontes[j][i].vecteurs = (PointP2 *)malloc(fontes[j][i].npnts*sizeof(PointP2));
+	fread32(fontes[j][i].vecteurs,sizeof(PointP2),
 		fontes[j][i].npnts, in);
+	}
+      }
 #endif
-          }
-       }
-
-/*
- *  fermeture du fichier
- */
+    
+    /*
+     *  fermeture du fichier
+     */
     fclose(in);
-
+    
     return;
     }
 

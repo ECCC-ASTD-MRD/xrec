@@ -20,7 +20,7 @@
 
 #include <rec.h>
 #include <gmp.h>
-#include <c_wgl.h>
+#include <wgl.h>
 #include <rpnmacros.h>
 
 extern GeoMapInfoStruct    mapInfo;

@@ -22,7 +22,7 @@
 #include <rpnmacros.h>
 #include <memory.h>
 #include <math.h>
-#include <c_wgl.h>
+#include <wgl.h>
 
 extern _GrilleMenuItem grmenuitems[64];
 

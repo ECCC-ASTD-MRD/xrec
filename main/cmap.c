@@ -42,6 +42,7 @@ Widget w;
    wglwin = c_wglgacw();
    widgetwin = XtWindow(w);
 
+   return;
    if (widgetwin == 0)
       return;
 

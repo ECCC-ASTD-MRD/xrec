@@ -26,7 +26,7 @@
 #include <xinit.h>
 #include <math.h>
 #include <gmp.h>
-#include <c_wgl.h>
+#include <wgl.h>
 #include <souris.h>
 
 #define  TERMINE         0

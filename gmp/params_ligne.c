@@ -18,10 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <wgl.h>
 #include <gmp.h>
 
-ActiverParamsLigne(style, couleur, epaisseur)
-int style, couleur, epaisseur;
+ActiverParamsLigne(int style, int couleur, int epaisseur)
 {
    switch(style)
       {

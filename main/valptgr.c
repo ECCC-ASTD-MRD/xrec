@@ -26,7 +26,7 @@
 #include <xinit.h>
 #include <math.h>
 #include <gmp.h>
-#include <c_wgl.h>
+#include <wgl.h>
 #include <souris.h>
 
 extern _XContour xc;
@@ -319,4 +319,10 @@ caddr_t unused1, unused2;
    
    InvertWidget(w);
    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+}
+
+
+int	 bidonprint(float px, float pos, char *nombre)
+{
+  printf("bidonprint! : %f %f %s\n", px, pos, nombre);
 }

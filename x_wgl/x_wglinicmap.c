@@ -46,10 +46,6 @@ x_wglinicmap()
    
    int nbPixs;
 
-   XColor *xcouleurs;
-   
-   xcouleurs = (XColor *) couleurs;
-
    defaultVisual = DefaultVisual(wglDisp, wglScrNum);
    visualList = XGetVisualInfo(wglDisp, 0x0, &vtemplate, &nitems_return);
    
@@ -89,7 +85,7 @@ x_wglinicmap()
      {
        for (i=0; i < 255; i++)
          {
-	   couleurs[i].pixel = i;
+	   xcouleurs[i].pixel = i;
 	   wglColorTable[i] = i;
          }
        XQueryColors(wglDisp, defcmap, xcouleurs, 255);
@@ -142,7 +138,7 @@ x_wglinicmap()
    
    
    
-   cmap = defcmap;
+   cmap = (int) defcmap;
    
    if (cmap_strategy == READ_WRITE_COLORMAP)
       {
@@ -153,13 +149,13 @@ x_wglinicmap()
             wglWritablePixs[i] = False;
             }
          
-         cmap = defcmap;
+         cmap = (int) defcmap;
          
          i = 240;
          res = 0;
          while (res == 0 && i > 0)
             {
-            res = XAllocColorCells(wglDisp, cmap, False,&plane_masks,0,pix,i);
+            res = XAllocColorCells(wglDisp, (Colormap) cmap, False,&plane_masks,0,pix,i);
             i--;   
             } 
          

@@ -23,7 +23,7 @@
 #include <rec.h>
 #include <gmp.h>
 #include <xinit.h>
-#include <c_wgl.h>
+#include <wgl.h>
 #include <rpnmacros.h>
 #include <limits.h>
 /***************************/

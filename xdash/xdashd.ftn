@@ -67,7 +67,7 @@
 #if defined (SUN) 
       SHIFTL(J,N) = lshift(J,N)
 #endif
-#if defined (SGI) || defined (i386)
+#if defined (SGI) || defined (i386) || defined (Alpha)
       SHIFTL(J,N) = ishft(J,N)
 #endif
 #if defined (HP) 

@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <c_wgl.h>
+#include <wgl.h>
 
 AfficherFenetreLatLon(latmin, lonmin, latmax, lonmax, couleurFore, couleurBack)
 float latmin, lonmin, latmax, lonmax;

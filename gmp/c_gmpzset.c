@@ -27,11 +27,7 @@ extern GeoMapInfoStruct     oldMapInfo;
 
 extern GeoMapFlagsStruct    mapFlags;
 
-int c_gmpzset(grtyp, ni, nj, ig1, ig2, ig3, ig4, typeref, ig1ref, ig2ref, ig3ref, ig4ref)
-char grtyp;
-int ni, nj, ig1, ig2, ig3, ig4;
-char typeref;
-int ig1ref, ig2ref, ig3ref, ig4ref;
+int c_gmpzset(char grtyp, int ni, int nj,  int ig1, int ig2, int ig3, int ig4, char typeref, int ig1ref, int ig2ref, int ig3ref, int ig4ref)
 {
    
    int iig1, iig2, iig3, iig4;

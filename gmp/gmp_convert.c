@@ -26,13 +26,7 @@
 
 extern GeoMapInfoStruct     mapInfo;
 
-gmp_convert(liste, nbItems, pts, nbPoints, xgdmin, ygdmin, xgdmax, ygdmax, nbSeg)
-ListePointsStruct *(*liste);
-wordint *nbItems;
-ftnfloat pts[];
-wordint nbPoints;
-ftnfloat xgdmin, ygdmin, xgdmax, ygdmax;
-wordint nbSeg;
+gmp_convert(ListePointsStruct *(*liste), int *nbItems, float pts[], int nbPoints, float xgdmin, float ygdmin, float xgdmax, float ygdmax, int nbSeg)
 {
    wordint i, j, n,lastN,base;
    ftnfloat deltaxmax;

@@ -8,15 +8,15 @@ SHELL = /bin/sh
 
 CPP = /lib/cpp
 
-REC_UTILLIB = $(REC)/lib/$(ARCH)$(ABI)/libwglx.a
+REC_UTILLIB = $(REC)/lib/$(ARCH)$(ABI)/libwgl.a
 
-FFLAGS = -I$(ARMNLIB)/include -I$(REC)/include -DX_WGL
+FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
 
-CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I$(REC)/include -DX_WGL
+CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -DX_WGL
 
 OPTIMIZ = -debug
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I$(REC)/include -DX_WGL
+CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
 .PRECIOUS: $(REC_UTILLIB)
 
@@ -45,12 +45,9 @@ FDECKS=
 CDECKS= \
 	flush.c langue.c
 
-OBJECTS= \
-	flush.o langue.p
-
 COMDECKS= 
 
-obj: $(FTNDECKS) $(FDECKS) $(CDECKS) $(OBJECTS) 
+obj: $(FTNDECKS) $(FDECKS) $(CDECKS)
 #Produire les fichiers objets (.o) pour tous les fichiers
 
 

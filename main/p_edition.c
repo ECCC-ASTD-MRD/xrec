@@ -22,7 +22,7 @@
 #include <Xm/Xm.h>
 
 #include <rec.h>
-#include <c_wgl.h>
+#include <wgl.h>
 #include <xinit.h>
 #include <memory.h>
 #include <gmp.h>

@@ -49,8 +49,8 @@ x_wglclw(int indFenetre)
    
 **/
 
-  x_wglsetw(indFenetre);
   x_wglsavpfc();
+  x_wglsetw(indFenetre);
    if (bgPix)
       {
       XFreePixmap(wglDisp, bgPix);
@@ -59,7 +59,7 @@ x_wglclw(int indFenetre)
 
    XFreeGC(wglDisp, wglLineGC);
    XFreeGC(wglDisp, wglFillGC);
-   XDestroyWindow(wglDisp, indFenetre);
+   XDestroyWindow(wglDisp, fenetre[fenetreCourante].wglWin);
    
    memset((char *) &fenetre[fenetreCourante], NULL, sizeof(_Fenetre));
    
@@ -69,6 +69,13 @@ x_wglclw(int indFenetre)
    while (fenetre[i].libre && i < nbFenetresActives)
       i++;
 
-  x_wgldefncw(fenetre[i].wglWin);
-   }
+   if (nbFenetresActives > 0)
+     {
+     x_wgldefncw(fenetre[i].wglWin);
+     }
+   else
+     {
+     fenetreCourante = -1;
+     }
+}
 

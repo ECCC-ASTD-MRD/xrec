@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <c_wgl.h>
+#include <wgl.h>
 #include <rec.h>
 #include <math.h>
 #include <rpnmacros.h>
@@ -39,7 +39,7 @@ float x1, y1, x2, y2;
    float x;
    float contourCourant, contourLimite;
    int i,j, k, n,increment, milieu, imax;
-   char nombre[32], format[8];
+   char nombre[32], format[32];
    float pos, hauteurTexte;
    float cmin, cmax, inter;
    float xa, ya, xb, yb;
@@ -48,8 +48,8 @@ float x1, y1, x2, y2;
    int transformationFenetre,annulationDemandee,fz;
    
    int i1, j1, i2, j2, largeur, hauteur,indcol;
-   float fraction;
-   int largeurLegende, hauteurLegende;
+   float fraction, px, py;
+   int largeurLegende, hauteurLegende, longueurString;
    int variation = PaletteMgrGetVariation();
 
    if (contourMax == contourMin)
@@ -157,7 +157,8 @@ float x1, y1, x2, y2;
    if (annulationDemandee) return;
    contourCourant = cmin;
    sprintf(nombre, "%6.0f", (contourCourant/facteur));
-   hauteurTexte =  c_wglhsx(nombre, strlen(nombre)) - c_wgldsx(nombre, strlen(nombre));
+   longueurString = strlen(nombre);
+   hauteurTexte =  c_wglhsx(nombre, longueurString) - c_wgldsx(nombre, longueurString);
    
    if (nbIntervalles == 1)
       x = (255.0 * inter) / (cmax - cmin);
@@ -182,7 +183,9 @@ float x1, y1, x2, y2;
 	 {
 	 pos = (255.0 * (contourCourant - cmin) / (cmax - cmin));
 	 sprintf(nombre, format, contourCourant/facteur);
-	 c_wglpsx(45.0/largeurLegende*100.0, pos, nombre, strlen(nombre),fz, 0, 0);
+	 longueurString=strlen(nombre);
+	 px = 45.0/largeurLegende*100.0;
+	 c_wglpsx((float)px, (float)pos, (char *)nombre, (int)longueurString, fz, (int)0, (int)0);
 	 contourCourant += (inter*increment);
 	 }
       }
@@ -214,8 +217,10 @@ float x1, y1, x2, y2;
 	 
 	 pos = (255.0 * i / (nbIntervalles+1));
 	 sprintf(nombre, format, contourCourant);
-	 c_wglpsx(45.0/largeurLegende*100.0, pos, nombre, strlen(nombre),
-	          fz, 0, 0);
+	 longueurString = strlen(nombre);
+	 px = 45.0/largeurLegende*100.0;
+	 printf("<avant wglpsx>: %f %f %s %d %d %d %d\n", px, pos, nombre, longueurString, fz, 0,0);	 
+	 c_wglpsx(px, pos, nombre, longueurString, fz, 0, 0);
 	 i++;
 	 }
       }

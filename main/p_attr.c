@@ -24,7 +24,7 @@
 #include <Xm/RowColumn.h>
 
 #include <xinit.h>
-#include <c_wgl.h>
+#include <wgl.h>
 #include <rpnmacros.h>
 #include <rec.h>
 

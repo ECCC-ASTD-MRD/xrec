@@ -12,11 +12,12 @@ WGLLIB = $(REC)/lib/$(ARCH)$(ABI)/librec_util.a
 
 FFLAGS = 
 
-CFLAGS =  -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I$(REC)/include -DX_WGL
+CFLAGS =  -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -DX_WGL
 
 OPTIMIZ = -O 2
+OPTIMIZ = -debug -O 0
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I$(REC)/include -DX_WGL
+CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
 .PRECIOUS:
 
@@ -56,15 +57,6 @@ FDECKS= \
 	 xtick4.f 	 xticks.f 	 xuliber.f
 
 
-OBJECTS= \
-	 xanotat.o 	 xautoget.o 	 xautolab.o 	 xbreak.o \
-	 xdispla.o 	 xebar.o 	 xezmxy.o 	 xezmy.o \
-	 xezxy.o 	 xezy.o 	 xgettk4.o 	 xgridal.o \
-	 xhstgram.o 	 xlabmod.o 	 xlgrd.o 	 xlinrd.o \
-	 xlnth.o 	 xplot80.o 	 xseti.o 	 xsysdat.o \
-	 xtick4.o 	 xticks.o 	 xuliber.o
-
-
 COMDECKS= \
 	 impnone.cdk 	 xautog1.cdk 	 xautog2.cdk 	 xautog3.cdk \
 	 xautog4.cdk 	 xautog5.cdk 	 xautog6.cdk 	 xcharsz.cdk \
@@ -102,7 +94,7 @@ xticks.f: xticks.ftn
 xuliber.f: xuliber.ftn 
 
 
-obj: $(CDECKS) $(FDECKS) $(OBJECTS) 
+obj: $(CDECKS) $(FDECKS)
 #Produire les fichiers objets (.o) pour tous les fichiers
 
 

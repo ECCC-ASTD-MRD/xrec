@@ -18,13 +18,12 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <wgl.h>
 #include <gmp.h>
 extern GeoMapFlagsStruct   mapFlags;
 extern int gmpFlagInterrupt;
 
-void AfficherVecteurs(liste, nbItems, style, couleur, epaisseur)
-ListePointsStruct *liste;
-int nbItems, style, couleur, epaisseur;
+void AfficherVecteurs(ListePointsStruct *liste, int nbItems, int style, int couleur, int epaisseur)
 {
    int i, linewidth;
    int largeurFenetre, hauteurFenetre;

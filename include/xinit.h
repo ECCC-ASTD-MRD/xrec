@@ -13,3 +13,4 @@ typedef struct
    XtAppContext contexte;
    Widget topLevel;
    } SuperWidgetStruct;
+
