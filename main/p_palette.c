@@ -177,7 +177,7 @@ InitPanneauPalette()
    strcpy(ppLabelOptionsPalette[7],"R&B2");
    npalettes = 8;
    
-   iun=91;
+   iun=128;
    lrec = 0;
    strcpy(options, "RND+R/O");
    

@@ -780,7 +780,7 @@ caddr_t clientData, callData;
       nouvelleEtiquette[i] = ' ';
       }
 	
-   ier = c_fstouv(90, "RND+R/W");
+   ier = c_fstouv(127, "RND+R/W");
    if (ier < 0)
       {
       DesactiverTousPeWidgets();
