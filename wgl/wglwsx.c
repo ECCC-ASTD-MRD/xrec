@@ -18,21 +18,29 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <rec.h>
-#include <xinit.h>
+#include <stdio.h>
+#include <wgl.h>
+#include <rpnmacros.h>
 
-extern SuperWidgetStruct SuperWidget;
-
-FlusherTousLesEvenements()
+float f77name(wglwsx)(char *string, int *stringLength, int ftnStringLength)
 {
-   XEvent theEvent;
-   
-   while (XtAppPending(SuperWidget.contexte))
-      {
-      XtAppNextEvent(SuperWidget.contexte, &(theEvent));
-      XtDispatchEvent(&(theEvent));
-      }
-
-/**   XFlush(XtDisplay(SuperWidget.topLevel)); **/
-   XSync(XtDisplay(SuperWidget.topLevel), False); 
+   return c_wglwsx(string, *stringLength);
    }
+
+
+/**
+ ******
+ **/
+
+float c_wglwsx(char *string, int stringLength)
+{  
+  int bidon;
+  float xbidon1, ybidon1, xbidon2, ybidon2;
+  
+  bidon =  c_wglwsi(string, stringLength);
+  c_wgliax(&xbidon1, &ybidon1, 0, 0);
+  c_wgliax(&xbidon2, &ybidon2, bidon, 0);
+  
+  return (xbidon2 - xbidon1);
+}
+

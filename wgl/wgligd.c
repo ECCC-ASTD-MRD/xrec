@@ -18,10 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <stdio.h>
-#include <malloc.h>
-#include <rpnmacros.h>
-#include <c_wgl.h>
+#include <wgl.h>
 
 static int   ii;
 static int   debut, milieu, fin;
@@ -67,32 +64,13 @@ static int   debut, milieu, fin;
 			       x = milieu - (fx - t[milieu])/(t[milieu]-t[milieu-1]); \
 			       }
 
-extern UserSpaceInfo usSpace;
 
-void f77name(xsetxy)();
-void f77name(xy2fxfy)();
-void f77name(vxy2fxfy)();
-void f77name(fxfy2xy)();
-void f77name(vfxfy2xy)();
-
-void c_xsetxy();
-void c_xy2fxfy();
-void c_vxy2fxfy();
-void c_fxfy2xy();
-void c_vfxfy2xy();
-
-void f77name(xsetxy)(mode, tx, nx, ty, ny)
-int *mode;
-float tx[], ty[];
-int *nx, *ny;
+void f77name(xsetxy)(int *mode, float *tx, int *nx, float *ty, int *ny)
 {
    c_xsetxy(*mode, tx, *nx, ty, *ny);
    }
 
-void c_xsetxy(mode, tx, nx, ty, ny)
-int mode;
-float tx[], ty[];
-int nx, ny;
+void c_xsetxy(int mode, float *tx, int nx, float *ty, int ny)
 {
    int i,j;
 
@@ -134,14 +112,12 @@ int nx, ny;
    }
 
 
-void f77name(xy2fxfy)(fx, fy, x, y)
-float *fx, *fy, *x, *y;
+void f77name(xy2fxfy)(float *fx, float *fy, float *x, float *y)
 {
    c_xy2fxfy(fx, fy, *x, *y);
    }
 
-void c_xy2fxfy(fx, fy, x, y)
-float *fx, *fy, x, y;
+void c_xy2fxfy(float *fx, float *fy, float x, float y)
 {
    int ix;
    int iy;
@@ -167,16 +143,12 @@ float *fx, *fy, x, y;
    
    }
 
-void f77name(vxy2fxfy)(fx, fy, x, y, npts)
-float *fx, *fy, *x, *y;
-int   *npts;
+void f77name(vxy2fxfy)(float *fx, float *fy, float *x, float *y, int *npts)
 {
-   c_vxy2fxfy(fx, fy, *x, *y, *npts);
+   c_vxy2fxfy(fx, fy, x, y, *npts);
    }
 
-void c_vxy2fxfy(fx, fy, x, y, npts)
-float *fx, *fy, *x, *y;
-int npts;
+void c_vxy2fxfy(float *fx, float *fy, float *x, float *y, int npts)
 {
    int i;
    
@@ -207,14 +179,12 @@ int npts;
    
    }
 
-void f77name(fxfy2xy)(x, y, fx, fy)
-float *x, *y, *fx, *fy; 
+void f77name(fxfy2xy)(float *x, float *y, float *fx, float *fy)
 {
    c_fxfy2xy(x, y, *fx, *fy);
    }
 
-void c_fxfy2xy(x, y, fx, fy)
-float *x, *y, fx, fy; 
+void c_fxfy2xy(float *x, float *y, float fx, float fy)
 {
    if (usSpace.axex)
       {
@@ -260,16 +230,12 @@ float *x, *y, fx, fy;
    
    }
 
-void f77name(vfxfy2xy)(x, y, fx, fy, npts)
-float *x, *y, *fx, *fy;
-int   *npts;
+void f77name(vfxfy2xy)(float *x, float *y, float *fx, float *fy, int *npts)
 {
    c_vfxfy2xy(x, y, fx, fy, *npts);
    }
 
-void c_vfxfy2xy(fx, fy, x, y, npts)
-float *x, *y, *fx, *fy;
-int npts;
+void c_vfxfy2xy(float *x, float *y, float *fx, float *fy, int npts)
 {
    int i;
    

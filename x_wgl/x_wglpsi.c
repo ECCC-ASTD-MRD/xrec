@@ -18,41 +18,30 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <xinit.h>
+#include <stdio.h>
 #include <rpnmacros.h>
 
-int f77name(getulng)()
+#include <wgl_x.h>
+
+
+extern SuperWidgetStruct SuperWidget;
+
+extern XFontStruct *fonte;
+extern Display *wglDisp;
+extern Window  wglDrawable;
+extern GC      wglLineGC;
+/* extern wgl_point  wglPts[]; */
+extern wgl_point  wglPts[];
+
+extern int currentFontSize;
+
+int x_wglpsi(int i, int j, char *string, int stringLength, int size, int orient, int codeCentrage)
 {
-   return c_getulng();
-   }
-
-
-int c_getulng()
-{
-   char *langue;
-   static int langueInitialisee = 0;
-   static int langueUsager;
-
-
-   if (langueInitialisee == 0)
-      {
-      langue = (char *)getenv("CMCLNG");
-      if (langue != NULL)
-	 {
-	 if (0 == strcmp(langue, "english"))
-	    langueUsager = 1;
-	 else
-	    langueUsager = 0;
-	 }
-      else
-	 {
-	 langueUsager = 0;
-	 }
-      
-      langueInitialisee = 1;
-      }
+   c_wglfsz(size);
    
-   return langueUsager;
-   
-   }
+   c_wglmvi(i,j);
+   XDrawString(wglDisp, wglDrawable, wglLineGC, 
+                    wglPts[0].x, wglPts[0].y, string, stringLength);
+   return 0;
 
+   }
