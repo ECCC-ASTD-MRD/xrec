@@ -1,0 +1,36 @@
+      program cvtdictrec
+      
+      implicit none
+      
+      real a
+      
+      character*256 home, recrc
+
+      external longueur
+      integer longueur, ipos
+
+      character * 8   cle(2)
+      character * 128 def(2), val(2)
+      character * 128 nfich(2)
+      integer lnkdiun(2)
+      
+      data cle /'SRC.', 'XML.'/
+      data def /'stdin','stdout'/
+      data val /'stdin','stdout'/
+      
+      call ccard(cle,def,val, 2, ipos)
+      
+      if (val(1).eq.'stdin') then
+         print *, 'Usage : cvtdictrec -src source [ -xml destination ]'
+         call exit(1)
+      endif
+
+
+
+      call initrlx
+      call initxmldict(val(2))
+      call rlx(val(1))
+      call closexmldict
+
+      stop 
+      end

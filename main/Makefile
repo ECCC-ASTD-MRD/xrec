@@ -168,7 +168,7 @@ xrec-Linux_alpha:
 	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Mrm Xp Xt Xmu X11 gd2 z png m -librmn
 
 xrec-Linux:
-	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl StaticXm StaticMrm Xp Xt Xext X11 gd2 z png m -librmn rmnbeta
+	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl StaticXm StaticMrm Xp Xt Xext X11 expat gd2 z png m -librmn rmnbeta
 
 xrec-local:
 	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Mrm Xp Xt Xext X11 gd2 z png m -librmn rmn_x

@@ -1,0 +1,1662 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<xrec_DataDictionnary>
+<metvar>
+    <nomvar>AL</nomvar>
+    <description>
+        <francais>AL (Surface Albedo)</francais>
+        <english>AL (Surface Albedo)</english>
+    </description>
+    <units>(no units),</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.01</scaling_factor>
+    <default_contour>0.5</default_contour>
+    <contour> -0</contour>
+    <contour> 0.05</contour>
+    <contour> 0.1</contour>
+    <contour> 0.2</contour>
+</metvar>
+
+<metvar>
+    <nomvar>AP</nomvar>
+    <description>
+        <francais>AP (Planetary Albedo)</francais>
+        <english>AP (Planetary Albedo)</english>
+    </description>
+    <units>(no units)</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.01</scaling_factor>
+    <default_contour>0.5</default_contour>
+    <contour> -0</contour>
+    <contour> 0.05</contour>
+    <contour> 0.1</contour>
+    <contour> 0.2</contour>
+</metvar>
+
+<metvar>
+    <nomvar>DD</nomvar>
+    <description>
+        <francais>DD (Isobaric Divergence)</francais>
+        <english>DD (Isobaric Divergence)</english>
+    </description>
+    <units>(/sec),</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1e-06</scaling_factor>
+    <default_contour>5</default_contour>
+    <contour> -0</contour>
+    <contour> 0.5</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 10</contour>
+    <contour> 20</contour>
+    <contour> 40</contour>
+    <contour> 50</contour>
+    <contour> 100</contour>
+</metvar>
+
+<metvar>
+    <nomvar>GZ</nomvar>
+    <description>
+        <francais>GZ (Geopotential Height)</francais>
+        <english>GZ (Geopotential Height)</english>
+    </description>
+    <units>decametres,</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>12</default_contour>
+    <contour> -0</contour>
+    <contour> 0.5</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 3</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 6</contour>
+    <contour> 24</contour>
+</metvar>
+
+<metvar>
+    <nomvar>ES</nomvar>
+    <description>
+        <francais>ES (Dew Point Depression)</francais>
+        <english>ES (Dew Point Depression)</english>
+    </description>
+    <units>deg C</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 3</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 15</contour>
+    <contour> 20</contour>
+    <contour> 25</contour>
+    <contour> 50</contour>
+</metvar>
+
+<metvar>
+    <nomvar>TT</nomvar>
+    <description>
+        <francais>TT (Air Temperature)</francais>
+        <english>TT (Air Temperature)</english>
+    </description>
+    <units>deg C</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 3</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 15</contour>
+    <contour> 20</contour>
+    <contour> 25</contour>
+    <contour> 50</contour>
+</metvar>
+
+<metvar>
+    <nomvar>DS</nomvar>
+    <description>
+        <francais>DS (Divergence (sigma levels))</francais>
+        <english>DS (Divergence (sigma levels))</english>
+    </description>
+    <units>/sec</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1e-06</scaling_factor>
+    <default_contour>5</default_contour>
+    <contour> -0</contour>
+    <contour> 0.5</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 10</contour>
+    <contour> 20</contour>
+    <contour> 40</contour>
+    <contour> 50</contour>
+    <contour> 100</contour>
+</metvar>
+
+<metvar>
+    <nomvar>DZ</nomvar>
+    <description>
+        <francais>DZ (Thickness)</francais>
+        <english>DZ (Thickness)</english>
+    </description>
+    <units>decametres</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 6</contour>
+    <contour> 12</contour>
+    <contour> 18</contour>
+    <contour> 24</contour>
+    <contour> 48</contour>
+    <contour> 96</contour>
+    <contour> 144</contour>
+</metvar>
+
+<metvar>
+    <nomvar>FC</nomvar>
+    <description>
+        <francais>FC (Sensible Heat Flux)</francais>
+        <english>FC (Sensible Heat Flux)</english>
+    </description>
+    <units>W/m2</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>200</default_contour>
+    <contour> 10</contour>
+    <contour> 20</contour>
+    <contour> 50</contour>
+    <contour> 100</contour>
+    <contour> 400</contour>
+    <contour> 500</contour>
+</metvar>
+
+<metvar>
+    <nomvar>FQ</nomvar>
+    <description>
+        <francais>FQ (Momentum Flux)</francais>
+        <english>FQ (Momentum Flux)</english>
+    </description>
+    <units>pascals</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.01</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 20</contour>
+    <contour> 40</contour>
+    <contour> 50</contour>
+    <contour> 100</contour>
+    <contour> 200</contour>
+    <contour> 500</contour>
+</metvar>
+
+<metvar>
+    <nomvar>FV</nomvar>
+    <description>
+        <francais>FV (Latent Heat Flux)</francais>
+        <english>FV (Latent Heat Flux)</english>
+    </description>
+    <units>W/m2</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>100</default_contour>
+    <contour> -0</contour>
+    <contour> 10</contour>
+    <contour> 20</contour>
+    <contour> 50</contour>
+    <contour> 200</contour>
+    <contour> 400</contour>
+    <contour> 500</contour>
+</metvar>
+
+<metvar>
+    <nomvar>GL</nomvar>
+    <description>
+        <francais>GL (Ice Cover)</francais>
+        <english>GL (Ice Cover)</english>
+    </description>
+    <units>(no units)</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.1</scaling_factor>
+    <default_contour>5</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 10</contour>
+</metvar>
+
+<metvar>
+    <nomvar> H</nomvar>
+    <description>
+        <francais>H (Boundary Layer Height)</francais>
+        <english>H (Boundary Layer Height)</english>
+    </description>
+    <units>metres</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>250</default_contour>
+    <contour> -0</contour>
+    <contour> 50</contour>
+    <contour> 100</contour>
+    <contour> 200</contour>
+    <contour> 500</contour>
+    <contour> 1000</contour>
+</metvar>
+
+<metvar>
+    <nomvar>HR</nomvar>
+    <description>
+        <francais>HR (Relative Humidity)</francais>
+        <english>HR (Relative Humidity)</english>
+    </description>
+    <units>(no units)</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.01</scaling_factor>
+    <default_contour>50</default_contour>
+    <contour> -0</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+    <contour> 20</contour>
+    <contour> 25</contour>
+    <contour> 50</contour>
+    <contour> 70</contour>
+    <contour> 80</contour>
+    <contour> 90</contour>
+    <contour> 70 80 90 95</contour>
+</metvar>
+
+<metvar>
+    <nomvar>HS</nomvar>
+    <description>
+        <francais>HS (Potential Evaporation Fraction)</francais>
+        <english>HS (Potential Evaporation Fraction)</english>
+    </description>
+    <units>(no units)</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.01</scaling_factor>
+    <default_contour>0.1</default_contour>
+    <contour> -0</contour>
+    <contour> 0.05</contour>
+    <contour> 0.2</contour>
+    <contour> 0.5</contour>
+    <contour> 0.8</contour>
+</metvar>
+
+<metvar>
+    <nomvar>HU</nomvar>
+    <description>
+        <francais>HU (Humidite specifique)</francais>
+        <english>HU (Humidite specifique)</english>
+    </description>
+    <units>kg/kg</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.001</scaling_factor>
+    <default_contour>2</default_contour>
+    <contour> -0</contour>
+    <contour> 0.5</contour>
+    <contour> 1</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+</metvar>
+
+<metvar>
+    <nomvar>IZ</nomvar>
+    <description>
+        <francais>IZ (Infra-red Satellite Image)</francais>
+        <english>IZ (Infra-red Satellite Image)</english>
+    </description>
+    <units>(no units)</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>1</default_contour>
+    <contour> -0</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 8</contour>
+    <contour> 16</contour>
+    <contour> 24</contour>
+    <contour> 32</contour>
+    <contour> 48</contour>
+    <contour> 64</contour>
+    <contour> 96</contour>
+    <contour> 128</contour>
+</metvar>
+
+<metvar>
+    <nomvar>ME</nomvar>
+    <description>
+        <francais>ME (Topography)</francais>
+        <english>ME (Topography)</english>
+    </description>
+    <units>m</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>1000</default_contour>
+    <contour> -0</contour>
+    <contour> 100</contour>
+    <contour> 200</contour>
+    <contour> 500</contour>
+    <contour> 2000</contour>
+    <contour> 5000</contour>
+    <contour> 10000</contour>
+</metvar>
+
+<metvar>
+    <nomvar>MG</nomvar>
+    <description>
+        <francais>MG (Land-Sea Mask)</francais>
+        <english>MG (Land-Sea Mask)</english>
+    </description>
+    <units>(no units)</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.1</scaling_factor>
+    <default_contour>5</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 10</contour>
+</metvar>
+
+<metvar>
+    <nomvar>MT</nomvar>
+    <description>
+        <francais>MT (Geopotential Topography)</francais>
+        <english>MT (Geopotential Topography)</english>
+    </description>
+    <units>m2/s2</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>2000</default_contour>
+    <contour> -0</contour>
+    <contour> 100</contour>
+    <contour> 200</contour>
+    <contour> 500</contour>
+    <contour> 1000</contour>
+    <contour> 5000</contour>
+    <contour> 10000</contour>
+</metvar>
+
+<metvar>
+    <nomvar>MX</nomvar>
+    <description>
+        <francais>MX (Geopotential Topography)</francais>
+        <english>MX (Geopotential Topography)</english>
+    </description>
+    <units>m2/s2</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>2000</default_contour>
+    <contour> -0</contour>
+    <contour> 100</contour>
+    <contour> 200</contour>
+    <contour> 500</contour>
+    <contour> 1000</contour>
+    <contour> 5000</contour>
+    <contour> 10000</contour>
+</metvar>
+
+<metvar>
+    <nomvar>MZ</nomvar>
+    <description>
+        <francais>MZ (Water Vapor Satellite Image)</francais>
+        <english>MZ (Water Vapor Satellite Image)</english>
+    </description>
+    <units>(no units)</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>1</default_contour>
+    <contour> -0</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 8</contour>
+    <contour> 16</contour>
+    <contour> 24</contour>
+    <contour> 32</contour>
+    <contour> 48</contour>
+    <contour> 64</contour>
+    <contour> 96</contour>
+    <contour> 128</contour>
+</metvar>
+
+<metvar>
+    <nomvar>NB</nomvar>
+    <description>
+        <francais>NB (Low Cloud Cover)</francais>
+        <english>NB (Low Cloud Cover)</english>
+    </description>
+    <units>(no units)</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.1</scaling_factor>
+    <default_contour>1</default_contour>
+    <contour> -0</contour>
+    <contour> 0.5</contour>
+    <contour> 2</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+</metvar>
+
+<metvar>
+    <nomvar>NE</nomvar>
+    <description>
+        <francais>NE (Snow Cover)</francais>
+        <english>NE (Snow Cover)</english>
+    </description>
+    <units>(no units)</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.1</scaling_factor>
+    <default_contour>1</default_contour>
+    <contour> -0</contour>
+    <contour> 0.5</contour>
+    <contour> 2</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+</metvar>
+
+<metvar>
+    <nomvar>NM</nomvar>
+    <description>
+        <francais>NM (Middle Cloud Cover)</francais>
+        <english>NM (Middle Cloud Cover)</english>
+    </description>
+    <units>(no units)</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.1</scaling_factor>
+    <default_contour>1</default_contour>
+    <contour> -0</contour>
+    <contour> 0.5</contour>
+    <contour> 2</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+</metvar>
+
+<metvar>
+    <nomvar>NH</nomvar>
+    <description>
+        <francais>NH (High Cloud Cover)</francais>
+        <english>NH (High Cloud Cover)</english>
+    </description>
+    <units>(no units)</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.1</scaling_factor>
+    <default_contour>1</default_contour>
+    <contour> -0</contour>
+    <contour> 0.5</contour>
+    <contour> 2</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+</metvar>
+
+<metvar>
+    <nomvar>NT</nomvar>
+    <description>
+        <francais>NT (Total Cloud Cover)</francais>
+        <english>NT (Total Cloud Cover)</english>
+    </description>
+    <units>(no units)</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.1</scaling_factor>
+    <default_contour>1</default_contour>
+    <contour> -0</contour>
+    <contour> 0.5</contour>
+    <contour> 2</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+</metvar>
+
+<metvar>
+    <nomvar>P0</nomvar>
+    <description>
+        <francais>P0 (Surface Pressure)</francais>
+        <english>P0 (Surface Pressure)</english>
+    </description>
+    <units>millibars</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>36</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+    <contour> 20</contour>
+    <contour> 24</contour>
+    <contour> 40</contour>
+    <contour> 48</contour>
+    <contour> 50</contour>
+    <contour> 96</contour>
+    <contour> 100</contour>
+</metvar>
+
+<metvar>
+    <nomvar>PN</nomvar>
+    <description>
+        <francais>PN (Sea Level Pressure)</francais>
+        <english>PN (Sea Level Pressure)</english>
+    </description>
+    <units>millibars</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>5</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 10</contour>
+</metvar>
+
+<metvar>
+    <nomvar>PR</nomvar>
+    <description>
+        <francais>PR (Precipation Accumulation)</francais>
+        <english>PR (Precipation Accumulation)</english>
+    </description>
+    <units>metres</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.001</scaling_factor>
+    <default_contour>0.1</default_contour>
+    <contour> -0</contour>
+    <contour> 0.1</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+    <contour> 20</contour>
+    <contour> 50</contour>
+    <contour> 1 5 10 20 50</contour>
+</metvar>
+
+<metvar>
+    <nomvar>PC</nomvar>
+    <description>
+        <francais>PC (Convective Precipation Accumulation)</francais>
+        <english>PC (Convective Precipation Accumulation)</english>
+    </description>
+    <units>metres</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.001</scaling_factor>
+    <default_contour>0.1</default_contour>
+    <contour> -0</contour>
+    <contour> 0.1</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+    <contour> 20</contour>
+    <contour> 50</contour>
+    <contour> 1 5 10 20 50</contour>
+</metvar>
+
+<metvar>
+    <nomvar>QG</nomvar>
+    <description>
+        <francais>QG (Ground humidity)</francais>
+        <english>QG (Ground humidity)</english>
+    </description>
+    <units>kg/kg</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.001</scaling_factor>
+    <default_contour>4</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 5</contour>
+</metvar>
+
+<metvar>
+    <nomvar>QQ</nomvar>
+    <description>
+        <francais>QQ (Absolute Vorticity)</francais>
+        <english>QQ (Absolute Vorticity)</english>
+    </description>
+    <units>/sec</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1e-05</scaling_factor>
+    <default_contour>4</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+</metvar>
+
+<metvar>
+    <nomvar>QR</nomvar>
+    <description>
+        <francais>QR (Relative Vorticity)</francais>
+        <english>QR (Relative Vorticity)</english>
+    </description>
+    <units>/sec</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1e-05</scaling_factor>
+    <default_contour>4</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 5</contour>
+    <contour> 1</contour>
+</metvar>
+
+<metvar>
+    <nomvar>QS</nomvar>
+    <description>
+        <francais>QS (Absolute Vorticity (sigma levels)</francais>
+        <english>QS (Absolute Vorticity (sigma levels)</english>
+    </description>
+    <units>/sec</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1e-05</scaling_factor>
+    <default_contour>4</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+</metvar>
+
+<metvar>
+    <nomvar>RN</nomvar>
+    <description>
+        <francais>RN (Stratiform Precipitation Accumulation)</francais>
+        <english>RN (Stratiform Precipitation Accumulation)</english>
+    </description>
+    <units>metres</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.001</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 20</contour>
+    <contour> 50</contour>
+</metvar>
+
+<metvar>
+    <nomvar>RR</nomvar>
+    <description>
+        <francais>RR (Liquid Precipitation Rate)</francais>
+        <english>RR (Liquid Precipitation Rate)</english>
+    </description>
+    <units>m/s</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1e-07</scaling_factor>
+    <default_contour>4</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+</metvar>
+
+<metvar>
+    <nomvar>RC</nomvar>
+    <description>
+        <francais>RC (Convective Precipitation Rate)</francais>
+        <english>RC (Convective Precipitation Rate)</english>
+    </description>
+    <units>m/s</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1e-07</scaling_factor>
+    <default_contour>4</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+</metvar>
+
+<metvar>
+    <nomvar>RT</nomvar>
+    <description>
+        <francais>RT (Total Precipitation Rate)</francais>
+        <english>RT (Total Precipitation Rate)</english>
+    </description>
+    <units>m/s</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1e-07</scaling_factor>
+    <default_contour>4</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+</metvar>
+
+<metvar>
+    <nomvar>SN</nomvar>
+    <description>
+        <francais>SN (Convective Precipitation Rate)</francais>
+        <english>SN (Convective Precipitation Rate)</english>
+    </description>
+    <units>metres</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.001</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 20</contour>
+    <contour> 50</contour>
+</metvar>
+
+<metvar>
+    <nomvar>SR</nomvar>
+    <description>
+        <francais>SR (Solid Precipitation Rate)</francais>
+        <english>SR (Solid Precipitation Rate)</english>
+    </description>
+    <units>m/s</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1e-07</scaling_factor>
+    <default_contour>1</default_contour>
+    <contour> -0</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+</metvar>
+
+<metvar>
+    <nomvar>TG</nomvar>
+    <description>
+        <francais>TG (Ground Temperature)</francais>
+        <english>TG (Ground Temperature)</english>
+    </description>
+    <units>deg K</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 20</contour>
+    <contour> 25</contour>
+    <contour> 50</contour>
+</metvar>
+
+<metvar>
+    <nomvar>TH</nomvar>
+    <description>
+        <francais>TH (Potential Temperature)</francais>
+        <english>TH (Potential Temperature)</english>
+    </description>
+    <units>deg K</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 20</contour>
+    <contour> 25</contour>
+    <contour> 50</contour>
+</metvar>
+
+<metvar>
+    <nomvar>TM</nomvar>
+    <description>
+        <francais>TM (Sea Surface Temperature)</francais>
+        <english>TM (Sea Surface Temperature)</english>
+    </description>
+    <units>deg K</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 20</contour>
+    <contour> 25</contour>
+    <contour> 50</contour>
+</metvar>
+
+<metvar>
+    <nomvar>TP</nomvar>
+    <description>
+        <francais>TP (Deep Soil Temperature)</francais>
+        <english>TP (Deep Soil Temperature)</english>
+    </description>
+    <units>deg C</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 20</contour>
+    <contour> 25</contour>
+    <contour> 50</contour>
+</metvar>
+
+<metvar>
+    <nomvar>TR</nomvar>
+    <description>
+        <francais>TR (Deep Soil Temperature)</francais>
+        <english>TR (Deep Soil Temperature)</english>
+    </description>
+    <units>deg C</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 20</contour>
+    <contour> 25</contour>
+    <contour> 50</contour>
+</metvar>
+
+<metvar>
+    <nomvar>TS</nomvar>
+    <description>
+        <francais>TS (Surface Temperature)</francais>
+        <english>TS (Surface Temperature)</english>
+    </description>
+    <units>deg C</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 20</contour>
+    <contour> 25</contour>
+    <contour> 50</contour>
+</metvar>
+
+<metvar>
+    <nomvar>TZ</nomvar>
+    <description>
+        <francais>TZ (Air Temperature)</francais>
+        <english>TZ (Air Temperature)</english>
+    </description>
+    <units>deg C</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 20</contour>
+    <contour> 25</contour>
+    <contour> 50</contour>
+</metvar>
+
+<metvar>
+    <nomvar>UU</nomvar>
+    <description>
+        <francais>UU (X Component of the Wind)</francais>
+        <english>UU (X Component of the Wind)</english>
+    </description>
+    <units>knots</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 20</contour>
+    <contour> 25</contour>
+    <contour> 50</contour>
+</metvar>
+
+<metvar>
+    <nomvar>UV</nomvar>
+    <description>
+        <francais>UV (Wind Modulus)</francais>
+        <english>UV (Wind Modulus)</english>
+    </description>
+    <units>knots</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 20</contour>
+    <contour> 25</contour>
+    <contour> 50</contour>
+</metvar>
+
+<metvar>
+    <nomvar>VT</nomvar>
+    <description>
+        <francais>VT (Virtual Temperature)</francais>
+        <english>VT (Virtual Temperature)</english>
+    </description>
+    <units>deg C</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 20</contour>
+    <contour> 25</contour>
+    <contour> 50</contour>
+</metvar>
+
+<metvar>
+    <nomvar>VV</nomvar>
+    <description>
+        <francais>VV (Y Component of the Wind)</francais>
+        <english>VV (Y Component of the Wind)</english>
+    </description>
+    <units>knots</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 20</contour>
+    <contour> 25</contour>
+    <contour> 50</contour>
+</metvar>
+
+<metvar>
+    <nomvar>VZ</nomvar>
+    <description>
+        <francais>Visible Satellite Image</francais>
+        <english>Visible Satellite Image</english>
+    </description>
+    <units>(no units)</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>1</default_contour>
+    <contour> -0</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 8</contour>
+    <contour> 16</contour>
+    <contour> 24</contour>
+    <contour> 32</contour>
+    <contour> 48</contour>
+    <contour> 64</contour>
+    <contour> 96</contour>
+    <contour> 128</contour>
+</metvar>
+
+<metvar>
+    <nomvar>WG</nomvar>
+    <description>
+        <francais>WG (Ground Humidity)</francais>
+        <english>WG (Ground Humidity)</english>
+    </description>
+    <units>???</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.1</scaling_factor>
+    <default_contour>1</default_contour>
+    <contour> -0</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+</metvar>
+
+<metvar>
+    <nomvar>WR</nomvar>
+    <description>
+        <francais>WR (Deep Soil Humidity)</francais>
+        <english>WR (Deep Soil Humidity)</english>
+    </description>
+    <units>???</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.1</scaling_factor>
+    <default_contour>10</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+</metvar>
+
+<metvar>
+    <nomvar>WW</nomvar>
+    <description>
+        <francais>WW (Vertical Motion)</francais>
+        <english>WW (Vertical Motion)</english>
+    </description>
+    <units>pascals/s</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.1</scaling_factor>
+    <default_contour>0.4</default_contour>
+    <contour> -0</contour>
+    <contour> 0.1</contour>
+    <contour> 0.2</contour>
+    <contour> 0.5</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+    <contour> 20</contour>
+    <contour> 40</contour>
+    <contour> 50</contour>
+    <contour> 100</contour>
+    <contour> 200</contour>
+    <contour> 500</contour>
+</metvar>
+
+<metvar>
+    <nomvar>WS</nomvar>
+    <description>
+        <francais>WS (Vertical motion (sigma levels)</francais>
+        <english>WS (Vertical motion (sigma levels)</english>
+    </description>
+    <units>/sec</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1e-07</scaling_factor>
+    <default_contour>20</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+    <contour> 40</contour>
+    <contour> 50</contour>
+    <contour> 100</contour>
+    <contour> 200</contour>
+    <contour> 400</contour>
+    <contour> 500</contour>
+</metvar>
+
+<metvar>
+    <nomvar>Z0</nomvar>
+    <description>
+        <francais>Z0 (Roughness Length)</francais>
+        <english>Z0 (Roughness Length)</english>
+    </description>
+    <units>metres</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>1</scaling_factor>
+    <default_contour>1</default_contour>
+    <contour> -0</contour>
+    <contour> 2</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+</metvar>
+
+<metvar>
+    <nomvar>ZP</nomvar>
+    <description>
+        <francais>ZP (Log(Roughness Length))</francais>
+        <english>ZP (Log(Roughness Length))</english>
+    </description>
+    <units>log (metres)</units>
+    <color_palette>
+        <palette>default</palette>
+        <palette_min>0.0</palette_min>
+        <palette_max>1.0</palette_max>
+        <palette_variation>linear</palette_variation>
+    </color_palette>
+    <min>auto</min>
+    <max>auto</max>
+    <scaling_factor>0.1</scaling_factor>
+    <default_contour>2</default_contour>
+    <contour> -0</contour>
+    <contour> 1</contour>
+    <contour> 4</contour>
+    <contour> 5</contour>
+    <contour> 10</contour>
+    <contour> 20</contour>
+    <contour> 40</contour>
+    <contour> 50</contour>
+    <contour> 100</contour>
+</metvar>
+
+<grid>
+   <ident>North Hem./Amer.  - PS 40km</ident>
+   <grtyp>N</grtyp>
+   <ni>401</ni>
+   <nj>401</nj>
+   <pi>200.500000</pi>
+   <pj>200.500000</pj>
+   <d60>40000.000000</d60>
+   <dgrw>21.000000</dgrw>
+</grid>
+<grid>
+   <ident>North Hem./Europa - PS 40km</ident>
+   <grtyp>N</grtyp>
+   <ni>401</ni>
+   <nj>401</nj>
+   <pi>200.500000</pi>
+   <pj>220.500000</pj>
+   <d60>40000.000000</d60>
+   <dgrw>-100.000000</dgrw>
+</grid>
+<grid>
+   <ident>North Hem./India  - PS 40km</ident>
+   <grtyp>N</grtyp>
+   <ni>401</ni>
+   <nj>401</nj>
+   <pi>200.500000</pi>
+   <pj>300.500000</pj>
+   <d60>40000.000000</d60>
+   <dgrw>-170.000000</dgrw>
+</grid>
+<grid>
+   <ident>Canada    - PS 20km</ident>
+   <grtyp>N</grtyp>
+   <ni>351</ni>
+   <nj>261</nj>
+   <pi>121.500000</pi>
+   <pj>281.500000</pj>
+   <d60>20000.000000</d60>
+   <dgrw>21.000000</dgrw>
+</grid>
+<grid>
+   <ident>Maritimes - PS 20km</ident>
+   <grtyp>N</grtyp>
+   <ni>175</ni>
+   <nj>121</nj>
+   <pi>51.500000</pi>
+   <pj>296.500000</pj>
+   <d60>20000.000000</d60>
+   <dgrw>-20.000000</dgrw>
+</grid>
+<grid>
+   <ident>Quebec    - PS 20km</ident>
+   <grtyp>N</grtyp>
+   <ni>199</ni>
+   <nj>155</nj>
+   <pi>51.500000</pi>
+   <pj>279.500000</pj>
+   <d60>20000.000000</d60>
+   <dgrw>-0.000000</dgrw>
+</grid>
+<grid>
+   <ident>Prairies  - PS 20km</ident>
+   <grtyp>N</grtyp>
+   <ni>175</ni>
+   <nj>121</nj>
+   <pi>86.500000</pi>
+   <pj>245.500000</pj>
+   <d60>20000.000000</d60>
+   <dgrw>20.000000</dgrw>
+</grid>
+<grid>
+   <ident>British C.- PS 20km</ident>
+   <grtyp>N</grtyp>
+   <ni>175</ni>
+   <nj>121</nj>
+   <pi>103.500000</pi>
+   <pj>245.500000</pj>
+   <d60>20000.000000</d60>
+   <dgrw>30.000000</dgrw>
+</grid>
+<grid>
+   <ident>USA       - PS 20km</ident>
+   <grtyp>N</grtyp>
+   <ni>351</ni>
+   <nj>261</nj>
+   <pi>121.500000</pi>
+   <pj>387.500000</pj>
+   <d60>20000.000000</d60>
+   <dgrw>21.000000</dgrw>
+</grid>
+<grid>
+   <ident>Global Latlon 721x361- 0.5deg</ident>
+   <grtyp>L</grtyp>
+   <ni>721</ni>
+   <nj>361</nj>
+   <swlat>-90.000000</swlat>
+   <swlon>180.000000</swlon>
+   <dlat>0.500000</dlat>
+   <dlon>0.500000</dlon>
+</grid>
+</xrec_DataDictionnary>
