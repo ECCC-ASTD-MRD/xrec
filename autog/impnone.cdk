@@ -1,0 +1,9 @@
+#if defined (CRAY) || defined (C180) || defined (C910) || defined (NEC)
+      IMPLICIT NONE
+#endif
+#if defined (C170) 
+      IMPLICIT LOGICAL(A-Z)
+#endif
+#if defined (SUN) 
+      IMPLICITUNDEFINED(A-Z)
+#endif

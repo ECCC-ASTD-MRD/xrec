@@ -1,0 +1,373 @@
+*/* RMNLIB - Library of useful routines for C and FORTRAN programming
+* * Copyright (C) 1975-2001  Division de Recherche en Prevision Numerique
+* *                          Environnement Canada
+* *
+* * This library is free software; you can redistribute it and/or
+* * modify it under the terms of the GNU Lesser General Public
+* * License as published by the Free Software Foundation,
+* * version 2.1 of the License.
+* *
+* * This library is distributed in the hope that it will be useful,
+* * but WITHOUT ANY WARRANTY; without even the implied warranty of
+* * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* * Lesser General Public License for more details.
+* *
+* * You should have received a copy of the GNU Lesser General Public
+* * License along with this library; if not, write to the
+* * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+* * Boston, MA 02111-1307, USA.
+* */
+      integer function xfslvoir(nomfich, iun, ttlrecs, winind, 
+     $ typesel, igflag)
+      implicit none
+      integer ttlrecs,ntmrecs
+      character*128 nomfich
+      integer iun, winind, typesel
+      logical igflag
+
+#include "xfsl-voir.cdk"
+
+      character*4 nomvar
+      character*2 typvar
+      character*1  grtyp, cdatyp
+      character*12 etiket
+      character*160  titre
+
+      integer key, date0, deet, npas, ni, nj, nk, nbits, datyp 
+      integer ip1, ip2, ip3, swa, lng, dltf, ubc
+      integer ig1, ig2, ig3, ig4, extra1, extra2, extra3
+      integer fstinf, fstprm, fstsui
+      integer fnom, fstfrm, res
+      integer xselouv, xseloup, xselins, xselouf
+      real xg1, xg2, xg3, xg4
+
+      integer ier
+      integer i, j, inf
+
+      if (ttlrecs.gt.0) then
+         call memoirh(liste, listbuf, ttlrecs)
+      endif
+      
+*     /** initialiser les descripteurs de la table **/
+
+      nbdes = 20
+      call initidv(idents, maxdes)
+      call inittabv(tableau, table, ligne)
+      write(titre, 5) nomfich
+
+*    /** appel du selecteur d`enregistrements **/
+*    /******************************************/
+      res = xseloup(titre, ttlrecs, idents, nbdes, winind, typesel)
+
+      if (ttlrecs.eq.0) then
+         res = xselins(tableau, table,ttlrecs)
+         goto 100
+      endif
+
+*     /** aller chercher la premiere cle du fichier a lire **/
+      i = 0
+      key = fstinf(iun, ni, nj, nk,  -1, ' ', -1, -1, -1, ' ', ' ')
+      if (key.lt.0) goto 100
+      i = i+1
+
+*     /** aller chercher les parametres de cette cle **/
+*     /************************************************/
+      inf = fstprm(key, date0, deet, npas, ni, nj, nk, nbits,
+     *             datyp, ip1, ip2, ip3, typvar, nomvar, etiket, grtyp, 
+     *             ig1, ig2, ig3, ig4, swa, lng, dltf, ubc, 
+     *             extra1, extra2, extra3)
+
+      if (datyp.eq.0) then
+         cdatyp = 'X'
+      else
+         if (datyp.eq.1) then
+            cdatyp = 'R'
+         else
+            if (datyp.eq.2) then
+               cdatyp = 'I'
+            else
+               cdatyp = 'C'
+            endif
+         endif
+      endif
+
+*     /** ecrire la ligne lue ds la table **/
+*     /*************************************/
+      if (igflag) then
+        write(tableau(mod(i-1,64)), 10) NOMVAR, TYPVAR, IP1, IP2, IP3,
+     *       NI, NJ, NK, ETIKET, DATE0, deet, npas,
+     *       grtyp, ig1, ig2, ig3, ig4, 
+     *       cdatyp, nbits, swa, lng
+      else
+        call cigaxg(grtyp,xg1,xg2,xg3,xg4,ig1,ig2,ig3,ig4)
+        write(tableau(mod(i-1,64)), 11) NOMVAR, TYPVAR, IP1, IP2, IP3,
+     *       NI, NJ, NK, ETIKET, DATE0, deet, npas,
+     *       grtyp, xg1, xg2, xg3, xg4, 
+     *       cdatyp, nbits, swa, lng
+      endif
+
+      liste(listbuf+i-1) = key
+
+      if (ttlrecs.le.1) then
+         res = xselins(tableau, table,ttlrecs)
+      endif
+
+ 50   if (key.lt.0) goto 100
+      i = i + 1
+
+*    /** remplir le reste de la table **/
+*    /**********************************/
+      key = fstsui(iun, ni, nj, nk)
+      if (key.lt.0) goto 100
+      inf = fstprm(key, date0, deet, npas, ni, nj, nk, nbits,
+     *     datyp, ip1, ip2, ip3, typvar, nomvar, etiket, grtyp, 
+     *     ig1, ig2, ig3, ig4, swa, lng, dltf, ubc, 
+     *     extra1, extra2, extra3)
+ 
+      if (datyp.eq.0) then
+        cdatyp = 'X'
+      else
+        if (datyp.eq.1) then
+          cdatyp = 'R'
+        else
+          if (datyp.eq.2) then
+            cdatyp = 'I'
+          else
+            cdatyp = 'C'
+          endif
+        endif
+      endif
+      
+      if (igflag) then
+        write(tableau(mod(i-1,64)), 10) NOMVAR, TYPVAR, IP1, IP2, IP3,
+     *       NI, NJ, NK, ETIKET, DATE0, deet, npas,
+     *       grtyp, ig1, ig2, ig3, ig4, 
+     *       cdatyp, nbits, swa, lng
+      else
+        call cigaxg(grtyp,xg1,xg2,xg3,xg4,ig1,ig2,ig3,ig4)
+        write(tableau(mod(i-1,64)), 11) NOMVAR, TYPVAR, IP1, IP2, IP3,
+     *       NI, NJ, NK, ETIKET, DATE0, deet, npas,
+     *       grtyp, xg1, xg2, xg3, xg4, 
+     *       cdatyp, nbits, swa, lng
+      endif
+      
+      liste(listbuf+i-1) = key
+      
+      ntmrecs = mod(i,64)
+      if (ntmrecs.eq.0) then
+        ntmrecs = 64
+      endif
+      
+      if (0.eq.mod(i,64).or.i.eq.ttlrecs) then
+        res = xselins(tableau,table,ntmrecs)
+      endif
+      
+      goto 50
+ 100  continue
+      
+      res = xselouf(tableau,table, ntmrecs)
+      xfslvoir = winind
+      
+ 2    format(40a)
+ 4    format(3i16)
+ 5    format(128a)
+ 6    format(40a)
+ 10   FORMAT(A4, 3X, A2, X, I5, X, I5, X, I5, X, I5, X, I5, X, I5, 
+     *     X, A12, X, i9.9, 3X, i5, 2x, i5, 5x, a1, x, i9, x, i9, 
+     *     x, i9, x, i9, 3x, a1,i2.2, x, i8, x, i6)
+ 11   FORMAT(A4, 3X, A2, X, I5, X, I5, X, I5, X, I5, X, I5, X, I5, 
+     *     X, A12, X, i9.9, 3X, i5, 2x, i5, 5x, a1, x, f9.1, x, f9.1, 
+     *       x, f9.1, x, f9.1, 3x, a1,i2.2, x, i8, x, i6)
+      
+      return
+      end
+      
+
+c     ****************************************************************
+c     **                                                            **
+c     ****************************************************************
+
+      integer function xfslferv(winind)
+      implicit none
+      integer winind
+
+#include "xfsl-voir.cdk"
+      
+      integer xselfer
+      integer i, inf, res
+
+      xfslferv = xselfer(winind)
+
+
+      return
+      end
+
+c     ****************************************************************
+c     **                                                            **
+c     ****************************************************************
+
+      integer function xfslactv(slkeys, nslkeys, winind)
+      implicit none
+      integer nslkeys
+      integer slkeys(nslkeys), winind
+
+#include "xfsl-voir.cdk"
+      
+      integer xselact
+      integer i, inf, res
+
+*     /** appel du selecteur d'enregistrements **/
+*     /******************************************/
+      xfslactv = xselact(slkeys, nslkeys, winind)
+
+      do 200 i=1, nslkeys
+         slkeys(i) = liste(listbuf+slkeys(i)-1)
+ 200  continue
+      
+
+      return
+      end
+
+c     ****************************************************************
+c     **                                                            **
+c     ****************************************************************
+
+      subroutine initidv(idents)
+      character*12 idents(*)
+
+      integer i, j, ulng
+      integer  getulng
+      external getulng
+
+      idents(1) =  'NOMVAR'
+      idents(2)  = ' ID'
+      idents(3)  = ' IP1'
+      idents(4)  = ' IP2'
+      idents(5)  = ' IP3'
+      idents(6)  = '  NI'
+      idents(7)  = '  NJ'
+      idents(8)  = '  NK'
+      idents(9)  = 'ETIKET'
+      idents(10) = '    DATE'
+      idents(11) = 'DEET'
+      idents(12) = 'NPAS'
+      idents(13) = 'GR'
+      idents(14) = '      IG1'
+      idents(15) = '      IG2'
+      idents(16) = '      IG3'
+      idents(17) = '      IG4'
+      idents(18) = '  DTY'
+      idents(19) = '       SWA'
+      idents(20) = '    LNG'
+
+      return
+      end
+*****************************************************************
+
+      subroutine inittabv(tableau, table, len)
+      character*160 tableau(*)
+      integer table(3, *)
+      integer len
+
+      table(1,1)   = 6
+      table(2,1)   = len
+      table(3,1)   = 0
+      
+      table(1,2)   = 5
+      table(2,2)   = len
+      table(3,2)   = 6
+      
+      table(1,3)   = 6
+      table(2,3)   = len
+      table(3,3)   = 11
+      
+      table(1,4)   = 6
+      table(2,4)   = len
+      table(3,4)   = 17
+      
+      table(1,5)   = 6
+      table(2,5)   = len
+      table(3,5)   = 23
+      
+      table(1,6)   = 6
+      table(2,6)   = len
+      table(3,6)   = 29
+      
+      table(1,7)   = 6
+      table(2,7)   = len
+      table(3,7)   = 35
+      
+      table(1,8)   = 6
+      table(2,8)   = len
+      table(3,8)   = 41
+      
+      table(1,9)   = 13
+      table(2,9)   = len
+      table(3,9)   = 47
+      
+      table(1,10)  = 13
+      table(2,10)  = len
+      table(3,10)  = 60      
+
+      table(1, 11) = 6
+      table(2, 11) = len
+      table(3, 11) = 73
+
+      table(1, 12) = 9
+      table(2, 12) = len
+      table(3, 12) = 79
+
+      table(1,13)  = 2
+      table(2,13)  = len
+      table(3,13)  = 88
+
+      table(1,14)  = 10
+      table(2,14)  = len
+      table(3,14)  = 90
+
+      table(1,15)  = 10
+      table(2,15)  = len
+      table(3,15)  = 100
+
+      table(1,16)  = 10
+      table(2,16)  = len
+      table(3,16)  = 110
+
+      table(1,17)  = 10
+      table(2,17)  = len
+      table(3,17)  = 120
+
+      table(1,18)  = 4
+      table(2,18)  = len
+      table(3,18)  = 130
+
+      table(1,19)  = 9
+      table(2,19)  = len
+      table(3,19)  = 134
+
+      table(1,20)  = 6
+      table(2,20)  = len
+      table(3,20)  = 143
+
+      return 
+      end
+
+c     ****************************************************************
+
+      integer function xfslupdv(nomfich, iun, ttlrecs, winind, typesel)
+      implicit none
+
+      integer ttlrecs,ntmrecs,typesel
+      character*(*) nomfich
+      integer iun, winind
+      
+#include "xfsl-voir.cdk"
+
+      call memoirh(liste, listbuf, 0)
+      call xselupd(winind)
+      call xfslvoir(nomfich, iun, ttlrecs, winind, typesel)
+
+      xfslupdv = 0
+      end
+
+c     ****************************************************************

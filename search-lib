@@ -1,0 +1,7 @@
+#!/bin/sh
+for file in $REC/lib/i386/*.a
+do
+echo $file
+ar tv $file $1
+done
+

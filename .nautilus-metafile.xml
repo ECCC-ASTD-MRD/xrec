@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<directory>
+  <file name="gmp" icon_view_sort_by="type"/>
+  <file name="main" icon_view_sort_by="type" default_component="OAFIID:nautilus_file_manager_list_view:521e489d-0662-4ad7-ac3a-832deabe111c" list_view_sort_column="type"/>
+  <file name="select" icon_view_sort_by="type" icon_view_zoom_level="2"/>
+  <file name="autog" default_component="OAFIID:nautilus_file_manager_list_view:521e489d-0662-4ad7-ac3a-832deabe111c" list_view_zoom_level="3" list_view_sort_column="type"/>
+  <file name="gd_wgl" default_component="OAFIID:nautilus_file_manager_icon_view:42681b21-d5ca-4837-87d2-394d88ecc058" list_view_sort_column="type"/>
+  <file name="wgl" default_component="OAFIID:nautilus_file_manager_list_view:521e489d-0662-4ad7-ac3a-832deabe111c" list_view_sort_column="type"/>
+  <file name="x_wgl" default_component="OAFIID:nautilus_file_manager_icon_view:42681b21-d5ca-4837-87d2-394d88ecc058" list_view_zoom_level="4" icon_view_zoom_level="4"/>
+</directory>

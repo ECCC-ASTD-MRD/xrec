@@ -1,0 +1,8 @@
+#!/bin/sh -x
+for dir in autog gd_wgl gmp include main select selfic util wgl x_wgl xdash xinit xplot88 xvoir 
+do
+    cd $dir
+    /bin/rm -f *.o *.f *~
+    cd ..
+done
+

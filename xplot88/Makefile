@@ -1,0 +1,95 @@
+include Makefile_$(ARCH)$(ABI)
+
+.SUFFIXES : 
+
+.SUFFIXES : .ftn .f .c .o 
+
+SHELL = /bin/sh
+
+CPP = /lib/cpp
+
+REC_UTILLIB = $(REC)/lib/$(ARCH)$(ABI)/librec_util.a
+
+FFLAGS = 
+
+CFLAGS = -I$(ARMNLIB)/include -I$(REC)/include -DX_REC_UTIL
+
+OPTIMIZ = -O 2
+
+CPPFLAGS = -I$(ARMNLIB)/include =-I$(REC)/include -DX_REC_UTIL
+
+.PRECIOUS:
+
+default: rec_utillib
+
+.ftn.o:
+	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $*.f
+
+.ftn.f:
+	rm -f $*.f
+	r.ftntof -P $(DEFINE) $< > $*.f
+	chmod 444 $*.f
+
+.c.o:
+	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
+
+.f.o:
+	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+
+.c.a:
+	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
+	ar rv $@ $*.o
+	rm -f $*.o
+
+.f.a:
+	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	ar rv $@ $*.o
+	rm -f $*.o
+
+FTNDECKS= \
+         xopget.ftn       xopset.ftn
+
+FDECKS= \
+         xopget.f       xopset.f
+
+CDECKS= \
+         init.c       vcar.c       xplot88.c
+
+FDECKS= \
+         xopget.f       xopset.f
+
+OBJECTS= \
+         init.o       vcar.o       xopget.o       xopset.o \
+         xplot88.o
+
+COMDECKS= \
+         impnone.cdk       libra.cdk
+
+FICHIERS = $(FDECKS) $(CDECKS) $(ASDECKS) $(HDECKS)
+
+
+xopget.f: xopget.ftn 	impnone.cdk 	libra.cdk 
+xopset.f: xopset.ftn 	impnone.cdk 	libra.cdk 
+
+obj: $(FTNDECKS) $(FDECKS) $(CDECKS) $(OBJECTS) 
+#Produire les fichiers objets (.o) pour tous les fichiers
+
+qclean:
+#Faire un petit menage. On enleve tous les .o et les .f \nproduits a partir de .ftn/.ptn
+	-if [ "*.[fp]tn" != "`echo *.[fp]tn`" ] ; \
+	then \
+	for i in *.[fp]tn ; \
+	do \
+	fn=`r.basename $$i '.[fp]tn'`; \
+	rm -f $$fn.f; \
+	done \
+	fi
+	rm *.o
+
+
+rec_utillib: $(CDECKS) $(FDECKS) \
+	$(REC_UTILLIB)(xopget.o) \
+	$(REC_UTILLIB)(xopset.o) \
+	$(REC_UTILLIB)(init.o) \
+	$(REC_UTILLIB)(vcar.o) \
+	$(REC_UTILLIB)(xplot88.o) 

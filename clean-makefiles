@@ -1,0 +1,8 @@
+#!/bin/sh -x
+for dir in autog gmp select util wgl gd_wgl x_wgl xdash xplot88 xinit selfic main xvoir
+do
+    cd $dir
+    /bin/rm -f Makefile_* 
+    cd ..
+done
+

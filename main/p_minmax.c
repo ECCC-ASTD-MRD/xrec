@@ -1,0 +1,567 @@
+/* RMNLIB - Library of useful routines for C and FORTRAN programming
+ * Copyright (C) 1975-2001  Division de Recherche en Prevision Numerique
+ *                          Environnement Canada
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation,
+ * version 2.1 of the License.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ */
+
+#include <Xm/Xm.h>
+
+#include <rpnmacros.h>
+#include <rec.h>
+#include <c_wgl.h>
+#include <xinit.h>
+
+extern SuperWidgetStruct SuperWidget;
+extern _XContour xc;
+
+Widget pmTopLevel = NULL;
+Widget pmForme, pmFrame, pmFormeMinMax, pmFrameMinMax,pmRc, pmAfficher, pmOk;
+Widget pmFormePal, pmFormeMin, pmFormeMax;
+Widget pmLabelMinMax, pmLabelMin, pmLabelMax;
+Widget pmPanneauMinMax, pmPanneauMin, pmPanneauMax;
+Widget pmFrameValeurs,pmRCValeurs,pmFrameChoix,pmChoixMinMax,pmAuto,pmFixe;
+Widget pmFrameLimiteX,pmFormeLimiteX,pmLabelMinX,pmTextMinX,pmLabelMaxX,pmTextMaxX;
+
+static char *nomPanneauMinMax[] = {"PanneauMinMax", "MinMaxPanel"};
+static char *labelTopLevel[] = {"MinMax", "MinMax"};
+static char *labelOk[] = {"Fermer", "Close"};
+static char *labelAfficher[] = {"Redessiner", "Redraw"};
+
+static char *labelMin[] = {"Min", "Min"};
+static char *labelMax[] = {"Max", "Max"};
+static char *labelMinMax[] = {"Code", "Code"};
+
+static char *labelAuto[] = {"Auto", "Auto"};
+static char *labelFixe[] = {"Fixes", "Fixed"};
+
+
+char *minStr = NULL;
+char *maxStr = NULL;
+
+static int currentItem;
+char panneauMinMaxGeometrie[32];
+static char pmNomVar[256][5];
+
+int pmSelectionTerminee;
+
+static int prev_nMinMaxs = 0;
+static int nMinMaxs = 0;
+static int itemDict = 0;
+
+
+
+void PmReadMinMax(w, client_data, call_data) 
+Widget	w;		/*  widget id		*/
+caddr_t	client_data;	/*  data from application   */
+caddr_t	call_data;	/*  data from widget class  */
+{
+   if (minStr != NULL)
+      {
+      XtFree(minStr);
+      XtFree(maxStr);
+      }
+   minStr = (char *) XmTextFieldGetString(pmTextMinX);
+   maxStr = (char *) XmTextFieldGetString(pmTextMaxX);
+   printf("%s\n%s\n\n",minStr,maxStr);
+   }
+
+
+void PmSelectNomvar(w, client_data, call_data) 
+Widget	w;		/*  widget id		*/
+caddr_t	client_data;	/*  data from application   */
+caddr_t	call_data;	/*  data from widget class  */
+{
+   int i;
+   char tempStr[16];
+   float min,max;
+   Arg args[16];
+   int varMode;
+
+   XmListCallbackStruct *info = (XmListCallbackStruct *) call_data;
+
+   itemDict  = (int)(info->item_position - 1);
+
+   varMode = DictMgrGetMinMaxMode(pmNomVar[itemDict]);
+
+   i = 0;
+   if (varMode == AUTO)
+      {
+      sprintf(tempStr, "Auto");
+      XmTextFieldSetString(pmTextMinX, tempStr);
+      XmTextFieldSetString(pmTextMaxX, tempStr);
+
+      i = 0;
+      XtSetArg(args[i], XmNset, True); i++;
+      XtSetValues(pmAuto, args, i);
+
+      i = 0;
+      XtSetArg(args[i], XmNset, False); i++;
+      XtSetValues(pmFixe, args, i);
+      }
+   else
+      {
+      DictMgrGetMinMaxValues(pmNomVar[itemDict],&min,&max);
+      sprintf(tempStr, "%-10.4f",min);
+      XmTextFieldSetString(pmTextMinX, tempStr);
+
+      sprintf(tempStr, "%-10.4f",max);
+      XmTextFieldSetString(pmTextMaxX, tempStr);
+
+      i = 0;
+      XtSetArg(args[i], XmNset, False); i++;
+      XtSetValues(pmAuto, args, i);
+
+      i = 0;
+      XtSetArg(args[i], XmNset, True); i++;
+      XtSetValues(pmFixe, args, i);
+
+      }
+      
+   }
+
+
+void PmSetMinMaxAuto(w, client_data, call_data) 
+Widget	w;		/*  widget id		*/
+caddr_t	client_data;	/*  data from application   */
+caddr_t	call_data;	/*  data from widget class  */
+{
+   int i;
+   char tempStr[16];
+
+   DictMgrSetMinMaxMode(pmNomVar[itemDict],itemDict,AUTO);
+   
+   sprintf(tempStr, "Auto");
+   XmTextFieldSetString(pmTextMinX, tempStr);
+   XmTextFieldSetString(pmTextMaxX, tempStr);
+   RedessinerFenetres();
+   }
+
+/**
+*************
+*************
+**/
+
+void PmSetMinMaxFixe(w, client_data, call_data) 
+Widget	w;		/*  widget id		*/
+caddr_t	client_data;	/*  data from application   */
+caddr_t	call_data;	/*  data from widget class  */
+{
+   Arg args[16];
+   int i;
+   
+   char tempStr[16],*returnedStr;
+   float min,max;
+
+   returnedStr = (char *) XmTextFieldGetString(pmTextMinX);
+   sscanf(returnedStr, "%e", &min);
+   XtFree(returnedStr);
+   
+   returnedStr = (char *) XmTextFieldGetString(pmTextMaxX);
+   sscanf(returnedStr, "%e", &max);
+   XtFree(returnedStr);
+
+   DictMgrSetMinMaxMode(pmNomVar[itemDict],itemDict,CUSTOM);
+   DictMgrSetMinMaxValues(pmNomVar[itemDict],itemDict,min,max);
+
+   sprintf(tempStr, "%-10.4f",min);
+   XmTextFieldSetString(pmTextMinX, tempStr);
+
+   sprintf(tempStr, "%-10.4f",max);
+   XmTextFieldSetString(pmTextMaxX, tempStr);
+   RedessinerFenetres();
+   }
+
+/**
+*************
+*************
+**/
+
+static XtCallbackProc PmOk(w, unused1, unused2)
+Widget w;
+caddr_t unused1, unused2;
+{
+   pmSelectionTerminee = TRUE;
+   DesactiverPanneauMinMax();
+   }
+
+/**
+*************
+*************
+**/
+
+static XtCallbackProc PmAfficher(w, unused1, unused2)
+Widget w;
+caddr_t unused1, unused2;
+{
+   int i;
+
+   RedessinerFenetres();
+   }
+
+/**
+*************
+*************
+**/
+
+InitPanneauMinMax()
+{
+
+   int i,j;
+   Position height;
+   Arg args[16];
+   XmString string;
+   XmStringTable table;
+   char nomShell[128];
+   char *armnlib;
+   char nomFichierMinMax[128];
+
+   Colormap cmap;
+   int n,lng,key,iun,lrec,ierr;
+   int ni, nj, nk;
+   int ier, dateo, date,deet, npas, nbits, datyp, ip1, ip2, ip3;
+   int ig1,ig2,ig3,ig4,bidon;
+   
+   char grtyp[2], typvar[3], nomvar[5], etiket[13],options[9];
+
+
+/* Initialize toolkit */
+   Xinit("xregarder");
+   lng = c_getulng();
+
+   i = 0;
+   strcpy(nomShell, XtName(SuperWidget.topLevel));
+   strcat(nomShell, nomPanneauMinMax[lng]);
+   i = 0;
+   if (0 < strlen(panneauMinMaxGeometrie)) 
+      {
+      XtSetArg(args[i],XmNgeometry,panneauMinMaxGeometrie);
+      i++;
+      }
+   
+   pmTopLevel = XtAppCreateShell(nomShell, nomShell, 
+                                 applicationShellWidgetClass,
+                                 XtDisplay(SuperWidget.topLevel), args, i);
+   
+   i = 0;
+   pmForme = (Widget) XmCreateForm(pmTopLevel, "form", args, i);
+   XtManageChild(pmForme);
+
+   i = 0;
+   XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
+   XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
+   pmOk = (Widget)XmCreatePushButton(pmForme, labelOk[lng], args, i);
+   XtAddCallback(pmOk, XmNactivateCallback, PmOk, NULL);
+   XtManageChild(pmOk);
+
+   i = 0;
+   XtSetArg(args[i], XmNrightAttachment, XmATTACH_WIDGET); i++;
+   XtSetArg(args[i], XmNrightWidget, pmOk); i++;
+   XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
+   pmAfficher = (Widget)XmCreatePushButton(pmForme, labelAfficher[lng], args, i);
+   XtAddCallback(pmAfficher, XmNactivateCallback, PmAfficher, NULL);
+   XtManageChild(pmAfficher);
+
+   i=0;
+   XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
+   XtSetArg(args[i], XmNtopWidget, pmOk); i++;
+   XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++;
+   pmFrame = (Widget) XmCreateFrame(pmForme, "form", args, i);
+   XtManageChild(pmFrame);
+
+   i = 0;
+   XtSetArg(args[i], XmNorientation, XmHORIZONTAL); i++;
+   XtSetArg(args[i], XmNnumColumns, 1); i++;
+   XtSetArg(args[i], XmNpacking, XmPACK_TIGHT); i++;
+   pmRc = (Widget)XmCreateRowColumn(pmFrame, "pmRc", args, i);
+   XtManageChild(pmRc);
+
+   i = 0;
+   XtSetArg(args[i], XmNorientation, XmVERTICAL); i++;
+   pmFormePal = (Widget)XmCreateRowColumn(pmRc, labelMinMax[lng], args, i);
+   XtManageChild(pmFormePal);
+
+   i = 0;
+   pmLabelMinMax = (Widget)XmCreateLabel(pmFormePal, labelMinMax[lng], args, i);
+   XtManageChild(pmLabelMinMax);
+
+   DictMgrGetVariableList(pmNomVar,&nMinMaxs,256);
+   prev_nMinMaxs = nMinMaxs;
+   
+   table = (XmString *) calloc(nMinMaxs, sizeof(XmString));
+
+   for (j=0; j < nMinMaxs; j++)
+      {
+      table[j] = XmStringCreate(pmNomVar[j], XmSTRING_DEFAULT_CHARSET); 
+      }
+
+   i = 0;
+   XtSetArg(args[i], XmNitemCount, nMinMaxs); i++;
+   XtSetArg(args[i], XmNvisibleItemCount, 9); i++; 
+   XtSetArg(args[i], XmNitems, table); i++;
+   XtSetArg(args[i], XmNselectionPolicy, XmSINGLE_SELECT); i++;
+   pmPanneauMinMax = (Widget) XmCreateScrolledList(pmFormePal, "option_menu1", args, i);
+
+   XtAddCallback(pmPanneauMinMax, XmNsingleSelectionCallback, PmSelectNomvar, NULL);
+   XtManageChild(pmPanneauMinMax);
+
+   i = 0;
+   XtSetArg(args[i], XmNleftAttachment, XmATTACH_WIDGET); i++;
+   XtSetArg(args[i], XmNleftWidget, pmFrame);i++;
+   XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
+   XtSetArg(args[i], XmNtopWidget, pmOk);i++;
+
+   pmFrameValeurs = (Widget) XmCreateFrame(pmForme, "frame", args, i);
+   XtManageChild(pmFrameValeurs);
+
+   pmRCValeurs = (Widget) XmCreateRowColumn(pmFrameValeurs, "rc", NULL, 0);
+   XtManageChild(pmRCValeurs);
+
+   pmFrameChoix = (Widget) XmCreateFrame(pmRCValeurs, "frame", NULL, 0);
+   XtManageChild(pmFrameChoix);
+
+   pmChoixMinMax = (Widget) XmCreateRadioBox(pmFrameChoix, "radiobox", NULL, 0);
+   XtManageChild(pmChoixMinMax);
+
+/**
+****
+**/
+
+   i = 0;
+   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
+   XtSetArg(args[i], XmNset, True); i++;
+   XtSetArg(args[i], XmNmarginHeight, 0); i++;
+   XtSetArg(args[i], XmNmarginBottom, 0); i++;
+   XtSetArg(args[i], XmNmarginTop, 0); i++;
+   pmAuto = (Widget) XmCreateToggleButton(pmChoixMinMax, labelAuto[lng], args, i);
+   XtAddCallback(pmAuto, XmNarmCallback, PmSetMinMaxAuto, NULL);
+   XtManageChild(pmAuto);
+   
+   i = 0;
+   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
+   XtSetArg(args[i], XmNmarginHeight, 0); i++;
+   XtSetArg(args[i], XmNmarginBottom, 0); i++;
+   XtSetArg(args[i], XmNmarginTop, 0); i++;
+   pmFixe = (Widget)XmCreateToggleButton(pmChoixMinMax, labelFixe[lng], args, i);
+   XtAddCallback(pmFixe, XmNarmCallback, PmSetMinMaxFixe, NULL);
+   XtManageChild(pmFixe);
+   
+/**
+****
+**/
+
+   pmFrameLimiteX = (Widget) XmCreateFrame(pmRCValeurs, "Forme", args, i);
+   XtManageChild(pmFrameLimiteX);
+
+   i = 0;
+   XtSetArg(args[i], XmNorientation, XmHORIZONTAL); i++;
+   XtSetArg(args[i], XmNnumColumns, 1); i++;
+   XtSetArg(args[i], XmNpacking, XmPACK_TIGHT); i++;
+   pmFormeLimiteX = (Widget) XmCreateRowColumn(pmFrameLimiteX, "radiobox", NULL, 0);
+   XtManageChild(pmFormeLimiteX);
+
+   i = 0;
+   pmLabelMaxX = (Widget) XmCreateLabel(pmFormeLimiteX, labelMax[lng], args, i);
+   XtManageChild(pmLabelMaxX);
+      
+   i = 0;
+   XtSetArg(args[i], XmNcolumns, 10);  i++;
+   XtSetArg(args[i], XmNmaxLength, 10);  i++;
+   XtSetArg(args[i], XmNvalue, ""); i++;
+   XtSetArg(args[i], XmNblinkRate, 0);  i++;
+   pmTextMaxX = (Widget) XmCreateTextField(pmFormeLimiteX, "Max", args, i);
+   XtManageChild(pmTextMaxX);
+
+   i = 0;
+   pmLabelMinX = (Widget) XmCreateLabel(pmFormeLimiteX, labelMin[lng], args, i);
+   XtManageChild(pmLabelMinX);
+
+   i = 0;
+   XtSetArg(args[i], XmNcolumns, 10);  i++;
+   XtSetArg(args[i], XmNmaxLength, 10);  i++;
+   XtSetArg(args[i], XmNvalue, ""); i++;
+   XtSetArg(args[i], XmNblinkRate, 0);  i++;
+   pmTextMinX = (Widget) XmCreateTextField(pmFormeLimiteX, "Min:", args, i);
+   XtManageChild(pmTextMinX);
+
+   }
+
+
+/**
+ ******************************************************************************
+ ******************************************************************************
+ **/
+
+
+ActiverPanneauMinMax()
+{
+   XEvent pmEVent;
+   Widget pmWidgetParent;
+   XmString string;
+   XmStringTable extended_table;
+   int newItems;
+
+   Arg args[2];
+   int i;
+   
+   if (!pmTopLevel)
+      InitPanneauMinMax();
+   
+   if (!XtIsRealized(pmTopLevel))
+      {
+      XtRealizeWidget(pmTopLevel);
+      }
+   
+   DictMgrGetVariableList(pmNomVar,&nMinMaxs,256);
+   if (nMinMaxs != prev_nMinMaxs)
+     {
+     newItems = nMinMaxs - prev_nMinMaxs;
+     extended_table = (XmString *) calloc(newItems, sizeof(XmString));
+     for (i=0; i < newItems; i++)
+       {
+       extended_table[i] = XmStringCreate(pmNomVar[prev_nMinMaxs + i], XmSTRING_DEFAULT_CHARSET); 
+       }
+     XmListAddItems(pmPanneauMinMax, extended_table, newItems, 0);
+     prev_nMinMaxs = nMinMaxs;
+
+     }
+
+   f77name(xpanmact)();
+   
+   }
+
+f77name(xpanmact)()
+{
+   LocalEventLoop(pmTopLevel);
+   }
+
+
+
+DesactiverPanneauMinMax()
+{
+   int i;
+
+   XtUnrealizeWidget(pmTopLevel);
+
+   }
+
+
+
+f77name(c_sminmaxatr)(item,valeur,lenItem,lenValeur)
+char item[],valeur[];
+int lenItem,lenValeur;  
+{
+   Arg args[10];
+   int i;
+   int indItem;
+   char fakeWidgetName[32];
+
+   item[lenItem-1] = '\0';
+   valeur[lenValeur-1] = '\0';
+   nettoyer(item);
+   nettoyer(valeur);
+
+/**
+   if (0 == strcmp(item,"geometrie") || 0 == strcmp(item,"geometry"))
+      {
+      strcpy(panneauMinMaxGeometrie,valeur);
+      }
+   
+   if (0 == strcmp(item,"MinMax"))
+      {
+      recCmap.noMinMax = atoi(valeur);
+      }
+   
+   if (0 == strcmp(item,"max"))
+      {
+      recCmap.reductionMax = (float)(100 - atoi(valeur));
+      recCmap.reductionMax /= 100.0;
+      }
+   
+   if (0 == strcmp(item,"min"))
+      {
+      recCmap.amplificationMin = (float)atoi(valeur);
+      recCmap.amplificationMin /= 100.0;
+      }
+   ResetColorMap(recColorTable, 256, recCmap.noMinMax);
+**/
+   }
+
+
+
+EcrMinMaxAtr(fichierDemarrage)
+FILE *fichierDemarrage;
+{
+/**
+   char tableau[32];
+   char ligne[80];
+   char item[32],valeur[32];
+   int i;
+
+   Arg  args[10];
+   XmString label;
+   XmFontList fontListe;
+   char *geom;
+   Window root;
+   Position x,y;
+   Display *disp;
+   Window win;
+
+   strcpy(tableau, "MinMax");
+   
+   strcpy(item,"geometrie");
+   if (pmTopLevel)
+      {
+      disp = XtDisplay(pmTopLevel);
+      win  = XtWindow(pmTopLevel);
+      i = 0;
+      XtSetArg(args[i], XmNx, &x); i++;
+      XtSetArg(args[i], XmNy, &y); i++;
+      XtGetValues(pmTopLevel, args, i);
+      
+      sprintf(valeur,"%+d%+d",x,y);
+      sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
+      fprintf(fichierDemarrage,"%s\n",ligne);
+      }
+   else
+      {
+      if (strlen(panneauMinMaxGeometrie) > 0)
+         {
+         strcpy(valeur,panneauMinMaxGeometrie);
+         sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
+         fprintf(fichierDemarrage,"%s\n",ligne);
+         }
+      }
+
+
+   strcpy(item, "MinMax");
+   sprintf(valeur, "%2d", recCmap.noMinMax);
+   sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
+   fprintf(fichierDemarrage,"%s\n",ligne);
+
+   strcpy(item, "min");
+   sprintf(valeur, "%2d", (int)(recCmap.amplificationMin*100.0));
+   sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
+   fprintf(fichierDemarrage,"%s\n",ligne);
+   
+   strcpy(item, "max");
+   sprintf(valeur, "%2d", 100-(int)(recCmap.reductionMax*100.0));
+   sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
+   fprintf(fichierDemarrage,"%s\n",ligne);
+**/
+   }
+
+
