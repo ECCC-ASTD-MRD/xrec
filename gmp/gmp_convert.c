@@ -34,14 +34,15 @@ int gmp_convert(ListePointsStruct *liste, int *nbItems, float pts[], int nbPoint
    wordint detected;
    char type;
 
-   ftnfloat xmin,xmax,ymin,ymax;
+   ftnfloat xmin,xmax,ymin,ymax,limite,correction;
    ftnfloat x[24000];
    ftnfloat y[24000];
    ftnfloat lats[24000];
    ftnfloat lons[24000];
-   wordint npts;
+   wordint npts, nleft, nright;
    wordint currentItem;
    wordint gdid;
+   float ldiff, fni, fmiddle;
 
    npts = nbPoints / 2;
    if (npts > 24000 || npts == 0)
@@ -53,12 +54,9 @@ int gmp_convert(ListePointsStruct *liste, int *nbItems, float pts[], int nbPoint
    for (i=0; i < npts; i++)
      {
      lats[i] = pts[i*2];
-     }
-
-   for (i=0; i < npts; i++)
-     {
-     lons[i] = pts[i*2+1];
-     lons[i] = fmod(lons[i]+360,360.0);
+     lons[i] = pts[i*2+1]; 
+     if (lons[i] < 0.0) lons[i] += 360.0;
+	 /*      lons[i] = fmod(lons[i]+360,360.0); */
      }
 
    currentItem = *nbItems - 1;
@@ -75,9 +73,6 @@ int gmp_convert(ListePointsStruct *liste, int *nbItems, float pts[], int nbPoint
    
    c_gdxyzfll(gdid, x, y, lats, lons, npts);
 
-   f77name(aminmax)(&xmin, &xmax, x, &npts, &un);
-   f77name(aminmax)(&ymin, &ymax, y, &npts, &un);
-   
    f77name(aminmax)(&liste[currentItem].xmin,&liste[currentItem].xmax,x,&npts,&un);
    f77name(aminmax)(&liste[currentItem].ymin,&liste[currentItem].ymax,y,&npts,&un);
    if (npts <= 0)
@@ -87,52 +82,76 @@ int gmp_convert(ListePointsStruct *liste, int *nbItems, float pts[], int nbPoint
      }
    liste[currentItem].npts = npts;
    liste[currentItem].statutPRGrille = 1;
+   liste[currentItem].full_line = 1;
    liste[currentItem].pointsGeo = (PointGeoStruct *) calloc((npts), sizeof(PointGeoStruct));
+   liste[currentItem].pen = (unsigned char *) calloc((npts), sizeof(unsigned char));
    for (n=0; n < npts; n++)
      {
      liste[currentItem].pointsGeo[n].x = x[n];
      liste[currentItem].pointsGeo[n].y = y[n];
+     liste[currentItem].pen[n] = (unsigned char)1;
      }
-}
-   /* 
-      if (npts > 0)
-      {
-      switch(type)
-      {
-      case 'N':
-      case 'S':
-      detected = 0;
-      break;
-      
-      default:
-      n = 1;
-      detected = 0;
-      while (n < npts && !detected)
-      {
-      if (fabs(x[n] - x[n-1]) > (0.85*mapInfo.ni))
-      {
-	       detected = 1;
-	       }
-	       n++;
-	       
-	       }
-	       break;
-	       }
-	       
-	       if (!detected)
-	       {
-	       }
-	       else
-	       {
-	       liste[currentItem].pointsGeo = (PointGeoStruct *) calloc((npts), sizeof(PointGeoStruct));
-	       liste[currentItem].xmin = 1.0;
-	       liste[currentItem].xmax = 1.0;
-	       liste[currentItem].ymin = 1.0;
-	       liste[currentItem].ymax = 1.0;
-	       liste[currentItem].npts = 1;
-	       }
-	       }
-	       }
-	       
-   */
 
+   
+   if (npts > 0)
+     {
+     switch(type)
+       {
+       case 'N':
+       case 'S':
+       case 'T':
+       case '!':
+	 detected = 0;
+	 break;
+	 
+       default:
+	 if (mapInfo.type == 'Z')
+	   {
+	   correction = 360.0;
+	   limite = 0.850 * 360.0;
+	   }
+	 else
+	   {
+	   correction = 1.0 * mapInfo.ni;
+	   limite = 0.85 * mapInfo.ni;
+	   }
+	 if ((liste[currentItem].xmax - liste[currentItem].xmin) > limite)
+	   {
+	   detected = 1;
+	   }
+       }
+     }
+
+
+   if (detected == 1)
+     {
+     liste[currentItem].full_line = 0;
+     for (n=1; n < npts; n++)
+       {
+       ldiff = x[n] - liste[currentItem].pointsGeo[n-1].x;
+       if (limite < fabs(ldiff))
+	 {
+	 liste[currentItem].pen[n] = 0;
+	 }
+       }
+     }
+
+   /*     NewGeoItem(&liste,nbItems);
+	  currentItem = *nbItems - 1;
+	  liste[currentItem].npts = npts;
+	  liste[currentItem].statutPRGrille = 1;
+	  liste[currentItem].pointsGeo = (PointGeoStruct *) calloc((npts), sizeof(PointGeoStruct));
+     for (n=0; n < npts; n++)
+       {
+	 liste[currentItem].pointsGeo[n].x = liste[currentItem-1].pointsGeo[n].x + correction;
+	 liste[currentItem].pointsGeo[n].y = liste[currentItem-1].pointsGeo[n].y;
+       }
+     
+     liste[currentItem].xmin = liste[currentItem-1].xmin + correction;
+     liste[currentItem].xmax = liste[currentItem-1].xmax + correction;
+     liste[currentItem].ymin = liste[currentItem-1].ymin;
+     liste[currentItem].ymax = liste[currentItem-1].ymax;
+     */
+   
+   
+}
