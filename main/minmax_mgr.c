@@ -1,0 +1,321 @@
+/* RMNLIB - Library of useful routines for C and FORTRAN programming
+ * Copyright (C) 1975-2001  Division de Recherche en Prevision Numerique
+ *                          Environnement Canada
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation,
+ * version 2.1 of the License.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ */
+
+#include <rec.h>
+#include <gmp.h>
+#include <wgl.h>
+#include <rpnmacros.h>
+
+extern _Viewport viewp;
+extern _XContour xc;
+extern int recColorTable[];
+extern int sizeRecColorTable;
+extern int facteurLissage;
+extern float labelPos[][4];
+
+
+xrecGetCurrentMinMax(float *min, float *max, int mode)
+{
+  int nbChampsActifs;
+  int minmaxset;
+  int i,j;
+  float tmpmin, tmpmax;
+
+   _Champ *champ;
+
+  nbChampsActifs = FldmgrGetNbChampsActifs();
+
+  minmaxset = NON;
+  for (i=0; i < nbChampsActifs; i++)
+    {
+    FldMgrGetChamp(&champ, indChamp);
+    if (CUSTOM == DictMgrGetMinMaxMode(champ->nomvar))
+      {
+      minmaxset = 1;
+      DictMgrGetMinMaxValues(champ->nomvar,&tmpmin,&tmpmax);
+      if (i==0)
+	{
+	*min = tmpmin;
+	*max = tmpmax;
+	}
+      else
+	{
+	*min = tmpmin < *min ? tmpmin : *min;
+	*max = tmpmax > *max ? tmpmax : *max;
+	}
+      }
+    }
+
+  if (minmaxset == OUI) return;
+  
+
+}
+
+  /*   int lissfac,fontSize;
+   float xdebut, ydebut, xfin, yfin;
+   int idebut, jdebut, ifin, jfin;
+   int largeurFenetre, hauteurFenetre;
+   int fond;
+   float localmin,localmax;
+   int mdeb,ndeb,mfin,nfin;
+   int i;
+   Hilo hilo[256];
+   int hlcount;
+   int hlnmax = 256;
+   
+   nbChampsActifs = FldMgrGetNbChampsActifs();
+   FldMgrGetChamp(&champ, indChamp);
+
+   xc.statuts[EN_TRAIN_DE_DESSINER] = TRUE;
+   c_wglgwz(&largeurFenetre, &hauteurFenetre);
+   c_wglgsx(&xdebut, &ydebut, &xfin, &yfin);
+   
+   if (xc.statuts[ZOOM_LOCAL] && AUTO == DictMgrGetMinMaxMode(champ->nomvar))
+      {
+      DefinirFenetreGrille(&mdeb, &ndeb, &mfin, &nfin, mapInfo.ni, mapInfo.nj);
+      f77name(sminmax)(&champ->localMin, &champ->localMax, fld,  &mapInfo.ni, &mapInfo.nj, &mdeb, &ndeb, &mfin, &nfin);
+      min = champ->localMin;
+      max = champ->localMax;
+      }
+   
+   
+   lissfac = facteurLissage;
+   if (xc.statuts[LISSAGE])
+      {
+      if (lissfac == -32767)
+	 {
+	 lissfac = CalculerFacteurLissage(mapInfo.ni, mapInfo.nj);
+	 }
+      else
+	 {
+	 lissfac = facteurLissage;
+	 }
+      }
+   else
+      {
+      lissfac = 1;
+      }
+   
+   c_wglssp(xdebut, ydebut, xfin, yfin, viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, 1);
+   
+   if (xc.flagInterrupt)
+      {
+      if (c_wglanul())
+	 {
+	 xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+	 return;
+	 }
+      }
+   
+   if (nbChampsActifs > 1 && indChamp == 0)
+      EffacerLegende2();
+   
+   c_wglcmi(0, 0, largeurFenetre, hauteurFenetre);
+   if (!xc.statuts[COULEURS])
+      AfficherPerimetreFenetre();
+   
+   c_wglgsp(&xdebut, &ydebut, &xfin, &yfin, &idebut, &jdebut, &ifin, &jfin);
+   
+   if (xc.flagInterrupt)
+      {
+      if (c_wglanul())
+	 {
+	 xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+	 return;
+	 }
+      }
+   
+   if (AfficherItem(indChamp, COULEURS))
+      {
+      c_wglssp(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin, 1);
+      SetClipMask();
+      c_wglfton(fld, mapInfo.ni, mapInfo.nj, champ->intervalles, 
+                champ->nbIntervalles,
+                champ->facteur, min, max,
+                recColorTable, sizeRecColorTable, xc.flagInterrupt, lissfac);
+      }
+   else
+      {
+      if (indChamp == 0)
+         {
+         c_wglcol(xc.attributs[FOND].indCouleurFore);
+         c_wglrfi(viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2);
+         }
+      }
+
+   if (xc.flagInterrupt)
+      {
+      if (c_wglanul())
+         {
+         xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+         return;
+         }
+      }
+   
+   if (indChamp == 0)
+      {
+      switch(xc.statuts[GEOGRAPHIE])
+	 {
+	 case TRUE:
+           SetClipMask();
+           c_gmpdrw();
+           break;
+           
+	 case FALSE:
+           break;
+	 }
+      }   /** if (indChamp > 0) **/
+   
+   if (xc.flagInterrupt)
+      {
+      if (c_wglanul())
+	 {
+	 xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+	 return;
+	 }
+      }
+   
+   if (xc.statuts[GRILLE_SOURCE])
+      {
+      SetClipMask();
+      AfficherGrilleSource(indChamp); 
+      }
+   
+   if (xc.statuts[GRILLE] && (indChamp == 0))
+      {
+      SetClipMask();
+      AfficherGrille(); 
+      }
+   
+   if (xc.flagInterrupt)
+      {
+      if (c_wglanul())
+	 {
+	 xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+	 return;
+	 }
+      }
+   
+   if (AfficherItem(indChamp, CONTOURS))
+      {
+      SetClipMask();
+      c_wglcont(fld, champ->dst.ni, champ->dst.nj, champ->intervalles, 
+                champ->nbIntervalles, champ->facteur, min, max,
+                xc.attributs[indChamp].indCouleurFore, xc.attributs[indChamp].epaisseur,
+                xc.attributs[indChamp].codeDash, xc.attributs[indChamp].style, lissfac, xc.flagInterrupt);
+      }
+   
+   
+   c_wgllwi(1);
+   c_wglsld(0);
+   
+   if (xc.flagInterrupt)
+      {
+      if (c_wglanul())
+	 {
+	 xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+	 return;
+	 }
+      }
+   
+   
+   if (AfficherItem(indChamp, LABELS))
+      {
+      switch(xc.attributs[indChamp].couleurFore)
+         {
+         case BLANC:
+         case JAUNE:
+         case CYAN:
+           fond = NOIR;
+           break;
+           
+	    default:
+              fond = BLANC;
+              break;
+         }
+      
+      
+      if (xc.attributs[indChamp].labelSize == 0)
+	    {
+	    fontSize = AttrMgrGetFontSizeLabels();
+	    }
+      else
+         {
+	    fontSize = xc.attributs[indChamp].labelSize;
+         }
+      
+      SetClipMask();
+      SetLabFontSize(fontSize);
+      c_wgllab(fld, mapInfo.ni, mapInfo.nj, champ->intervalles, champ->nbIntervalles,
+               champ->facteur, min, max, labelPos[indChamp%4], 4, xc.attributs[indChamp].indCouleurFore, 
+               xc.attributs[indChamp].indCouleurBack, lissfac);
+      }
+      
+
+   if (xc.flagInterrupt)
+      {
+      if (c_wglanul())
+	 {
+	 xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+	 return;
+	 }
+      }
+   
+   if (champ->natureTensorielle == VECTEUR && champ->cle >= 0 && xc.statuts[BARBULES])
+      {
+      SetClipMask();
+      c_wgllwi(1);
+      if (-1 != WindMgrGetDisplayMode())
+	 {
+	 AfficherFleches(uu,vv, mapInfo.ni, mapInfo.nj, xc.attributs[indChamp].indCouleurFore,
+			 xc.attributs[indChamp].epaisseur,max);
+	 if (0 != WindMgrGetDisplayMode())
+	    AfficherLegendeVent(max,10,10,0);
+	 }
+      }
+   
+   if (AfficherItem(indChamp, VALEURS_CENTRALES))
+      {
+      hl_setFontSize(xc.attributs[indChamp].centralValSize);
+      if (champ->natureTensorielle == SCALAIRE || !xc.statuts[BARBULES])
+         {
+         hl_find (fld, mapInfo.ni, mapInfo.nj, 1.0, hilo,&hlcount,hlnmax);
+         hl_print (hilo,hlcount,champ->facteur, xc.attributs[indChamp].indCouleurFore,xc.attributs[indChamp].indCouleurBack);
+         }
+      else
+         {
+         if (WindMgrGetModulusState())
+            {
+            hl_find (fld, mapInfo.ni, mapInfo.nj, 1.0, hilo,&hlcount,hlnmax);
+            hl_print (hilo,hlcount,champ->facteur, xc.attributs[indChamp].indCouleurFore,xc.attributs[indChamp].indCouleurBack);
+            }
+         }
+      }
+   
+   if (xc.flagInterrupt)
+      {
+      if (c_wglanul())
+	 {
+	 xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+	 return;
+	 }
+      }
+}
+*/

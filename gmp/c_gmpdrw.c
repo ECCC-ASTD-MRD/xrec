@@ -62,9 +62,13 @@ void c_gmpdrw()
   
   c_wglgvx(&gmp_xmin, &gmp_ymin, &gmp_xmax, &gmp_ymax);
   if (mapFlags.verifStatutNecessaire == NON && gmp_xmin == old_gmp_xmin && gmp_xmax == old_gmp_xmax && gmp_ymin == old_gmp_ymin && gmp_ymax == old_gmp_ymax)
+    {
     mapFlags.verifStatutNecessaire = NON;
+    }
   else
-      mapFlags.verifStatutNecessaire = OUI;
+    {
+    mapFlags.verifStatutNecessaire = OUI;
+    }
   
   if (mapFlags.verifStatutNecessaire == OUI)
     {

@@ -184,6 +184,7 @@ static char *lblAvrtRecordsManquants[]={"\nLes descripteurs '^^' et '>>'\nsont m
 
 extern int lng;
 extern GeoMapInfoStruct    mapInfo, oldMapInfo;
+extern GeoMapFlagsStruct   mapFlags;
 extern _InfoChamps *infoChamps;
 extern _AnimInfo    animInfo;
 char panneauContourGeometrie[32];
@@ -1945,7 +1946,7 @@ XtPointer unused1, unused2;
    
    InitMapInfo(mapInfo.type, mapInfo.ni, mapInfo.nj, mapInfo.ig1, mapInfo.ig2, 
                mapInfo.ig3, mapInfo.ig4);
-   
+   mapFlags.verifStatutNecessaire = OUI;   
    c_wglgwz(&largeurFenetre, &hauteurFenetre);
    AjusterViewport(&viewp);
    c_xy2fxfy(&rx1, &ry1, 1.0, 1.0);

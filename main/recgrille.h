@@ -36,3 +36,6 @@
        data qlxcon(11)  / 'STEREO'/
        data qlxval(11)  / 8    /
 
+       data qlxcon(12)  / 'GRIB'/
+       data qlxval(12)  / 10    /
+

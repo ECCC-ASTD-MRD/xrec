@@ -71,8 +71,11 @@ int *gridtype, *ni, *nj, *ig1, *ig2, *ig3, *ig4, lennomgrille;
         grmenuitems[nbgi].grtyp[0] = 'B';
         break;
         
-      case 8:
       case 10:
+        grmenuitems[nbgi].grtyp[0] = '!';
+	break;
+
+      case 8:
       case 11:
         grmenuitems[nbgi].grtyp[0] = 'T';
         break;
@@ -104,6 +107,14 @@ int *gridtype, *ni, *nj, *ig1, *ig2, *ig3, *ig4, lennomgrille;
                         &grmenuitems[nbgi].ig3,&grmenuitems[nbgi].ig4,
                         fig1, fig2, fig3, fig4);
         break;
+
+      case '!':
+        grmenuitems[nbgi].ig1 = *ig1;
+        grmenuitems[nbgi].ig2 = *ig2;
+        grmenuitems[nbgi].ig3 = *ig3;
+        grmenuitems[nbgi].ig4 = *ig4;
+	break;
+
 
       default:
         break;

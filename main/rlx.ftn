@@ -31,7 +31,7 @@
 
       call qlxopt('CARMOT', 4)
 
-      do i=1,11
+      do i=1,12
         call qlxins(qlxval(i),qlxcon(i), dum, 1, 0)
       enddo
 

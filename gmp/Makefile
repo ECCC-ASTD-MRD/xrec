@@ -14,8 +14,8 @@ FFLAGS =
 
 CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I$(HOME)/src/gd2/ -DX_WGL 
 
-#OPTIMIZ = -debug -O 0
-OPTIMIZ = -O 3
+OPTIMIZ = -debug -O 0
+#OPTIMIZ = -O 3
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
@@ -50,7 +50,7 @@ CDECKS= \
          gmp_verif.c       newgeoitem.c       params_ligne.c \
          points.c       points_turbo.c        read_lalo.c \
          swapFloats.c       vec_turbo.c       vecteurs.c tgeo.c c_gmpinit.c \
-	 lire_geo.c lire_gdb_geo.c lire_rmn_geo.c lire_rmn_latlon.c
+	 lire_geo.c lire_gdb_geo.c lire_rmn_geo.c lire_rmn_latlon.c gmp_gvlatlon.c
 
 FDECKS= \
          read-latlon.f       test-geo.f
@@ -98,6 +98,7 @@ recutil_lib: \
 	$(REC_UTILLIB)(gmp_trim.o) \
 	$(REC_UTILLIB)(gmp_verif.o) \
 	$(REC_UTILLIB)(newgeoitem.o) \
+	$(REC_UTILLIB)(gmp_gvlatlon.o) \
 	$(REC_UTILLIB)(params_ligne.o) \
 	$(REC_UTILLIB)(points.o) \
 	$(REC_UTILLIB)(points_turbo.o) \
@@ -107,12 +108,11 @@ recutil_lib: \
 	$(REC_UTILLIB)(test-geo.o) \
 	$(REC_UTILLIB)(vec_turbo.o) \
 	$(REC_UTILLIB)(vecteurs.o) \
- 	$(REC_UTILLIB)(lire_geo.o) \
- 	$(REC_UTILLIB)(lire_gdb_geo.o) \
+	$(REC_UTILLIB)(lire_geo.o) \
+	$(REC_UTILLIB)(lire_gdb_geo.o) \
 	$(REC_UTILLIB)(lire_rmn_latlon.o) \
 	$(REC_UTILLIB)(lire_rmn_geo.o)
 
 
 tgeo:
 	r.build -bidon -main tgeo -o tgeo -obj tgeo.o -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec_util rec rec_util wgl x_wgl wgl gdb expat Xm Xt X11 gd2 png z m -librmn rmn_x
-

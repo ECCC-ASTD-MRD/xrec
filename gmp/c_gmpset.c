@@ -211,6 +211,18 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
       mapFlags.typeValide = OUI;
       break;
       
+      case '!':
+      mapInfo.type = grtyp;
+      mapInfo.ni = ni;
+      mapInfo.nj = nj;
+      mapInfo.hemisphere = NORD;
+      mapInfo.indOrientation = NORD;
+      f77name(cigaxg)(&grtyp, &mapInfo.PasDeGrille, &mapInfo.AngleGreenwich,
+		      &mapInfo.latOrigine, &mapInfo.lonOrigine,
+              &iig1, &iig2, &iig3, &iig4);
+      mapFlags.typeValide = OUI;
+      break;
+
       default:
       mapFlags.typeValide = NON;
       return -1;

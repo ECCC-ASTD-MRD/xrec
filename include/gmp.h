@@ -4,6 +4,9 @@
 #define  M_ZERO			1.866025404
 #define  G			9.81
 
+#define ZERO_360                   0
+#define M180_180                1
+
 #define  LIGNE                  0
 #define  TIRET                  1
 #define  POINT                  2
@@ -96,9 +99,11 @@ typedef struct
 typedef struct 
 {
   int npts;
+  int full_line;
   float xmin, xmax, ymin, ymax;
   int statutPRGrille;
   PointGeoStruct *pointsGeo;
+  char *pen;
 } ListePointsStruct;
 
 typedef struct 
