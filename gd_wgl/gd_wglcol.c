@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_gd.h>
+#include <gd_wgl.h>
 
 gd_wglcol(couleur)
 int couleur;
@@ -26,38 +26,5 @@ int couleur;
    int nplanes;
    wglfshlb();
    
-   nplanes = gd_wglgpl();
-
-   /*
-     switch(nplanes)
-     {
-     case 1:
-     if (couleur == BLANC)
-     {
-     XSetForeground(wglDisp, wglLineGC, WhitePixel(wglDisp, wglScrNum));
-     XSetForeground(wglDisp, wglFillGC, WhitePixel(wglDisp, wglScrNum));
-     currentColor = BLANC;
-     }
-     else
-     {	
-     XSetForeground(wglDisp, wglLineGC, BlackPixel(wglDisp, wglScrNum));
-     XSetForeground(wglDisp, wglFillGC, BlackPixel(wglDisp, wglScrNum));
-     currentColor = NOIR;
-     }
-     break;
-     
-     case 8:
-     XSetForeground(wglDisp, wglLineGC, wglColorTable[couleur]);
-     XSetForeground(wglDisp, wglFillGC, wglColorTable[couleur]);
-     currentColor = couleur;
-     break;
-     
-     default:
-     XSetForeground(wglDisp, wglLineGC, couleurs[couleur].pixel);
-     XSetForeground(wglDisp, wglFillGC, couleurs[couleur].pixel);
-     currentColor = couleur;
-     break;
-     }
-   */
-
+   currentColor = wglColorTable[couleur];
 }

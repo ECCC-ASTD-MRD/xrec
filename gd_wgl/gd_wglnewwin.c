@@ -18,44 +18,44 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_gd.h>
+#include <gd_wgl.h>
 
 gd_wglnewwin()
 {
+  /*
    int i = 0;
    int fenetreExistanteTrouvee = 0;
 
-   /*
-     wglsavpfc();
-     while (i < nbFenetresActives)
+   wglsavpfc();
+   while (i < nbFenetresActives)
      {
      if (fenetre[i].libre)
-     {
-     fenetreCourante = i;
-     i = 32767;
-     fenetreExistanteTrouvee = 1;
-     }
+       {
+       fenetreCourante = i;
+       i = 32767;
+       fenetreExistanteTrouvee = 1;
+       }
      else
-     {
-     i++;
+       {
+       i++;
+       }
      }
-     }
-     
-     if (!fenetreExistanteTrouvee)
+   
+   if (!fenetreExistanteTrouvee)
      {
      if (fenetre == NULL)
-     {
-     fenetre = (_Fenetre *) calloc(1, sizeof(_Fenetre));
-     nbFenetresActives = 1;
-     fenetreCourante = 0;
-     wglsavpfc();
-     }
+       {
+       fenetre = (_Fenetre *) calloc(1, sizeof(_Fenetre));
+       nbFenetresActives = 1;
+       fenetreCourante = 0;
+       wglsavpfc();
+       }
      else
-     {
-     fenetre = (_Fenetre *) realloc(fenetre, (nbFenetresActives+1)*sizeof(_Fenetre));
-     nbFenetresActives++;
-     fenetreCourante++;
+       {
+       fenetre = (_Fenetre *) realloc(fenetre, (nbFenetresActives+1)*sizeof(_Fenetre));
+       nbFenetresActives++;
+       fenetreCourante++;
+       }
      }
-     }
-   */
+  */
    }

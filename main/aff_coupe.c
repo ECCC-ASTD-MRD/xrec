@@ -43,7 +43,7 @@ extern _ColormapInfo recCmap;
 extern int recColorTable[];
 extern int facteurLissage;
 extern int fenetreAffichage;
-extern int fenetreCoupe;
+extern int fenetreCoupe,fenetreSerie;
 
 extern float labelPos[][4];
 
@@ -447,11 +447,11 @@ float *fld, *uut, *uun, *ww, *uvw;
    int i,op,nbChampsActifs,npts,afficheChampCourant;
    _Champ *champ,*champ1, *champ2;
    
-   if (!CoupeMgrGetStatutCoupe())
+   if (!SerieMgrGetStatutSerie())
       return;
 
    FldMgrGetChamp(&champ, indChamp);
-   c_wglsetw(fenetreCoupe);
+   c_wglsetw(fenetreSerie);
    transformationFenetre = c_wglgmod();
    c_wglgwz(&largeurFenetre, &hauteurFenetre);
    c_wglcmi(0, 0, largeurFenetre-1, hauteurFenetre-1);
@@ -480,14 +480,14 @@ float *fld, *uut, *uun, *ww, *uvw;
       return;
       }
    
-   CoupeMgrSetMinMax();
-   CoupeMgrSetUVWMinMax();
+   SerieMgrSetMinMax();
+   SerieMgrSetUVWMinMax();
 
    if ((*champ).seqanim.niSerie == 1)
       {
       if (indChamp == 0)
 	 {
-	 CoupeMgrGetLimites(&valMin, &valMax, &ydebut, &yfin);
+	 SerieMgrGetLimites(&valMin, &valMax, &ydebut, &yfin);
 	 c_wgllwi(1);
 	 c_xsetxy(0, NULL, 0, NULL, 0);
 	 AfficherProfilSerie(champ->seqanim.xmin,champ->seqanim.ymin);
@@ -504,47 +504,20 @@ float *fld, *uut, *uun, *ww, *uvw;
    un = 1;
    f77name(aminmax)(&valMin,&valMax,champ->seqanim.valeursSeries,&npts,&un);
    
-   sensEchelle = CoupeMgrGetSensEchelle();
    xdebut = 1.0;
    xfin   = (float)champ->seqanim.niSerie;
    ydebut = (float)(champ->seqanim.ip2s[0]);
    yfin = (float)(champ->seqanim.ip2s[champ->seqanim.nbFldsAnim-1]);
    niveaux = (float *) calloc(champ->seqanim.nbFldsAnim, sizeof(float));
    
-   if (sensEchelle == DECROISSANTE)
-      {
-      if (champ->natureTensorielle == SCALAIRE)
-	 {
-	 f77name(permut)(fld, &champ->seqanim.niSerie, &champ->seqanim.njSerie);
-	 }
-      else
-	 {
-	 f77name(permut)(uut, &champ->seqanim.niSerie, &champ->seqanim.njSerie);
-	 f77name(permut)(uun, &champ->seqanim.niSerie, &champ->seqanim.njSerie);
-	 f77name(permut)(ww , &champ->seqanim.niSerie, &champ->seqanim.njSerie);
-	 f77name(permut)(uvw, &champ->seqanim.niSerie, &champ->seqanim.njSerie);
-	 }
-      
-      for (i=0; i < champ->seqanim.nbFldsAnim; i++)
-	 {
-	 niveaux[i] = (float)(champ->seqanim.ip2s[champ->seqanim.nbFldsAnim-i-1]);
-	 }
-      
-      c_wglssp(xdebut, yfin, xfin, ydebut, viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, transformationFenetre);
-      c_xsetxy(2, NULL, 0, niveaux, champ->seqanim.njSerie);
-      }
-   else
-      {
-      niveaux = (float *) calloc(champ->seqanim.nbFldsAnim, sizeof(float));
-      for (i=0; i < champ->seqanim.nbFldsAnim; i++)
-	 {
-	 niveaux[i] = (float)(champ->seqanim.ip2s[i]);
-	 }
-      
-      c_wglssp(xdebut, ydebut, xfin, yfin, viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, transformationFenetre);
-      c_xsetxy(2, NULL, 0, niveaux, champ->seqanim.njSerie);
-      }
+   for (i=0; i < champ->seqanim.nbFldsAnim; i++)
+     {
+     niveaux[i] = (float)(champ->seqanim.ip2s[i]);
+     }
    
+   c_wglssp(xdebut, ydebut, xfin, yfin, viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, transformationFenetre);
+   c_xsetxy(2, NULL, 0, niveaux, champ->seqanim.njSerie);
+
    free(niveaux);
    c_wglgsx(&xdebut, &ydebut, &xfin, &yfin);
    c_wglcmx(xdebut, ydebut, xfin, yfin);
@@ -678,24 +651,6 @@ float *fld, *uut, *uun, *ww, *uvw;
 		  xc.attributs[indChamp].indCouleurFore, xc.attributs[indChamp].indCouleurBack, indChamp, lissfac);
 	 }
       
-      if (champ->natureTensorielle == VECTEUR && champ->cle >= 0)
-	 {
-	 /**
-            SetClipMask();
-            c_wgllwi(1);
-            if (-1 != WindMgrGetDisplayMode())
-            {
-            CoupeMgrGetLimitesUVW(&uumin,&uumax,&uvwmin,&uvwmax,&wwmin,&wwmax,&nivmin,&nivmax);
-            
-            AfficherFleches(uut, ww,champ->coupe.niCoupe, champ->coupe.njCoupe,
-            xc.attributs[indChamp].indCouleurFore,
-            xc.attributs[indChamp].epaisseur,uvwmax);
-            if (0 != WindMgrGetDisplayMode())
-            AfficherLegendeVentUVW(uvwmax);
-            }
-         **/
-	 }
-      
       if (xc.statuts[VALEURS_CENTRALES])
 	 {
 	 hl_find (fld, champ->seqanim.niSerie, champ->seqanim.njSerie, 1.0, hilo,&hlcount,hlnmax);
@@ -735,20 +690,10 @@ float *fld, *uut, *uun, *ww, *uvw;
          }
       
       AfficherPerimetreFenetre();
-      if (sensEchelle == DECROISSANTE)
-         {
-         if (champ->natureTensorielle == SCALAIRE)
-            {
-            f77name(permut)(fld, &champ->seqanim.niSerie, &champ->seqanim.njSerie);
-            }
-         else
-            {
-            }
-         }
       
       xc.statuts[AXE_Y] = FALSE;
       xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-      UnSetCurseur(fenetreCoupe);
+      UnSetCurseur(fenetreSerie);
       UnSetCurseur(fenetreAffichage);
 }
 
@@ -819,25 +764,6 @@ AfficherTopo()
         }
     }
 
-ManipulerEtAfficherCoupe(indChamp)
-{
-   int domaine;
-
-   domaine = CoupeMgrGetDimensionCoupe();
-   if (domaine == ZP)
-      {
-      ManipulerEtAfficherCoupeVerticale(indChamp);
-      }
-   else
-      {
-      ManipulerEtAfficherSerieTemporelle(indChamp);
-      }
-   }
-
-/**
-****
-****
-**/
 
 ManipulerEtAfficherCoupeVerticale(indChamp)
 {

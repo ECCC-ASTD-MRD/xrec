@@ -18,11 +18,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_gd.h>
+#include <wgl.h>
+#include <gd.h>
+
+extern gdImagePtr gdwin;
 
 gd_wglpti(i, j)
 int i, j;
 {
-  /*    XDrawPoint(wglDisp, wglDrawable, wglLineGC, i, h - j); */
-   }
+  gdImageSetPixel(gdwin, i, h - j, currentColor);
+}
 

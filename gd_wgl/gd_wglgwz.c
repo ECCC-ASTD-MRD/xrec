@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_gd.h>
+#include <gd_wgl.h>
 
 gd_wglgwz(isize, jsize)
 int *isize, *jsize;
@@ -27,7 +27,7 @@ int *isize, *jsize;
    int border,depth;
 
    /*    XGetGeometry(wglDisp,wglDrawable, &root, &x,&y,isize,jsize,&border,&depth); */
-   w  = *isize;
-   h = *jsize;
+   *isize = w;
+   *jsize = h;
    }
 

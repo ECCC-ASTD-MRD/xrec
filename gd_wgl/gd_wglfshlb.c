@@ -18,7 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_gd.h>
+#include <gd_wgl.h>
+#include <gd.h>
+
+extern gdImagePtr gdwin;
 
 gd_wglfshlb()
 {
@@ -30,16 +33,11 @@ gd_wglfshlb()
       case 1:
       break;
       
-      case 2:
-	/*      if (wglPts[0].x == wglPts[1].x && wglPts[0].y == wglPts[1].y)
-		XDrawPoint(wglDisp, wglDrawable, wglLineGC, wglPts[0].x, wglPts[0].y);
-		else
-		XDrawLine(wglDisp, wglDrawable, wglLineGC, wglPts[0].x, wglPts[0].y, wglPts[1].x, wglPts[1].y); 
-	*/
-      break;
-
       default:
-	/*      XDrawLines(wglDisp, wglDrawable, wglLineGC, wglPts, NbPoints, CoordModeOrigin);*/
+	for (i=1; i < NbPoints; i++)
+	  {
+	  gdImageLine(gdwin, wglPts[i-1].x, wglPts[i-1].y,  wglPts[i].x, wglPts[i].y, currentColor);  
+	  }
       break;
       }
 

@@ -45,11 +45,13 @@ Widget          paLabelDefilement;
 Widget          paFrameAnimationRapide;
 Widget             paRadioBoxAnimation;
 Widget                paToggleAnimationRapide;
-Widget                paToggleAnimationLente;
 Widget          paFrameTypeDeDefilement;
 Widget             paRadioBoxTypeDeDefilement;
 Widget                paToggleDefilementRegulier;
 Widget                paToggleDefilementAvantArriere;
+Widget          paFrameInterpolation;
+Widget             paRadioBoxInterpolation;
+Widget                paToggleInterpolation;
 Widget    paFrameScales;
 Widget       paFormeScales;
 Widget          paScaleHeureDebut;
@@ -74,29 +76,26 @@ static char *labelOk[] = {"Fermer", "Close"};
 
 static char *labelScaleHeureDebut[] = {"Heure Debut", "Start Hour"};
 static char *labelScaleHeureFin[] =   {"Heure Fin", "End Hour"};
-static char *labelScaleDelai[] = {"Delai", "Delay"};
+static char *labelScaleDelai[] = {"Delai entre les images (sec.)", "Delay between frames (sec.)"};
 static char *labelScaleIntervalle[] = {"Intervalle temporel (minutes)", "Time Interval (minutes)"};
 
-static char *labelBoucle[] = {"Boucle", "Loop"};
-static char *labelTemps[]  = {"Temps", "Time"};
-static char *labelNiveaux[] = {"Niveaux", "Pressure Levels"};
 static char *labelDefilement[] = {"Defilement", "Sequence"};
-/*static char *labelAnimationRapide[] = {"Animation rapide\n(Conserver images en memoire)", "Fast animation\n(Keep images in memory)"};*/
+static char *labelInterpolation[] = {"Interp. temporelle", "Time Interpolation"};
 static char *labelAnimationRapide[] = {"Animation rapide", "Fast animation"};
-static char *labelAnimationLente[] = {"Animation standard\n(Regenerer images a chaque fois)", "Regular animation\n(Regenerate frames every time)"};
 static char *labelDefilementRegulier[] = {"Regulier", "Standard"};
-static char *labelDefilementAvantArriere[] = {"Avant-arriere", "Back and forth"};
+static char *labelDefilementAvantArriere[] = {"Aller-retour", "Back and forth"};
 
 
 extern _ColormapInfo recCmap;
 extern int recColorTable[256];
 _AnimInfo animInfo;
 int paSelectionTerminee = FALSE;
-
+static int interpolationTemporelle = FALSE;
 
 static XtCallbackProc PaSetDelai();
 static XtCallbackProc PaSetIntervalle();
 static XtCallbackProc PaToggleAnimationRapide();
+static XtCallbackProc PaToggleInterpolation();
 static XtCallbackProc PaToggleTemps();
 static XtCallbackProc PaToggleNiveaux();
 static XtCallbackProc PaToggleDefilementRegulier();
@@ -155,64 +154,13 @@ InitPanneauAnim()
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
    XtSetArg(args[i], XmNtopWidget, paFermer); i++;
-   XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
-   XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++;
-   paFormeToggles = (Widget)XmCreateForm(paFormeAnimPanel, labelOk[lng], args, i);
+   paFormeToggles = (Widget)XmCreateForm(paFormeAnimPanel, "formeToggles", args, i);
    XtManageChild(paFormeToggles);
 
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
-   XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++;
-   paFormeBoucle = (Widget)XmCreateForm(paFormeToggles, labelOk[lng], args, i);
-   XtManageChild(paFormeBoucle);
-
-   i = 0;
-   XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
-   XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++;
-   paLabelBoucle = (Widget)XmCreateLabel(paFormeBoucle, labelBoucle[lng], args, i);
-   XtManageChild(paLabelBoucle);
-
-   i = 0;
-   XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
-   XtSetArg(args[i], XmNtopWidget, paLabelBoucle); i++;
-   XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++;
-   paFrameBoucle = (Widget)XmCreateFrame(paFormeBoucle, labelBoucle[lng], args, i);
-   XtManageChild(paFrameBoucle);
-
-   i = 0;
-   paRadioBoxBoucle = (Widget)XmCreateRadioBox(paFrameBoucle, "radiobox", args, i);
-   XtManageChild(paRadioBoxBoucle);
-
-   i = 0;
-   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
-   XtSetArg(args[i], XmNset, True); i++;
-   XtSetArg(args[i], XmNmarginHeight, 0); i++;
-   XtSetArg(args[i], XmNmarginBottom, 0); i++;
-   XtSetArg(args[i], XmNmarginTop, 0); i++;
-   paToggleTemps = (Widget) XmCreateToggleButton(paRadioBoxBoucle, labelTemps[lng], args, i);
-   XtManageChild(paToggleTemps);
-   XtAddCallback(paToggleTemps, XmNvalueChangedCallback, PaToggleTemps, NULL);
-   
-   i = 0;
-   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
-   XtSetArg(args[i], XmNmarginHeight, 0); i++;
-   XtSetArg(args[i], XmNmarginBottom, 0); i++;
-   XtSetArg(args[i], XmNmarginTop, 0); i++;
-   paToggleNiveaux = (Widget)XmCreateToggleButton(paRadioBoxBoucle, labelNiveaux[lng], args, i);
-   XtManageChild(paToggleNiveaux);
-   XtAddCallback(paToggleNiveaux, XmNvalueChangedCallback, PaToggleNiveaux, NULL);
-
-/********************
-*************************
-*************************
-********************/
-
-   i = 0;
-   XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
-   XtSetArg(args[i], XmNleftAttachment, XmATTACH_WIDGET); i++;
-   XtSetArg(args[i], XmNleftWidget, paFormeBoucle); i++;
-   paFormeDefilement = (Widget)XmCreateForm(paFormeToggles, "Defilement", args, i);
+   paFormeDefilement = (Widget)XmCreateRowColumn(paFormeToggles, "Defilement", args, i);
    XtManageChild(paFormeDefilement);
 
    i = 0;
@@ -229,36 +177,27 @@ InitPanneauAnim()
    XtManageChild(paFrameAnimationRapide);
 
    i = 0;
-   paRadioBoxAnimation = (Widget)XmCreateFrame(paFrameAnimationRapide, "radiobox", args, i);
+   paRadioBoxAnimation = (Widget)XmCreateRadioBox(paFrameAnimationRapide, "radiobox", args, i);
    XtManageChild(paRadioBoxAnimation);
 
    i = 0;
    XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
    XtSetArg(args[i], XmNset, False); i++;
-   XtSetArg(args[i], XmNsensitive, False); i++;
+   /*    XtSetArg(args[i], XmNsensitive, False); i++; */
    XtSetArg(args[i], XmNmarginHeight, 0); i++;
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    XtSetArg(args[i], XmNindicatorType, XmONE_OF_MANY); i++;
    paToggleAnimationRapide = (Widget) XmCreateToggleButton(paRadioBoxAnimation, labelAnimationRapide[lng], args, i);
    XtManageChild(paToggleAnimationRapide);
-   XtAddCallback(paToggleAnimationRapide, XmNvalueChangedCallback, PaToggleAnimationRapide, NULL);
+   XtAddCallback(paToggleAnimationRapide, XmNdisarmCallback, PaToggleAnimationRapide, NULL);
 
-/**   
-   i = 0;
-   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
-   XtSetArg(args[i], XmNmarginHeight, 0); i++;
-   XtSetArg(args[i], XmNmarginBottom, 0); i++;
-   XtSetArg(args[i], XmNmarginTop, 0); i++;
-   paToggleAnimationLente = (Widget)XmCreateToggleButton(paRadioBoxAnimation, labelAnimationLente[lng], args, i);
-   XtManageChild(paToggleAnimationLente);
-**/
 
-/********************
-*************************
+
+   /*
 *************************
 ********************/
- 
+   
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
    XtSetArg(args[i], XmNtopWidget, paFrameAnimationRapide); i++;
@@ -306,25 +245,22 @@ InitPanneauAnim()
    XtSetArg(args[i], XmNorientation, XmVERTICAL); i++;
    paFormeScales = (Widget)XmCreateRowColumn(paFrameScales, "form", args, i);
    XtManageChild(paFormeScales);
-/**
-   i = 0;
-   label = XmStringCreateLtoR(labelScaleHeureDebut[lng], XmSTRING_DEFAULT_CHARSET); 
-   XtSetArg(args[i], XmNorientation, XmHORIZONTAL); i++;
-   XtSetArg(args[i], XmNtitleString, label); i++;
-   XtSetArg(args[i], XmNshowValue, True);  i++;
-   paScaleHeureDebut = (Widget)XmCreateScale(paFormeScales, labelScaleHeureDebut[lng], args, i);
-   XtManageChild(paScaleHeureDebut);
-   XmStringFree(label);
 
    i = 0;
-   label = XmStringCreateLtoR(labelScaleHeureFin[lng], XmSTRING_DEFAULT_CHARSET);
-   XtSetArg(args[i], XmNorientation, XmHORIZONTAL); i++;
-   XtSetArg(args[i], XmNtitleString, label); i++;
-   XtSetArg(args[i], XmNshowValue, True); i++;
-   paScaleHeureFin = (Widget)XmCreateScale(paFormeScales, labelScaleHeureFin[lng], args, i);
-   XtManageChild(paScaleHeureFin);
-   XmStringFree(label);
-**/
+   paRadioBoxInterpolation = (Widget)XmCreateRadioBox(paFormeScales, "radiobox", args, i);
+   XtManageChild(paRadioBoxInterpolation);
+
+   i = 0;
+   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
+   XtSetArg(args[i], XmNset, False); i++;
+   /*    XtSetArg(args[i], XmNsensitive, False); i++; */
+   XtSetArg(args[i], XmNmarginHeight, 0); i++;
+   XtSetArg(args[i], XmNmarginBottom, 0); i++;
+   XtSetArg(args[i], XmNmarginTop, 0); i++;
+   XtSetArg(args[i], XmNindicatorType, XmONE_OF_MANY); i++;
+   paToggleInterpolation = (Widget) XmCreateToggleButton(paRadioBoxInterpolation, labelInterpolation[lng], args, i);
+   XtManageChild(paToggleInterpolation);
+   XtAddCallback(paToggleInterpolation, XmNdisarmCallback, PaToggleInterpolation, NULL);
 
    i = 0;
    label = XmStringCreateLtoR(labelScaleIntervalle[lng], XmSTRING_DEFAULT_CHARSET);
@@ -333,9 +269,9 @@ InitPanneauAnim()
    XtSetArg(args[i], XmNshowValue, True); i++;
    XtSetArg(args[i], XmNdecimalPoints, 0); i++;
    XtSetArg(args[i], XmNminimum, 0); i++;
-   XtSetArg(args[i], XmNmaximum, 360); i++;
+   XtSetArg(args[i], XmNmaximum, 720); i++;
    XtSetArg(args[i], XmNvalue, 180); i++;
-   XtSetArg(args[i], XmNscaleMultiple, 30); i++;
+   XtSetArg(args[i], XmNscaleMultiple, 15); i++;
    paScaleIntervalle = (Widget)XmCreateScale(paFormeScales, labelScaleIntervalle[lng], args, i);
    XtManageChild(paScaleIntervalle);
    XmStringFree(label);
@@ -344,14 +280,16 @@ InitPanneauAnim()
    XtAddCallback(paScaleIntervalle, XmNvalueChangedCallback, PaSetIntervalle, NULL);
 
    animInfo.intervalle = 180.0;
+   animInfo.delai = 0.12;
    i = 0;
    label = XmStringCreateLtoR(labelScaleDelai[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNtitleString, label); i++;
    XtSetArg(args[i], XmNorientation, XmHORIZONTAL); i++;
    XtSetArg(args[i], XmNshowValue, True); i++;
    XtSetArg(args[i], XmNdecimalPoints, 2); i++;
-   XtSetArg(args[i], XmNminimum, 0); i++;
-   XtSetArg(args[i], XmNmaximum, 50); i++;
+   XtSetArg(args[i], XmNminimum, 2); i++;
+   XtSetArg(args[i], XmNvalue, 12); i++;
+   XtSetArg(args[i], XmNmaximum, 100); i++;
    paScaleDelai = (Widget)XmCreateScale(paFormeScales, labelScaleDelai[lng], args, i);
    XtManageChild(paScaleDelai);
    XmStringFree(label);
@@ -614,27 +552,6 @@ caddr_t unused1, unused2;
  ***********************************************************************
  **/
 
-static XtCallbackProc PaToggleTemps(w, u1, u2)
-Widget w;
-caddr_t u1, u2;
-{
-   int i;
-
-   FldMgrFreeVerticalXSection();
-   LibererImages();
-   animInfo.variableBoucle = TEMPS;
-   }
-
-static XtCallbackProc PaToggleNiveaux(w, u1, u2)
-Widget w;
-caddr_t u1, u2;
-{
-   int i;
-
-   LibererImages();
-   FldMgrFreeTimeAnimationSeq();
-   animInfo.variableBoucle = NIVEAUX;
-   }
 
 static XtCallbackProc PaToggleDefilementRegulier(w, u1, u2)
 Widget w;
@@ -650,10 +567,47 @@ caddr_t u1, u2;
    animInfo.typeDefilement = DEFILEMENT_AVANT_ARRIERE;
    }
 
-static XtCallbackProc PaToggleAnimationRapide(w, u1, u2)
+static XtCallbackProc PaToggleAnimationRapide(Widget w, caddr_t u1, caddr_t u2)
+{
+  Arg args[2];
+  int i;
+  
+  animInfo.animationRapide = !animInfo.animationRapide;
+  
+  i = 0;
+  if (animInfo.animationRapide)
+    {
+    XtSetArg(args[i], XmNset, True); i++;
+    }
+  else
+    {
+    XtSetArg(args[i], XmNset, False); i++;
+    }
+  XtSetValues(w, args, i);
+  
+  
+}
+
+static XtCallbackProc PaToggleInterpolation(w, u1, u2)
 Widget w;
 caddr_t u1, u2;
 {
-   animInfo.animationRapide = !animInfo.animationRapide;
-   }
+  Arg args[8];
+  int i;
+  
+  interpolationTemporelle = !interpolationTemporelle;
+  
+    i = 0;
+  if (interpolationTemporelle)
+    {
+    XtSetArg(args[i], XmNset, True); i++;
+    }
+  else
+    {
+    XtSetArg(args[i], XmNset, False); i++;
+    }
+  XtSetValues(w, args, i);
+
+  
+}
 

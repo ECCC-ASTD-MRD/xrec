@@ -18,30 +18,16 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_gd.h>
+#include <gd_wgl.h>
+
+#include <gd.h>
+
+extern gdImagePtr gdwin;
 
 gd_wgllwi(lineWidth)
 int lineWidth;
 {
-   wglfshlb();
-   if (lineWidth == 1)
-      {
-      currentLineWidth = 0;
-      /*
-	if (currentDashPattern != 0)
-	XSetLineAttributes(wglDisp, wglLineGC, 0, LineOnOffDash, CapButt,JoinMiter); 
-	else
-	 XSetLineAttributes(wglDisp, wglLineGC, 0, LineSolid, CapButt,JoinMiter); 
-      */
-      }
-   else
-      {
-      currentLineWidth = lineWidth;
-      /* if (currentDashPattern != 0)
-	 XSetLineAttributes(wglDisp, wglLineGC, lineWidth, LineOnOffDash, CapButt,JoinMiter);
-	 else
-	 XSetLineAttributes(wglDisp, wglLineGC, lineWidth, LineSolid, CapButt,JoinMiter);
-      */
-      }
-   
+   currentLineWidth = lineWidth;
+
+   gdImageSetThickness(gdwin,lineWidth);
    }

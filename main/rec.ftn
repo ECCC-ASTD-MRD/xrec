@@ -37,7 +37,7 @@
       integer xconouv, xinit
       integer xfslouv97, xfslact97
       integer xpancact, xpangact, xpanpact,xpanmact,
-     $     xpaneact,xpanpcpact,xpventact
+     $     xpaneact,xpanpcpact,xpanpcsact,xpventact,xpanpavact
       integer xconact
 
       integer ier, nrecs
@@ -202,8 +202,10 @@
       ier = xpangact()
       ier = xpaneact()
       ier = xpanpact()
+      ier = xpanpavact()
       ier = xpanmact()
       ier = xpanpcpact()
+      ier = xpanpcsact()
       ier = xpventact()
       goto 1000
 

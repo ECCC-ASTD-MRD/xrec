@@ -18,16 +18,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_gd.h>
+#include <gd_wgl.h>
 
-gd_wglpsz(isize, jsize)
-int isize, jsize;
+extern int w, h;
+
+gd_wglpsz(int isize, int jsize)
+
 {
-  /*   wglHints.width  = isize;
-   wglHints.height = jsize;
-   wglHints.flags  = USSize;
-
-   customWinSize    = 1;
-  */
+  w = isize;
+  h = jsize;
    }
 

@@ -18,7 +18,7 @@ prof:
 	for dir in $(subdirs); do  cd $$dir; make OPTIMIZ="-prof"; cd ..; done
 
 clean:
-	for dir in $(subdirs); do cd $$dir; /bin/rm -f *.o *.f *~; cd ..; done
+	for dir in $(subdirs); do cd $$dir; /bin/rm -f *.o *.f *~ *.stb; cd ..; done
 
 touch:
 	for dir in $(subdirs); do cd $$dir; touch *.ftn *.c; cd ..; done

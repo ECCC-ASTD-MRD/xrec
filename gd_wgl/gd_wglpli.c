@@ -18,39 +18,21 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_gd.h>
+#include <gd_wgl.h>
+#include <gd.h>
+
+extern gdImagePtr gdwin;
 
 gd_wglpli(nbPoints, polygone)
 int nbPoints;
 int polygone[][2];
 {
    int i;
-   /*    XPoint p[255], *xptr, *largeP; */
-   /*    XPoint p[255], *xptr, *largeP; */
-   
-      /*   if (nbPoints > 255)
-	   {
 	   
-	   largeP = (XPoint *) calloc(nbPoints, sizeof(XPoint));
-	   xptr = largeP;
-	   
-	   }
-	   else
-	   {
-	   xptr = p;
-	   }
-	   
-	   wglfshlb();
-	   for (i=0; i < nbPoints; i++)
-	   {
-	   xptr[i].x = polygone[i][X];
-	   xptr[i].y = h - polygone[i][Y];
-	   }
-	   
-	   XDrawLines(wglDisp, wglDrawable, wglLineGC, xptr, nbPoints, CoordModeOrigin);
-	   
-	   if (nbPoints > 255)
-	   free(largeP);
-      */
+   gd_wglfshlb();
+   for (i=1; i < nbPoints; i++)
+      {
+      gdImageLine(gdwin, polygone[i-1][0], h- polygone[i-1][1], 
+		  polygone[i][0], h- polygone[i][1], currentColor);
+      }
 }
-

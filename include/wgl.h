@@ -105,8 +105,6 @@ extern int     pix[];
 extern int     wglColorTable[];
 extern int     wglWritablePixs[];
 
-
-
 typedef struct
 {
   int graphics_library;
@@ -137,6 +135,7 @@ typedef struct
   int (*wgldpt)(int indpat, int ipatsz, char iptrn[]);
   int (*wgldri)(int i, int j);
   int (*wgldsi)(char string[], int stringLength);
+  int (*wglecr)(char *nomFichier);
   int (*wglerb)(void);
   int (*wglfbf)(void);
   int (*wglfsc)(void);

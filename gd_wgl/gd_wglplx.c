@@ -18,39 +18,27 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_gd.h>
+#include <gd_wgl.h>
+#include <gd.h>
+
+extern gdImagePtr gdwin;
 
 gd_wglplx(nbPoints, polygone)
 int nbPoints;
 float polygone[][2];
 {
    int i,j,k;
-   int i1, j1, imax;
-   wgl_point p[64];
+   int i1, j1, i2, j2;
    
    wglfshlb();
-   for (j=0; j < nbPoints; j+=63)
-      {
-      imax = (nbPoints - j) >= 64 ? 64 : nbPoints - j;
-      for (i=j; i < (j+imax); i++)
-	 {
-	 gd_wglxai(&i1, &j1, polygone[i][X], polygone[i][Y]);
-	 p[i-j].x = i1;
-	 p[i-j].y = h - j1; 
-	 }
-      
-      if (currentDashPattern == 0)
-	 {
-	 /* 	 XDrawLines(wglDisp, wglDrawable, wglLineGC, p, i-j, CoordModeOrigin); */
-	 }
-      else
-	 {
-	 /*
-	   for (k=0; k < (i-j-1); k++)
-	   XDrawLine(wglDisp, wglDrawable, wglLineGC, p[k].x, p[k].y, p[k+1].x, p[k+1].y);
-	 */
-	 }
-      }
+   c_wglxai(&i1, &j1, polygone[0][X], polygone[0][Y]);
    
-   }
+   for (i=1; i < nbPoints; i++)
+      {
+      c_wglxai(&i2, &j2, polygone[i][X], polygone[i][Y]);
+      gdImageLine(gdwin, i1, j1, i2, j2, currentColor);
+      i1 = i2;
+      j1 = j2;
+      }
+}
 

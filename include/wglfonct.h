@@ -36,6 +36,7 @@ int c_wgldld(int indDash, int dashPattern);
 int c_wgldpt(int indpat, int ipatsz, char iptrn[]);
 int c_wgldri(int i, int j);
 int c_wgldrx(float x, float y);
+int c_wglecr(char *nomFenetre);
 int c_wglerb();
 int c_wglfbf();
 int c_wglfsc();
@@ -125,4 +126,3 @@ void f77name(vfxfy2xy)(float *x, float *y, float *fx, float *fy, int *npts);
 void f77name(vxy2fxfy)(float *fx, float *fy, float *x, float *y, int *npts);
 void f77name(xsetxy)(int *mode, float *tx, int *nx, float *ty, int *ny);
 void f77name(xy2fxfy)(float *fx, float *fy, float *x, float *y);
-

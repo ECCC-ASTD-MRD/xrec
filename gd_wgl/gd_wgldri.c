@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_gd.h>
+#include <gd_wgl.h>
 
 gd_wgldri(i, j)
 int i, j;
@@ -29,6 +29,6 @@ int i, j;
    
    if (NbPoints >= NB_MAX_POINTS)
       {
-      wglfshlb();
+      gd_wglfshlb();
       } 
    }

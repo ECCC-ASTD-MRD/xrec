@@ -18,25 +18,23 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_gd.h>
+#include <gd_wgl.h>
+#include <gd.h>
+#include <stdio.h>
+
+extern char gdNomFenetre[];
+extern gdImagePtr gdwin;
 
 gd_wglclw(indFenetre)
 int indFenetre;
 {
-   int i;
 
-   /*
-     gd_wglsetw(indFenetre);
-     wglsavpfc();
-     memset((char *) &fenetre[fenetreCourante], NULL, sizeof(_Fenetre));
-     
-     fenetre[fenetreCourante].libre = 1;
-     i = 0;
-     nbFenetresActives--;
-     while (fenetre[i].libre && i < nbFenetresActives)
-     i++;
-     
-     wgldefncw(fenetre[i].wglWin);
-   */
+  FILE *sortie;
+   int i;
+   
+   sortie = fopen(gdNomFenetre, "wb");
+   gdImagePng(gdwin, sortie);
+   fclose(sortie);
+
    }
 

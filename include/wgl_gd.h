@@ -134,6 +134,7 @@ extern int wgl_gddefncw(int winid);
 extern int wgl_gddld(int indDash, int dashPattern);
 extern int wgl_gddpt(int indpat, int ipatsz, char iptrn[]);
 extern int wgl_gddri(int i, int j);
+extern int wgl_gdecr(char *nomFichier);
 extern int wgl_gderb();
 extern int wgl_gdfbf();
 extern int wgl_gdfsc();

@@ -18,3 +18,16 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <gd_wgl.h>
+#include <gd.h>
+#include <stdio.h>
+
+gdImagePtr gdwin = -1;
+char gdNomFenetre[256];
+
+gd_wglinit()
+{
+  static int once = 0;
+
+  once = 1;
+}

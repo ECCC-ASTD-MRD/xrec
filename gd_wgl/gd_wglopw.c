@@ -18,52 +18,44 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_gd.h>
+#include <gd_wgl.h>
+#include <gd.h>
 
-int gd_wglopw(nomFenetre)
-char *nomFenetre;
+
+extern char gdNomFenetre[];
+extern gdImagePtr gdwin;
+
+int gd_wglopw(char *nomFenetre)
 {
-   char tempNomFenetre[255];
 
-   /*
-   wglnewwin();
-
-   if (nomFenetre[0] == '?')
-      sprintf(tempNomFenetre, "X-%s", &nomFenetre[1]);
-   else
-      strcpy(tempNomFenetre, nomFenetre);
-      
-   lng = gd_getulng();
-   
-   wgliniwin(tempNomFenetre);
-
-   if (!wglForceAspectSet)
-      wglForceAspect = 1;
-
-   w = wglWinAttr.width;
-   h = wglWinAttr.height;
-
-   gd_wglssp(0.0, 0.0, (float) (w -1), (float) (h - 1), 0, 0, 
-            w - 1, h - 1, 0);
-   usSpace.axex = NULL;
-   usSpace.axey = NULL;
-   usSpace.ni   = 0;
-   usSpace.nj   = 0;
-   bgPix = NULL;
-
-   if (!customWinSize)
-      {
-      wglwtwrsz();
-      }
-
-   gd_wglgwz(&w,&h);
-
-   gd_wglcol(NOIR);
-   gd_wglclr(); 
-
-   gd_wglsetw(wglWin);
-   wglrstdpar();
-   return wglWin;
-   */
+  gd_wglinit();
+  strcpy(gdNomFenetre, nomFenetre);
+  if (!wglForceAspectSet)  wglForceAspect = 1;
+  
+  if (w == -1) w = 800;
+  if (h == -1) h = 600;
+  
+  gdwin = gdImageCreate(w, h);
+  
+  wglColorTable[BLANC]= gdImageColorAllocate(gdwin, 255, 255, 255);
+  wglColorTable[NOIR] = gdImageColorAllocate(gdwin, 0, 0,   0);
+  wglColorTable[BLEU]= gdImageColorAllocate(gdwin, 0, 0, 255);
+  wglColorTable[ROUGE] = gdImageColorAllocate(gdwin, 255, 0,   0);
+  wglColorTable[VERT]= gdImageColorAllocate(gdwin, 0, 200, 0);
+  wglColorTable[JAUNE] = gdImageColorAllocate(gdwin, 255, 255,   0);
+  wglColorTable[MAGNTA]= gdImageColorAllocate(gdwin, 255, 0, 255);
+  wglColorTable[GRIS] = gdImageColorAllocate(gdwin, 128, 128, 128);
+  
+  c_wglssp(0.0, 0.0, (float) (w -1), (float) (h - 1), 0, 0, w - 1, h - 1, 0);
+  usSpace.axex = NULL;
+  usSpace.axey = NULL;
+  usSpace.ni   = 0;
+  usSpace.nj   = 0;
+  
+  gd_wglcol(NOIR);
+  gd_wglclr(); 
+  
+  return 0;
+  
    }
 

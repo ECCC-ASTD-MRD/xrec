@@ -139,14 +139,15 @@ static char *labelDiapos[]        = { "Produire une image...", "Produce picture.
 static char *labelFilms[]        = { "Produire une sequence...", "Produce sequence..." };
 static char *labelBientot[] =        { "Bientot disponible", "Available soon" };
 static char *labelEdition[]        = { "Edition de champs...", "Field Editing..." };
-static char *labelAnimation[]      = { "Animation...", "Animation..."};
+static char *labelAnimation[]      = { "Animation temporelle...", "Time Animation..."};
+static char *labelAnimationVerticale[]      = { "Animation dans la verticale...", "Vertical Animation across vertical..."};
 static char *labelGeographie[]     = { "Geographie...", "Geography..." };
 static char *labelContours[]       = { "Contours...", "Contours..." };
-static char *labelAttributs[]      = { "Attributs divers...", "Various attributes..." };
+static char *labelAttributs[]      = { "Legende/Interpolation...", "Legend/Interpolation..." };
 static char *labelPalette[]        = { "Palettes...", "Palettes..." };
 static char *labelMinMax[]         = { "Min-Max...", "Min-Max..." };
-static char *labelCoupe[]          = { "Coupes verticales/Series temporelles...", 
-					  "Vertical Xsections/Time Series..." };
+static char *labelCoupe[]          = { "Coupes verticales...", "Vertical Cross-sections..." };
+static char *labelSerie[]          = { "Series temporelles...", "Time Series..." };
 static char *labelVent[]           = { "Champs vectoriels...", "Vector fields..."};
 static char *labelChampno1[]           = { "Champ #1", "Field #1"};
 
@@ -827,6 +828,7 @@ caddr_t unused1, unused2;
    
    XmStringFree(label);
    RedessinerFenetreCoupe();
+   RedessinerFenetreSerie();
 }
 
 /**
@@ -915,6 +917,7 @@ XtPointer unused1, unused2;
    
    EffacerFenetreAffichage();
    EffacerFenetreCoupe();
+   EffacerFenetreSerie();
    EffacerCoupe();
    i = FldMgrGetNbChampsActifs();
    while (0 < FldMgrGetNbChampsActifs())
@@ -960,6 +963,7 @@ EffacerFenetres()
 {
    EffacerFenetreAffichage();
    EffacerFenetreCoupe();
+   EffacerFenetreSerie();
    }
 
 /**
@@ -971,7 +975,7 @@ EffacerFenetreAffichage()
 {
    _Champ *champ;
    int largeurFenetre, hauteurFenetre;
-   int fenetreCoupe;
+   int fenetreCoupe,fenetreSerie;
    int col;
    
    FldMgrGetChamp(&champ, 0);
@@ -981,17 +985,6 @@ EffacerFenetreAffichage()
 	 col = xc.attributs[FOND].indCouleurFore;
       else
 	 col = xc.attributs[FOND].couleurFore;
-      /**
-	switch(xc.statuts[COULEURS])
-	{
-	case TRUE:
-	break;
-	
-	case FALSE:
-	col = BLANC;
-	break;
-	}
-	**/
       }
    else
       {
@@ -1001,12 +994,6 @@ EffacerFenetreAffichage()
    c_wglsetw(fenetreAffichage);
    c_wglcol(col);
    c_wglclr();
-#ifdef GL_WGL
-   EnterOverlayMode();
-   color(0);
-   clear();
-   RestoreNormalMode();
-#endif
    }
 
 
@@ -1022,20 +1009,27 @@ EffacerFenetreCoupe()
       else
 	 col = BLANC;
 
-/**
-  switch(xc.statuts[COULEURS])
-  {
-  case TRUE:
-  break;
-  
-  case FALSE:
-  col = BLANC;
-  break;
-  }
-**/
-      
       CoupeMgrGetFenetreCoupeID(&fenetreCoupe);
       c_wglsetw(fenetreCoupe);
+      c_wglcol(col);
+      c_wglclr();
+      }
+   }
+
+EffacerFenetreSerie()
+{
+   int fenetreSerie;
+   int col;
+   
+   if (SerieMgrGetStatutSerie())
+      {
+      if (8 <= c_wglgpl())
+	 col = xc.attributs[FOND].indCouleurFore;
+      else
+	 col = BLANC;
+
+      SerieMgrGetFenetreSerieID(&fenetreSerie);
+      c_wglsetw(fenetreSerie);
       c_wglcol(col);
       c_wglclr();
       }
@@ -1212,22 +1206,6 @@ InitFormeZoom()
    XtManageChild(xc.valeursPonctuelles);
    XmStringFree(label);
    
-/**
-   label = XmStringCreateLtoR(labelProfil[lng], XmSTRING_DEFAULT_CHARSET);
-
-   i = 0;
-   XtSetArg(args[i], XmNlabelString, label); i++;
-   XtSetArg(args[i], XmNleftAttachment, XmATTACH_POSITION); i++;
-   XtSetArg(args[i], XmNrightAttachment, XmATTACH_POSITION); i++;
-   XtSetArg(args[i], XmNrubberPositioning, True); i++;
-   XtSetArg(args[i], XmNleftPosition, 67); i++;
-   XtSetArg(args[i], XmNrightPosition, 100); i++;
-   xc.profilCoupe = (Widget)XmCreatePushButton(xc.formeZoom, "pushbutton", args, i);
-   XtAddCallback(xc.profilCoupe, XmNactivateCallback, ChangerStatutSuperposition, NULL);
-   XtManageChild(xc.profilCoupe);
-
-   XmStringFree(label);
-**/
    }
 
 /**
@@ -1738,11 +1716,6 @@ InitMenuOptions()
    
    i = 0;
    j = 0;
-   xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelAnimation[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
-
-   i++;
-   j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelAttributs[lng], args, j);
    XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
    
@@ -1753,14 +1726,18 @@ InitMenuOptions()
 
    i++;
    j = 0;
-   xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelEdition[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
-   
-   i++;
-   j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelGeographie[lng], args, j);
    XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
    
+
+   i++;
+   j = 0;
+   xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelPalette[lng], args, j);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc)  MenuOptionSelect, (XtPointer) i); 
+   
+   i++;
+   xc.menuOptionItems[i] = (Widget)XmCreateSeparatorGadget(xc.menuOptions, "ligne", args, 0);
+
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelMinMax[lng], args, j);
@@ -1768,19 +1745,40 @@ InitMenuOptions()
    
    i++;
    j = 0;
-   xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelPalette[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc)  MenuOptionSelect, (XtPointer) i); 
-   
-   i++;
-   j = 0;
-   /*   XtSetArg(args[j], XmNsensitive, False); j++; */
-   xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelCoupe[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
-   
-   i++;
-   j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelVent[lng], args, j);
    XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
+   
+   i++;
+   j = 0;
+   xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelEdition[lng], args, j);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
+   
+   i++;
+   xc.menuOptionItems[i] = (Widget)XmCreateSeparatorGadget(xc.menuOptions, "ligne", args, 0);
+
+   i++;
+   j = 0;
+   xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelAnimation[lng], args, j);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
+
+   i++;
+   j = 0;
+   xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelSerie[lng], args, j);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
+
+   i++;
+   xc.menuOptionItems[i] = (Widget)XmCreateSeparatorGadget(xc.menuOptions, "ligne", args, 0);
+
+   i++;
+   j = 0;
+   xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelCoupe[lng], args, j);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
+   i++;
+   j=0;
+   xc.menuOptionItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuOptions, labelAnimationVerticale[lng], args, j);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i); 
+
+   
    
    XtManageChildren(xc.menuOptionItems, i+1);
    XtManageChild(xc.menuOpt);
@@ -1829,43 +1827,53 @@ XtPointer unused1, unused2;
    switch((int)unused1)
       {
       case 0:
-      ActiverPanneauAnimation();
-      break;
-
-      case 1:
       ActiverPanneauAttributs();
       break;
       
-      
-      case 2:
+      case 1:
       ActiverPanneauContour();
       break;
 
-      case 3:
-      ActiverPanneauEdition();
-      break;
-
-      case 4:
+      case 2:
       ActiverPanneauGeo();
       break;
       
+      case 3:
+      ActiverPanneauPalette();
+      break;
+
       case 5:
       ActiverPanneauMinMax();
       break;
 
       case 6:
-      ActiverPanneauPalette();
+      ActiverPanneauVents();
       break;
 
       case 7:
+      ActiverPanneauEdition();
+      break;
+
+      case 9:
+      ActiverPanneauAnimation();
+      break;
+
+      case 10:
+      ActiverPanneauSerie();
+      break;
+
+      case 12:
       ActiverPanneauCoupe();
       break;
 
-      case 8:
-      ActiverPanneauVents();
+      case 13:
+      ActiverPanneauAnimationVerticale();
       break;
+      
+      default:
+	break;
       }
-
+   
    }
 
 /**
@@ -1988,7 +1996,7 @@ XtPointer unused1, unused2;
   Arg args[10];
   extern int nbgi;
   int largeurFenetre, hauteurFenetre;
-  int currentOpt,ier,fenetreCoupe;
+  int currentOpt,ier,fenetreCoupe, fenetreSerie;
   float cxmin, cymin, cxmax, cymax;
   _Champ *champ;
   
@@ -2421,6 +2429,7 @@ RedessinerFenetres()
 
    RedessinerFenetreAffichage();
    RedessinerFenetreCoupe();
+   RedessinerFenetreSerie();
    }
 
 /**
@@ -2435,11 +2444,14 @@ RedessinerFenetreAffichage()
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return;
+      /*       return; */
       }
+   else
+     {
+     AfficherBoutonAnnulation();
+     xc.annulationDemandee = FALSE;
+     }
    
-   AfficherBoutonAnnulation();
-   xc.annulationDemandee = FALSE;
 
    xc.statuts[EN_TRAIN_DE_DESSINER] = TRUE; 
    for (i=0; i < FldMgrGetNbChampsActifs(); i++)
@@ -2481,7 +2493,42 @@ RedessinerFenetreCoupe()
       {
       if (!c_wglanul())
 	 {
-         ManipulerEtAfficherCoupe(i);
+         ManipulerEtAfficherCoupeVerticale(i);
+	 }
+      }
+   
+   xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE; 
+   EnleverBoutonAnnulation();
+   }
+
+/**
+ ******************************************************************************
+ ******************************************************************************
+ **/
+
+RedessinerFenetreSerie()
+{
+   int i;
+   
+   if (!SerieMgrGetStatutSerie())
+      return;
+
+   if (xc.statuts[EN_TRAIN_DE_DESSINER])
+      {
+      Beeper();
+      return;
+      }
+   
+   AfficherBoutonAnnulation();
+   
+   SerieMgrSetMinMax();
+   SerieMgrSetUVWMinMax();
+   xc.statuts[EN_TRAIN_DE_DESSINER] = TRUE; 
+   for (i=0; i < FldMgrGetNbChampsActifs(); i++)
+      {
+      if (!c_wglanul())
+	 {
+         ManipulerEtAfficherSerieTemporelle(i);
 	 }
       }
    
@@ -2528,7 +2575,7 @@ f77name(xconact)(recs, nbrecs, iun)
    float fni, fnj, fx1, fy1, fx2, fy2;
    float rx1, ry1, rx2, ry2;
    float cxmin, cxmax, cymin, cymax;
-   int fenetreAffichage, fenetreCoupe;
+   int fenetreAffichage, fenetreCoupe,fenetreSerie;
    int i,n,ier;
    int op;
    Boolean valeur;
@@ -2582,6 +2629,21 @@ f77name(xconact)(recs, nbrecs, iun)
             CoupeMgrGetFenetreCoupeID(&fenetreCoupe);
             c_wglsetw(fenetreCoupe);
             CoupeMgrGetCoupeCoords(&cxmin, &cymin, &cxmax, &cymax);
+            ier = PreparerCoupeOuSerie(cxmin, cymin, cxmax, cymax);
+            
+            if (ier > 0)
+              return NOUVEAU_CHAMP;
+            
+            GetFenetreAffichageID(&fenetreAffichage);
+            c_wglsetw(fenetreAffichage);
+            }
+         
+         ier = SerieMgrGetStatutSerie();
+         if (ier == TRUE)
+            {
+            SerieMgrGetFenetreSerieID(&fenetreSerie);
+            c_wglsetw(fenetreSerie);
+            SerieMgrGetSerieCoords(&cxmin, &cymin, &cxmax, &cymax);
             ier = PreparerCoupeOuSerie(cxmin, cymin, cxmax, cymax);
             
             if (ier > 0)
@@ -2658,6 +2720,19 @@ f77name(xconact)(recs, nbrecs, iun)
          CoupeMgrGetFenetreCoupeID(&fenetreCoupe);
          c_wglsetw(fenetreCoupe);
          RedessinerFenetreCoupe();
+         
+         GetFenetreAffichageID(&fenetreAffichage);
+         c_wglsetw(fenetreAffichage);
+         }
+
+
+      ier = SerieMgrGetStatutSerie();
+      if (ier == TRUE)
+         {
+         AfficherLigneSerie();
+         SerieMgrGetFenetreSerieID(&fenetreSerie);
+         c_wglsetw(fenetreSerie);
+         RedessinerFenetreSerie();
          
          GetFenetreAffichageID(&fenetreAffichage);
          c_wglsetw(fenetreAffichage);
@@ -3053,15 +3128,6 @@ AfficherPerimetreFenetre()
    fenetreActive = c_wglgacw();
 
    c_wglcol(xc.attributs[FOND].indCouleurBack);
-/**
-  if (xc.statuts[COULEURS])
-  {
-  }
-  else
-  {
-  c_wglcol(NOIR);
-  }
-**/
   
    largeurPinceau = xc.attributs[FOND].epaisseur;
    

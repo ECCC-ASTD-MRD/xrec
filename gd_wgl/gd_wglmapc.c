@@ -18,77 +18,16 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_gd.h>
+#include <gd_wgl.h>
+#include <gd.h>
+
+extern gdImagePtr gdwin;
 
 gd_wglmapc(int colorIndex, int r, int g, int b)
 {
-   int res;
-   wgl_color xcol;
-   int coldebut,colfin;
-   
-   coldebut = 0;
-   
-   /*  
-       if (visualClass == PseudoColor)
-       {
-       colorIndex = colorIndex % 256;
-       colfin   = 254;
-       }
-       
-       if (colorIndex < 32 && !customPlaneMask)
-       return;
-       
-       if (debugMode)
-       printf("indice: %d\n", colorIndex);
-       
-       
-       xcol.pixel = colorIndex;
-       xcol.red = (unsigned short) r;
-       xcol.green = (unsigned short) g;
-       xcol.blue = (unsigned short) b;
-	xcol.red *= 256;
-	xcol.green *= 256;
-	xcol.blue *= 256;
-	
-	xcol.flags = DoRed | DoGreen | DoBlue;
-	
-	switch (visualClass)
-	{
-	case PseudoColor:
-        switch (cmap_strategy)
-	{
-	case READ_ONLY_COLORMAP:
-	wglColorTable[colorIndex]= MatchColorIndexX(r, g, b, couleurs, coldebut, colfin);
-	if (wglColorTable[colorIndex] > colfin)
-	{
-	fprintf(stderr,"################################!!!!!!!!!!!!!\n");
-	exit(1);
-	}
-	break;
-	
-	default:
-	if (wglWritablePixs[colorIndex] == 0)
-	{
-	if (debugMode)
-	printf("Collision avec le colormap de defaut a l'indice: %d\n", colorIndex);
-	gd_wglinstcmap();
-	gd_wglsetwcmap();
-	}
-	XStoreColor(wglDisp, cmap, &xcol);
-	couleurs[colorIndex] = xcol;
-	wglColorTable[colorIndex] = xcol.pixel;
-	break;
-	}
-        break;
-        
-	default:
-        res = XAllocColor(wglDisp, cmap, &xcol); 
-        couleurs[colorIndex] = xcol;
-        wglColorTable[colorIndex] = xcol.pixel;
-        break;
-	}
-	
-	
-	XFlush(wglDisp);
-   */
+  int indcol;
+
+  indcol = gdImageColorAllocate(gdwin, r, g, b);
+
+  wglColorTable[colorIndex] = indcol;
 }

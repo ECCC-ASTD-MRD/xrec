@@ -44,12 +44,10 @@ extern _XContour xc;
 extern _AnimInfo animInfo;
 extern GeoMapInfoStruct mapInfo;
 
-#ifdef X_WGL
-   extern Display *wglDisp;
-   extern int  wglScrNum;
-   extern Window  wglWin, wglDrawable;
-   extern GC wglLineGC;
-#endif
+extern Display *wglDisp;
+extern int  wglScrNum;
+extern Window  wglWin, wglDrawable;
+extern GC wglLineGC;
 
 extern void EffacerFenetreAffichage();
 
@@ -99,12 +97,6 @@ int nbFrames;
      return;
      }
    
-   if (nbFrames == 1)
-     {
-     AnimerFrame();
-     return;
-     }
-
    lng = c_getulng();
    GetFenetreAffichageID(&fenetreAffichage);
    c_wglsetw(fenetreAffichage);
@@ -224,12 +216,7 @@ int nbFrames;
      
      if (animInfo.animationRapide && animInfo.flagsImagesChargees[i])
        {
-#ifdef X_WGL
        XCopyArea(wglDisp, animInfo.pixmaps[i], wglWin, wglLineGC, 0, 0, largeurFenetre, hauteurFenetre, 0, 0);
-#else
-       rectwrite(0, 0, largeurFenetre-1, hauteurFenetre-1, animInfo.pixmaps[i]);
-       c_wglswb();
-#endif
        }
      else
        {
@@ -303,23 +290,14 @@ int nbFrames;
 	 }
        
        FlusherTousLesEvenements();
-#ifdef X_WGL
        c_wglswb();
-#endif
        animInfo.flagsImagesChargees[i] = TRUE;
        
        if (animInfo.animationRapide)
 	 {
-#ifdef X_WGL
 	 XCopyArea(wglDisp, wglWin, animInfo.pixmaps[i], wglLineGC, 0, 0, largeurFenetre, hauteurFenetre, 0, 0);
-#else
-	 rectread(0, 0, largeurFenetre-1, hauteurFenetre-1, animInfo.pixmaps[i]);
-#endif
 	 }
        
-#ifdef GL_WGL
-       c_wglswb();
-#endif	 
        }
      
      temps1 = times(&buffer_temps);
@@ -539,11 +517,7 @@ LibererImages()
       animInfo.flagsImagesChargees[i] = FALSE;
       if (animInfo.pixmaps[i] != NULL)
 	 {
-#ifdef X_WGL
 	 XFreePixmap(wglDisp, animInfo.pixmaps[i]);
-#else
-	 free(animInfo.pixmaps[i]);
-#endif
 	 animInfo.pixmaps[i] = NULL;
 	 }
       }
@@ -570,12 +544,9 @@ AllouerImages()
    
    c_wglgwz(&largeurFenetre, &hauteurFenetre);
    animInfo.nbImages = nbChampsAnim;
-#ifdef X_WGL
    nplanes = c_wglgpl();
-#endif
    for (i=0; i < nbChampsAnim; i++)
       {
-#ifdef X_WGL
       animInfo.pixmaps[i] = XCreatePixmap(wglDisp, RootWindow(wglDisp, wglScrNum), largeurFenetre, hauteurFenetre, nplanes);
       status = XGetGeometry(wglDisp, animInfo.pixmaps[i], &root, &x, &y, &width, &height, &border_width, &depth);
       if (status == 0)
@@ -584,10 +555,6 @@ AllouerImages()
 	 nouvelleHauteur = (int)((nouvelleLargeur*hauteurFenetre)/largeurFenetre);
 	 nouvelleLargeur = (int)(0.95*nouvelleLargeur);
 	 nouvelleHauteur = (int)(0.95*nouvelleHauteur);
-/**
-	 sprintf(messageErreur, pasAssezDeMemoire[lng], i,animInfo.nbImages, nouvelleLargeur, nouvelleHauteur);
-	 MessageAvertissement(messageErreur, AVERTISSEMENT);
-**/
 	 for (j=0; j <= i; j++)
 	    {
 	    XFreePixmap(wglDisp, animInfo.pixmaps[j]);
@@ -601,20 +568,6 @@ AllouerImages()
 	 c_wglbbf();
 	 return PAS_ASSEZ_DE_MEMOIRE;
 	 }
-#else
-      animInfo.pixmaps[i] = (unsigned short *) calloc(largeurFenetre*hauteurFenetre, sizeof(unsigned short));
-      if (animInfo.pixmaps[i] == NULL)
-	 {
-	 MessageAvertissement(messageErreur, AVERTISSEMENT);
-	 for (j=0; j < i; j++)
-	    {
-	    free(animInfo.pixmaps[j]);
-	    animInfo.pixmaps[j] = NULL;
-	    animInfo.flagsImagesChargees[j] = NULL;
-	    }
-	 return PAS_ASSEZ_DE_MEMOIRE;
-	 }
-#endif
       }
 
    animInfo.imagesDejaAllouees = TRUE;
@@ -622,228 +575,3 @@ AllouerImages()
    }
    
    
-AnimerFrame()
-{
-   int i, j, k, ier;
-   int n;
-   int annulationDemandee;
-   int statut, increment;
-   
-   int res, fenetreAffichage, status;
-   int nbChampsActifs;
-   _Champ *champ;
-
-   int npts,temps1, temps2;
-   int largeurFenetre, hauteurFenetre, nouvelleLargeur, nouvelleHauteur;
-   static int lastLargeur, lastHauteur;
-   int animationContinue;
-   int op,i_initial;
-
-   nbChampsActifs = FldMgrGetNbChampsActifs();
-
-   if (nbChampsActifs == 0)
-      {
-      return;
-      }
-
-   lng = c_getulng();
-   GetFenetreAffichageID(&fenetreAffichage);
-   c_wglsetw(fenetreAffichage);
-   
-   xc.annulationDemandee = False;
-   xc.flagInterrupt = False;
-   FldMgrGetChamp(&champ, 0);
-
-   npts = champ->dst.ni*champ->dst.nj*champ->dst.nk;
-
-   if ((*champ).champModifie)
-      {
-      RefuserOperation();
-      return;
-      }
-
-   c_wglsetw(fenetreAffichage);
-   if (animInfo.variableBoucle == TEMPS)
-      {
-      EffacerCoupe();
-      res  = FldMgrLoadTimeAnimationSeq();
-      }
-   else
-      {
-      res = FldMgrLoadVerticalXSection();
-      if ((*champ).coupe.nbNiveauxCoupe < 2)
-	 {
-	 MessageAvertissement(pasAssezDeNiveaux[lng], AVERTISSEMENT);
-	 return;
-	 }
-      }
-   
-   if (res == PAS_ASSEZ_DE_PERIODES)
-      {
-      MessageAvertissement(uneSeulePeriode[lng], AVERTISSEMENT);
-      return;
-      }
-   
-   if (res == CHARGEMENT_ANNULE)
-      {
-      AfficherOperationAnnulee();
-      AfficherMessageInfoStandard();
-      return;
-      }
-   
-   op = CtrlMgrGetMathOp();
-   if (animInfo.variableBoucle == TEMPS)
-      i = (*champ).seqanim.indChampCourant;
-   else 
-      i = (*champ).coupe.indChampCourant;
-   
-   XSetErrorHandler(PasAssezDeMemoire);
-   
-   c_wglgwz(&largeurFenetre, &hauteurFenetre);
-   c_wglbbf();
-   EffacerFenetreAffichage();
-
-   increment =  1;
-
-   animationContinue = FALSE;
-
-   FlusherTousLesEvenements();
-   
-   if (animInfo.variableBoucle == TEMPS)
-      nbChampsAnim = (*champ).seqanim.nbFldsAnim;
-   else
-      nbChampsAnim = (*champ).coupe.nbNiveauxCoupe;
-   
-   if (animInfo.variableBoucle == TEMPS)
-      {
-      i = (*champ).seqanim.indChampCourant;
-      i_initial = i;
-      }
-   else
-      {
-      i = (*champ).coupe.indChampCourant;
-      i_initial = i;
-      }
-
-   do 
-      {
-      i += increment;
-      if (animInfo.variableBoucle == TEMPS)
-	 {
-	 i = i % (*champ).seqanim.nbFldsAnim;
-	 if (i < 0)
-	    i += (*champ).seqanim.nbFldsAnim;
-	 }
-      else
-	 {
-	 i = i % (*champ).coupe.nbNiveauxCoupe;
-	 if (i < 0)
-	    i += (*champ).coupe.nbNiveauxCoupe;
-	 }
-      
-      if (animInfo.animationRapide && animInfo.flagsImagesChargees[i])
-	 {
-#ifdef X_WGL
-	 XCopyArea(wglDisp, animInfo.pixmaps[i], wglWin, wglLineGC, 0, 0, largeurFenetre, hauteurFenetre, 0, 0);
-#else
-	 rectwrite(0, 0, largeurFenetre-1, hauteurFenetre-1, animInfo.pixmaps[i]);
-	 c_wglswb();
-#endif
-	 }
-      else
-	 {
-	 for (n=0; n < nbChampsActifs; n++)
-	    {
-	    FldMgrGetChamp(&champ, n);
-	    if (animInfo.variableBoucle == TEMPS)
-	       {
-	       if (champ->seqanim.nbFldsAnim > 0)
-		  {
-		  (*champ).seqanim.indChampCourant = i;
-		  (*champ).cle = (*champ).seqanim.clesAnim[i];
-		  if ((*champ).seqanim.clesAnim[i] >= 0)
-		     {
-		     if (champ->natureTensorielle == VECTEUR)
-			{
-			memcpy((char *) (*champ).uu, (char *)(*champ).seqanim.animUUs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
-			memcpy((char *) (*champ).vv, (char *)(*champ).seqanim.animVVs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
-			memcpy((char *) (*champ).module, (char *) (*champ).seqanim.animUVs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
-			}
-		     else
-			{
-			memcpy((char *) (*champ).fld, (char *) (*champ).seqanim.animFLDs[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float)); 
-			}
-		     FldMgrGetFstPrm(champ);
-		     FldMgrUpdateFldParams(champ);
-		     }
-		  }
-	       }
-	    else
-	       {
-	       if ((*champ).coupe.fld3d != NULL)
-		  {
-		  (*champ).coupe.indChampCourant = i;
-		  (*champ).cle = (*champ).coupe.clesNiveaux[i];
-		  if ((*champ).cle >= 0)
-		     {
-		     (*champ).fld = (*champ).coupe.fld3d[i];
-		     (*champ).fldmin[op] = (*champ).coupe.FLDmin3d[op];
-		     (*champ).fldmax[op] = (*champ).coupe.FLDmax3d[op];
-		     
-		     FldMgrGetFstPrm(champ);
-		     FldMgrUpdateFldParams(champ);
-		     }
-		  }
-	       }
-	    }
-	 
-	 for (n=0; n < nbChampsActifs; n++)
-	    {
-	    AfficherCarte(n);
-	    }
-
-      FlusherTousLesEvenements();
-#ifdef X_WGL
-	 c_wglswb();
-#endif
-	 animInfo.flagsImagesChargees[i] = TRUE;
-
-	 if (animInfo.animationRapide)
-	    {
-#ifdef X_WGL
-	    XCopyArea(wglDisp, wglWin, animInfo.pixmaps[i], wglLineGC, 0, 0, largeurFenetre, hauteurFenetre, 0, 0);
-#else
-	    rectread(0, 0, largeurFenetre-1, hauteurFenetre-1, animInfo.pixmaps[i]);
-#endif
-	    }
-
-#ifdef GL_WGL
-	 c_wglswb();
-#endif	 
-	 }
-      
-      temps1 = times(&buffer_temps);
-      temps2 = times(&buffer_temps) - temps1;
-      while (animInfo.delai > temps2)
-	 {
-	 temps2 = times(&buffer_temps) - temps1;
-	 }
-      FlusherTousLesEvenements();
-      
-      if (animInfo.typeDefilement == DEFILEMENT_AVANT_ARRIERE)
-	 {
-	 if (i == 0 || i == (animInfo.nbImages-1))
-	    {
-	    increment *= -1;
-	    }
-	 }
-      } while (!c_wglanul() && animationContinue);
-  
-   UnsetIgnoreMode();
-   UnSetCurseur(fenetreAffichage);
-   RemettreChampsAJour(i);
-   lastLargeur = largeurFenetre;
-   lastHauteur = hauteurFenetre;
-   c_wglfbf();
-   }
-

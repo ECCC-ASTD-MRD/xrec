@@ -18,23 +18,13 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_gd.h>
+#include <gd_wgl.h>
+#include <gd.h>
 
-gd_wglrfi(ia, ja, ib, jb)
+extern gdImagePtr gdwin;
+
+gd_wglrfi(int ia, int ja, int ib, int jb)
 {
-   wgl_point p[5];
-
-   wglfshlb();
-   p[0].x = ia;
-   p[0].y = h - ja;
-   p[1].x = ib;
-   p[1].y = p[0].y; 
-   p[2].x = p[1].x;
-   p[2].y = h - jb;
-   p[3].x = p[0].x; 
-   p[3].y = p[2].y; 
-   p[4].x = p[0].x;
-   p[4].y = p[0].y;
-   /*    XFillPolygon(wglDisp, wglDrawable, wglFillGC, p, 5, Convex, CoordModeOrigin); */
+   gdImageFilledRectangle(gdwin, ia, h - jb, ib, h - ja, currentColor);
    }
 

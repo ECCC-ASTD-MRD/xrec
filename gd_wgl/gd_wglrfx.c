@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_gd.h>
+#include <gd_wgl.h>
 
 gd_wglrfx(xa, ya, xb, yb)
 float xa, ya, xb, yb;

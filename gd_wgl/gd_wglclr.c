@@ -18,11 +18,13 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl_gd.h>
+#include <gd_wgl.h>
+#include <gd.h>
+
+extern gdImagePtr gdwin;
 
 gd_wglclr()
 {
      wglfshlb();
-     gd_wglcmi( -10, -10, w+10, h+10);
-     /*      XFillRectangle(wglDisp, wglDrawable, wglLineGC, -10, -10, 10+w, 10+h); */
+     gdImageFilledRectangle(gdwin, 0, 0, w, h, currentColor);
    }

@@ -51,7 +51,7 @@ CDECKS= \
 	x_wglcmi.c	 x_wglcol.c \
 	x_wglcolf.c    x_wglcrb.c	 x_wgldbf.c	x_wgldbg.c \
 	x_wgldcm.c     x_wgldeflst.c	 x_wgldefncw.c	x_wgldld.c \
-	x_wgldpt.c     x_wgldri.c	 x_wgldsi.c \
+	x_wgldpt.c     x_wgldri.c	 x_wgldsi.c x_wglecr.c \
 	x_wglerb.c	 x_wglfbf.c	x_wglfsc.c \
 	x_wglfsh.c     x_wglfshlb.c	 x_wglfsz.c	x_wglgacw.c \
 	x_wglgaf.c     x_wglgbf.c	 x_wglgci.c	x_wglgco.c \
@@ -122,6 +122,7 @@ x_wgllib: $(X_WGLLIB)(x_bitfinder.o) \
 	$(X_WGLLIB)(x_wgldpt.o) \
 	$(X_WGLLIB)(x_wgldri.o) \
 	$(X_WGLLIB)(x_wgldsi.o) \
+	$(X_WGLLIB)(x_wglecr.o) \
 	$(X_WGLLIB)(x_wglerb.o) \
 	$(X_WGLLIB)(x_wglfbf.o) \
 	$(X_WGLLIB)(x_wglfsc.o) \
