@@ -40,7 +40,7 @@ default: reclib
 	rm -f $*.f $*.o
 
 FTNDECKS= \
-         convip.ftn       convpr.ftn       defvar.ftn       drlstl.ftn \
+         convpr.ftn       defvar.ftn       drlstl.ftn \
          grid.ftn              new-xfsl.ftn       readrec.ftn \
          rec.ftn       recgrille.ftn       rlx.ftn       setcoupe.ftn \
          setitem.ftn       statfld4.ftn       unsat.ftn       wglrfton.ftn
@@ -67,8 +67,7 @@ CDECKS= \
 COMDECKS= \
          impnone.cdk       qqqxtrp.cdk
 
-reclib: $(RECLIB)(convip.o) \
-	$(RECLIB)(PointerVent.o) \
+reclib: $(RECLIB)(PointerVent.o) \
 	$(RECLIB)(aff_coupe.o) \
 	$(RECLIB)(anim.o) \
 	$(RECLIB)(v_anim.o) \

@@ -115,10 +115,10 @@ caddr_t	call_data;	/*  data from widget class  */
    else
       {
       DictMgrGetMinMaxValues(pmNomVar[itemDict],&min,&max);
-      sprintf(tempStr, "%-10.4f",min);
+      sprintf(tempStr, "%-10.4g",min);
       XmTextFieldSetString(pmTextMinX, tempStr);
 
-      sprintf(tempStr, "%-10.4f",max);
+      sprintf(tempStr, "%-10.4g",max);
       XmTextFieldSetString(pmTextMaxX, tempStr);
 
       i = 0;
@@ -167,11 +167,11 @@ caddr_t	call_data;	/*  data from widget class  */
    float min,max;
 
    returnedStr = (char *) XmTextFieldGetString(pmTextMinX);
-   sscanf(returnedStr, "%e", &min);
+   sscanf(returnedStr, "%g", &min);
    XtFree(returnedStr);
    
    returnedStr = (char *) XmTextFieldGetString(pmTextMaxX);
-   sscanf(returnedStr, "%e", &max);
+   sscanf(returnedStr, "%g", &max);
    XtFree(returnedStr);
 
    DictMgrSetMinMaxMode(pmNomVar[itemDict],itemDict,CUSTOM);

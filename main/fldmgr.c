@@ -34,6 +34,7 @@ _Champ fmflds[NB_MAX_CHAMPS_ACTIFS];
 _GrilleMenuItem grmenuitems[64];
 
 static int faux           = 0;
+static int vrai           = 1;
 static int nbChampsActifs = 0;
 static int indChampCourant = -1;
 
@@ -52,7 +53,7 @@ static char *labelDefaut[] = {"Champ valide %s:%sZ le %s %s %s",
 static char *labelEtiquette[] = {"Etiquette: %s", 
 				    "Stamp: %s"};
 static char *labelSurface[] = {"Niveau: surface", 
-				  "Level: surface"};
+				  "Level : surface"};
 static char *labelSigma[] = {"Niveau sigma: %5.3f", 
 				"Sigma level: %5.3f"};
 static char *labelSigmaDZ[] = {"Niveaux sigma: %5.3f - %5.3f", 
@@ -63,8 +64,16 @@ static char *labelPression2[]=  {"Niveau: %5.3f mb",
 				   "Level: %5.3f mb"};
 static char *labelPressionDZ[]=  {"Niveaux: %4d - %4d mb", 
 				     "Level: %4d - %4d mb"};
-static char *labelMetres[]=  {"Niveaux: %6.0f metres", 
-				     "Level: %6.0f metres"};
+static char *labelMetresASL[]=  {"Niveaux: %6.0f metres ANM", 
+				     "Level: %6.0f metres ASL"};
+static char *labelMetresAGL[]=  {"Niveaux: %6.0f metres AGL", 
+				     "Level: %6.0f metres AGL"};
+static char *labelArbitraire[]=  {"Niveau: %6.0f (arbitraire)", 
+				     "Level: %6.0f (arbitrary)"};
+static char *labelHybride[]=  {"Niveau: %6.0f (Coord. hybride)", 
+				     "Level: %6.0f metres (Hybrid Coord.)"};
+static char *labelTheta[]=  {"Niveau: %6.0f (Theta)", 
+				     "Level: %6.0f metres (Theta)"};
 static char *labelFacteur[] = {"Facteur multiplicatif: %6.1e %s", 
 				  "Conversion factor: %6.1e %s"};
 
@@ -2028,8 +2037,8 @@ _Champ *champ;
    int date1, date2;
    int kind, mode;
    int versPression = -1;
-   f77name(convip)(&champ->ip1, &champ->niveau, &kind, &versPression, NULL, &faux);
-   
+   char stringNiveau[16];
+
    lng = c_getulng();
    
    tempDate = champ->date;
@@ -2052,7 +2061,13 @@ _Champ *champ;
    else
       sprintf(champ->mois, "%s", Mois[indMois]);
 
-   f77name(convip)(&champ->ip1, &champ->niveau, &kind, &versPression, NULL, &faux);
+
+   for (i=0; i < 16; i++)
+     {
+     stringNiveau[i] = '\0';
+     }
+   f77name(convip)(&champ->ip1, &champ->niveau, &kind, &versPression, stringNiveau, &vrai, 15);
+   nettoyer(stringNiveau);
 
    champ->heure  = (float)(ROUND((float)dddeltaT));
    
@@ -2150,46 +2165,18 @@ _Champ *champ;
          sprintf(champ->titreNiveau, labelSurface[lng]);
 	 }
       }
-   
-   /*      else
-           {
-           if (champ->niveau <= 1.0)
-           sprintf(champ->titreNiveau, labelSigmaDZ[lng], champ->niveau, (champ->ip3 - 2000.0) / 10000.0);
-           else
-           sprintf(champ->titreNiveau, labelPressionDZ[lng], (int)(champ->ip1), champ->ip2);
-           }
-   */
    else
-      {
-      switch (kind)
-         {
-         case 0:
-           sprintf(champ->titreNiveau, labelMetres[lng], (champ->niveau));
-           break;
-           
-         case 1:
-           sprintf(champ->titreNiveau, labelSigma[lng], champ->niveau);
-           break;
-           
-         case 2:
-           if (champ->niveau == 0.0)
-              {
-              sprintf(champ->titreNiveau, labelSurface[lng]);
-              }
-           else if (champ->ip1 < 1200)
-              {
-              sprintf(champ->titreNiveau, labelPression[lng], (int)(champ->niveau));
-              }
-           else
-              {
-              sprintf(champ->titreNiveau, labelPression2[lng], champ->niveau);
-              }
-           break;
-           
-         default:
-           break;
-         }
-      }
+     {
+     if (lng == 0)
+       {
+       strcpy(champ->titreNiveau, "Niveau: ");
+       }
+     else
+       {
+       strcpy(champ->titreNiveau, "Level: ");
+       }
+     strcat(champ->titreNiveau, stringNiveau);
+     }
    
    DictMgrGetFacteurDeConversion(&champ->facteur, champ->indDict);
    DictMgrGetIdentifVar(champ->titreVariable, champ->indDict);
