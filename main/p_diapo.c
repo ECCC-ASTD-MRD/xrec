@@ -297,7 +297,6 @@ void ExportMovie()
    hauteurPNG = amplif * h;
    GetFenetreAffichageID(&win);
    PdAllouerRessourcesImage();
-   champ->seqanim.indChampCourant = champ->seqanim.nbFldsAnim - 1;
    for (n=0; n < champ->seqanim.nbFldsAnim; n++)
      {
      sprintf(nomFichierPNG,"%03d.png",n);

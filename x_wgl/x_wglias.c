@@ -22,7 +22,16 @@
 
 x_wglias(int flagAspect)
 {
-
-   wglForceAspect = !flagAspect;
-   wglForceAspectSet = True;
-   }
+  if (flagAspect == 1)
+    { 
+    wglForceAspect = 0;
+    wglForceAspectSet = 1;
+    }
+  else
+    
+    { 
+    wglForceAspect = 1;
+    }
+  
+  wglForceAspectSet = 1;
+}

@@ -393,7 +393,8 @@ c     ****************************************************************
 
       integer ttlrecs,ntmrecs,typesel
       character*(*) nomfich
-      integer iun, winind
+      integer iun, winind, ier
+      integer xfslouv97
       
 
       integer ligne,maxrecs,maxdes
@@ -416,7 +417,7 @@ c     ****************************************************************
          listbuf = 0
       endif
       call xselupd(winind)
-      call xfslouv97(nomfich, iun, ttlrecs, winind, typesel)
+      ier = xfslouv97(nomfich, iun, ttlrecs, winind, typesel)
 
       xfslupd97 = 0
       return

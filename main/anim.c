@@ -160,7 +160,9 @@ int nbFrames;
      animationContinue = TRUE;
      }
    else
+     {
      animationContinue = FALSE;
+     }
    
    FlusherTousLesEvenements();
    
@@ -222,10 +224,9 @@ int nbFrames;
        
        FlusherTousLesEvenements();
        c_wglswb();
-       animInfo.flagsImagesChargees[i] = TRUE;
-       
        if (animInfo.animationRapide)
 	 {
+	 animInfo.flagsImagesChargees[i] = TRUE;
 	 XCopyArea(wglDisp, wglWin, animInfo.pixmaps[i], wglLineGC, 0, 0, largeurFenetre, hauteurFenetre, 0, 0);
 	 }
        }
@@ -247,7 +248,15 @@ int nbFrames;
    XSynchronize(wglDisp,False);
    UnsetIgnoreMode();
    UnSetCurseur(fenetreAffichage);
-   RemettreChampsAJour(i);
+   FldMgrGetChamp(&champ, 0);
+   i = i % ((*champ).seqanim.nbFldsAnim);
+   if (i < 0) i = (*champ).seqanim.nbFldsAnim-1;
+   for (n=0; n < nbChampsActifs; n++)
+     {
+     FldMgrGetChamp(&champ, n);
+     (*champ).seqanim.indChampCourant = i;
+     RemettreChampsAJour((*champ).seqanim.indChampCourant);
+     }
    lastLargeur = largeurFenetre;
    lastHauteur = hauteurFenetre;
    c_wglfbf();

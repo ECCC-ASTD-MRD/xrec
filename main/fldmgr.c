@@ -2374,44 +2374,35 @@ int *indiceFautif;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-FldMgrVerConsistanceNiveaux(champ, listeCles, nbCles)
-_Champ champ;
-int listeCles[];
-int *nbCles;
+FldMgrVerConsistanceNiveaux(_Champ champ, int listeCles[], int *nbCles)
 {
-   int i, ivalide;
-   _Champ bidon;
-
-   ivalide = 0;
-   
-   for (i=0; i < *nbCles; i++)
+  int i, ivalide;
+  float niveau;
+  int kind, kindref;
+  int versPression = -1;
+  _Champ bidon;
+  
+  ivalide = 0;
+  f77name(convip)(&champ.ip1, &niveau, &kindref, &versPression, NULL, &faux);
+  
+  for (i=0; i < *nbCles; i++)
+    {
+    bidon.cle = listeCles[i];
+    FldMgrGetFstPrm(&bidon);
+    if (champ.deet*champ.npas == bidon.deet*bidon.npas)
       {
-      bidon.cle = listeCles[i];
-      FldMgrGetFstPrm(&bidon);
-      if (champ.deet == bidon.deet && champ.npas == bidon.npas)
-	 {
-	 if (champ.ip1 >= 2000)
-	    {
-	    if (bidon.ip1 >= 2000)
-	       {
-	       listeCles[ivalide] = listeCles[i];
-	       ivalide++;
-	       }
-	    }
-	 else
-	    {
-	    if (bidon.ip1 < 2000)
-	       {
-	       listeCles[ivalide] = listeCles[i];
-	       ivalide++;
-	       }
-	    }
-	 }
+      f77name(convip)(&bidon.ip1, &niveau, &kind, &versPression, NULL, &faux);
+      if (kindref == kind)
+	{
+	listeCles[ivalide] = listeCles[i];
+	ivalide++;
+	}
       }
-   
-   *nbCles = ivalide;
-   
-   }
+    }
+  
+  *nbCles = ivalide;
+  
+}
 
 
 /* -------------------------------------------------------------------------------------------------- */

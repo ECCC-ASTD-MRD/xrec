@@ -23,13 +23,14 @@
 #include <wgl.h>
 
 
-int currentFontSize = 12;
+int gd_currentFontSize = 12;
 
 int gd_wglfsz(fontSize)
 int fontSize;
 {
-   if (fontSize != currentFontSize) 
+  /*   if (fontSize != gd_currentFontSize) 
       InitFonte(fontSize);
+  */
    
    }
 
@@ -72,9 +73,9 @@ float x, y;
 char string[];
 int stringLength, size, orient, codeCentrage;
 {
-   gd_wglfsz(size);
+   wglfsz(size);
 
-   gd_wglmvx(x,y);
+   wglmvx(x,y);
    /*   XDrawString(wglDisp, wglDrawable, wglLineGC, 
                     wglPts[0].x, wglPts[0].y, string, stringLength);
    */
@@ -89,12 +90,12 @@ int stringLength, size, orient, codeCentrage;
   **/
 
 
-int InitFonte(fontSize)
+int gdInitFonte(fontSize)
 int fontSize;
 {   
    char fontName[132];
 
-   currentFontSize = fontSize;
+   gd_currentFontSize = fontSize;
    /*    XSetFont(wglDisp, wglLineGC, fonte->fid); */
    
    }

@@ -2,7 +2,7 @@ include /usr/local/env/armnlib/include/$(ARCH)$(ABI)/Makefile_addons
 
 .SUFFIXES : 
 
-.SUFFIXES : .ftn .c .o 
+.SUFFIXES : .ftn .ftn90 .c .o 
 
 SHELL = /bin/sh
 
@@ -14,14 +14,17 @@ FFLAGS =
 
 CFLAGS =  -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -DX_WGL
 
-#OPTIMIZ = -O 2
 OPTIMIZ = -O 0 -debug
+OPTIMIZ = -O 2
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
 .PRECIOUS:
 
 default: rec_utillib
+
+.ftn90.o:
+	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $*.ftn90
 
 .ftn.o:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $*.ftn
@@ -65,4 +68,9 @@ rec_utillib:	\
 	$(REC_UTILLIB)(xinit.o) \
 	$(REC_UTILLIB)(xrecsel.o) \
 	$(REC_UTILLIB)(new-xfsl97.o) 
+
+xvoir-2000: xfsl-xvoir-2000.o xvoir-2000.o
+	r.build -bidon -main xvoir2000 -obj *.o -o xvoir-Linux -libpath /usr/X11R6/lib -libappl rec rec_util rec gdb wgl x_wgl gd_wgl wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmnbeta
+
+
 

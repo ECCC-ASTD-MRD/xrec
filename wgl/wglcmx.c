@@ -36,5 +36,5 @@ c_wglcmx(float left, float bottom, float right, float top)
   c_wglxai(&ileft, &ibottom, left, bottom);
   c_wglxai(&iright, &itop, right, top);
   
-  return c_wglcmi(ibottom, ileft, iright, itop);
+  return c_wglcmi(ileft, ibottom, iright, itop);
 }

@@ -133,7 +133,9 @@ _InfoChamps infoChamps[];
       
       }
    
+/*
    LireDictionnaireXML(fichierEntree);
+*/
    
    fprintf(stderr,"Nombre de variables lues du dict. XML : %d\n", nbChampsDict);
 

@@ -230,61 +230,55 @@ float xx, yy;
      champ->seqanim.fdt[i] = (float) champ->seqanim.dt[i];
      }
 
-   for (i=0; i < champ->seqanim.nbFldsAnim; i++)
-      {
-      FldMgrGetChamp(&champ, n);
+   mx1 =24; mx2 = 3; my1=10; my2 = 1;
       
-      mx1 =24; mx2 = 3; my1=10; my2 = 1;
-      
-      f77name(xezxy)(champ->seqanim.fdt, champ->seqanim.valeursSeries, &zero, titre, 0);
-
-      c_wgllwi(1);
-      f77name(setprof2)();
-      c_wglgsx(&xmin, &ymin, &xmax, &ymax);
-      c_wglcmx(xmin, ymin, xmax, ymax);
-      
-      op = CtrlMgrGetMathOp();
-      for (n=0; n < nbChampsActifs; n++)
+   f77name(xezxy)(champ->seqanim.fdt, champ->seqanim.valeursSeries, &zero, titre, 0);
+   
+   c_wgllwi(1);
+   f77name(setprof2)();
+   c_wglgsx(&xmin, &ymin, &xmax, &ymax);
+   c_wglcmx(xmin, ymin, xmax, ymax);
+   
+   op = CtrlMgrGetMathOp();
+   for (n=0; n < nbChampsActifs; n++)
+     {
+     FldMgrGetChamp(&champ, n);
+     if (champ->seqanim.nbFldsAnim > 0)
+       {
+       for (i=0; i < champ->seqanim.nbFldsAnim; i++)
 	 {
-	 FldMgrGetChamp(&champ, n);
-	 if (champ->seqanim.nbFldsAnim > 0)
-	    {
-	    for (i=0; i < champ->seqanim.nbFldsAnim; i++)
-	       {
-	       valeurs[n][i] = champ->seqanim.valeursSeries[i];
-	       }
-	    }
-	 
-	 if (0 == n%2 && op != NO_OP)
-	    {
-	    FldMgrGetChamp(&champ2, n+1);
-	    DiffMgrCalcDiffs(valeurs[n], champ->seqanim.valeursSeries[i],champ2->seqanim.valeursSeries[i], 
-			     champ->seqanim.nbFldsAnim, op);
-	    }
-	 
-	 if (champ->seqanim.nbFldsAnim > 0)
-	    {
-	    c_wglcol(xc.attributs[n].indCouleurFore);
-	    c_wgllwi(xc.attributs[n].epaisseur);
-	    c_wglsld(xc.attributs[n].style);
-	    
-	    trace = (op == NO_OP || 0 == n%2);
-	    if (trace)
-	       {
-	       c_wglxai(&i1, &j1,  (float)champ->seqanim.fdt[0], valeurs[n][0]/champ->facteur);
-	       AfficherSymbole(i1,j1,n);
-	       for (i=1; i < champ->seqanim.nbFldsAnim; i++)
-		  {
-		  c_wglmvx((float)champ->seqanim.fdt[i-1], valeurs[n][i-1]/champ->facteur);
-		  c_wgldrx((float)champ->seqanim.fdt[i], valeurs[n][i]/champ->facteur);
-		  c_wglxai(&i1, &j1, (float)champ->seqanim.fdt[i],valeurs[n][i]/champ->facteur);
-		  AfficherSymbole(i1,j1,n);
-		  }
-	       }
-	    }
+	 valeurs[n][i] = champ->seqanim.valeursSeries[i];
 	 }
-      }
-      
+       }
+     
+     if (0 == n%2 && op != NO_OP)
+       {
+       FldMgrGetChamp(&champ2, n+1);
+       DiffMgrCalcDiffs(valeurs[n], champ->seqanim.valeursSeries[i],champ2->seqanim.valeursSeries[i], 
+			champ->seqanim.nbFldsAnim, op);
+       }
+     
+     if (champ->seqanim.nbFldsAnim > 0)
+       {
+       c_wglcol(xc.attributs[n].indCouleurFore);
+       c_wgllwi(xc.attributs[n].epaisseur);
+       c_wglsld(xc.attributs[n].style);
+       
+       trace = (op == NO_OP || 0 == n%2);
+       if (trace)
+	 {
+	 c_wglxai(&i1, &j1,  (float)champ->seqanim.fdt[0], valeurs[n][0]/champ->facteur);
+	 AfficherSymbole(i1,j1,n);
+	 for (i=1; i < champ->seqanim.nbFldsAnim; i++)
+	   {
+	   c_wglmvx((float)champ->seqanim.fdt[i-1], valeurs[n][i-1]/champ->facteur);
+	   c_wgldrx((float)champ->seqanim.fdt[i], valeurs[n][i]/champ->facteur);
+	   c_wglxai(&i1, &j1, (float)champ->seqanim.fdt[i],valeurs[n][i]/champ->facteur);
+	   AfficherSymbole(i1,j1,n);
+	   }
+	 }
+       }
+     }
 
    c_wgllwi(1);
    c_wglsld(0);
