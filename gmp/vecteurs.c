@@ -32,28 +32,28 @@ TracerVecteurs(ListePointsStruct *itemListe)
    switch (itemListe->statutPRGrille && itemListe->npts > 0)
       {
       case DEDANS:
-	if (itemListe->npts > 0)
-	  {
-	  if (itemListe->full_line == 1)
-	    {
-	    c_wglplx(itemListe->npts, itemListe->pointsGeo);
-	    }
-	  else
-	    {
-	    c_wglmvx(itemListe->pointsGeo[0].x, itemListe->pointsGeo[0].y);
-	    for (n=1; n < itemListe->npts; n++)
-	      {
-	      if (itemListe->pen[n] == 1)
-		{
-		c_wgldrx(itemListe->pointsGeo[n].x, itemListe->pointsGeo[n].y);
-		}
-	      else
-		{
-		c_wglmvx(itemListe->pointsGeo[n].x, itemListe->pointsGeo[n].y);
-		}
-	      }
-	    }
-	  }
+      if (itemListe->npts > 0)
+        {
+        if (itemListe->full_line == 1)
+          {
+          c_wglplx(itemListe->npts, itemListe->pointsGeo);
+          }
+        else
+          {
+          c_wglmvx(itemListe->pointsGeo[0].x, itemListe->pointsGeo[0].y);
+          for (n=1; n < itemListe->npts; n++)
+            {
+            if (itemListe->pen[n] == 1)
+              {
+              c_wgldrx(itemListe->pointsGeo[n].x, itemListe->pointsGeo[n].y);
+              }
+            else
+              {
+              c_wglmvx(itemListe->pointsGeo[n].x, itemListe->pointsGeo[n].y);
+              }
+            }
+          }
+        }
       break;
       
       case DEHORS:

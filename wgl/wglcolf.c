@@ -25,7 +25,7 @@ extern unsigned int colorbitrange[3][3];
 f77name(wglcolf)(couleur)
 float *couleur;
 {
-   c_wglcolf(*couleur);
+   return c_wglcolf(*couleur);
    }
 
 /**

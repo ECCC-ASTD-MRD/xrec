@@ -94,9 +94,7 @@ void c_gmpDrawCityName(float x, float y, char *text)
 }
 
 void
-get_coastline(int type, int n,
-	      float lat0, float lon0, float lat1, float lon1,
-	      float *ll )
+get_coastline(int type, int n, float lat0, float lon0, float lat1, float lon1,float *ll )
 {
   float pts[24000];
   char *tmp;
@@ -130,16 +128,16 @@ get_coastline(int type, int n,
     for (i=oldNbItems; i < gdb_nbItems; i++)
       {
       switch(mapOptions.styleGeo)
-	{
-	case LIGNE:
-	case TIRET:
-	  TracerVecteurs(&(gdb_liste[i]));
-	  break;
-	  
-	case POINT:
-	  TracerPoints(&(gdb_liste[i]));
-	  break;
-	}
+        {
+        case LIGNE:
+        case TIRET:
+          TracerVecteurs(&(gdb_liste[i]));
+          break;
+
+        case POINT:
+          TracerPoints(&(gdb_liste[i]));
+          break;
+        }
       }
     NewGeoItem(&gdb_liste,&gdb_nbItems);
     oldNbItems = gdb_nbItems-1;
@@ -165,7 +163,31 @@ lire_gdb_geo()
   int pixperdegree = 1;
   int exposant = 0;
   int ex=1;
-
+  int ppd_mode = 0;
+  int user_ppd = -1;
+  char *ppd_env;
+  static GeoMapInfoStruct oldMapInfo;
+  static int once = 0;
+  int rereadmapFlag = 0;
+  
+  if (once == 0)
+    {
+    memset(&oldMapInfo, NULL, sizeof(GeoMapInfoStruct));
+    once = 1;
+    }
+  
+  ppd_env = (char *) getenv("GDB_RESOLUTION");
+  
+  if (ppd_env != NULL)
+    {
+    sscanf(ppd_env, "%d", &user_ppd);
+    ppd_mode = 1;
+    }
+  
+  if (0 != memcmp(&oldMapInfo, &mapInfo, sizeof(GeoMapInfoStruct)))
+    {
+    rereadmapFlag = 1;
+    }
   
   gdid = mapInfo.gdid;
   c_wglgvi(&idebut,&jdebut,&ifin,&jfin);
@@ -174,100 +196,136 @@ lire_gdb_geo()
 
   gdb_limit(latmin, lonmin, latmax, lonmax);
   fprintf(stderr, "limits : (%f,%f),(%f,%f)\n", latmin, lonmin, latmax, lonmax);
-  pixperdegree = (jfin - jdebut) / (latmax - latmin);
   
-  do 
+  switch (ppd_mode)
     {
-    exposant++;
-    ex = ex*2;
-    } while ((ex*2) < pixperdegree);
- 
-  if (ex == 0) ex = 1;
-  pixperdegree = ex;
-  if (pixperdegree > 128) 
-    {
-    pixperdegree = 128;
-    }
+    case 0:
+    pixperdegree = (jfin - jdebut) / (latmax - latmin);
+    do 
+      {
+      exposant++;
+      ex = ex*2;
+      } while ((ex*2) < pixperdegree);
 
+    if (ex == 0) ex = 1;
+    pixperdegree = ex;
+    if (pixperdegree > 128) 
+      {
+      pixperdegree = 128;
+      }
+
+    break;
+    
+    case 1:
+    pixperdegree = user_ppd;
+    break;
+    }
+  
   fprintf(stderr, "Pixperdegree : %d\n", pixperdegree);
   
-  for (i=0; i < NMAP_FLAGS; i++)
+  if (ppd_mode == 1 && rereadmapFlag == 1)
     {
-    if (i != LATLON)
+    for (i=0; i < NMAP_FLAGS; i++)
       {
-      gmp_nbVecs[i] = 0;
+      if (i != VILLES)
+        {
+        LibererCarte(&(gmp_vecs[i]), &gmp_nbVecs[i]);
+        }
+      else
+        {
+        gmp_nbCities = 0;
+        gmp_nbVecs[VILLES] = 0;
+        }
       }
     }
-  gmp_nbCities = 0;
   
   for (i=0; i < 8; i++)
     {
-    if (mapFlags.etat[i] == OUI)
+    if (mapFlags.etat[i] == OUI  && gmp_nbVecs[i] == 0)
       {
       ActiverParamsLigne(mapFlags.style[i], mapFlags.indCouleur[i], mapFlags.epaisseur[i]);
       gdb_liste = gmp_vecs[i];
       gdb_nbItems = gmp_nbVecs[i];
       NewGeoItem(&gdb_liste,&gdb_nbItems);
       switch (i)
-	{
-	case CONTINENTS:
-	  gdb_line(pixperdegree,GDB_LIN_COAST,get_coastline);
-	  break;
-	  
-	case PAYS:
-	  if (pixperdegree > 16)
-	    {
-	    gdb_line(pixperdegree,GDB_LIN_POLIT,get_coastline);
-	    } 
-	  break;
-	  
-	case PROVINCES:
-	  if (pixperdegree > 16)
-	    {
-            gdb_line(pixperdegree,GDB_LIN_ADMIN,get_coastline);
+        {
+        case CONTINENTS:
+          gdb_line(pixperdegree,GDB_LIN_COAST,get_coastline);
+          break;
 
-	    }
-	  break;
-	  
-	case VILLES:
-	  if (pixperdegree > 16)
-	    {
-	    gdb_line(pixperdegree,GDB_LIN_CITY,get_coastline);
-	    gdb_text(pixperdegree, GDB_TXT_CITY, get_cityname);
-	    }
-	  break;
-	  
-	case LACS:
-	  if (pixperdegree > 16)
-	    {
-	    gdb_line(pixperdegree,GDB_LIN_LAKE,get_coastline);
-	    }
-	  break;
-	  
-	case RIVIERES:
-	  if (pixperdegree > 16)
-	    {
-	    gdb_line(pixperdegree,GDB_LIN_RIVER,get_coastline);
-	    }
-	  break;
-	  
-	case ROUTES:
-	  if (pixperdegree > 16)
-	    {
-	    gdb_line(pixperdegree,GDB_LIN_ROAD,get_coastline);
-	    }
-	  break;
-	  
-	default:
-	  break;
-	  
-	}
+        case PAYS:
+          if (pixperdegree >= 16)
+            {
+            gdb_line(pixperdegree,GDB_LIN_POLIT,get_coastline);
+            } 
+          break;
+
+        case PROVINCES:
+          if (pixperdegree >= 16)
+            {
+            gdb_line(pixperdegree,GDB_LIN_ADMIN,get_coastline);
+            }
+          break;
+
+        case VILLES:
+          if (pixperdegree >= 16)
+            {
+            gdb_line(pixperdegree,GDB_LIN_CITY,get_coastline);
+            gdb_text(pixperdegree, GDB_TXT_CITY, get_cityname);
+            }
+          break;
+
+        case LACS:
+          if (pixperdegree >= 16)
+            {
+            gdb_line(pixperdegree,GDB_LIN_LAKE,get_coastline);
+            }
+          break;
+
+        case RIVIERES:
+          if (pixperdegree >= 16)
+            {
+            gdb_line(pixperdegree,GDB_LIN_RIVER,get_coastline);
+            }
+          break;
+
+        case ROUTES:
+          if (pixperdegree >= 16)
+            {
+            gdb_line(pixperdegree,GDB_LIN_ROAD,get_coastline);
+            }
+          break;
+
+        default:
+          break;
+
+        }
 
       gmp_vecs[i] = gdb_liste;
       gmp_nbVecs[i] = gdb_nbItems;
       fprintf(stderr, "%d : %d\n", i, gmp_nbVecs[i]);
       }
+    else
+      {
+      if (mapFlags.etat[i] == OUI)
+        {
+        switch (i)
+          {
+          case VILLES:
+            for (n=0; n < gmp_nbCities; n++)
+              {
+              c_gmpDrawCityName(gmp_cities[n].x, gmp_cities[n].y, (char *)gmp_cities[n].text);
+              }
+            /* absence de break intentionnelle */
+
+          default:
+            ActiverParamsLigne(mapFlags.style[i], mapFlags.indCouleur[i], mapFlags.epaisseur[i]);
+            AfficherVecteurs(gmp_vecs[i], gmp_nbVecs[i], mapFlags.style[i], mapFlags.indCouleur[i], mapFlags.epaisseur[i]);
+            break;
+          }
+        }
+      }
     }
-  
-}
+  memcpy(&oldMapInfo, &mapInfo, sizeof(GeoMapInfoStruct));
+  }
 

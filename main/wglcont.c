@@ -108,37 +108,37 @@ int couleur, epaisseur, codeDash, dashPattern, facteurLissage, flagInterrupt;
       leContour = contourMin;
       nContours = 0;
       while ((leContour <= contourMax) && !annulationDemandee)
-	 {
-	 if (fabs(leContour/facteur) < 1.0e-4 && epaisseur > 1)
-	    c_wgllwi(2*epaisseur);
-	 else
-	    c_wgllwi(epaisseur);
-	
-         c_wgllwi(epaisseur); /** Modif pour Shilling **/
-	 c_wglsld((leContour < 0.0 && codeDash > 1) ? dashPattern : origPattern);
- 
-	 f77name(wglstl)(fld, &ni, &ni , &nj, &mdeb, &ndeb, &mfin, &nfin, &leContour, &lissfac);
-	 leContour+=(intervalles[0]*facteur);
-	 nContours++;
-	 if (0 == (nContours % 8) && flagInterrupt)
-	    annulationDemandee = c_wglanul();
-	 }
+        {
+        if (fabs(leContour/facteur) < 1.0e-4 && epaisseur > 1)
+            c_wgllwi(2*epaisseur);
+        else
+            c_wgllwi(epaisseur);
+
+              c_wgllwi(epaisseur); /** Modif pour Shilling **/
+        c_wglsld((leContour < 0.0 && codeDash > 1) ? dashPattern : origPattern);
+
+        f77name(wglstl)(fld, &ni, &ni , &nj, &mdeb, &ndeb, &mfin, &nfin, &leContour, &lissfac);
+        leContour+=(intervalles[0]*facteur);
+        nContours++;
+        if (0 == (nContours % 8) && flagInterrupt)
+            annulationDemandee = c_wglanul();
+        }
       }
    else
       {
       for (i=0; i < nbIntervalles; i++)
-	 {
-	 leContour = (intervalles[i]*facteur);
-	 c_wglsld((leContour < 0.0 && codeDash > 1) ? dashPattern : origPattern);
- 
-	 if ((0.0 == leContour) && epaisseur > 1)
-	    c_wgllwi(2*epaisseur);
-	 else
-	    c_wgllwi(epaisseur);
-	 
-         c_wgllwi(epaisseur); /** Modif pour Shilling **/
-	 f77name(wglstl)(fld, &ni, &ni , &nj, &mdeb, &ndeb, &mfin, &nfin, &leContour, &lissfac);
-	 }
+        {
+        leContour = (intervalles[i]*facteur);
+        c_wglsld((leContour < 0.0 && codeDash > 1) ? dashPattern : origPattern);
+
+        if ((0.0 == leContour) && epaisseur > 1)
+            c_wgllwi(2*epaisseur);
+        else
+            c_wgllwi(epaisseur);
+
+              c_wgllwi(epaisseur); /** Modif pour Shilling **/
+        f77name(wglstl)(fld, &ni, &ni , &nj, &mdeb, &ndeb, &mfin, &nfin, &leContour, &lissfac);
+        }
       }
 
    }

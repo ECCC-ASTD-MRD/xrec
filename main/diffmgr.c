@@ -79,29 +79,29 @@ int npts,op;
       case NO_OP:
       case MODULE:
       for (i=0; i < npts; i++)
-	 out[i] = fld1[i];
+        out[i] = fld1[i];
       break;
       
       case SUBTRACT:
       case MODULE_SUB:
       for (i=0; i < npts; i++)
-	 out[i] = fld1[i] - fld2[i];
+        out[i] = fld1[i] - fld2[i];
       break;
       
       case SOMME:
       case MODULE_ADD:
       for (i=0; i < npts; i++)
-	 out[i] = fld1[i] + fld2[i];
+        out[i] = fld1[i] + fld2[i];
       break;
       
       case ABS_SUBTRACT:
       for (i=0; i < npts; i++)
-	 out[i] = fabs(fld1[i] - fld2[i]);
+        out[i] = fabs(fld1[i] - fld2[i]);
       break;
       
       case ABS_SOMME:
       for (i=0; i < npts; i++)
-	 out[i] = fabs(fld1[i] + fld2[i]);
+        out[i] = fabs(fld1[i] + fld2[i]);
       break;
       }
    }
@@ -117,19 +117,19 @@ int npts,op;
       {
       case NO_OP:
       for (i=0; i < npts; i++)
-	 out[i] = MODULE2D(uu1[i],vv1[i]);
+        out[i] = MODULE2D(uu1[i],vv1[i]);
       break;
       
       case SUBTRACT:
       case ABS_SUBTRACT:
       for (i=0; i < npts; i++)
-	 out[i] = MODULE2D(uu1[i] - uu2[i],vv1[i] - vv2[i]);
+        out[i] = MODULE2D(uu1[i] - uu2[i],vv1[i] - vv2[i]);
       break;
       
       case SOMME:
       case ABS_SOMME:
       for (i=0; i < npts; i++)
-	 out[i] = MODULE2D(uu1[i] + uu2[i],vv1[i] + vv2[i]);
+        out[i] = MODULE2D(uu1[i] + uu2[i],vv1[i] + vv2[i]);
       break;
       }
    }
@@ -244,6 +244,7 @@ int   npts;
 DiffMgrGetNbChampsAffichables()
 {
    int op,nbChampsActifs;
+   int i;
 
    op = CtrlMgrGetMathOp();
    nbChampsActifs = FldMgrGetNbChampsActifs();
@@ -255,14 +256,63 @@ DiffMgrGetNbChampsAffichables()
 
       default:
       if (0 != nbChampsActifs%2)
-	 {
-	 return 1+nbChampsActifs/2;
-	 }
+        {
+        return 1+nbChampsActifs/2;
+        }
       else
-	 {
-	 return nbChampsActifs/2;
-	 }
-
+        {
+        return nbChampsActifs/2;
+        }
       }
-
    }
+   
+DiffMgrMergeMasks(int indChamp1, int indChamp2)
+{
+  _Champ *champ1, *champ2;
+  int i, npts;
+  unsigned int *new_mask, *new_mask32;
+  
+  FldMgrGetChamp(&champ1, indChamp1);
+  FldMgrGetChamp(&champ2, indChamp2);
+  
+  npts = champ1->dst.ni * champ1->dst.nj;
+  if (champ1->missingFlag != NOT_MISSING)
+    {
+    if (champ2->missingFlag != NOT_MISSING)
+      {
+      new_mask = calloc(npts,sizeof(unsigned int));
+      new_mask32 = calloc((1+npts/32), sizeof(unsigned int));
+      for (i=0; i < npts; i++)
+        {
+        new_mask[i] = GETMSK(champ1->dst.missing,i) & GETMSK(champ2->dst.missing,i);
+        }
+      compact_mask(new_mask32, new_mask, npts);
+      champ1->dst.missing = new_mask32;
+      for (i=0; i < npts; i++)
+        {
+        if (!GETMSK(champ1->dst.missing,i))
+          {
+          champ1->fld[i] = champ1->missingVal;
+          }
+        }
+
+      free(new_mask);
+      }
+    }
+  else
+    {
+    if (champ2->missingFlag != NOT_MISSING)
+      {
+      champ1->dst.missing = champ2->dst.missing;
+      champ1->missingFlag = champ2->missingFlag;
+      champ1->missingVal  = champ2->missingVal;
+      for (i=0; i < npts; i++)
+        {
+        if (!GETMSK(champ1->dst.missing,i))
+          {
+          champ1->fld[i] = champ1->missingVal;
+          }
+        }
+      }
+    }  
+}

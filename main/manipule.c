@@ -47,6 +47,10 @@ int indChamp;
    float *fld,*uu,*vv,*module;
    float *tmpfld,*tmpuu,*tmpvv,*tmpmodule;
    float *pfld;
+   unsigned int *maskfld, *maskfld2;
+   int statusMask, statusMask2;
+   float missingVal, missingVal2;
+   float *origFld;
 
    int i,npts;
    Hilo hilo[64];
@@ -78,22 +82,22 @@ int indChamp;
    else
       {
       if (xc.statuts[BARBULES])
-	{
-	GetMinMaxUV(&min, &max);
-	}
+        {
+        GetMinMaxUV(&min, &max);
+        }
       else
-	{
-	if (0 == strcmp(champ->nomvar,"UU"))
-	  {
-	  min = champ->uumin[op];
-	  max = champ->uumax[op];
-	  }
-	else
-	  {
-	  min = champ->vvmin[op];
-	  max = champ->vvmax[op];
-	  }
-	}
+        {
+        if (0 == strcmp(champ->nomvar,"UU"))
+          {
+          min = champ->uumin[op];
+          max = champ->uumax[op];
+          }
+        else
+          {
+          min = champ->vvmin[op];
+          max = champ->vvmax[op];
+          }
+        }
       }
    
    if (xc.statuts[TOPO])
@@ -107,137 +111,165 @@ int indChamp;
    if (op != NO_OP || xc.statuts[TOPO])
       {
       if (op != NO_OP)
-	 {
-	 if (0 != indChamp%2)
-	    {
-	    return;
-	    }
-	 }
+        {
+        if (0 != indChamp%2)
+          {
+          return;
+          }
+        }
       
       if (op != NO_OP && 0 == indChamp%2  && indChamp != (nbChampsActifs-1))
-	 {
-	 if (champ->diffValide == 0)
-	    {
-	    lng = c_getulng();
-	    MessageAvertissement(labelOperationInvalide[lng],AVERTISSEMENT);
-	    return;
-	    }
-	 }
+        {
+        if (champ->diffValide == 0)
+          {
+          lng = c_getulng();
+          MessageAvertissement(labelOperationInvalide[lng],AVERTISSEMENT);
+          return;
+          }
+        }
       
       customFld = True;
       if (champ->natureTensorielle == SCALAIRE)
-	 {
-	 tmpfld = (float *)calloc(npts,sizeof(float));
-	 min = champ->fldmin[op];
-	 max = champ->fldmax[op];
-	 if (op != NO_OP)
-	    {
-	    DiffMgrCalcDiffs(tmpfld,champ->fld,champ2->fld,npts,op);
-	    }
-	 else
-	    {
-            pfld = champ->fld;
-	    }
-	 }
+        {
+        tmpfld = (float *)calloc(npts,sizeof(float));
+        min = champ->fldmin[op];
+        max = champ->fldmax[op];
+        if (op != NO_OP)
+          {
+          DiffMgrCalcDiffs(tmpfld,champ->fld,champ2->fld,npts,op);
+          if (GetValeursManquantesToggle())
+            {
+            statusMask = champ->missingFlag;
+            statusMask2 = champ2->missingFlag;
+            if (champ->missingFlag != NOT_MISSING)
+              {
+              maskfld = champ->dst.missing;
+              missingVal = champ->missingVal;
+              }
+            
+            if (champ2->missingFlag != NOT_MISSING)
+              {
+              maskfld2 = champ2->dst.missing;
+              missingVal2 = champ2->missingVal;
+              }
+            
+            origFld = (float *)malloc(npts*sizeof(float));
+            memcpy(origFld, champ->fld, npts*sizeof(float));
+            DiffMgrMergeMasks(indChamp, indChamp+1);
+            for (i=0; i < npts; i++)
+              {
+              if (!GETMSK(champ->dst.missing,i))
+                {
+                tmpfld[i] = champ->missingVal;
+                }
+              }
+
+            }
+          }
+        else
+          {
+          pfld = champ->fld;
+          }
+        }
       else
-	 {
-	 tmpuu = (float *)calloc(npts,sizeof(float));
-	 tmpvv = (float *)calloc(npts,sizeof(float));
-	 tmpmodule = (float *)calloc(npts,sizeof(float));
-	 if (op != NO_OP)
-	    {
-	    DiffMgrCalcDiffs(tmpuu,champ->uu,champ2->uu,npts,op);
-	    DiffMgrCalcDiffs(tmpvv,champ->vv,champ2->vv,npts,op);
-	    f77name(modulus)(tmpmodule,tmpuu,tmpvv,&npts);
-	    }
-	 else
-	    {
-	    for (i=0; i < npts; i++)
-	       {
-	       tmpuu[i] = champ->uu[i];
-	       tmpvv[i] = champ->vv[i];
-	       tmpmodule[i] = champ->module[i];
-	       }
-	    }
-	 }
+        {
+        tmpuu = (float *)calloc(npts,sizeof(float));
+        tmpvv = (float *)calloc(npts,sizeof(float));
+        tmpmodule = (float *)calloc(npts,sizeof(float));
+        if (op != NO_OP)
+            {
+            DiffMgrCalcDiffs(tmpuu,champ->uu,champ2->uu,npts,op);
+            DiffMgrCalcDiffs(tmpvv,champ->vv,champ2->vv,npts,op);
+            f77name(modulus)(tmpmodule,tmpuu,tmpvv,&npts);
+            }
+        else
+            {
+            for (i=0; i < npts; i++)
+              {
+              tmpuu[i] = champ->uu[i];
+              tmpvv[i] = champ->vv[i];
+              tmpmodule[i] = champ->module[i];
+              }
+            }
+         } 
       }
    
    if (champ->natureTensorielle == SCALAIRE)
       {
       if (CUSTOM == DictMgrGetMinMaxMode(champ->nomvar))
-	 {
-	 DictMgrGetMinMaxValues(champ->nomvar,&min,&max);
-	 }
+        {
+        DictMgrGetMinMaxValues(champ->nomvar,&min,&max);
+        }
       }
    else
       {
       if (CUSTOM == DictMgrGetMinMaxMode("UV"))
-	 {
-	 DictMgrGetMinMaxValues("UV",&min,&max);
-	 }
+        {
+        DictMgrGetMinMaxValues("UV",&min,&max);
+        }
       }
    
    if (champ->coupe.montagnes && xc.statuts[TOPO])
       {
-      if (champ->ip1 > 0 && champ->ip1 < 2000) 
-	{
-	if (champ->natureTensorielle == SCALAIRE)
-	  {
-	  for (i=0; i < npts; i++)
-	    {
-	    if (champ->coupe.montagnes[i] < champ->niveau)
-	      {
-	      tmpfld[i] = min;
-	      }
-	    else
-	      {
-	      tmpfld[i] = champ->fld[i];
-	      }
-	    }
-	  }
-	else
-	  {
-	  for (i=0; i < npts; i++)
-	    {
-	    if (champ->coupe.montagnes[i] < champ->niveau)
-	      {
-	      tmpuu[i] = 0.0;
-	      tmpvv[i] = 0.0;
-	      tmpmodule[i] = 0.0;
-	      }
-	    }
-	  }
-	}
+      if (champ->coordonneeVerticale == PRESSION) 
+        {
+        if (champ->natureTensorielle == SCALAIRE)
+          {
+          for (i=0; i < npts; i++)
+            {
+            if (champ->coupe.montagnes[i] < champ->niveau)
+              {
+              tmpfld[i] = min;
+              }
+            else
+              {
+              tmpfld[i] = champ->fld[i];
+              }
+            }
+          }
+        else
+          {
+          for (i=0; i < npts; i++)
+            {
+            if (champ->coupe.montagnes[i] < champ->niveau)
+              {
+              tmpuu[i] = 0.0;
+              tmpvv[i] = 0.0;
+              tmpmodule[i] = 0.0;
+              }
+            }
+          }
+        }
       else
-	{
-	if (champ->natureTensorielle == SCALAIRE)
-	  {
-	  for (i=0; i < npts; i++)
-	    {
-	    if (champ->coupe.montagnes[i] > champ->niveau)
-	      {
-	      tmpfld[i] = min;
-	      }
-	    else
-	      {
-	      tmpfld[i] = champ->fld[i];
-	      }
-	    }
-	  }
-	}
+        {
+        if (champ->natureTensorielle == SCALAIRE)
+          {
+          for (i=0; i < npts; i++)
+            {
+            if (champ->coupe.montagnes[i] > champ->niveau)
+              {
+              tmpfld[i] = min;
+              }
+            else
+              {
+              tmpfld[i] = champ->fld[i];
+              }
+            }
+          }
+        }
       }
    
 
    if (customFld)
       {
       if (champ->natureTensorielle == SCALAIRE)
-	 {
-	 pfld = tmpfld;
-	 uu = NULL;
-	 vv = NULL;
-	 }
+        {
+        pfld = tmpfld;
+        uu = NULL;
+        vv = NULL;
+        }
       else
-	 {
+	       {
          if (WindMgrGetModulusState())
             {
             pfld = tmpmodule;
@@ -259,16 +291,16 @@ int indChamp;
                vv = tmpvv;
                }
             }
-	 }
+          }
       }
    else
       {
       if (champ->natureTensorielle == SCALAIRE)
-	 {
-	 pfld = champ->fld;
-	 uu = NULL;
-	 vv = NULL;
-	 }
+        {
+        pfld = champ->fld;
+        uu = NULL;
+        vv = NULL;
+        }
       else
          {
          if (WindMgrGetModulusState())
@@ -300,16 +332,44 @@ int indChamp;
    if (customFld)
       {
       if (tmpfld)
-	 {
-	 free(tmpfld);
-	 }
+        {
+        free(tmpfld);
+        }
 
       if (tmpmodule)
-	 {
-	 free(tmpuu);
-	 free(tmpvv);
-	 free(tmpmodule);
-	 }
+        {
+        free(tmpuu);
+        free(tmpvv);
+        free(tmpmodule);
+        }
+      }
+      
+    if (op != NO_OP)
+      {
+      if (GetValeursManquantesToggle())
+        {
+        if (statusMask != NOT_MISSING)
+          {
+          champ->dst.missing =  maskfld;
+          champ->missingFlag = champ->missingFlag;
+          champ->missingVal = missingVal;
+          }
+        else
+          {
+          champ->dst.missing = NULL;
+          champ->missingFlag = NOT_MISSING;
+          champ->missingVal = missingVal;
+          }
+
+        memcpy(champ->fld, origFld, npts*sizeof(float));
+        free(origFld);
+        if (statusMask2 != NOT_MISSING)
+          {
+          champ2->dst.missing = maskfld2;
+          champ2->missingFlag = statusMask2;
+          champ2->missingVal = missingVal2;
+          }
+        }
       }
    }
 

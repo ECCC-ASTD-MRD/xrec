@@ -41,7 +41,7 @@ float x1, y1, x2, y2;
   int i,j, k, n,increment, milieu, imax;
   char nombre[32], format[32];
   float pos, hauteurTexte;
-  float cmin, cmax, inter;
+  float cmin, cmax, inter,cmin2;
   float xa, ya, xb, yb;
   int   ia, ja, ib, jb;
   int oldAspectRatioFlag;
@@ -88,9 +88,18 @@ float x1, y1, x2, y2;
   if (nbIntervalles == 1)
     {
     if (intervalles[0] == 0.0 && nbIntervalles == 1)
+      {
       inter = (cmax - cmin) / (0.7*hauteurLegende);
+      cmin2 = cmin + inter;
+      if (cmin2 == cmin)
+        {
+        inter = cmax - cmin;
+        }
+      }
     else
+      {
       inter = intervalles[0] * facteur;
+      }
     }
   
   if (nbIntervalles == 1)
@@ -106,13 +115,13 @@ float x1, y1, x2, y2;
       j = ROUND(255 * ((contourCourant+inter) - cmin) / (cmax - cmin));
       
       if (8 < c_wglgpl())
-	{
-	c_wglcolf(colorTable[0] + (contourCourant-cmin)/(cmax-cmin)*(colorTable[255]-colorTable[0]));
-	}
+        {
+        c_wglcolf(colorTable[0] + (contourCourant-cmin)/(cmax-cmin)*(colorTable[255]-colorTable[0]));
+        }
       else
-	{
-	c_wglcol(colorTable[ROUND(255*fraction)]);
-	}
+        {
+        c_wglcol(colorTable[ROUND(255*fraction)]);
+        }
       c_wglrfx(10.0/largeurLegende*100.0, (float)(i), 40.0/largeurLegende*100.0, (float)(j));
       contourCourant += inter;
       n++;
@@ -193,16 +202,16 @@ float x1, y1, x2, y2;
     while (i <= imax)
       {
       if (i == 0)
-	{
-	contourCourant = cmin/facteur;
-	}
+        {
+        contourCourant = cmin/facteur;
+        }
       else
-	{
-	if (i == (nbIntervalles+1))
-	  contourCourant = cmax/facteur;
-	else
-	  contourCourant = intervalles[i-1];
-	}
+        {
+        if (i == (nbIntervalles+1))
+          contourCourant = cmax/facteur;
+        else
+          contourCourant = intervalles[i-1];
+        }
       
       pos = (255.0 * i / (nbIntervalles+1));
       sprintf(nombre, format, contourCourant);
@@ -513,11 +522,11 @@ AfficherLegendeSup2()
 	 strcpy(texte[ind], "");
 	 FldMgrGetChamp(&champ, i);
 	 deltaT =  (champ->npas*champ->deet)/3600.0;
-	 tempDate = champ->date;
-	 tempDate2 = champ->date;
+	 tempDate = champ->dateo;
+	 tempDate2 = champ->dateo;
 	 f77name(incdatr)(&tempDate, &tempDate, &deltaT);
 	 
-	 FldMgrCalcPDFDatev(pdfdatev,champ->date,champ->deet,champ->npas,champ->ip2);
+	 FldMgrCalcPDFDatev(pdfdatev,&(champ->datev),champ->dateo,champ->deet,champ->npas,champ->ip2);
 	 mo[3] = '\0';
 	 strncpy(mo,champ->mois,3);
 	 sprintf(dateMess, "V%s", pdfdatev);
@@ -1024,11 +1033,11 @@ float xmin, ymin, xmax, ymax;
 
 	 if (ok)
 	    {
-	    tempDate = champ->date;
+	    tempDate = champ->dateo;
 	    deltaT =  (champ->npas*champ->deet)/3600.0;
 	    f77name(incdatr)(&tempDate, &tempDate, &deltaT);
 	    
-	    FldMgrCalcPDFDatev(pdfdatev,champ->date,champ->deet,champ->npas,champ->ip2);
+	    FldMgrCalcPDFDatev(pdfdatev,&(champ->datev),champ->dateo,champ->deet,champ->npas,champ->ip2);
 	    mo[3] = '\0';
 	    strncpy(mo,champ->mois,3);
 	    sprintf(dateMess, "V%s", pdfdatev);

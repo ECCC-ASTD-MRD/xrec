@@ -57,7 +57,7 @@ static char *labelTailleSymbole[] =       {"Taille symboles:      ", "Symbol Siz
 static char *labelUnitesSymbole[] =       {"Unites taille symbole:", "Symbol Size Units:"};
 
 static char *labelOptionsCouleur[][2] =           {{"Oui             ", "Non"},{"Yes          ", "No"}};
-static char *labelOptionsSymbole[][3] =           {{"croix           ", "cercle", "rectangle"},{"cross", "circle", "rectangle"}};
+static char *labelOptionsSymbole[][3] =           {{"croix           ", "cercle", "carre"},{"cross", "circle", "square"}};
 static char *labelOptionsAffichageValeurs[][2] =  {{"Oui             ", "Non"},{"Yes          ", "No"}};
 static char *labelOptionsAffichageLatlon[][2] =   {{"Oui             ", "Non"},{"Yes          ", "No"}};
 static char *labelOptionsUnitesSymbole[][4] =     {{"Pixels          ", "Degres", "Km", "Milles nautiques"},{"Pixels", "Degrees", "Km", "Nautical Miles"}};
@@ -192,9 +192,9 @@ void SetUnitesSymbole (Widget w, caddr_t client_data, caddr_t call_data)
      unitesSymbole = KM;
      }
   if (0 == strcmp(str, labelOptionsUnitesSymbole[lng][3]))
-     {
-     unitesSymbole = NAUTICAL_MILES;
-     }
+    {
+    unitesSymbole = NAUTICAL_MILES;
+    }
 
   RedessinerFenetres();
    }

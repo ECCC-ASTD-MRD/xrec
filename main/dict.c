@@ -246,7 +246,8 @@ char *nomVar;
    infoChamps[nbChampsDict].indIntervalleDeDefaut =  10;
 
    strcpy(infoChamps[nbChampsDict].nomVar, nomVar);
-   strcpy(infoChamps[nbChampsDict].identifVar, nomVar);
+   strcpy(infoChamps[nbChampsDict].identifVar[0], nomVar);
+   strcpy(infoChamps[nbChampsDict].identifVar[1], nomVar);
    strcpy(infoChamps[nbChampsDict].unitesVar, " (???)");
 
    infoChamps[nbChampsDict].nbMenuItems = 16;
@@ -287,15 +288,22 @@ int   nomVarLen, idVarLen, unitesVarLen, paletteVarLen;
    int i,j, indDict;
    int nbMenuItems;
 
-   nomVar[nomVarLen-1] = '\0';
-   idVar[idVarLen-1] = '\0';
-   unitesVar[unitesVarLen-1] = '\0';
-   paletteVar[paletteVarLen-1] = '\0';
-
-   nettoyer(nomVar);
-   nettoyer(idVar);
-   nettoyer(unitesVar);
-   nettoyer(paletteVar);
+   char tmp_nomvar[16], tmp_idvar[96], tmp_unitesvar[64], tmp_palettevar[64];
+   
+   memset(tmp_nomvar, (int)NULL, 16);
+   memset(tmp_idvar, (int)NULL, 96);
+   memset(tmp_unitesvar, (int)NULL, 64);
+   memset(tmp_palettevar, (int)NULL, 64);
+   
+   strncpy(tmp_nomvar, nomVar, nomVarLen);
+   strncpy(tmp_idvar, idVar, idVarLen);
+   strncpy(tmp_unitesvar, unitesVar, unitesVarLen);
+   strncpy(tmp_palettevar, paletteVar, paletteVarLen);
+   
+   strclean(tmp_nomvar);
+   strclean(tmp_idvar);
+   strclean(tmp_unitesvar);
+   strclean(tmp_palettevar);
 
    j = 0;
    while (nbIntVar[j] > 0)
@@ -305,7 +313,7 @@ int   nomVarLen, idVarLen, unitesVarLen, paletteVarLen;
 
    nbMenuItems = j;
 
-   indDict = ChercherNomVar(nomVar);
+   indDict = ChercherNomVar(tmp_nomvar);
    if (indDict < 0)
       {
       indDict = nbChampsDict;
@@ -313,9 +321,9 @@ int   nomVarLen, idVarLen, unitesVarLen, paletteVarLen;
    else
       {
       for (i=0; i < infoChamps[indDict].nbIntervalles[i]; i++)
-	 {
-	 free(infoChamps[indDict].intervallesDeContour[i]);
-	 }
+        {
+        free(infoChamps[indDict].intervallesDeContour[i]);
+        }
       free(infoChamps[indDict].intervallesDeContour);
       free(infoChamps[indDict].nbIntervalles);
       
@@ -325,18 +333,20 @@ int   nomVarLen, idVarLen, unitesVarLen, paletteVarLen;
    if (0 == (nbChampsDict % 16) && indDict == nbChampsDict)
       {
       if (nbChampsDict == 0)
-	 infoChamps = (_InfoChamps *)calloc(16, sizeof(_InfoChamps));
+        infoChamps = (_InfoChamps *)calloc(16, sizeof(_InfoChamps));
       else
-	 infoChamps = (_InfoChamps *)realloc(infoChamps, sizeof(_InfoChamps)*(nbChampsDict+16));
+        infoChamps = (_InfoChamps *)realloc(infoChamps, sizeof(_InfoChamps)*(nbChampsDict+16));
       }
       
+/*   memset(&infoChamps[indDict], (int) NULL, sizeof(_InfoChamps));*/
    infoChamps[indDict].facteurDeConversion = *echelleVar;
    infoChamps[indDict].indIntervalleDeDefaut =  *indDef - 1;
 
-   strcpy(infoChamps[indDict].nomVar, nomVar);
-   strcpy(infoChamps[indDict].identifVar, idVar);
-   strcpy(infoChamps[indDict].unitesVar, unitesVar);
-   strcpy(infoChamps[indDict].paletteVar, paletteVar);
+   strcpy(infoChamps[indDict].nomVar, tmp_nomvar);
+   strcpy(infoChamps[indDict].identifVar[0], tmp_idvar);
+   strcpy(infoChamps[indDict].identifVar[1], tmp_idvar);
+   strcpy(infoChamps[indDict].unitesVar, tmp_unitesvar);
+   strcpy(infoChamps[indDict].paletteVar, tmp_palettevar);
 
    infoChamps[indDict].nbIntervalles = (int *)calloc(nbMenuItems, sizeof(int));
    memcpy(infoChamps[indDict].nbIntervalles, nbIntVar, sizeof(int) * nbMenuItems);
@@ -351,17 +361,14 @@ int   nomVarLen, idVarLen, unitesVarLen, paletteVarLen;
    for (i=0; i < nbMenuItems; i++)
       {
       for (j=0; j < nbIntVar[i]; j++)
-	 {
-	 infoChamps[indDict].intervallesDeContour[i][j] =  intVar[j][i];
-	 }
+        {
+        infoChamps[indDict].intervallesDeContour[i][j] =  intVar[j][i];
+        }
       }
    infoChamps[indDict].nbMenuItems = nbMenuItems;
 
    if (indDict == nbChampsDict)
       nbChampsDict += 1;
-
-
-
    }
 
 
@@ -382,7 +389,7 @@ DictMgrGetIdentifVar(identifVar, indDict)
 char identifVar[];
 int indDict;
 {
-   strcpy(identifVar, infoChamps[indDict].identifVar);
+   strcpy(identifVar, infoChamps[indDict].identifVar[0]);
    }
 
 DictMgrGetUnitesVar(unitesVar, indDict)

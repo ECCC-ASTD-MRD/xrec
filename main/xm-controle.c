@@ -464,12 +464,16 @@ int indChamp;
     if (ZP == CoupeMgrGetDimensionCoupe())
       {
       if (champ->coupe.coupeValide)
-  dernierNiveau = i;
+        {
+        dernierNiveau = i;
+        }
       }
     else
       {
       if (champ->seqanim.nbFldsAnim > 0)
-  dernierNiveau = i;
+        {
+        dernierNiveau = i;
+        }
       }
     }
 
@@ -501,16 +505,8 @@ int indChamp;
       CoupeMgrGetLimitesUVW(&uutanmin,&uutanmax,&uvwmin,&uvwmax,
           &uumin,&uumax,&vvmin,&vvmax,
           &wwmin,&wwmax,&nivmin,&nivmax);
-      if (0 == strcmp("UU", champZero->nomvar))
-  {
-  valMin = uumin;
-  valMax = uumax;
-  }
-      else
-  {
-  valMin = vvmin;
-  valMax = vvmax;
-  }
+        valMin = uvwmin;
+        valMax = uvwmax;
       }
 
     if (T == CoupeMgrGetDimensionCoupe())
@@ -2019,10 +2015,10 @@ XtPointer unused1, unused2;
        FldMgrGetFstPrm(champ);
        FldMgrProcessChamp(champ);
        if (champ->coupe.montagnes)
-   {
-   free(champ->coupe.montagnes);
-   champ->coupe.montagnes = NULL;
-   }
+        {
+        free(champ->coupe.montagnes);
+        champ->coupe.montagnes = NULL;
+        }
        FldMgrPreparerTopo();
      }
 
@@ -2252,7 +2248,7 @@ XtPointer unused1, unused2;
 
       case AFF_AUTOMATIQUE:
       break;
-
+      
       default:
       if (xc.statuts[AFF_AUTOMATIQUE])
         {
@@ -2534,9 +2530,9 @@ RedessinerFenetreCoupe()
    for (i=0; i < FldMgrGetNbChampsActifs(); i++)
       {
       if (!c_wglanul())
-   {
-         ManipulerEtAfficherCoupeVerticale(i);
-   }
+        {
+        ManipulerEtAfficherCoupeVerticale(i);
+        }
       }
 
    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;

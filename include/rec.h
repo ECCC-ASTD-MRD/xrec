@@ -5,8 +5,8 @@
 #include <malloc.h>
 
 #define  RADIAN_A_DEGRE    57.29577951
-#define  DEGRE_A_RADIAN      0.01745329252
-#define  MISSING                   1.0e+37
+#define  DEGRE_A_RADIAN    0.01745329252
+#define  MISSING           HUGE
 
 #define  GLOBAL                  0
 #define  NORD                    1
@@ -25,9 +25,27 @@
 #define VECTEUR                  2
 #define VECTEUR3D                3
 
-#define PRESSION                 0
+/* Doc from CONVIP
+
+ kind of "P": input if MODE > 0, output if MODE = -1
+
+    = 0: P is in height [m] (metres) with respect to sea level
+    = 1: P is in sigma [sg] (0.0 -> 1.0)
+    = 2: P is in pressure [mb] (millibars)
+    = 3: P is in an arbitrary code
+    = 4: P is in height [M] (metres) with respect to ground level
+    = 5: P is in hybrid coordinates [hy]
+    = 6: P is in theta [th]
+*/
+
+#define METRES                   0
+#define METRES_ASL               0
 #define SIGMA                    1
-#define METRES                   2
+#define PRESSION                 2
+#define ARBITRAIRE               3
+#define METRES_AGL               4
+#define HYBRIDE                  5
+#define THETA                    6
 
 #define ZP                       0
 #define T                        1
@@ -158,7 +176,15 @@
 #define TOUJOURS        1
 #define JAMAIS          2
 
+#define NOT_MISSING     0
+#define FROM_MINMAX     1
+#define FROM_FSTD       2
+#define FROM_USER       3
+
 #define FTN2C(i,j,ni)  (int)((ni) * (j) + i)
+#define BITPOS(i) (i - ((i >> 5) << 5))
+#define GETMSK(fld,i) ((fld[i >> 5]  & (1 << BITPOS(i))) >> BITPOS(i))
+#define SETMSK(fld,i) (fld[i >> 5] | (fld[i] << BITPOS(i))) 
 #if defined  (hp720) || defined (i386)
 #define ffloor floor
 #define fceil ceil
@@ -257,8 +283,8 @@ typedef struct
 {
   int type;
   int ni,nj,nk;
-  char grtyp[2];
-  char grref[2];
+  char grtyp[4];
+  char grref[4];
   int ig1, ig2, ig3, ig4;
   int ig1ref, ig2ref, ig3ref, ig4ref;
   unsigned int *missing;
@@ -278,13 +304,13 @@ typedef struct
   int iun;
   int cle;
   int indDict;
-  int date, deet, npas;
+  int dateo, datev, deet, npas;
   float rnpas;
   int nbits, datyp;
   int ip1, ip2, ip3;
-  char typvar[3];
-  char nomvar[5];
-  char etiket[13];
+  char typvar[4];
+  char nomvar[8];
+  char etiket[16];
   char pdfdatev[24];
   int swa, lng, dltf, ubc;
   int extra1, extra2, extra3;
@@ -292,6 +318,7 @@ typedef struct
   int natureTensorielle;
   int travailEnCours;
   int champModifie;
+  int coordonneeVerticale;
   float niveau;
   float heure;
   float facteur;
@@ -310,16 +337,17 @@ typedef struct
   char titreIntervalle[72];
   char titreUnites[72];
   char titreEtiquette[24];
-  char ordinal[10];
-  char heureInit[3];
-  char minute[3];
-  char seconde[3];
-  char jour[3];
+  char ordinal[12];
+  char heureInit[4];
+  char minute[4];
+  char seconde[4];
+  char jour[4];
   char mois[12];
-  char annee[5];
+  char annee[8];
   float intervalles[32];
   int  nbIntervalles;
   float *fld,*fld_orig,*uu,*vv,*ww,*module,*other,*x,*y;
+  float missingVal;
   int missingFlag;
   _Attributs attr;
   _CoupeVerticale coupe;

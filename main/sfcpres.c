@@ -26,6 +26,20 @@
 #include <xinit.h>
 #include <math.h>
 
+
+/*
+
+ kind of "P": input if MODE > 0, output if MODE = -1
+
+    = 0: P is in height [m] (metres) with respect to sea level 
+    = 1: P is in sigma [sg] (0.0 -> 1.0) 
+    = 2: P is in pressure [mb] (millibars) 
+    = 3: P is in an arbitrary code 
+    = 4: P is in height [M] (metres) with respect to ground level 
+    = 5: P is in hybrid coordinates [hy] 
+    = 6: P is in theta [th] 
+*/
+
 GetSurfacePressure(champ)
 _Champ *champ;
 {
@@ -42,6 +56,12 @@ _Champ *champ;
    int *masque;
    int lng,gdin,gdout;
    double deltaT;
+   
+    int ivalide;
+    float niveau;
+    int kind, kindref;
+    int versPression = -1;
+    int faux = 0;
    
    char *P0 = "P0";
    char *PN = "PN";
@@ -65,23 +85,12 @@ _Champ *champ;
 				 "Temperature field not available.\n Cannot generate P0 field"};
 
    lng = c_getulng();
-   dateo = champ->date;
-   if (champ->ip1 <= 12000 && champ->ip1 >= 2000)
-      {
-      coordonnee = SIGMA;
-      }
-   else
-      {
-      if (champ->ip1 >= 12001)
-	 {
-	 coordonnee = METRES;
-	 }
-      else
-	 {
-	 coordonnee = PRESSION;
-	 }
-      }
-   
+   dateo = champ->dateo;
+
+  ivalide = 0;
+  f77name(convip)(&(champ->ip1), &niveau, &coordonnee, &versPression, NULL, &faux);
+
+     
    deltaT = (champ->deet*champ->npas)/3600.0;
    f77name(incdatr)(&datev,&dateo,&deltaT);
    
@@ -108,10 +117,8 @@ _Champ *champ;
          }
       break;
       
-      default:
-      cleP0 = c_fstinf(champ->iun, &ni, &nj, &nk,
-                       datev,champ->etiket, -1,
-                       champ->ip2, champ->ip3, champ->typvar, P0);
+      case PRESSION:
+      cleP0 = c_fstinf(champ->iun, &ni, &nj, &nk, datev,champ->etiket, -1, champ->ip2, champ->ip3, champ->typvar, P0);
 
       if (cleP0 < 0)
          {
@@ -119,15 +126,15 @@ _Champ *champ;
          }
       else
          {
-	 gdin = c_ezgetgdin();
-	 gdout = c_ezgetgdout();
-	 c_ezdefset(gdout,gdin);
+         gdin = c_ezgetgdin();
+         gdout = c_ezgetgdout();
+         c_ezdefset(gdout,gdin);
 
          temp = (float *) calloc(ni * nj * nk, sizeof(float));
          ier = c_fstluk(temp, cleP0, &ni, &nj, &nk);
-	 champ->coupe.montagnes = malloc(champ->dst.ni*champ->dst.nj*champ->dst.nk*sizeof(float));
-	 c_ezsint(champ->coupe.montagnes,temp);
-	 free(temp);
+          champ->coupe.montagnes = malloc(champ->dst.ni*champ->dst.nj*champ->dst.nk*sizeof(float));
+          c_ezsint(champ->coupe.montagnes,temp);
+          free(temp);
 
          return 0;
          }
@@ -147,7 +154,7 @@ _Champ *champ;
       if (cleMT < 0)
          {
          cleMT = c_fstinf(champ->iun, &ni, &nj, &nk,-1,"        ", -1,-1,-1," ", ME);
-	 nomMT = ME;
+         nomMT = ME;
          if (cleMT < 0) 
             {
             MessageAvertissement(pasdeMT[lng], AVERTISSEMENT);
@@ -156,12 +163,10 @@ _Champ *champ;
          }
        
       lngMaxListe = 100;
-      ier = c_fstinl(champ->iun, &ni, &nj, &nk,
-	         	   datev, champ->etiket,-1,
-		         champ->ip2, champ->ip3, champ->typvar, GZ,
-		         listeIP1, &lngListe, lngMaxListe);
-
+      ier = c_fstinl(champ->iun, &ni, &nj, &nk, datev, champ->etiket,-1,
+                     champ->ip2, champ->ip3, champ->typvar, GZ, listeIP1, &lngListe, lngMaxListe);
 	
+      
       FldMgrVerConsistanceGrilles(*champ, listeIP1, &lngListe);
       FldMgrVerConsistanceNiveaux(*champ, listeIP1, &lngListe);
       FldMgrTrierClesSelonIP1(listeIP1,lngListe);
@@ -193,10 +198,10 @@ _Champ *champ;
       ier = c_fstluk(mt, cleMT, &ni, &nj, &nk);
     
       if (nomMT == MT)
-	 {
-	 for (i=0; i < npts; i++)
-	    mt[i] *= 0.1;
-	 }
+         {
+         for (i=0; i < npts; i++)
+             mt[i] *= 0.1;
+         }
 
       n = 0;
 
@@ -212,10 +217,10 @@ _Champ *champ;
 	 zbottom[i] *= 10.0;
       cleTTbottom = c_fstinf(champ->iun, &ni, &nj, &nk,-1,"        ",bidon.ip1,-1,-1," ", TT);
       if (cleTTbottom < 0)
-	 {
-	 MessageAvertissement(pasdeTT[lng],AVERTISSEMENT);
-	 return -1;
-	 }
+        {
+        MessageAvertissement(pasdeTT[lng],AVERTISSEMENT);
+        return -1;
+        }
       ier = c_fstluk(ttbottom, cleTTbottom, &ni, &nj, &nk); 
       
       for (i=0; i < npts; i++)
@@ -237,7 +242,7 @@ _Champ *champ;
                masque[i] = 1;
                }
             }
-	 sommeMasque += masque[i];
+         sommeMasque += masque[i];
          }
       
       bidon.cle = listeIP1[cleGZtop];
@@ -246,62 +251,67 @@ _Champ *champ;
       
       ier = c_fstluk(ztop, listeIP1[cleGZtop], &ni, &nj, &nk); 
       for (i=0; i < npts; i++)
-	 ztop[i] *= 10.0;
+        {
+        ztop[i] *= 10.0;
+        }
+	 
 
       cleTTtop = c_fstinf(champ->iun, &ni, &nj, &nk,-1,bidon.etiket,bidon.ip1,-1,-1," ", TT);
       if (cleTTtop < 0)
-	 {
-	 MessageAvertissement(pasdeTT[lng],AVERTISSEMENT);
-	 return -1;
-	 }
+        {
+        MessageAvertissement(pasdeTT[lng],AVERTISSEMENT);
+        return -1;
+        }
 
       ier = c_fstluk(tttop, cleTTtop, &ni, &nj, &nk); 
       while (sommeMasque != npts && cleGZtop < lngListe)
-	 {
-	 for (i=0; i < npts; i++)
+	      {
+        for (i=0; i < npts; i++)
+                  {
+                  if (masque[i] == 0)
+                    {
+                    if (mt[i] >= ztop[i])
+                        {
+                        champ->coupe.montagnes[i] = (float) ip1top;
+                        }
+                    else
+                        {
+                        tmean = (tttop[i]+ttbottom[i])*0.5 + 273.0;
+                        champ->coupe.montagnes[i] = ip1bot*(exp((-9.8*(mt[i]-zbottom[i]))/(287.0*tmean)));
+                        masque[i] = 1;
+                        }
+                    }
+                  }
+	 
+          sommeMasque = 0;
+          for (i=0; i < npts; i++)
+              {
+              sommeMasque += masque[i];
+              zbottom[i] = ztop[i];
+              ttbottom[i] = tttop[i];
+              }
+
+          ip1bot = ip1top;
+          cleGZtop++;     
+
+
+          bidon.cle = listeIP1[cleGZtop];
+          FldMgrGetFstPrm(&bidon);
+          ip1top = (float)bidon.ip1;
+          ier = c_fstluk(ztop, listeIP1[cleGZtop], &ni, &nj, &nk); 
+          for (i=0; i < npts; i++)
             {
-            if (masque[i] == 0)
-               {
-               if (mt[i] >= ztop[i])
-                  {
-                  champ->coupe.montagnes[i] = (float) ip1top;
-                  }
-               else
-                  {
-		  tmean = (tttop[i]+ttbottom[i])*0.5 + 273.0;
-                  champ->coupe.montagnes[i] = ip1bot*(exp((-9.8*(mt[i]-zbottom[i]))/(287.0*tmean)));
-                  masque[i] = 1;
-                  }
-               }
+            ztop[i] *= 10.0;
             }
-	 
-	 sommeMasque = 0;
-	 for (i=0; i < npts; i++)
-            {
-            sommeMasque += masque[i];
-            zbottom[i] = ztop[i];
-            ttbottom[i] = tttop[i];
-	    }
-	 
-	 ip1bot = ip1top;
-	 cleGZtop++;     
-	 
-	 
-	 bidon.cle = listeIP1[cleGZtop];
-	 FldMgrGetFstPrm(&bidon);
-	 ip1top = (float)bidon.ip1;
-	 ier = c_fstluk(ztop, listeIP1[cleGZtop], &ni, &nj, &nk); 
-	 for (i=0; i < npts; i++)
-	    ztop[i] *= 10.0;
-	 cleTTtop = c_fstinf(champ->iun, &ni, &nj, &nk,-1,bidon.etiket,bidon.ip1,-1,-1," ", TT);
-	 if (cleTTtop < 0)
-	    {
-	    MessageAvertissement(pasdeTT[lng],AVERTISSEMENT);
-	    return -1;
-	    }
-	 
-	 ier = c_fstluk(tttop, cleTTtop, &ni, &nj, &nk); 
-	 }
+          cleTTtop = c_fstinf(champ->iun, &ni, &nj, &nk,-1,bidon.etiket,bidon.ip1,-1,-1," ", TT);
+          if (cleTTtop < 0)
+              {
+              MessageAvertissement(pasdeTT[lng],AVERTISSEMENT);
+              return -1;
+              }
+
+          ier = c_fstluk(tttop, cleTTtop, &ni, &nj, &nk); 
+          }
       
       temp = champ->coupe.montagnes;
       champ->coupe.montagnes = malloc(champ->dst.ni*champ->dst.nj*champ->dst.nk*sizeof(float));
@@ -316,6 +326,9 @@ _Champ *champ;
       free(masque);
       
       return 0;
+      break;
+      
+      default:
       break;
       }
    }

@@ -62,9 +62,9 @@ CDECKS= \
          p_vent.c       pack.c       parent.c \
          profil.c       ptval.c       rle.c       serie.c sfcpres.c \
          strutil.c       util.c       valptgr.c       vent.c homelic.c \
-         wglanul.c       wglcalcols.c       wglcont.c       wglfton.c \
+         wglanul.c       wglcalcols.c       wglcalcols_m.c       wglcont.c       wglfton.c \
          wgllab.c       wglpfton.c       wglpfton32.c       widgets-util.c \
-         serie_coupe_utils.c xm-controle.c  wglrfton_m.c wglpfton32_m.c wglfton_m.c enhance_m.c	
+         serie_coupe_utils.c xm-controle.c  wglrfton_m.c wglpfton32_m.c wglfton_m.c enhance_m.c c_ezsint_mask.c
 
 
 COMDECKS= \
@@ -76,6 +76,8 @@ reclib: $(RECLIB)(PointerVent.o) \
 	$(RECLIB)(aux.o) \
 	$(RECLIB)(bidim.o) \
 	$(RECLIB)(bidim_m.o) \
+	$(RECLIB)(c_ezsint_mask.o) \
+	$(RECLIB)(couleur.o) \
 	$(RECLIB)(cmap.o) \
 	$(RECLIB)(contour.o) \
 	$(RECLIB)(convpr.o) \
@@ -151,6 +153,7 @@ reclib: $(RECLIB)(PointerVent.o) \
 	$(RECLIB)(vent.o) \
 	$(RECLIB)(wglanul.o) \
 	$(RECLIB)(wglcalcols.o) \
+	$(RECLIB)(wglcalcols_m.o) \
 	$(RECLIB)(wglcont.o) \
 	$(RECLIB)(wglfton.o) \
 	$(RECLIB)(wglfton_m.o) \
@@ -185,11 +188,20 @@ xrec-Linux_alpha:
 	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Mrm Xp Xt Xmu X11 gd2 z png m -librmn
 
 xrec-Linux:
-	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmnbeta
+	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmn_x
+
+xrec-socket:
+	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj /users/dor/armn/mlp/obj/$(ARCH)/*.o main/rec.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmn_x
 
 xrec-zip:
-	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/src/utils/compression/lib/*.o $(HOME)/src/utils/compression/beta/*.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmnbeta
+	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/src/utils/compression/*.o /users/dor/armn/lib/public/*.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmnbeta
 
+xrec-zip2:
+	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/src/utils/compression/*.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmnbeta
+
+
+xrec-zip3:
+	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; r.build -obj main/rec.o $(HOME)/src/utils/compression/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmnbeta
 
 
 xrec-phillips:

@@ -867,28 +867,28 @@ int lenItem,lenValeur;
 
       j--;
       if (ind < 4 ||  ind >= 32)
-	 {
-	 c_wglgco(xc.attributs[ind].couleurFore,&r,&g,&b);
-	 c_wglmco(xc.attributs[ind].indCouleurFore,r,g,b);
-	 switch(j)
-	    {
-	    case JAUNE:
-	    case BLANC:
-	    case CYAN:
-	    xc.attributs[ind].couleurBack = NOIR;
-	    c_wglmco(xc.attributs[ind].indCouleurBack,0,0,0);
-	    break;
-	    
-	    default:
-	    xc.attributs[ind].couleurBack = BLANC;
-	    c_wglmco(xc.attributs[ind].indCouleurBack,255,255,255);
-	    break;
-	    }
-	 }
-      else
-	 {
-	 xc.attributs[ind].indCouleurFore = xc.attributs[ind].couleurFore;
-	 }
+        {
+        c_wglgco(xc.attributs[ind].couleurFore,&r,&g,&b);
+        c_wglmco(xc.attributs[ind].indCouleurFore,r,g,b);
+        switch(j)
+            {
+            case JAUNE:
+            case BLANC:
+            case CYAN:
+            xc.attributs[ind].couleurBack = NOIR;
+            c_wglmco(xc.attributs[ind].indCouleurBack,0,0,0);
+            break;
+
+            default:
+            xc.attributs[ind].couleurBack = BLANC;
+            c_wglmco(xc.attributs[ind].indCouleurBack,255,255,255);
+            break;
+            }
+        }
+            else
+        {
+        xc.attributs[ind].indCouleurFore = xc.attributs[ind].couleurFore;
+        }
       break;
       
       case EPAISSEUR:
@@ -898,27 +898,27 @@ int lenItem,lenValeur;
       case STYLE:
       xc.attributs[ind].style = atoi(valeur);
       switch (xc.attributs[ind].style)
-	 {
-	 case 0:
-	 xc.attributs[ind].codeDash = 0;
-	 break;
-	 
-	 case 1:
-	 case 2:
-	 case 3:
-	 xc.attributs[ind].codeDash = 1;
-	 break;
-	 
-	 case 4:
-	 case 5:
-	 case 6:
-	 xc.attributs[ind].codeDash = 2;
-	 xc.attributs[ind].style -= 3;
-	 break;
-	 
-	 default:
-	 break;
-	 }
+        {
+        case 0:
+        xc.attributs[ind].codeDash = 0;
+        break;
+
+        case 1:
+        case 2:
+        case 3:
+        xc.attributs[ind].codeDash = 1;
+        break;
+
+        case 4:
+        case 5:
+        case 6:
+        xc.attributs[ind].codeDash = 2;
+        xc.attributs[ind].style -= 3;
+        break;
+
+        default:
+        break;
+        }
       }
    }
 
@@ -972,46 +972,46 @@ FILE *fichierDemarrage;
    for (i=0; i < 34; i++)
       {
       switch (i)
-	 {
-	 case FOND:
-	 indSuf =0;
-	 break;
+        {
+        case FOND:
+        indSuf =0;
+        break;
 
-	 case GRID:
-	 indSuf = 1;
-	 break;
+        case GRID:
+        indSuf = 1;
+        break;
 
-	 default:
-	 indSuf = 2;
-	 break;
-	 }
+        default:
+        indSuf = 2;
+        break;
+        }
 	 
       strcpy(item,"couleur_");
       strcat(item,suffixes[0][indSuf]);
       if (i < 32)
-	 {
-	 sprintf(item,"%s_%02d",item,i+1);
-	 }
-      strcpy(valeur,colors[0][xc.attributs[i].couleurFore]);
+        {
+        sprintf(item,"%s_%02d",item,i+1);
+        }
+            strcpy(valeur,colors[0][xc.attributs[i].couleurFore]);
       sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
       fprintf(fichierDemarrage,"%s\n",ligne);
 
       strcpy(item,"epaisseur_");
       strcat(item,suffixes[0][indSuf]);
       if (i < 32)
-	 {
-	 sprintf(item,"%s_%02d",item,i+1);
-	 }
-      sprintf(valeur,"%2d",xc.attributs[i].epaisseur);
+        {
+        sprintf(item,"%s_%02d",item,i+1);
+        }
+            sprintf(valeur,"%2d",xc.attributs[i].epaisseur);
       sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
       fprintf(fichierDemarrage,"%s\n",ligne);
 
       strcpy(item,"style_");
       strcat(item,suffixes[0][indSuf]);
       if (i < 32)
-	 {
-	 sprintf(item,"%s_%02d",item,i+1);
-	 }
+        {
+        sprintf(item,"%s_%02d",item,i+1);
+        }
       if (xc.attributs[i].codeDash > 0)
          sprintf(valeur,"%2d",xc.attributs[i].style+3*(xc.attributs[i].codeDash-1));
       else

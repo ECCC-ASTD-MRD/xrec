@@ -1027,9 +1027,11 @@ caddr_t unused1, unused2;
    while (!c_wglanul() && status == 1)
       {
       c_wglsetw(fenetreAffichage);
-      c_xy2fxfy(&cx1, &cy1, xdeb, ydeb);
-      c_xy2fxfy(&cx2, &cy2, xfin, ydeb);
-
+      c_fxfy2xy(&cx1, &cy1, xdeb, ydeb);
+      c_fxfy2xy(&cx2, &cy2, xfin, ydeb);
+/*      c_fxfy2xy(&cx1, &cy1, cx1, cy1);
+      c_fxfy2xy(&cx2, &cy2, cx2, cy2);*/
+      
       EnleverLigneCoupe(lastcx1, lastcy1, lastcx2, lastcy2);
       EnterOverlayMode();
       c_wglcol(CYAN);
@@ -1166,9 +1168,8 @@ caddr_t unused1, unused2;
    while (!c_wglanul() && status == 1)
       {
       c_wglsetw(fenetreAffichage);
-      c_xy2fxfy(&cx1, &cy1, xdeb, ydeb);
-      c_xy2fxfy(&cx2, &cy2, xdeb, yfin);
-
+      c_fxfy2xy(&cx1, &cy1, xdeb, ydeb);
+      c_fxfy2xy(&cx2, &cy2, xdeb, yfin);
       EnleverLigneCoupe(lastcx1, lastcy1, lastcx2, lastcy2);
       EnterOverlayMode();
       c_wglcol(CYAN);

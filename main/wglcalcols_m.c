@@ -39,18 +39,13 @@
     nbCol:	    nombre de couleurs dans la table de couleurs
 **/
 
+int c_wglcalcols_m(int indices[], float val[], int nbVals, float min, float delta, 
+	       float intervalles[], int nbIntervalles, float facteur, int nbCol);
 
 
-f77name(wglcalcols_m)(indices, val, nbvals, min, delta, missing, intervalles, nbIntervalles, facteur, nbcol)
-int indices[];
-float val[];
-int *nbvals;
-float *min, *delta, *intervalles, *missing;
-int *nbIntervalles; 
-float *facteur;
-int *nbcol;
+f77name(wglcalcols_m)(int indices[], float val[], int *nbvals, float *min, float *delta, float *intervalles, int *nbIntervalles, float *facteur, int *nbcol)
 {
-   c_wglcalcols_m(indices, val, *nbvals, *min, *delta, *missing, intervalles, *nbIntervalles, *facteur, *nbcol);
+   c_wglcalcols_m(indices, val, *nbvals, *min, *delta, intervalles, *nbIntervalles, *facteur, *nbcol);
    }
 
 
@@ -59,7 +54,7 @@ int *nbcol;
 ***********************************************************************
 **/
 
-c_wglcalcols_m(int indices[], float val[], int nbVals, float min, float delta, float missing, 
+c_wglcalcols_m(int indices[], float val[], int nbVals, float min, float delta, 
 	       float intervalles[], int nbIntervalles, float facteur, int nbCol)
 {
   float fraction, avg, deltaCol, invInter, invDelta, rmax;
@@ -71,7 +66,7 @@ c_wglcalcols_m(int indices[], float val[], int nbVals, float min, float delta, f
       {
       if (intervalles[0] == 0.0)
 	{
-	enhancefracs(val,nbVals,min,delta,variation);
+	enhancefracs_m(val,nbVals,min,delta,variation);
 	for (i=0; i < nbVals; i++)
 	  {
 	  if (val[i] != MISSING)
@@ -100,7 +95,7 @@ c_wglcalcols_m(int indices[], float val[], int nbVals, float min, float delta, f
 	    }
 	  }
 	
-	enhancefracs(val,nbVals,0.0,delta/(intervalles[0]*facteur),variation);
+	enhancefracs_m(val,nbVals,0.0,delta/(intervalles[0]*facteur),variation);
 	for  (i=0; i < nbVals; i++)
 	  {
 	  if (val[i] != MISSING)
@@ -140,15 +135,11 @@ c_wglcalcols_m(int indices[], float val[], int nbVals, float min, float delta, f
 ***********************************************************************
 **/
 
-c_wglcalcolf_m(float indices[], float val[], int nbVals, float min, float delta, 
-	     float intervalles[], int nbIntervalles, float facteur, int nbCol)
+c_wglcalcolf_m(float indices[], float val[], int nbVals, float min, float delta, float intervalles[], 
+               int nbIntervalles, float facteur, int nbCol)
 {
-  float avg, deltaCol;
-  int i, ind;
-  float invInter, invDelta, rmax;
-  int nmaxcols;
-  float fraction;
-  int variation;
+  float avg, deltaCol, fraction, invInter, invDelta, rmax;
+  int i, ind, nmaxcols, variation;
   
   variation = PaletteMgrGetVariation();
   nmaxcols = nbCol - 1;
@@ -156,52 +147,48 @@ c_wglcalcolf_m(float indices[], float val[], int nbVals, float min, float delta,
     {
     if (intervalles[0] == 0.0)
       {
-      enhancefracs(val,nbVals,min,delta,variation);
+      enhancefracs_m(val,nbVals,min,delta,variation);
       for (i=0; i < nbVals; i++)
-	{
-	if (val[i] != MISSING)
-	  {
-	  ind = ROUND(nbCol * val[i]);
-	  indices[i] = nbCol * val[i];
-	  }
-	else
-	  {
-	  indices[i] = -1;
-	  }
-	}
+        {
+        if (val[i] != MISSING)
+          {
+          ind = ROUND(nbCol * val[i]);
+          indices[i] = nbCol * val[i];
+          }
+        else
+          {
+          indices[i] = -1;
+          }
+        }
       }
     else
       {
       invInter = 1.0 / (intervalles[0] * facteur);
       for (i=0; i < nbVals; i++)
-	{
-	if (val[i] != MISSING)
-	  {
-#if defined  (HP) || defined(Alpha)
-	  val[i] = floor((val[i]-min) * invInter);
-#else
-	  val[i] = ffloor((val[i]-min) * invInter);
-#endif
-	  }
-	else
-	  {
-	  indices[i] = -1;
-	  }
-	}
+        {
+        if (val[i] != MISSING)
+          {
+          val[i] = ffloor((val[i]-min) * invInter);
+          }
+        else
+          {
+          indices[i] = -1;
+          }
+        }
       
-      enhancefracs(val,nbVals,0.0,delta/(intervalles[0]*facteur),variation);
+      enhancefracs_m(val,nbVals,0.0,delta/(intervalles[0]*facteur),variation);
       for  (i=0; i < nbVals; i++)
-	{
-	if (val[i] != MISSING)
-	  {
-	  ind = ROUND(nbCol * val[i]);
-	  indices[i] = nbCol * val[i];
-	  }
-	else
-	  {
-	  indices[i] = -1;
-	  }
-	}
+        {
+        if (val[i] != MISSING)
+          {
+          ind = ROUND(nbCol * val[i]);
+          indices[i] = nbCol * val[i];
+          }
+        else
+          {
+          indices[i] = -1;
+          }
+        }
       }
     }
   else
@@ -210,19 +197,19 @@ c_wglcalcolf_m(float indices[], float val[], int nbVals, float min, float delta,
     for (i=0; i < nbVals; i++)
       {
        if (val[i] != MISSING)
-	 {
-	 ind = 0;
-	 while ((facteur*intervalles[ind]) <= val[i] && ind < nbIntervalles)
-	   ind++;
-	 indices[i] = (int)(rmax * ind);
-	 }
+        {
+        ind = 0;
+        while ((facteur*intervalles[ind]) <= val[i] && ind < nbIntervalles)
+          ind++;
+        indices[i] = (int)(rmax * ind);
+        }
        else
-	 {
-	 ind = 0;
-	 while ((facteur*intervalles[ind]) <= val[i] && ind < nbIntervalles)
-	   ind++;
-	 indices[i] = (rmax * ind);
-	 }
+        {
+        ind = 0;
+        while ((facteur*intervalles[ind]) <= val[i] && ind < nbIntervalles)
+          ind++;
+        indices[i] = (rmax * ind);
+        }
       }
     }
 }

@@ -124,17 +124,17 @@ void c_wglstl(float *z, int ni,int nj, int mdeb,int ndeb,int mfin,int nfin, floa
       bitpos = k - ((k >> 5) << 5);
       btn = between(z[k],cv,z[k+1]);
       if(btn)
-	{
-	if(!((mh[k >> 5] << (31 - bitpos)) >> 31))
-	  {
-	  ixa = i;
-	  iya = j;
-	  ixb = i+1;
-	  iyb = j;
-	  idir = up;
-	  c_wgldrl(z,ni,nj,mdeb,ndeb,mfin,nfin,smoothFactor2);
-	  }
-	}
+        {
+        if(!((mh[k >> 5] << (31 - bitpos)) >> 31))
+          {
+          ixa = i;
+          iya = j;
+          ixb = i+1;
+          iyb = j;
+          idir = up;
+          c_wgldrl(z,ni,nj,mdeb,ndeb,mfin,nfin,smoothFactor2);
+          }
+        }
       }
     }
   free(mh);

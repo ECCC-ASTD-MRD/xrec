@@ -59,6 +59,23 @@ unsigned int x_wglcolf(float couleur)
 
 }
 
+unsigned int x_wglpix(int icol)
+  {
+  int r,g,b;
+  unsigned int pixel;
+ 
+  r=xcouleurs[icol].red;
+  g=xcouleurs[icol].green;
+  b=xcouleurs[icol].blue;
+
+  pixel =  ((r*colorbitrange[0][2])>>16) << colorbitrange[0][0];
+  pixel += ((g*colorbitrange[1][2])>>16) << colorbitrange[1][0];
+  pixel += ((b*colorbitrange[2][2])>>16) << colorbitrange[2][0];
+  
+  return pixel;
+  }
+
+
 unsigned int x_wglcolfs(float *cols, unsigned int *pixels, int n)
 {
   int r,g,b;

@@ -37,52 +37,52 @@ static int vrai           = 1;
 static int nbChampsActifs = 0;
 static int indChampCourant = -1;
 
-static char *labelAnal[] = {"Analyse valide %s:%sZ le %s %s %s", 
+static char *labelAnal[] = {"Analyse valide %s:%sZ le %s %s %s",
             "Analysis valid %s:%sZ %s %s %s"};
-static char *labelPrev[] = {"Prevision %02d heures valide %s:%sZ le %s %s %s", 
+static char *labelPrev[] = {"Prevision %02d heures valide %s:%sZ le %s %s %s",
             "%02d hour fcst valid %s:%sZ %s %s %s"};
-static char *labelDiff[] = {"Differences a %02d heures valides %s:%sZ le %s %s %s", 
+static char *labelDiff[] = {"Differences a %02d heures valides %s:%sZ le %s %s %s",
             "Differences at %02d hours valid %s:%sZ %s %s %s"};
-static char *labelClim[] = {"Champ climatologique valide %s:%sZ le %s %s %s", 
+static char *labelClim[] = {"Champ climatologique valide %s:%sZ le %s %s %s",
             "Climatological field valid %s:%sZ %s %s %s"};
-static char *labelResidus[] = {"Residus valides %s:%sZ le %s %s %s", 
+static char *labelResidus[] = {"Residus valides %s:%sZ le %s %s %s",
           "Residues valid %s:%sZ %s %s %s"};
-static char *labelDefaut[] = {"Champ valide %s:%sZ le %s %s %s", 
+static char *labelDefaut[] = {"Champ valide %s:%sZ le %s %s %s",
         "Field valid %s:%sZ %s %s %s" };
-static char *labelEtiquette[] = {"Etiquette: %s", 
+static char *labelEtiquette[] = {"Etiquette: %s",
             "Stamp: %s"};
-static char *labelSurface[] = {"Niveau: surface", 
+static char *labelSurface[] = {"Niveau: surface",
           "Level : surface"};
-static char *labelSigma[] = {"Niveau sigma: %5.3f", 
+static char *labelSigma[] = {"Niveau sigma: %5.3f",
         "Sigma level: %5.3f"};
-static char *labelSigmaDZ[] = {"Niveaux sigma: %5.3f - %5.3f", 
+static char *labelSigmaDZ[] = {"Niveaux sigma: %5.3f - %5.3f",
           "Sigma levels: %5.3f - %5.3f"};
-static char *labelPression[]=  {"Niveau: %4d mb", 
+static char *labelPression[]=  {"Niveau: %4d mb",
           "Level: %4d mb"};
-static char *labelPression2[]=  {"Niveau: %5.3f mb", 
+static char *labelPression2[]=  {"Niveau: %5.3f mb",
           "Level: %5.3f mb"};
-static char *labelPressionDZ[]=  {"Niveaux: %4d - %4d mb", 
+static char *labelPressionDZ[]=  {"Niveaux: %4d - %4d mb",
             "Level: %4d - %4d mb"};
-static char *labelMetresASL[]=  {"Niveaux: %6.0f metres ANM", 
+static char *labelMetresASL[]=  {"Niveaux: %6.0f metres ANM",
             "Level: %6.0f metres ASL"};
-static char *labelMetresAGL[]=  {"Niveaux: %6.0f metres AGL", 
+static char *labelMetresAGL[]=  {"Niveaux: %6.0f metres AGL",
             "Level: %6.0f metres AGL"};
-static char *labelArbitraire[]=  {"Niveau: %6.0f (arbitraire)", 
+static char *labelArbitraire[]=  {"Niveau: %6.0f (arbitraire)",
             "Level: %6.0f (arbitrary)"};
-static char *labelHybride[]=  {"Niveau: %6.0f (Coord. hybride)", 
+static char *labelHybride[]=  {"Niveau: %6.0f (Coord. hybride)",
             "Level: %6.0f metres (Hybrid Coord.)"};
-static char *labelTheta[]=  {"Niveau: %6.0f (Theta)", 
+static char *labelTheta[]=  {"Niveau: %6.0f (Theta)",
             "Level: %6.0f metres (Theta)"};
-static char *labelFacteur[] = {"Facteur multiplicatif: %6.1e %s", 
+static char *labelFacteur[] = {"Facteur multiplicatif: %6.1e %s",
           "Conversion factor: %6.1e %s"};
 
-static char *uneSeulePeriode[] = {"Ce champ n'est disponible que pour une seule periode.\nImpossible d'animer!", 
+static char *uneSeulePeriode[] = {"Ce champ n'est disponible que pour une seule periode.\nImpossible d'animer!",
             "This champ is available for one single time. Cannot animate..."};
-static char *lecture[] = { "Lecture: %s-%s-%4d-%3d-%s-%s", 
+static char *lecture[] = { "Lecture: %s-%s-%4d-%3d-%s-%s",
             "Reading: %s-%s-%4d-%3d-%s-%s"};
-static char *lectureVents[] = {"Lecture: UU-VV-%s-%4d-%3d-%s-%s", 
+static char *lectureVents[] = {"Lecture: UU-VV-%s-%4d-%3d-%s-%s",
           "Reading: UU-VV-%s-%4d-%3d-%s-%s" };
-static char *lectureVents3D[] = {"Lecture: UU-VV-WW-%s-%4d-%3d-%s-%s", 
+static char *lectureVents3D[] = {"Lecture: UU-VV-WW-%s-%4d-%3d-%s-%s",
           "Reading: UU-VV-WW-%s-%4d-%3d-%s-%s" };
 /* -------------------------------------------------------------------------------------------------- */
 
@@ -155,11 +155,11 @@ FldMgrAddChamp(cle, iun)
 
   case XZ:
   case YZ:
-      if (fmflds[ind].src.ni != fmflds[0].src.ni || 
-    fmflds[ind].src.nj != fmflds[0].src.nj || 
+      if (fmflds[ind].src.ni != fmflds[0].src.ni ||
+    fmflds[ind].src.nj != fmflds[0].src.nj ||
     fmflds[ind].src.nk != fmflds[0].src.nk ||
     fmflds[ind].src.grtyp[0] != fmflds[0].src.grtyp[0] ||
-    fmflds[ind].src.ig1 != fmflds[0].src.ig1 || fmflds[ind].src.ig2 != fmflds[0].src.ig2 || 
+    fmflds[ind].src.ig1 != fmflds[0].src.ig1 || fmflds[ind].src.ig2 != fmflds[0].src.ig2 ||
     fmflds[ind].src.ig3 != fmflds[0].src.ig3 || fmflds[ind].src.ig4 != fmflds[0].src.ig4)
         {
         return CHAMP_NON_SUPERPOSABLE;
@@ -244,7 +244,7 @@ _Champ *champ;
 FldMgrDefineDefaultIntervals(champ)
 _Champ *champ;
 {
-  static char *menuDeDefaut[] = { "0.0", "0.01", "0.02", "0.05", "0.1", "0.2", "0.5", "1.0", "2.0", "5.0", 
+  static char *menuDeDefaut[] = { "0.0", "0.01", "0.02", "0.05", "0.1", "0.2", "0.5", "1.0", "2.0", "5.0",
               "10.0", "20.0", "50.0", "100.0", "200.0", "500.0"};
   float contourMin, contourMax, intervalles;
   int exposant;
@@ -270,11 +270,11 @@ _Champ *champ;
       {
         facteur *= 10.0;
         exposant++;
-      }	 
+      }
     facteur = (float)pow((double)10.0, (double)(exposant));
   }
       else
-  {         
+  {
     while (intervalles / facteur  <= 10.0)
       {
         facteur /= 10.0;
@@ -308,7 +308,7 @@ _Champ *champ;
 
 FldMgrFreeAnimFlds(champ)
 _Champ *champ;
-{ 
+{
     int i;
 
     if (champ->seqanim.nbFldsAnim == 0)
@@ -400,7 +400,7 @@ _Champ *champ;
                 {
                 free(champ->coupe.uu3d[i]);
                 free(champ->coupe.vv3d[i]);
-                free(champ->coupe.ww3d[i]);	
+                free(champ->coupe.ww3d[i]);
                 champ->coupe.uu3d[i] = NULL;
                 champ->coupe.vv3d[i] = NULL;
                 champ->coupe.ww3d[i] = NULL;
@@ -538,7 +538,7 @@ int *nbDates;
     while (n < nbChampsActifs)
         {
         ier = c_fstinlo(fmflds[n].iun, &ni, &nj, &nk,
-                        fmflds[n].date, fmflds[n].etiket, fmflds[n].ip1,
+                        fmflds[n].dateo, fmflds[n].etiket, fmflds[n].ip1,
                         fmflds[n].ip2, fmflds[n].ip3, fmflds[n].typvar, fmflds[n].nomvar,
                         listeCles, &nbCles, nbMaxCles);
         FldMgrVerConsistanceGrilles(fmflds[n], listeCles, &nbCles);
@@ -557,7 +557,7 @@ int *nbDates;
         FldMgrGetFstPrm(&bidon);
         allIP2s[i]  = bidon.ip2;
 
-        FldMgrCalcPDFDatev(bidon.pdfdatev,bidon.date,bidon.deet,bidon.npas,bidon.ip2);
+        FldMgrCalcPDFDatev(bidon.pdfdatev,&bidon.datev,bidon.dateo,bidon.deet,bidon.npas,bidon.ip2);
         strcpy(allDates[i],bidon.pdfdatev);
         }
 
@@ -601,12 +601,12 @@ _Champ *champ;
     strcpy(champ->typvar,"  ");
     strcpy(champ->etiket, "            ");
     strcpy(champ->src.grtyp, " ");
-    ier = c_fstprm(champ->cle, &champ->date, &champ->deet, &champ->npas, 
+    ier = c_fstprm(champ->cle, &champ->dateo, &champ->deet, &champ->npas,
                   &champ->src.ni, &champ->src.nj, &champ->src.nk, &champ->nbits,
-                  &champ->datyp, &champ->ip1, &champ->ip2, &champ->ip3, 
-                  champ->typvar, champ->nomvar, champ->etiket, champ->src.grtyp, 
-                  &champ->src.ig1, &champ->src.ig2, &champ->src.ig3, &champ->src.ig4, 
-                  &champ->swa, &champ->lng, &champ->dltf, &champ->ubc, 
+                  &champ->datyp, &champ->ip1, &champ->ip2, &champ->ip3,
+                  champ->typvar, champ->nomvar, champ->etiket, champ->src.grtyp,
+                  &champ->src.ig1, &champ->src.ig2, &champ->src.ig3, &champ->src.ig4,
+                  &champ->swa, &champ->lng, &champ->dltf, &champ->ubc,
                   &champ->extra1, &champ->extra2, &champ->extra3);
     champ->rnpas = champ->npas;
     nettoyer(champ->nomvar);
@@ -650,7 +650,7 @@ int nbDates;
 
 
     ier = c_fstinlo(champ->iun, &ni, &nj, &nk,
-                    champ->date, champ->etiket, champ->ip1,
+                    champ->dateo, champ->etiket, champ->ip1,
                     champ->ip2, champ->ip3, champ->typvar, champ->nomvar,
                     listeCles, &nbClesChamp, nbMaxCles);
     FldMgrVerConsistanceGrilles(*champ, listeCles, &nbClesChamp);
@@ -658,8 +658,8 @@ int nbDates;
     for (i=0; i < nbClesChamp; i++)
         {
         bidon.cle = listeCles[i];
-        FldMgrGetFstPrm(&bidon); 
-        FldMgrCalcPDFDatev(bidon.pdfdatev,bidon.date,bidon.deet,bidon.npas,bidon.ip2);
+        FldMgrGetFstPrm(&bidon);
+        FldMgrCalcPDFDatev(bidon.pdfdatev,&(bidon.datev),bidon.dateo,bidon.deet,bidon.npas,bidon.ip2);
 
         j = 0;
         trouve = False;
@@ -760,7 +760,7 @@ FldMgrLoadTimeAnimationSeq()
   int ip1, ip2, ip3;
   char typvar[3];
   char nomvar[5];
-  char etiket[13]; 
+  char etiket[13];
   char grtyp[2];
   char pdfdatev[24];
   int datev;
@@ -807,7 +807,7 @@ FldMgrLoadTimeAnimationSeq()
   if (n == 0)
       {
       k = 0;
-      FldMgrCalcPDFDatev(fmflds[0].pdfdatev,fmflds[0].date,fmflds[0].deet,fmflds[0].npas,fmflds[0].ip2);
+      FldMgrCalcPDFDatev(fmflds[0].pdfdatev,&(fmflds[0].datev),fmflds[0].dateo,fmflds[0].deet,fmflds[0].npas,fmflds[0].ip2);
       while (0 != strcmp(fmflds[0].pdfdatev,dates[k]))
         k++;
       fmflds[n].seqanim.indChampCourant = k;
@@ -840,9 +840,9 @@ FldMgrLoadTimeAnimationSeq()
         FldMgrProcessChamp(&tmpchamp);
         if (tmpchamp.natureTensorielle == VECTEUR)
       {
-      FldMgrCalcPDFDatev(pdfdatev,tmpchamp.date,tmpchamp.deet,tmpchamp.npas,tmpchamp.ip2);
+      FldMgrCalcPDFDatev(pdfdatev,&(tmpchamp.datev),tmpchamp.dateo,tmpchamp.deet,tmpchamp.npas,tmpchamp.ip2);
       sprintf(texteLecture, lectureVents[langue],
-        tmpchamp.typvar, tmpchamp.ip1, 
+        tmpchamp.typvar, tmpchamp.ip1,
         tmpchamp.ip2, pdfdatev, tmpchamp.etiket);
       fmflds[n].seqanim.animUUmin[i] = tmpchamp.uumin[o];
       fmflds[n].seqanim.animUUmax[i] = tmpchamp.uumax[o];
@@ -858,22 +858,22 @@ FldMgrLoadTimeAnimationSeq()
       fmflds[n].uvmin[o] = fmflds[n].uvmin[o] > tmpchamp.uvmin[o] ?  tmpchamp.uvmin[o] : fmflds[n].uvmin[o];
       fmflds[n].uvmax[o] = fmflds[n].uvmax[o] < tmpchamp.uvmax[o] ?  tmpchamp.uvmax[o] : fmflds[n].uvmax[o];
 
-      memcpy((char *)fmflds[n].seqanim.animUUs[i], (char *)tmpchamp.uu,tmpchamp.dst.ni*tmpchamp.dst.nj*sizeof(float)); 
-      memcpy((char *)fmflds[n].seqanim.animVVs[i], (char *)tmpchamp.vv,tmpchamp.dst.ni*tmpchamp.dst.nj*sizeof(float)); 
-      memcpy((char *)fmflds[n].seqanim.animUVs[i], (char *)tmpchamp.module,tmpchamp.dst.ni*tmpchamp.dst.nj*sizeof(float)); 
+      memcpy((char *)fmflds[n].seqanim.animUUs[i], (char *)tmpchamp.uu,tmpchamp.dst.ni*tmpchamp.dst.nj*sizeof(float));
+      memcpy((char *)fmflds[n].seqanim.animVVs[i], (char *)tmpchamp.vv,tmpchamp.dst.ni*tmpchamp.dst.nj*sizeof(float));
+      memcpy((char *)fmflds[n].seqanim.animUVs[i], (char *)tmpchamp.module,tmpchamp.dst.ni*tmpchamp.dst.nj*sizeof(float));
       }
         else
       {
-      FldMgrCalcPDFDatev(pdfdatev,tmpchamp.date,tmpchamp.deet,tmpchamp.npas,tmpchamp.ip2);
-      sprintf(texteLecture, lecture[langue], 
-        tmpchamp.nomvar, tmpchamp.typvar, tmpchamp.ip1, 
+      FldMgrCalcPDFDatev(pdfdatev,&(tmpchamp.datev),tmpchamp.dateo,tmpchamp.deet,tmpchamp.npas,tmpchamp.ip2);
+      sprintf(texteLecture, lecture[langue],
+        tmpchamp.nomvar, tmpchamp.typvar, tmpchamp.ip1,
         tmpchamp.ip2, pdfdatev, tmpchamp.etiket);
       fmflds[n].seqanim.animFLDmin[i] = tmpchamp.fldmin[o];
       fmflds[n].seqanim.animFLDmax[i] = tmpchamp.fldmax[o];
       fmflds[n].fldmin[o] = fmflds[n].fldmin[o] > tmpchamp.fldmin[o] ?  tmpchamp.min : fmflds[n].fldmin[o];
       fmflds[n].fldmax[o] = fmflds[n].fldmax[o] < tmpchamp.fldmax[o] ?  tmpchamp.max : fmflds[n].fldmax[o];
 
-      memcpy((char *)fmflds[n].seqanim.animFLDs[i], (char *)tmpchamp.fld,tmpchamp.dst.ni*tmpchamp.dst.nj*sizeof(float)); 
+      memcpy((char *)fmflds[n].seqanim.animFLDs[i], (char *)tmpchamp.fld,tmpchamp.dst.ni*tmpchamp.dst.nj*sizeof(float));
       }
 
         FldMgrMessageChargementFichiers(texteLecture, it, nbTotalChamps);
@@ -884,8 +884,8 @@ FldMgrLoadTimeAnimationSeq()
 
               dt2 = (double) ((tmpchamp.deet * tmpchamp.npas) / 3600.0);
               dt1 = (double) ((fmflds[n].deet * fmflds[n].npas) / 3600.0);
-              f77name(incdatr)(&date1, &fmflds[n].date, &dt1);
-              f77name(incdatr)(&date2, &tmpchamp.date, &dt2);
+              f77name(incdatr)(&date1, &fmflds[n].dateo, &dt1);
+              f77name(incdatr)(&date2, &tmpchamp.dateo, &dt2);
               f77name(difdatr)(&date2, &date1,  &dt3);
         fmflds[n].seqanim.ip2s[i] = ROUND((float)dt3);
         fmflds[n].seqanim.dates[i] = date2;
@@ -898,7 +898,7 @@ FldMgrLoadTimeAnimationSeq()
       FldMgrFreeAnimFlds(&fmflds[k]);
         return CHARGEMENT_ANNULE;
         }
-      it++;	   
+      it++;
       }
 
   fmflds[n].min = fmflds[n].fldmin[o];
@@ -962,7 +962,7 @@ FldMgrLoadVerticalXSection()
       else
         {
         deltaT = fmflds[n].npas*fmflds[n].deet/3600.0;
-        f77name(incdatr)(&datev, &fmflds[n].date, &deltaT);
+        f77name(incdatr)(&datev, &fmflds[n].dateo, &deltaT);
         ier = c_fstinl(fmflds[n].iun, &ni, &nj, &nk,
             datev, fmflds[n].etiket, -1,
             fmflds[n].ip2, fmflds[n].ip3, fmflds[n].typvar, fmflds[n].nomvar,
@@ -1084,8 +1084,8 @@ FldMgrLoadVerticalXSection()
               }
             else
               {
-              sprintf(texteLecture, lecture[langue], 
-                tmpchamp.nomvar, tmpchamp.typvar, tmpchamp.ip1, 
+              sprintf(texteLecture, lecture[langue],
+                tmpchamp.nomvar, tmpchamp.typvar, tmpchamp.ip1,
                 tmpchamp.ip2, tmpchamp.pdfdatev, tmpchamp.etiket);
 
               if (i==0)
@@ -1095,9 +1095,9 @@ FldMgrLoadVerticalXSection()
                 }
               else
                 {
-                fmflds[n].coupe.FLDmin3d[0] = (fmflds[n].coupe.FLDmin3d[0]  < tmpchamp.fldmin[0]) ? 
+                fmflds[n].coupe.FLDmin3d[0] = (fmflds[n].coupe.FLDmin3d[0]  < tmpchamp.fldmin[0]) ?
                   fmflds[n].coupe.FLDmin3d[0] : tmpchamp.fldmin[0];
-                fmflds[n].coupe.FLDmax3d[0] = (fmflds[n].coupe.FLDmax3d[0]  > tmpchamp.fldmax[0]) ? 
+                fmflds[n].coupe.FLDmax3d[0] = (fmflds[n].coupe.FLDmax3d[0]  > tmpchamp.fldmax[0]) ?
                   fmflds[n].coupe.FLDmax3d[0] : tmpchamp.fldmax[0];
                 }
               fmflds[n].coupe.fld3d[i] = (float *)malloc(sizeof(float)*fmflds[n].dst.ni*fmflds[n].dst.nj);
@@ -1118,10 +1118,10 @@ FldMgrLoadVerticalXSection()
             it++;
             }
 
-        if (fmflds[n].natureTensorielle == VECTEUR && METRES == ip12coord(fmflds[n].ip1))
+        if (fmflds[n].natureTensorielle == VECTEUR && kind == METRES)
             {
             CalcWWForZCoord(&fmflds[n]);
-            f77name(aminmax)(&fmflds[n].coupe.WWmin3d[NO_OP], &fmflds[n].coupe.WWmax3d[NO_OP], 
+            f77name(aminmax)(&fmflds[n].coupe.WWmin3d[NO_OP], &fmflds[n].coupe.WWmax3d[NO_OP],
                 fmflds[n].coupe.ww3d[0], &fmflds[n].dst.ni,&fmflds[n].dst.nj);
 
             for (j=0; j < fmflds[n].coupe.nbNiveauxCoupe;j++)
@@ -1344,7 +1344,7 @@ float *rx1,*ry1,*rx2,*ry2;
         champ->coupe.fld2d = (float *) calloc(champ->coupe.nbNiveauxCoupe, sizeof(float));
         for (i=0; i < champ->coupe.nbNiveauxCoupe; i++)
             {
-            f77name(ez_rgdint_3_nw)(&champ->coupe.fld2d[i],&x1, &y1, 
+            f77name(ez_rgdint_3_nw)(&champ->coupe.fld2d[i],&x1, &y1,
                 &champ->coupe.niCoupe,champ->coupe.fld3d[i],
                 &i2,&j1,&j2);
             }
@@ -1360,22 +1360,22 @@ float *rx1,*ry1,*rx2,*ry2;
 
         for (i=0; i < champ->coupe.nbNiveauxCoupe; i++)
             {
-            f77name(ez_rgdint_3_nw)(&champ->coupe.uu2d[i],&x1, &y1, 
+            f77name(ez_rgdint_3_nw)(&champ->coupe.uu2d[i],&x1, &y1,
                 &champ->coupe.niCoupe,champ->coupe.uu3d[i],
                 &i2,&j1,&j2);
 
-            f77name(ez_rgdint_3_nw)(&champ->coupe.vv2d[i],&x1, &y1, 
+            f77name(ez_rgdint_3_nw)(&champ->coupe.vv2d[i],&x1, &y1,
                 &champ->coupe.niCoupe,champ->coupe.vv3d[i],
                 &i2,&j1,&j2);
 
-            f77name(ez_rgdint_3_nw)(&champ->coupe.ww2d[i],&x1, &y1, 
+            f77name(ez_rgdint_3_nw)(&champ->coupe.ww2d[i],&x1, &y1,
                 &champ->coupe.niCoupe,champ->coupe.ww3d[i],
                 &i2,&j1,&j2);
-            f77name(ez_rgdint_3_nw)(&champ->coupe.uvwtang2d[i],&x1, &y1, 
+            f77name(ez_rgdint_3_nw)(&champ->coupe.uvwtang2d[i],&x1, &y1,
                 &champ->coupe.niCoupe,champ->coupe.uu3d[i],
                 &i2,&j1,&j2);
 
-            f77name(ez_rgdint_3_nw)(&champ->coupe.uvwnorm2d[i],&x1, &y1, 
+            f77name(ez_rgdint_3_nw)(&champ->coupe.uvwnorm2d[i],&x1, &y1,
                 &champ->coupe.niCoupe,champ->coupe.vv3d[i],
                 &i2,&j1,&j2);
             }
@@ -1422,7 +1422,7 @@ float *rx1,*ry1,*rx2,*ry2;
             {
             ind = FTN2C(i,j,champ->coupe.niCoupe);
             champ->coupe.fld2d[ind] = vals[i];
-            }   
+            }
         }
       }
   else
@@ -1459,8 +1459,8 @@ float *rx1,*ry1,*rx2,*ry2;
             champ->coupe.uu2d[ind] = uuvals[i];
             champ->coupe.vv2d[ind] = vvvals[i];
             champ->coupe.ww2d[ind] = wwvals[i];
-            champ->coupe.uvw2d[ind] = sqrt(champ->coupe.uvwtang2d[ind]*champ->coupe.uvwtang2d[ind]+wwvals[i]*wwvals[i]);
-            }   
+            champ->coupe.uvw2d[ind] = sqrt(champ->coupe.uvwtang2d[ind] * champ->coupe.uvwtang2d[ind]+wwvals[i]*wwvals[i]);
+            }
         }
 
       npts =  champ->coupe.nbNiveauxCoupe * champ->coupe.niCoupe;
@@ -1581,7 +1581,7 @@ float *rx1,*ry1,*rx2,*ry2;
         {
         ind = FTN2C(i,j,champ->seqanim.niSerie);
         champ->seqanim.valeursSeries[ind] = vals[i];
-        }   
+        }
       }
     free(tmpvec);
     }
@@ -1598,14 +1598,13 @@ float *rx1,*ry1,*rx2,*ry2;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-FldMgrProcessChamp(champ)
-_Champ *champ;
+FldMgrProcessChamp(_Champ *champ)
 {
   int i, ier;
   float *tmpfld, *tmpuufld, *tmpvvfld, *tmpmodule, vmax;
   int *tmpintfld;
   char *charfld;
-  static char texteLecture[128];
+  static char texteLecture[512];
   int langue;
   int ni,nj,nk,npts,res;
   float *uu,*vv;
@@ -1617,24 +1616,24 @@ _Champ *champ;
 
   langue = c_getulng();
 
-  FldMgrCalcPDFDatev(champ->pdfdatev,champ->date,champ->deet,champ->npas,champ->ip2);
+  FldMgrCalcPDFDatev(champ->pdfdatev,&(champ->datev),champ->dateo,champ->deet,champ->npas,champ->ip2);
 
   if (champ->natureTensorielle == VECTEUR)
       {
       sprintf(texteLecture, lectureVents[langue],
-        champ->typvar, champ->ip1, 
+        champ->typvar, champ->ip1,
         champ->ip2, champ->pdfdatev, champ->etiket);
       }
   else
       {
-      sprintf(texteLecture, lecture[langue], 
-        champ->nomvar, champ->typvar, champ->ip1, 
+      sprintf(texteLecture, lecture[langue],
+        champ->nomvar, champ->typvar, champ->ip1,
         champ->ip2, champ->pdfdatev, champ->etiket);
       }
 
   MessageInfo(texteLecture, 1);
 
-  champ->fld =     (float *) (calloc(champ->src.ni * champ->src.nj * champ->src.nk, sizeof(float)));   
+  champ->fld =     (float *) (calloc(champ->src.ni * champ->src.nj * champ->src.nk, sizeof(float)));
   champ->fld_orig = (float *) (calloc(champ->src.ni * champ->src.nj * champ->src.nk, sizeof(float)));
   ni = champ->src.ni;
   nj = champ->src.nj;
@@ -1677,19 +1676,6 @@ _Champ *champ;
   CheckForUUandVV(champ);
   if (champ->natureTensorielle == SCALAIRE)
     {
-    f77name(sminmax2)(&champ->min, &champ->max, &champ->min2, &champ->max2, 
-          champ->fld, &champ->src.ni, &champ->src.nj, &un, &un, &champ->src.ni, &champ->src.nj);
-    if ((champ->max - champ->max2) >= 0.09*(champ->max2-champ->min))
-      {
-      if (1 == GetValeursManquantesToggle())
-        {
-        champ->missingFlag = 0;
-        }
-      else
-        {
-        champ->missingFlag = 1;
-        }
-      }
     }
 
   switch (champ->domaine)
@@ -1698,12 +1684,12 @@ _Champ *champ;
       npts = champ->dst.ni*champ->dst.nj;
       if (champ->natureTensorielle == VECTEUR)
         {
-        tmpuufld = (float *) calloc(npts,  sizeof(float)); 
-        tmpvvfld = (float *) calloc(npts,  sizeof(float)); 
-        tmpmodule = (float *) calloc(npts, sizeof(float)); 
+        tmpuufld = (float *) calloc(npts,  sizeof(float));
+        tmpvvfld = (float *) calloc(npts,  sizeof(float));
+        tmpmodule = (float *) calloc(npts, sizeof(float));
 
         c_ezuvint(tmpuufld, tmpvvfld, champ->uu, champ->vv);
-        f77name(modulus)(tmpmodule,tmpuufld,tmpvvfld,&npts);      
+        f77name(modulus)(tmpmodule,tmpuufld,tmpvvfld,&npts);
         free(champ->uu);
         free(champ->vv);
 
@@ -1713,7 +1699,7 @@ _Champ *champ;
         }
       else
         {
-        tmpfld = (float *) calloc(champ->dst.ni*champ->dst.nj, sizeof(float)); 
+        tmpfld = (float *) calloc(champ->dst.ni*champ->dst.nj, sizeof(float));
         c_ezsint(tmpfld, champ->fld);
 
         free(champ->fld);
@@ -1726,9 +1712,9 @@ _Champ *champ;
       npts = champ->dst.ni*champ->dst.nj;
       if (champ->natureTensorielle == VECTEUR)
         {
-        tmpmodule = (float *) calloc(npts, sizeof(float)); 
+        tmpmodule = (float *) calloc(npts, sizeof(float));
 
-        f77name(modulus)(tmpmodule,champ->uu,champ->vv,&npts);      
+        f77name(modulus)(tmpmodule,champ->uu,champ->vv,&npts);
         champ->module = tmpmodule;
         }
       break;
@@ -1737,9 +1723,9 @@ _Champ *champ;
       npts = champ->src.ni*champ->src.nj*champ->src.nk;
       if (champ->natureTensorielle == VECTEUR)
         {
-        tmpmodule = (float *) calloc(npts, sizeof(float)); 
+        tmpmodule = (float *) calloc(npts, sizeof(float));
 
-        f77name(modulus)(tmpmodule,champ->uu,champ->vv,&npts);      
+        f77name(modulus)(tmpmodule,champ->uu,champ->vv,&npts);
         champ->module = tmpmodule;
         }
       break;
@@ -1771,8 +1757,10 @@ _Champ *champ;
     f77name(aminmax)(&champ->fldmin[NO_OP],&champ->fldmax[NO_OP],champ->fld,&ni,&nj);
     champ->min = champ->fldmin[NO_OP];
     champ->max = champ->fldmax[NO_OP];
-  }
+    }
+    
   FldMgrFlagMissingValues(champ);
+
   champ->min = champ->fldmin[NO_OP];
   champ->max = champ->fldmax[NO_OP];
 
@@ -1838,7 +1826,7 @@ FldMgrReorgAnimCles(champ, dates, nbDates)
       trouve = False;
       bidon.cle = champ->seqanim.clesAnim[i];
       FldMgrGetFstPrm(&bidon);
-      FldMgrCalcPDFDatev(bidon.pdfdatev,bidon.date,bidon.deet,bidon.npas,bidon.ip2);
+      FldMgrCalcPDFDatev(bidon.pdfdatev,bidon.datev,bidon.date,bidon.deet,bidon.npas,bidon.ip2);
 
       while (!trouve && j < nbDates)
   {
@@ -1971,22 +1959,20 @@ int *nbCles;
       {
       tmp[i].cle = listeCles[i];
       FldMgrGetFstPrm(&tmp[i]);
+      f77name(convip) (&(tmp[i].ip1), &(tmp[i].niveau), &kind, &versPression, NULL, &faux);
       }
 
   for (i=0; i < *nbCles; i++)
       {
-      ip1max = tmp[i].ip1;
-      f77name(convip) (&ip1max, &nivmax, &kind, &versPression, NULL, &faux);
+      nivmax = tmp[i].niveau;
       indmax = i;
       for (j=i; j < *nbCles; j++)
         {
-        f77name(convip) (&tmp[j].ip1, &niv, &kind, &versPression, NULL, &faux);
-        if (niv > nivmax)
-            {
-            ip1max = tmp[j].ip1;
-            nivmax = niv;
-            indmax = j;
-            }
+        if (tmp[j].niveau > nivmax)
+          {
+          nivmax = tmp[j].niveau;
+          indmax = j;
+          }
         }
 
       tmpswap = tmp[i];
@@ -2001,7 +1987,7 @@ int *nbCles;
 
   for (i=0; i < *nbCles; i++)
       {
-      if (tmp[i].ip1 == 0) 
+      if (tmp[i].ip1 == 0)
         listeCles[i] = -1;
 
       }
@@ -2027,6 +2013,11 @@ int *nbCles;
       }
 
   *nbCles = i;
+  
+/*  for (i=0; i < *nbCles; i++)
+    {
+    fprintf(stderr, "%d %f\n", i, tmp[i].niveau);
+    }*/
   free(tmp);
   }
 
@@ -2039,7 +2030,7 @@ _Champ *champ;
 {
   int lng;
   int indexChamp;
-  static char *intervallesDeDefaut[] = { "0.0", "0.01", "0.02", "0.05", "0.10", "0.20", "0.50", "1.0", 
+  static char *intervallesDeDefaut[] = { "0.0", "0.01", "0.02", "0.05", "0.10", "0.20", "0.50", "1.0",
                                             "2.0", "5.0", "10.0", "20.0", "50.0", "100.0", "200.0", "500.0"};
 
   static char *Mois[] = {"bid", "janvier", "fevrier", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre", "octobre", "novembre", "decembre"};
@@ -2063,7 +2054,7 @@ _Champ *champ;
 
   lng = c_getulng();
 
-  tempDate = champ->date;
+  tempDate = champ->dateo;
   dddeltaT = (double)(champ->rnpas*champ->deet)/3600.0;
 
   f77name(incdatr)(&date2, &tempDate, &dddeltaT);
@@ -2089,6 +2080,7 @@ _Champ *champ;
     stringNiveau[i] = '\0';
     }
   f77name(convip)(&champ->ip1, &champ->niveau, &kind, &versPression, stringNiveau, &vrai, 15);
+  champ->coordonneeVerticale = kind;
   nettoyer(stringNiveau);
 
   champ->heure  = (float)(ROUND((float)dddeltaT));
@@ -2251,7 +2243,7 @@ FldMgrUpdateGridParams(_Champ *champ)
         gdout = c_ezgetgdout();
         }
 
-      c_ezgprm(gdout, &champ->dst.grtyp, &champ->dst.ni, &champ->dst.nj, 
+      c_ezgprm(gdout, &champ->dst.grtyp, &champ->dst.ni, &champ->dst.nj,
         &champ->dst.ig1, &champ->dst.ig2, &champ->dst.ig3, &champ->dst.ig4);
       champ->dst.nk = 1;
       break;
@@ -2263,11 +2255,11 @@ FldMgrUpdateGridParams(_Champ *champ)
       champ->dst.ig2 = 0;
       champ->dst.ig3 = 0;
       champ->dst.ig4 = 0;
-      InitMapInfo(champ->dst.grtyp[0], 
+      InitMapInfo(champ->dst.grtyp[0],
       champ->dst.ni, champ->dst.nj,
       champ->dst.ig1, champ->dst.ig2, champ->dst.ig3, champ->dst.ig4);
-      ThisIsTheCurrentGrid(champ->dst.grtyp[0], 
-        champ->dst.ni, champ->dst.nj, champ->dst.nk, 
+      ThisIsTheCurrentGrid(champ->dst.grtyp[0],
+        champ->dst.ni, champ->dst.nj, champ->dst.nk,
         champ->dst.ig1, champ->dst.ig2, champ->dst.ig3, champ->dst.ig4);
 
       break;
@@ -2302,7 +2294,7 @@ FldMgrUpdateGridParams(_Champ *champ)
       champ->y = (float *) calloc(npts, sizeof(float));
       c_gdll(gdin, lat, lon);
       c_gdxyfll(gdout, champ->x, champ->y, lat, lon, npts);
-      c_ezgprm(gdout, &champ->dst.grtyp, &champ->dst.ni, &champ->dst.nj, 
+      c_ezgprm(gdout, &champ->dst.grtyp, &champ->dst.ni, &champ->dst.nj,
         &champ->dst.ig1, &champ->dst.ig2, &champ->dst.ig3, &champ->dst.ig4);
       champ->dst.nk = 1;
       break;
@@ -2325,8 +2317,8 @@ int *nbCles;
       {
       bidon.cle = listeCles[i];
       FldMgrGetFstPrm(&bidon);
-      if (bidon.src.ni == champ.src.ni && bidon.src.nj == champ.src.nj && bidon.src.nk == champ.src.nk && bidon.src.grtyp[0] == champ.src.grtyp[0] && 
-          bidon.src.ig1 == champ.src.ig1 && bidon.src.ig2 == champ.src.ig2 && bidon.src.ig3 == champ.src.ig3 && bidon.src.ig3 == champ.src.ig3 && 
+      if (bidon.src.ni == champ.src.ni && bidon.src.nj == champ.src.nj && bidon.src.nk == champ.src.nk && bidon.src.grtyp[0] == champ.src.grtyp[0] &&
+          bidon.src.ig1 == champ.src.ig1 && bidon.src.ig2 == champ.src.ig2 && bidon.src.ig3 == champ.src.ig3 && bidon.src.ig3 == champ.src.ig3 &&
           bidon.src.ig4 == champ.src.ig4)
         {
         listeCles[ivalide] = listeCles[i];
@@ -2446,7 +2438,7 @@ FldMgrPreparerTopo()
   else
     npts = champ->coupe.niCoupe;
 
-  if (champ->coupe.ligneMontagnes) 
+  if (champ->coupe.ligneMontagnes)
     free (champ->coupe.ligneMontagnes);
   champ->coupe.ligneMontagnes = (float *) calloc(npts, sizeof(float));
 
@@ -2463,7 +2455,7 @@ FldMgrPreparerTopo()
       posx[i] = (float)(i) / (float)(npts-1) * dx + fx1;
       posy[i] = (float)(i) / (float)(npts-1) * dy + fy1;
       c_fxfy2xy(&posx[i], &posy[i],posx[i], posy[i]);
-      } 
+      }
 
   i1 = 1;
   j1 = 1;
@@ -2636,7 +2628,7 @@ FldMgrCalcDiffMinMax(min,max,fld1,fld2,npts)
   for (i=1; i < npts; i++)
       {
       diff = fld2[i] - fld1[i];
-      *min = *min > diff ? diff : *min; 
+      *min = *min > diff ? diff : *min;
       *max = *max < diff ? diff : *max;
       }
   }
@@ -2661,8 +2653,8 @@ int npts;
       diffuu =  fld2[i]-fld1[i];
       diffvv =  fld2[i+npts]-fld1[i+npts];
       diff =  sqrt(diffuu*diffuu+diffvv*diffvv);
-      *min =  *min > diff ? diff : *min; 
-      *max =  *max < diff ? diff : *max; 
+      *min =  *min > diff ? diff : *min;
+      *max =  *max < diff ? diff : *max;
       }
   }
 
@@ -2681,12 +2673,12 @@ int ind;
   n = ind;
   if (fmflds[ind].natureTensorielle == SCALAIRE)
       {
-      f77name(aminmax)(&fmflds[ind].coupe.FLDmin3d[NO_OP], &fmflds[ind].coupe.FLDmax3d[NO_OP], 
+      f77name(aminmax)(&fmflds[ind].coupe.FLDmin3d[NO_OP], &fmflds[ind].coupe.FLDmax3d[NO_OP],
           fmflds[ind].coupe.fld3d[0], &fmflds[ind].dst.ni,&fmflds[ind].dst.nj);
 
       for (j=0; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
   {
-  f77name(aminmax)(&opmin[NO_OP], &opmax[NO_OP], 
+  f77name(aminmax)(&opmin[NO_OP], &opmax[NO_OP],
         fmflds[ind].coupe.fld3d[j], &fmflds[ind].dst.ni,&fmflds[ind].dst.nj);
   fmflds[n].coupe.FLDmin3d[0] = (fmflds[n].coupe.FLDmin3d[0]  < opmin[0]) ? fmflds[n].coupe.FLDmin3d[0] : opmin[0];
   fmflds[n].coupe.FLDmax3d[0] = (fmflds[n].coupe.FLDmax3d[0]  > opmax[0]) ? fmflds[n].coupe.FLDmax3d[0] : opmax[0];
@@ -2695,36 +2687,36 @@ int ind;
       }
   else
       {
-      f77name(aminmax)(&fmflds[ind].coupe.UUmin3d[NO_OP], &fmflds[ind].coupe.UUmax3d[NO_OP], 
+      f77name(aminmax)(&fmflds[ind].coupe.UUmin3d[NO_OP], &fmflds[ind].coupe.UUmax3d[NO_OP],
           fmflds[ind].coupe.uu3d[0], &fmflds[ind].dst.ni,&fmflds[ind].dst.nj);
 
       for (j=0; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
   {
-  f77name(aminmax)(&opmin[NO_OP], &opmax[NO_OP], 
+  f77name(aminmax)(&opmin[NO_OP], &opmax[NO_OP],
         fmflds[ind].coupe.uu3d[j], &fmflds[ind].dst.ni,&fmflds[ind].dst.nj);
   fmflds[n].coupe.UUmin3d[0] = (fmflds[n].coupe.UUmin3d[0]  < opmin[0]) ? fmflds[n].coupe.UUmin3d[0] : opmin[0];
   fmflds[n].coupe.UUmax3d[0] = (fmflds[n].coupe.UUmax3d[0]  > opmax[0]) ? fmflds[n].coupe.UUmax3d[0] : opmax[0];
 
   }
 
-      f77name(aminmax)(&fmflds[ind].coupe.VVmin3d[NO_OP], &fmflds[ind].coupe.VVmax3d[NO_OP], 
+      f77name(aminmax)(&fmflds[ind].coupe.VVmin3d[NO_OP], &fmflds[ind].coupe.VVmax3d[NO_OP],
           fmflds[ind].coupe.vv3d[0], &fmflds[ind].dst.ni,&fmflds[ind].dst.nj);
 
       for (j=0; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
   {
-  f77name(aminmax)(&opmin[NO_OP], &opmax[NO_OP], 
+  f77name(aminmax)(&opmin[NO_OP], &opmax[NO_OP],
         fmflds[ind].coupe.vv3d[j], &fmflds[ind].dst.ni,&fmflds[ind].dst.nj);
   fmflds[n].coupe.VVmin3d[0] = (fmflds[n].coupe.VVmin3d[0]  < opmin[0]) ? fmflds[n].coupe.VVmin3d[0] : opmin[0];
   fmflds[n].coupe.VVmax3d[0] = (fmflds[n].coupe.VVmax3d[0]  > opmax[0]) ? fmflds[n].coupe.VVmax3d[0] : opmax[0];
   }
 
 
-      f77name(aminmax)(&fmflds[ind].coupe.WWmin3d[NO_OP], &fmflds[ind].coupe.WWmax3d[NO_OP], 
+      f77name(aminmax)(&fmflds[ind].coupe.WWmin3d[NO_OP], &fmflds[ind].coupe.WWmax3d[NO_OP],
           fmflds[ind].coupe.ww3d[0], &fmflds[ind].dst.ni,&fmflds[ind].dst.nj);
 
       for (j=0; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
   {
-  f77name(aminmax)(&opmin[NO_OP], &opmax[NO_OP], 
+  f77name(aminmax)(&opmin[NO_OP], &opmax[NO_OP],
         fmflds[ind].coupe.ww3d[j], &fmflds[ind].dst.ni,&fmflds[ind].dst.nj);
   fmflds[n].coupe.WWmin3d[0] = (fmflds[n].coupe.WWmin3d[0]  < opmin[0]) ? fmflds[n].coupe.WWmin3d[0] : opmin[0];
   fmflds[n].coupe.WWmax3d[0] = (fmflds[n].coupe.WWmax3d[0]  > opmax[0]) ? fmflds[n].coupe.WWmax3d[0] : opmax[0];
@@ -2734,13 +2726,13 @@ int ind;
       npts = fmflds[ind].dst.ni * fmflds[ind].dst.nj;
       tmpmod = (float *)  calloc(npts, sizeof(float));
       f77name(modulus3d)(tmpmod,fmflds[n].coupe.uu3d[0],fmflds[n].coupe.vv3d[0],fmflds[n].coupe.ww3d[0],&npts);
-      f77name(aminmax)(&fmflds[ind].coupe.UVWmin3d[NO_OP], &fmflds[ind].coupe.UVWmax3d[NO_OP], 
+      f77name(aminmax)(&fmflds[ind].coupe.UVWmin3d[NO_OP], &fmflds[ind].coupe.UVWmax3d[NO_OP],
           tmpmod, &fmflds[ind].dst.ni,&fmflds[ind].dst.nj);
 
       for (j=0; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
   {
   f77name(modulus3d)(tmpmod,fmflds[n].coupe.uu3d[j],fmflds[n].coupe.vv3d[j],fmflds[n].coupe.ww3d[j],&npts);
-  f77name(aminmax)(&opmin[NO_OP], &opmax[NO_OP], 
+  f77name(aminmax)(&opmin[NO_OP], &opmax[NO_OP],
         tmpmod, &fmflds[ind].dst.ni,&fmflds[ind].dst.nj);
   fmflds[n].coupe.UVWmin3d[0] = (fmflds[n].coupe.UVWmin3d[0]  < opmin[0]) ? fmflds[n].coupe.UVWmin3d[0] : opmin[0];
   fmflds[n].coupe.UVWmax3d[0] = (fmflds[n].coupe.UVWmax3d[0]  > opmax[0]) ? fmflds[n].coupe.UVWmax3d[0] : opmax[0];
@@ -2854,14 +2846,14 @@ int ind;
             }
         }
 
-      DiffMgrSetVDiffs3D(fmflds[ind-1].coupe.uu3d[0], fmflds[ind-1].coupe.vv3d[0],fmflds[ind-1].coupe.ww3d[0], 
-      fmflds[ind].coupe.uu3d[0], fmflds[ind].coupe.vv3d[0],fmflds[ind].coupe.ww3d[0], 
+      DiffMgrSetVDiffs3D(fmflds[ind-1].coupe.uu3d[0], fmflds[ind-1].coupe.vv3d[0],fmflds[ind-1].coupe.ww3d[0],
+      fmflds[ind].coupe.uu3d[0], fmflds[ind].coupe.vv3d[0],fmflds[ind].coupe.ww3d[0],
       fmflds[ind-1].coupe.UVWmin3d,  fmflds[ind-1].coupe.UVWmax3d, npts);
 
       for (j=1; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
         {
-        DiffMgrSetVDiffs3D(fmflds[ind-1].coupe.uu3d[j], fmflds[ind-1].coupe.vv3d[j],fmflds[ind-1].coupe.ww3d[j], 
-                fmflds[ind].coupe.uu3d[j], fmflds[ind].coupe.vv3d[j],fmflds[ind].coupe.ww3d[j], 
+        DiffMgrSetVDiffs3D(fmflds[ind-1].coupe.uu3d[j], fmflds[ind-1].coupe.vv3d[j],fmflds[ind-1].coupe.ww3d[j],
+                fmflds[ind].coupe.uu3d[j], fmflds[ind].coupe.vv3d[j],fmflds[ind].coupe.ww3d[j],
                 opmin,  opmax, npts);
 
         for (i=0; i < 5; i++)
@@ -2876,12 +2868,9 @@ int ind;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-FldMgrCalcPDFDatev(pdfdatev,dateo,deet,npas,ip2)
-char pdfdatev[];
-int dateo,deet,npas,ip2;
+FldMgrCalcPDFDatev(char pdfdatev[], int *datev, int dateo, int deet,int npas,int ip2)
 {
   double deltat;
-  int datev;
   int idateo,idatev00,idatev01,mode;
 
   if (deet == 0 && npas == 0)
@@ -2892,9 +2881,9 @@ int dateo,deet,npas,ip2;
 
   deltat = (double)((deet*npas)/3600.0);
   idateo = dateo;
-  f77name(incdatr)(&datev, &idateo, &deltat);
+  f77name(incdatr)(datev, &idateo, &deltat);
   mode = -3;
-  f77name(newdate)(&datev,&idatev00,&idatev01,&mode);
+  f77name(newdate)(datev,&idatev00,&idatev01,&mode);
   sprintf(pdfdatev,"%08d.%06d",idatev00,idatev01/100);
   }
 
@@ -3002,7 +2991,7 @@ FldMgrDefinirGrille()
   int ig1ref, ig2ref, ig3ref, ig4ref;
   int ni, nj, ig1, ig2, ig3, ig4;
 
-  gdin = c_ezgdefrec(fmflds[0].src.ni, fmflds[0].src.nj, fmflds[0].src.grtyp, 
+  gdin = c_ezgdefrec(fmflds[0].src.ni, fmflds[0].src.nj, fmflds[0].src.grtyp,
                       fmflds[0].src.ig1, fmflds[0].src.ig2, fmflds[0].src.ig3, fmflds[0].src.ig4);
   c_ezgprm(gdin,&grtyp, &ni, &nj, &ig1, &ig2, &ig3, &ig4);
 
@@ -3036,60 +3025,105 @@ FldMgrFlagMissingValues(_Champ *champ)
 {
   float min, min2, max, max2;
   int un = 1;
-  unsigned int k, bitpos;
-  int gdin, gdout, npts_src, npts_dst;
+  unsigned int k, bitpos,mask_ni,mask_nj,mask_nk;
+  int gdin, gdout, npts_src, npts_dst,cleMasque,ier;
   float *masque_dst, *masque_src;
+  unsigned int *src_missing;
+  char typvar_masque[4];
+  float huge;
+  int i;
+  
+  huge = HUGE;
 
-  if (champ->missingFlag == 0)
+  if (champ->src.grtyp[0] == 'X')
     {
     return 0;
     }
 
-  if (champ->src.grtyp[0] == 'X')
+  if (champ->natureTensorielle == VECTEUR)
     {
-      return 0;
+    return 0;
     }
-
+  
   npts_src = champ->src.ni * champ->src.nj;
   npts_dst = champ->dst.ni * champ->dst.nj;
-  if (champ->src.missing != NULL)
+    f77name(sminmax2)(&champ->min, &champ->max, &champ->min2, &champ->max2,
+          champ->fld_orig, &champ->src.ni, &champ->src.nj, &un, &un, &champ->src.ni, &champ->src.nj);
+  if (champ->typvar[1] == '@' && champ->typvar[0] != '@')
     {
-    free(champ->src.missing);
-    }
-
-  if (champ->dst.missing != NULL)
-    {
-    free(champ->dst.missing);
-    }
-
-  champ->src.missing = calloc(1+npts_src/32, sizeof(int));
-  masque_src = calloc(npts_src,sizeof(float));
-  for (k=0; k < npts_src; k++)
-    {
-    bitpos = k - ((k >> 5) << 5);
-
-    if (champ->fld_orig[k] == champ->max)
+    strcpy(typvar_masque, "@@");
+    cleMasque = c_fstinf(champ->iun, &mask_ni, &mask_nj, &mask_nk,champ->datev,champ->etiket,champ->ip1,champ->ip2, champ->ip3,typvar_masque, champ->nomvar);
+     if (cleMasque >= 0)
       {
-      champ->src.missing[k >> 5] |= ((unsigned int)1 << bitpos);
-      masque_src[k] = 1.0;
+      if (champ->src.missing != NULL)
+        {
+        free(champ->src.missing);
+        }
+      src_missing = (int *) malloc(npts_src*sizeof(int));
+      ier = c_fstluk(src_missing, cleMasque, &mask_ni, &mask_nj, &mask_nk);
+      champ->src.missing = calloc((1+npts_src/32), sizeof(int));
+      
+      ier = compact_mask(champ->src.missing, src_missing, npts_src);
+      champ->missingVal = 1.01*champ->max;
+      f77name(drl_set_spval)(&(champ->missingVal));
+      champ->missingFlag = FROM_FSTD;
       }
     }
-  champ->dst.missing = calloc(1+npts_dst/32, sizeof(int));
-  masque_dst = calloc(npts_dst, sizeof(float));
-  gdin  = c_ezgetgdin();
-  gdout = c_ezgetgdout();
-  c_ezdefset(gdout, gdin);
-  c_ezsint(masque_dst, masque_src);
-  for (k=0; k < npts_dst; k++)
+  else
     {
-    if (masque_dst[k] != 0.0) 
+    /* On recherche un flag de valeurs manquantes selon la convention
+       missing_code = max + 0.1 * (max-min)
+    */
+    if ((champ->max - champ->max2) >= 0.09*(champ->max2-champ->min))
       {
-      bitpos = k - ((k >> 5) << 5);
+      champ->missingFlag = FROM_MINMAX;
+      champ->missingVal = champ->max;
+      f77name(drl_set_spval)(&(champ->missingVal));
+      if (champ->src.missing != NULL)
+        {
+        free(champ->src.missing);
+        }
+      champ->src.missing = calloc((1+npts_src/32), sizeof(int));
+      masque_src = calloc(npts_src,sizeof(float));
+      for (k=0; k < npts_src; k++)
+        {
+        bitpos = k - ((k >> 5) << 5);
 
-      champ->dst.missing[k >> 5] |= ((unsigned int)1 << bitpos);
+        if (champ->fld_orig[k] == champ->max)
+          {
+          champ->src.missing[k >> 5] |= ((unsigned int)0 << bitpos);
+          masque_src[k] = 0.0;
+          }
+        else
+          {
+          champ->src.missing[k >> 5] |= ((unsigned int)1 << bitpos);
+          masque_src[k] = 1.0;
+         }
+        }
+      }
+    else
+      {
+      champ->missingFlag = NOT_MISSING;
       }
     }
 
-  free(masque_src);
-  free(masque_dst);
+  if (champ->missingFlag != NOT_MISSING)
+    {
+    if (champ->dst.missing != NULL)
+      {
+      free(champ->dst.missing);
+      }
+
+    champ->dst.missing = calloc((1+npts_dst/32), sizeof(int));
+    gdin  = c_ezgetgdin();
+    gdout = c_ezgetgdout();
+    c_ezsint_mask(champ->dst.missing, champ->src.missing, gdin, gdout);
+    for (i=0; i < npts_dst; i++)
+      {
+      if (!GETMSK(champ->dst.missing, i))
+        {
+        champ->fld[i] = champ->missingVal;
+        }
+      }
+    }
 }

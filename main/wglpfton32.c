@@ -112,7 +112,7 @@ int colorTable[], ncol, flagInterrupt, lissfac;
   largeur = ifin - idebut + 1;
   hauteur = jfin - jdebut + 1;
   
-  slice = 16;
+  slice = 32;
   curslice = 0;
   lh = largeur * slice;
    
@@ -169,7 +169,6 @@ int colorTable[], ncol, flagInterrupt, lissfac;
   colrange = (colorTable[255]-colorTable[0])/256.0;
   for (curslice=0; curslice < hauteur; curslice += slice)
     {
-    slice = 16;
     if (((hauteur - curslice) < slice) & (hauteur % slice) != 0)
       {
       slice = hauteur % slice;
@@ -180,9 +179,9 @@ int colorTable[], ncol, flagInterrupt, lissfac;
       {
       jj = curslice + j;
       if (0 == (jj % 64) && flagInterrupt)
-	{
-	if (c_wglanul()) goto abort;
-	}
+        {
+        if (c_wglanul()) goto abort;
+        }
       
       y = axey[hauteur-1-jj];
       iy = (int) y;
@@ -191,13 +190,13 @@ int colorTable[], ncol, flagInterrupt, lissfac;
       iy2 = ni * (iy);
       dy = y - (float)iy;
       for (i=idebut; i <= ifin; i++)
-	{
-	ii = i - idebut;
-	ix = iaxex[ii];
-	fld1 = fld[ix-1+iy1] + (fld[ix+iy1] - fld[ix-1+iy1]) * axdx[ii];
-	fld2 = fld[ix-1+iy2] + (fld[ix+iy2] - fld[ix-1+iy2]) * axdx[ii];
-	tmpVals[j*largeur+ii] =  fld1 + (fld2 - fld1) * dy;
-	}
+        {
+        ii = i - idebut;
+        ix = iaxex[ii];
+        fld1 = fld[ix-1+iy1] + (fld[ix+iy1] - fld[ix-1+iy1]) * axdx[ii];
+        fld2 = fld[ix-1+iy2] + (fld[ix+iy2] - fld[ix-1+iy2]) * axdx[ii];
+        tmpVals[j*largeur+ii] =  fld1 + (fld2 - fld1) * dy;
+        }
       }
     
     c_wglcalcolf(tmpInds, tmpVals, lh, ContourMin, delta, intervalles, nbIntervalles, facteur, ncol);
@@ -212,9 +211,9 @@ int colorTable[], ncol, flagInterrupt, lissfac;
       {
       jj = j * largeur;
       for (i=0; i < largeur; i++)
-	{
-	XPutPixel(image, i, j, pixels[jj+i]);
-	}
+        {
+        XPutPixel(image, i, j, pixels[jj+i]);
+        }
       }
     
     XPutImage(wglDisp, wglDrawable, wglFillGC, image, 0, 0, idebut, hauteurFenetre - jfin + curslice, largeur, slice);

@@ -42,15 +42,13 @@
 
 extern _XContour xc;
 
-void c_wglfton_m(fld, ni, nj, intervalles, nbIntervalles, facteur, min, max, missing, 
-	       colorTable, ncol, flagInterrupt, lissfac)
-float *fld;
-int ni, nj;
-float intervalles[];
-int nbIntervalles;
-float facteur;
-float min, max, missing;
-int colorTable[], ncol, flagInterrupt, lissfac;
+extern void c_wglrfton_m(float *fld, unsigned int *mask, int ni, int nj,
+      float intervalles[], int nbint, float rfac, float rmin, float rmax, float missing, int colorTable[], int nbcol);
+extern void c_wglpfton32_m(float *fld, unsigned int *mask, int ni, int nj, float intervalles[], int nbIntervalles, float facteur,
+	       float min, float max, float missing, int colorTable[], int ncol, int flagInterrupt, int lissfac);
+         
+void c_wglfton_m(float *fld, unsigned int *mask, int ni, int nj, float intervalles[], int nbIntervalles, float facteur, float min, float max,  
+	       int colorTable[], int ncol, int flagInterrupt, int lissfac)
 {
    int i, j, k;
    int ideb, jdeb, ifin, jfin, largeur, hauteur;
@@ -63,6 +61,7 @@ int colorTable[], ncol, flagInterrupt, lissfac;
    int largeurFenetre, hauteurFenetre;
    int nbint;
    long temps;
+   float missing = -999.0;
 
    float rint,rfac,rmin,rmax,rmissing;
    int rnbcol, rlissfac;
@@ -84,14 +83,7 @@ int colorTable[], ncol, flagInterrupt, lissfac;
      {
      c_wglgwz(&largeurFenetre, &hauteurFenetre);
      c_wglcmi(0, 0, largeurFenetre, hauteurFenetre);
-     if (visInfo.class == PseudoColor)
-       {
-       c_wglpfton(fld, ni, nj, intervalles, nbIntervalles, facteur, min, max, missing, colorTable, ncol, flagInterrupt, lissfac);
-       }
-     else
-       {
-       c_wglpfton32(fld, ni, nj, intervalles, nbIntervalles, facteur, min, max, missing, colorTable, ncol, flagInterrupt, lissfac);
-       }
+     c_wglpfton32_m(fld, mask, ni, nj, intervalles, nbIntervalles, facteur, min, max, missing, colorTable, ncol, flagInterrupt, lissfac);
      }
    else
      {
@@ -100,7 +92,6 @@ int colorTable[], ncol, flagInterrupt, lissfac;
      rfac = facteur; nbint = nbIntervalles; 
      rnbcol = ncol; rlissfac = lissfac;
      
-     f77name(wglrfton)(fld, &ni, &nj, &mdeb, &ndeb, &mfin, &nfin, intervalles, 
-		       &nbint, &rfac, &rmin, &rmax, &rmissing, colorTable, &rnbcol, &flagInterrupt, &rlissfac);
+     c_wglrfton_m(fld, mask, ni, nj, intervalles, nbIntervalles, facteur, min, max, missing, colorTable, ncol);
      }
 }

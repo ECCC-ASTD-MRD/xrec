@@ -1735,6 +1735,24 @@ void InitWidgetsBouton()
    wordint          h;       /* La hauteur de boutonform.                  */
    XmString     label;   /* Le nom de chaque bouton.                    */
    unsigned char         str[32];
+   XmFontList fontListe;
+   XmString infoLabelWidth;
+   wordint largeurTexte;
+   
+/*   Arg args[10];
+   char bidon[32];
+   XmString labelBidon[32], label1, label2;
+
+   strcpy(bidon, " ");
+   for (i=1; i < 32; i++)
+      {
+      labelBidon[i] = XmStringCreate(bidon, XmSTRING_DEFAULT_CHARSET);
+      strcat(bidon, " ");
+      }
+   
+   i = 0;
+   XtSetArg(args[i], XmNfontList, &fontListe); i++;
+   XtGetValues(xs[wi].ok, args, i);*/
    
    /*................................ok.....................................*/
    
@@ -1752,9 +1770,7 @@ void InitWidgetsBouton()
       i = 0;
       label = XmStringCreateLtoR(label_desact[langue], XmSTRING_DEFAULT_CHARSET);
       XtSetArg(args[i], XmNlabelString, label); i++;
-      xs[wi].deselectionnerRecs = (Widget)XmCreatePushButton(xs[wi].boutonform,
-							     "desactiver items",
-							     args, i);
+      xs[wi].deselectionnerRecs = (Widget)XmCreatePushButton(xs[wi].boutonform, "desactiver items", args, i);
       XtManageChild(xs[wi].deselectionnerRecs);
       XmStringFree(label);
       }
@@ -1775,6 +1791,13 @@ void InitWidgetsBouton()
    XtManageChild(xs[wi].frameInfoLabel);
    
    i = 0;
+   XtSetArg(args[i], XmNfontList, &fontListe); i++;
+   XtGetValues(xs[wi].ok, args, i);
+   
+   infoLabelWidth = XmStringCreate("999999/999999", XmSTRING_DEFAULT_CHARSET);
+   
+   i = 0;
+   XtSetArg(args[i], XmNwidth, XmStringWidth(fontListe, infoLabelWidth)); i++;
    xs[wi].infoLabel = (Widget)XmCreateLabel(xs[wi].frameInfoLabel, "   ", args, i);
    XtManageChild(xs[wi].infoLabel);
    
@@ -1795,9 +1818,7 @@ void InitWidgetsBouton()
       XtSetArg(args[i], XmNmarginHeight, 0); i++;
       XtSetArg(args[i], XmNmarginWidth, 0); i++;
       
-      xs[wi].nbForm = (Widget)XmCreateRowColumn(xs[wi].nbFrame,
-                                                "label Frame",
-                                                args, i);
+      xs[wi].nbForm = (Widget)XmCreateRowColumn(xs[wi].nbFrame, "label Frame", args, i);
       XtManageChild(xs[wi].nbForm);
       
       /*...........................selMsg.......................................*/

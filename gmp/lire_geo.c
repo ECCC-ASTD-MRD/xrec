@@ -57,10 +57,10 @@ lire_geo()
       {
       geography_source = GDB_GEO;
       if (gdb_initialized == -1)
-	{
-	gdb_init();
-	gdb_initialized = 1;
-	}
+        {
+        gdb_init();
+        gdb_initialized = 1;
+        }
       }
     }
   
@@ -70,15 +70,15 @@ lire_geo()
       rmn_geo = (char *) getenv("DCW");
       
       if (rmn_geo == NULL)
-	{
-	rmn_geo = (char *) getenv("ARMNLIB");
-	
-	if (rmn_geo == NULL)
-	  {
-	  printf("La valeur de la variable d'environnement ARMNLIB est inconnue... \nImpossible de continuer.\n");
-	  exit(-1);
-	  }
-	}
+        {
+        rmn_geo = (char *) getenv("ARMNLIB");
+
+        if (rmn_geo == NULL)
+          {
+          printf("La valeur de la variable d'environnement ARMNLIB est inconnue... \nImpossible de continuer.\n");
+          exit(-1);
+          }
+        }
       
       lire_rmn_geo();
       break;

@@ -117,29 +117,26 @@ DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThickness, in
     }
 
   c_wglgvx(&xmin, &ymin, &xmax, &ymax);
-  switch (colorStatus)
+  switch(unitesRayon)
     {
-    case 1:
-    switch(unitesRayon)
-      {
-      case PIXELS:
-      break;
-      
-      case DEGRES:
-      rayonDeg = rayon_orig;
-      break;
-      
-      case KM:
-      rayonDeg = (float) rayon_orig / 111.11;
-      break;
-      
-      case NAUTICAL_MILES:
-      rayonDeg = (float) rayon_orig / 60.0;
-      break;
-      
-      default:
-      break;
-      }
+    case PIXELS:
+    break;
+
+    case DEGRES:
+    rayonDeg = rayon_orig;
+    break;
+
+    case KM:
+    rayonDeg = (float) rayon_orig / 111.11;
+    break;
+
+    case NAUTICAL_MILES:
+    rayonDeg = (float) rayon_orig / 60.0;
+    break;
+
+    default:
+    break;
+    }
     
     switch(unitesRayon)
       {
@@ -169,6 +166,8 @@ DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThickness, in
       default:
       break;
       }
+      
+      
     rmin = champRef->min;
     rmax = champRef->max;
     if (champRef->intervalles[0] != 0.0)
@@ -196,63 +195,61 @@ DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThickness, in
         couleur = ROUND(tmpInds[i]); 
         couleur = couleur < 0 ? 0 : (couleur > (nbcols - 1) ? (nbcols - 1): couleur);
         rayon2 = ROUND(1.2 * rayon);
-        c_wglcol(cols[couleur]);
         switch(typeSymbole)
           {
           case CROIX:
-          c_wglcfi(i1, j1, rayon);
-          c_wglcol(fore);
-          c_wglcli(i1, j1, rayon);
-          c_wglrli(i1-lineThickness-rayon2, j1, i1+lineThickness+rayon2, j1);
-          c_wglrli(i1, j1-lineThickness-rayon2, i1, j1+lineThickness+rayon2);
+          switch(colorStatus)
+            {
+            case 1:
+            c_wglcol(cols[couleur]);
+            c_wglcfi(i1, j1, rayon);
+            c_wglcol(fore);
+            c_wglcli(i1, j1, rayon);
+            c_wglrli(i1-lineThickness-rayon2, j1, i1+lineThickness+rayon2, j1);
+            c_wglrli(i1, j1-lineThickness-rayon2, i1, j1+lineThickness+rayon2);
+            break;
+            
+            case 0:
+            c_wglcol(fore);
+            c_wglcli(i1, j1, rayon);
+            c_wglrli(i1-lineThickness-rayon2, j1, i1+lineThickness+rayon2, j1);
+            c_wglrli(i1, j1-lineThickness-rayon2, i1, j1+lineThickness+rayon2);
+            break;
+            }
           break;
 
           case CERCLE:
-          c_wglcfi(i1, j1, rayon);
+          switch (colorStatus)
+            {
+            case 1:
+            c_wglcol(cols[couleur]);
+            c_wglcfi(i1, j1, rayon);
+            break;
+            
+            case 0:
+            c_wglcol(fore);
+            c_wglcli(i1, j1, rayon);
+            break;
+            }
           break;
 
           case RECTANGLE:
-          c_wglrfi(i1-rayon, j1-rayon, i1+rayon, j1+rayon);
+          switch (colorStatus)
+            {
+            case 1:
+            c_wglcol(cols[couleur]);
+            c_wglrfi(i1-rayon, j1-rayon, i1+rayon, j1+rayon);
+            break;
+            
+            case 0:
+            c_wglcol(fore);
+            c_wglrli(i1-rayon, j1-rayon, i1+rayon, j1+rayon);
+            break;
+            }
           break;
           }
         }
       }
-    break;
-
-    case 0:
-    for (i=0; i < npts; i++)
-      {
-      c_xy2fxfy(&x1, &y1, champ->x[i], champ->y[i]);
-      if (xmin < x1 && x1 < xmax && ymin < y1 && y1 < ymax)
-        {
-        c_wglxai(&i1, &j1, x1, y1);
-        c_wglcol(fore);
-        rayon2 = ROUND(rayon*1.2);
-        switch(typeSymbole)
-          {
-          case CROIX:
-          c_wglcli(i1, j1, rayon);
-          c_wglrli(i1-lineThickness-rayon2, j1, i1+lineThickness+rayon2, j1);
-          c_wglrli(i1, j1-lineThickness-rayon2, i1, j1+lineThickness+rayon2);
-          break;
-
-          case CERCLE:
-          c_wglcli(i1, j1, rayon);
-          c_wglcli(i1, j1, 1);
-          break;
-
-          case RECTANGLE:
-          c_wglrli(i1-rayon, j1-rayon, i1+rayon, j1+rayon);
-          c_wglmvi(i1-rayon, j1-rayon);
-          c_wgldri(i1+rayon, j1+rayon);
-          c_wglmvi(i1+rayon, j1-rayon);
-          c_wgldri(i1-rayon, j1+rayon);
-          break;
-          }
-        }
-      }
-    break;
-    }
 
   if (valueStatus == 1)
     {

@@ -55,6 +55,8 @@ f77name(gmpdrw)()
 void c_gmpdrw()
 {
   int i,n;
+  int static once = 0;
+  int static oldFlags[8] = {0,0,0,0,0,0,0,0};
 
   if (mapFlags.typeValide == NON)
     return;
@@ -70,12 +72,42 @@ void c_gmpdrw()
     mapFlags.verifStatutNecessaire = OUI;
     }
   
+/*  if (NULL != getenv("GDB_RESOLUTION") && mapFlags.verifStatutNecessaire == OUI)
+    {
+    if (once == 0)
+      {
+      once = 1;
+      for (i=0; i < 8; i++)
+        {
+        if (oldFlags[i] != mapFlags.etat[i])
+          {
+          once = 0;
+          }
+        }
+      for (i=0; i < 8; i++)
+        {
+        oldFlags[i] = mapFlags.etat[i];
+        }
+      }
+    else
+      {
+      mapFlags.verifStatutNecessaire = NON;
+      }
+    }*/
+    
+      
   if (mapFlags.verifStatutNecessaire == OUI)
     {
-    LibererCarte(&(gmp_vecs[CONTINENTS]), &gmp_nbVecs[CONTINENTS]);
-    LibererCarte(&(gmp_vecs[PAYS]), &gmp_nbVecs[PAYS]);
-    LibererCarte(&(gmp_vecs[PROVINCES]), &gmp_nbVecs[PROVINCES]);
-    LibererCarte(&(gmp_vecs[LATLON]), &gmp_nbVecs[LATLON]);
+    if (NULL == getenv("GDB_RESOLUTION"))
+      {
+      for (i=0; i < 8; i++)
+        {
+        if (i != VILLES)
+          {
+          LibererCarte(&(gmp_vecs[i]), &gmp_nbVecs[i]);
+          }
+        }
+      }
     lire_geo();
     }
   else
@@ -83,24 +115,24 @@ void c_gmpdrw()
     for (i=0; i < 8; i++)
       {
       if (mapFlags.etat[i] == OUI)
-	{
-	switch (i)
-	  {
-	  case VILLES:
-	    for (n=0; n < gmp_nbCities; n++)
-	      {
-	      c_gmpDrawCityName(gmp_cities[n].x, gmp_cities[n].y, (char *)gmp_cities[n].text);
-	      }
-	    /* absence de break intentionnelle */
-	    
-	  default:
-	    ActiverParamsLigne(mapFlags.style[i], mapFlags.indCouleur[i], mapFlags.epaisseur[i]);
-	    AfficherVecteurs(gmp_vecs[i], gmp_nbVecs[i], mapFlags.style[i], mapFlags.indCouleur[i], mapFlags.epaisseur[i]);
-	    break;
-	    
-	  }
-	
-	}
+        {
+        switch (i)
+          {
+          case VILLES:
+            for (n=0; n < gmp_nbCities; n++)
+              {
+              c_gmpDrawCityName(gmp_cities[n].x, gmp_cities[n].y, (char *)gmp_cities[n].text);
+              }
+            /* absence de break intentionnelle */
+
+          default:
+            ActiverParamsLigne(mapFlags.style[i], mapFlags.indCouleur[i], mapFlags.epaisseur[i]);
+            AfficherVecteurs(gmp_vecs[i], gmp_nbVecs[i], mapFlags.style[i], mapFlags.indCouleur[i], mapFlags.epaisseur[i]);
+            break;
+
+          }
+
+        }
       }
     }
       

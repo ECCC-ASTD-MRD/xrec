@@ -43,10 +43,14 @@
 #define C_TO_FTN(i,j,ni)  (int)((ni) * (j) + i)
 
 extern _Viewport    viewp;
+extern _XContour xc;
+
+extern int c_wglcalcolf_m(float indices[], float val[], int nbVals, float min, float delta, float intervalles[], 
+               int nbIntervalles, float facteur, int nbCol);
 
 
-c_wglpfton32_m(float *fld, int ni, int nj, float intervalles[], int nbIntervalles, float facteur,
-	       float min, float max, int colorTable[], int ncol, int flagInterrupt, int lissfac)
+void c_wglpfton32_m(float *fld, unsigned int *mask, int ni, int nj, float intervalles[], int nbIntervalles, float facteur,
+	       float min, float max, float missing, int colorTable[], int ncol, int flagInterrupt, int lissfac)
 {
   int i,j,k, idebut, jdebut, ifin, jfin, largeur, hauteur;
   unsigned int *pixdata, *pixels;
@@ -64,6 +68,9 @@ c_wglpfton32_m(float *fld, int ni, int nj, float intervalles[], int nbIntervalle
   unsigned int pixel;
   float rfac, eps, *tmpVals, *tmpInds,  colrange;
   int ii, jj, lh, slice, curslice;
+  
+  float f_fond;
+  unsigned int pix_fond;
   
   XImage *image;
   
@@ -159,9 +166,9 @@ c_wglpfton32_m(float *fld, int ni, int nj, float intervalles[], int nbIntervalle
       {
       jj = curslice + j;
       if (0 == (jj % 64) && flagInterrupt)
-	{
-	if (c_wglanul()) goto abort;
-	}
+        {
+        if (c_wglanul()) goto abort;
+        }
       
       y = axey[hauteur-1-jj];
       iy = (int) y;
@@ -170,42 +177,53 @@ c_wglpfton32_m(float *fld, int ni, int nj, float intervalles[], int nbIntervalle
       iy2 = ni * (iy);
       dy = y - (float)iy;
       for (i=idebut; i <= ifin; i++)
-	{
-	ii = i - idebut;
-	ix = iaxex[ii];
-	if (fld[ix-1+iy1] == MISSING || fld[ix+iy1] == MISSING || 
-	    fld[ix-1+iy2] == MISSING || fld[ix+iy2] == MISSING)
-	  {
-	  tmpVals[j*largeur+ii] =  MISSING;
-	  }
-	else
-	  {
-	  fld1 = fld[ix-1+iy1] + (fld[ix+iy1] - fld[ix-1+iy1]) * axdx[ii];
-	  fld2 = fld[ix-1+iy2] + (fld[ix+iy2] - fld[ix-1+iy2]) * axdx[ii];
-	  tmpVals[j*largeur+ii] =  fld1 + (fld2 - fld1) * dy;
-	  }
-	}
+        {
+        ii = i - idebut;
+        ix = iaxex[ii];
+        if ((0 == GETMSK(mask,ix-1+iy1)) || (0 == GETMSK(mask,ix+iy1))  ||  (0 == GETMSK(mask,ix-1+iy2))  || (0 == GETMSK(mask,ix+iy2)))
+          {
+          tmpVals[j*largeur+ii] =  MISSING;
+          }
+        else
+          {
+          fld1 = fld[ix-1+iy1] + (fld[ix+iy1] - fld[ix-1+iy1]) * axdx[ii];
+          fld2 = fld[ix-1+iy2] + (fld[ix+iy2] - fld[ix-1+iy2]) * axdx[ii];
+          tmpVals[j*largeur+ii] =  fld1 + (fld2 - fld1) * dy;
+          }
+        }
+      }
       
-      c_wglcalcolf(tmpInds, tmpVals, lh, ContourMin, delta, intervalles, nbIntervalles, facteur, ncol);
+      c_wglcalcolf_m(tmpInds, tmpVals, lh, ContourMin, delta, intervalles, nbIntervalles, facteur, ncol);
       
       for (i=0; i < lh; i++)
-	{
-	tmpVals[i] = (float) (colorTable[0] + tmpInds[i]*colrange);
-	}
+        {
+        if (tmpVals[i] != MISSING)
+          {
+          tmpVals[i] = (float) (colorTable[0] + tmpInds[i]*colrange);
+          }
+        }
       
+      pix_fond = (unsigned int) x_wglpix(xc.attributs[FOND].indCouleurFore);
       c_wglcolfs_fst(tmpVals, pixels, lh);
       for (j=0; j < slice; j++)
-	{
-	jj = j * largeur;
-	for (i=0; i < largeur; i++)
-	  {
-	  XPutPixel(image, i, j, pixels[jj+i]);
-	  }
-	}
+        {
+        jj = j * largeur;
+        for (i=0; i < largeur; i++)
+          {
+          if (tmpVals[i+jj] == MISSING)
+            {
+            XPutPixel(image, i, j, pix_fond);
+            }
+          else
+            {
+            XPutPixel(image, i, j, pixels[jj+i]);
+            }
+          }
+        }
       
       XPutImage(wglDisp, wglDrawable, wglFillGC, image, 0, 0, idebut, hauteurFenetre - jfin + curslice, largeur, slice);
       }
-    }
+
   
   
  abort:

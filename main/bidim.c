@@ -31,8 +31,8 @@ extern int sizeRecColorTable;
 extern int facteurLissage;
 extern float labelPos[][4];
 
-extern  void c_wglrfton_m(float *fld, unsigned int *missing, int ni, int nj, float intervalles[],
-         int nbIntervalles, float facteur, float min, float max, int colorTable[], int ncolors);
+extern void c_wglfton_m(float *fld, unsigned int *mask, int ni, int nj, float intervalles[], int nbIntervalles, float facteur, float min, float max,  int colorTable[], int ncol, int flagInterrupt, int lissfac);
+extern  void c_wglrfton_m(float *fld, unsigned int *missing, int ni, int nj, float intervalles[], int nbIntervalles, float facteur, float min, float max, int colorTable[], int ncolors);
 
 
 AfficherChampBiDimensionnel(indChamp,nbChampsActifs,fld,min,max,uu,vv)
@@ -132,21 +132,21 @@ float *uu,*vv;
       c_wglssp(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin, 1);
       SetClipMask();
       if (xc.statuts[VALEURS_MANQUANTES] && champ->missingFlag)
-  {
-  c_wglcol(xc.attributs[FOND].indCouleurFore);
-  c_wglrfi(viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2);
-  c_wglrfton_m(fld, champ->dst.missing, mapInfo.ni, mapInfo.nj, champ->intervalles,
-         champ->nbIntervalles,
-         champ->facteur, min, max,
-      recColorTable, sizeRecColorTable);
-  }
+        {
+        c_wglcol(xc.attributs[FOND].indCouleurFore);
+        c_wglrfi(viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2);
+        c_wglfton_m(fld, champ->dst.missing, mapInfo.ni, mapInfo.nj, champ->intervalles,
+              champ->nbIntervalles,
+              champ->facteur, min, max,
+            recColorTable, sizeRecColorTable,xc.flagInterrupt, lissfac);
+        }
       else
-  {
-  c_wglfton(fld, mapInfo.ni, mapInfo.nj, champ->intervalles,
-      champ->nbIntervalles,
-      champ->facteur, min, max,
-      recColorTable, sizeRecColorTable, xc.flagInterrupt, lissfac);
-  }
+        {
+        c_wglfton(fld, mapInfo.ni, mapInfo.nj, champ->intervalles,
+            champ->nbIntervalles,
+            champ->facteur, min, max,
+            recColorTable, sizeRecColorTable, xc.flagInterrupt, lissfac);
+        }
       }
    else
       {
@@ -193,10 +193,10 @@ float *uu,*vv;
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
-   {
-   xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-   return;
-   }
+        {
+        xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+        return;
+        }
       }
 
    if (xc.statuts[GRILLE_SOURCE])
@@ -214,10 +214,10 @@ float *uu,*vv;
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
-   {
-   xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-   return;
-   }
+        {
+        xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+        return;
+        }
       }
 
    if (AfficherItem(indChamp, CONTOURS))
@@ -236,10 +236,10 @@ float *uu,*vv;
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
-   {
-   xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-   return;
-   }
+        {
+        xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+        return;
+        }
       }
 
 
@@ -260,12 +260,12 @@ float *uu,*vv;
 
 
       if (xc.attributs[indChamp].labelSize == 0)
-      {
-      fontSize = AttrMgrGetFontSizeLabels();
-      }
+        {
+        fontSize = AttrMgrGetFontSizeLabels();
+        }
       else
          {
-      fontSize = xc.attributs[indChamp].labelSize;
+        fontSize = xc.attributs[indChamp].labelSize;
          }
 
       SetClipMask();

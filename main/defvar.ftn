@@ -38,7 +38,7 @@
       integer ntabint(24)
 
       character*4 cnom
-      character*96 cid
+      character*64 cid
       character*32 cunites
       character*32 cpalette
 

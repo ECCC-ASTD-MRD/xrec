@@ -80,57 +80,57 @@ lire_geo(ListePointsStruct *(*liste), int *nbItems, char *nomFichier[], int nbFi
        tmp = (char *) getenv("ARMNLIB");
        
        if (tmp == NULL)
-	 {
-	 printf("La valeur de la variable d'environnement ARMNLIB est inconnue... \nImpossible de continuer.\n");
-	 exit(-1);
-	 }
+        {
+        printf("La valeur de la variable d'environnement ARMNLIB est inconnue... \nImpossible de continuer.\n");
+        exit(-1);
+        }
        else
-	 {
-	 for (n=0; n < nbFichiers; n++)
-	   {
-	   strcpy(nomFichierGeographie, tmp);
-	   strcat(nomFichierGeographie, nomFichier[n]);
-	   centCinquanteHuit = 158;
-	   f77name(opllfl)(&centCinquanteHuit, nomFichierGeographie, &code, strlen((char *)nomFichier));
-	   
-	   npts = -1;
-	   while (npts != 0)
-	     {
-	     f77name(rdllfl)(&centCinquanteHuit, &npts, &latMax, &latMin, &lonMax, &lonMin, pts, &deuxCents);
-	     
-	     if (latMax < latMin)
-	       swapFloats(&latMin, &latMax);
-	     
-	     if (lonMax < lonMin)
-	       swapFloats(&lonMin, &lonMax);
-	     
-	     res = gmp_perim(&xmin, &ymin, &xmax, &ymax, &latMin, &lonMin, &latMax, &lonMax, &nbSeg);
-	     if (res)
-	       {
-	       gmp_trim(pts, &npts,mapOptions.resolution);
-	       gmp_convert(*liste, nbItems, pts, npts, xmin, ymin, xmax, ymax, nbSeg);
-	       
-	       for (i=oldNbItems; i < *nbItems; i++)
-		 {
-		 switch(mapOptions.styleGeo)
-		   {
-		   case LIGNE:
-		   case TIRET:
-		     TracerVecteurs(&(*liste)[i]);
-		     break;
-		     
-		   case POINT:
-		     TracerPoints(&(*liste)[i]);
-		     break;
-		   }
-		 }
-	       NewGeoItem(liste,nbItems);
-	       oldNbItems = *nbItems-1;
-	       }
-	     }
-	   f77name(clllfl)(&centCinquanteHuit);
-	   }
-	 }
+        {
+        for (n=0; n < nbFichiers; n++)
+          {
+          strcpy(nomFichierGeographie, tmp);
+          strcat(nomFichierGeographie, nomFichier[n]);
+          centCinquanteHuit = 158;
+          f77name(opllfl)(&centCinquanteHuit, nomFichierGeographie, &code, strlen((char *)nomFichier));
+
+          npts = -1;
+          while (npts != 0)
+            {
+            f77name(rdllfl)(&centCinquanteHuit, &npts, &latMax, &latMin, &lonMax, &lonMin, pts, &deuxCents);
+
+            if (latMax < latMin)
+              swapFloats(&latMin, &latMax);
+
+            if (lonMax < lonMin)
+              swapFloats(&lonMin, &lonMax);
+
+            res = gmp_perim(&xmin, &ymin, &xmax, &ymax, &latMin, &lonMin, &latMax, &lonMax, &nbSeg);
+            if (res)
+              {
+              gmp_trim(pts, &npts,mapOptions.resolution);
+              gmp_convert(*liste, nbItems, pts, npts, xmin, ymin, xmax, ymax, nbSeg);
+
+              for (i=oldNbItems; i < *nbItems; i++)
+                {
+                switch(mapOptions.styleGeo)
+                  {
+                  case LIGNE:
+                  case TIRET:
+                    TracerVecteurs(&(*liste)[i]);
+                    break;
+
+                  case POINT:
+                    TracerPoints(&(*liste)[i]);
+                    break;
+                  }
+                }
+              NewGeoItem(liste,nbItems);
+              oldNbItems = *nbItems-1;
+              }
+            }
+          f77name(clllfl)(&centCinquanteHuit);
+          }
+        }
        }
      }
 }

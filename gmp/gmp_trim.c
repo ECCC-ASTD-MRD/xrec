@@ -40,13 +40,13 @@ gmp_trim(float pts[], int *nbpts, float resolution)
    for (i=2; i < *nbpts; i+=2)
       {
       if ((resolution <= fabs(pts[i] - lastLat)) || resolution <= fabs(pts[i+1] - lastLon))
-	 {
-	 newpts[j] = pts[i];
-	 newpts[j+1] = pts[i+1];
-	 lastLat = pts[i];
-	 lastLon = pts[i+1];
-	 j+=2;
-	 }
+        {
+        newpts[j] = pts[i];
+        newpts[j+1] = pts[i+1];
+        lastLat = pts[i];
+        lastLon = pts[i+1];
+        j+=2;
+        }
       }
    
    if (j != *nbpts)

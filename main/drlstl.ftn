@@ -503,3 +503,36 @@
 *
       return
       end
+      
+      subroutine drl_set_spval(newspval)
+      
+      real newspval
+            common /conis1/ ioffp,spval
+*
+      integer     ioffp
+      real        spval
+*
+*
+      spval = newspval
+      ioffp = 1
+      
+      return
+      end 
+      
+      subroutine drl_get_spval(curspval)
+      
+      real curspval
+            common /conis1/ ioffp,spval
+*
+      integer     ioffp
+      real        spval
+*
+*
+      curspval = spval
+      
+      return
+      end 
+      
+      
+      
+      

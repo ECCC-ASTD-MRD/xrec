@@ -92,15 +92,15 @@ float *fld, *uu, *vv, *uut, *uun, *ww, *uvw;
    if (indChamp == 0)
       {
       if (champ->coupe.coupeValide)
-	 {
-	 AjusterViewport(&viewp);
-	 EffacerLaFenetreSiNecessaire();
-	 }
+        {
+        AjusterViewport(&viewp);
+        EffacerLaFenetreSiNecessaire();
+        }
       else
-	 {
-	 c_wglcol(NOIR);
-	 c_wglclr();
-	 }
+        {
+        c_wglcol(NOIR);
+        c_wglclr();
+        }
       }
    
    if (champ->coupe.coupeValide == 0)
@@ -117,12 +117,12 @@ float *fld, *uu, *vv, *uut, *uun, *ww, *uvw;
    if ((*champ).coupe.niCoupe == 1)
       {
       if (indChamp == 0)
-	 {
-	 c_wgllwi(1);
-	 c_xsetxy(0, NULL, 0, NULL, 0);
-	 AfficherProfilCoupe(champ->coupe.xmin,champ->coupe.ymin);
-	 xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-	 xc.statuts[AXE_Y] = FALSE;
+        {
+        c_wgllwi(1);
+        c_xsetxy(0, NULL, 0, NULL, 0);
+        AfficherProfilCoupe(champ->coupe.xmin,champ->coupe.ymin);
+        xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+        xc.statuts[AXE_Y] = FALSE;
          }
       return;
       }
@@ -136,62 +136,45 @@ float *fld, *uu, *vv, *uut, *uun, *ww, *uvw;
    switch(champ->natureTensorielle)
      {
      case VECTEUR:
-	 {
-	 if (0 == strcmp(champ->nomvar, "UU"))
-	   {
-	   localfld = uu;
-	   }
-	 else
-	   {
-	   localfld = vv;
-	   }
-	 }
-       break;
+     localfld = uvw;
+     break;
        
      case SCALAIRE:
-       localfld = fld;
-       break;
+     localfld = fld;
+     break;
      }
    
-   f77name(aminmax)(&localmin,&localmax,localfld,&champ->coupe.niCoupe, &champ->coupe.njCoupe);
+//    f77name(aminmax)(&localmin,&localmax,localfld,&champ->coupe.niCoupe, &champ->coupe.njCoupe);
 
-   if (champ->natureTensorielle == SCALAIRE)
-     {
      if (CUSTOM == DictMgrGetMinMaxMode(champ->nomvar))
        {
        DictMgrGetMinMaxValues(champ->nomvar,&valMin,&valMax);
        valMin /= champ->facteur;
        valMax /= champ->facteur;
        }
-     else
-       {
-       valMax = localmax/champ->facteur;
-       valMin = localmin/champ->facteur;
-       }
-     }
 
    sensEchelle = CoupeMgrGetSensEchelle();
    if (sensEchelle == CROISSANTE)
       {
       if (champ->natureTensorielle == SCALAIRE)
-	 {
-	 f77name(permut)(localfld, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
-	 }
+        {
+        f77name(permut)(localfld, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
+        }
       else
-	 {
-	 f77name(permut)(uut, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
-	 f77name(permut)(uun, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
-	 f77name(permut)(uu , &champ->coupe.niCoupe, &champ->coupe.njCoupe);
-	 f77name(permut)(vv , &champ->coupe.niCoupe, &champ->coupe.njCoupe);
-	 f77name(permut)(ww , &champ->coupe.niCoupe, &champ->coupe.njCoupe);
-	 f77name(permut)(uvw, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
-	 }
+        {
+        f77name(permut)(uut, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
+        f77name(permut)(uun, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
+        f77name(permut)(uu , &champ->coupe.niCoupe, &champ->coupe.njCoupe);
+        f77name(permut)(vv , &champ->coupe.niCoupe, &champ->coupe.njCoupe);
+        f77name(permut)(ww , &champ->coupe.niCoupe, &champ->coupe.njCoupe);
+        f77name(permut)(uvw, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
+        }
 
       niveaux = (float *) calloc( champ->coupe.nbNiveauxCoupe, sizeof(float));
       for (i=0; i < champ->coupe.nbNiveauxCoupe; i++)
-	 {
-	 niveaux[i] = champ->coupe.niveauxCoupe[champ->coupe.nbNiveauxCoupe-i-1];
-	 }
+        {
+        niveaux[i] = champ->coupe.niveauxCoupe[champ->coupe.nbNiveauxCoupe-i-1];
+        }
       
       c_wglssp(xdebut, ydebut, xfin, yfin, viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, transformationFenetre);
       c_xsetxy(2, NULL, 0, niveaux, champ->coupe.njCoupe);
@@ -211,13 +194,13 @@ float *fld, *uu, *vv, *uut, *uun, *ww, *uvw;
    if (xc.statuts[LISSAGE])
       {
       if (lissfac == -32767)
-	 {
-	 lissfac = CalculerFacteurLissage(champ->coupe.niCoupe, champ->coupe.njCoupe);
-	 }
+        {
+        lissfac = CalculerFacteurLissage(champ->coupe.niCoupe, champ->coupe.njCoupe);
+        }
       else
-	 {
-	 lissfac = facteurLissage;
-	 }
+        {
+        lissfac = facteurLissage;
+        }
       }
    else
       {
@@ -227,11 +210,11 @@ float *fld, *uu, *vv, *uut, *uun, *ww, *uvw;
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
-	 {
-	 xc.statuts[AXE_Y] = FALSE;
-	 xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-	 return;
-	 }
+        {
+        xc.statuts[AXE_Y] = FALSE;
+        xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+        return;
+        }
       }
    
    c_wglgsp(&xdebut, &ydebut, &xfin, &yfin, &idebut, &jdebut, &ifin, &jfin);
@@ -239,11 +222,11 @@ float *fld, *uu, *vv, *uut, *uun, *ww, *uvw;
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
-	 {
-	 xc.statuts[AXE_Y] = FALSE;
-	 xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-	 return;
-	 }
+        {
+        xc.statuts[AXE_Y] = FALSE;
+        xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+        return;
+        }
       }
    
    if (AfficherItem(indChamp, COULEURS))
@@ -343,8 +326,8 @@ float *fld, *uu, *vv, *uut, *uun, *ww, *uvw;
       if (-1 != WindMgrGetDisplayMode())
          {
          CoupeMgrGetLimitesUVW(&uutanmin,&uutanmax,&uvwmin,&uvwmax,
-			       &uumin,&uumax,&vvmin,&vvmax,
-			       &wwmin,&wwmax,&nivmin,&nivmax);
+                               &uumin,&uumax,&vvmin,&vvmax,
+                               &wwmin,&wwmax,&nivmin,&nivmax);
          
          if (CUSTOM == DictMgrGetMinMaxMode("UV"))
             {
@@ -407,19 +390,19 @@ float *fld, *uu, *vv, *uut, *uun, *ww, *uvw;
    if (sensEchelle == CROISSANTE)
       {
       if (champ->natureTensorielle == SCALAIRE)
-	 {
-	 f77name(permut)(localfld, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
-	 }
+        {
+        f77name(permut)(localfld, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
+        }
       else
-	 {
-	 f77name(permut)(uut, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
-	 f77name(permut)(uun, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
-	 f77name(permut)(uu, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
-	 f77name(permut)(vv, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
-	 f77name(permut)(ww, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
-	 f77name(permut)(uvw, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
-         
-	 }
+        {
+        f77name(permut)(uut, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
+        f77name(permut)(uun, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
+        f77name(permut)(uu, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
+        f77name(permut)(vv, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
+        f77name(permut)(ww, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
+        f77name(permut)(uvw, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
+              
+        }
       }
    
    xc.statuts[AXE_Y] = FALSE;
@@ -471,15 +454,15 @@ float *fld, *uut, *uun, *ww, *uvw;
    if (indChamp == 0)
       {
       if (champ->seqanim.nbFldsAnim > 0)
-	 {
-	 AjusterViewport(&viewp);
-	 EffacerLaFenetreSiNecessaire();
-	 }
+   {
+   AjusterViewport(&viewp);
+   EffacerLaFenetreSiNecessaire();
+   }
       else
-	 {
-	 c_wglcol(NOIR);
-	 c_wglclr();
-	 }
+   {
+   c_wglcol(NOIR);
+   c_wglclr();
+   }
       }
    
    if (champ->seqanim.nbFldsAnim == 0)
@@ -495,13 +478,13 @@ float *fld, *uut, *uun, *ww, *uvw;
    if ((*champ).seqanim.niSerie == 1)
       {
       if (indChamp == 0)
-	 {
-	 SerieMgrGetLimites(&valMin, &valMax, &ydebut, &yfin);
-	 c_wgllwi(1);
-	 c_xsetxy(0, NULL, 0, NULL, 0);
-	 AfficherProfilSerie(champ->seqanim.xmin,champ->seqanim.xmax);
-	 xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-	 xc.statuts[AXE_Y] = FALSE;
+   {
+   SerieMgrGetLimites(&valMin, &valMax, &ydebut, &yfin);
+   c_wgllwi(1);
+   c_xsetxy(0, NULL, 0, NULL, 0);
+   AfficherProfilSerie(champ->seqanim.xmin,champ->seqanim.xmax);
+   xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+   xc.statuts[AXE_Y] = FALSE;
          }
       return;
       }
@@ -536,13 +519,13 @@ float *fld, *uut, *uun, *ww, *uvw;
    if (xc.statuts[LISSAGE])
       {
       if (lissfac == -32767)
-	 {
-	 lissfac = CalculerFacteurLissage(champ->seqanim.niSerie, champ->seqanim.njSerie);
-	 }
+   {
+   lissfac = CalculerFacteurLissage(champ->seqanim.niSerie, champ->seqanim.njSerie);
+   }
       else
-	 {
-	 lissfac = facteurLissage;
-	 }
+   {
+   lissfac = facteurLissage;
+   }
       }
    else
       {
@@ -552,11 +535,11 @@ float *fld, *uut, *uun, *ww, *uvw;
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
-	 {
-	 xc.statuts[AXE_Y] = FALSE;
-	 xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-	 return;
-	 }
+   {
+   xc.statuts[AXE_Y] = FALSE;
+   xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+   return;
+   }
       }
    
    c_wglgsp(&xdebut, &ydebut, &xfin, &yfin, &idebut, &jdebut, &ifin, &jfin);
@@ -564,117 +547,117 @@ float *fld, *uut, *uun, *ww, *uvw;
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
-	 {
-	 xc.statuts[AXE_Y] = FALSE;
-	 xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-	 return;
-	 }
+   {
+   xc.statuts[AXE_Y] = FALSE;
+   xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+   return;
+   }
       }
    
       if (indChamp == 0)
-	 {
-	 if (champ->natureTensorielle == SCALAIRE && champ->cle >= 0)
-	    {
-	    switch(xc.statuts[COULEURS])
-	       {
-	       case TRUE:
-	       c_wglssp(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin, transformationFenetre);
-	       
-	       c_wglfton(fld, champ->seqanim.niSerie, champ->seqanim.njSerie, champ->intervalles, 
-			 champ->nbIntervalles,
-			 champ->facteur, valMin*champ->facteur, valMax*champ->facteur,
-			 recColorTable, 256, xc.flagInterrupt, lissfac);
-	       break;
-	       
-	       case FALSE:
-	       break;
-	       }
-	    }
-	 else
-	    {
-	    c_wglcol(xc.attributs[0].indCouleurBack);
-	    c_wglrfi(0, 0, largeurFenetre, hauteurFenetre);
-	    }
-	 
-	 if (xc.flagInterrupt)
-	    {
-	    if (c_wglanul())
-	       {
-	       xc.statuts[AXE_Y] = FALSE;
-	       xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-	       return;
-	       }
-	    }
-	 }
+   {
+   if (champ->natureTensorielle == SCALAIRE && champ->cle >= 0)
+      {
+      switch(xc.statuts[COULEURS])
+         {
+         case TRUE:
+         c_wglssp(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin, transformationFenetre);
+         
+         c_wglfton(fld, champ->seqanim.niSerie, champ->seqanim.njSerie, champ->intervalles, 
+       champ->nbIntervalles,
+       champ->facteur, valMin*champ->facteur, valMax*champ->facteur,
+       recColorTable, 256, xc.flagInterrupt, lissfac);
+         break;
+         
+         case FALSE:
+         break;
+         }
+      }
+   else
+      {
+      c_wglcol(xc.attributs[0].indCouleurBack);
+      c_wglrfi(0, 0, largeurFenetre, hauteurFenetre);
+      }
+   
+   if (xc.flagInterrupt)
+      {
+      if (c_wglanul())
+         {
+         xc.statuts[AXE_Y] = FALSE;
+         xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+         return;
+         }
+      }
+   }
       
       if (xc.flagInterrupt)
-	 {
-	 if (c_wglanul())
-	    {
-	    xc.statuts[AXE_Y] = FALSE;
-	    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-	    return;
-	    }
-	 }
+   {
+   if (c_wglanul())
+      {
+      xc.statuts[AXE_Y] = FALSE;
+      xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+      return;
+      }
+   }
       
       if ((xc.statuts[CONTOURS] == TRUE || indChamp > 0) && champ->natureTensorielle == SCALAIRE && champ->cle >= 0)
-	 {
-	 c_wglcont(fld, champ->seqanim.niSerie, champ->seqanim.njSerie, champ->intervalles, 
-		   champ->nbIntervalles,
-		   champ->facteur, valMin*champ->facteur, valMax*champ->facteur, 
-		   xc.attributs[indChamp].indCouleurFore, xc.attributs[indChamp].epaisseur,
-		   xc.attributs[indChamp].codeDash, xc.attributs[indChamp].style, lissfac, xc.flagInterrupt);
-	 
-	 c_wgllwi(1);
-	 c_wglsld(0);
-	 }
+   {
+   c_wglcont(fld, champ->seqanim.niSerie, champ->seqanim.njSerie, champ->intervalles, 
+       champ->nbIntervalles,
+       champ->facteur, valMin*champ->facteur, valMax*champ->facteur, 
+       xc.attributs[indChamp].indCouleurFore, xc.attributs[indChamp].epaisseur,
+       xc.attributs[indChamp].codeDash, xc.attributs[indChamp].style, lissfac, xc.flagInterrupt);
+   
+   c_wgllwi(1);
+   c_wglsld(0);
+   }
       
       if (xc.flagInterrupt)
-	 {
+   {
          if (c_wglanul())
-	    {
-	    xc.statuts[AXE_Y] = FALSE;
-	    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-	    return;
-	    }
-	 }
+      {
+      xc.statuts[AXE_Y] = FALSE;
+      xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+      return;
+      }
+   }
       
       if (xc.statuts[LABELS] && champ->natureTensorielle == SCALAIRE && champ->cle >= 0)
-	 {
-	 switch(xc.attributs[indChamp].couleurFore)
-	    {
-	    case BLANC:
-	    case JAUNE:
-	    case CYAN:
-	    fond = NOIR;
-	    break;
-	    
-	    default:
-	    fond = BLANC;
-	    break;
-	    }
-	 
-	 c_wgllab(fld, champ->seqanim.niSerie, champ->seqanim.njSerie, champ->intervalles, champ->nbIntervalles,
-		  champ->facteur, valMin*champ->facteur, valMax*champ->facteur, 
-		  labelPos[indChamp%4], 4,
-		  xc.attributs[indChamp].indCouleurFore, xc.attributs[indChamp].indCouleurBack, indChamp, lissfac);
-	 }
+   {
+   switch(xc.attributs[indChamp].couleurFore)
+      {
+      case BLANC:
+      case JAUNE:
+      case CYAN:
+      fond = NOIR;
+      break;
+      
+      default:
+      fond = BLANC;
+      break;
+      }
+   
+   c_wgllab(fld, champ->seqanim.niSerie, champ->seqanim.njSerie, champ->intervalles, champ->nbIntervalles,
+      champ->facteur, valMin*champ->facteur, valMax*champ->facteur, 
+      labelPos[indChamp%4], 4,
+      xc.attributs[indChamp].indCouleurFore, xc.attributs[indChamp].indCouleurBack, indChamp, lissfac);
+   }
       
       if (xc.statuts[VALEURS_CENTRALES])
-	 {
-	 hl_find (fld, champ->seqanim.niSerie, champ->seqanim.njSerie, 1.0, hilo,&hlcount,hlnmax);
-	 hl_print (hilo,hlcount,champ->facteur, xc.attributs[indChamp].indCouleurFore,xc.attributs[indChamp].indCouleurBack);
-	 }
+   {
+   hl_find (fld, champ->seqanim.niSerie, champ->seqanim.njSerie, 1.0, hilo,&hlcount,hlnmax);
+   hl_print (hilo,hlcount,champ->facteur, xc.attributs[indChamp].indCouleurFore,xc.attributs[indChamp].indCouleurBack);
+   }
       
       if (xc.flagInterrupt)
-	 {
-	 if (c_wglanul())
-	    {
-	    xc.statuts[AXE_Y] = FALSE;
-	    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-	    return;
-	    }
-	 }
+   {
+   if (c_wglanul())
+      {
+      xc.statuts[AXE_Y] = FALSE;
+      xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+      return;
+      }
+   }
       
       c_wglcmi(0, 0, largeurFenetre-1, hauteurFenetre-1);
       
@@ -748,7 +731,7 @@ AfficherTopo()
            }
        }
        
-    if (champ->ip1 >= 12000)
+    if (champ->coordonneeVerticale == METRES)
        {
        startpt =  champ->coupe.niveauMin;
        }
@@ -798,9 +781,9 @@ ManipulerEtAfficherCoupeVerticale(indChamp)
    if (0 == (nbChampsActifs %2) && op != NO_OP)
       {
       if (0 != indChamp%2)
-	 {
-	 return;
-	 }
+        {
+        return;
+        }
       
       champ1 = champ;
       FldMgrGetChamp(&champ2,indChamp+1);
@@ -813,7 +796,7 @@ ManipulerEtAfficherCoupeVerticale(indChamp)
       DiffMgrCalcDiffs(tmpfld,(*champ1).coupe.fld2d,(*champ2).coupe.fld2d,npts,op);
       }
    
-   AfficherCoupe(indChamp,valeurs,uu,vv,ww,uut,uun,ww);
+   AfficherCoupe(indChamp,valeurs,uu,vv,ww,uut,uun,uvw);
    /*   AfficherCoupe(indChamp,fld,uut,uun,ww,uvw);*/
 
    if (customFld)
@@ -843,9 +826,9 @@ ManipulerEtAfficherSerieTemporelle(indChamp)
    if (0 == (nbChampsActifs %2) && op != NO_OP)
       {
       if (0 != indChamp%2)
-	 {
-	 return;
-	 }
+   {
+   return;
+   }
       
       champ1 = champ;
       FldMgrGetChamp(&champ2,indChamp+1);

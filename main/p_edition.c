@@ -817,7 +817,7 @@ caddr_t clientData, callData;
       }
 
    ier = c_fstecr(champ->fld, work, -nbits, iunSortie, 
-		  champ->date, deet, npas, mapInfo.ni, mapInfo.nj, 1,
+		  champ->dateo, deet, npas, mapInfo.ni, mapInfo.nj, 1,
 		  ip1, ip2, ip3, champ->typvar, 
 		  champ->nomvar, nouvelleEtiquette, &mapInfo.type,
 		  mapInfo.ig1, mapInfo.ig2, mapInfo.ig3, mapInfo.ig4, datyp, 1);

@@ -373,8 +373,9 @@ int nbFrames;
   nbChampsAnim = (*champ).seqanim.nbFldsAnim;
 
   dt = (double) (champ->deet * champ->npas) / 3600.0;
-  f77name(incdatr)(&datev, &(champ->date), &dt);
-
+  f77name(incdatr)(&(champ->datev), &(champ->dateo), &dt);
+  datev = champ->datev;
+  
   do 
     {
     dt = dt + increment*(animInfo.intervalle/60.0);
@@ -387,15 +388,15 @@ int nbFrames;
       {
       FldMgrGetChamp(&champ, n);
       if (champ->seqanim.nbFldsAnim > 0)
-  {
-  k = i;
-  while (dt >= champ->seqanim.dt[k] && k < champ->seqanim.nbFldsAnim)
-    k++;
-  if (k == champ->seqanim.nbFldsAnim)
-    {
-    dt = 0.0;
-    k--;
-    }
+        {
+        k = i;
+        while (dt >= champ->seqanim.dt[k] && k < champ->seqanim.nbFldsAnim)
+          k++;
+        if (k == champ->seqanim.nbFldsAnim)
+          {
+          dt = 0.0;
+          k--;
+          }
   k--;
   i = k;
   (*champ).seqanim.indChampCourant = i;
@@ -403,7 +404,7 @@ int nbFrames;
 
   if ((*champ).seqanim.clesAnim[i] >= 0)
     {
-    f77name(incdatr)(&datev, &champ->date, &dt);
+    f77name(incdatr)(&datev, &champ->dateo, &dt);
     AnimMgrInterpolateTimeField(champ, datev);
     }
   }
@@ -658,7 +659,7 @@ AnimMgrInterpolateTimeField(_Champ *champ, int datev)
 
   nbChampsAnim = (*champ).seqanim.nbFldsAnim;
 
-  f77name(difdatr)(&ldatev, &(champ->date), &dt);
+  f77name(difdatr)(&ldatev, &(champ->dateo), &dt);
 
   i = last_index;
   i = 0;

@@ -250,7 +250,7 @@ c     ****************************************************************
       integer nf
 
       integer i, ier, niun, nrecs
-      integer liste(24576)
+      integer, dimension(:), allocatable :: liste
       integer fnom, fstouv, fstinl
       integer ni, nj, nk, fstopi
       external fnom, fstouv, fstinl, fstopi
@@ -270,7 +270,7 @@ c     ****************************************************************
          
       nf = nf -1
       do 34 i=1, nf
-         ier = fnom(lnkdiun(i),val(i),'STD+RND+OLD+R/O',0)
+         ier = fnom(lnkdiun(i),val(i),'STD+RND+OLD+R/O+REMOTE',0)
          if (ier.lt. 0) then
             call messerr(val(i))
             print *, '***********************************************'
@@ -285,7 +285,7 @@ c     ****************************************************************
       ier = fstopi('TOLRNC', tol, flag)
       nrecs = 0
       nbrecs = 0
-      do 35 i=1,nf
+      do i=1,nf
          nrecs = fstouv(lnkdiun(i), 'RND')
          if (nrecs.lt.0) then
             call messerr(val(i))
@@ -295,15 +295,15 @@ c     ****************************************************************
             print *, '**********************************************'
             stop
          endif
-
-      ier = fstinl(lnkdiun(i), ni, nj, nk, -1, ' ',-1,-1,-1,' ',' ',
-     *             liste, nrecs, 24576)
       nbrecs = nbrecs + nrecs
- 35   continue
+      enddo
          
       tol = 6
       ier = fstopi('TOLRNC', tol, flag)
       call fstlnk(lnkdiun, nf)   
+      allocate (liste(nrecs))
+      ier = fstinl(lnkdiun(1), ni, nj, nk, -1, ' ',-1,-1,-1,' ',' ',
+     *             liste, nrecs, nrecs)
 
       return
       end
