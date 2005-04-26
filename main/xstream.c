@@ -50,12 +50,14 @@ void c_animvent(float *uu,float *vv,float *mapscl,int ni,int nj, int seglen, flo
   int ier, i,j,k,l,m,icount,limite;
   int iseed;
   double l_delai;
+  int nbFlds;
+  _Champ *champ;
 
   int ilim, npoints, n;
   int ix, iy;
 
   int ifac,jfac,iframe,gdid;
-  int ipos,jpos;
+  int ipos,jpos,induv;
   float uuu,vvv;
   float umax, vmax;
   int ezqkdef, gdxysval, width, height;
@@ -63,6 +65,15 @@ void c_animvent(float *uu,float *vv,float *mapscl,int ni,int nj, int seglen, flo
 
   float *xx, *yy;
 
+  nbFlds =  FldMgrGetNbChampsActifs();
+  i = 0;
+  FldMgrGetChamp(&champ, 0);
+  while (i < nbFlds && champ->natureTensorielle != VECTEUR)
+         {
+         i++;
+         }
+  induv = i;
+  
   xx = (float *)malloc(sizeof(float)*npts);
   yy = (float *)malloc(sizeof(float)*npts);
 
@@ -136,7 +147,7 @@ void c_animvent(float *uu,float *vv,float *mapscl,int ni,int nj, int seglen, flo
          {
          AfficherCarte(i);
          }
-       c_wglcol(NOIR);
+       c_wglcol(xc.attributs[induv].indCouleurFore);
        for (k=0; k < limite-seglen+1; k+=segstep)
          {
          for (i=0; i <= seglen - 1; i++)

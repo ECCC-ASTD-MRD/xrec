@@ -21,10 +21,7 @@
 #include <math.h>
 #include <wgl.h>
 
-void PointerVent(xdepart, ydepart, dirVent, vitVent, rayon)
-float xdepart, ydepart;
-float dirVent, vitVent;
-int rayon;
+void PointerVent(float xdepart, float ydepart, float dirVent, float vitVent, int rayon)
 {
    float barbe, fraction;
    float radian  = 0.0174503293;

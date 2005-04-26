@@ -26,7 +26,8 @@
 
 extern _XContour    xc;
 
-void PointerVent();
+void PointerVent(float xdepart, float ydepart, float dirVent, float vitVent, int rayon);
+
 #define C2FTN(i,j,ni)  (int)((ni) * (j) + i)
 
 #ifndef FALSE
@@ -465,12 +466,12 @@ float ventmax;
       idist = 0;
       c_xy2fxfy(&x, &y, ri,rj);
       while (idist < longueurMax && ri <= (float)ifin)
-   {
-   c_xy2fxfy(&x2, &y2, ri+densite, rj);
-   c_wglxai(&idist2, &jdist2, x2, y2);
-   idist = idist2 - idist1;
-   ri+=densite;
-   }
+        {
+        c_xy2fxfy(&x2, &y2, ri+densite, rj);
+        c_wglxai(&idist2, &jdist2, x2, y2);
+        idist = idist2 - idist1;
+        ri+=densite;
+        }
       }
    c_wgllwi(1);
    }

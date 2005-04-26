@@ -74,7 +74,7 @@
       logical flag
 *
       data vide/' '/
-      data cle /124 * 'IMFLDS.', 'AR',     'OZSRT.', 
+      data cle /124 * 'IMFLDS:', 'AR',     'OZSRT.', 
      *          'COLMIN', 'COLMAX', 'V', 'DEBUG', 'NOLOGO', 'ROC'/
       data def /124 * 'SCRAP',  'SQUARE', 'CHAMP_EDITE',
      *          '64',     '248', 'OUI', 'OUI','OUI','OUI'/

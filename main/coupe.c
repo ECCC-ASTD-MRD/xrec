@@ -600,7 +600,20 @@ CoupeMgrSetMinMaxCoupe()
       {
       op = NO_OP;
       }
+   else
+      {
+      for (i=0; i < nbChampsActifs; i+=2)
+         {
+         FldMgrGetChamp(&champ, i);
+         FldMgrGetChamp(&champ2, i+1);
+         if (champ->natureTensorielle != champ2->natureTensorielle)
+            {
+            op = NO_OP;
+            }
+         }
+      }
 
+   
    if (VerifierExistenceCoupeValide())
       {
       switch (calculMinMax)
@@ -634,11 +647,24 @@ CoupeMgrSetMinMaxCoupe()
             for (i=1; i < nbChampsActifs; i++)
               {
               FldMgrGetChamp(&champ, i);
-              f77name(aminmax)(&opmin[op],&opmax[op],champ->coupe.fld2d,&npts,&un);
-              opmin[op] /=  champ->facteur;
-              opmax[op] /=  champ->facteur;
-              grafMinX = grafMinX < opmin[op] ? grafMinX : opmin[op];
-              grafMaxX = grafMaxX > opmax[op] ? grafMaxX : opmax[op];
+               switch(champ->natureTensorielle)
+                  {
+                  case SCALAIRE:
+                  f77name(aminmax)(&opmin[op],&opmax[op],champ->coupe.fld2d,&npts,&un);
+                  opmin[op] /=  champ->facteur;
+                  opmax[op] /=  champ->facteur;
+                  grafMinX = grafMinX < opmin[op] ? grafMinX : opmin[op];
+                  grafMaxX = grafMaxX > opmax[op] ? grafMaxX : opmax[op];
+                  break;
+                  
+                  case VECTEUR:
+                  f77name(aminmax)(&opmin[op],&opmax[op],champ->coupe.uvw2d,&npts,&un);
+                  opmin[op] /=  champ->facteur;
+                  opmax[op] /=  champ->facteur;
+                  grafMinX = grafMinX < opmin[op] ? grafMinX : opmin[op];
+                  grafMaxX = grafMaxX > opmax[op] ? grafMaxX : opmax[op];
+                  break;
+                  }
               }
             }
           break;

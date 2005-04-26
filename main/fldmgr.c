@@ -2790,79 +2790,87 @@ int ind;
 
   if (fmflds[ind].natureTensorielle == SCALAIRE)
       {
-      DiffMgrSetDiffs(fmflds[ind-1].coupe.fld3d[0],fmflds[ind].coupe.fld3d[0],
-          fmflds[ind-1].coupe.FLDmin3d,fmflds[ind-1].coupe.FLDmax3d,npts);
-
-      for (j=1; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
+      if (fmflds[ind-1].natureTensorielle == SCALAIRE)
         {
-        DiffMgrSetDiffs(fmflds[ind-1].coupe.fld3d[j],fmflds[ind].coupe.fld3d[j], opmin,opmax,npts);
+        DiffMgrSetDiffs(fmflds[ind-1].coupe.fld3d[0],fmflds[ind].coupe.fld3d[0],
+                        fmflds[ind-1].coupe.FLDmin3d,fmflds[ind-1].coupe.FLDmax3d,npts);
 
-        for (i=0; i < 5; i++)
-            {
-            fmflds[ind-1].coupe.FLDmin3d[i] = opmin[i] < fmflds[ind-1].coupe.FLDmin3d[i] ? opmin[i] : fmflds[ind-1].coupe.FLDmin3d[i];
-            fmflds[ind-1].coupe.FLDmax3d[i] = opmax[i] > fmflds[ind-1].coupe.FLDmax3d[i] ? opmax[i] : fmflds[ind-1].coupe.FLDmax3d[i];
-            }
+        for (j=1; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
+          {
+          DiffMgrSetDiffs(fmflds[ind-1].coupe.fld3d[j],fmflds[ind].coupe.fld3d[j], opmin,opmax,npts);
+  
+          for (i=0; i < 5; i++)
+              {
+              fmflds[ind-1].coupe.FLDmin3d[i] = opmin[i] < fmflds[ind-1].coupe.FLDmin3d[i] ? opmin[i] : fmflds[ind-1].coupe.FLDmin3d[i];
+              fmflds[ind-1].coupe.FLDmax3d[i] = opmax[i] > fmflds[ind-1].coupe.FLDmax3d[i] ? opmax[i] : fmflds[ind-1].coupe.FLDmax3d[i];
+              }
+          }
+
         }
       }
   else
       {
-      DiffMgrSetDiffs(fmflds[ind-1].coupe.uu3d[0],fmflds[ind].coupe.uu3d[0],
-          fmflds[ind-1].coupe.UUmin3d,fmflds[ind-1].coupe.UUmax3d,npts);
-
-      for (j=1; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
+      if (fmflds[ind-1].natureTensorielle == VECTEUR)
         {
-        DiffMgrSetDiffs(fmflds[ind-1].coupe.uu3d[j],fmflds[ind].coupe.uu3d[j], opmin,opmax,npts);
+        DiffMgrSetDiffs(fmflds[ind-1].coupe.uu3d[0],fmflds[ind].coupe.uu3d[0],
+            fmflds[ind-1].coupe.UUmin3d,fmflds[ind-1].coupe.UUmax3d,npts);
+  
+        for (j=1; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
+          {
+          DiffMgrSetDiffs(fmflds[ind-1].coupe.uu3d[j],fmflds[ind].coupe.uu3d[j], opmin,opmax,npts);
+  
+          for (i=0; i < 5; i++)
+              {
+              fmflds[ind-1].coupe.UUmin3d[i] = opmin[i] < fmflds[ind-1].coupe.UUmin3d[i] ? opmin[i] : fmflds[ind-1].coupe.UUmin3d[i];
+              fmflds[ind-1].coupe.UUmax3d[i] = opmax[i] > fmflds[ind-1].coupe.UUmax3d[i] ? opmax[i] : fmflds[ind-1].coupe.UUmax3d[i];
+              }
+          }
+  
+        DiffMgrSetDiffs(fmflds[ind-1].coupe.vv3d[0],fmflds[ind].coupe.vv3d[0],
+            fmflds[ind-1].coupe.VVmin3d,fmflds[ind-1].coupe.VVmax3d,npts);
+  
+        for (j=1; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
+          {
+          DiffMgrSetDiffs(fmflds[ind-1].coupe.vv3d[j],fmflds[ind].coupe.vv3d[j], opmin,opmax,npts);
+  
+          for (i=0; i < 5; i++)
+              {
+              fmflds[ind-1].coupe.VVmin3d[i] = opmin[i] < fmflds[ind-1].coupe.VVmin3d[i] ? opmin[i] : fmflds[ind-1].coupe.VVmin3d[i];
+              fmflds[ind-1].coupe.VVmax3d[i] = opmax[i] > fmflds[ind-1].coupe.VVmax3d[i] ? opmax[i] : fmflds[ind-1].coupe.VVmax3d[i];
+              }
+          }
+        DiffMgrSetDiffs(fmflds[ind-1].coupe.ww3d[0],fmflds[ind].coupe.ww3d[0], fmflds[ind-1].coupe.WWmin3d,fmflds[ind-1].coupe.WWmax3d,npts);
+  
+        for (j=1; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
+          {
+          DiffMgrSetDiffs(fmflds[ind-1].coupe.ww3d[j],fmflds[ind].coupe.ww3d[j], opmin,opmax,npts);
+  
+          for (i=0; i < 5; i++)
+              {
+              fmflds[ind-1].coupe.WWmin3d[i] = opmin[i] < fmflds[ind-1].coupe.WWmin3d[i] ? opmin[i] : fmflds[ind-1].coupe.WWmin3d[i];
+              fmflds[ind-1].coupe.WWmax3d[i] = opmax[i] > fmflds[ind-1].coupe.WWmax3d[i] ? opmax[i] : fmflds[ind-1].coupe.WWmax3d[i];
+              }
+          }
+  
+        DiffMgrSetVDiffs3D(fmflds[ind-1].coupe.uu3d[0], fmflds[ind-1].coupe.vv3d[0],fmflds[ind-1].coupe.ww3d[0],
+        fmflds[ind].coupe.uu3d[0], fmflds[ind].coupe.vv3d[0],fmflds[ind].coupe.ww3d[0],
+        fmflds[ind-1].coupe.UVWmin3d,  fmflds[ind-1].coupe.UVWmax3d, npts);
+  
+        for (j=1; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
+          {
+          DiffMgrSetVDiffs3D(fmflds[ind-1].coupe.uu3d[j], fmflds[ind-1].coupe.vv3d[j],fmflds[ind-1].coupe.ww3d[j],
+                  fmflds[ind].coupe.uu3d[j], fmflds[ind].coupe.vv3d[j],fmflds[ind].coupe.ww3d[j],
+                  opmin,  opmax, npts);
+  
+          for (i=0; i < 5; i++)
+              {
+              fmflds[ind-1].coupe.UVWmin3d[i] = opmin[i] < fmflds[ind-1].coupe.UVWmin3d[i] ? opmin[i] : fmflds[ind-1].coupe.UVWmin3d[i];
+              fmflds[ind-1].coupe.UVWmax3d[i] = opmax[i] > fmflds[ind-1].coupe.UVWmax3d[i] ? opmax[i] : fmflds[ind-1].coupe.UVWmax3d[i];
+              }
+          }
+      }        
+    }
 
-        for (i=0; i < 5; i++)
-            {
-            fmflds[ind-1].coupe.UUmin3d[i] = opmin[i] < fmflds[ind-1].coupe.UUmin3d[i] ? opmin[i] : fmflds[ind-1].coupe.UUmin3d[i];
-            fmflds[ind-1].coupe.UUmax3d[i] = opmax[i] > fmflds[ind-1].coupe.UUmax3d[i] ? opmax[i] : fmflds[ind-1].coupe.UUmax3d[i];
-            }
-        }
-
-      DiffMgrSetDiffs(fmflds[ind-1].coupe.vv3d[0],fmflds[ind].coupe.vv3d[0],
-          fmflds[ind-1].coupe.VVmin3d,fmflds[ind-1].coupe.VVmax3d,npts);
-
-      for (j=1; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
-        {
-        DiffMgrSetDiffs(fmflds[ind-1].coupe.vv3d[j],fmflds[ind].coupe.vv3d[j], opmin,opmax,npts);
-
-        for (i=0; i < 5; i++)
-            {
-            fmflds[ind-1].coupe.VVmin3d[i] = opmin[i] < fmflds[ind-1].coupe.VVmin3d[i] ? opmin[i] : fmflds[ind-1].coupe.VVmin3d[i];
-            fmflds[ind-1].coupe.VVmax3d[i] = opmax[i] > fmflds[ind-1].coupe.VVmax3d[i] ? opmax[i] : fmflds[ind-1].coupe.VVmax3d[i];
-            }
-        }
-      DiffMgrSetDiffs(fmflds[ind-1].coupe.ww3d[0],fmflds[ind].coupe.ww3d[0], fmflds[ind-1].coupe.WWmin3d,fmflds[ind-1].coupe.WWmax3d,npts);
-
-      for (j=1; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
-        {
-        DiffMgrSetDiffs(fmflds[ind-1].coupe.ww3d[j],fmflds[ind].coupe.ww3d[j], opmin,opmax,npts);
-
-        for (i=0; i < 5; i++)
-            {
-            fmflds[ind-1].coupe.WWmin3d[i] = opmin[i] < fmflds[ind-1].coupe.WWmin3d[i] ? opmin[i] : fmflds[ind-1].coupe.WWmin3d[i];
-            fmflds[ind-1].coupe.WWmax3d[i] = opmax[i] > fmflds[ind-1].coupe.WWmax3d[i] ? opmax[i] : fmflds[ind-1].coupe.WWmax3d[i];
-            }
-        }
-
-      DiffMgrSetVDiffs3D(fmflds[ind-1].coupe.uu3d[0], fmflds[ind-1].coupe.vv3d[0],fmflds[ind-1].coupe.ww3d[0],
-      fmflds[ind].coupe.uu3d[0], fmflds[ind].coupe.vv3d[0],fmflds[ind].coupe.ww3d[0],
-      fmflds[ind-1].coupe.UVWmin3d,  fmflds[ind-1].coupe.UVWmax3d, npts);
-
-      for (j=1; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
-        {
-        DiffMgrSetVDiffs3D(fmflds[ind-1].coupe.uu3d[j], fmflds[ind-1].coupe.vv3d[j],fmflds[ind-1].coupe.ww3d[j],
-                fmflds[ind].coupe.uu3d[j], fmflds[ind].coupe.vv3d[j],fmflds[ind].coupe.ww3d[j],
-                opmin,  opmax, npts);
-
-        for (i=0; i < 5; i++)
-            {
-            fmflds[ind-1].coupe.UVWmin3d[i] = opmin[i] < fmflds[ind-1].coupe.UVWmin3d[i] ? opmin[i] : fmflds[ind-1].coupe.UVWmin3d[i];
-            fmflds[ind-1].coupe.UVWmax3d[i] = opmax[i] > fmflds[ind-1].coupe.UVWmax3d[i] ? opmax[i] : fmflds[ind-1].coupe.UVWmax3d[i];
-            }
-        }
-      }
   }
 
 
@@ -3035,7 +3043,14 @@ FldMgrFlagMissingValues(_Champ *champ)
   
   huge = HUGE;
 
-  if (champ->src.grtyp[0] == 'X')
+  /*
+  if (champ->src.grtyp[0] == 'X' || champ->src.grtyp[0] == 'Y')
+    {
+    return 0;
+    }
+    */
+
+  if (champ->src.grtyp[0] == 'Y')
     {
     return 0;
     }

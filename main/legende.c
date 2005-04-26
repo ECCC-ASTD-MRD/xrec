@@ -116,7 +116,7 @@ float x1, y1, x2, y2;
       
       if (8 < c_wglgpl())
         {
-        c_wglcolf(colorTable[0] + (contourCourant-cmin)/(cmax-cmin)*(colorTable[255]-colorTable[0]));
+        c_wglcolf(colorTable[0] + fraction*(colorTable[255]-colorTable[0]));
         }
       else
         {
