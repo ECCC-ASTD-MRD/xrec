@@ -22,10 +22,12 @@
 #include <memory.h>
 #include <rpnmacros.h>
 #include <xinit.h>
-#include <gmp.h>
 #include <wgl.h>
 #include <souris.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 
 extern int lng;
 extern GeoMapInfoStruct    mapInfo, oldMapInfo;
@@ -43,7 +45,7 @@ static char *lblAvrtRecordsBizarres[]={"\nLes descripteurs '^^' et '>>'\nfont re
 static float *axeX = NULL;
 static float *axeY = NULL;
 
-InitMapInfo(char type, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
+void InitMapInfo(char type, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
 {
    int res;
    char blanc = ' ';
@@ -194,7 +196,7 @@ InitMapInfo(char type, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
 }
 
 
-GeoMgrGetMapInfo(char *grtyp, char *grref, int *ni, int *nj, int *ig1, int *ig2, int *ig3, int *ig4, 
+void GeoMgrGetMapInfo(char *grtyp, char *grref, int *ni, int *nj, int *ig1, int *ig2, int *ig3, int *ig4, 
                  float **lat, float **lon)
 {
    int gdid ;
@@ -227,7 +229,7 @@ GeoMgrGetMapInfo(char *grtyp, char *grref, int *ni, int *nj, int *ig1, int *ig2,
 }
 
 
-GeoMgrClearMapInfo(void)
+void GeoMgrClearMapInfo(void)
 {
    mapInfo.type = ' ';
    mapInfo.typeref = ' ';
@@ -240,13 +242,13 @@ GeoMgrClearMapInfo(void)
 }
 
 
-GeoMgrSetLatLon(float *lat, float *lon)
+void GeoMgrSetLatLon(float *lat, float *lon)
 {
    mapInfo.lat = lat;
    mapInfo.lon = lon;
 }
 
-c_ezgdefrec(int ni, int nj, char *grtyp, int ig1, int ig2, int ig3, int ig4)
+int c_ezgdefrec(int ni, int nj, char *grtyp, int ig1, int ig2, int ig3, int ig4)
 {
    int iig4;
    float *bidon = NULL;   

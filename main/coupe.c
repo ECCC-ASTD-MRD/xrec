@@ -23,15 +23,19 @@
 #include <Xm/CascadeBG.h>
 #include <Xm/RowColumn.h>
 
-#include <xinit.h>
-#include <rec.h>
-#include <wgl.h>
 #include <rpnmacros.h>
+#include <xinit.h>
+#include <wgl.h>
 #include <souris.h>
+#include <rpnmacros.h>
+#include <gmp.h>
+#include <rec.h>
+#include <rec_functions.h>
 #include <math.h>
 
 #define AUTO_PROFIL 0
 #define AUTO_GRILLES 1
+#define AUTO_LEVELS 1
 #define FIXES       2
 
 #define TOPO_INACTIVE 0
@@ -39,7 +43,8 @@
 
 int dimensionCoupe = ZP;
 int echelle = LINEAIRE;
-int calculMinMax = AUTO_PROFIL;
+int calculMinMax_X = AUTO_PROFIL;
+int calculMinMax_Y = AUTO_LEVELS;
 int sensEchelle = DECROISSANTE;
 int toggleTopo = TOPO_INACTIVE;
 float grafMinX, grafMinY, grafMaxX, grafMaxY;
@@ -49,26 +54,6 @@ float grafMinUU,grafMaxUU,grafMinVV,grafMaxVV,grafMinWW,grafMaxWW;
 extern SuperWidgetStruct SuperWidget;
 extern _XContour    xc;
 extern _Viewport    viewp;
-
-XtCallbackProc PcpNouvelleCoupe();
-XtCallbackProc PcpScanProfil();
-XtCallbackProc PcpScanCoupe();
-XtCallbackProc PcpOk();
-
-XtCallbackProc PcpAfficher();
-
-XtCallbackProc PcpSetEchelleLineaire();
-XtCallbackProc PcpSetEchelleLog();
-
-XtCallbackProc PcpSetMinMaxProfil();
-XtCallbackProc PcpSetMinMaxGrilles();
-XtCallbackProc PcpSetMinMaxUsager();
-
-XtCallbackProc PcpSetEchelleCroissante();
-XtCallbackProc PcpSetEchelleDecroissante();
-
-XtCallbackProc PcpSetToggleTopo();
-
 
 extern Widget pcpForme, pcpFrame, pcpForme2, pcpFrame3, pcpForme3, pcpRC, pcpAfficher, pcpOk;
 extern Widget pcpFormeBoutons, pcpFormeEchelle, pcpFormeLimite;
@@ -102,19 +87,25 @@ char *pasAvecDesChampsVectoriels[] = {"On ne peut faire\nde coupes ou de profils
 char *bombe[] = {"Une erreur systeme est survenue.\nCette application pourrait inopinement quitter", "A system error occured.\nThis program could unexpectedly quit"};
 
 
+float cp_hyb(float psurf, float hyb, float ptop, float pref, float rcoef)
+  {
+  float term_a, term_b;
+  
+  term_b = powf(((hyb - ptop/pref) / (1.0 - (ptop/pref))), rcoef);
+  term_a = pref*(hyb-term_b);
+  return (term_a +  term_b*psurf);
+  }
+
 /**
  ******************************************************************************
  ******************************************************************************
  **/
 
-PreparerCoupe(cx1,cy1,cx2,cy2)
-float cx1,cy1,cx2,cy2;
+int PreparerCoupe(float cx1, float cy1, float cx2, float cy2)
 {
    _Champ *champ;
    int ixmin, ixmax, iymin, iymax;
-   float xmin, xmax, ymin, ymax;
-   float niveauMin, niveauMax;
-   int i,j,ier;
+   int i,ier;
    int fenetreAffichage, fenetreCoupe;
    int nbChampsActifs;
    float rx1,ry1,rx2,ry2;
@@ -142,23 +133,23 @@ float cx1,cy1,cx2,cy2;
    if (ier > 0)
       {
       switch (ier)
-   {
-         case PAS_ASSEZ_DE_NIVEAUX:
-   MessageAvertissement(pasAssezDeNiveaux[lng], AVERTISSEMENT);
-   break;
-   
-   case NB_NIVEAUX_INCONSISTANTS:
-   MessageAvertissement(nbNiveauxDifferents[lng], AVERTISSEMENT);
-   break;
-   
-   case NIVEAUX_INCONSISTANTS:
-   MessageAvertissement(niveauxDifferents[lng], AVERTISSEMENT);
-   break;
-   
-   default:
-   MessageAvertissement(bombe[lng], AVERTISSEMENT);
-   break;
-   }
+        {
+        case PAS_ASSEZ_DE_NIVEAUX:
+        MessageAvertissement(pasAssezDeNiveaux[lng], AVERTISSEMENT);
+        break;
+        
+        case NB_NIVEAUX_INCONSISTANTS:
+        MessageAvertissement(nbNiveauxDifferents[lng], AVERTISSEMENT);
+        break;
+        
+        case NIVEAUX_INCONSISTANTS:
+        MessageAvertissement(niveauxDifferents[lng], AVERTISSEMENT);
+        break;
+        
+        default:
+        MessageAvertissement(bombe[lng], AVERTISSEMENT);
+        break;
+        }
       return ier;
       }
    
@@ -167,11 +158,11 @@ float cx1,cy1,cx2,cy2;
       FldMgrGetChamp(&champ, i);
       
       if (champ->coupe.coupeValide)
-   {
-   c_wglsetw(fenetreAffichage);
-   FldMgrPreparerCoupe (champ,&rx1,&ry1,&rx2,&ry2);
-   c_wglsetw(fenetreCoupe);
-   }
+        {
+        c_wglsetw(fenetreAffichage);
+        FldMgrPreparerCoupe (champ,&rx1,&ry1,&rx2,&ry2);
+        c_wglsetw(fenetreCoupe);
+        }
       }
    
    if (!VerifierExistenceCoupeValide())
@@ -201,40 +192,41 @@ float cx1,cy1,cx2,cy2;
  **/
 
 
-AfficherProfilCoupe(xx, yy)
-float xx, yy;
+void AfficherProfilCoupe(float xx, float yy)
 {
-   int i,j, fontSize;
-   float *x, *y;
+   int i,fontSize;
+   float xxx, yyy;
    float xmin, ymin, xmax, ymax;
    int npts;
-   int axeXRev, axeYRev;
-   int nbIntX, nbIntY;
-   float intervalleX, intervalleY;
    _Champ *champ, *champ2;
    char titre[40], titrex[32],titrey[32];
    float **valeurs;
-   int i1, j1, i2, j2;
-   float x1, y1;
-   int largeurTitre;
+   int i1, j1;
+   float p0,ptop,p;
    int n, nbChampsActifs;
    int zero = 0;
-   int ix, iy;
+   int selectedVertCoord;
    int lng,op,trace;
    int largeurFenetre, hauteurFenetre;
+   int un = 1;
 
    lng = c_getulng();
    nbChampsActifs = FldMgrGetNbChampsActifs();
-   valeurs = (float **) calloc(nbChampsActifs,sizeof(float *));
+   valeurs = (float **) malloc(nbChampsActifs*sizeof(float *));
+   selectedVertCoord = GetSelectedVertCoord();
 
+   xxx = xx;
+   yyy = yy;
    FldMgrGetChamp(&champ, 0);
    if (champ->natureTensorielle == VECTEUR)
       {
       return;
       }
+   
    for (n=0; n < nbChampsActifs; n++)
       {
-      valeurs[n] = (float *) calloc(champ->coupe.nbNiveauxCoupe, sizeof(float));
+      FldMgrGetChamp(&champ, n);
+      valeurs[n] = (float *) malloc(champ->coupe.nbNiveauxCoupe*sizeof(float));
       }
 
    c_wglgwz(&largeurFenetre, &hauteurFenetre);
@@ -266,8 +258,14 @@ float xx, yy;
 
    sprintf(titrex, "$");
    sprintf(titrey, "$");
-   f77name(setprof1)(&champ->coupe.niveauMin, &champ->coupe.niveauMax,&echelle,titrex,titrey,
-         0, 0);
+   if ((champ->coordonneeVerticale == SIGMA || champ->coordonneeVerticale == HYBRIDE) && selectedVertCoord == PRES_VCOORD)
+    {
+    f77name(setprof1)(&champ->coupe.niveauPresMin, &champ->coupe.niveauPresMax,&echelle,titrex,titrey, 0, 0);
+    }
+   else
+    {
+    f77name(setprof1)(&champ->coupe.niveauMin, &champ->coupe.niveauMax,&echelle,titrex,titrey, 0, 0);
+    }
 
    c_wglcol(NOIR);
    c_wgllwi(1);
@@ -280,7 +278,15 @@ float xx, yy;
       FldMgrGetChamp(&champ, i);
       }
 
-   f77name(xezxy)(champ->coupe.fld2d, champ->coupe.niveauxCoupe, &zero, titre, 0);
+/*   if ((champ->coordonneeVerticale == SIGMA || champ->coordonneeVerticale == HYBRIDE) && selectedVertCoord == PRES_VCOORD)
+    {
+     niveauxCoupePres = 
+     f77name(xezxy)(champ->coupe.fld2d, champ->coupe.niveauxCoupePres, &zero, titre, 0);
+    }
+   else
+    {*/
+     f77name(xezxy)(champ->coupe.fld2d, champ->coupe.niveauxCoupe, &zero, titre, 0);
+//     }
 
    c_wgllwi(1);
    f77name(setprof2)();
@@ -314,14 +320,36 @@ float xx, yy;
         trace = (op == NO_OP || 0 == n%2);
         if (trace)
           {
-          c_wglxai(&i1, &j1, valeurs[n][0]/champ->facteur, champ->coupe.niveauxCoupe[0]);
-          AfficherSymbole(i1,j1,n);
-          for (i=1; i < champ->coupe.nbNiveauxCoupe; i++)
+          if ((champ->coordonneeVerticale == SIGMA || champ->coordonneeVerticale == HYBRIDE) && selectedVertCoord == PRES_VCOORD)
             {
-            c_wglmvx(valeurs[n][i-1]/champ->facteur, champ->coupe.niveauxCoupe[i-1]);
-            c_wgldrx(valeurs[n][i]/champ->facteur, champ->coupe.niveauxCoupe[i]);
-            c_wglxai(&i1, &j1, valeurs[n][i]/champ->facteur, champ->coupe.niveauxCoupe[i]);
+            ptop=champ->coupe.ptop;
+/*            f77name(ez_rgdint_1_nw)(&p0, champ->coupe.x, champ->coupe.y, &champ->coupe.niCoupe, champ->coupe.montagnes, &champ->dst.ni, &un, &champ->dst.nj);*/
+            f77name(ez_rgdint_1_nw)(&p0, &xxx, &yyy, &champ->coupe.niCoupe, champ->coupe.montagnes, &champ->dst.ni, &un, &champ->dst.nj);
+            c_wglxai(&i1, &j1, valeurs[n][0]/champ->facteur, p0);
             AfficherSymbole(i1,j1,n);
+            for (i=1; i < champ->coupe.nbNiveauxCoupe; i++)
+              {
+              p = cp_hyb(p0, champ->coupe.niveauxCoupe[i-1], champ->coupe.ptop, champ->coupe.pref, champ->coupe.rcoef);
+/*              if (p < champ->coupe.ptop) p = ptop;*/
+              c_wglmvx(valeurs[n][i-1]/champ->facteur, p);
+              p = cp_hyb(p0, champ->coupe.niveauxCoupe[i], champ->coupe.ptop, champ->coupe.pref, champ->coupe.rcoef);
+/*              if (p < champ->coupe.ptop) p = ptop;*/
+              c_wgldrx(valeurs[n][i]/champ->facteur, p);
+              c_wglxai(&i1, &j1, valeurs[n][i]/champ->facteur, p);
+              AfficherSymbole(i1,j1,n);
+              }
+            }
+          else
+            {
+            c_wglxai(&i1, &j1, valeurs[n][0]/champ->facteur, champ->coupe.niveauxCoupe[0]);
+            AfficherSymbole(i1,j1,n);
+            for (i=1; i < champ->coupe.nbNiveauxCoupe; i++)
+              {
+              c_wglmvx(valeurs[n][i-1]/champ->facteur, champ->coupe.niveauxCoupe[i-1]);
+              c_wgldrx(valeurs[n][i]/champ->facteur, champ->coupe.niveauxCoupe[i]);
+              c_wglxai(&i1, &j1, valeurs[n][i]/champ->facteur, champ->coupe.niveauxCoupe[i]);
+              AfficherSymbole(i1,j1,n);
+              }
             }
           }
         }
@@ -353,10 +381,10 @@ float xx, yy;
  ******************************************************************************
  **/
 
-int CoupeMgrGetFenetreCoupeID(fenetreID)
-int *fenetreID;
+int CoupeMgrGetFenetreCoupeID(int *fenetreID)
 {
    *fenetreID = fenetreCoupe;
+   return 0;
    }
 
 
@@ -366,7 +394,7 @@ int *fenetreID;
  **/
 
 
-AfficherLigneCoupe()
+void AfficherLigneCoupe()
 {
    _Champ *champ;
    int coupeOK;
@@ -428,10 +456,8 @@ AfficherLigneCoupe()
 
 
 
-EnleverLigneCoupe(x1, y1, x2, y2)
-float x1, y1, x2, y2;
+void EnleverLigneCoupe(float x1, float y1, float x2, float y2)
 {
-   _Champ *champ;
    int fenetreAffichage;
 
    if (!VerifierExistenceCoupeValide())
@@ -483,16 +509,16 @@ int CoupeMgrGetStatutCoupe()
  **/
 
 
-int CoupeMgrGetCoupeCoords(x1, y1, x2, y2)
-float *x1, *y1, *x2, *y2;
+int  CoupeMgrGetCoupeCoords(float *x1, float *y1, float *x2, float *y2)
 {
    *x1 = cx1;
    *x2 = cx2;
    *y1 = cy1;
    *y2 = cy2;
+   return 0;
    }
 
-VerifierExistenceCoupeValide()
+int VerifierExistenceCoupeValide()
 {
    int i, nbChampsActifs, coupeValideTrouvee,dimensionCoupe;
    _Champ *champ;
@@ -507,12 +533,12 @@ VerifierExistenceCoupeValide()
       
       i = 0;
       while (i < nbChampsActifs && !coupeValideTrouvee)
-   {
-   FldMgrGetChamp(&champ, i);
-   if (champ->coupe.coupeValide == 1)
-      coupeValideTrouvee = 1;
-   i++;
-   }
+        {
+        FldMgrGetChamp(&champ, i);
+        if (champ->coupe.coupeValide == 1)
+            coupeValideTrouvee = 1;
+        i++;
+        }
       }
    else
       {
@@ -530,7 +556,7 @@ VerifierExistenceCoupeValide()
  ******************************************************************************
  **/
 
-EffacerCoupe ()
+void EffacerCoupe ()
 {
    int i;
    _Champ *champ;
@@ -539,9 +565,9 @@ EffacerCoupe ()
       {
       FldMgrGetChamp(&champ, i);
       if (dimensionCoupe == ZP)
-   {
-   FldMgrFreeCoupeFlds(champ);
-   }
+        {
+        FldMgrFreeCoupeFlds(champ);
+        }
       }
 
    RedessinerFenetreCoupe();
@@ -553,7 +579,7 @@ EffacerCoupe ()
  ******************************************************************************
  **/
 
-CoupeMgrSetMinMax()
+void CoupeMgrSetMinMax()
 {
    if (dimensionCoupe == ZP)
       {
@@ -571,22 +597,19 @@ CoupeMgrSetMinMax()
  **/
 
 
-CoupeMgrSetMinMaxCoupe()
+void CoupeMgrSetMinMaxCoupe()
 {   
    _Champ *champ, *champ2;
-   int ltype = 1;
-   int i,j,nbChampsActifs,op;
+   int i,nbChampsActifs,op;
    int ixmin, iymin, ixmax, iymax;
-   float temp,diff;
    char tempStr[16];
    char *returnedStr;
    Arg args[4];
    int fenetreCoupe;
-   float xdebut, xfin;
    float opmin[5],opmax[5];
    int un = 1;
    int npts;
-   int n;
+   int selectedVertCoord;
    
    ixmin = 0; ixmax = 0;
    iymin = 0; iymax = 0;
@@ -616,11 +639,10 @@ CoupeMgrSetMinMaxCoupe()
    
    if (VerifierExistenceCoupeValide())
       {
-      switch (calculMinMax)
+      selectedVertCoord = GetSelectedVertCoord();
+      switch (calculMinMax_X)
         {
         case AUTO_PROFIL:
-        grafMinY = champ->coupe.niveauMin;
-        grafMaxY = champ->coupe.niveauMax;
         npts = champ->coupe.niCoupe*champ->coupe.njCoupe;
       
         switch (op)
@@ -647,24 +669,26 @@ CoupeMgrSetMinMaxCoupe()
             for (i=1; i < nbChampsActifs; i++)
               {
               FldMgrGetChamp(&champ, i);
-               switch(champ->natureTensorielle)
-                  {
-                  case SCALAIRE:
-                  f77name(aminmax)(&opmin[op],&opmax[op],champ->coupe.fld2d,&npts,&un);
-                  opmin[op] /=  champ->facteur;
-                  opmax[op] /=  champ->facteur;
-                  grafMinX = grafMinX < opmin[op] ? grafMinX : opmin[op];
-                  grafMaxX = grafMaxX > opmax[op] ? grafMaxX : opmax[op];
-                  break;
-                  
-                  case VECTEUR:
-                  f77name(aminmax)(&opmin[op],&opmax[op],champ->coupe.uvw2d,&npts,&un);
-                  opmin[op] /=  champ->facteur;
-                  opmax[op] /=  champ->facteur;
-                  grafMinX = grafMinX < opmin[op] ? grafMinX : opmin[op];
-                  grafMaxX = grafMaxX > opmax[op] ? grafMaxX : opmax[op];
-                  break;
-                  }
+              switch(champ->natureTensorielle)
+                {
+                case SCALAIRE:
+                npts = champ->coupe.niCoupe*champ->coupe.njCoupe;
+                f77name(aminmax)(&opmin[op],&opmax[op],champ->coupe.fld2d,&npts,&un);
+                opmin[op] /=  champ->facteur;
+                opmax[op] /=  champ->facteur;
+                grafMinX = grafMinX < opmin[op] ? grafMinX : opmin[op];
+                grafMaxX = grafMaxX > opmax[op] ? grafMaxX : opmax[op];
+                break;
+                
+                case VECTEUR:
+                npts = champ->coupe.niCoupe*champ->coupe.njCoupe;
+                f77name(aminmax)(&opmin[op],&opmax[op],champ->coupe.uvw2d,&npts,&un);
+                opmin[op] /=  champ->facteur;
+                opmax[op] /=  champ->facteur;
+                grafMinX = grafMinX < opmin[op] ? grafMinX : opmin[op];
+                grafMaxX = grafMaxX > opmax[op] ? grafMaxX : opmax[op];
+                break;
+                }
               }
             }
           break;
@@ -703,9 +727,7 @@ CoupeMgrSetMinMaxCoupe()
         case AUTO_GRILLES:
         FldMgrGetChamp(&champ, 0);
         op = CtrlMgrGetMathOp();
-        
-        grafMinY = champ->coupe.niveauMin;
-        grafMaxY = champ->coupe.niveauMax;
+                
         switch (champ->natureTensorielle)
           {
           case SCALAIRE:
@@ -744,7 +766,39 @@ CoupeMgrSetMinMaxCoupe()
         returnedStr = (char *) XmTextFieldGetString(pcpTextMaxX);
         sscanf(returnedStr, "%e", &grafMaxX);
         XtFree(returnedStr);
+        break;
+        }
+      
+      switch (calculMinMax_Y)
+        {
+        case AUTO_LEVELS:
+        FldMgrGetChamp(&champ, 0);        
+        switch (champ->coordonneeVerticale)
+          {
+          case SIGMA:
+          case HYBRIDE:
+          switch (selectedVertCoord)
+            {
+            case NATIVE_VCOORD:
+            grafMinY = champ->coupe.niveauMin;
+            grafMaxY = champ->coupe.niveauMax;
+            break;
+            
+            case PRES_VCOORD:
+            grafMinY = champ->coupe.niveauPresMin;
+            grafMaxY = champ->coupe.niveauPresMax;
+            break;
+            }
+          break;
+          
+          default:
+          grafMinY = champ->coupe.niveauMin;
+          grafMaxY = champ->coupe.niveauMax;
+          break;
+          }
+        break;
         
+        case FIXES:
         returnedStr = (char *) XmTextFieldGetString(pcpTextMinY);
         sscanf(returnedStr, "%e", &grafMinY);
         XtFree(returnedStr);
@@ -752,8 +806,9 @@ CoupeMgrSetMinMaxCoupe()
         returnedStr = (char *) XmTextFieldGetString(pcpTextMaxY);
         sscanf(returnedStr, "%e", &grafMaxY);
         XtFree(returnedStr);
+        break;
         }
-      
+              
       i = 0;
       XtSetArg(args[i], XmNvalue, tempStr); i++;
 
@@ -787,8 +842,7 @@ CoupeMgrSetMinMaxCoupe()
       }
    }
 
-CoupeMgrGetLimites(valmin,valmax,nivmin,nivmax)
-float *valmin, *valmax, *nivmin, *nivmax;
+void CoupeMgrGetLimites(float *valmin, float *valmax, float *nivmin, float *nivmax)
   { 
   *valmin = grafMinX;
   *valmax = grafMaxX;
@@ -796,18 +850,18 @@ float *valmin, *valmax, *nivmin, *nivmax;
   *nivmax = grafMaxY;
   }
 
-CoupeMgrGetSensEchelle()
+int CoupeMgrGetSensEchelle()
 {
    return sensEchelle;
    }
 
-CoupeMgrGetToggleTopo()
+int CoupeMgrGetToggleTopo()
   {
   return xc.statuts[TOPO];
   }
 
 
-InitFenetreCoupe()
+void InitFenetreCoupe()
 {
    int lng;
    static char *labelFenetre[] = {"Profils/Coupes", "Profiles/XSections"};
@@ -822,22 +876,17 @@ InitFenetreCoupe()
    }
 
 
-CoupeMgrSetUVWMinMax()
+void CoupeMgrSetUVWMinMax()
 {   
    _Champ *champ, *champ2;
-   static int ltype = 1;
-   int i,j,k,nbChampsActifs,op;
+   int i,k,nbChampsActifs,op;
    int ixmin, iymin, ixmax, iymax;
-   float temp,diff;
    char tempStr[16];
    char *returnedStr;
    Arg args[4];
-   int fenetreCoupe;
-   float xdebut, xfin;
-   int npts, nptsCoupe,un;   
+   int fenetreCoupe, selectedVertCoord;
+   int npts, un;   
    float *uvwtang,*uvwnorm,*uu,*vv,*ww,*uv;
-   float  uvwtmin[5],uvwtmax[5],uvwnmin[5],uvwnmax[5],wwmin[5],wwmax[5],uvmin[5],uvmax[5];
-   float minuutang,minuunorm,minww,maxuutang,maxuunorm,maxww,minuvw,maxuvw;
 
    un = 1;
    ixmin = 0; ixmax = 0;
@@ -846,6 +895,7 @@ CoupeMgrSetUVWMinMax()
 
    i = 0;
    nbChampsActifs = FldMgrGetNbChampsActifs();
+   selectedVertCoord = GetSelectedVertCoord();
 
    grafMinUUtang =  1.0e+30;
    grafMaxUUtang = -1.0e+30;
@@ -867,7 +917,7 @@ CoupeMgrSetUVWMinMax()
    for (k=0; k < nbChampsActifs; k++)
       {
       FldMgrGetChamp(&champ, k);
-      if (champ->natureTensorielle > SCALAIRE && champ->coupe.coupeValide == 1)
+      if (champ->natureTensorielle != SCALAIRE && champ->coupe.coupeValide == 1)
         {
         npts = champ->coupe.niCoupe*champ->coupe.njCoupe;
         uvwtang = champ->coupe.uvwtang2d;
@@ -877,11 +927,32 @@ CoupeMgrSetUVWMinMax()
         ww     = champ->coupe.ww2d;
         uv     = champ->coupe.uvw2d;
 
-   switch (calculMinMax)
+   switch (calculMinMax_X)
       {
       case AUTO_PROFIL:
-      grafMinY = champ->coupe.niveauMin;
-      grafMaxY = champ->coupe.niveauMax;
+      switch (champ->coordonneeVerticale)
+        {
+        case SIGMA:
+        case HYBRIDE:
+        switch (selectedVertCoord)
+          {
+          case NATIVE_VCOORD:
+          grafMinY = champ->coupe.niveauMin;
+          grafMaxY = champ->coupe.niveauMax;
+          break;
+          
+          case PRES_VCOORD:
+          grafMinY = champ->coupe.niveauPresMin;
+          grafMaxY = champ->coupe.niveauPresMax;
+          break;
+          }
+        break;
+        
+        default:
+        grafMinY = champ->coupe.niveauMin;
+        grafMaxY = champ->coupe.niveauMax;
+        break;
+        }
       
       switch(op)
         {
@@ -929,6 +1000,29 @@ CoupeMgrSetUVWMinMax()
     break;
     
     case AUTO_GRILLES:
+    switch (champ->coordonneeVerticale)
+      {
+      case SIGMA:
+      case HYBRIDE:
+      switch (selectedVertCoord)
+        {
+        case NATIVE_VCOORD:
+        grafMinY = champ->coupe.niveauMin;
+        grafMaxY = champ->coupe.niveauMax;
+        break;
+        
+        case PRES_VCOORD:
+        grafMinY = champ->coupe.niveauPresMin;
+        grafMaxY = champ->coupe.niveauPresMax;
+        break;
+        }
+      break;
+      
+      default:
+      grafMinY = champ->coupe.niveauMin;
+      grafMaxY = champ->coupe.niveauMax;
+      break;
+      }
     grafMinUUtang = grafMinUUtang < champ->coupe.UVWmin3d[op] ? grafMinUUtang : champ->coupe.UVWmin3d[op];
     grafMaxUUtang = grafMaxUUtang > champ->coupe.UVWmax3d[op] ? grafMaxUUtang : champ->coupe.UVWmax3d[op];
     grafMinUU = grafMinUU <  champ->coupe.UUmin3d[op]    ? grafMinUU :  champ->coupe.UUmin3d[op];
@@ -997,8 +1091,7 @@ CoupeMgrSetUVWMinMax()
    }
 
 
-CoupeMgrGetLimitesUVW(uutanmin,uutanmax,uvwmin,uvwmax,uumin,uumax,vvmin,vvmax,wwmin,wwmax,nivmin,nivmax)
-float *uutanmin,*uutanmax,*uvwmin,*uvwmax,*uumin,*uumax,*vvmin,*vvmax,*wwmin,*wwmax,*nivmin,*nivmax;
+void CoupeMgrGetLimitesUVW(float *uutanmin, float *uutanmax, float *uvwmin,float *uvwmax,float *uumin,float *uumax,float *vvmin,float *vvmax,float *wwmin,float *wwmax,float *nivmin,float *nivmax)
 {
    *uutanmin  = grafMinUUtang;
    *uutanmax  = grafMaxUUtang;

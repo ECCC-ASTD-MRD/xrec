@@ -20,9 +20,7 @@
 
 #include <wgl.h>
 
-AfficherFenetreLatLon(latmin, lonmin, latmax, lonmax, couleurFore, couleurBack)
-float latmin, lonmin, latmax, lonmax;
-int couleurFore, couleurBack;
+void AfficherFenetreLatLon(float latmin, float lonmin, float latmax, float lonmax, int couleurFore, int couleurBack)
 {
    int i,j;
    float x,y,lat,lon;

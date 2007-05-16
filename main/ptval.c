@@ -18,17 +18,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <memory.h>
 #include <rpnmacros.h>
 #include <math.h>
-#include <gmp.h>
 #include <wgl.h>
-
-int DrawPointValues(_Champ *, int, int, int, int, int, int [], int);
-void PointerFleche(float xdepart, float ydepart, float dirVent, float vitVent, int rayon, int width);
-void PointerVent(float xdepart, float ydepart, float dirVent, float vitVent, int rayon);
-
 
 
 static char *lblAvrtRecordsManquants[]={"\nLes descripteurs '^^' et '>>'\nsont manquants. Le champ sera affiche\nsans geographie\n",
@@ -43,7 +40,7 @@ void CheckForPointValues(_Champ *champ, int indChamp)
 
 extern float PtValMgrGetSymbolSize();
 
-DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThickness, int fore, int back, int cols[], int nbcols)
+void DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThickness, int fore, int back, int cols[], int nbcols)
 {
   
   int i, ii,npts;
@@ -183,8 +180,15 @@ DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThickness, in
       
       
     
-    rmin = champRef->min;
-    rmax = champRef->max;
+    if (CUSTOM == DictMgrGetMinMaxMode(champ->nomvar))
+      {
+      DictMgrGetMinMaxValues(champ->nomvar,&rmin,&rmax);
+      }
+    else
+      {
+      rmin = champRef->min;
+      rmax = champRef->max;
+      }
     uvmax = 0.0;
     for (i=0; i < FldMgrGetNbChampsActifs(); i++)
       {
@@ -207,24 +211,24 @@ DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThickness, in
       
     if (champ->natureTensorielle == SCALAIRE)
       {
-    if (champRef->intervalles[0] != 0.0)
-      {
-      AjusterMinMax(&rmin, &rmax, champRef->facteur, champRef->intervalles[0]);
-      }
+      if (champRef->intervalles[0] != 0.0)
+        {
+        AjusterMinMax(&rmin, &rmax, champRef->facteur, champRef->intervalles[0]);
+        }
       delta = rmax - rmin;
       memcpy(tmpVals, champ->fld, npts*sizeof(float));
-    c_wglcalcols(tmpInds, tmpVals, npts, rmin, delta, champ->intervalles, champ->nbIntervalles, champ->facteur, nbcols);
+      c_wglcalcols(tmpInds, tmpVals, npts, rmin, delta, champ->intervalles, champ->nbIntervalles, champ->facteur, nbcols);
       }
     else
       {
-    if (champRef->intervalles[0] != 0.0)
-      {
-      AjusterMinMax(&uvmin, &uvmax, champRef->facteur, champRef->intervalles[0]);
-      }
-      delta = uvmax - uvmin;
-      memcpy(tmpVals, champ->module, npts*sizeof(float));
-      c_wglcalcols(tmpInds, tmpVals, npts, uvmin, delta, champ->intervalles, champ->nbIntervalles, champ->facteur, nbcols);
-      }
+      if (champRef->intervalles[0] != 0.0)
+        {
+        AjusterMinMax(&uvmin, &uvmax, champRef->facteur, champRef->intervalles[0]);
+        }
+        delta = uvmax - uvmin;
+        memcpy(tmpVals, champ->module, npts*sizeof(float));
+        c_wglcalcols(tmpInds, tmpVals, npts, uvmin, delta, champ->intervalles, champ->nbIntervalles, champ->facteur, nbcols);
+        }
     for (i=0; i < npts; i++)
       {
       c_xy2fxfy(&x1, &y1, champ->x[i], champ->y[i]);
@@ -354,7 +358,7 @@ DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThickness, in
         {
         c_xy2fxfy(&x1, &y1, champ->x[i], champ->y[i]);
           if (xmin < x1 && x1 < xmax && ymin < y1 && y1 < ymax)
-          {
+            {
             c_wglxai(&i1, &j1, x1, y1);
             if (champ->natureTensorielle == SCALAIRE)
               {
@@ -368,16 +372,16 @@ DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThickness, in
                 direction = 270.0 - 57.29577951 * atan2(champ->vv[i],champ->uu[i]);
               else
                 direction = 0.0;
-
+  
               if (direction < 0.0)
                 direction += 360.0;
-
+  
               if (direction > 360.0)
                 direction -= 360.0;
-
+  
               sprintf(strVal, "%03.0f",(float)(int)(direction + 0.5));
               sprintf(tempVal, "%03.0f",(float)(int)(vitesse + 0.5));
-
+  
               strcat(strVal, "@");
               strcat(strVal, tempVal);
               largeurTexte = c_wglwsi(strVal, strlen(strVal));

@@ -30,7 +30,7 @@
 #include <rpnmacros.h>
 #include <xinit.h>
 #include <wgl.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 /**
 ** Declaration des constantes globales

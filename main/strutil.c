@@ -24,8 +24,7 @@
 void LireLigne();
 int  strfind();
 
-int strfind(SousChaine, Chaine)
-char *SousChaine, *Chaine;
+int strfind(char *SousChaine, char *Chaine)
 {
 int i,j, LongueurChaine, LongueurSousChaine, PositionTrouvee;
 
@@ -59,9 +58,7 @@ return(PositionTrouvee);
 
 
 
-void LireLigne(FichierEntree, Ligne)
-FILE *FichierEntree;
-char Ligne[];
+void LireLigne(FILE *FichierEntree, char Ligne[])
 {
    int i=0;
 

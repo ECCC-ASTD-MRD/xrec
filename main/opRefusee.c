@@ -18,7 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 
 static char *labelOpAnul[] = {"\n\
  Operation refusee.\n\
@@ -32,7 +35,7 @@ static char *labelOpAnul[] = {"\n\
     a) save the edited field, or\n\
     b) cancel all your modifications\n\n"};
 
-RefuserOperation()
+void RefuserOperation()
 {
    int lng;
    

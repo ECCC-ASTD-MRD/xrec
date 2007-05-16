@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <rpnmacros.h>
 #ifndef __CPLUSPPLUS
 #include <math.h>
@@ -37,14 +37,11 @@
 
 typedef struct 
 {
+   int mode, mapping, ni, nj;
    int idebut, jdebut, ifin, jfin;
-   int mode;
    float xdebut, ydebut, xfin, yfin;
    float densiteX, densiteY;
-   float *axex;
-   float *axey;
-   int   ni;
-   int   nj;
+   float *axex, *axey, *z;
    } UserSpaceInfo;
 
 typedef struct 

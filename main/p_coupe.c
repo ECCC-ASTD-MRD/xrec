@@ -24,19 +24,22 @@
 #include <Xm/RowColumn.h>
 
 #include <xinit.h>
-#include <rec.h>
-#include <wgl.h>
 #include <rpnmacros.h>
+#include <gmp.h>
+#include <rec.h>
+#include <rec_functions.h>
+#include <wgl.h>
 #include <souris.h>
 #include <math.h>
 
 #define AUTO_PROFIL 0
 #define AUTO_GRILLES 1
+#define AUTO_LEVELS 1
 #define FIXES       2
 
 extern int dimensionCoupe;
 extern int echelle;
-extern int calculMinMax;
+extern int calculMinMax_X, calculMinMax_Y;
 extern int sensEchelle;
 extern float grafMinX, grafMinY, grafMaxX, grafMaxY;
 extern float grafMinUUtang,grafMaxUUtang,grafMinUUnorm,grafMaxUUnorm,grafMinUVW,grafMaxUVW,grafMinWW,grafMaxWW;
@@ -45,48 +48,58 @@ extern SuperWidgetStruct SuperWidget;
 extern _XContour    xc;
 extern _Viewport    viewp;
 
-XtCallbackProc PcpNouvelleCoupe();
-XtCallbackProc PcpScanProfil();
-XtCallbackProc PcpStop();
-XtCallbackProc PcpScanCoupe();
-XtCallbackProc PcpScanCoupeVert();
-XtCallbackProc PcpScanCoupeHoriz();
-XtCallbackProc PcpSetIncrement();
-XtCallbackProc PcpOk();
-
-XtCallbackProc PcpAfficher();
-
-XtCallbackProc PcpSetDimensionCoupeZP();
-XtCallbackProc PcpSetDimensionCoupeT();
-
-XtCallbackProc PcpSetEchelleLineaire();
-XtCallbackProc PcpSetEchelleLog();
-
-XtCallbackProc PcpSetMinMaxProfil();
-XtCallbackProc PcpSetMinMaxGrilles();
-XtCallbackProc PcpSetMinMaxUsager();
-
-XtCallbackProc PcpSetEchelleCroissante();
-XtCallbackProc PcpSetEchelleDecroissante();
 
 Widget pcpTopLevel = NULL;
-Widget pcpForme, pcpFrame, pcpForme1, pcpFrame1, pcpForme2, pcpFrame3, pcpForme3, pcpRC, pcpRC2, pcpAfficher, pcpOk;
-Widget pcpDimensionCoupe, pcpDimensionCoupeZ, pcpDimensionCoupeT, pcpFrameDimensionCoupe, pcpLabelDimensionCoupe;
-Widget pcpScanHoriz, pcpScanVert, pcpScanIncrement, pcpNouvelleCoupe, pcpScanProfil, pcpScanCoupe, pcpStop;
-Widget pcpFormeBoutons, pcpFormeBoutons2, pcpFormeEchelle, pcpFormeLimite;
-Widget pcpFrameBoutons, pcpFrameBoutons2, pcpFrameEchelle, pcpFrameLimite;
-Widget pcpLabelEchelle, pcpFrameLineaire, pcpFrameSens, pcpLineariteEchelle, pcpSensEchelle;
-Widget pcpLineaire, pcpLog, pcpCroissante, pcpDecroissante;
-Widget pcpLabelLimite;
-Widget pcpFrameTypeLimite, pcpFormeTypeLimite, pcpLimiteCoupe,pcpLimiteDimensionCoupe,pcpLimiteUsager;
-Widget pcpFrameLimiteX, pcpFormeLimiteX, pcpLabelX, pcpLabelMinX, pcpLabelMaxX, pcpTextMinX,pcpTextMaxX;
-Widget pcpFrameLimiteY, pcpFormeLimiteY, pcpLabelY, pcpLabelMinY, pcpLabelMaxY, pcpTextMinY,pcpTextMaxY;
+Widget   pcpForme;
+Widget     pcpOk, pcpAfficher;
+Widget     pcpFrame;
+Widget       pcpForme2;
+Widget         pcpFormeBoutons;
+Widget           pcpFrameBoutons;
+Widget             pcpRC;
+Widget               pcpNouvelleCoupe, pcpScanProfil, pcpScanCoupe;
+Widget           pcpFrameBoutons2;
+Widget             pcpRC2;
+Widget               pcpScanHoriz, pcpScanVert, pcpStop;
+Widget           pcpScanIncrement;
+Widget           pcpFrameEchelle;
+Widget             pcpFormeEchelle;
+Widget               pcpLabelEchelle;
+Widget               pcpFrameLineaire;
+Widget                 pcpLineariteEchelle;
+Widget                   pcpLineaire, pcpLog;
+Widget               pcpFrameSens;
+Widget                 pcpSensEchelle;
+Widget                   pcpCroissante, pcpDecroissante;
+Widget               pcpFrameVertCoord;
+Widget                 pcpVertCoord;
+Widget                   pcpNativeCoord, pcpPresCoord;
+Widget         pcpFormeLimiteX;
+Widget           pcpLabelLimiteX;
+Widget           pcpFrameTypeLimiteX;
+Widget             pcpFormeTypeLimiteX;
+Widget               pcpLimiteCoupeX, pcpLimiteDimensionCoupeX, pcpLimiteUsagerX;
+Widget         pcpForme3X;
+Widget           pcpFrameLimiteX;
+Widget             pcpFormeLimiteX;
+Widget               pcpLabelMinX, pcpTextMinX, pcpLabelMaxX, pcpTextMaxX;
+Widget         pcpFormeLimiteY;
+Widget           pcpLabelLimiteY;
+Widget           pcpFrameTypeLimiteY;
+Widget             pcpFormeTypeLimiteY;
+Widget               pcpLimiteDimensionCoupeY, pcpLimiteUsagerY;
+Widget         pcpForme3Y;
+Widget           pcpFrameLimiteY;
+Widget             pcpFormeLimiteY;
+Widget               pcpLabelMinY, pcpTextMinY, pcpLabelMaxY, pcpTextMaxY;
+
 
 int pcpSelectionTerminee = False;
 extern int fenetreCoupe;
 extern float cx1, cy1, cx2, cy2;
 
-static float scanIncrement = 0.05;
+static float scanIncrement = 0.01;
+static int selectVertCoord = NATIVE_VCOORD;
 static float lastcx1, lastcy1, lastcx2, lastcy2;
 int lastEvent = NIL;
 int statutCoupe = FALSE;
@@ -117,6 +130,11 @@ In the drawing window...\n\n\
 left button pressed --> cross section\n\
 release left button to exit"};
 
+  char *lblPasCapableEnMetres[] = {"Cette option n'est pas disponible\n\n\
+lorsque la coordonnee verticale est en METRES", "\
+This option is not available\n\n\
+when the vertical coordinate is in METERS"};
+  
 static char *labelTopLevel[] = {"Profils_Coupes", "Profiles_XSections"};
 
 char *labelDimensionCoupe[]  = {"Dimension: ", "Dimension: "};
@@ -133,13 +151,19 @@ char *labelEchelleLog[] = {"Log", "Log"};
 char *labelEchelleCroissante[] = {"Croissante", "Normal"};
 char *labelEchelleDecroissante[] = {"Decroissante", "Reversed"};
 
-char *labelLimite[] = {"Limites", "Limits"};
+char *labelNativeVerticalCoord[] = {"Native", "Native"};
+char *labelPressVerticalCoord[]  = {"Pression", "Pressure"};
+char *labelChoixVertCoord[]      = {"Coord. vert.", "Vert. Coord."};
+
+char *labelLimiteX[] = {"Limites Champ", "Field Limits"};
+char *labelLimiteY[] = {"Limites Niveaux Verticaux", "Vertical Level Limits"};
 char *labelAutoRegion[] = {"Auto (local)", "Auto (local)"};
 char *labelAutoGrilles[] = {"Auto (global)", "Auto (global)"};
+char *labelAutoNiveaux[] = {"Auto (Tous les niveaux)", "Auto (All Levels)"};
 char *labelFixes[] = {"Fixes", "Fixed"};
 
-char *labelAxeXMin[] = {"X min:", "X min:"};
-char *labelAxeXMax[] = {"X max:", "X max:"};
+char *labelAxeXMin[] = {"FLD min:", "FLD min:"};
+char *labelAxeXMax[] = {"FLD max:", "FLD max:"};
 char *labelAxeYMin[] = {"Y min:", "Y min:"};
 char *labelAxeYMax[] = {"Y max:", "Y max:"};
 
@@ -188,7 +212,7 @@ void InitPanneauCoupe()
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
    pcpOk = (Widget)XmCreatePushButton(pcpForme, labelOk[lng], args, i);
-   XtAddCallback(pcpOk, XmNactivateCallback, PcpOk, NULL);
+   XtAddCallback(pcpOk, XmNactivateCallback, (XtCallbackProc) PcpOk, NULL);
    XtManageChild(pcpOk);
 
    i = 0;
@@ -196,7 +220,7 @@ void InitPanneauCoupe()
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_WIDGET); i++;
    XtSetArg(args[i], XmNrightWidget, pcpOk); i++;
    pcpAfficher = (Widget)XmCreatePushButton(pcpForme, labelAfficher[lng], args, i);
-   XtAddCallback(pcpAfficher, XmNactivateCallback, PcpAfficher, NULL);
+   XtAddCallback(pcpAfficher, XmNactivateCallback, (XtCallbackProc) PcpAfficher, NULL);
    XtManageChild(pcpAfficher);
 
 /**
@@ -236,7 +260,7 @@ void InitPanneauCoupe()
    string = XmStringCreateLtoR(labelNouvelleCoupe[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, string); i++;
    pcpNouvelleCoupe = (Widget)XmCreatePushButton(pcpRC, labelNouvelleCoupe[lng], args, i);
-   XtAddCallback(pcpNouvelleCoupe, XmNactivateCallback, PcpNouvelleCoupe, NULL);
+   XtAddCallback(pcpNouvelleCoupe, XmNactivateCallback, (XtCallbackProc) PcpNouvelleCoupe, NULL);
    XtManageChild(pcpNouvelleCoupe);
 
 /**
@@ -247,14 +271,14 @@ void InitPanneauCoupe()
    string = XmStringCreateLtoR(labelScanProfil[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, string); i++;
    pcpScanProfil = (Widget)XmCreatePushButton(pcpRC, labelScanProfil[lng], args, i);
-   XtAddCallback(pcpScanProfil, XmNactivateCallback, PcpScanProfil, NULL);
+   XtAddCallback(pcpScanProfil, XmNactivateCallback, (XtCallbackProc) PcpScanProfil, NULL);
    XtManageChild(pcpScanProfil);
 
    i = 0;
    string = XmStringCreateLtoR(labelScanCoupe[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, string); i++;
    pcpScanCoupe = (Widget)XmCreatePushButton(pcpRC, labelScanCoupe[lng], args,i);
-   XtAddCallback(pcpScanCoupe, XmNactivateCallback, PcpScanCoupe, NULL);
+   XtAddCallback(pcpScanCoupe, XmNactivateCallback, (XtCallbackProc) PcpScanCoupe, NULL);
    XtManageChild(pcpScanCoupe);
 
 
@@ -285,20 +309,20 @@ void InitPanneauCoupe()
    string = XmStringCreateLtoR(labelScanHoriz[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, string); i++;
    pcpScanHoriz = (Widget)XmCreatePushButton(pcpRC2, labelScanHoriz[lng], args, i);
-   XtAddCallback(pcpScanHoriz, XmNactivateCallback, PcpScanCoupeHoriz, NULL);
+   XtAddCallback(pcpScanHoriz, XmNactivateCallback, (XtCallbackProc) PcpScanCoupeHoriz, NULL);
    XtManageChild(pcpScanHoriz);
 
    i = 0;
    string = XmStringCreateLtoR(labelScanVert[lng], XmSTRING_DEFAULT_CHARSET);
    pcpScanVert = (Widget)XmCreatePushButton(pcpRC2, labelScanVert[lng], args, i);
-   XtAddCallback(pcpScanVert, XmNactivateCallback, PcpScanCoupeVert, NULL);
+   XtAddCallback(pcpScanVert, XmNactivateCallback, (XtCallbackProc) PcpScanCoupeVert, NULL);
    XtManageChild(pcpScanVert);
 
    i = 0;
    string = XmStringCreateLtoR(labelStop[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, string); i++;
    pcpStop = (Widget)XmCreatePushButton(pcpRC2, labelStop[lng], args,i);
-   XtAddCallback(pcpStop, XmNactivateCallback, PcpStop, NULL);
+   XtAddCallback(pcpStop, XmNactivateCallback, (XtCallbackProc) PcpStop, NULL);
    XtManageChild(pcpStop);
 
    label = XmStringCreateLtoR(labelScanIncrement[lng], XmSTRING_DEFAULT_CHARSET);
@@ -317,11 +341,8 @@ void InitPanneauCoupe()
    XtManageChild(pcpScanIncrement);
    XmStringFree(label);
    
-   XtAddCallback(pcpScanIncrement, XmNdragCallback, PcpSetIncrement, NULL);
-   XtAddCallback(pcpScanIncrement, XmNvalueChangedCallback, PcpSetIncrement, NULL);
-
-
-
+   XtAddCallback(pcpScanIncrement, XmNdragCallback, (XtCallbackProc) PcpSetIncrement, NULL);
+   XtAddCallback(pcpScanIncrement, XmNvalueChangedCallback, (XtCallbackProc) PcpSetIncrement, NULL);
 
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
@@ -352,7 +373,7 @@ void InitPanneauCoupe()
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pcpLineaire = (Widget) XmCreateToggleButton(pcpLineariteEchelle, labelEchelleLineaire[lng], args, i);
-   XtAddCallback(pcpLineaire, XmNvalueChangedCallback, PcpSetEchelleLineaire, NULL);
+   XtAddCallback(pcpLineaire, XmNvalueChangedCallback, (XtCallbackProc) PcpSetEchelleLineaire, NULL);
    XtManageChild(pcpLineaire);
    
    i = 0;
@@ -361,7 +382,7 @@ void InitPanneauCoupe()
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pcpLog = (Widget)XmCreateToggleButton(pcpLineariteEchelle, labelEchelleLog[lng], args, i);
-   XtAddCallback(pcpLog, XmNvalueChangedCallback, PcpSetEchelleLog, NULL);
+   XtAddCallback(pcpLog, XmNvalueChangedCallback, (XtCallbackProc) PcpSetEchelleLog, NULL);
    XtManageChild(pcpLog);
    
    pcpFrameSens = (Widget) XmCreateFrame(pcpFormeEchelle, "frame", NULL, 0);
@@ -376,7 +397,7 @@ void InitPanneauCoupe()
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pcpCroissante = (Widget) XmCreateToggleButton(pcpSensEchelle, labelEchelleCroissante[lng], args, i);
-   XtAddCallback(pcpCroissante, XmNvalueChangedCallback, PcpSetEchelleCroissante, NULL);
+   XtAddCallback(pcpCroissante, XmNvalueChangedCallback, (XtCallbackProc) PcpSetEchelleCroissante, NULL);
    XtManageChild(pcpCroissante);
 
    i = 0;
@@ -386,8 +407,37 @@ void InitPanneauCoupe()
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pcpDecroissante = (Widget) XmCreateToggleButton(pcpSensEchelle, labelEchelleDecroissante[lng], args, i);
-   XtAddCallback(pcpDecroissante, XmNvalueChangedCallback, PcpSetEchelleDecroissante, NULL);
+   XtAddCallback(pcpDecroissante, XmNvalueChangedCallback, (XtCallbackProc) PcpSetEchelleDecroissante, NULL);
    XtManageChild(pcpDecroissante);
+   
+/**
+****
+**/
+
+   pcpFrameVertCoord = (Widget) XmCreateFrame(pcpFormeEchelle, "frame", NULL, 0);
+   XtManageChild(pcpFrameVertCoord);
+
+   pcpVertCoord = XmCreateRadioBox(pcpFrameVertCoord, "radiobox", NULL, 0);
+   XtManageChild(pcpVertCoord);
+   
+   i = 0;
+   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
+   XtSetArg(args[i], XmNset, True); i++;
+   XtSetArg(args[i], XmNmarginHeight, 0); i++;
+   XtSetArg(args[i], XmNmarginBottom, 0); i++;
+   XtSetArg(args[i], XmNmarginTop, 0); i++;
+   pcpNativeCoord = (Widget) XmCreateToggleButton(pcpVertCoord, labelNativeVerticalCoord[lng], args, i);
+   XtAddCallback(pcpNativeCoord, XmNvalueChangedCallback, (XtCallbackProc) PcpSetNativeVertCoord, NULL);
+   XtManageChild(pcpNativeCoord);
+   
+   i = 0;
+   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
+   XtSetArg(args[i], XmNmarginHeight, 0); i++;
+   XtSetArg(args[i], XmNmarginBottom, 0); i++;
+   XtSetArg(args[i], XmNmarginTop, 0); i++;
+   pcpPresCoord = (Widget)XmCreateToggleButton(pcpVertCoord, labelPressVerticalCoord[lng], args, i);
+   XtAddCallback(pcpPresCoord, XmNvalueChangedCallback, (XtCallbackProc) PcpSetPresVertCoord, NULL);
+   XtManageChild(pcpPresCoord);
    
 
 /**
@@ -400,17 +450,17 @@ void InitPanneauCoupe()
    XtSetArg(args[i], XmNtopWidget, pcpFormeBoutons); i++;
    XtSetArg(args[i], XmNleftAttachment, XmATTACH_WIDGET); i++;
    XtSetArg(args[i], XmNleftWidget, pcpFrameEchelle); i++;
-   pcpFormeLimite = (Widget) XmCreateRowColumn(pcpForme2, "form", args, i);
-   XtManageChild(pcpFormeLimite);
+   pcpFormeLimiteX = (Widget) XmCreateRowColumn(pcpForme2, "form", args, i);
+   XtManageChild(pcpFormeLimiteX);
 
-   pcpLabelLimite = (Widget) XmCreateLabel(pcpFormeLimite, labelLimite[lng], NULL, 0);
-   XtManageChild(pcpLabelLimite);
+   pcpLabelLimiteX = (Widget) XmCreateLabel(pcpFormeLimiteX, labelLimiteX[lng], NULL, 0);
+   XtManageChild(pcpLabelLimiteX);
 
-   pcpFrameTypeLimite = (Widget) XmCreateFrame(pcpFormeLimite, "Forme", NULL, 0);
-   XtManageChild(pcpFrameTypeLimite);
+   pcpFrameTypeLimiteX = (Widget) XmCreateFrame(pcpFormeLimiteX, "Forme", NULL, 0);
+   XtManageChild(pcpFrameTypeLimiteX);
 
-   pcpFormeTypeLimite = (Widget) XmCreateRadioBox(pcpFrameTypeLimite, "radiobox", NULL, 0);
-   XtManageChild(pcpFormeTypeLimite);
+   pcpFormeTypeLimiteX = (Widget) XmCreateRadioBox(pcpFrameTypeLimiteX, "radiobox", NULL, 0);
+   XtManageChild(pcpFormeTypeLimiteX);
 
    i = 0;
    XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
@@ -418,39 +468,39 @@ void InitPanneauCoupe()
    XtSetArg(args[i], XmNmarginHeight, 0); i++;
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
-   pcpLimiteCoupe = (Widget) XmCreateToggleButton(pcpFormeTypeLimite, labelAutoRegion[lng], args, i);
-   XtAddCallback(pcpLimiteCoupe, XmNvalueChangedCallback, PcpSetMinMaxProfil, NULL);
-   XtManageChild(pcpLimiteCoupe);
+   pcpLimiteCoupeX = (Widget) XmCreateToggleButton(pcpFormeTypeLimiteX, labelAutoRegion[lng], args, i);
+   XtAddCallback(pcpLimiteCoupeX, XmNvalueChangedCallback, (XtCallbackProc) PcpSetMinMaxProfil_X, NULL);
+   XtManageChild(pcpLimiteCoupeX);
 
    i = 0;
    XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
    XtSetArg(args[i], XmNmarginHeight, 0); i++;
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
-   pcpLimiteDimensionCoupe = (Widget) XmCreateToggleButton(pcpFormeTypeLimite, labelAutoGrilles[lng], args, i);
-   XtAddCallback(pcpLimiteDimensionCoupe, XmNvalueChangedCallback, PcpSetMinMaxGrilles, NULL);
-   XtManageChild(pcpLimiteDimensionCoupe);
+   pcpLimiteDimensionCoupeX = (Widget) XmCreateToggleButton(pcpFormeTypeLimiteX, labelAutoGrilles[lng], args, i);
+   XtAddCallback(pcpLimiteDimensionCoupeX, XmNvalueChangedCallback, (XtCallbackProc) PcpSetMinMaxGrilles_X, NULL);
+   XtManageChild(pcpLimiteDimensionCoupeX);
 
    i = 0;
    XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
    XtSetArg(args[i], XmNmarginHeight, 0); i++;
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
-   pcpLimiteUsager = (Widget) XmCreateToggleButton(pcpFormeTypeLimite, labelFixes[lng], args, i);
-   XtAddCallback(pcpLimiteUsager, XmNvalueChangedCallback, PcpSetMinMaxUsager, NULL);
-   XtManageChild(pcpLimiteUsager);
+   pcpLimiteUsagerX = (Widget) XmCreateToggleButton(pcpFormeTypeLimiteX, labelFixes[lng], args, i);
+   XtAddCallback(pcpLimiteUsagerX, XmNvalueChangedCallback, (XtCallbackProc) PcpSetMinMax_X_Usager, NULL);
+   XtManageChild(pcpLimiteUsagerX);
 
 
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
-   XtSetArg(args[i], XmNtopWidget, pcpFormeLimite); i++;
+   XtSetArg(args[i], XmNtopWidget, pcpFormeLimiteX); i++;
    XtSetArg(args[i], XmNleftAttachment, XmATTACH_WIDGET); i++;
    XtSetArg(args[i], XmNleftWidget, pcpFrameEchelle); i++;
-   pcpForme3 = (Widget) XmCreateForm(pcpForme2, "form", args, i);
-   XtManageChild(pcpForme3);
+   pcpForme3X = (Widget) XmCreateForm(pcpForme2, "form", args, i);
+   XtManageChild(pcpForme3X);
 
 
-   pcpFrameLimiteX = (Widget) XmCreateFrame(pcpForme3, "Forme", NULL, 0);
+   pcpFrameLimiteX = (Widget) XmCreateFrame(pcpForme3X, "Forme", NULL, 0);
    XtManageChild(pcpFrameLimiteX);
 
    pcpFormeLimiteX = (Widget) XmCreateForm(pcpFrameLimiteX, "radiobox", NULL, 0);
@@ -485,7 +535,6 @@ void InitPanneauCoupe()
 
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
-   XtSetArg(args[i], XmNtopWidget, pcpLabelX); i++;
    XtSetArg(args[i], XmNleftAttachment, XmATTACH_WIDGET); i++;
    XtSetArg(args[i], XmNleftWidget, pcpTextMinX);i++;
    pcpLabelMaxX = (Widget) XmCreateLabel(pcpFormeLimiteX, labelAxeXMax[lng], args, i);
@@ -506,22 +555,67 @@ void InitPanneauCoupe()
    XtManageChild(pcpTextMaxX);
 
 
+   i = 0;
+   XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
-   XtSetArg(args[i], XmNtopWidget, pcpFrameLimiteX); i++;   
-   XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++;
-   pcpFrameLimiteY = (Widget) XmCreateFrame(pcpForme3, "Forme", args, i);
+   XtSetArg(args[i], XmNtopWidget, pcpFormeLimiteX); i++;
+   XtSetArg(args[i], XmNleftAttachment, XmATTACH_WIDGET); i++;
+   XtSetArg(args[i], XmNleftWidget, pcpFrameEchelle); i++;
+   pcpFormeLimiteY = (Widget) XmCreateRowColumn(pcpForme2, "form", args, i);
+   XtManageChild(pcpFormeLimiteY);
+
+   pcpLabelLimiteY = (Widget) XmCreateLabel(pcpFormeLimiteY, labelLimiteY[lng], NULL, 0);
+   XtManageChild(pcpLabelLimiteY);
+
+   pcpFrameTypeLimiteY = (Widget) XmCreateFrame(pcpFormeLimiteY, "Forme", NULL, 0);
+   XtManageChild(pcpFrameTypeLimiteY);
+
+   pcpFormeTypeLimiteY = (Widget) XmCreateRadioBox(pcpFrameTypeLimiteY, "radiobox", NULL, 0);
+   XtManageChild(pcpFormeTypeLimiteY);
+
+   i = 0;
+   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
+   XtSetArg(args[i], XmNset, True); i++;
+   XtSetArg(args[i], XmNmarginHeight, 0); i++;
+   XtSetArg(args[i], XmNmarginBottom, 0); i++;
+   XtSetArg(args[i], XmNmarginTop, 0); i++;
+   pcpLimiteDimensionCoupeY = (Widget) XmCreateToggleButton(pcpFormeTypeLimiteY, labelAutoNiveaux[lng], args, i);
+   XtAddCallback(pcpLimiteDimensionCoupeY, XmNvalueChangedCallback, (XtCallbackProc) PcpSetMinMaxGrilles_Y, NULL);
+   XtManageChild(pcpLimiteDimensionCoupeY);
+
+   i = 0;
+   XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
+   XtSetArg(args[i], XmNmarginHeight, 0); i++;
+   XtSetArg(args[i], XmNmarginBottom, 0); i++;
+   XtSetArg(args[i], XmNmarginTop, 0); i++;
+   pcpLimiteUsagerY = (Widget) XmCreateToggleButton(pcpFormeTypeLimiteY, labelFixes[lng], args, i);
+   XtAddCallback(pcpLimiteUsagerY, XmNvalueChangedCallback, (XtCallbackProc) PcpSetMinMax_Y_Usager, NULL);
+   XtManageChild(pcpLimiteUsagerY);
+
+
+   i = 0;
+   XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
+   XtSetArg(args[i], XmNtopWidget, pcpFormeLimiteY); i++;
+   XtSetArg(args[i], XmNleftAttachment, XmATTACH_WIDGET); i++;
+   XtSetArg(args[i], XmNleftWidget, pcpFrameEchelle); i++;
+   pcpForme3Y = (Widget) XmCreateForm(pcpForme2, "form", args, i);
+   XtManageChild(pcpForme3Y);
+
+
+   pcpFrameLimiteY = (Widget) XmCreateFrame(pcpForme3Y, "Forme", NULL, 0);
    XtManageChild(pcpFrameLimiteY);
 
    pcpFormeLimiteY = (Widget) XmCreateForm(pcpFrameLimiteY, "radiobox", NULL, 0);
    XtManageChild(pcpFormeLimiteY);
 
-/**
-   i = 0;
-   XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
+   XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
+   XtSetArg(args[i], XmNtopWidget, pcpFrameLimiteX); i++;   
    XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++;
-   pcpLabelY = (Widget) XmCreateLabel(pcpFormeLimiteY, labelAxeY[lng], args, i);
-   XtManageChild(pcpLabelY);
-**/
+   pcpFrameLimiteY = (Widget) XmCreateFrame(pcpForme3Y, "Forme", args, i);
+   XtManageChild(pcpFrameLimiteY);
+
+   pcpFormeLimiteY = (Widget) XmCreateForm(pcpFrameLimiteY, "radiobox", NULL, 0);
+   XtManageChild(pcpFormeLimiteY);
 
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
@@ -560,6 +654,9 @@ void InitPanneauCoupe()
    XtSetArg(args[i], XmNeditable, False); i++;
    pcpTextMaxY = (Widget) XmCreateTextField(pcpFormeLimiteY, "Max:", args, i);
    XtManageChild(pcpTextMaxY);
+   
+   PcpDesactiverTextWidgets_X();
+   PcpDesactiverTextWidgets_Y();
    }
 
 
@@ -569,7 +666,7 @@ void InitPanneauCoupe()
  **/
 
 
-ActiverPanneauCoupe()
+void ActiverPanneauCoupe()
 {
    Arg args[2];
    int i;
@@ -597,7 +694,7 @@ ActiverPanneauCoupe()
  **/
 
 
-f77name(xpanpcpact)()
+void f77name(xpanpcpact)()
 {
    LocalEventLoop(pcpTopLevel);
    }
@@ -609,7 +706,7 @@ f77name(xpanpcpact)()
 
 
 
-DesactiverPanneauCoupe()
+void DesactiverPanneauCoupe()
 {
    XtUnrealizeWidget(pcpTopLevel);
    }
@@ -619,11 +716,10 @@ DesactiverPanneauCoupe()
  ******************************************************************************
  **/
 
-XtCallbackProc PcpStop(w, arg1, arg2)
-Widget w;
-caddr_t arg1, arg2;
+XtCallbackProc PcpStop(Widget w, caddr_t arg1, caddr_t arg2)
 {
   xc.annulationDemandee = TRUE;
+  return 0;
    }
 
 /**
@@ -632,9 +728,7 @@ caddr_t arg1, arg2;
  **/
 
 
-XtCallbackProc PcpOk(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PcpOk(Widget w, caddr_t unused1, caddr_t unused2)
 {
    int fenetreAffichage;
 
@@ -654,6 +748,7 @@ caddr_t unused1, unused2;
    fenetreCoupe = 0;
    DesactiverPanneauCoupe();
 /**   ReAfficherBoutonsAnimation(); **/
+   return 0;
    }
 
 /**
@@ -662,12 +757,10 @@ caddr_t unused1, unused2;
  **/
 
 
-XtCallbackProc PcpAfficher(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PcpAfficher(Widget w, caddr_t unused1, caddr_t unused2)
 {
    RedessinerFenetreCoupe();
-
+return 0;
 }
 
 /**
@@ -676,9 +769,7 @@ caddr_t unused1, unused2;
  **/
 
 
-XtCallbackProc PcpNouvelleCoupe(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PcpNouvelleCoupe(Widget w, caddr_t unused1, caddr_t unused2)
 {
    int ier, ok;
    int fenetreAffichage;
@@ -696,9 +787,9 @@ caddr_t unused1, unused2;
    if (!fenetreCoupe)
       {
       if (0 != (wwidth+wheight))
-	 {
-	 c_wglpsz(wwidth, wheight);
-	 }
+   {
+   c_wglpsz(wwidth, wheight);
+   }
       SetGeometrieFenetreAffichage(labelTopLevel[lng]);
       fenetreCoupe = c_wglopw(labelTopLevel[lng]);
       c_wgldbf();
@@ -726,7 +817,7 @@ caddr_t unused1, unused2;
    if (ier > 0)
       {
       InvertWidget(w);
-      return;
+      return 0;
       }
 
    coupeValideTrouvee = VerifierExistenceCoupeValide();
@@ -737,7 +828,7 @@ caddr_t unused1, unused2;
       c_wglcol(NOIR);
       c_wglclr();
       c_wglsetw(fenetreAffichage);
-      return;
+      return 0;
       }
 
    statutCoupe = TRUE;
@@ -751,57 +842,57 @@ caddr_t unused1, unused2;
       c_wglcol(CYAN);
       EnterOverlayMode();
       switch (lastEvent)
-	 {
-	 case CLIC:
-	 case BACK_CLIC:
-	 TracerCercle(lastcx1, lastcy1);
-	 break;
+   {
+   case CLIC:
+   case BACK_CLIC:
+   TracerCercle(lastcx1, lastcy1);
+   break;
 
-	 case MOVE:
-	 TracerLigne(lastcx1, lastcy1, lastcx2, lastcy2);
-	 break;
+   case MOVE:
+   TracerLigne(lastcx1, lastcy1, lastcx2, lastcy2);
+   break;
 
-	 default:
-	 break;
-	 }
+   default:
+   break;
+   }
       RestoreNormalMode();
 
       c_wglcol(CYAN);
       switch (event)
-	 {
-	 case CLIC:
-	 case BACK_CLIC:
-	 EnterOverlayMode();
-	 cx1 = (float)(ROUND(cx1));
-	 cy1 = (float)(ROUND(cy1));
-	 cx2 = cx1; cy2 = cy1;
-	 TracerCercle(cx1, cy1);
-	 RestoreNormalMode();
-	 
-	 c_wglsetw(fenetreCoupe);
-	 ier = PreparerCoupe(cx1, cy1, cx2, cy2);
-	 RedessinerFenetreCoupe();
-	 c_wglsetw(fenetreAffichage);
-	 break;
-	 
-	 case MOVE:
-	 c_wglsetw(fenetreAffichage);
-	 EnterOverlayMode();
-	 TracerLigne(cx1, cy1, cx2, cy2);
-	 lastcx1 = cx1; lastcy1 = cy1; lastcx2 = cx2; lastcy2 = cy2;
-	 RestoreNormalMode();
-	 
-	 c_wglsetw(fenetreCoupe);
-	 if (c_wglgdbg())
-	    {
-	    printf("cx1:%f cy1:%f, cx2:%f cy2:%f\n", cx1,cy1,cx2,cy2);
-	    }
-	 ier = PreparerCoupe(cx1, cy1, cx2, cy2);
-	 RedessinerFenetreCoupe();
+   {
+   case CLIC:
+   case BACK_CLIC:
+   EnterOverlayMode();
+   cx1 = (float)(ROUND(cx1));
+   cy1 = (float)(ROUND(cy1));
+   cx2 = cx1; cy2 = cy1;
+   TracerCercle(cx1, cy1);
+   RestoreNormalMode();
+   
+   c_wglsetw(fenetreCoupe);
+   ier = PreparerCoupe(cx1, cy1, cx2, cy2);
+   RedessinerFenetreCoupe();
+   c_wglsetw(fenetreAffichage);
+   break;
+   
+   case MOVE:
+   c_wglsetw(fenetreAffichage);
+   EnterOverlayMode();
+   TracerLigne(cx1, cy1, cx2, cy2);
+   lastcx1 = cx1; lastcy1 = cy1; lastcx2 = cx2; lastcy2 = cy2;
+   RestoreNormalMode();
+   
+   c_wglsetw(fenetreCoupe);
+   if (c_wglgdbg())
+      {
+      printf("cx1:%f cy1:%f, cx2:%f cy2:%f\n", cx1,cy1,cx2,cy2);
+      }
+   ier = PreparerCoupe(cx1, cy1, cx2, cy2);
+   RedessinerFenetreCoupe();
 
-	 c_wglsetw(fenetreAffichage);
-	 break;
-	 }
+   c_wglsetw(fenetreAffichage);
+   break;
+   }
       
       lastEvent = event;
       lastcx1 = cx1; lastcx2 = cx2; lastcy1 = cy1; lastcy2 = cy2;
@@ -833,6 +924,7 @@ caddr_t unused1, unused2;
    
    c_wglsetw(fenetreAffichage);
    InvertWidget(w);
+   return 0;
    }
 
 
@@ -842,9 +934,7 @@ caddr_t unused1, unused2;
  **/
 
 
-XtCallbackProc PcpScanCoupe(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PcpScanCoupe(Widget w, caddr_t unused1, caddr_t unused2)
 {
    int ier;
    int fenetreAffichage;
@@ -861,9 +951,9 @@ caddr_t unused1, unused2;
    if (!fenetreCoupe)
       {
       if (0 != (wwidth+wheight))
-	 {
-	 c_wglpsz(wwidth, wheight);
-	 }
+        {
+        c_wglpsz(wwidth, wheight);
+        }
       fenetreCoupe = c_wglopw(labelTopLevel[lng]);
       c_wglias(1);
       c_wglgwz(&wwidth, &wheight);
@@ -886,7 +976,7 @@ caddr_t unused1, unused2;
       {
       InvertWidget(w);
       UnsetIgnoreMode();
-      return;
+      return 0;
       }
 
    statutCoupe = TRUE;
@@ -899,29 +989,29 @@ caddr_t unused1, unused2;
       c_fxfy2xy(&cx2, &cy2, cx2, cy2);
 
       if (cx1 != cx2 || cy1 != cy2)
-	 {
-	 EnleverLigneCoupe(lastcx1, lastcy1, lastcx2, lastcy2);
-	 EnterOverlayMode();
-#ifdef GL_WGL
-	 color(1);
-#endif
-#ifdef X_WGL
-	 c_wglcol(CYAN);
-#endif
-	 TracerLigne(cx1, cy1, cx2, cy2);
-	 RestoreNormalMode();
-	 
-	 c_wglsetw(fenetreCoupe);
-	 ier = PreparerCoupe(cx1, cy1, cx2, cy2);
-	 RedessinerFenetreCoupe();
-	 c_wglswb();
-	 c_wglsetw(fenetreAffichage);
-	 
-	 lastcx1 = cx1;
-	 lastcx2 = cx2;
-	 lastcy1 = cy1;
-	 lastcy2 = cy2;
-	 }
+        {
+        EnleverLigneCoupe(lastcx1, lastcy1, lastcx2, lastcy2);
+        EnterOverlayMode();
+      #ifdef GL_WGL
+        color(1);
+      #endif
+      #ifdef X_WGL
+        c_wglcol(CYAN);
+      #endif
+        TracerLigne(cx1, cy1, cx2, cy2);
+        RestoreNormalMode();
+        
+        c_wglsetw(fenetreCoupe);
+        ier = PreparerCoupe(cx1, cy1, cx2, cy2);
+        RedessinerFenetreCoupe();
+        c_wglswb();
+        c_wglsetw(fenetreAffichage);
+        
+        lastcx1 = cx1;
+        lastcx2 = cx2;
+        lastcy1 = cy1;
+        lastcy2 = cy2;
+        }
       } 
    
    c_wglsetw(fenetreCoupe);
@@ -929,6 +1019,7 @@ caddr_t unused1, unused2;
    c_wglsetw(fenetreAffichage);
    InvertWidget(w);
    UnsetIgnoreMode();
+   return 0;
    }
 
 
@@ -936,25 +1027,16 @@ caddr_t unused1, unused2;
  ******************************************************************************
  ******************************************************************************
  **/
-XtCallbackProc PcpScanCoupeVert(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PcpScanCoupeVert(Widget w, caddr_t unused1, caddr_t unused2)
 {
-   int i, ier;
+   int ier;
    int fenetreAffichage;
-   float x, y;
-   int ix, iy, iix, iiy;
    float yinit, xdeb, ydeb, xfin, yfin;
    int ideb, jdeb, ifin, jfin;
-   int lastiix = -1;
-   int lastiiy = -1;
    int wwidth = 0;
    int wheight = 0;
-   int event;
-   _Champ *champ;
    int lng;
    int largeurFenetre, hauteurFenetre;
-   float xdel, ydel;
    static int status = 0;
 
    dimensionCoupe = ZP;
@@ -977,9 +1059,9 @@ caddr_t unused1, unused2;
      if (!fenetreCoupe)
        {
        if (0 != (wwidth+wheight))
-	 {
-	 c_wglpsz(wwidth, wheight);
-	 }
+        {
+        c_wglpsz(wwidth, wheight);
+        }
        fenetreCoupe = c_wglopw(labelTopLevel[lng]);
        c_wglias(1);
        c_wglgwz(&wwidth, &wheight);
@@ -1013,7 +1095,7 @@ caddr_t unused1, unused2;
      if (ier < 0)
        {
        InvertWidget(w);
-       return;
+       return 0;
        }
      
      yinit = ydeb;
@@ -1037,7 +1119,7 @@ caddr_t unused1, unused2;
       c_wglcol(CYAN);
       TracerLigne(cx1, cy1, cx2, cy2);
       RestoreNormalMode();
-	 
+   
       c_wglsetw(fenetreCoupe);
       ier = PreparerCoupe(cx1, cy1, cx2, cy2);
       RedessinerFenetreCoupe();
@@ -1050,13 +1132,13 @@ caddr_t unused1, unused2;
       lastcy2 = cy2;
       ydeb += (scanIncrement * (yfin - yinit));
       if (ydeb > yfin || ydeb < yinit)
-	{
-	scanIncrement = -scanIncrement;
-	if (ydeb < yinit)
-	  ydeb = yinit;
-	if (ydeb > yfin)
-	  ydeb = yfin;
-	}
+        {
+        scanIncrement = -scanIncrement;
+        if (ydeb < yinit)
+          ydeb = yinit;
+        if (ydeb > yfin)
+          ydeb = yfin;
+        }
       }
    
    xc.annulationDemandee = False;
@@ -1071,6 +1153,7 @@ caddr_t unused1, unused2;
    RedessinerFenetreAffichage();
    status=0;
    InvertWidget(w);
+   return 0;
    }
 
 /**
@@ -1078,25 +1161,16 @@ caddr_t unused1, unused2;
  ******************************************************************************
  **/
 
-XtCallbackProc PcpScanCoupeHoriz(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PcpScanCoupeHoriz(Widget w, caddr_t unused1, caddr_t unused2)
 {
-   int i, ier;
+   int ier;
    int fenetreAffichage;
-   float x, y;
-   int ix, iy, iix, iiy;
    float xinit, xdeb, ydeb, xfin, yfin;
    int ideb, jdeb, ifin, jfin;
-   int lastiix = -1;
-   int lastiiy = -1;
    int wwidth = 0;
    int wheight = 0;
-   int event;
-   _Champ *champ;
    int lng;
    int largeurFenetre, hauteurFenetre;
-   float xdel, ydel;
    static int status = 0;
 
    dimensionCoupe = ZP;
@@ -1119,9 +1193,9 @@ caddr_t unused1, unused2;
      if (!fenetreCoupe)
        {
        if (0 != (wwidth+wheight))
-	 {
-	 c_wglpsz(wwidth, wheight);
-	 }
+        {
+        c_wglpsz(wwidth, wheight);
+        }
        fenetreCoupe = c_wglopw(labelTopLevel[lng]);
        c_wglias(1);
        c_wglgwz(&wwidth, &wheight);
@@ -1154,7 +1228,7 @@ caddr_t unused1, unused2;
      if (ier < 0)
        {
        InvertWidget(w);
-       return;
+       return 0;
        }
      
      xinit = xdeb;
@@ -1175,7 +1249,7 @@ caddr_t unused1, unused2;
       c_wglcol(CYAN);
       TracerLigne(cx1, cy1, cx2, cy2);
       RestoreNormalMode();
-	 
+   
       c_wglsetw(fenetreCoupe);
       ier = PreparerCoupe(cx1, cy1, cx2, cy2);
       RedessinerFenetreCoupe();
@@ -1188,13 +1262,13 @@ caddr_t unused1, unused2;
       lastcy2 = cy2;
       xdeb += (scanIncrement * (xfin - xinit));
       if (xdeb > xfin || xdeb < xinit)
-	{
-	scanIncrement = -scanIncrement;
-	if (xdeb < xinit)
-	  xdeb = xinit;
-	if (xdeb > xfin)
-	  xdeb = xfin;
-	}
+        {
+        scanIncrement = -scanIncrement;
+        if (xdeb < xinit)
+          xdeb = xinit;
+        if (xdeb > xfin)
+          xdeb = xfin;
+        }
       }
    
    xc.annulationDemandee = False;
@@ -1210,22 +1284,15 @@ caddr_t unused1, unused2;
    
    status=0;
    InvertWidget(w);
+   return 0;
    }
 
 
 
-XtCallbackProc PcpScanProfil(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PcpScanProfil(Widget w, caddr_t unused1, caddr_t unused2)
 {
-   int i, ier;
+   int ier;
    int fenetreAffichage;
-   float x, y;
-   int ix, iy, iix, iiy;
-   int lastiix = -1;
-   int lastiiy = -1;
-   int wwidth = 0;
-   int wheight = 0;
    int event;
    int lng;
    
@@ -1253,7 +1320,7 @@ caddr_t unused1, unused2;
       {
       InvertWidget(w);
       UnsetIgnoreMode();
-      return;
+      return 0;
       }
 
    statutCoupe = TRUE;
@@ -1297,70 +1364,89 @@ caddr_t unused1, unused2;
    EnleverLigneCoupe(cx1, cy1, cx2, cy2);
    InvertWidget(w);
    UnsetIgnoreMode();
+   return 0;
    }
 
 
-XtCallbackProc PcpSetDimensionCoupeZP(w, arg1, arg2)
-Widget w;
-caddr_t arg1, arg2;
+XtCallbackProc PcpSetDimensionCoupeZP(Widget w, caddr_t unused1, caddr_t unused2)
 {
    dimensionCoupe = ZP;
+  return 0;
    }
 
-XtCallbackProc PcpSetDimensionCoupeT(w, arg1, arg2)
-Widget w;
-caddr_t arg1, arg2;
+XtCallbackProc PcpSetDimensionCoupeT(Widget w, caddr_t unused1, caddr_t unused2)
 {
    dimensionCoupe = T;
+  return 0;
    }
 
-XtCallbackProc PcpSetEchelleLineaire(w, arg1, arg2)
-Widget w;
-caddr_t arg1, arg2;
+XtCallbackProc PcpSetEchelleLineaire(Widget w, caddr_t unused1, caddr_t unused2)
 {
    echelle = LINEAIRE;
    if (XmToggleButtonGetState(w))
       RedessinerFenetreCoupe();
+  return 0;
    }
 
-XtCallbackProc PcpSetEchelleLog(w, arg1, arg2)
-Widget w;
-caddr_t arg1, arg2;
+XtCallbackProc PcpSetEchelleLog(Widget w, caddr_t unused1, caddr_t unused2)
 {
    echelle = LOG;
    if (XmToggleButtonGetState(w))
    RedessinerFenetreCoupe();
+  return 0;
    }
 
-XtCallbackProc PcpSetMinMaxProfil(w, arg1, arg2)
-Widget w;
-caddr_t arg1, arg2;
+XtCallbackProc PcpSetMinMaxProfil_X(Widget w, caddr_t unused1, caddr_t unused2)
 {
-   calculMinMax = AUTO_PROFIL;
-   PcpDesactiverTextWidgets();
+   calculMinMax_X = AUTO_PROFIL;
+   PcpDesactiverTextWidgets_X();
    if (XmToggleButtonGetState(w))
       RedessinerFenetreCoupe();
+  return 0;
    }
 
-XtCallbackProc PcpSetMinMaxGrilles(w, arg1, arg2)
-Widget w;
-caddr_t arg1, arg2;
+XtCallbackProc PcpSetMinMaxProfil_Y(Widget w, caddr_t unused1, caddr_t unused2)
 {
-   calculMinMax = AUTO_GRILLES;
-   PcpDesactiverTextWidgets();
+   calculMinMax_Y = AUTO_PROFIL;
+   PcpDesactiverTextWidgets_Y();
    if (XmToggleButtonGetState(w))
       RedessinerFenetreCoupe();
+  return 0;
    }
 
-XtCallbackProc PcpSetMinMaxUsager(w, arg1, arg2)
-Widget w;
-caddr_t arg1, arg2;
+XtCallbackProc PcpSetMinMaxGrilles_X(Widget w, caddr_t unused1, caddr_t unused2)
 {
-   calculMinMax = FIXES;
-   PcpActiverTextWidgets();
+   calculMinMax_X = AUTO_GRILLES;
+   PcpDesactiverTextWidgets_X();
+   if (XmToggleButtonGetState(w))
+      RedessinerFenetreCoupe();
+  return 0;
    }
 
-PcpActiverTextWidgets()
+XtCallbackProc PcpSetMinMaxGrilles_Y(Widget w, caddr_t unused1, caddr_t unused2)
+{
+   calculMinMax_Y = AUTO_LEVELS;
+   PcpDesactiverTextWidgets_Y();
+   if (XmToggleButtonGetState(w))
+      RedessinerFenetreCoupe();
+  return 0;
+   }
+
+XtCallbackProc PcpSetMinMax_X_Usager(Widget w, caddr_t unused1, caddr_t unused2)
+{
+   calculMinMax_X = FIXES;
+   PcpActiverTextWidgets_X();
+  return 0;
+   }
+
+XtCallbackProc PcpSetMinMax_Y_Usager(Widget w, caddr_t unused1, caddr_t unused2)
+{
+   calculMinMax_Y = FIXES;
+   PcpActiverTextWidgets_Y();
+  return 0;
+   }
+
+void PcpActiverTextWidgets_X()
 {
    Arg args[2];
    int i;
@@ -1370,12 +1456,23 @@ PcpActiverTextWidgets()
    XtSetArg(args[i], XmNsensitive, True); i++;
    
    XtSetValues(pcpTextMinX, args, i);
-   XtSetValues(pcpTextMinY, args, i);
    XtSetValues(pcpTextMaxX, args, i);
+   }
+
+void PcpActiverTextWidgets_Y()
+{
+   Arg args[2];
+   int i;
+
+   i = 0;
+   XtSetArg(args[i], XmNeditable, True); i++;
+   XtSetArg(args[i], XmNsensitive, True); i++;
+   
+   XtSetValues(pcpTextMinY, args, i);
    XtSetValues(pcpTextMaxY, args, i);
    }
 
-PcpDesactiverTextWidgets()
+void PcpDesactiverTextWidgets_X()
 {
    Arg args[2];
    int i;
@@ -1385,27 +1482,36 @@ PcpDesactiverTextWidgets()
    XtSetArg(args[i], XmNsensitive, False); i++;
    
    XtSetValues(pcpTextMinX, args, i);
-   XtSetValues(pcpTextMinY, args, i);
    XtSetValues(pcpTextMaxX, args, i);
-   XtSetValues(pcpTextMaxY, args, i);
    }
 
-XtCallbackProc PcpSetEchelleCroissante(w, arg1, arg2)
-Widget w;
-caddr_t arg1, arg2;
+void PcpDesactiverTextWidgets_Y()
+{
+   Arg args[2];
+   int i;
+
+   i = 0;
+   XtSetArg(args[i], XmNeditable, False); i++;
+   XtSetArg(args[i], XmNsensitive, False); i++;
+   
+   XtSetValues(pcpTextMinY, args, i);
+   XtSetValues(pcpTextMaxY, args, i);
+   }
+   
+XtCallbackProc PcpSetEchelleCroissante(Widget w, caddr_t unused1, caddr_t unused2)
 {
    sensEchelle = CROISSANTE;
    if (XmToggleButtonGetState(w))
       RedessinerFenetreCoupe();
+  return 0;
    }
 
-XtCallbackProc PcpSetEchelleDecroissante(w, arg1, arg2)
-Widget w;
-caddr_t arg1, arg2;
+XtCallbackProc PcpSetEchelleDecroissante(Widget w, caddr_t unused1, caddr_t unused2)
 {
    sensEchelle = DECROISSANTE;
    if (XmToggleButtonGetState(w))
       RedessinerFenetreCoupe();
+  return 0;
    }
 
 int CoupeMgrGetDimensionCoupe()
@@ -1414,9 +1520,7 @@ int CoupeMgrGetDimensionCoupe()
    }
 
 
-static XtCallbackProc PcpSetIncrement(w, client_data, call_data)
-Widget w;
-caddr_t client_data, call_data;
+XtCallbackProc PcpSetIncrement(Widget w, caddr_t client_data, caddr_t call_data)
 {
   XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
   
@@ -1429,5 +1533,63 @@ caddr_t client_data, call_data;
     scanIncrement = 0.0001 * (float)(donnees->value);
     }
   
+  return 0;
 }
 
+XtCallbackProc PcpSetPresVertCoord(Widget w, caddr_t client_data, caddr_t call_data)
+{
+  int i, lng, nbChampsActifs;
+  _Champ *champ;
+  Arg args[2];
+  int pasCapable;
+  
+  pasCapable = 0;
+  lng = c_getulng();
+  nbChampsActifs = FldMgrGetNbChampsActifs();
+  for (i=0; i < nbChampsActifs; i++)
+    {
+    FldMgrGetChamp(&champ, i);
+    switch (champ->coordonneeVerticale)
+      {
+      case METRES:
+      case METRES_AGL:
+      pasCapable = 1;
+      break;
+      
+      default:
+      break;
+      }
+    }
+  
+  if (pasCapable == 1)
+    {
+    MessageAvertissement(lblPasCapableEnMetres[lng], AVERTISSEMENT);
+    i = 0;
+    XtSetArg(args[i], XmNset, False); i++;
+    XtSetValues(w, args, i);
+    i = 0;
+    XtSetArg(args[i], XmNset, True); i++;
+    XtSetValues(pcpNativeCoord, args, i);
+
+    }
+  else
+    {
+    selectVertCoord = PRES_VCOORD;
+    if (XmToggleButtonGetState(w))
+        RedessinerFenetreCoupe();
+    }
+  return 0;
+}
+
+XtCallbackProc PcpSetNativeVertCoord(Widget w, caddr_t client_data, caddr_t call_data)
+{
+  selectVertCoord = NATIVE_VCOORD;
+   if (XmToggleButtonGetState(w))
+      RedessinerFenetreCoupe();
+  return 0;
+}
+
+int GetSelectedVertCoord()
+{
+  return selectVertCoord;
+}

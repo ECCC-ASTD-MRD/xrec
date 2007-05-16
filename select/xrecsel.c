@@ -46,7 +46,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <fcntl.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -3092,6 +3092,7 @@ wordint nbrecs;
    InvertWidget(xs[wi].infoLabel);
    AjusterSensibiliteBoutons();
    
+/**
    c_wglgetcmap(&cmap);
    i = 0;
    if (cmap != -1)
@@ -3100,7 +3101,7 @@ wordint nbrecs;
       }
    XtSetValues(xs[wi].topLevel, args, i);
    XtSetValues(xs[wi].panListe, args, i);
-   
+**/   
    }
 
 /***

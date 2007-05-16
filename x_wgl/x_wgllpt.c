@@ -24,6 +24,9 @@ x_wgllpt()
 {
    char nomFichierPatrons[128];
    char *tmp;
+   int i;
+
+   for (i=0; i<128; i++) nomFichierPatrons[i] = ' ';
 
    tmp = (char *) getenv("ARMNLIB");
 

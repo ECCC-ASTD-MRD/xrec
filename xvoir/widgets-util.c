@@ -19,7 +19,7 @@
  */
 
 #include <xinit.h>
-#include <c_wgl.h>
+#include <wgl.h>
 #include <Xm/Xm.h>
 
 extern SuperWidgetStruct SuperWidget;
@@ -58,8 +58,8 @@ Pixel indCouleurs[];
    XAllocNamedColor(disp, cmap, "white",   &exact, &couleurs[BLANC]);
    indCouleurs[BLANC] = exact.pixel;
    
-   XAllocNamedColor(disp, cmap, "gray",   &exact, &couleurs[BLANC]);
-   indCouleurs[8] = exact.pixel;
+   XAllocNamedColor(disp, cmap, "gray40",   &exact, &couleurs[GRIS]);
+   indCouleurs[GRIS] = exact.pixel;
    }
 
 InvertWidget(w)
@@ -85,23 +85,47 @@ Widget w;
 
 
 
+ActiverWidget(w)
+Widget w;
+{
+   int i;
+   Arg args[1];
+
+   i = 0;
+   XtSetArg(args[i], XmNsensitive, True); i++;
+   XtSetValues(w, args, i);
+
+   FlusherTousLesEvenements();
+   }
+
+
+DesactiverWidget(w)
+Widget w;
+{
+   int i;
+   Arg args[1];
+
+   i = 0;
+   XtSetArg(args[i], XmNsensitive, False); i++;
+   XtSetValues(w, args, i);
+
+   FlusherTousLesEvenements();
+   }
+
+
+
 AjusterPositionForme(w, wp)
 Widget w, wp;
 {
    Position i,x,y,wWidth,wHeight, wpWidth, wpHeight;
    Position displayWidth, displayHeight;
-   XWindowAttributes xwat;
-
    Arg args[4];
 
    displayHeight = DisplayHeight(XtDisplay(w), DefaultScreen(XtDisplay(w)));
    displayWidth  = DisplayWidth(XtDisplay(w), DefaultScreen(XtDisplay(w)));
    
-   XGetWindowAttributes(XtDisplay(w), XtWindow(wp), &xwat);
-
-   x = xwat.x;
-   y = xwat.y;
-
+   XtTranslateCoords(wp, 0, 0, &x, &y);
+   
    i = 0;
    XtSetArg(args[i], XmNwidth, &wpWidth); i++;
    XtSetArg(args[i], XmNheight,&wpHeight); i++;

@@ -65,10 +65,10 @@ void c_wglssp(float xdebut, float ydebut, float xfin, float yfin, int idebut, in
    bgPix = NULL;
    XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
 
-   if (!customWinSize)
-      {
-      x_wglwtwrsz();
-      }
+//    if (!customWinSize)
+//       {
+//       x_wglwtwrsz();
+//       }
 
    XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
    x_wglgwz(&w,&h);

@@ -21,11 +21,7 @@
 #define F2C(i,j,ni) (ni*(j-1)+(i-1))
 #define ZLIN(z1,z2,dx) ((z1) + ((z2)-(z1))*(dx))
 
-i2rgdint(zout,x,y,npts,z,ni,nj)
-float *zout, *x, *y;
-int npts;
-unsigned short *z;
-int ni,nj;
+void i2rgdint(float *zout, float *x, float *y, int npts, unsigned short *z, int ni, int nj)
 {
    int i,j,n;
    float dx,dy;

@@ -18,7 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <rpnmacros.h>
 #include <memory.h>
 #include <math.h>
@@ -28,7 +31,7 @@ extern _GrilleMenuItem grmenuitems[64];
 
 int nbgi = 1;
 
-f77name(c_xrecgrille)(gridname,gridtype,ni,nj,ig1,ig2,ig3,ig4,lennomgrille)
+void f77name(c_xrecgrille)(gridname,gridtype,ni,nj,ig1,ig2,ig3,ig4,lennomgrille)
 char gridname[];
 int *gridtype, *ni, *nj, *ig1, *ig2, *ig3, *ig4, lennomgrille;
 {

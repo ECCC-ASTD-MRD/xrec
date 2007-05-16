@@ -18,21 +18,35 @@
  * Boston, MA 02111-1307, USA.
  */
 
-/**
- ** Fichier xm-controle.c
- **/
+// Fichier xm-controle.c
 
 #include <string.h>
 #include <fcntl.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <memory.h>
 #include <rpnmacros.h>
 #include <xinit.h>
 #include <math.h>
-#include <gmp.h>
 #include <wgl.h>
 #include <souris.h>
 #include <rec_version.h>
+
+#include <Xm/ToggleB.h>
+#include <Xm/ToggleBG.h>
+#include <Xm/Form.h>
+#include <Xm/Frame.h>
+#include <Xm/TextF.h>
+#include <Xm/RowColumn.h>
+#include <Xm/PushB.h>
+#include <Xm/PushBG.h>
+#include <Xm/CascadeB.h>
+#include <Xm/SeparatoG.h>
+
+
+
 
 #define  TERMINE         0
 #define  OUVRIR          1
@@ -69,61 +83,26 @@ static char VecsStr[3][2][48] = {{"Traitement scalaire, affichage scalaire", "Pr
 
 extern SuperWidgetStruct SuperWidget;
 
-/**
- ** Fonctions externes
- **/
+// Fonctions externes
 
-void AfficherCarte();
-extern void UpdateFldParams();
 extern Widget TrouverWidgetParent();
-/**extern fenetresActives(); **/
+int f77name(souris)(int *bouton, int *event, int *x0, int *y0, int *xsize, int *ysize, int *x1, int *y1, int *x2, int *y2, char *menuTable, int *nbmenus, int menulength);
 
-/**
- ** Fonctions locales
- **/
 
-int  f77name(xconouv)();
-int  f77name(xconact)();
-int  f77name(xconfer)();
+// Fonctions locales
 
-extern XtCallbackProc PaStop();
-static void           AnalyserParametres();
 
-static XtCallbackProc ChangerMenuIntervalles();
-static XtCallbackProc MenuOptionSelect();
-static XtCallbackProc MenuGrilleSelect();
-static XtCallbackProc MenuVecteurSelect();
-static XtCallbackProc MenuCalculSelect();
-static XtCallbackProc MenuAffichageSelect();
-static XtCallbackProc MenuIntervalleSelect();
-static XtCallbackProc MenuPaletteSelect();
-static XtCallbackProc MenuVarPaletteSelect();
-static XtCallbackProc MenuFichierSelect();
-static XtCallbackProc MenuGrilleSelect();
-static XtCallbackProc MenuOptionSelect();
-static XtCallbackProc Annuler();
-static XtCallbackProc Effacer();
-static XtCallbackProc Quit();
-static XtCallbackProc QuitAndSave();
-XtCallbackProc RafraichirFenetre();
-static XtCallbackProc Zoom();
-static XtCallbackProc ChangerStatutSuperposition();
-XtCallbackProc AfficherValeursAuxPtsDeGrille();
+// Declaration des items contenus dans les menus
 
-/**
- ** Declaration des items contenus dans les menus
- **/
 
 static char *menuItemFacteurMult[]  = { "0.00", };
 static char *labelSuperpositionOn[] = { "Activer\nsuperposition", "Activate\nSuperposition" };
 static char *labelSuperpositionOff[]= { "Desactiver\nsuperposition", "Desactivate\nSuperposition"};
 static char *labelZoom[]            = { "Zoom", "Zoom" };
 static char *labelValeurs[]         = { "Valeurs aux\npts de grille", "Grid point\nvalues" };
-static char *labelProfil[]          = { "Profil/\nCoupe", "Profile/\nCross section"};
-static char *labelAnimer[]          = { "Animer", "Animate" };
+static char *labelStats[]           = { "Statistiques", "Statistics"};
 static char *labelRafraichir[]      = { "Redessiner\nfenetre(s)", "Redraw\nwindow(s)" };
 static char *labelEffacer[]         = { "Effacer tous\nles champs", "Erase\nall fields" };
-static char *labelAnnuler[]         = { "Annuler", "Cancel" };
 
 static char *labelMenuFichier[]   =   { "Fichier ", "File " };
 static char *labelMenuAffichage[]   = { "Affichage ", "Display " };
@@ -138,7 +117,6 @@ static char *labelOuvrir[]        = { "Ouvrir d'autres fichiers standards", "Ope
 static char *labelFermer[]        = { "Fermer des fichiers standards", "Close standard files" };
 static char *labelDiapos[]        = { "Produire une image...", "Produce picture... " };
 static char *labelFilms[]        = { "Produire une sequence...", "Produce sequence..." };
-static char *labelBientot[] =        { "Bientot disponible", "Available soon" };
 static char *labelEdition[]        = { "Edition de champs...", "Field Editing..." };
 static char *labelAnimation[]      = { "Animation temporelle...", "Time Animation..."};
 static char *labelAnimationVerticale[]      = { "Animation dans la verticale...", "Vertical Animation across vertical..."};
@@ -150,7 +128,6 @@ static char *labelMinMax[]         = { "Min-Max / Valeurs manquantes...", "Min-M
 static char *labelCoupe[]          = { "Coupes verticales...", "Vertical Cross-sections..." };
 static char *labelSerie[]          = { "Series temporelles...", "Time Series..." };
 static char *labelVent[]           = { "Champs vectoriels...", "Vector fields..."};
-static char *labelChampno1[]           = { "Champ #1", "Field #1"};
 static char *labelValeursPonctuelles[] = { "Valeurs ponctuelles...", "Point Values..."};
 
 static char *labelMenuCalculsNoOp[]  = { "Aucune operation", "No calculation"};
@@ -162,12 +139,6 @@ static char *labelMenuCalculsAbsSubtract[] = {"ABS(Champ1 - Champ2), ABS(Champ3 
               "ABS(Field1 - Field2), ABS(Field3 - Field4), ..."};
 static char *labelMenuCalculsAbsAdd[] = {"ABS(Champ1 + Champ2), ABS(Champ3 + Champ4), ...",
               "ABS(Field1 + Field2),  ABS(Field3 + Field4), ..."};
-static char *labelMenuCalculModule[] = {"MODULE(UUVV1), MODULE(UUVV2), ...",
-              "MODULUS(UUVV1), MODULUS(UUVV2), ..."};
-static char *labelMenuCalculsSubModule[] = {"MODULE(UUVV1) - MODULE(UUVV2), MODULE(UUVV3) - MODULE(UUVV4), ...",
-              "MODULE(UUVV1) - MODULE(UUVV2), MODULE(UUVV3) - MODULE(UUVV4), ..."};
-static char *labelMenuCalculsAddModule[] = {"MODULE(UUVV1) + MODULE(UUVV2), MODULE(UUVV3) + MODULE(UUVV4), ...",
-              "MODULUS(UUVV1) + MODULUS(UUVV2), MODULUS(UUVV3) + MODULUS(UUVV4), ..."};
 
 static char *lblAvrtSup1[]={"\nCe champ est defini sur une grille\nde type different de celui affiche.\nImpossible de superposer!\n",
                                "\nThis field is not of the same grid type\nas the one showed. Can't superpose\n"};
@@ -177,13 +148,7 @@ static char *lblAvrtSup2[]={"\nCe champ est defini sur une grille\nde type diffe
 static char *lblAvrtTrop[]={"\nOn ne peut superposer\nplus de 32 champs a la fois\n",
                                "\nCan't display more than 32 fields\n"};
 
-static char *lblAvrtRecordsManquants[]={"\nLes descripteurs '^^' et '>>'\nsont manquants. Le champ sera affiche\nsans geographie\n",
-                               "\nThe records '^^' and '>>' are missing.\nThe field will be displayed without geography\n"};
-
-
-/**
- ** Variables globales
- **/
+// Variables globales
 
 extern int lng;
 extern GeoMapInfoStruct    mapInfo, oldMapInfo;
@@ -206,11 +171,13 @@ int mathOp = NO_OP;
 static int rpnLogo = 1;
 int itemGrilleSelectionnee = 0;
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
-int ActiverWidgetsControle()
+void FlusherTousLesEvenements();
+void f77name(initrlx)();
+
+
+// ******************************************************************************
+
+void ActiverWidgetsControle()
 {
    short i;
    Arg  args[10];
@@ -235,12 +202,9 @@ int ActiverWidgetsControle()
    FlusherTousLesEvenements();
 }
 
-/**
-******************************************************************************
-******************************************************************************
-**/
+// ******************************************************************************
 
-ActiverFlagsAffichage()
+void ActiverFlagsAffichage()
 {
   Arg args[2];
   int i;
@@ -264,27 +228,20 @@ ActiverFlagsAffichage()
 
 }
 
-/**
-***********************************************************************
-***********************************************************************
-**/
+// ******************************************************************************
 
 float labelPos[4][4] = {{0.16, 0.40, 0.64, 0.84},
       {0.20, 0.44, 0.68, 0.98},
       {0.24, 0.48, 0.72, 0.92},
       {0.28, 0.52, 0.76, 0.96}};
 
-/**
-***********************************************************************
-***********************************************************************
-**/
 
-void AfficherCarte(indChamp)
-int indChamp;
+//***********************************************************************
+
+void AfficherCarte(int indChamp)
 {
   _Champ *champ;
   int fenetreAffichage;
-  int op;
 
   GetFenetreAffichageID(&fenetreAffichage);
   c_wglsetw(fenetreAffichage);
@@ -323,13 +280,9 @@ int indChamp;
   UnSetCurseur(fenetreAffichage);
 }
 
-/**
-***********************************************************************
-***********************************************************************
-**/
+//***********************************************************************
 
-AfficherLegende(indChamp)
-int indChamp;
+void AfficherLegende(int indChamp)
 {
   _Champ *champ, *champZero;
   int nbChampsActifs;
@@ -339,7 +292,7 @@ int indChamp;
   nbChampsActifs = FldMgrGetNbChampsActifs();
   FldMgrGetChamp(&champ, indChamp);
   FldMgrGetChamp(&champZero, 0);
-    op = CtrlMgrGetContextualMathOp(indChamp);
+  op = CtrlMgrGetContextualMathOp(indChamp);
 
 
   if (AfficherItem(indChamp, LEGENDE))
@@ -350,7 +303,7 @@ int indChamp;
         {
         AfficherLegendeSup2();
         }
-            else
+      else
         {
         AfficherLegende2(*champ);
         }
@@ -440,23 +393,21 @@ int indChamp;
 }
 
 
-/**
-***********************************************************************
-***********************************************************************
-**/
+// ******************************************************************************
 
-AfficherLegendeCoupe(indChamp)
-int indChamp;
+
+void AfficherLegendeCoupe(int indChamp)
 {
   _Champ *champ, *champZero;
   int i, nbChampsActifs;
   int dernierNiveau, op;
   float valMin, valMax, bidon1, bidon2;
-   float uutanmin,uutanmax,uvwmin,uvwmax,uumin,uumax,vvmin,vvmax,wwmin,wwmax,nivmin,nivmax;
+  float uutanmin, uutanmax, uvwmin, uvwmax, uumin, uumax, vvmin, vvmax, wwmin, wwmax, nivmin, nivmax;
 
   nbChampsActifs = DiffMgrGetNbChampsAffichables();
   nbChampsActifs = nbChampsActifs > 4 ? 4 : nbChampsActifs;
   op = CtrlMgrGetMathOp();
+  dernierNiveau = -1;
 
   for (i=0; i < nbChampsActifs; i++)
     {
@@ -529,23 +480,21 @@ int indChamp;
 }
 
 
-/**
- ***********************************************************************
- ***********************************************************************
- **/
+// ******************************************************************************
 
-AfficherLegendeSerie(indChamp)
-int indChamp;
+void AfficherLegendeSerie(int indChamp)
 {
   _Champ *champ, *champZero;
   int i, nbChampsActifs;
   int dernierNiveau, op;
   float valMin, valMax, tmin, tmax;
-   float uutanmin,uutanmax,uvwmin,uvwmax,uumin,uumax,vvmin,vvmax,wwmin,wwmax,nivmin,nivmax;
+   float uutanmin, uutanmax, uvwmin, uvwmax, uumin, uumax, vvmin, vvmax, wwmin, wwmax, nivmin, nivmax;
 
   nbChampsActifs = DiffMgrGetNbChampsAffichables();
   nbChampsActifs = nbChampsActifs > 4 ? 4 : nbChampsActifs;
   op = CtrlMgrGetMathOp();
+  dernierNiveau = -1;
+
 
   for (i=0; i < nbChampsActifs; i++)
     {
@@ -583,15 +532,15 @@ int indChamp;
           &uumin,&uumax,&vvmin,&vvmax,
           &wwmin,&wwmax,&nivmin,&nivmax);
       if (0 == strcmp("UU", champZero->nomvar))
-  {
-  valMin = uumin;
-  valMax = uumax;
-  }
+         {
+         valMin = uumin;
+         valMax = uumax;
+         }
       else
-  {
-  valMin = vvmin;
-  valMax = vvmax;
-  }
+         {
+         valMin = vvmin;
+         valMax = vvmax;
+         }
       }
 
     valMin = tmin;
@@ -611,13 +560,9 @@ int indChamp;
 }
 
 
-/**
- ***********************************************************************
- ***********************************************************************
- **/
+// ******************************************************************************
 
-AfficherValeursPonctuelles(indChamp)
-int indChamp;
+void AfficherValeursPonctuelles(int indChamp)
 {
    _Champ *champ, *champ_ref;
    int fontSize;
@@ -656,13 +601,9 @@ int indChamp;
    }
 
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-int CalculerFacteurLissage(ni, nj)
-int ni, nj;
+int CalculerFacteurLissage(int ni, int nj)
 {
    int facteurLissage;
    float densiteX, densiteY, densitePix;
@@ -707,23 +648,16 @@ int ni, nj;
    }
 
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
 /** ARGSUSED **/
-static XtCallbackProc ChangerMenuIntervalles(indMenu)
-int indMenu;
+XtCallbackProc ChangerMenuIntervalles(int indMenu)
 {
    int i, j, n, nbInt;
-   static char *item;
    static char menuCourant[24][128];
    static char tampon[128];
    char format[8];
    Arg args[10];
-   float intervalle;
-   XmString label;
    _Champ *champ;
 
 
@@ -785,34 +719,28 @@ int indMenu;
 
    XtSetArg(args[0], XmNset, True);
    XtSetValues(xc.menuIntervalleItems[indMenu], args, 1);
-
+   return 0;
    }
 
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
 /** ARGSUSED **/
-static XtCallbackProc ChangerStatutSuperposition(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc ChangerStatutSuperposition(Widget w,  caddr_t unused1, caddr_t unused2)
 {
    _Champ *champ;
 
-   int i, n;
-   int oldStatuts[16];
+   int i;
    Arg args[10];
-   float *tmp,min,max;
+   float min,max;
    int fenetreAffichage;
 
-   XmString label;
+   XmString label = NULL;
 
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return;
+      return 0;
       }
 
    GetFenetreAffichageID(&fenetreAffichage);
@@ -849,6 +777,7 @@ caddr_t unused1, unused2;
                 {
                 EffacerLegende2();
                 AfficherLegende2(*champ);
+                
                 if (AfficherItem(0,LEGENDE_COULEUR))
                    {
                    AfficherLegendeCouleur(recColorTable, min, max, champ->intervalles,
@@ -906,42 +835,33 @@ caddr_t unused1, unused2;
    XmStringFree(label);
    RedessinerFenetreCoupe();
    RedessinerFenetreSerie();
+   return 0;
 }
 
-/**
-******************************************************************************
-******************************************************************************
-**/
+// ******************************************************************************
 
 
-CheckMenuIntervalles(indMenu)
-int indMenu;
+void CheckMenuIntervalles(int indMenu)
 {
    ChangerMenuIntervalles(indMenu);
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-int f77name(xcondown)()
+void f77name(xcondown)()
 {
    DesactiverWidgetsControle();
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-int f77name(xconup)()
+void  f77name(xconup)()
 {
    ActiverWidgetsControle();
    }
 
 
-int DesactiverWidgetsControle()
+void DesactiverWidgetsControle()
 {
    short i;
    Arg  args[10];
@@ -965,26 +885,20 @@ int DesactiverWidgetsControle()
    FlusherTousLesEvenements();
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+//**
 
 /** ARGSUSED **/
-static XtCallbackProc Effacer(w, unused1, unused2)
-Widget w;
-XtPointer unused1, unused2;
+XtCallbackProc Effacer(Widget w, XtPointer unused1, XtPointer unused2)
 {
    int i;
    _Champ *champ;
-   int nbChamps;
 
    FldMgrGetChamp(&champ, 0);
 
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return;
+      return 0;
       }
 
    if (champ->champModifie)
@@ -1006,14 +920,12 @@ XtPointer unused1, unused2;
    LibererImages();
    /*   GeoMgrClearMapInfo(); */
    xc.ChampAContourer = FALSE;
+   return 0;
    }
 
-/**
- ***********************************************************************
- ***********************************************************************
-**/
+// ******************************************************************************
 
-EffacerFenetre()
+void EffacerFenetre()
 {
    int col;
    _Champ *champ;
@@ -1036,23 +948,18 @@ EffacerFenetre()
    c_wglclr();
    }
 
-EffacerFenetres()
+void EffacerFenetres()
 {
    EffacerFenetreAffichage();
    EffacerFenetreCoupe();
    EffacerFenetreSerie();
    }
 
-/**
- ***********************************************************************
- ***********************************************************************
- **/
+// ******************************************************************************
 
-EffacerFenetreAffichage()
+void EffacerFenetreAffichage()
 {
    _Champ *champ;
-   int largeurFenetre, hauteurFenetre;
-   int fenetreCoupe,fenetreSerie;
    int col;
 
    FldMgrGetChamp(&champ, 0);
@@ -1074,7 +981,7 @@ EffacerFenetreAffichage()
    }
 
 
-EffacerFenetreCoupe()
+void EffacerFenetreCoupe()
 {
    int fenetreCoupe;
    int col;
@@ -1082,9 +989,9 @@ EffacerFenetreCoupe()
    if (CoupeMgrGetStatutCoupe())
       {
       if (8 <= c_wglgpl())
-   col = xc.attributs[FOND].indCouleurFore;
+         col = xc.attributs[FOND].indCouleurFore;
       else
-   col = BLANC;
+         col = BLANC;
 
       CoupeMgrGetFenetreCoupeID(&fenetreCoupe);
       c_wglsetw(fenetreCoupe);
@@ -1093,7 +1000,7 @@ EffacerFenetreCoupe()
       }
    }
 
-EffacerFenetreSerie()
+void EffacerFenetreSerie()
 {
    int fenetreSerie;
    int col;
@@ -1113,12 +1020,9 @@ EffacerFenetreSerie()
    }
 
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-InitDictionnaire()
+void InitDictionnaire()
 {
    f77name(initrlx)();
    LireDictionnaireRMNLIB(infoChamps);
@@ -1127,18 +1031,14 @@ InitDictionnaire()
    }
 
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
 
-InitFormeMessage()
+void InitFormeMessage()
 {
    int i;
    Arg args[10];
    XmString label;
-   Dimension largeur;
 
    char tempStr[128];
 
@@ -1178,11 +1078,10 @@ InitFormeMessage()
 
    }
 
-InitFormeAffichage()
+void InitFormeAffichage()
 {
    int i;
    Arg args[10];
-   XmString label;
 
    i = 0;
    XtSetArg(args[i], XmNleftAttachment, XmATTACH_POSITION); i++;
@@ -1219,12 +1118,9 @@ InitFormeAffichage()
 
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-InitFormeZoom()
+void InitFormeZoom()
 {
    int i;
    Arg args[10];
@@ -1266,14 +1162,24 @@ InitFormeZoom()
    XtManageChild(xc.valeursPonctuelles);
    XmStringFree(label);
 
+   i = 0;
+   label = XmStringCreateLtoR(labelStats[lng], XmSTRING_DEFAULT_CHARSET);
+   XtSetArg(args[i], XmNlabelString, label); i++;
+   XtSetArg(args[i], XmNleftAttachment, XmATTACH_POSITION); i++;
+   XtSetArg(args[i], XmNrightAttachment, XmATTACH_POSITION); i++;
+   XtSetArg(args[i], XmNrubberPositioning, True); i++;
+   XtSetArg(args[i], XmNleftPosition, 67); i++;
+   XtSetArg(args[i], XmNrightPosition, 100); i++;
+   xc.stats = (Widget)XmCreatePushButton(xc.formeZoom, "pushbutton", args, i);
+   XtAddCallback(xc.stats, XmNactivateCallback, (XtCallbackProc) AfficherStats, NULL);
+   XtManageChild(xc.stats);
+   XmStringFree(label);
+
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-InitFormeAnimation()
+void InitFormeAnimation()
 {
    int i;
    Arg args[10];
@@ -1309,12 +1215,9 @@ InitFormeAnimation()
    }
 
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-InitFormeSuperposition()
+void InitFormeSuperposition()
 {
 
    int i;
@@ -1379,18 +1282,14 @@ InitFormeSuperposition()
 
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-InitMenuAffichage()
+void InitMenuAffichage()
 {
    int i, j;
    Arg  args[10];
    XmString label;
-   XmFontList *fontListe;
-
+ 
    label = XmStringCreate(labelMenuAffichage[lng], XmSTRING_DEFAULT_CHARSET);
 
    i = 0;
@@ -1432,17 +1331,13 @@ InitMenuAffichage()
 
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-InitMenuGrille()
+void InitMenuGrille()
 {
    int i, j;
    Arg  args[10];
    XmString label;
-   XmFontList *fontListe;
    extern int nbgi;
    extern _GrilleMenuItem grmenuitems[];
    static char *labelChampno1[] = { "Champ #1", "Field #1" };
@@ -1494,18 +1389,14 @@ InitMenuGrille()
    XtManageChild(xc.menuGr);
 
 }
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-InitMenuVecteurs()
+void InitMenuVecteurs()
 {
    int i, j;
    Arg  args[10];
    XmString label;
-   XmFontList *fontListe;
-
+   
    i = 0;
    label = XmStringCreate(labelMenuVecteurs[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, label); i++;
@@ -1540,16 +1431,12 @@ InitMenuVecteurs()
 
 }
 
-/**
-******************************************************************************
-******************************************************************************
-**/
+// ******************************************************************************
 
-InitMenuFichier()
+void InitMenuFichier()
 {
    int i, j;
    Arg  args[10];
-   XmString label;
 
    static char *labelRecAPropos[] = {"A propos de xrec...", "About xrec..."};
 
@@ -1614,12 +1501,9 @@ InitMenuFichier()
 
    }
 
-/**
- **************************************************************
- **************************************************************
- **/
+// ******************************************************************************
 
-InitMenuIntervalles()
+void InitMenuIntervalles()
 {
    int i, j;
    Arg  args[10];
@@ -1645,7 +1529,7 @@ InitMenuIntervalles()
       item = menuItemFacteurMult[i];
       label = XmStringCreate(item, XmSTRING_DEFAULT_CHARSET);
       XtSetArg(args[0], XmNlabelString, label);
-      xc.menuIntervalleItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuIntervalleDeContour, "menu", args,NULL);
+      xc.menuIntervalleItems[i] = (Widget)XmCreatePushButtonGadget(xc.menuIntervalleDeContour, "menu", args,1);
       XtAddCallback(xc.menuIntervalleItems[i], XmNactivateCallback, (XtCallbackProc) MenuIntervalleSelect, (XtPointer) i);
       XmStringFree(label);
       }
@@ -1655,17 +1539,13 @@ InitMenuIntervalles()
    }
 
 
-/**
-**************************************************************
-**************************************************************
-**/
+// ******************************************************************************
 
-InitMenuCalculs()
+void InitMenuCalculs()
 {
    int i, j;
    Arg  args[10];
    XmString label;
-   XmFontList *fontListe;
 
    label = XmStringCreateLtoR(labelMenuCalculs[lng], XmSTRING_DEFAULT_CHARSET);
 
@@ -1737,17 +1617,13 @@ InitMenuCalculs()
    }
 
 
-/**
-**************************************************************
-**************************************************************
-**/
+// ******************************************************************************
 
-InitMenuOptions()
+void InitMenuOptions()
 {
    int i, j;
    Arg  args[10];
    XmString label;
-   XmFontList *fontListe;
 
    label = XmStringCreate("Options", XmSTRING_DEFAULT_CHARSET);
 
@@ -1841,12 +1717,9 @@ InitMenuOptions()
    }
 
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-InitOldMapInfo()
+void InitOldMapInfo()
 {
    oldMapInfo.ni = -1;
    oldMapInfo.nj = -1;
@@ -1858,21 +1731,12 @@ InitOldMapInfo()
    }
 
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
 
 /** ARGSUSED **/
-static XtCallbackProc MenuOptionSelect(w, unused1, unused2)
-Widget w;
-XtPointer unused1, unused2;
+XtCallbackProc MenuOptionSelect(Widget w, XtPointer unused1, XtPointer unused2)
 {
-   int i, n;
-   char *text;
-   XmString label;
-   Arg args[10];
 
    switch((int)unused1)
       {
@@ -1927,23 +1791,17 @@ XtPointer unused1, unused2;
       default:
   break;
       }
-
+   return 0;
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
+void c_ezdefset(int gdidout, int gdidin);
 
 /** ARGSUSED **/
-static XtCallbackProc MenuGrilleSelect(w, unused1, unused2)
-Widget w;
-XtPointer unused1, unused2;
+XtCallbackProc MenuGrilleSelect(Widget w, XtPointer unused1, XtPointer unused2)
 {
-   int i, n, gdin, gdout;
-   char *text;
-   XmString label;
+   int i, gdin, gdout;
    Arg args[10];
    extern int nbgi;
    int largeurFenetre, hauteurFenetre;
@@ -1951,12 +1809,14 @@ XtPointer unused1, unused2;
    float rx1, rx2, ry1, ry2;
    int drawcode;
    _Champ *champ;
+   
+   int c_ezgetgdin();
 
    FldMgrGetChamp(&champ, 0);
    if (champ->domaine == XZ || champ->domaine == YZ)
      {
        Beeper();
-       return;
+       return 0;
      }
 
    drawcode = (int) unused2;
@@ -1978,7 +1838,7 @@ XtPointer unused1, unused2;
       {
       FldMgrGetChamp(&champ, 0);
       FldMgrGetFstPrm(champ);
-      gdin = c_ezgdefrec(champ->src.ni, champ->src.nj, &champ->src.grtyp,
+      gdin = c_ezgdefrec(champ->src.ni, champ->src.nj, champ->src.grtyp,
                   champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4);
       FldMgrDefinirGrille();
       c_ezdefset(gdin, gdin);
@@ -1986,7 +1846,7 @@ XtPointer unused1, unused2;
    else
       {
       gdin = c_ezgetgdin();
-      gdout = c_ezgdefrec(grmenuitems[i].ni, grmenuitems[i].nj, &grmenuitems[i].grtyp,
+      gdout = c_ezgdefrec(grmenuitems[i].ni, grmenuitems[i].nj, grmenuitems[i].grtyp,
                           grmenuitems[i].ig1, grmenuitems[i].ig2, grmenuitems[i].ig3, grmenuitems[i].ig4);
       InitMapInfo(grmenuitems[i].grtyp[0], grmenuitems[i].ni, grmenuitems[i].nj,
                   grmenuitems[i].ig1,  grmenuitems[i].ig2, grmenuitems[i].ig3,  grmenuitems[i].ig4);
@@ -2027,23 +1887,16 @@ XtPointer unused1, unused2;
      {
        RedessinerFenetres();
      }
+   MettreAJourStats();
+   return 0;
 }
 
-/**
-******************************************************************************
-******************************************************************************
-**/
+// ******************************************************************************
 /** ARGSUSED **/
-static XtCallbackProc MenuVecteurSelect(w, unused1, unused2)
-Widget w;
-XtPointer unused1, unused2;
+XtCallbackProc MenuVecteurSelect(Widget w, XtPointer unused1, XtPointer unused2)
 {
-  int i, n, gdin, gdout;
-  char *text;
-  XmString label;
+  int i;
   Arg args[10];
-  extern int nbgi;
-  int largeurFenetre, hauteurFenetre;
   int currentOpt,ier,fenetreCoupe, fenetreSerie;
   float cxmin, cymin, cxmax, cymax;
   _Champ *champ;
@@ -2132,26 +1985,20 @@ XtPointer unused1, unused2;
   if (xc.statuts[EN_TRAIN_DE_DESSINER])
     {
     Beeper();
-    return;
+    return 0;
     }
-
+MettreAJourStats();
+return 0;
 }
 
-/**
-******************************************************************************
-******************************************************************************
-**/
+// ******************************************************************************
 
 
 /** ARGSUSED **/
-static XtCallbackProc MenuCalculSelect(w, unused1, unused2)
-Widget w;
-XtPointer unused1, unused2;
+XtCallbackProc MenuCalculSelect(Widget w, XtPointer unused1, XtPointer unused2)
 {
-  int i, n;
-   char *text;
-   XmString label;
-   Arg args[10];
+  int i;
+  Arg args[10];
 
    for (i=0; i < 5; i++)
       {
@@ -2165,16 +2012,15 @@ XtPointer unused1, unused2;
    CtrlMgrSetMathOp((int)unused1);
    LibererImages();
    RedessinerFenetres();
+   return 0;
    }
 
-
+void wglmapc(int colorIndex, int r, int g, int b);
 
 /** ARGSUSED **/
-static XtCallbackProc MenuAffichageSelect(w, unused1, unused2)
-Widget w;
-XtPointer unused1, unused2;
+XtCallbackProc MenuAffichageSelect(Widget w, XtPointer unused1, XtPointer unused2)
 {
-   int i, n;
+   int i;
    char *text;
    XmString label;
    Arg args[10];
@@ -2259,17 +2105,13 @@ XtPointer unused1, unused2;
 
    LibererImages();
    ActiverFlagsAffichage();
+   return 0;
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
 /** ARGSUSED **/
-static XtCallbackProc MenuFichierSelect(w, client_data, call_data)
-Widget w;
-caddr_t client_data, call_data;
+XtCallbackProc MenuFichierSelect(Widget w, XtPointer client_data, XtPointer call_data)
 {
    int lng;
    int i, largeurFenetre, hauteurFenetre;
@@ -2278,7 +2120,7 @@ caddr_t client_data, call_data;
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return;
+      return 0;
       }
 
    lng = c_getulng();
@@ -2341,20 +2183,16 @@ caddr_t client_data, call_data;
       QuitAndSave(w, client_data, call_data);
       break;
       }
+   return 0;
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
 /** ARGSUSED **/
-static XtCallbackProc MenuIntervalleSelect(w, client_data, call_data)
-Widget w;
-XtPointer client_data, call_data;
+XtCallbackProc MenuIntervalleSelect(Widget w, XtPointer client_data, XtPointer call_data)
 {
    float FacteurMultDesire;
-   int i,j,n;
+   int j,n;
    char *text;
    XmString label;
    Arg args[10];
@@ -2378,7 +2216,7 @@ XtPointer client_data, call_data;
    FldMgrGetChamp(&champ2, j);
          if (0 == strcmp(champ2->nomvar, champ->nomvar))
       {
-      UpdateFld_IntervalleDeContour(champ2, champ->intervalles, champ->nbIntervalles);
+      UpdateFld_IntervalleDeContour((_Champ *)champ2, champ->intervalles, champ->nbIntervalles);
       }
    }
       }
@@ -2389,26 +2227,22 @@ XtPointer client_data, call_data;
    {
    FldMgrGetChamp(&champ2, j);
          if (0 == strcmp(champ2->nomvar, champ->nomvar))
-             UpdateFld_IntervalleDeContour(&champ2, champ->intervalles, 1);
+             UpdateFld_IntervalleDeContour((_Champ *)champ2, champ->intervalles, 1);
    }
       }
 
    ChangerMenuIntervalles((int)client_data);
    LibererImages();
    RedessinerFenetres();
+   return 0;
    }
 
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
 
 /** ARGSUSED **/
-static XtCallbackProc Quit(w, client_data, call_data)
-Widget w;
-caddr_t client_data, call_data;
+XtCallbackProc Quit(Widget w, XtPointer client_data, XtPointer call_data)
 {
 #ifdef GL_WGL
    EnterOverlayMode();
@@ -2422,26 +2256,21 @@ caddr_t client_data, call_data;
 
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
 /** ARGSUSED **/
-static XtCallbackProc QuitAndSave(w, client_data, call_data)
-Widget w;
-caddr_t client_data, call_data;
+XtCallbackProc QuitAndSave(Widget w, XtPointer client_data, XtPointer call_data)
 {
    FILE *fichierDemarrage;
-   int i, j, k;
-   char *tmp, *home;
+   char *tmp;
    char nomFichierDemarrage[128];
    int lng;
 
+   lng = c_getulng();
    tmp = (char *) getenv("HOME");
    if (tmp == NULL)
       {
-      return;
+      return 0;
       }
 
    strcpy(nomFichierDemarrage, tmp);
@@ -2454,7 +2283,7 @@ caddr_t client_data, call_data;
    fprintf(stderr,"Impossible d'ouvrir le fichier $HOME/.startrec... \n");
       else
    fprintf(stderr,"Can't open file $HOME/.startrec... \n");
-      return;
+      return 0;
       }
 
    EcrCtlAtr(fichierDemarrage);
@@ -2466,14 +2295,12 @@ caddr_t client_data, call_data;
    fclose(fichierDemarrage);
 
    Quit(w, client_data, call_data);
+   return 0;
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-RedessinerFenetres()
+void RedessinerFenetres()
 {
 
    RedessinerFenetreAffichage();
@@ -2481,12 +2308,9 @@ RedessinerFenetres()
    RedessinerFenetreSerie();
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-RedessinerFenetreAffichage()
+void RedessinerFenetreAffichage()
 {
    int i;
 
@@ -2500,16 +2324,14 @@ RedessinerFenetreAffichage()
 
    AfficherLigneCoupe();
    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+   RafraichirStats();
    EnleverBoutonAnnulation();
    }
 
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-RedessinerFenetreCoupe()
+void RedessinerFenetreCoupe()
 {
    int i;
 
@@ -2539,12 +2361,9 @@ RedessinerFenetreCoupe()
    EnleverBoutonAnnulation();
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-RedessinerFenetreSerie()
+void RedessinerFenetreSerie()
 {
    int i;
 
@@ -2565,60 +2384,46 @@ RedessinerFenetreSerie()
    for (i=0; i < FldMgrGetNbChampsActifs(); i++)
       {
       if (!c_wglanul())
-   {
+         {
          ManipulerEtAfficherSerieTemporelle(i);
-   }
+         }
       }
 
    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
    EnleverBoutonAnnulation();
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
 /** ARGSUSED **/
-XtCallbackProc RafraichirFenetre(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc RafraichirFenetre(Widget w, XtPointer unused1, XtPointer unused2)
 {
-
-   int i;
 
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return;
+      return 0;
       }
 
    InvertWidget(w);
    EffacerFenetres();
    RedessinerFenetres();
    InvertWidget(w);
+   return 0;
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-f77name(xconact)(recs, nbrecs, iun)
-  int recs[], *nbrecs, *iun;
+int f77name(xconact)(int recs[], int *nbrecs, int *iun)
 {
    Widget widgetParent;
-   int res;
    int largeurFenetre, hauteurFenetre;
-   float fni, fnj, fx1, fy1, fx2, fy2;
    float rx1, ry1, rx2, ry2;
    float cxmin, cxmax, cymin, cymax;
    int fenetreAffichage, fenetreCoupe,fenetreSerie;
-   int i,n,ier;
+   int n,ier;
    int op;
-   Boolean valeur;
    int indChampCourant,nbChampsInitiaux;
-   Arg args[5];
    _Champ *champCourant;
 
    xc.flagInterrupt = TRUE;
@@ -2631,6 +2436,7 @@ f77name(xconact)(recs, nbrecs, iun)
    if (xc.statutSuperposition == TRUE)
       {
       ier = FldMgrAddChamp(recs[n], *iun);
+      RafraichirStats();
 
       if (ier == CHAMP_NON_SUPERPOSABLE)
          {
@@ -2659,6 +2465,8 @@ f77name(xconact)(recs, nbrecs, iun)
          RefuserOperation();
          return NOUVEAU_CHAMP;
          }
+       RafraichirStats();
+
             }
 
          ier = CoupeMgrGetStatutCoupe();
@@ -2814,14 +2622,12 @@ f77name(xconact)(recs, nbrecs, iun)
    }
 
 
-/**
- ***********************************************************************
- ***********************************************************************
- **/
+// ******************************************************************************
 
+void init_plot88();
+void c_gmpinit();
 
-f77name(xconouv)(iun)
-int   *iun;
+int f77name(xconouv)(int *iun)
 {
    int i;
    Arg args[10];
@@ -2829,22 +2635,11 @@ int   *iun;
    static char *titreFenetre[] = {"Affichage", "Display"};
    static char *titreFenetreControle[] =         { "TableauDeBord", "ControlPanel" };
    char nomShell[128];
-
-   float *tmpfld;
-   int  key, inf, date0, deet, npas, nbits;
-   int  datyp, ip1, ip2, ip3;
-   char typvar[3], nomvar[5], etiket[13], grtyp[2];
-   int  ig1, ig2, ig3, ig4, swa, fstlng, dltf, ubc;
-   int  extra1, extra2, extra3;
-   float rx1, ry1, rx2, ry2;
-
    int largeurLogo, hauteurLogo, largeurFenetre, hauteurFenetre;
 
-   int ni, nj, nk;
-   char  typeGrille[2];
-   Colormap cmap;
-   int indMin, indMax,un;
+   int indMin, indMax;
 
+   lng = c_getulng();
    c_wglscon("x");
    strcpy(panneauContourGeometrie,"");
    xc.ChampAContourer = FALSE;
@@ -2865,7 +2660,6 @@ int   *iun;
    xc.statuts[VALEURS_MANQUANTES] = FALSE;
    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
    xc.statuts[TRAITEMENT_VECTORIEL] = TRUE;
-   lng = c_getulng();
    strcpy(nomShell, XtName(SuperWidget.topLevel));
    strcat(nomShell, titreFenetre[lng]);
 
@@ -2997,34 +2791,25 @@ int   *iun;
    return xc.statut;
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
 /** ARGSUSED **/
-static XtCallbackProc Annuler(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc Annuler(Widget w, caddr_t unused1, caddr_t unused2)
 {
    xc.annulationDemandee = TRUE;
+   return 0;
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
 
 /** ARGSUSED **/
-static XtCallbackProc Zoom(w, client_data, call_data)
-Widget w;
-caddr_t client_data, call_data;
+XtCallbackProc Zoom(Widget w, caddr_t client_data, caddr_t call_data)
 {
    int bouton, event;
    int x0, y0, xsize, ysize, x1, y1, x2, y2;
    int nbMenus;
-   char TitreMenu[3][80];
+   char TitreMenu[3][4] = {"    ", "    ", "    "};
    float temp;
    int i;
    float fni, fnj, fx1, fy1, fx2, fy2;
@@ -3033,6 +2818,7 @@ caddr_t client_data, call_data;
    float oldX1, oldY1, oldX2, oldY2;
    int ix1, ix2, iy1, iy2;
    int largeurFenetre, hauteurFenetre;
+   _Champ *champ;
 
    c_wglsetw(fenetreAffichage);
    InvertWidget(w);
@@ -3043,7 +2829,7 @@ caddr_t client_data, call_data;
    nbMenus = 0;
    f77name(souris)(&bouton, &event,
        &x0, &y0, &xsize, &ysize,
-       &x1, &y1, &x2, &y2, TitreMenu, &nbMenus, 80);
+       &x1, &y1, &x2, &y2, (char *)TitreMenu, &nbMenus, 4);
 
    fni = (float) mapInfo.ni;
    fnj = (float) mapInfo.nj;
@@ -3051,6 +2837,7 @@ caddr_t client_data, call_data;
    fx2 = (float) (x2 - x0);
    fy1 = (float) (y1 - y0);
    fy2 = (float) (y2 - y0);
+   
 
    switch(event)
       {
@@ -3076,6 +2863,8 @@ caddr_t client_data, call_data;
       c_wgliax(&newX2, &newY2, ix2, iy2);
 
       c_wglssp(newX1, newY1, newX2, newY2, viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, 1);
+      ix1 = (int) newX1; newX2 = (int) fx2;
+      iy1 = (int) newY1; newY2 = (int) fy2;
       break;
 
       case MOVE:
@@ -3095,6 +2884,9 @@ caddr_t client_data, call_data;
       fy1 = oldY1 - (newY2 - newY1);
       fy2 = oldY2 - (newY2 - newY1);
 
+      ix1 = (int) fx1; ix2 = (int) fx2;
+      iy1 = (int) fy1; iy2 = (int) fy2;
+      
       AjusterViewport(&viewp);
       c_wglssp(fx1, fy1, fx2, fy2,
                viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, 1);
@@ -3102,6 +2894,8 @@ caddr_t client_data, call_data;
 
       case RESET:
       AjusterViewport(&viewp);
+      ix1 =  1; iy1 =  1;
+      ix2 = mapInfo.ni; iy2 = mapInfo.nj;
       fx1 = 1.0;
       fy1 = 1.0;
       fx2 = (float) mapInfo.ni;
@@ -3115,22 +2909,32 @@ caddr_t client_data, call_data;
       default:
       InvertWidget(w);
       xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-      return;
+      return 0;
       break;
       }
 
+/*   DefinirFenetreGrille(&ix1, &iy1, &ix2, &iy2, &mapInfo.ni, &mapInfo.nj);
+   fprintf(stderr, "zoom: %d %d %d %d", ix1, iy1, ix2, iy2);*/
+   
+   for (i=0; i < FldMgrGetNbChampsActifs(); i++)
+      {
+      FldMgrGetChamp(&champ, i);
+      champ->stats_zoom.to_be_updated = 1;
+      }   
+   
+   MettreAJourStats();      
    LibererImages();
    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
    AfficherMessageInfoStandard();
    RedessinerFenetreAffichage();
 
    InvertWidget(w);
+   return 0;
    }
 
-
-CalculerHauteurMenus()
+void CalculerHauteurMenus()
 {
-   int i, j;
+   int i;
    Arg  args[10];
    XmString label;
    XmFontList fontListe;
@@ -3147,7 +2951,7 @@ CalculerHauteurMenus()
    }
 
 
-AfficherPerimetreFenetre()
+void AfficherPerimetreFenetre()
 {
    int largeurFenetre, hauteurFenetre, largeurPinceau;
    float rx1, ry1, rx2, ry2;
@@ -3185,7 +2989,7 @@ AfficherPerimetreFenetre()
 
 
 
-AfficherBoutonAnnulation()
+void AfficherBoutonAnnulation()
 {
    Arg args[2];
    Pixel fore, back;
@@ -3199,7 +3003,7 @@ AfficherBoutonAnnulation()
    XtSetValues(xc.stop, args, 2);
    }
 
-EnleverBoutonAnnulation()
+void EnleverBoutonAnnulation()
 {
    Arg args[2];
    Pixel fore, back;
@@ -3214,7 +3018,7 @@ EnleverBoutonAnnulation()
    }
 
 
-AfficherMessageInfoStandard()
+void AfficherMessageInfoStandard()
 {
 
    static char *fenetre[] = {"Zoom: [%6.1f,%6.1f,%6.1f,%6.1f]",
@@ -3237,10 +3041,9 @@ AfficherMessageInfoStandard()
    }
 
 
-InitAttributs()
+void InitAttributs()
 {
    int r,g,b;
-   int lng;
 
    int i, indMin, indMax;
    int nplanes;
@@ -3353,7 +3156,7 @@ InitAttributs()
    }
 
 
-CheckCouleurContoursEtGeo()
+void CheckCouleurContoursEtGeo()
 {
    int indMin, indMax;
 
@@ -3362,7 +3165,7 @@ CheckCouleurContoursEtGeo()
    ResetColorMap(recColorTable, sizeRecColorTable, recCmap.noPalette);
    }
 
-AfficherGrille()
+void AfficherGrille()
 {
    int i,j,ix,iy;
    float x1, y1, x2, y2;
@@ -3426,11 +3229,19 @@ AfficherGrille()
 
    }
 
-AfficherGrilleSource(int indchamp)
+wordint c_ezqkdef(wordint ni, wordint nj, char *grtyp,
+             wordint ig1, wordint ig2, wordint ig3, wordint ig4, wordint iunit);
+wordint c_ezgetgdout();
+
+wordint c_gdllfxy(wordint gdid, ftnfloat *lat, ftnfloat *lon, ftnfloat *x, ftnfloat *y, wordint n);
+wordint c_gdxyfll(wordint gdid, ftnfloat *x, ftnfloat *y, ftnfloat *lat, ftnfloat *lon, wordint n);
+
+
+void AfficherGrilleSource(int indchamp)
 {
    int i,j,ix,iy,ier,npts;
    float x1, y1, x2, y2;
-   float rx1, ry1, rx2, ry2;
+   float rx1, ry1;
    float *lats, *lons, *x, *y;
    _Champ *champ;
 
@@ -3486,7 +3297,7 @@ AfficherGrilleSource(int indchamp)
    }
 
 
-SetClipMask()
+void SetClipMask()
 {
    float x1, y1, x2, y2;
    int i1, j1, i2, j2;
@@ -3514,7 +3325,7 @@ SetClipMask()
    }
 
 
-Beeper()
+void Beeper()
 {
    XBell(XtDisplay(xc.topLevel), 0);
    XBell(XtDisplay(xc.topLevel), 0);
@@ -3523,7 +3334,7 @@ Beeper()
    }
 
 
-ComparerGridInfo()
+int ComparerGridInfo()
 {
    if (oldMapInfo.ni != mapInfo.ni)
       return  -1;
@@ -3551,11 +3362,7 @@ ComparerGridInfo()
 
   }
 
-GrillesIdentiques(mapInfo, ni, nj, type, ig1, ig2, ig3, ig4)
-GeoMapInfoStruct mapInfo;
-int ni, nj;
-char type;
-int ig1, ig2, ig3, ig4;
+int GrillesIdentiques(GeoMapInfoStruct mapInfo,int ni, int nj, char type, int ig1, int ig2, int ig3, int ig4)
 {
    if (type != mapInfo.type)
       return  0;
@@ -3584,13 +3391,9 @@ int ig1, ig2, ig3, ig4;
 
 
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-CopierGridInfo(gridInfoSortie, gridInfoEntree)
-GeoMapInfoStruct *gridInfoSortie, *gridInfoEntree;
+void CopierGridInfo(GeoMapInfoStruct *gridInfoSortie, GeoMapInfoStruct *gridInfoEntree)
 {
    int i, nbBytes;
    char *ptr;
@@ -3604,12 +3407,9 @@ GeoMapInfoStruct *gridInfoSortie, *gridInfoEntree;
       }
    }
 
-/**
- ******************************************************************************
- ******************************************************************************
- **/
+// ******************************************************************************
 
-EffacerLaFenetreSiNecessaire()
+void EffacerLaFenetreSiNecessaire()
 {
    float xdebut, ydebut, xfin, yfin;
    _Champ *champ;
@@ -3628,30 +3428,23 @@ EffacerLaFenetreSiNecessaire()
       c_wgliax(&xfin, &yfin, viewp.vi2, viewp.vj2);
 
       if ((xdebut < 0.0) || (xfin > (float)(mapInfo.ni)+1.0) || (ydebut < 0.0) || (yfin > (float)(mapInfo.nj)+1.0))
-   {
-   EffacerFenetre();
-   }
+        {
+        EffacerFenetre();
+        }
       }
 
    }
 
-GetFenetreAffichageID(indFenetre)
-int *indFenetre;
+void GetFenetreAffichageID(int *indFenetre)
 {
    *indFenetre = fenetreAffichage;
    }
 
-/**
- ***********************************************************************
- ***********************************************************************
- **/
+// ******************************************************************************
 
-f77name(c_sctlatr)(item,valeur,lenItem,lenValeur)
-char item[],valeur[];
+void f77name(c_sctlatr)(char item[],char valeur[],int lenItem,int lenValeur)
 {
-   Arg args[10];
-   int i;
-   int indItem;
+   int indItem = -1;
 
 
    item[lenItem-1] = '\0';
@@ -3728,20 +3521,22 @@ char item[],valeur[];
       indItem = AFF_AUTOMATIQUE;
       }
 
-   if (0 == strcmp(valeur, "on"))
+   if (indItem >= 0)
       {
-      xc.statuts[indItem] = TRUE;
-      }
-
-   if (0 == strcmp(valeur, "off"))
-      {
-      xc.statuts[indItem] = FALSE;
+      if (0 == strcmp(valeur, "on"))
+         {
+         xc.statuts[indItem] = TRUE;
+         }
+   
+      if (0 == strcmp(valeur, "off"))
+         {
+         xc.statuts[indItem] = FALSE;
+         }
       }
 
 }
 
-EcrCtlAtr(fichierDemarrage)
-FILE *fichierDemarrage;
+void EcrCtlAtr(FILE *fichierDemarrage)
 {
    char tableau[32];
    char ligne[80];
@@ -3749,10 +3544,6 @@ FILE *fichierDemarrage;
    int i;
 
    Arg  args[10];
-   XmString label;
-   XmFontList fontListe;
-   char *geom;
-   Window root;
    Position x,y;
    Display *disp;
    Window win;
@@ -3844,24 +3635,19 @@ FILE *fichierDemarrage;
 
    }
 
-/**
-****
-****
-**/
+//********************
 
-CtrlMgrSetMathOp(op)
-int op;
+void CtrlMgrSetMathOp(int op)
 {
    mathOp = op;
    }
 
-CtrlMgrGetMathOp()
+int CtrlMgrGetMathOp()
 {
    return mathOp;
    }
 
-CtrlMgrGetContextualMathOp(indChamp)
-int indChamp;
+int CtrlMgrGetContextualMathOp(int indChamp)
 {
 
    if (mathOp != NO_OP && 0 == indChamp%2 && ((indChamp+1) >= FldMgrGetNbChampsActifs()))
@@ -3875,22 +3661,22 @@ int indChamp;
 
    }
 
-f77name(recnologo)()
+void f77name(recnologo)()
 {
    rpnLogo = 0;
    }
 
-GetLogoToggle()
+int GetLogoToggle()
 {
    return rpnLogo;
    }
 
-GetGrilleSelectionnee()
+int GetGrilleSelectionnee()
 {
    return itemGrilleSelectionnee;
 }
 
-GetValeursManquantesToggle()
+int GetValeursManquantesToggle()
 {
   return xc.statuts[VALEURS_MANQUANTES];
 }

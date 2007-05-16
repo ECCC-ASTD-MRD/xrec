@@ -31,8 +31,9 @@
 *
       PARAMETER (NBCHR=8, NBWD=8, NCHRWD=NBWD/NBCHR)
       INTEGER IGAP, ISOL, IBLK
-      DATA IGAP /4H"   /, ISOL /4H$   /, IBLK /4H    /
-*
+      data igap/'"   '/,isol/'$   '/,iblk/'    '/
+*     DATA IGAP /4H"   /, ISOL /4H$   /, IBLK /4H    /
+*    
 #include "xdashd1.cdk"
 #include "xdashd2.cdk"
 #include "xdashd3.cdk"
@@ -67,7 +68,7 @@
 #if defined (SUN) 
       SHIFTL(J,N) = lshift(J,N)
 #endif
-#if defined (SGI) || defined (i386) || defined (Alpha)
+#if defined (SGI) || defined (i386) || defined (Alpha) || defined (Darwin_OSX_PPC)
       SHIFTL(J,N) = ishft(J,N)
 #endif
 #if defined (HP) 

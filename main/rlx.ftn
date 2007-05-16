@@ -23,6 +23,8 @@
       external defvar
       external setitem
       external xrecgrille
+      external vecteur
+      
       real dum
       integer i
 
@@ -36,8 +38,9 @@
       enddo
 
       call qlxinx(defvar,     'DEFVAR', npar, 0730, 2)
-      call qlxinx(setitem,    'SETITEM',npar, 0303, 2)	
-      call qlxinx(xrecgrille, 'GRILLE', npar, 0509, 2)	
+      call qlxinx(setitem,    'SETITEM',npar, 0303, 2)  
+      call qlxinx(xrecgrille, 'GRILLE', npar, 0509, 2)  
+      call qlxinx(vecteur,    'VECTEUR',npar, 0303, 2)  
       
       return
       end
@@ -45,7 +48,7 @@
       subroutine rlx(nomFich)
       
       implicit none
-      character *(*) nomFich
+      character*128 nomFich
       
       
       integer fnom, fclos, ier
@@ -57,8 +60,9 @@
       iun = 0
       ier = fnom(iun, nomFich, 'SEQ+OLD+R/O', 0)
 
+      kend = 0
       ipose = 0
-      call readlx(iun, kend, ipose)	
+      call readlx(iun, kend, ipose) 
 
       ier = fclos(iun)
       

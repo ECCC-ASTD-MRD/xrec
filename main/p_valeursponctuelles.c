@@ -19,14 +19,20 @@
  */
 
 #include <Xm/Xm.h>
+#include <Xm/PushB.h>
 #include <Xm/PushBG.h>
 #include <Xm/CascadeBG.h>
 #include <Xm/RowColumn.h>
+#include <Xm/Form.h>
+#include <Xm/Frame.h>
 
 #include <xinit.h>
 #include <wgl.h>
 #include <rpnmacros.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 
 extern SuperWidgetStruct SuperWidget;
 extern _XContour xc;
@@ -45,7 +51,6 @@ Widget p_ptvalPanneauTailleSymbole,p_ptvalFrameTailleSymbole, p_ptvalOptionsTail
 Widget p_ptvalChamps[6];
 
 static char *nomPanneauPonctuelles[] = {"PanneauValeursPonctuelles", "PointValuesPanel"};
-static char *labelTopLevel[] = {"ValeursPonctuelles", "PointValues"};
 static char *labelOk[] = {"Fermer", "Close"};
 static char *labelAfficher[] = {"Redessiner", "Refresh"};
 
@@ -199,24 +204,23 @@ void SetUnitesSymbole (Widget w, caddr_t client_data, caddr_t call_data)
   RedessinerFenetres();
    }
 //--------------------------------------------------------------------------------------------------------------------------
-static XtCallbackProc PtValOk(Widget w, caddr_t unused1, caddr_t unused2)
+XtCallbackProc PtValOk(Widget w, caddr_t unused1, caddr_t unused2)
 {
    p_ptvalSelectionTerminee = TRUE;
    DesactiverPanneauValeursPonctuelles();
+   return 0;
    }
 
 //--------------------------------------------------------------------------------------------------------------------------
-static XtCallbackProc PtValAfficher(Widget w, caddr_t unused1, caddr_t unused2)
+XtCallbackProc PtValAfficher(Widget w, caddr_t unused1, caddr_t unused2)
 {
-   int i;
-
    RedessinerFenetres();
-
+   return 0;
    }
 
 
 //--------------------------------------------------------------------------------------------------------------------------
-InitPanneauValeursPonctuelles()
+void InitPanneauValeursPonctuelles()
 {
 
    int i;
@@ -225,8 +229,6 @@ InitPanneauValeursPonctuelles()
 
    int n,lng;
    char nomShell[128];
-   Pixel indCouleurs[16];
-   Colormap cmap;
 
    Xinit("xregarder");
    lng = c_getulng();
@@ -298,7 +300,7 @@ InitPanneauValeursPonctuelles()
     i = 0;
     string = XmStringCreateLtoR(labelOptionsCouleur[lng][n], XmSTRING_DEFAULT_CHARSET);
     XtSetArg(args[i], XmNlabelString, string); i++;
-    p_ptvalOptionsCouleurItems[n] = XmCreatePushButtonGadget(p_ptvalOptionsCouleur, labelOptionsCouleur[lng][n], args, i);
+    p_ptvalOptionsCouleurItems[n] = (Widget) XmCreatePushButtonGadget(p_ptvalOptionsCouleur, labelOptionsCouleur[lng][n], args, i);
     XmStringFree(string);
     XtAddCallback(p_ptvalOptionsCouleurItems[n], XmNactivateCallback, (XtCallbackProc)  SetCouleurToggle, (XtPointer) n);
     }
@@ -328,7 +330,7 @@ InitPanneauValeursPonctuelles()
     i = 0;
     string = XmStringCreateLtoR(labelOptionsSymbole[lng][n], XmSTRING_DEFAULT_CHARSET);
     XtSetArg(args[i], XmNlabelString, string); i++;
-    p_ptvalOptionsSymboleItems[n] = XmCreatePushButtonGadget(p_ptvalOptionsSymbole, labelOptionsSymbole[lng][n], args, i);
+    p_ptvalOptionsSymboleItems[n] = (Widget) XmCreatePushButtonGadget(p_ptvalOptionsSymbole, labelOptionsSymbole[lng][n], args, i);
     XmStringFree(string);
     XtAddCallback(p_ptvalOptionsSymboleItems[n], XmNactivateCallback, (XtCallbackProc)  SetSymboleToggle, (XtPointer) n);
     }
@@ -360,7 +362,7 @@ InitPanneauValeursPonctuelles()
     i = 0;
     string = XmStringCreateLtoR(labelOptionsAffichageValeurs[lng][n], XmSTRING_DEFAULT_CHARSET);
     XtSetArg(args[i], XmNlabelString, string); i++;
-    p_ptvalOptionsAffichageValeursItems[n] = XmCreatePushButtonGadget(p_ptvalOptionsAffichageValeurs, labelOptionsAffichageValeurs[lng][n], args, i);
+    p_ptvalOptionsAffichageValeursItems[n] = (Widget)  XmCreatePushButtonGadget(p_ptvalOptionsAffichageValeurs, labelOptionsAffichageValeurs[lng][n], args, i);
     XmStringFree(string);
     XtAddCallback(p_ptvalOptionsAffichageValeursItems[n], XmNactivateCallback, (XtCallbackProc)  SetAffichageValeurToggle, (XtPointer) n);
     }
@@ -393,7 +395,7 @@ InitPanneauValeursPonctuelles()
     i = 0;
     string = XmStringCreateLtoR(labelOptionsAffichageLatlon[lng][n], XmSTRING_DEFAULT_CHARSET);
     XtSetArg(args[i], XmNlabelString, string); i++;
-    p_ptvalOptionsAffichageLatlonItems[n] = XmCreatePushButtonGadget(p_ptvalOptionsAffichageLatlon, labelOptionsAffichageLatlon[lng][n], args, i);
+    p_ptvalOptionsAffichageLatlonItems[n] = (Widget) XmCreatePushButtonGadget(p_ptvalOptionsAffichageLatlon, labelOptionsAffichageLatlon[lng][n], args, i);
     XmStringFree(string);
     XtAddCallback(p_ptvalOptionsAffichageLatlonItems[n], XmNactivateCallback, (XtCallbackProc)  SetAffichageValeurLatlon, (XtPointer) n);
     }
@@ -425,7 +427,7 @@ InitPanneauValeursPonctuelles()
     i = 0;
     string = XmStringCreateLtoR(labelOptionsTailleSymbole[lng][n], XmSTRING_DEFAULT_CHARSET);
     XtSetArg(args[i], XmNlabelString, string); i++;
-    p_ptvalOptionsTailleSymboleItems[n] = XmCreatePushButtonGadget(p_ptvalOptionsTailleSymbole, labelOptionsTailleSymbole[lng][n], args, i);
+    p_ptvalOptionsTailleSymboleItems[n] = (Widget) XmCreatePushButtonGadget(p_ptvalOptionsTailleSymbole, labelOptionsTailleSymbole[lng][n], args, i);
     XmStringFree(string);
     XtAddCallback(p_ptvalOptionsTailleSymboleItems[n], XmNactivateCallback, (XtCallbackProc)  SetAffichageTailleSymbole, (XtPointer) n);
     }
@@ -455,7 +457,7 @@ InitPanneauValeursPonctuelles()
     i = 0;
     string = XmStringCreateLtoR(labelOptionsUnitesSymbole[lng][n], XmSTRING_DEFAULT_CHARSET);
     XtSetArg(args[i], XmNlabelString, string); i++;
-    p_ptvalOptionsUnitesSymboleItems[n] = XmCreatePushButtonGadget(p_ptvalOptionsUnitesSymbole, labelOptionsUnitesSymbole[lng][n], args, i);
+    p_ptvalOptionsUnitesSymboleItems[n] = (Widget) XmCreatePushButtonGadget(p_ptvalOptionsUnitesSymbole, labelOptionsUnitesSymbole[lng][n], args, i);
     XmStringFree(string);
   XtAddCallback(p_ptvalOptionsUnitesSymboleItems[n], XmNactivateCallback, (XtCallbackProc)  SetUnitesSymbole, (XtPointer) n);
     }
@@ -474,13 +476,8 @@ InitPanneauValeursPonctuelles()
   }
 
 //--------------------------------------------------------------------------------------------------------------------------
-ActiverPanneauValeursPonctuelles()
+void ActiverPanneauValeursPonctuelles()
 {
-
-   Colormap cmap;
-   Arg args[2];
-   int i;
-
    if (!p_ptvalTopLevel)
       InitPanneauValeursPonctuelles();
 
@@ -497,28 +494,27 @@ ActiverPanneauValeursPonctuelles()
    }
 
 //--------------------------------------------------------------------------------------------------------------------------
-f77name(xp_ptvalact)()
+void f77name(xp_ptvalact)()
 {
    LocalEventLoop(p_ptvalTopLevel);
    }
 
 
 //--------------------------------------------------------------------------------------------------------------------------
-DesactiverPanneauValeursPonctuelles()
+void DesactiverPanneauValeursPonctuelles()
 {
-   int i;
 
    XtUnrealizeWidget(p_ptvalTopLevel);
    }
 
 //--------------------------------------------------------------------------------------------------------------------------
-PtValMgrGetColorStatus()
+int PtValMgrGetColorStatus()
 {
    return couleurSymbole;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------
-PtValMgrGetAffichageValeurs()
+int PtValMgrGetAffichageValeurs()
 {
    return affichageValeurs;
 }
@@ -530,19 +526,19 @@ float PtValMgrGetSymbolSize()
 }
 
 //--------------------------------------------------------------------------------------------------------------------------
-PtValMgrGetSymboleType()
+int PtValMgrGetSymboleType()
 {
    return typeSymbole;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------
-PtValMgrGetAffichageLatlon()
+int PtValMgrGetAffichageLatlon()
 {
    return affichageLatlon;
 }
 //--------------------------------------------------------------------------------------------------------------------------
 
-PtValMgrGetUnitesSymbole()
+int PtValMgrGetUnitesSymbole()
 {
    return unitesSymbole;
 }

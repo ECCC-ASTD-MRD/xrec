@@ -19,9 +19,28 @@
  */
 
 #include <Xm/Xm.h>
+#include <Xm/CascadeB.h>
+#include <Xm/CascadeBG.h>
+#include <Xm/Form.h>
+#include <Xm/Frame.h>
+#include <Xm/Label.h>
+#include <Xm/List.h>
+#include <Xm/PushB.h>
+#include <Xm/PushBG.h>
+#include <Xm/RowColumn.h>
+#include <Xm/Scale.h>
+#include <Xm/SeparatoG.h>
+#include <Xm/Separator.h>
+#include <Xm/Text.h>
+#include <Xm/TextF.h>
+#include <Xm/ToggleB.h>
+#include <Xm/ToggleBG.h>
 
 #include <rpnmacros.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <wgl.h>
 #include <xinit.h>
 
@@ -37,7 +56,6 @@ Widget pmFrameValeurs,pmRCValeurs,pmFrameChoix,pmChoixMinMax,pmAuto,pmFixe;
 Widget pmFrameLimiteX,pmFormeLimiteX,pmLabelMinX,pmTextMinX,pmLabelMaxX,pmTextMaxX;
 
 static char *nomPanneauMinMax[] = {"PanneauMinMax", "MinMaxPanel"};
-static char *labelTopLevel[] = {"MinMax", "MinMax"};
 static char *labelOk[] = {"Fermer", "Close"};
 static char *labelAfficher[] = {"Redessiner", "Redraw"};
 
@@ -52,7 +70,6 @@ static char *labelFixe[] = {"Fixes", "Fixed"};
 char *minStr = NULL;
 char *maxStr = NULL;
 
-static int currentItem;
 char panneauMinMaxGeometrie[32];
 static char pmNomVar[256][5];
 
@@ -63,11 +80,7 @@ static int nMinMaxs = 0;
 static int itemDict = 0;
 
 
-
-void PmReadMinMax(w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void PmReadMinMax(Widget w, caddr_t client_data, caddr_t call_data) 
 {
    if (minStr != NULL)
       {
@@ -80,10 +93,7 @@ caddr_t	call_data;	/*  data from widget class  */
    }
 
 
-void PmSelectNomvar(w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void PmSelectNomvar(Widget w, caddr_t client_data, caddr_t call_data)
 {
    int i;
    char tempStr[16];
@@ -134,12 +144,8 @@ caddr_t	call_data;	/*  data from widget class  */
    }
 
 
-void PmSetMinMaxAuto(w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void PmSetMinMaxAuto(Widget w, caddr_t client_data, caddr_t call_data)
 {
-   int i;
    char tempStr[16];
 
    DictMgrSetMinMaxMode(pmNomVar[itemDict],itemDict,AUTO);
@@ -155,14 +161,8 @@ caddr_t	call_data;	/*  data from widget class  */
 *************
 **/
 
-void PmSetMinMaxFixe(w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void PmSetMinMaxFixe(Widget w, caddr_t client_data, caddr_t call_data)
 {
-   Arg args[16];
-   int i;
-   
    char tempStr[16],*returnedStr;
    float min,max;
 
@@ -190,12 +190,11 @@ caddr_t	call_data;	/*  data from widget class  */
 *************
 **/
 
-static XtCallbackProc PmOk(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PmOk(Widget w, caddr_t client_data, caddr_t call_data)
 {
    pmSelectionTerminee = TRUE;
    DesactiverPanneauMinMax();
+   return 0;
    }
 
 /**
@@ -203,13 +202,10 @@ caddr_t unused1, unused2;
 *************
 **/
 
-static XtCallbackProc PmAfficher(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PmAfficher(Widget w, caddr_t client_data, caddr_t call_data)
 {
-   int i;
-
    RedessinerFenetres();
+   return 0;
    }
 
 /**
@@ -217,26 +213,15 @@ caddr_t unused1, unused2;
 *************
 **/
 
-InitPanneauMinMax()
+void InitPanneauMinMax()
 {
 
    int i,j;
-   Position height;
    Arg args[16];
-   XmString string;
    XmStringTable table;
    char nomShell[128];
-   char *armnlib;
-   char nomFichierMinMax[128];
 
-   Colormap cmap;
-   int n,lng,key,iun,lrec,ierr;
-   int ni, nj, nk;
-   int ier, dateo, date,deet, npas, nbits, datyp, ip1, ip2, ip3;
-   int ig1,ig2,ig3,ig4,bidon;
-   
-   char grtyp[2], typvar[3], nomvar[5], etiket[13],options[9];
-
+   int lng;
 
 /* Initialize toolkit */
    Xinit("xregarder");
@@ -264,7 +249,7 @@ InitPanneauMinMax()
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
    pmOk = (Widget)XmCreatePushButton(pmForme, labelOk[lng], args, i);
-   XtAddCallback(pmOk, XmNactivateCallback, PmOk, NULL);
+   XtAddCallback(pmOk, XmNactivateCallback, (XtCallbackProc) PmOk, NULL);
    XtManageChild(pmOk);
 
    i = 0;
@@ -272,7 +257,7 @@ InitPanneauMinMax()
    XtSetArg(args[i], XmNrightWidget, pmOk); i++;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    pmAfficher = (Widget)XmCreatePushButton(pmForme, labelAfficher[lng], args, i);
-   XtAddCallback(pmAfficher, XmNactivateCallback, PmAfficher, NULL);
+   XtAddCallback(pmAfficher, XmNactivateCallback, (XtCallbackProc) PmAfficher, NULL);
    XtManageChild(pmAfficher);
 
    i=0;
@@ -315,7 +300,7 @@ InitPanneauMinMax()
    XtSetArg(args[i], XmNselectionPolicy, XmSINGLE_SELECT); i++;
    pmPanneauMinMax = (Widget) XmCreateScrolledList(pmFormePal, "option_menu1", args, i);
 
-   XtAddCallback(pmPanneauMinMax, XmNsingleSelectionCallback, PmSelectNomvar, NULL);
+   XtAddCallback(pmPanneauMinMax, XmNsingleSelectionCallback, (XtCallbackProc) PmSelectNomvar, NULL);
    XtManageChild(pmPanneauMinMax);
 
    i = 0;
@@ -347,7 +332,7 @@ InitPanneauMinMax()
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pmAuto = (Widget) XmCreateToggleButton(pmChoixMinMax, labelAuto[lng], args, i);
-   XtAddCallback(pmAuto, XmNarmCallback, PmSetMinMaxAuto, NULL);
+   XtAddCallback(pmAuto, XmNarmCallback, (XtCallbackProc) PmSetMinMaxAuto, NULL);
    XtManageChild(pmAuto);
    
    i = 0;
@@ -356,7 +341,7 @@ InitPanneauMinMax()
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pmFixe = (Widget)XmCreateToggleButton(pmChoixMinMax, labelFixe[lng], args, i);
-   XtAddCallback(pmFixe, XmNarmCallback, PmSetMinMaxFixe, NULL);
+   XtAddCallback(pmFixe, XmNarmCallback, (XtCallbackProc) PmSetMinMaxFixe, NULL);
    XtManageChild(pmFixe);
    
 /**
@@ -406,15 +391,11 @@ InitPanneauMinMax()
  **/
 
 
-ActiverPanneauMinMax()
+void ActiverPanneauMinMax()
 {
-   XEvent pmEVent;
-   Widget pmWidgetParent;
-   XmString string;
    XmStringTable extended_table;
    int newItems;
 
-   Arg args[2];
    int i;
    
    if (!pmTopLevel)
@@ -443,32 +424,22 @@ ActiverPanneauMinMax()
    
    }
 
-f77name(xpanmact)()
+void f77name(xpanmact)()
 {
    LocalEventLoop(pmTopLevel);
    }
 
 
 
-DesactiverPanneauMinMax()
+void DesactiverPanneauMinMax()
 {
-   int i;
-
    XtUnrealizeWidget(pmTopLevel);
 
    }
 
 
-
-f77name(c_sminmaxatr)(item,valeur,lenItem,lenValeur)
-char item[],valeur[];
-int lenItem,lenValeur;  
+void f77name(c_sminmaxatr)(char item[],char valeur[], int lenItem, int lenValeur) 
 {
-   Arg args[10];
-   int i;
-   int indItem;
-   char fakeWidgetName[32];
-
    item[lenItem-1] = '\0';
    valeur[lenValeur-1] = '\0';
    nettoyer(item);
@@ -502,8 +473,7 @@ int lenItem,lenValeur;
 
 
 
-EcrMinMaxAtr(fichierDemarrage)
-FILE *fichierDemarrage;
+void EcrMinMaxAtr(FILE *fichierDemarrage)
 {
 /**
    char tableau[32];

@@ -19,11 +19,29 @@
  */
 
 #include <Xm/Xm.h>
+#include <Xm/CascadeB.h>
+#include <Xm/CascadeBG.h>
+#include <Xm/Form.h>
+#include <Xm/Frame.h>
+#include <Xm/Label.h>
+#include <Xm/PushB.h>
+#include <Xm/PushBG.h>
+#include <Xm/RowColumn.h>
+#include <Xm/Scale.h>
+#include <Xm/SeparatoG.h>
+#include <Xm/Separator.h>
+#include <Xm/Text.h>
+#include <Xm/TextF.h>
+#include <Xm/ToggleB.h>
+#include <Xm/ToggleBG.h>
 
 #include <xinit.h>
 #include <wgl.h>
 #include <rpnmacros.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 
 extern SuperWidgetStruct SuperWidget;
 extern _XContour xc;
@@ -71,7 +89,6 @@ Widget          pavNextFrame;
 Widget          pavNextFrames;
 
 static char *nomPanneauVAnim[] = {"PanneauAnimationVerticale", "VerticalAnimationPanel"};
-static char *labelTopLevel[] = {"Vertical_Animation", "Vertical_Animation"};
 static char *labelOk[] = {"Fermer", "Close"};
 
 static char *labelScaleDelai[] = {"Delai", "Delay"};
@@ -90,38 +107,20 @@ extern _Viewport    viewp;
 
 _AnimInfo vanimInfo;
 int pavSelectionTerminee = FALSE;
-
-
-static XtCallbackProc PavSetDelai();
-static XtCallbackProc PavSetIntervalle();
-static XtCallbackProc PavToggleAnimationRapide();
-static XtCallbackProc PavToggleInterpolation();
-static XtCallbackProc PavToggleTemps();
-static XtCallbackProc PavToggleNiveaux();
-static XtCallbackProc PavToggleDefilementRegulier();
-static XtCallbackProc PavToggleDefilementAvantArriere();
-
-
-static XtCallbackProc PavNextFrame();
-static XtCallbackProc PavNextFrames();
-static XtCallbackProc PavLastFrame();
-static XtCallbackProc PavLastFrames();
-XtCallbackProc PavStop();
 int interpolationVerticale = FALSE;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-static XtCallbackProc PavFermer(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PavFermer(Widget w, caddr_t unused1, caddr_t unused2)
 {
    pavSelectionTerminee = TRUE;
    DesactiverPanneauVanim();
+   return 0;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
-InitPanneauAnimVerticale()
+void InitPanneauAnimVerticale()
 {
   int i;
    Arg args[16];
@@ -150,7 +149,7 @@ InitPanneauAnimVerticale()
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
    pavFermer = (Widget)XmCreatePushButton(pavFormeAnimPanel, labelOk[lng], args, i);
    XtManageChild(pavFermer);
-   XtAddCallback(pavFermer, XmNactivateCallback, PavFermer, NULL);
+   XtAddCallback(pavFermer, XmNactivateCallback, (XtCallbackProc) PavFermer, NULL);
 
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
@@ -190,7 +189,7 @@ InitPanneauAnimVerticale()
    XtSetArg(args[i], XmNindicatorType, XmONE_OF_MANY); i++;
    pavToggleAnimationRapide = (Widget) XmCreateToggleButton(pavRadioBoxAnimation, labelAnimationRapide[lng], args, i);
    XtManageChild(pavToggleAnimationRapide);
-   XtAddCallback(pavToggleAnimationRapide, XmNdisarmCallback, PavToggleAnimationRapide, NULL);
+   XtAddCallback(pavToggleAnimationRapide, XmNdisarmCallback, (XtCallbackProc) PavToggleAnimationRapide, NULL);
 
 /* -------------------------------------------------------------------------------------------------- */
  
@@ -213,7 +212,7 @@ InitPanneauAnimVerticale()
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pavToggleDefilementRegulier = (Widget) XmCreateToggleButton(pavRadioBoxTypeDeDefilement, labelDefilementRegulier[lng], args, i);
    XtManageChild(pavToggleDefilementRegulier);
-   XtAddCallback(pavToggleDefilementRegulier, XmNvalueChangedCallback, PavToggleDefilementRegulier, NULL);
+   XtAddCallback(pavToggleDefilementRegulier, XmNvalueChangedCallback, (XtCallbackProc) PavToggleDefilementRegulier, NULL);
    
    i = 0;
    XtSetArg(args[i], XmNvisibleWhenOff, False); i++;
@@ -222,7 +221,7 @@ InitPanneauAnimVerticale()
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pavToggleDefilementAvantArriere = (Widget)XmCreateToggleButton(pavRadioBoxTypeDeDefilement, labelDefilementAvantArriere[lng], args, i);
    XtManageChild(pavToggleDefilementAvantArriere);
-   XtAddCallback(pavToggleDefilementAvantArriere, XmNvalueChangedCallback, PavToggleDefilementAvantArriere, NULL);
+   XtAddCallback(pavToggleDefilementAvantArriere, XmNvalueChangedCallback, (XtCallbackProc) PavToggleDefilementAvantArriere, NULL);
 
 /* -------------------------------------------------------------------------------------------------- */
    
@@ -252,7 +251,7 @@ InitPanneauAnimVerticale()
    XtSetArg(args[i], XmNindicatorType, XmONE_OF_MANY); i++;
    pavToggleInterpolation = (Widget) XmCreateToggleButton(pavRadioBoxInterpolation, labelInterpolation[lng], args, i);
    XtManageChild(pavToggleInterpolation);
-   XtAddCallback(pavToggleInterpolation, XmNdisarmCallback, PavToggleInterpolation, NULL);
+   XtAddCallback(pavToggleInterpolation, XmNdisarmCallback, (XtCallbackProc) PavToggleInterpolation, NULL);
 
    i = 0;
    label = XmStringCreateLtoR(labelScaleIntervalle[lng], XmSTRING_DEFAULT_CHARSET);
@@ -268,8 +267,8 @@ InitPanneauAnimVerticale()
    XtManageChild(pavScaleIntervalle);
    XmStringFree(label);
 
-   XtAddCallback(pavScaleIntervalle, XmNdragCallback, PavSetIntervalle, NULL);
-   XtAddCallback(pavScaleIntervalle, XmNvalueChangedCallback, PavSetIntervalle, NULL);
+   XtAddCallback(pavScaleIntervalle, XmNdragCallback, (XtCallbackProc) PavSetIntervalle, NULL);
+   XtAddCallback(pavScaleIntervalle, XmNvalueChangedCallback, (XtCallbackProc) PavSetIntervalle, NULL);
 
    vanimInfo.intervalle = 10.0;
    i = 0;
@@ -284,8 +283,8 @@ InitPanneauAnimVerticale()
    XtManageChild(pavScaleDelai);
    XmStringFree(label);
 
-   XtAddCallback(pavScaleDelai, XmNdragCallback, PavSetDelai, NULL);
-   XtAddCallback(pavScaleDelai, XmNvalueChangedCallback, PavSetDelai, NULL);
+   XtAddCallback(pavScaleDelai, XmNdragCallback, (XtCallbackProc) PavSetDelai, NULL);
+   XtAddCallback(pavScaleDelai, XmNvalueChangedCallback, (XtCallbackProc) PavSetDelai, NULL);
 
 
 
@@ -308,34 +307,34 @@ InitPanneauAnimVerticale()
    i = 0;
    pavLastFrames = (Widget) XmCreatePushButton(pavFormeBoutons, " << ", args, i);
    XtManageChild(pavLastFrames);
-   XtAddCallback(pavLastFrames, XmNactivateCallback, PavLastFrames, NULL);
+   XtAddCallback(pavLastFrames, XmNactivateCallback, (XtCallbackProc) PavLastFrames, NULL);
 
    i = 0;
    pavLastFrame = (Widget) XmCreatePushButton(pavFormeBoutons, " <  ", args, i);
    XtManageChild(pavLastFrame);
-   XtAddCallback(pavLastFrame, XmNactivateCallback, PavLastFrame, NULL);
+   XtAddCallback(pavLastFrame, XmNactivateCallback, (XtCallbackProc) PavLastFrame, NULL);
 
    i = 0;
    pavStop = (Widget) XmCreatePushButton(pavFormeBoutons, "Stop", args, i);
    XtManageChild(pavStop);
-   XtAddCallback(pavStop, XmNactivateCallback, PavStop, NULL);
+   XtAddCallback(pavStop, XmNactivateCallback, (XtCallbackProc) PavStop, NULL);
 
    i = 0;
    pavNextFrame = (Widget) XmCreatePushButton(pavFormeBoutons, "  > ", args, i);
    XtManageChild(pavNextFrame);
-   XtAddCallback(pavNextFrame, XmNactivateCallback, PavNextFrame, NULL);
+   XtAddCallback(pavNextFrame, XmNactivateCallback, (XtCallbackProc) PavNextFrame, NULL);
 
    i = 0;
    pavNextFrames = (Widget) XmCreatePushButton(pavFormeBoutons, " >> ", args, i);
    XtManageChild(pavNextFrames);
-   XtAddCallback(pavNextFrames, XmNactivateCallback, PavNextFrames, NULL);
+   XtAddCallback(pavNextFrames, XmNactivateCallback, (XtCallbackProc) PavNextFrames, NULL);
 
    vanimInfo.animationRapide = FALSE;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
-ActiverPanneauAnimationVerticale()
+void ActiverPanneauAnimationVerticale()
 {
    if (!pavAnimationPanel)
       InitPanneauAnimVerticale();
@@ -352,56 +351,48 @@ ActiverPanneauAnimationVerticale()
 
 /* -------------------------------------------------------------------------------------------------- */
 
-f77name(xpanpavact)()
+void f77name(xpanpavact)()
 {
    LocalEventLoop(pavAnimationPanel);
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
-DesactiverPanneauVanim()
+void DesactiverPanneauVanim()
 {
-   int i;
-
    XtUnrealizeWidget(pavAnimationPanel);
    }
 
 /* -------------------------------------------------------------------------------------------------- */
-
-static XtCallbackProc PavSetIntervalle(w, client_data, call_data)
-Widget w;
-caddr_t client_data, call_data;
+ 
+XtCallbackProc PavSetIntervalle(Widget w, caddr_t client_data, caddr_t call_data)
 {
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
    vanimInfo.intervalle = (float)(donnees->value);
-   
+   return 0;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
-static XtCallbackProc PavSetDelai(w, client_data, call_data)
-Widget w;
-caddr_t client_data, call_data;
+XtCallbackProc PavSetDelai(Widget w, caddr_t client_data, caddr_t call_data)
 {
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
    vanimInfo.delai = (float)(donnees->value);
-   
+   return 0;
    }
 
 
 /* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
-static XtCallbackProc PavNextFrames(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PavNextFrames(Widget w, caddr_t client_data, caddr_t call_data)
 {
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return;
+      return 0;
       }
 
    xc.flagInterrupt = FALSE;
@@ -420,31 +411,29 @@ caddr_t unused1, unused2;
 
    xc.flagInterrupt = TRUE;
    c_gmpopti("ACCEPT_INTERRUPTS", TRUE);
+   return 0;
    }
 
 
 /* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
-XtCallbackProc PavStop(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PavStop(Widget w, caddr_t client_data, caddr_t call_data)
 {
    xc.annulationDemandee = TRUE;
+   return 0;
    }
 
 
 /* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
-static XtCallbackProc PavLastFrames(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PavLastFrames(Widget w, caddr_t client_data, caddr_t call_data)
 {
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return;
+      return 0;
       }
 
    xc.flagInterrupt = FALSE;
@@ -462,6 +451,7 @@ caddr_t unused1, unused2;
 
    xc.flagInterrupt = TRUE;
    c_gmpopti("ACCEPT_INTERRUPTS", TRUE);
+   return 0;
    }
 /* -------------------------------------------------------------------------------------------------- */
 
@@ -472,14 +462,12 @@ caddr_t unused1, unused2;
  **/
 
 /** ARGSUSED **/
-static XtCallbackProc PavLastFrame(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PavLastFrame(Widget w, caddr_t client_data, caddr_t call_data)
 {
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return;
+      return 0;
       }
 
    InvertWidget(w);
@@ -487,19 +475,18 @@ caddr_t unused1, unused2;
    VAnimerFrames(-1);
    EnleverBoutonAnnulation();
    InvertWidget(w);
+   return 0;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
-static XtCallbackProc PavNextFrame(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PavNextFrame(Widget w, caddr_t client_data, caddr_t call_data)
 {
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return;
+      return 0;
       }
 
    InvertWidget(w);
@@ -509,57 +496,48 @@ caddr_t unused1, unused2;
 
    EnleverBoutonAnnulation();
    InvertWidget(w);
+   return 0;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
-static XtCallbackProc PavToggleTemps(w, u1, u2)
-Widget w;
-caddr_t u1, u2;
+XtCallbackProc PavToggleTemps(Widget w, caddr_t client_data, caddr_t call_data)
 {
-   int i;
-
    FldMgrFreeVerticalXSection();
    LibererImages();
    vanimInfo.variableBoucle = TEMPS;
+   return 0;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
-static XtCallbackProc PavToggleNiveaux(w, u1, u2)
-Widget w;
-caddr_t u1, u2;
+XtCallbackProc PavToggleNiveaux(Widget w, caddr_t client_data, caddr_t call_data)
 {
-   int i;
-
    LibererImages();
    FldMgrFreeTimeAnimationSeq();
    vanimInfo.variableBoucle = NIVEAUX;
+   return 0;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
-static XtCallbackProc PavToggleDefilementRegulier(w, u1, u2)
-Widget w;
-caddr_t u1, u2;
+XtCallbackProc PavToggleDefilementRegulier(Widget w, caddr_t client_data, caddr_t call_data)
 {
    vanimInfo.typeDefilement = DEFILEMENT_REGULIER;
+   return 0;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
-static XtCallbackProc PavToggleDefilementAvantArriere(w, u1, u2)
-Widget w;
-caddr_t u1, u2;
+XtCallbackProc PavToggleDefilementAvantArriere(Widget w, caddr_t client_data, caddr_t call_data)
 {
    vanimInfo.typeDefilement = DEFILEMENT_AVANT_ARRIERE;
+   return 0;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
-static XtCallbackProc PavToggleAnimationRapide(w, u1, u2)
-Widget w;
-caddr_t u1, u2;
+XtCallbackProc PavToggleAnimationRapide(Widget w, caddr_t client_data, caddr_t call_data)
 {
   Arg args[2];
   int i;
@@ -586,14 +564,12 @@ caddr_t u1, u2;
     }
 
 
-
+  return 0;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
-static XtCallbackProc PavToggleInterpolation(w, u1, u2)
-Widget w;
-caddr_t u1, u2;
+XtCallbackProc PavToggleInterpolation(Widget w, caddr_t client_data, caddr_t call_data)
 {
   Arg args[8];
   int i;
@@ -618,6 +594,6 @@ caddr_t u1, u2;
     XtSetValues(pavToggleAnimationRapide, args, i);
     vanimInfo.animationRapide = False;
     }
-  
+return 0;  
 }
 

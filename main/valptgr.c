@@ -20,12 +20,14 @@
 
 #include <string.h>
 #include <fcntl.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <memory.h>
 #include <rpnmacros.h>
 #include <xinit.h>
 #include <math.h>
-#include <gmp.h>
 #include <wgl.h>
 #include <souris.h>
 
@@ -36,21 +38,16 @@ extern int fenetreAffichage;
 
 
 /** ARGSUSED **/
-XtCallbackProc AfficherValeursAuxPtsDeGrille(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc AfficherValeursAuxPtsDeGrille(Widget w, caddr_t unused1, caddr_t unused2)
 {
    int event;
-   float val, val3, val2, val1, uu2, uu1, vv2, vv1;
-   float uus[3],vvs[3];
    float vals[4],diffs[4],uudiffs[4],vvdiffs[4],uu[4],vv[4],dirs[4],vits[4];
-   int i,l;
+   int i;
    int ix1, iy1;
    int largeurTexte[4], hauteurTexte;
    char strVal[4][64], tempVal[64];
-   float x, y, xgrid,ygrid,direction, vitesse, u, v, tmplat, tmplon;
+   float x, y, xgrid,ygrid,tmplat, tmplon;
    int offsetX[4], offsetY[4];
-   int un = 1;
    int nbChampsActifs;
    int op,gdid,ier;
    _Champ *champs[4];
@@ -58,7 +55,7 @@ caddr_t unused1, unused2;
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return;
+      return 0;
       }
    
    c_wglsetw(fenetreAffichage);
@@ -94,28 +91,28 @@ caddr_t unused1, unused2;
             case BGAUCH:
             ix1 = (int)(xgrid + 0.5);
             iy1 = (int)(ygrid + 0.5);
-	    xgrid = (float) ix1;
-	    ygrid = (float) iy1;
+      xgrid = (float) ix1;
+      ygrid = (float) iy1;
             
-	    for (i=0; i < 4; i++)
-	       {
-	       vals[i] = 0.0;
-	       uu[i] = 0.0;
-	       vv[i] = 0.0;
-	       }
-	    
-	    for (i=0; i < nbChampsActifs; i++)
-	       {
-	       if (champs[i]->domaine != VALEURS_PONCTUELLES)
-		  {
-		  switch (champs[i]->natureTensorielle)
-		     {
-		     case SCALAIRE:
+      for (i=0; i < 4; i++)
+         {
+         vals[i] = 0.0;
+         uu[i] = 0.0;
+         vv[i] = 0.0;
+         }
+      
+      for (i=0; i < nbChampsActifs; i++)
+         {
+         if (champs[i]->domaine != VALEURS_PONCTUELLES)
+      {
+      switch (champs[i]->natureTensorielle)
+         {
+         case SCALAIRE:
                        f77name(grdval)(&vals[i], champs[i]->fld, &ix1, &iy1, &mapInfo.ni, &mapInfo.nj);
                        vals[i] /= champs[i]->facteur;
                        break;
                        
-		     default:
+         default:
                        if (!xc.statuts[BARBULES])
                           {
                           if (0 == strcmp(champs[i]->nomvar, "UU"))
@@ -133,8 +130,8 @@ caddr_t unused1, unused2;
                           f77name(grdval)(&uu[i], champs[i]->uu, &ix1, &iy1, &mapInfo.ni, &mapInfo.nj);
                           f77name(grdval)(&vv[i], champs[i]->vv, &ix1, &iy1, &mapInfo.ni, &mapInfo.nj);
                           gdid = c_ezgetgdout();
-			  ier = c_gdllfxy(gdid, &tmplat, &tmplon, &xgrid, &ygrid, 1);
-			  ier = c_gdwdfuv(gdid, &vits[i], &dirs[i], &uu[i], &vv[i], &tmplat, &tmplon, 1);
+        ier = c_gdllfxy(gdid, &tmplat, &tmplon, &xgrid, &ygrid, 1);
+        ier = c_gdwdfuv(gdid, &vits[i], &dirs[i], &uu[i], &vv[i], &tmplat, &tmplon, 1);
                           break;
                           }
                      }
@@ -203,6 +200,45 @@ caddr_t unused1, unused2;
                     largeurTexte[i] = c_wglwsi(strVal[i], strlen(strVal[i])); 
                     }
                  break;
+               
+               case SOMME:
+                 for (i=0; i < nbChampsActifs; i+=2)
+                    {
+                    if (champs[i]->natureTensorielle == SCALAIRE || !xc.statuts[BARBULES])
+                       {
+                       diffs[i]=vals[i] + vals[i+1];
+                       sprintf(strVal[i], "%12.6g + %12.6g = %12.6g", vals[i], vals[i+1], diffs[i]);
+                       }
+                    else
+                       {
+                       uudiffs[i] = uu[i] + uu[i+1];
+                       vvdiffs[i] = vv[i] + vv[i+1];
+                       sprintf(strVal[i], "<%03.0f,%03.0f> + <%03.0f,%03.0f> = <%03.0f,%03.0f>",
+                               uu[i],vv[i],uu[i+1],vv[i+1],uudiffs[i],vvdiffs[i]);
+                       }
+                    largeurTexte[i] = c_wglwsi(strVal[i], strlen(strVal[i])); 
+                    }
+                 break;
+                 
+               case ABS_SOMME:
+                 for (i=0; i < nbChampsActifs; i+=2)
+                    {
+                    if (champs[i]->natureTensorielle == SCALAIRE || !xc.statuts[BARBULES])
+                       {
+                       diffs[i]=fabs(vals[i] + vals[i+1]);
+                       sprintf(strVal[i], "ABS(%12.6g + %12.6g) = %12.6g", vals[i], vals[i+1], diffs[i]);
+                       }
+                    else
+                       {
+                       uudiffs[i] = fabs(uu[i] + uu[i+1]);
+                       vvdiffs[i] = fabs(vv[i] + vv[i+1]);
+                       sprintf(strVal[i], "ABS(<%03.0f,%03.0f> - <%03.0f,%03.0f>) = <%03.0f,%03.0f>",
+                               uu[i],vv[i],uu[i+1],vv[i+1],uudiffs[i],vvdiffs[i]);
+                       }
+                    largeurTexte[i] = c_wglwsi(strVal[i], strlen(strVal[i])); 
+                    }
+                 break;
+
                }
             
             switch (op)
@@ -319,10 +355,11 @@ caddr_t unused1, unused2;
    
    InvertWidget(w);
    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+   return 0;
 }
 
 
-int	 bidonprint(float px, float pos, char *nombre)
+void   bidonprint(float px, float pos, char *nombre)
 {
   printf("bidonprint! : %f %f %s\n", px, pos, nombre);
 }

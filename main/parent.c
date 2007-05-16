@@ -30,8 +30,7 @@
 
 extern SuperWidgetStruct SuperWidget;
 
-Widget TrouverWidgetParent(eventWindow)
-Window  eventWindow;
+Widget TrouverWidgetParent(Window  eventWindow)
 {
    Display *display;
    Widget   widgetCourant, widgetParent;

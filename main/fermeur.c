@@ -19,10 +19,30 @@
  */
 
 #include <Xm/Xm.h>
+#include <Xm/CascadeB.h>
+#include <Xm/CascadeBG.h>
+#include <Xm/Form.h>
+#include <Xm/Frame.h>
+#include <Xm/Label.h>
+#include <Xm/List.h>
+#include <Xm/PushB.h>
+#include <Xm/PushBG.h>
+#include <Xm/RowColumn.h>
+#include <Xm/Scale.h>
+#include <Xm/SeparatoG.h>
+#include <Xm/Separator.h>
+#include <Xm/Text.h>
+#include <Xm/TextF.h>
+#include <Xm/ToggleB.h>
+#include <Xm/ToggleBG.h>
+
 #include <stdio.h>
 #include <rpnmacros.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <xinit.h>
+#include <gmp.h>
+#include <rec.h>
+#include <rec_functions.h>
 
 extern SuperWidgetStruct SuperWidget;
 
@@ -39,46 +59,7 @@ static XtCallbackProc FermeurEffacerSelection();
 static XtCallbackProc FermeurFermerFichiers();
 
 
-f77name(xfcl)(listeFich, nfich, lenFich)
-char *listeFich;
-int *nfich;
-int lenFich;
-{
-   int i, j;
-   int oldNbFich;
-
-   clsNbFich = *nfich;
-   clsListeFich = (char **) calloc(*nfich, sizeof(char *));
-   for (i=0; i < clsNbFich; i++)
-      {
-      clsListeFich[i] = calloc(lenFich+1, sizeof(char));
-      strncpy(clsListeFich[i], &(listeFich[lenFich*i]), lenFich);
-      strclean(clsListeFich[i]);
-      /*      for (j=0; j < strlen(clsListeFich[i]); j++)
-	      clsListeFich[i][j] = (char)tolower((int)clsListeFich[i][j]);
-      */
-      }
-   
-   XFileFermeur(clsListeFich, nfich);
-
-   for (i=0; i < *nfich; i++)
-      {
-      strcpy(&(listeFich[i*lenFich]), clsListeFich[i]);
-      }
-
-   for (i=0; i < clsNbFich; i++)
-      {
-      free(clsListeFich[i]);
-      }
-	 
-   free(clsListeFich);
-
-   }
-
-
-XFileFermeur(listeFich, nbFich)
-char **listeFich;
-int *nbFich;
+void XFileFermeur(char **listeFich, int *nbFich)
 {
    int i;
    XEvent clsEvent;
@@ -144,8 +125,41 @@ int *nbFich;
    
    }
 
+void f77name(xfcl)(char *listeFich, int *nfich, int lenFich)
+{
+   int i;
 
-InitFermeurShell()
+   clsNbFich = *nfich;
+   clsListeFich = (char **) calloc(*nfich, sizeof(char *));
+   for (i=0; i < clsNbFich; i++)
+      {
+      clsListeFich[i] = calloc(lenFich+1, sizeof(char));
+      strncpy(clsListeFich[i], &(listeFich[lenFich*i]), lenFich);
+      strclean(clsListeFich[i]);
+      /*      for (j=0; j < strlen(clsListeFich[i]); j++)
+	      clsListeFich[i][j] = (char)tolower((int)clsListeFich[i][j]);
+      */
+      }
+   
+   XFileFermeur(clsListeFich, nfich);
+
+   for (i=0; i < *nfich; i++)
+      {
+      strcpy(&(listeFich[i*lenFich]), clsListeFich[i]);
+      }
+
+   for (i=0; i < clsNbFich; i++)
+      {
+      free(clsListeFich[i]);
+      }
+	 
+   free(clsListeFich);
+   return;
+   }
+
+
+
+void InitFermeurShell()
 {
    int i, lng;
    Arg args[10];
@@ -161,9 +175,7 @@ InitFermeurShell()
 
    }
 
-InitFermeurForm(listeFich, nbFich)
-char **listeFich;
-int nbFich;
+void InitFermeurForm(char **listeFich, int nbFich)
 {
    int i, lng;
    Arg args[16];
@@ -225,7 +237,7 @@ int nbFich;
    XtSetArg(args[i], XmNleftPosition, 75); i++;
    XtSetArg(args[i], XmNrightPosition, 100); i++;
    clsOK = (Widget)XmCreatePushButtonGadget(clsForme, labelOK[lng], args, i);
-   XtAddCallback(clsOK, XmNactivateCallback, FermeurOK, NULL);
+   XtAddCallback(clsOK, XmNactivateCallback, (XtCallbackProc) FermeurOK, NULL);
    XmStringFree(label);
    XtManageChild(clsOK);
    
@@ -240,7 +252,7 @@ int nbFich;
    XtSetArg(args[i], XmNleftPosition, 75); i++;
    XtSetArg(args[i], XmNrightPosition, 100); i++;
    clsAnnuler = (Widget)XmCreatePushButtonGadget(clsForme, labelAnnuler[lng], args, i); 
-   XtAddCallback(clsAnnuler, XmNactivateCallback, FermeurAnnuler, NULL);
+   XtAddCallback(clsAnnuler, XmNactivateCallback, (XtCallbackProc) FermeurAnnuler, NULL);
    XmStringFree(label);
    XtManageChild(clsAnnuler);
    
@@ -255,7 +267,7 @@ int nbFich;
    XtSetArg(args[i], XmNleftPosition, 75); i++;
    XtSetArg(args[i], XmNrightPosition, 100); i++;
    clsToutSelectionner = (Widget)XmCreatePushButton(clsForme, labelToutSelectionner[lng], args, i);
-   XtAddCallback(clsToutSelectionner, XmNactivateCallback, FermeurToutSelectionner, NULL);
+   XtAddCallback(clsToutSelectionner, XmNactivateCallback, (XtCallbackProc) FermeurToutSelectionner, NULL);
    XmStringFree(label);
    XtManageChild(clsToutSelectionner);
    
@@ -270,7 +282,7 @@ int nbFich;
    XtSetArg(args[i], XmNleftPosition, 75); i++;
    XtSetArg(args[i], XmNrightPosition, 100); i++;
    clsEffacerSelection = (Widget)XmCreatePushButton(clsForme, labelEffacerSelection[lng], args, i);
-   XtAddCallback(clsEffacerSelection, XmNactivateCallback, FermeurEffacerSelection, NULL);
+   XtAddCallback(clsEffacerSelection, XmNactivateCallback, (XtCallbackProc) FermeurEffacerSelection, NULL);
    XmStringFree(label);
    XtManageChild(clsEffacerSelection);
    
@@ -285,13 +297,13 @@ int nbFich;
    XtSetArg(args[i], XmNleftPosition, 75); i++;
    XtSetArg(args[i], XmNrightPosition, 100); i++;
    clsFermerFichiers = (Widget)XmCreatePushButton(clsForme, labelFermerFichiers[lng], args, i);
-   XtAddCallback(clsFermerFichiers, XmNactivateCallback, FermeurFermerFichiers, NULL);
+   XtAddCallback(clsFermerFichiers, XmNactivateCallback, (XtCallbackProc) FermeurFermerFichiers, NULL);
    XmStringFree(label);
    XtManageChild(clsFermerFichiers);
-   
+   return;
    }
 
-static XtCallbackProc FermeurToutSelectionner()
+XtCallbackProc FermeurToutSelectionner()
 {
    int i;
    Arg args[2];
@@ -306,22 +318,23 @@ static XtCallbackProc FermeurToutSelectionner()
 
    for (i=0; i < numItems; i++)
       XmListSelectItem(clsListe, items[i], False);
+   return 0;
    }
 
-static XtCallbackProc FermeurEffacerSelection()
+XtCallbackProc FermeurEffacerSelection()
 {
    XmListDeselectAllItems(clsListe);
+   return 0;
    }
 
-static XtCallbackProc FermeurOK()
+XtCallbackProc FermeurOK()
 {
-   int i;
-
    FermeurFermerFichiers();
    fermeurSelectionTerminee = True;
+   return 0;
    }
 
-static XtCallbackProc FermeurFermerFichiers()
+XtCallbackProc FermeurFermerFichiers()
 {
    int i;
    Arg args[10];
@@ -337,12 +350,10 @@ static XtCallbackProc FermeurFermerFichiers()
    XtGetValues(clsListe, args, i);
 
    XmListDeleteItems(clsListe, selectedItems, numItems);
-
+   return 0;
    }
 
-static XtCallbackProc FermeurAnnuler(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc FermeurAnnuler(Widget w, caddr_t unused1, caddr_t unused2)
 {
    int i;
    Arg args[10];
@@ -366,5 +377,6 @@ caddr_t unused1, unused2;
       }
    free(table);
    fermeurSelectionTerminee = True;
+   return 0;
    }
 

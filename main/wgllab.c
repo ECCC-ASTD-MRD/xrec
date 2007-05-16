@@ -19,7 +19,10 @@
  */
 
 #include <math.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <wgl.h>
 #include <rpnmacros.h>
 
@@ -57,16 +60,7 @@ int size;
    fz = size;
    }
 
-void c_wgllab(fld,ni,nj,intervalles, nbIntervalles,facteur, min, max, 
-	      posLabels, nbLabels, fore, back, indChamp, lissfac)
-float *fld;
-int ni, nj;
-float intervalles[];
-int nbIntervalles;
-float facteur, min, max;
-float posLabels[];
-int nbLabels;
-int fore, back, lissfac;
+void c_wgllab(float *fld, int ni, int nj, float intervalles[], int nbIntervalles, float facteur, float min, float max, float posLabels[], int nbLabels, int fore, int back, int indChamp, int lissfac)
 {
    float contourMin, contourMax, leContour;
    int i, j, k, n, NbLabels, label, nbPoints;

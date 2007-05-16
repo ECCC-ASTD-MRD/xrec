@@ -20,7 +20,10 @@
 
 #include <wgl_x.h>
 #include <rpnmacros.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 
 /**
   objet:    c_wglfton
@@ -42,15 +45,7 @@
 
 extern _XContour xc;
 
-void c_wglfton(fld, ni, nj, intervalles, nbIntervalles, facteur, min, max, 
-	       colorTable, ncol, flagInterrupt, lissfac)
-float *fld;
-int ni, nj;
-float intervalles[];
-int nbIntervalles;
-float facteur;
-float min, max;
-int colorTable[], ncol, flagInterrupt, lissfac;
+void c_wglfton(float *fld, int ni, int nj, float intervalles[], int nbIntervalles, float facteur, float min, float max, int colorTable[], int ncol, int flagInterrupt, int lissfac)
 {
    int i, j, k;
    int ideb, jdeb, ifin, jfin, largeur, hauteur;

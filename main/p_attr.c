@@ -19,14 +19,20 @@
  */
 
 #include <Xm/Xm.h>
+#include <Xm/PushB.h>
 #include <Xm/PushBG.h>
+#include <Xm/Frame.h>
+#include <Xm/Label.h>
+#include <Xm/Form.h>
 #include <Xm/CascadeBG.h>
 #include <Xm/RowColumn.h>
 
 #include <xinit.h>
 #include <wgl.h>
 #include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 
 extern SuperWidgetStruct SuperWidget;
 extern _XContour xc;
@@ -43,7 +49,6 @@ Widget pattPanneauFontSizeColorLegend,pattOptionsFontSizeColorLegend,pattOptions
 Widget pattChamps[6];
 
 static char *nomPanneauAttributs[] = {"PanneauAttributs", "AttributesPanel"};
-static char *labelTopLevel[] = {"Attributs", "Attributes"};
 static char *labelOk[] = {"Fermer", "Close"};
 static char *labelAfficher[] = {"Redessiner", "Refresh"};
 static char *labelFonte[] = {"Taille police","Font Size"};
@@ -70,10 +75,7 @@ char panneauAttributsGeometrie[32];
 int pattSelectionTerminee;
 
 
-void SetLissageToggle (w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void SetLissageToggle(Widget w, caddr_t client_data, caddr_t call_data)
 {
    char *str;
    int lng;
@@ -98,15 +100,10 @@ caddr_t	call_data;	/*  data from widget class  */
       }
    }
 
-void SetInterpolationToggle (w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void SetInterpolationToggle(Widget w, caddr_t client_data, caddr_t call_data)
 {
    char *str;
    int lng;
-   int facteurInterp,vrai;
-   char interp[8];
 
    lng = c_getulng();
 
@@ -128,50 +125,37 @@ caddr_t	call_data;	/*  data from widget class  */
       }
    }
 
-void SetFontSizeLegendToggle (w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void SetFontSizeLegendToggle(Widget w, caddr_t client_data, caddr_t call_data)  
 {
    fontSizeLegend = atoi(XtName(w));
    }
 
-void SetFontSizeColorLegendToggle (w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void SetFontSizeColorLegendToggle(Widget w, caddr_t client_data, caddr_t call_data) 
 {
    fontSizeColorLegend = atoi(XtName(w));
    }
 
-void SetFontSizeLabelToggle (w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void SetFontSizeLabelToggle(Widget w, caddr_t client_data, caddr_t call_data) 
 {
    fontSizeLabels = atoi(XtName(w));
    }
 
-static XtCallbackProc PattOk(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PattOk(Widget w, caddr_t client_data, caddr_t call_data)
 {
    pattSelectionTerminee = TRUE;
    DesactiverPanneauAttributs();
+   return 0;
    }
 
-static XtCallbackProc PattAfficher(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PattAfficher(Widget w, caddr_t client_data, caddr_t call_data)
 {
-   int i;
 
    RedessinerFenetres();
-
+   return 0;
    }
 
 
-InitPanneauAttributs()
+void InitPanneauAttributs()
 {
 
    int i;
@@ -180,8 +164,6 @@ InitPanneauAttributs()
 
    int n,lng;
    char nomShell[128];
-   Pixel indCouleurs[16];
-   Colormap cmap;
 
    Xinit("xregarder");
    lng = c_getulng();
@@ -509,13 +491,8 @@ InitPanneauAttributs()
 
    }
 
-ActiverPanneauAttributs()
+void ActiverPanneauAttributs()
 {
-
-   Colormap cmap;
-   Arg args[2];
-   int i;
-
    if (!pattTopLevel)
       InitPanneauAttributs();
 
@@ -531,41 +508,35 @@ ActiverPanneauAttributs()
 
    }
 
-f77name(xpattact)()
+void f77name(xpattact)()
 {
    LocalEventLoop(pattTopLevel);
    }
 
 
-DesactiverPanneauAttributs()
+void DesactiverPanneauAttributs()
 {
-   int i;
 
    XtUnrealizeWidget(pattTopLevel);
    }
 
-AttrMgrGetFontSizeLegend()
+int AttrMgrGetFontSizeLegend()
 {
    return fontSizeLegend;
 }
 
-AttrMgrGetFontSizeColorTable()
+int AttrMgrGetFontSizeColorTable()
 {
    return fontSizeColorLegend;
 }
 
-AttrMgrGetFontSizeLabels()
+int AttrMgrGetFontSizeLabels()
 {
    return fontSizeLabels;
 }
 
-f77name(c_satratr)(item,valeur,lenItem,lenValeur)
-char item[],valeur[];
+void f77name(c_satratr)(char item[], char valeur[], int lenItem, int lenValeur)
 {
-   Arg args[10];
-   int i;
-   int indItem;
-   char fakeWidgetName[32];
 
    item[lenItem-1] = '\0';
    valeur[lenValeur-1] = '\0';
@@ -612,18 +583,17 @@ char item[],valeur[];
       }
 }
 
-f77name(c_sanmatr)(item,valeur,lenItem,lenValeur)
+void f77name(c_sanmatr)(char item[], char valeur[], int lenItem, int lenValeur)
 {
 }
 
 
-f77name(c_scpeatr)(item,valeur,lenItem,lenValeur)
+void f77name(c_scpeatr)(char item[], char valeur[], int lenItem, int lenValeur)
 {
 }
 
 
-EcrAtrAtr(fichierDemarrage)
-FILE *fichierDemarrage;
+void EcrAtrAtr(FILE *fichierDemarrage)
 {
    char tableau[32];
    char ligne[80];
@@ -631,10 +601,6 @@ FILE *fichierDemarrage;
    int i;
 
    Arg  args[10];
-   XmString label;
-   XmFontList fontListe;
-   char *geom;
-   Window root;
    Position x,y;
    Display *disp;
    Window win;

@@ -434,13 +434,7 @@ int  *backupx1, *backupy1, *backupx2, *backupy2, *x1, *y1, *x2, *y2;
 ******************************************************************************
 **/
 
-int f77name(souris)(bouton, event, x0, y0, xsize, ysize, x1, y1, x2, y2, 
-		    menuTable, nbmenus, menulength)
-int *bouton, *event;
-int *x0, *y0, *xsize, *ysize;
-int *x1, *y1, *x2, *y2;
-char menuTable[];
-int *nbmenus, menulength;
+int f77name(souris)(int *bouton, int *event, int *x0, int *y0, int *xsize, int *ysize, int *x1, int *y1, int *x2, int *y2, char menuTable[], int *nbmenus, int menulength)
 {
    float AspectRatio;
    int   Deplacement, Confirmation;

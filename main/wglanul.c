@@ -19,7 +19,10 @@
  */
 
 #include <rpnmacros.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <curseurs.xbm>
 #include <wgl_x.h>
 
@@ -118,24 +121,24 @@ int c_wglanul()
    return xc.annulationDemandee;
    }
 
-UnSetCurseur(window)
+void UnSetCurseur(Window window)
 {
 #ifdef X_WGL
    XDefineCursor(wglDisp,window,None);
 #endif
    }
 
-SetIgnoreMode()
+void SetIgnoreMode()
 {
    ignoreMode = TRUE;
    }
 
-UnsetIgnoreMode()
+void UnsetIgnoreMode()
 {
   ignoreMode = FALSE;
    }
 
-SetCurseur(window)
+void SetCurseur(window)
 Window window;
 {
 #ifdef X_WGL

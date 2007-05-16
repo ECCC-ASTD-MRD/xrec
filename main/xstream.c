@@ -1,7 +1,9 @@
 #include <string.h>
 #include <fcntl.h>
-#include <rec.h>
+#include <rpnmacros.h>
 #include <gmp.h>
+#include <rec.h>
+#include <rec_functions.h>
 #include <xinit.h>
 #include <wgl.h>
 #include <rpnmacros.h>
@@ -10,6 +12,11 @@
 #include <sys/types.h>
 #include <sys/times.h>
 #include <sys/param.h>
+
+#ifdef Darwin_OSX_PPC
+#include <limits.h>
+#define HZ CLK_TCK
+#endif
 
 extern SuperWidgetStruct SuperWidget;
 extern Widget            wglTopLevel;
@@ -27,7 +34,7 @@ extern _Viewport viewp;
 
 extern void EffacerFenetreAffichage();
 
-c_dors(float delai)
+void c_dors(float delai)
 {
    static clock_t t1,t2;
    static struct tms temps1, temps2;
@@ -230,7 +237,7 @@ c_wglallocf(int nimages)
 
 /* -------------------------------------------------------------------------------------------------- */
 
-c_wglcopyf(int ind)
+void c_wglcopyf(int ind)
 {
    int largeurFenetre, hauteurFenetre;
 
@@ -240,7 +247,7 @@ c_wglcopyf(int ind)
 
 /* -------------------------------------------------------------------------------------------------- */
 
-c_wglpastef(int ind)
+void c_wglpastef(int ind)
 {
    int largeurFenetre, hauteurFenetre;
 

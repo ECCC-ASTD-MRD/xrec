@@ -20,16 +20,17 @@
 
 #include <xinit.h>
 #include <wgl.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 
 extern SuperWidgetStruct SuperWidget;
 
-LocalEventLoop(topLevelWidget)
-Widget topLevelWidget;
+LocalEventLoop(Widget topLevelWidget)
 {
    XEvent localEvent;
    Widget localWidgetParent = topLevelWidget;
-
    while((localWidgetParent == topLevelWidget) &&  (XtAppPending(SuperWidget.contexte)))
       {
       XtAppPeekEvent(SuperWidget.contexte, &(localEvent));
@@ -37,6 +38,8 @@ Widget topLevelWidget;
       if (localWidgetParent != topLevelWidget)
 	 {
 	 return 0;
+	 XtAppNextEvent(SuperWidget.contexte, &(localEvent));
+	 XtDispatchEvent(&(localEvent));
 	 }
       else
 	 {
@@ -45,4 +48,5 @@ Widget topLevelWidget;
 	 }
       
       }
+      
    }

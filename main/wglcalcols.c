@@ -20,7 +20,10 @@
 
 #include <math.h>
 #include <rpnmacros.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 
 /**
   objet:    c_wglcalcols
@@ -39,16 +42,10 @@
     nbCol:	    nombre de couleurs dans la table de couleurs
 **/
 
+void c_wglcalcols(int indices[], float val[], int nbVals, float min, float delta, float intervalles[], int nbIntervalles, float facteur, int nbCol);
+void c_wglcalcolf(float indices[], float val[], int nbVals, float min,  float delta,  float intervalles[], int nbIntervalles, float facteur, int nbCol);
 
-
-f77name(wglcalcols)(indices, val, nbvals, min, delta, intervalles, nbIntervalles, facteur, nbcol)
-int indices[];
-float val[];
-int *nbvals;
-float *min, *delta, *intervalles;
-int *nbIntervalles; 
-float *facteur;
-int *nbcol;
+void f77name(wglcalcols)(int indices[], float val[], int *nbvals, float *min, float *delta, float *intervalles, int *nbIntervalles, float *facteur, int *nbcol)
 {
    c_wglcalcols(indices, val, *nbvals, *min, *delta, intervalles, *nbIntervalles, *facteur, *nbcol);
    }
@@ -59,14 +56,7 @@ int *nbcol;
 ***********************************************************************
 **/
 
-c_wglcalcols(indices, val, nbVals, min, delta, intervalles, nbIntervalles, facteur, nbCol)
-int indices[];
-float val[];
-int nbVals;
-float min, delta, intervalles[];
-int nbIntervalles;
-float facteur;
-int nbCol;
+void c_wglcalcols(int indices[], float val[], int nbVals, float min, float delta, float intervalles[], int nbIntervalles, float facteur, int nbCol)
 {
    float avg, deltaCol;
    int i, ind;
@@ -123,14 +113,7 @@ int nbCol;
 ***********************************************************************
 **/
 
-c_wglcalcolf(indices, val, nbVals, min, delta, intervalles, nbIntervalles, facteur, nbCol)
-float indices[];
-float val[];
-int nbVals;
-float min, delta, intervalles[];
-int nbIntervalles;
-float facteur;
-int nbCol;
+void c_wglcalcolf(float indices[], float val[], int nbVals, float min,  float delta,  float intervalles[], int nbIntervalles, float facteur, int nbCol)
 {
    float avg, deltaCol;
    int i, ind;

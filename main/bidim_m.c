@@ -18,10 +18,11 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <rec.h>
-#include <gmp.h>
 #include <wgl.h>
 #include <rpnmacros.h>
+#include <gmp.h>
+#include <rec.h>
+#include <rec_functions.h>
 
 extern GeoMapInfoStruct    mapInfo;
 extern _Viewport viewp;
@@ -32,19 +33,15 @@ extern int facteurLissage;
 extern float labelPos[][4];
 
 
-AfficherChampBiDimensionnel_m(indChamp,nbChampsActifs,fld,min,max,uu,vv)
-int indChamp,nbChampsActifs;
-float *fld, min, max;
-float *uu,*vv;
+void AfficherChampBiDimensionnel_m(int indChamp, int nbChampsActifs,float *fld, float min, float max,float *uu, float *vv)
 {
    int lissfac,fontSize;
    float xdebut, ydebut, xfin, yfin;
    int idebut, jdebut, ifin, jfin;
    int largeurFenetre, hauteurFenetre;
    int fond;
-   float localmin,localmax,missing,min2,max2;
+   float missing,min2,max2;
    int mdeb,ndeb,mfin,nfin;
-   int i;
    Hilo hilo[256];
    int hlcount;
    int hlnmax = 256;
@@ -124,7 +121,7 @@ float *uu,*vv;
       SetClipMask();
       c_wglfton(fld, mapInfo.ni, mapInfo.nj, champ->intervalles, 
                 champ->nbIntervalles,
-                champ->facteur, min, max, missing,
+                champ->facteur, min, max, 
                 recColorTable, sizeRecColorTable, xc.flagInterrupt, lissfac);
       }
    else
@@ -241,7 +238,7 @@ float *uu,*vv;
       SetLabFontSize(fontSize);
       c_wgllab(fld, mapInfo.ni, mapInfo.nj, champ->intervalles, champ->nbIntervalles,
                champ->facteur, min, max, labelPos[indChamp%4], 4, xc.attributs[indChamp].indCouleurFore, 
-               xc.attributs[indChamp].indCouleurBack, lissfac);
+               xc.attributs[indChamp].indCouleurBack, indChamp, lissfac);
       }
       
 
@@ -296,8 +293,7 @@ float *uu,*vv;
 }
 
 
-int AfficherItem_m(indChamp,itemAAfficher)
-     int indChamp,  itemAAfficher;
+int AfficherItem_m(int indChamp, int itemAAfficher)
 {
    _Champ *champ;
    

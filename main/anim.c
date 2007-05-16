@@ -20,12 +20,14 @@
 
 #include <string.h>
 #include <fcntl.h>
-#include <rec.h>
-#include <gmp.h>
 #include <xinit.h>
 #include <wgl.h>
-#include <rpnmacros.h>
 #include <limits.h>
+#include <rpnmacros.h>
+#include <gmp.h>
+#include <rec.h>
+#include <rec_functions.h>
+
 
 #include <sys/types.h>
 #include <sys/times.h>
@@ -53,8 +55,6 @@ L'animation serait possible si les dimensions de la fenetre\netaient reduites a 
 static char *uneSeulePeriode[] = {"Ce champ n'est disponible que pour une seule periode.\nImpossible d'animer!", 
             "This field is available for one single time. Cannot animate..."};
 
-int PasAssezDeMemoire();
-
 float min, max;
 int nbChampsAnim;
 char messageErreur[512];
@@ -62,7 +62,7 @@ static int lng;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-AnimerFrames(int nbFrames)
+void AnimerFrames(int nbFrames)
 {
   if (interpolationTemporelle)
     {
@@ -76,8 +76,7 @@ AnimerFrames(int nbFrames)
 
 /* -------------------------------------------------------------------------------------------------- */
 
-AnimerFramesSansInterpolation(nbFrames)
-int nbFrames;
+void AnimerFramesSansInterpolation(int nbFrames)
 {
   int i, j, k, ier, ii;
   int n;
@@ -214,10 +213,27 @@ int nbFrames;
             FldMgrGetFstPrm(champ);
             FldMgrUpdateFldParams(champ);
             }
-          AfficherCarte(n);
+/*          AfficherCarte(n);*/
           }
         }
 
+      for (n=0; n < nbChampsActifs; n++)
+        {
+        FldMgrGetChamp(&champ, n);
+        if (champ->seqanim.nbFldsAnim > 0)
+          {
+          (*champ).seqanim.indChampCourant = i;
+          (*champ).cle = (*champ).seqanim.clesAnim[i];
+      
+          if ((*champ).seqanim.clesAnim[i] >= 0)
+            {
+            FldMgrGetFstPrm(champ);
+            FldMgrUpdateFldParams(champ);
+            }
+          AfficherCarte(n);
+          }
+        }
+      
       FlusherTousLesEvenements();
       c_wglswb();
       if (animInfo.animationRapide)
@@ -284,8 +300,7 @@ int nbFrames;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-AnimerFramesAvecInterpolation(nbFrames)
-int nbFrames;
+void AnimerFramesAvecInterpolation(int nbFrames)
 {
   int i, j, k, ier, ii;
   int n;
@@ -442,21 +457,17 @@ int nbFrames;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-f77name(messinf)(message, lenMessage)
-char *message;
-int lenMessage;
+void f77name(messinf)(char *message, int lenMessage)
 {
   message[lenMessage] = '\0';
   strclean(message);
-  MessageInfo(message);
+  MessageInfo(message, 0);
   }
 
 
 /* -------------------------------------------------------------------------------------------------- */
 
-MessageInfo(message, reverseVideo)
-char message[];
-int reverseVideo;
+void MessageInfo(char message[], int reverseVideo)
 {
   Arg args[10];
   int i;
@@ -501,7 +512,7 @@ int reverseVideo;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-AfficherOperationAnnulee()
+void AfficherOperationAnnulee()
 {
 
   static char *operationAnnulee[] = {"\nOperation annulee\n\n", "\nOperation cancelled\n\n"};
@@ -515,9 +526,7 @@ AfficherOperationAnnulee()
 
 /* -------------------------------------------------------------------------------------------------- */
 
-int PasAssezDeMemoire(disp, erreur)
-Display *disp;
-XErrorEvent *erreur;
+int PasAssezDeMemoire(Display *disp, XErrorEvent *erreur)
 {
   char msg[80];
 
@@ -527,8 +536,7 @@ XErrorEvent *erreur;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-RemettreChampsAJour(i)
-int i;
+void RemettreChampsAJour(int i)
 {
   _Champ (*champ);
   int n, nbChampsActifs,op,npts;
@@ -570,7 +578,7 @@ int i;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-LibererImages()
+void LibererImages()
 {
   int i;
 
@@ -590,7 +598,7 @@ LibererImages()
 
 /* -------------------------------------------------------------------------------------------------- */
 
-AllouerImages()
+int AllouerImages()
 {
   int i, j;
   int x, y;
@@ -635,7 +643,7 @@ AllouerImages()
 
 /* -------------------------------------------------------------------------------------------------- */
 
-AnimMgrInterpolateTimeField(_Champ *champ, int datev)
+void AnimMgrInterpolateTimeField(_Champ *champ, int datev)
 {
   static int lastIndex = 0;
 

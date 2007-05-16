@@ -20,79 +20,8 @@
 
 #include <stdio.h>
 #include <wgl.h>
-/**
-   static char *messNouveauProfil[] = {"\
-Dans la fenetre d'affichage...\n\n\
-clic bouton gauche --> profil\n\
-drag bouton gauche + clic  --> coupe\n\
-clic bouton droit --> Terminer","\
-In the drawing window...\n\n\
-clic left button --> profile\n\
-drag left button + clic --> cross section\n\
-clic right button --> exit"};
 
-   static char *messScanProfil[] = {"\
-Dans la fenetre d'affichage...\n\n\
-bouton gauche enfonce --> profil\n\
-lever le bouton gauche pour terminer", "\
-In the drawing window...\n\n\
-left button pressed --> profile\n\
-release left button to exit"};
-
-   static char *messScanCoupe[] = {"\
-Dans la fenetre d'affichage...\n\n\
-bouton gauche enfonce --> coupe\n\
-lever le bouton gauche pour terminer", "\
-In the drawing window...\n\n\
-left button pressed --> cross section\n\
-release left button to exit"};
-
-main()
-{
-   c_wglpsz(500, 500);
-   c_wglopw("message");
-   c_wglcol(NOIR);
-   c_wglclr();
-   c_wglcol(BLANC);
-
-   MessageAide(messNouveauProfil[0]);
-   while (!c_wglbtn(BGAUCH));
-
-   c_wglcol(NOIR);
-   c_wglclr();
-   c_wglcol(BLANC);
-
-   MessageAide(messNouveauProfil[1]);
-   while (!c_wglbtn(BGAUCH));
-   c_wglcol(NOIR);
-   c_wglclr();
-   c_wglcol(BLANC);
-
-   MessageAide(messScanProfil[0]);
-   while (!c_wglbtn(BGAUCH));
-   c_wglcol(NOIR);
-   c_wglclr();
-   c_wglcol(BLANC);
-
-   MessageAide(messScanProfil[1]);
-   while (!c_wglbtn(BGAUCH));
-   c_wglcol(NOIR);
-   c_wglclr();
-   c_wglcol(BLANC);
-
-   MessageAide(messScanCoupe[0]);
-   while (!c_wglbtn(BGAUCH));
-
-   c_wglcol(NOIR);
-   c_wglclr();
-   c_wglcol(BLANC);
-
-   MessageAide(messScanCoupe[1]);
-   while (!c_wglbtn(BGAUCH));
-   }
-**/
-MessageAide(str)
-char *str;
+MessageAide(char *str)
 {
    int i;
    int lenstr;

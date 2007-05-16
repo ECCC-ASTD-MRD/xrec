@@ -20,7 +20,10 @@
 
 #include <string.h>
 #include <fcntl.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <memory.h>
 #include <rpnmacros.h>
 #include <xinit.h>
@@ -40,50 +43,57 @@
     = 6: P is in theta [th] 
 */
 
-GetSurfacePressure(champ)
-_Champ *champ;
+int c_fstinf(int iun, int *ni, int *nj, int *nk, int datev,char etiket[],
+  int ip1, int ip2,int ip3, char typvar[], char nomvar[] );
+
+int GetSurfacePressure(_Champ *champ)
 {
    _Champ bidon;
-   int dateo,datev,ip2;
-   int listeIP1[100];
-   int i,ier,n,lngListe,lngMaxListe;
-   int ni,nj,nk,npts;
-   int cleP0,clePN,cleMT,cleGZtop,cleGZbottom,cleTTtop,cleTTbottom;
-   int sommeMasque,coordonnee;
-   
-   float *pnm,*tmp, *mt,*ztop,*zbottom,*tttop,*ttbottom,ip1top,ip1bot,tmean;
-   float *temp;
-   int *masque;
-   int lng,gdin,gdout;
-   double deltaT;
-   
-    int ivalide;
-    float niveau;
-    int kind, kindref;
-    int versPression = -1;
-    int faux = 0;
-   
-   char *P0 = "P0";
-   char *PN = "PN";
-   char *MT = "MT";
-   char *ME = "ME";
-   char *GZ = "GZ";
-   char *TT = "TT";
-   char *nomMT = MT;
-   
-   static char *pasavecSIGMA[] = {"Cette option n'est pas disponible\nen coordonnees sigma",
-				     "This option is not available\nin sigma coordinates"};
-   static char *pasdeP0[] = {"Champ de pression a la surface non disponible\nCalcul a vos risques et perils",
-				"Surface pressure field not available\nComputation done at your own risk"};
-   static char *pasdeMT[] = {"Champ de topographie non disponible.\n Generation de PO impossible",
-				 "Topography field not available.\n Cannot generate P0 field"};
-   static char *pasdePNM[] = {"Champ de pression au niveau de la mer non disponible.\n Generation de PO impossible",
-				 "Sea level pressure field not available.\n Cannot generate P0 field"};
-   static char *pasdeGZ[] = {"Champ de geopotentiel non disponible.\n Generation de PO impossible",
-				 "Geopotential field not available.\n Cannot generate P0 field"};
-   static char *pasdeTT[] = {"Champ de temperature non disponible.\n Generation de PO impossible",
-				 "Temperature field not available.\n Cannot generate P0 field"};
+  int dateo,datev;
+  int listeIP1[100];
+  int i,ier,n,lngListe,lngMaxListe;
+  int ni,nj,nk,npts;
+  int cleP0,clePN,cleMT,cleGZtop,cleGZbottom,cleTTtop,cleTTbottom;
+  int sommeMasque,coordonnee;
+  
+  float *pnm, *mt,*ztop,*zbottom,*tttop,*ttbottom,ip1top,ip1bot,tmean;
+  float *temp;
+  int *masque;
+  int lng,gdin,gdout;
+  double deltaT;
+  
+  int ivalide;
+  float niveau;
+  int versPression = -1;
+  int faux = 0;
+  
+  char *P0 = "P0";
+  char *PN = "PN";
+  char *MT = "MT";
+  char *ME = "ME";
+  char *GZ = "GZ";
+  char *TT = "TT";
+  char *nomMT = MT;
+  char p0[5];
+  int moins1 = -1;
+  static char *pasdeP0[] = {"Champ de pression a la surface non disponible\nCalcul a vos risques et perils",
+      "Surface pressure field not available\nComputation done at your own risk"};
+  static char *pasdeMT[] = {"Champ de topographie non disponible.\n Generation de PO impossible",
+        "Topography field not available.\n Cannot generate P0 field"};
+  static char *pasdePNM[] = {"Champ de pression au niveau de la mer non disponible.\n Generation de PO impossible",
+        "Sea level pressure field not available.\n Cannot generate P0 field"};
+  static char *pasdeGZ[] = {"Champ de geopotentiel non disponible.\n Generation de PO impossible",
+        "Geopotential field not available.\n Cannot generate P0 field"};
+  static char *pasdeTT[] = {"Champ de temperature non disponible.\n Generation de PO impossible",
+        "Temperature field not available.\n Cannot generate P0 field"};
 
+   if (champ->coupe.montagnes == NULL)
+    {
+    return -1;
+    }
+   
+   strcpy(p0, "P0  ");
+   
    lng = c_getulng();
    dateo = champ->dateo;
 
@@ -96,11 +106,6 @@ _Champ *champ;
    
    switch(coordonnee)
       {
-      case SIGMA:
-      MessageAvertissement(pasavecSIGMA[lng],AVERTISSEMENT);
-      return -1;
-      break;
-
       case METRES:
       cleP0 = c_fstinf(champ->iun, &ni, &nj, &nk,-1,"        ", -1,-1, -1," ", ME);
 
@@ -117,24 +122,27 @@ _Champ *champ;
          }
       break;
       
-      case PRESSION:
-      cleP0 = c_fstinf(champ->iun, &ni, &nj, &nk, datev,champ->etiket, -1, champ->ip2, champ->ip3, champ->typvar, P0);
-
+      case SIGMA:
+      case HYBRIDE:
+      cleP0 = c_fstinf(champ->iun, &ni, &nj, &nk, champ->datev,champ->etiket, moins1, champ->ip2, champ->ip3, champ->typvar, p0);      
       if (cleP0 < 0)
          {
          MessageAvertissement(pasdeP0[lng],AVERTISSEMENT);
          }
       else
          {
-         gdin = c_ezgetgdin();
+         gdin = c_ezqkdef(champ->src.ni, champ->src.nj, champ->src.grtyp, champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4, 1);
          gdout = c_ezgetgdout();
          c_ezdefset(gdout,gdin);
 
-         temp = (float *) calloc(ni * nj * nk, sizeof(float));
+         temp = (float *) malloc(ni * nj * nk*sizeof(float));
          ier = c_fstluk(temp, cleP0, &ni, &nj, &nk);
-          champ->coupe.montagnes = malloc(champ->dst.ni*champ->dst.nj*champ->dst.nk*sizeof(float));
-          c_ezsint(champ->coupe.montagnes,temp);
-          free(temp);
+         if (champ->coupe.montagnes == NULL)
+          {
+          champ->coupe.montagnes = malloc(champ->dst.ni * champ->dst.nj * sizeof(float));
+          }
+         c_ezsint(champ->coupe.montagnes,temp);
+         free(temp);
 
          return 0;
          }
@@ -165,11 +173,11 @@ _Champ *champ;
       lngMaxListe = 100;
       ier = c_fstinl(champ->iun, &ni, &nj, &nk, datev, champ->etiket,-1,
                      champ->ip2, champ->ip3, champ->typvar, GZ, listeIP1, &lngListe, lngMaxListe);
-	
+  
       
       FldMgrVerConsistanceGrilles(*champ, listeIP1, &lngListe);
       FldMgrVerConsistanceNiveaux(*champ, listeIP1, &lngListe);
-      FldMgrTrierClesSelonIP1(listeIP1,lngListe);
+      FldMgrTrierClesSelonIP1(listeIP1,&lngListe);
     
       if (lngListe < 2) 
          {
@@ -213,8 +221,7 @@ _Champ *champ;
       ip1bot = (float)bidon.ip1;
       
       ier = c_fstluk(zbottom,  listeIP1[cleGZbottom], &ni, &nj, &nk); 
-      for (i=0; i < npts; i++)
-	 zbottom[i] *= 10.0;
+      for (i=0; i < npts; i++) zbottom[i] *= 10.0;
       cleTTbottom = c_fstinf(champ->iun, &ni, &nj, &nk,-1,"        ",bidon.ip1,-1,-1," ", TT);
       if (cleTTbottom < 0)
         {
@@ -254,7 +261,7 @@ _Champ *champ;
         {
         ztop[i] *= 10.0;
         }
-	 
+   
 
       cleTTtop = c_fstinf(champ->iun, &ni, &nj, &nk,-1,bidon.etiket,bidon.ip1,-1,-1," ", TT);
       if (cleTTtop < 0)
@@ -265,7 +272,7 @@ _Champ *champ;
 
       ier = c_fstluk(tttop, cleTTtop, &ni, &nj, &nk); 
       while (sommeMasque != npts && cleGZtop < lngListe)
-	      {
+        {
         for (i=0; i < npts; i++)
                   {
                   if (masque[i] == 0)
@@ -282,7 +289,7 @@ _Champ *champ;
                         }
                     }
                   }
-	 
+   
           sommeMasque = 0;
           for (i=0; i < npts; i++)
               {
@@ -328,7 +335,16 @@ _Champ *champ;
       return 0;
       break;
       
+      case PRESSION:
+      cleP0 = NULL;
+      champ->coupe.montagnes = NULL;
+      return -1;
+      break;
+      
       default:
+      cleP0 = NULL;
+      champ->coupe.montagnes = NULL;
+      return -1;
       break;
       }
    }

@@ -11,4 +11,4 @@
       integer table, listbuf, nrecs, nbrecs, nbdes
       integer liste(1)
       common /xfsiinf/ table(3,maxdes),
-     *                 liste(1), listbuf,nrecs, nbrecs, nbdes
+     *                 liste(24576), listbuf,nrecs, nbrecs, nbdes

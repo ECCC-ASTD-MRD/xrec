@@ -21,7 +21,10 @@
 #include <stdio.h>
 #include <math.h>
 #include <wgl.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <rpnmacros.h>
 
 extern _XContour    xc;
@@ -35,44 +38,44 @@ void PointerVent(float xdepart, float ydepart, float dirVent, float vitVent, int
 #define TRUE  1
 #endif
 
-CheckForUUandVV(champ)
-_Champ *champ;
-{
-   int i,j,ier;
-   int ni, nj, nk;
-   char autreChamp[3],x[3],y[3],z[3];
-   _Champ bidon;
+void CheckForUUandVV(_Champ *champ)
+  {
+  int i,ier;
+  int ni, nj, nk;
+  _Champ bidon;
+  
+  int tempDate,date2, mode;
+  int lng;
+  int listeCles[1000];
+  int nbMaxCles = 1000;
+  int found, nbCles, res;
+  
+  static char uu[] = "UU";
+  static char vv[] = "VV";
+  
+  char uu_comp[5], vv_comp[5], ww_comp[5];
+  
+  static char *uumanquant[] = {"Champ UU associe manquant: VV sera affiche comme un scalaire", 
+        "Associated UU field missing: VV will be processed as a scalar" };
+  
+  static char *vvmanquant[] = {"Champ VV associe manquant: UU sera affiche comme un scalaire", 
+        "Associated VV field missing: UU will be processed as a scalar" };
+  
+  int yymmdd,hhmmss;
+  double dddeltaT;
 
-   int datev, deltaT, tempDate,date2, mode;
-   int lng;
-   int nchamps;
-   int listeCles[1000];
-   int nbMaxCles = 1000;
-   int found,nbCles;
+  lng = c_getulng();
 
-   static char uu[] = "UU";
-   static char vv[] = "VV";
+  if (!xc.statuts[TRAITEMENT_VECTORIEL])
+    {
+    champ->natureTensorielle = SCALAIRE;
+    return;
+    }
 
-   static char *uumanquant[] = {"Champ UU associe manquant: VV sera affiche comme un scalaire", 
-          "Associated UU field missing: VV will be processed as a scalar" };
-
-   static char *vvmanquant[] = {"Champ VV associe manquant: UU sera affiche comme un scalaire", 
-          "Associated VV field missing: UU will be processed as a scalar" };
-
-   int variation = WindMgrGetCroissance();
-
-   int yymmdd,hhmmss;
-   double dddeltaT;
-
-   lng = c_getulng();
-
-   if (!xc.statuts[TRAITEMENT_VECTORIEL])
-     {
-     champ->natureTensorielle = SCALAIRE;
-     return;
-     }
-
-   if (((0 == strcmp(champ->nomvar, uu)) || (0 == strcmp(champ->nomvar, vv))))
+  if (-1 != c_checkIfVectorVar(champ->nomvar))
+    {
+    res = c_getVectorVars(champ->nomvar, uu_comp, vv_comp, ww_comp);     
+    if (res >= 0)
       {
       tempDate = champ->dateo;
       dddeltaT = (double)(champ->deet*champ->npas)/3600.0;
@@ -82,114 +85,106 @@ _Champ *champ;
       f77name(newdate)(&date2, &yymmdd, &hhmmss, &mode);
       
       bidon.cle = -1;
-
-      if (0 == strcmp(champ->nomvar,"UU"))
-  {
-    ier = c_fstinl(champ->iun, &ni, &nj, &nk,
-       -1, champ->etiket, champ->ip1,
-       champ->ip2, champ->ip3, champ->typvar, vv,
-       listeCles, &nbCles, nbMaxCles);
-
-    if (nbCles == 0)
-      {
-        if (champ->domaine == XY)
-    {
-      MessageAvertissement(vvmanquant[lng],AVERTISSEMENT);
-    }
-        return;
-      }
-   champ->uu = champ->fld;
-   champ->fld = NULL;
-
-   champ->vv     = (float *) calloc(champ->src.ni*champ->src.nj, sizeof(float));
-   FldMgrVerConsistanceGrilles(*champ, listeCles, &nbCles);
-
-   i = 0;
-   found = 0;
-   while (i < nbCles && !found)
-      {
-      bidon.cle = listeCles[i];
-      FldMgrGetFstPrm(&bidon);
-      if (bidon.dateo == champ->dateo && bidon.npas == champ->npas  && bidon.deet == champ->deet)
-         {
-         found = 1;
-         }
-      i++;
-      }
-
-         if (bidon.cle >= 0)
-            {
-            ier = c_fstluk(champ->vv,bidon.cle, &ni, &nj, &nk);
-            }
-         else
-            {
-            for (i=0; i < champ->src.ni*champ->src.nj; i++)
-               {
-               champ->vv[0] = 0.0;
-               }
-            }
-   }
-
-      if (0 == strcmp(champ->nomvar,"VV"))
-   {
-   ier = c_fstinl(champ->iun, &ni, &nj, &nk,
-       -1, champ->etiket, champ->ip1,
-       champ->ip2, champ->ip3, champ->typvar, uu,
-       listeCles, &nbCles, nbMaxCles);
-    if (nbCles ==  0)
-      {
-        if (champ->domaine == XY)
-    {
-      MessageAvertissement(uumanquant[lng],AVERTISSEMENT);
-    }
-        return;
-      }
-   champ->vv = champ->fld;
-   champ->fld = NULL;
-   champ->uu     = (float *) calloc(champ->src.ni*champ->src.nj, sizeof(float));
-   FldMgrVerConsistanceGrilles(*champ, listeCles, &nbCles);
-
-   i = 0;
-   found = 0;
-   while (i < nbCles && !found)
-      {
-      bidon.cle = listeCles[i];
-      FldMgrGetFstPrm(&bidon);
-      if (bidon.dateo == champ->dateo && bidon.npas == champ->npas && bidon.deet == champ->deet)
-         {
-         found = 1;
-         }
-      i++;
-      }
-
-         if (bidon.cle >= 0)
-            {
-            ier = c_fstluk(champ->uu,bidon.cle, &ni, &nj, &nk);
-            }
-         else
-            {
-            for (i=0; i < champ->src.ni*champ->src.nj; i++)
-               {
-               champ->uu[0] = 0.0;
-               }
-            }
-   }
+    
+      if (0 == strncmp(champ->nomvar,uu_comp, strlen(champ->nomvar)))
+        {
+        ier = c_fstinl(champ->iun, &ni, &nj, &nk, -1, champ->etiket, champ->ip1,
+            champ->ip2, champ->ip3, champ->typvar, vv_comp, listeCles, &nbCles, nbMaxCles);
       
-      champ->natureTensorielle = VECTEUR;
-      }
-   
-   }
+        if (nbCles == 0)
+          {
+          if (champ->domaine == XY)
+            {
+            MessageAvertissement(vvmanquant[lng],AVERTISSEMENT);
+            }
+          return;
+          }
+        champ->uu = champ->fld;
+        champ->fld = NULL;
+      
+        champ->vv     = (float *) calloc(champ->src.ni*champ->src.nj, sizeof(float));
+        FldMgrVerConsistanceGrilles(*champ, listeCles, &nbCles);
+      
+        i = 0;
+        found = 0;
+        while (i < nbCles && !found)
+          {
+          bidon.cle = listeCles[i];
+          FldMgrGetFstPrm(&bidon);
+          if (bidon.dateo == champ->dateo && bidon.npas == champ->npas  && bidon.deet == champ->deet)
+              {
+              found = 1;
+              }
+          i++;
+          }
+        
+        if (bidon.cle >= 0)
+          {
+          ier = c_fstluk(champ->vv,bidon.cle, &ni, &nj, &nk);
+          }
+        else
+          {
+          for (i=0; i < champ->src.ni*champ->src.nj; i++)
+              {
+              champ->vv[0] = 0.0;
+              }
+          }
+        }
+    
+      if (0 == strncmp(champ->nomvar, vv_comp, strlen(champ->nomvar)))
+        {
+        ier = c_fstinl(champ->iun, &ni, &nj, &nk, -1, champ->etiket, champ->ip1,
+            champ->ip2, champ->ip3, champ->typvar, uu_comp, listeCles, &nbCles, nbMaxCles);
+        if (nbCles ==  0)
+          {
+          if (champ->domaine == XY)
+            {
+            MessageAvertissement(uumanquant[lng],AVERTISSEMENT);
+            }
+          return;
+          }
+        champ->vv = champ->fld;
+        champ->fld = NULL;
+        champ->uu     = (float *) calloc(champ->src.ni*champ->src.nj, sizeof(float));
+        FldMgrVerConsistanceGrilles(*champ, listeCles, &nbCles);
+      
+        i = 0;
+        found = 0;
+        while (i < nbCles && !found)
+          {
+          bidon.cle = listeCles[i];
+          FldMgrGetFstPrm(&bidon);
+          if (bidon.dateo == champ->dateo && bidon.npas == champ->npas && bidon.deet == champ->deet)
+              {
+              found = 1;
+              }
+          i++;
+          }
+      
+        if (bidon.cle >= 0)
+          {
+          ier = c_fstluk(champ->uu,bidon.cle, &ni, &nj, &nk);
+          }
+        else
+          {
+          for (i=0; i < champ->src.ni*champ->src.nj; i++)
+            {
+            champ->uu[0] = 0.0;
+            }
+          }
+        }
+      
+      champ->natureTensorielle = VECTEUR;    
+      } 
+    }
+  }
 
-CheckForWW(_Champ *champ)
+void CheckForWW(_Champ *champ)
   {
-  int i,j,ier;
+  int i,ier;
   int ni, nj, nk;
-  char autreChamp[3],x[3],y[3],z[3];
   
-  int datev, deltaT;
-  int nchamps;
-  int echelleWW;
-  
+  int datev;  
   static char ww[] = "WW";
   static char tt[] = "TT";
   
@@ -269,21 +264,18 @@ CheckForWW(_Champ *champ)
 ************************************************************* 
 **/
 
-CalcWWForZCoord(champ)
-_Champ *champ;
+void CalcWWForZCoord(_Champ *champ)
 {
-   int i,j,n,ier;
+   int i,n,ier;
    int ni, nj, nk;
    
-   int datev, ip1, coord, deltaT;
-   int nchamps;
+   int datev, ip1, coord;
    float pression;
    
    static char tt[] = "TT";
    static char p0[] = "P0";
    static char gz[] = "GZ";
    
-   float niveau,rho;
    float *gzptr,*ttptr,*ttcumul,*p0ptr;
    int tempDate;
    double dddeltaT;
@@ -348,29 +340,19 @@ _Champ *champ;
  *************************************************************  
  **/
 
-extern void PointerFleche(float xdepart, float ydepart, float dirVent, float vitVent, int rayon, int width);
 
-
-
-AfficherFleches(uu, vv, ni, nj, couleur, linewidth, ventmax)
-float *uu, *vv;
-int ni, nj;
-int couleur, linewidth;
-float ventmax;
+void AfficherFleches(float *uu, float *vv, int ni, int nj, int couleur, int linewidth, float ventmax)
 {
-   int i,j, k;
+   int k;
    float x, y;
-   float pt, vit, dir;
+   float vit, dir;
    int idebut, jdebut, ifin, jfin;
-   int i1, i2, j1, j2;
-   int largeurFenetre, hauteurFenetre;
-   int increment, incrementX, incrementY;
    int idist, jdist, idist1, idist2, jdist1, jdist2;
-   float xdist, ydist, x2, y2,vm;
+   float x2, y2,vm;
    int longueurFleche,largeurFleche,longueur,longueurMax,epaisseur;
    float densite;
    float temp,uutmp,vvtmp;
-   int idensite,annulationDemandee,displayMode;
+   int annulationDemandee,displayMode;
    int un = 1;
    float ri,rj;
    int fni,fnj;
@@ -477,14 +459,8 @@ float ventmax;
    }
 
 
-RestoreScalarWindFields(champ)
-_Champ *champ;
+void RestoreScalarWindFields(_Champ *champ)
 {
-   int i,j,ier;
-   int ni, nj, nk;
-   char autreChamp[3];
-   static float *buf;
-   float temp1, temp2, dir, vit;
 
    champ->natureTensorielle = SCALAIRE;
    FldMgrFreeAllFlds(champ);

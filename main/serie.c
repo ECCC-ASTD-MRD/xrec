@@ -24,7 +24,10 @@
 #include <Xm/RowColumn.h>
 
 #include <xinit.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <wgl.h>
 #include <rpnmacros.h>
 #include <souris.h>
@@ -47,19 +50,7 @@ extern SuperWidgetStruct SuperWidget;
 extern _XContour    xc;
 extern _Viewport    viewp;
 
-XtCallbackProc PcpNouvelleSerie();
-XtCallbackProc PcpScanProfil();
-XtCallbackProc PcpScanSerie();
-XtCallbackProc PcpOk();
 
-XtCallbackProc PcpAfficher();
-
-XtCallbackProc PcpSetEchelleSerieLineaire();
-XtCallbackProc PcpSetEchelleSerieLog();
-
-XtCallbackProc PcpSetMinMaxProfil();
-XtCallbackProc PcpSetMinMaxGrilles();
-XtCallbackProc PcpSetMinMaxUsager();
 
 extern Widget pcpForme, pcpFrame, pcpForme2, pcpFrame3, pcpForme3, pcpRC, pcpAfficher, pcpOk;
 extern Widget pcpFormeBoutons, pcpFormeEchelleSerie, pcpFormeLimite;
@@ -89,14 +80,11 @@ static char *bombe[] = {"Une erreur systeme est survenue.\nCette application pou
  ******************************************************************************
  **/
 
-PreparerSerie(cxt1,cyt1,cxt2,cyt2)
-float cxt1,cyt1,cxt2,cyt2;
+int PreparerSerie(float sxt1, float syt1,float sxt2, float syt2)
 {
    _Champ *champ;
    int ixmin, ixmax, iymin, iymax;
-   float xmin, xmax, ymin, ymax;
-   float niveauMin, niveauMax;
-   int i,j,ier;
+   int i,ier;
    int fenetreAffichage, fenetreSerie;
    int nbChampsActifs;
    float rx1,ry1,rx2,ry2;
@@ -107,7 +95,7 @@ float cxt1,cyt1,cxt2,cyt2;
    ixmin = 0; iymin = 0;
    ixmax = 0; iymax = 0;
 
-   rx1 = cxt1; rx2 = cxt2; ry1 = cyt1; ry2 = cyt2;
+   rx1 = sxt1; rx2 = sxt2; ry1 = syt1; ry2 = syt2;
    
    nbChampsActifs = FldMgrGetNbChampsActifs();
    for (i=0; i < nbChampsActifs; i++)
@@ -125,11 +113,11 @@ float cxt1,cyt1,cxt2,cyt2;
    if (ier > 0)
       {
       switch (ier)
-	 {
-	 default:
-	 MessageAvertissement(bombe[lng], AVERTISSEMENT);
-	 break;
-	 }
+   {
+   default:
+   MessageAvertissement(bombe[lng], AVERTISSEMENT);
+   break;
+   }
       return ier;
       }
    
@@ -138,15 +126,20 @@ float cxt1,cyt1,cxt2,cyt2;
       FldMgrGetChamp(&champ, i);
       
       if (champ->seqanim.nbFldsAnim > 0)
-	 {
-	 c_wglsetw(fenetreAffichage);
-	 FldMgrPreparerSerie(champ,&rx1,&ry1,&rx2,&ry2);
-	 c_wglsetw(fenetreSerie);
-	 }
+   {
+   c_wglsetw(fenetreAffichage);
+   FldMgrPreparerSerie(champ,&rx1,&ry1,&rx2,&ry2);
+   c_wglsetw(fenetreSerie);
+   }
       }
    
    SerieMgrSetMinMax();
    SerieMgrSetUVWMinMax();
+   
+   cxt1 = rx1;
+   cxt2 = rx2;
+   cyt1 = ry1;
+   cyt2 = ry2;
 
    return 0;
    
@@ -157,25 +150,17 @@ float cxt1,cyt1,cxt2,cyt2;
  ******************************************************************************
  **/
 
-AfficherProfilSerie(xx, yy)
-float xx, yy;
+void AfficherProfilSerie(float xx, float yy)
 {
-   int i,j, fontSize;
-   float *x, *y;
+   int i, fontSize;
    float xmin, ymin, xmax, ymax;
    int npts;
-   int axeXRev, axeYRev;
-   int nbIntX, nbIntY;
-   float intervalleX, intervalleY;
    _Champ *champ, *champ2, *champ0;
    char titre[40], titrex[32],titrey[32];
    float **valeurs;
-   int i1, j1, i2, j2,mx1,mx2,my1,my2;
-   float x1, y1;
-   int largeurTitre;
+   int i1, j1, mx1,mx2,my1,my2;
    int n, nbChampsActifs;
    int zero = 0;
-   int ix, iy;
    int lng,op,trace;
    int largeurFenetre, hauteurFenetre;
 
@@ -220,7 +205,7 @@ float xx, yy;
    sprintf(titrex, "$");
    sprintf(titrey, "$");
    f77name(setprof1)(&valMin, &valMax,&echelleSerie,titrex,titrey,
-		     0, 0);
+         0, 0);
 
    c_wglcol(NOIR);
    c_wgllwi(1);
@@ -248,16 +233,15 @@ float xx, yy;
      if (champ->seqanim.nbFldsAnim > 0)
        {
        for (i=0; i < champ->seqanim.nbFldsAnim; i++)
-	 {
-	 valeurs[n][i] = champ->seqanim.valeursSeries[i];
-	 }
+   {
+   valeurs[n][i] = champ->seqanim.valeursSeries[i];
+   }
        }
      
      if (0 == n%2 && op != NO_OP)
        {
        FldMgrGetChamp(&champ2, n+1);
-       DiffMgrCalcDiffs(valeurs[n], champ->seqanim.valeursSeries[i],champ2->seqanim.valeursSeries[i], 
-			champ->seqanim.nbFldsAnim, op);
+       DiffMgrCalcDiffs(valeurs[n], champ->seqanim.valeursSeries,champ2->seqanim.valeursSeries, champ->seqanim.nbFldsAnim, op);
        }
      
      if (champ->seqanim.nbFldsAnim > 0)
@@ -268,17 +252,17 @@ float xx, yy;
        
        trace = (op == NO_OP || 0 == n%2);
        if (trace)
-	 {
-	 c_wglxai(&i1, &j1,  (float)champ0->seqanim.fdt[0], valeurs[n][0]/champ->facteur);
-	 AfficherSymbole(i1,j1,n);
-	 for (i=1; i < champ->seqanim.nbFldsAnim; i++)
-	   {
-	   c_wglmvx((float)champ0->seqanim.fdt[i-1], valeurs[n][i-1]/champ->facteur);
-	   c_wgldrx((float)champ0->seqanim.fdt[i], valeurs[n][i]/champ->facteur);
-	   c_wglxai(&i1, &j1, (float)champ0->seqanim.fdt[i],valeurs[n][i]/champ->facteur);
-	   AfficherSymbole(i1,j1,n);
-	   }
-	 }
+   {
+   c_wglxai(&i1, &j1,  (float)champ0->seqanim.fdt[0], valeurs[n][0]/champ->facteur);
+   AfficherSymbole(i1,j1,n);
+   for (i=1; i < champ->seqanim.nbFldsAnim; i++)
+     {
+     c_wglmvx((float)champ0->seqanim.fdt[i-1], valeurs[n][i-1]/champ->facteur);
+     c_wgldrx((float)champ0->seqanim.fdt[i], valeurs[n][i]/champ->facteur);
+     c_wglxai(&i1, &j1, (float)champ0->seqanim.fdt[i],valeurs[n][i]/champ->facteur);
+     AfficherSymbole(i1,j1,n);
+     }
+   }
        }
      }
 
@@ -309,10 +293,10 @@ float xx, yy;
  ******************************************************************************
  **/
 
-int SerieMgrGetFenetreSerieID(fenetreID)
-int *fenetreID;
+int SerieMgrGetFenetreSerieID(int *fenetreID)
 {
    *fenetreID = fenetreSerie;
+   return 0;
    }
 
 
@@ -322,7 +306,7 @@ int *fenetreID;
  **/
 
 
-AfficherLigneSerie()
+void AfficherLigneSerie()
 {
    _Champ *champ;
    int seqanimOK;
@@ -336,12 +320,12 @@ AfficherLigneSerie()
      switch(champ->seqanim.niSerie)
        {
        case 1:
-	 TracerCercle(champ->seqanim.xmin, champ->seqanim.ymin);
-	 break;
-	 
+   TracerCercle(champ->seqanim.xmin, champ->seqanim.ymin);
+   break;
+   
        default:
-	 TracerLigne(champ->seqanim.xmin, champ->seqanim.ymin, champ->seqanim.xmax, champ->seqanim.ymax);
-	 break;
+   TracerLigne(champ->seqanim.xmin, champ->seqanim.ymin, champ->seqanim.xmax, champ->seqanim.ymax);
+   break;
        }
      RestoreNormalMode();
      }
@@ -354,10 +338,8 @@ AfficherLigneSerie()
 
 
 
-EnleverLigneSerie(x1, y1, x2, y2)
-float x1, y1, x2, y2;
+void EnleverLigneSerie(float x1, float y1, float x2, float y2)
 {
-   _Champ *champ;
    int fenetreAffichage;
 
    if (!VerifierExistenceSerieValide())
@@ -401,13 +383,13 @@ int SerieMgrGetStatutSerie()
  **/
 
 
-int SerieMgrGetSerieCoords(x1, y1, x2, y2)
-float *x1, *y1, *x2, *y2;
+int SerieMgrGetSerieCoords(float *x1, float *y1, float *x2, float *y2)
 {
    *x1 = cxt1;
    *x2 = cxt2;
    *y1 = cyt1;
    *y2 = cyt2;
+   return 0;
    }
 
 /**
@@ -416,9 +398,9 @@ float *x1, *y1, *x2, *y2;
  **/
 
 
-VerifierExistenceSerieValide()
+int VerifierExistenceSerieValide()
 {
-   int i, nbChampsActifs, seqanimValideTrouvee;
+   int nbChampsActifs, seqanimValideTrouvee;
    _Champ *champ;
    
    nbChampsActifs = FldMgrGetNbChampsActifs();
@@ -437,11 +419,8 @@ VerifierExistenceSerieValide()
  ******************************************************************************
  **/
 
-EffacerSerie ()
+void EffacerSerie ()
 {
-   int i;
-   _Champ *champ;
-   
    statutSerie = FALSE;
    }
 
@@ -450,18 +429,15 @@ EffacerSerie ()
  ******************************************************************************
  **/
 
-SerieMgrSetMinMaxSerie()
+void SerieMgrSetMinMaxSerie()
 {   
    _Champ *champ, *champ2;
-   int ltype = 1;
    int i,j,nbChampsActifs,op;
    int ixmin, iymin, ixmax, iymax;
-   float temp,diff;
    char tempStr[16];
    char *returnedStr;
    Arg args[4];
    int fenetreSerie;
-   float xdebut, xfin;
    float opmin[5],opmax[5];
    int un = 1;
    int npts;
@@ -478,10 +454,10 @@ SerieMgrSetMinMaxSerie()
       {
       FldMgrGetChamp(&champ, i);
       if (champ->natureTensorielle == SCALAIRE)
-	 {
-	 listeChampsValides[n] = i;
-	 n++;
-	 }
+        {
+        listeChampsValides[n] = i;
+        n++;
+        }
       }
 
    nbChampsActifs = n;
@@ -501,90 +477,98 @@ SerieMgrSetMinMaxSerie()
    if (VerifierExistenceSerieValide())
       {
       switch (calculMinMaxSerie)
-	 {
-	 case AUTO_PROFIL:
-	 grafTMinX = (float) champ->seqanim.dt[0];
-	 grafTMaxX = (float) champ->seqanim.dt[champ->seqanim.njSerie-1];
-	 npts = champ->seqanim.niSerie*champ->seqanim.njSerie;
-
-	 switch (op)
-	    {
-	    case NO_OP:
-	    FldMgrGetChamp(&champ, listeChampsValides[0]);
-	    f77name(aminmax)(&grafTMinY,&grafTMaxY,champ->seqanim.valeursSeries,&npts,&un);
-	    grafTMinY /= champ->facteur;
-	    grafTMaxY /= champ->facteur;
-	    
-	    for (i=1; i < nbChampsActifs; i++)
-	       {
-	       FldMgrGetChamp(&champ, listeChampsValides[i]);
-	       f77name(aminmax)(&opmin[op],&opmax[op],champ->seqanim.valeursSeries,&npts,&un);
-	       opmin[op] /=  champ->facteur;
-	       opmax[op] /=  champ->facteur;
-	       grafTMinY = grafTMinY < opmin[op] ? grafTMinY : opmin[op];
-	       grafTMaxY = grafTMaxY > opmax[op] ? grafTMaxY : opmax[op];
-	       }
-	    break;
-	    
-	    default:
-	    FldMgrGetChamp(&champ, listeChampsValides[0]);
-	    FldMgrGetChamp(&champ2, listeChampsValides[1]);
-	    DiffMgrSetDiffs(champ->seqanim.valeursSeries,champ2->seqanim.valeursSeries,opmin,opmax,npts);
-	    grafTMinY = opmin[op];
-	    grafTMaxY = opmax[op];
-
-	    i = 2;
-	    while (i < nbChampsActifs)
-	       {
-	       if (i == nbChampsActifs - 1)
-		  {
-		  FldMgrGetChamp(&champ, listeChampsValides[i]);
-		  f77name(aminmax)(&opmin[op],&opmax[op],champ->seqanim.valeursSeries,&npts,&un);
-		  }
-	       else
-		  {
-		  FldMgrGetChamp(&champ, listeChampsValides[i]);
-		  FldMgrGetChamp(&champ2, listeChampsValides[i+1]);
-		  DiffMgrSetDiffs(champ->seqanim.valeursSeries,champ2->seqanim.valeursSeries,opmin,opmax,npts);
-		  opmin[op] /=  champ->facteur;
-		  opmax[op] /=  champ->facteur;
-		  grafTMinY = grafTMinY < opmin[op] ? grafTMinY : opmin[op];
-		  grafTMaxY = grafTMaxY > opmax[op] ? grafTMaxY : opmax[op];
-		  }
-	       i+=2;
-	       }
-	    break;
-	    }
-	 break;
-	 
-	 case AUTO_GRILLES:
-	 FldMgrGetChamp(&champ, listeChampsValides[0]);
-	 op = CtrlMgrGetMathOp();
-	 
-	 grafTMinY = champ->min/champ->facteur;
-	 grafTMaxY = champ->max/champ->facteur;
-	 grafTMinX = (float) champ->seqanim.dt[0];
-	 grafTMaxX = (float) champ->seqanim.dt[champ->seqanim.njSerie-1];
-	 break;
-	 
-	 case FIXES:
-	 returnedStr = (char *) XmTextFieldGetString(pcsTextMinX);
-	 sscanf(returnedStr, "%e", &grafTMinX);
-	 XtFree(returnedStr);
-	 
-	 returnedStr = (char *) XmTextFieldGetString(pcsTextMaxX);
-	 sscanf(returnedStr, "%e", &grafTMaxX);
-	 XtFree(returnedStr);
-	 
-	 returnedStr = (char *) XmTextFieldGetString(pcsTextMinY);
-	 sscanf(returnedStr, "%e", &grafTMinY);
-	 XtFree(returnedStr);
-	 
-	 returnedStr = (char *) XmTextFieldGetString(pcsTextMaxY);
-	 sscanf(returnedStr, "%e", &grafTMaxY);
-	 XtFree(returnedStr);
-	 break;
-	 }
+        {
+        case AUTO_PROFIL:
+        grafTMinX = (float) champ->seqanim.dt[0];
+        grafTMaxX = (float) champ->seqanim.dt[champ->seqanim.njSerie-1];
+        npts = champ->seqanim.niSerie*champ->seqanim.njSerie;
+      
+        switch (op)
+            {
+            case NO_OP:
+            FldMgrGetChamp(&champ, listeChampsValides[0]);
+            f77name(aminmax)(&grafTMinY,&grafTMaxY,champ->seqanim.valeursSeries,&npts,&un);
+            grafTMinY /= champ->facteur;
+            grafTMaxY /= champ->facteur;
+            
+            for (i=1; i < nbChampsActifs; i++)
+              {
+              FldMgrGetChamp(&champ, listeChampsValides[i]);
+              f77name(aminmax)(&opmin[op],&opmax[op],champ->seqanim.valeursSeries,&npts,&un);
+              opmin[op] /=  champ->facteur;
+              opmax[op] /=  champ->facteur;
+              grafTMinY = grafTMinY < opmin[op] ? grafTMinY : opmin[op];
+              grafTMaxY = grafTMaxY > opmax[op] ? grafTMaxY : opmax[op];
+              }
+            break;
+            
+            default:
+            FldMgrGetChamp(&champ, listeChampsValides[0]);
+            FldMgrGetChamp(&champ2, listeChampsValides[1]);
+            DiffMgrSetDiffs(champ->seqanim.valeursSeries,champ2->seqanim.valeursSeries,opmin,opmax,npts);
+            grafTMinY = opmin[op];
+            grafTMaxY = opmax[op];
+      
+            i = 2;
+            while (i < nbChampsActifs)
+              {
+              if (i == nbChampsActifs - 1)
+                {
+                FldMgrGetChamp(&champ, listeChampsValides[i]);
+                f77name(aminmax)(&opmin[op],&opmax[op],champ->seqanim.valeursSeries,&npts,&un);
+                }
+              else
+                {
+                FldMgrGetChamp(&champ, listeChampsValides[i]);
+                FldMgrGetChamp(&champ2, listeChampsValides[i+1]);
+                DiffMgrSetDiffs(champ->seqanim.valeursSeries,champ2->seqanim.valeursSeries,opmin,opmax,npts);
+                opmin[op] /=  champ->facteur;
+                opmax[op] /=  champ->facteur;
+                grafTMinY = grafTMinY < opmin[op] ? grafTMinY : opmin[op];
+                grafTMaxY = grafTMaxY > opmax[op] ? grafTMaxY : opmax[op];
+                }
+              i+=2;
+              }
+            break;
+            }
+        break;
+        
+        case AUTO_GRILLES:
+        FldMgrGetChamp(&champ, listeChampsValides[0]);
+        op = CtrlMgrGetMathOp();
+        grafTMinY = champ->seqanim.animFLDmin[0];
+        grafTMaxY = champ->seqanim.animFLDmax[0];
+        
+        for (j=1; j < champ->seqanim.nbFldsAnim; j++)
+          {
+          if (grafTMinY > champ->seqanim.animFLDmin[j]) grafTMinY = champ->seqanim.animFLDmin[j];
+          if (grafTMaxY < champ->seqanim.animFLDmax[j]) grafTMaxY = champ->seqanim.animFLDmax[j];
+          }
+    
+        grafTMinY /=champ->facteur;
+        grafTMaxY /=champ->facteur;
+        grafTMinX = (float) champ->seqanim.dt[0];
+        grafTMaxX = (float) champ->seqanim.dt[champ->seqanim.njSerie-1];
+        break;
+        
+        case FIXES:
+        returnedStr = (char *) XmTextFieldGetString(pcsTextMinX);
+        sscanf(returnedStr, "%e", &grafTMinX);
+        XtFree(returnedStr);
+        
+        returnedStr = (char *) XmTextFieldGetString(pcsTextMaxX);
+        sscanf(returnedStr, "%e", &grafTMaxX);
+        XtFree(returnedStr);
+        
+        returnedStr = (char *) XmTextFieldGetString(pcsTextMinY);
+        sscanf(returnedStr, "%e", &grafTMinY);
+        XtFree(returnedStr);
+        
+        returnedStr = (char *) XmTextFieldGetString(pcsTextMaxY);
+        sscanf(returnedStr, "%e", &grafTMaxY);
+        XtFree(returnedStr);
+        break;
+        }
       }
    
    i = 0;
@@ -606,7 +590,7 @@ SerieMgrSetMinMaxSerie()
    c_wglsetw(fenetreSerie);
    
    f77name(xset)(&ixmin , &ixmax, &iymin, &iymax, &grafTMinX, &grafTMaxX,
-		 &grafTMinY, &grafTMaxY, &echelleSerie);
+     &grafTMinY, &grafTMaxY, &echelleSerie);
    
 }
 
@@ -616,8 +600,7 @@ SerieMgrSetMinMaxSerie()
 **/
 
 
-SerieMgrGetLimites(valmin,valmax,nivmin,nivmax)
-     float *valmin, *valmax, *nivmin, *nivmax;
+void SerieMgrGetLimites(float *valmin, float *valmax, float *nivmin, float *nivmax)
 {
   
   *valmin = grafTMinX;
@@ -626,7 +609,7 @@ SerieMgrGetLimites(valmin,valmax,nivmin,nivmax)
   *nivmax = grafTMaxY;
 }
 
-InitFenetreSerie()
+void InitFenetreSerie()
 {
    int lng;
    static char *labelFenetre[] = {"Profils/Series", "Profiles/XSections"};
@@ -641,8 +624,7 @@ InitFenetreSerie()
    }
 
 
-SerieMgrGetLimitesUVW(uutanmin,uutanmax,uvwmin,uvwmax,uumin,uumax,vvmin,vvmax,wwmin,wwmax,nivmin,nivmax)
-float *uutanmin,*uutanmax,*uvwmin,*uvwmax,*uumin,*uumax,*vvmin,*vvmax,*wwmin,*wwmax,*nivmin,*nivmax;
+void SerieMgrGetLimitesUVW(float *uutanmin, float *uutanmax, float *uvwmin, float *uvwmax, float *uumin, float *uumax, float *vvmin, float *vvmax, float *wwmin, float *wwmax, float *nivmin, float *nivmax)
 {
 
    }

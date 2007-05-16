@@ -164,26 +164,27 @@
       END
 *     
 ***********************************************************************
-      subroutine vsminmax(min, max, uu, vv, ni, nj, idebut, jdebut, ifin, jfin)
-      real min, max, module, uu(ni,nj),vv(ni,nj)
-      integer ni, nj, idebut, jdebut, ifin, jfin
+      subroutine vsminmax(rmin, rmax, uu, vv, ni, nj, idebut, jdebut, ifin, jfin)
+      implicit none
+      real rmin, rmax, rmodule, uu(ni,nj),vv(ni,nj)
+      integer ni, nj, idebut, jdebut, ifin, jfin, i,j
 
-      min = uu(idebut, jdebut)*uu(idebut,jdebut)+vv(idebut,jebut)*vv(idebut,jdebut)
-      max = min
+      rmin = uu(idebut, jdebut)*uu(idebut,jdebut)+vv(idebut,jdebut)*vv(idebut,jdebut)
+      rmax = rmin
       
       do  j=jdebut,jfin
          do  i=idebut, ifin
-            module = uu(i,j)*uu(i,j)+vv(i,j)*vv(i,j)
-            if (module.lt.min) then
-               min = module
+            rmodule = uu(i,j)*uu(i,j)+vv(i,j)*vv(i,j)
+            if (rmodule.lt.rmin) then
+               rmin = rmodule
             endif
-            if (module.gt.max) then
-               max = module
+            if (rmodule.gt.rmax) then
+               rmax = rmodule
             endif
          enddo
       enddo
-      min = sqrt(min)
-      max = sqrt(max)
+      rmin = sqrt(rmin)
+      rmax = sqrt(rmax)
       return
       end
 *     
@@ -229,6 +230,144 @@
 *     
 * 
 * 
+***********************************************************************
+      subroutine sminmax_ij(rmin, rmax, imin, jmin, imax, jmax, fld, ni, nj, idebut, jdebut, ifin, jfin)
+      implicit none
+      
+      integer i,j,ni, nj, idebut, jdebut, ifin, jfin, imin, jmin, imax, jmax
+      real rmin, rmax, fld(ni,nj)
+
+      imin = max(1,idebut)
+      jmin = max(1,jdebut)
+      imax = imin
+      jmax = jmin
+      
+      rmin = fld(imin, jmin)
+      rmax = fld(imax, jmax)
+      
+      print *, rmin, rmax, imin, imax, jmin, jmax, ni, nj      
+      do  j=max(1,jdebut),min(nj,jfin)
+         do  i=max(1,idebut), min(ni,ifin)
+            if (fld(i,j).lt.rmin) then
+               rmin = fld(i,j)
+               imin = i
+               jmin = j
+            endif
+            if (fld(i,j).gt.rmax) then
+               rmax = fld(i,j)
+               imax = i
+               jmax = j
+            endif
+         enddo
+      enddo
+      print *, rmin, rmax, imin, imax, jmin, jmax, ni, nj      
+      print *, '!!!---@@@----------------------------'
+      return
+      end
+*     
+*     
+* 
+************************************************************************
+      subroutine smeanvar(mean, stddev, fld, ni, nj, idebut, jdebut, ifin, jfin)
+      implicit none
+      
+      integer i,j,npts,ni, nj, idebut, jdebut, ifin, jfin, imin, jmin, imax, jmax
+      real mean, stddev, fld(ni,nj)
+
+      mean = 0.0
+      npts = 0
+      do  j=max(1,jdebut),min(nj,jfin)
+         do  i=max(1,idebut), min(ni,ifin)
+            mean = mean + fld(i,j)
+            npts = npts + 1
+         enddo
+      enddo
+      mean = mean / float(npts)
+      
+      stddev = 0.0
+      do  j=max(1,jdebut),min(nj,jfin)
+         do  i=max(1,idebut), min(ni,ifin)
+            stddev = stddev + (fld(i,j)-mean)*(fld(i,j)-mean)
+         enddo
+      enddo
+      stddev = sqrt(stddev / float(npts))
+      return
+      end
+*     
+*     
+* 
+************************************************************************
+      subroutine vsminmax_ij(rmin, rmax, imin, jmin, imax, jmax, uu,vv, ni, nj, idebut, jdebut, ifin, jfin)
+      implicit none
+      
+      real rmin, rmax, rmodule, uu(ni,nj), vv(ni,nj)
+      integer i,j,ni, nj, idebut, jdebut, ifin, jfin, imin, jmin, imax, jmax
+
+      
+      imin = max(1,idebut)
+      jmin = max(1,jdebut)
+      imax = imin
+      jmax = jmin
+      
+      rmodule = uu(imin, jmin)*uu(imin, jmin)+vv(imin, jmin)*vv(imin, jmin)
+      rmin = rmodule
+      rmax = rmin
+      
+      do  j=max(1,jdebut),min(nj,jfin)
+         do  i=max(1,idebut), min(ni,ifin)
+            rmodule = uu(i,j)*uu(i,j)+vv(i,j)*vv(i,j)
+            if (rmodule.lt.rmin) then
+               rmin = rmodule
+               imin = i
+               jmin = j
+            endif
+            if (rmodule.gt.rmax) then
+               rmax = rmodule
+               imax = i
+               jmax = j
+            endif
+         enddo
+      enddo
+      rmin = sqrt(rmin)
+      rmax = sqrt(rmax)
+      return
+      end
+*     
+************************************************************************
+      subroutine uvmeanvar(mean, stddev, uu,vv, ni, nj, idebut, jdebut, ifin, jfin)
+      implicit none
+      
+      integer i,j,npts,ni, nj, idebut, jdebut, ifin, jfin
+      real mean, stddev, uu(ni,nj),vv(ni,nj),rmodule
+
+      mean = 0.0
+      npts = 0
+      do  j=max(1,jdebut),min(nj,jfin)
+         do  i=max(1,idebut), min(ni,ifin)
+            rmodule = uu(i,j)*uu(i,j)+vv(i,j)*vv(i,j)
+            mean = mean + rmodule
+            npts = npts + 1
+         enddo
+      enddo
+      mean = mean / float(npts)
+      
+      stddev = 0.0
+      do  j=max(1,jdebut),min(nj,jfin)
+         do  i=max(1,idebut), min(ni,ifin)
+            rmodule = uu(i,j)*uu(i,j)+vv(i,j)*vv(i,j)
+            stddev = stddev + (rmodule-mean)*(rmodule-mean)
+         enddo
+      enddo
+      stddev = sqrt(stddev / float(npts))
+      return
+      end
+*     
+*     min, jmin, imax, jmax
+* 
+************************************************************************
+*     
+* 
+
 **************************************************************
 * 
 * 

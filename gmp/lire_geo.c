@@ -58,8 +58,10 @@ lire_geo()
       geography_source = GDB_GEO;
       if (gdb_initialized == -1)
         {
+#ifndef Darwin_OSX_PPC
         gdb_init();
         gdb_initialized = 1;
+#endif
         }
       }
     }
@@ -84,7 +86,9 @@ lire_geo()
       break;
       
     case GDB_GEO:
+#ifndef Darwin_OSX_PPC
       lire_gdb_geo();
+#endif
       break;
     }
   

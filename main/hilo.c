@@ -18,7 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <wgl.h>
 #include <rpnmacros.h>
 #include <vcar.h>
@@ -45,12 +48,7 @@ static int fontSize = 30;
  *
  */
 
-hl_find (vect, ni, nj, scale, hilo,hlcount,hlnmax)
-float *vect;
-int ni, nj;
-float scale;
-Hilo hilo[];
-int *hlcount, hlnmax;
+void hl_find (float *vect, int ni, int nj, float scale, Hilo hilo[], int *hlcount, int hlnmax)
     {
     float zm, zn, zv ;
     int   crois  ;
@@ -136,11 +134,7 @@ int *hlcount, hlnmax;
     }
 
 
-hl_print (hilo,hlcount,scale,fore,back)
-Hilo hilo[];
-int hlcount;
-float scale;
-int fore;
+void hl_print (Hilo hilo[], int hlcount, float scale, int fore, int back)
 {
    int i,size;
    float xx, yy;
@@ -213,8 +207,7 @@ int fore;
    set_vcar( bidon, FONTE, 0, 0);
    }
 
-hl_setFontSize(size)
-int size;
+void hl_setFontSize(int size)
 {
    fontSize = size;
    }

@@ -18,9 +18,27 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <rpnmacros.h>
+#include <Xm/Xm.h>
+#include <Xm/CascadeB.h>
+#include <Xm/CascadeBG.h>
+#include <Xm/Form.h>
+#include <Xm/Frame.h>
+#include <Xm/Label.h>
+#include <Xm/PushB.h>
+#include <Xm/PushBG.h>
+#include <Xm/RowColumn.h>
+#include <Xm/Scale.h>
+#include <Xm/SeparatoG.h>
+#include <Xm/Separator.h>
+#include <Xm/Text.h>
+#include <Xm/TextF.h>
+#include <Xm/ToggleB.h>
+#include <Xm/ToggleBG.h>
+
 #include <wgl_x.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <gd.h>
 
 extern SuperWidgetStruct SuperWidget;
@@ -48,35 +66,23 @@ Widget       pdRCinfo;
 
 
 static char *nomPanneauDiapo[] = {"PanneauDiapos", "SlidePanel"};
-static char *labelTopLevel[] = {"Diapo", "Diapo"};
 static char *labelOk[] = {"Fermer", "Close"};
 static char *labelChamp2D[] = {"Champ2D", "2DField"};
 static char *labelFenetre[] = {"Fenetre:", "Window:"};
 static char *labelCoupe[] = {"Coupe", "XSection"};
 static char *labelAfficher[] = {"Redessiner", "Redraw"};
-static char *labelOptionsResolution[] = {"75  ","100 ","150 ","200 ","300 ","600 "};
-static char *labelRecalculer[] = {"Recalculer parametres", "Update parameters"};
 static char *labelTaille[] = {"Agrandissement","Enlarge"};
 static char *labelTaillePixels[]   = {"Taille (pixels)  ","Size (pixels)   "};
-static char *labelTaillePhysique[] = {"Taille (pouces)  ","Size (inches)   "};
-static char *labelMemoire[] =        {"Memoire (Kbytes):","Memory (Kbytes):"};
 static char *labelNomFichier[] =     {"Fichier (PNG):","File (PNG):"};
-static char *labelHauteurPhysique[] = {"Hauteur (pouces)","Hauteur (pouces)"};
-static char *labelAmplification[] = {"Amplification","Amplification"};
-static char *labelResolution[] = {"Resolution (dpi)","Resolution (dpi)"};
 static char *labelProduire[] = {"Generer Image","Export Image"};
 static char *captureCompletee[] = {"Capture complétée", "Capture complete"};
 
 
-static int currentItem;
 char panneauDiapoGeometrie[32];
-static char pdNomVar[256][3];
 static char nomFichierSortie[256];
 
 int pdSelectionTerminee;
 
-static int nDiapos = 0;
-static int itemDict = 0;
 int largeurFenetre, hauteurFenetre;
 int largeurPNG,hauteurPNG;
 int resolution= 100;
@@ -92,8 +98,6 @@ static int nplanes;
 
 void DesactiverPanneauDiapo()
 {
-   int i;
-
    XtUnrealizeWidget(pdTopLevel);
 
    }
@@ -104,21 +108,14 @@ void DesactiverPanneauDiapo()
 ******************
 ***/
 
-void PdAdjustLargeur(w, client_data, call_data)
-Widget  w;              /*  widget id           */
-caddr_t client_data;    /*  data from application   */
-caddr_t call_data;      /*  data from widget class  */
+void PdAdjustLargeur(Widget w, caddr_t client_data, caddr_t call_data)
 {
-   int i;
-   Arg args[2];
-   float ratio;
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
 
    AjusterLargeur(donnees->value);
    }
 
-AjusterLargeur(taille)
-int taille;
+void AjusterLargeur(int taille)
 {
    
   amplif = 1.0*taille;
@@ -128,7 +125,7 @@ int taille;
   AjusterLabelsTaille();
    }
 
-AjusterLabelsTaille()
+void AjusterLabelsTaille()
 {
   XmString xmstr;
   char str[255];
@@ -142,15 +139,9 @@ AjusterLabelsTaille()
 
 extern unsigned int colorbitrange[3][3];
 
-void ChoixFenetre(w, client_data, call_data)
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void ChoixFenetre(Widget w, caddr_t client_data, caddr_t call_data)
 {
   
-  XmString xmstr;
-  char str[255];
-  Arg args[2];
   int win;
   
   
@@ -186,23 +177,11 @@ caddr_t	call_data;	/*  data from widget class  */
 
 void ExportImage()
 {
-   int rgb[256][3];
-   XImage *xi;
-
-   int x,y;
-   int i,j,ic, ind;
-   int ncarFontSize;
-   FILE *fout;
-   unsigned char c[100000];
-   unsigned int pixel;
-   unsigned char rouge, vert, bleu;
+   int i;
    
-   Window root;
-   unsigned int width, height, border_width, depth, nplanes;
-   char *tmpdir, *returnedStr;
-   char nomFichierPNG[256],nomFichierPGM[256],commande[1024];
+   char *returnedStr;
+   char nomFichierPNG[256];
    int fenetreCoupe;
-   gdImagePtr im;
    Window win;
 
 
@@ -278,11 +257,8 @@ void ExportMovie()
 {
   int n;
    
-   Window root, win;
-   unsigned int width, height, border_width, depth, nplanes;
-   char *tmpdir;
+   int win;
    char nomFichierPNG[256];
-   int fenetreAffichage;
    _Champ *champ;
 
    printf("ExportMovie...\n");
@@ -313,38 +289,20 @@ void ExportMovie()
 
 
 
-void PdReadDiapo(w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void PdReadDiapo(Widget w, caddr_t client_data, caddr_t call_data) 
 {
 
    }
 
 
-void PdSelectNomvar(w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void PdSelectNomvar(Widget w, caddr_t client_data, caddr_t call_data) 
 {
-   int i;
-   char tempStr[16];
-   float min,max;
-   Arg args[16];
-   int varMode;
-
-   XmListCallbackStruct *info = (XmListCallbackStruct *) call_data;
 
    }
 
 
-void PdSetDiapoAuto(w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void PdSetDiapoAuto(Widget w, caddr_t client_data, caddr_t call_data)
 {
-   int i;
-   char tempStr[16];
 
    }
 
@@ -353,16 +311,8 @@ caddr_t	call_data;	/*  data from widget class  */
 *************
 **/
 
-void PdSetDiapoFixe(w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void PdSetDiapoFixe(Widget w, caddr_t client_data, caddr_t call_data) 
 {
-   Arg args[16];
-   int i;
-   
-   char tempStr[16],*returnedStr;
-   float min,max;
 
    }
 
@@ -371,39 +321,31 @@ caddr_t	call_data;	/*  data from widget class  */
 *************
 **/
 
-static XtCallbackProc PdOk(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PdOk(Widget w, caddr_t client_data, caddr_t call_data)
 {
-
+   return 0;
    }
 
-static XtCallbackProc PdAfficher(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PdAfficher(Widget w, caddr_t client_data, caddr_t call_data)
 {
-   int i;
    int taille;
 
    RedessinerFenetres(); 
    c_wglgwz(&largeurFenetre,&hauteurFenetre);
    XmScaleGetValue(pdTaille,&taille);
    AjusterLargeur(taille);
+   return 0;
    }
 
 
-InitPanneauDiapo()
+void InitPanneauDiapo()
 {
 
-   int i,j,n;
-   Position height;
+   int i;
    Arg args[16];
-   XmString string,label;
-   XmStringTable table;
    char nomShell[128];
-   char *armnlib;
-   char nomFichierDiapo[128];
    char dimstr[128];
+   XmString label;
    
    Xinit("xregarder");
    lng = c_getulng();
@@ -472,7 +414,7 @@ InitPanneauDiapo()
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pdChamp2D = (Widget) XmCreateToggleButton(pdChoixFenetre, labelChamp2D[lng], args, i);
-   XtAddCallback(pdChamp2D, XmNvalueChangedCallback, ChoixFenetre, (XtPointer) 0);
+   XtAddCallback(pdChamp2D, XmNvalueChangedCallback,(XtCallbackProc) ChoixFenetre, 0);
    XtManageChild(pdChamp2D);
    
    i = 0;
@@ -482,26 +424,9 @@ InitPanneauDiapo()
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pdCoupe = (Widget) XmCreateToggleButton(pdChoixFenetre, labelCoupe[lng], args, i);
-   XtAddCallback(pdCoupe, XmNvalueChangedCallback, ChoixFenetre, (XtPointer) 1);
+   XtAddCallback(pdCoupe, XmNvalueChangedCallback, (XtCallbackProc) ChoixFenetre,  (XtPointer)1);
    XtManageChild(pdCoupe);
    
-/*   i = 0;
-   XtSetArg(args[i], XmNrightAttachment, XmATTACH_WIDGET); i++;
-   XtSetArg(args[i], XmNrightWidget, pdAfficher); i++;
-   XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
-   pdProduireCoupe = (Widget)XmCreatePushButton(pdForme, labelProduireCoupe[lng], args, i);
-   XtAddCallback(pdProduireCoupe, XmNactivateCallback, (XtCallbackProc)  ExportImageCoupe, NULL);
-   XtManageChild(pdProduireCoupe);
-
-   i = 0;
-   XtSetArg(args[i], XmNrightAttachment, XmATTACH_WIDGET); i++;
-   XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
-   XtSetArg(args[i], XmNrightWidget, pdProduireCoupe); i++;
-   pdProduire = (Widget)XmCreatePushButton(pdForme, labelProduire[lng], args, i);
-   XtAddCallback(pdProduire, XmNactivateCallback, (XtCallbackProc)  ExportImage, NULL);
-   XtManageChild(pdProduire);
-*/
-
    i=0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
    XtSetArg(args[i], XmNtopWidget, pdFrame1); i++;
@@ -537,8 +462,8 @@ InitPanneauDiapo()
    XtSetArg(args[i], XmNmaximum, 6); i++;
    XtSetArg(args[i], XmNvalue, 1); i++;
    pdTaille = (Widget)XmCreateScale(pdRCcontrole, labelTaille[lng], args, i);
-   XtAddCallback(pdTaille, XmNdragCallback, PdAdjustLargeur, NULL);
-   XtAddCallback(pdTaille, XmNvalueChangedCallback, PdAdjustLargeur, NULL);
+   XtAddCallback(pdTaille, XmNdragCallback, (XtCallbackProc) PdAdjustLargeur, NULL);
+   XtAddCallback(pdTaille, XmNvalueChangedCallback, (XtCallbackProc) PdAdjustLargeur, NULL);
    XtManageChild(pdTaille);
    XmStringFree(label);
 
@@ -598,13 +523,8 @@ InitPanneauDiapo()
  **/
 
 
-ActiverPanneauDiapos()
+void ActiverPanneauDiapos()
 {
-   XEvent pdEVent;
-   Widget pdWidgetParent;
-   
-   Arg args[2];
-   int i;
    
    if (!pdTopLevel)
       InitPanneauDiapo();
@@ -618,13 +538,13 @@ ActiverPanneauDiapos()
    
    }
 
-f77name(xpandact)()
+void f77name(xpandact)()
 {
    LocalEventLoop(pdTopLevel);
    }
 
 
-PdCreatePNGimage(char *nomFichierPNG)
+void PdCreatePNGimage(char *nomFichierPNG)
 {
   int rgb[256][3];
   XImage *xi;
@@ -704,7 +624,7 @@ PdCreatePNGimage(char *nomFichierPNG)
 }
 
 
-PdAllouerRessourcesImage()
+void PdAllouerRessourcesImage()
 {
   nplanes = c_wglgpl();
   bgPix = XCreatePixmap(wglDisp, RootWindow(wglDisp, wglScrNum), largeurPNG,hauteurPNG, nplanes);
@@ -713,9 +633,9 @@ PdAllouerRessourcesImage()
 
 }
 
-PdDesallouerRessourcesImage()
+void PdDesallouerRessourcesImage()
 {
   XFreePixmap(wglDisp, bgPix);
-  bgPix = NULL;
+  bgPix = (int) NULL;
 
 }

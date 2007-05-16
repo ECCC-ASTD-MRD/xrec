@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <math.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <lic.h>
 #include <rpnmacros.h>
 #include <wgl_x.h>
@@ -10,7 +13,7 @@
 extern _Viewport    viewp;
 extern _XContour xc;
 
-AfficherLIC(float *uu, float *vv, int ni, int nj, int couleur, int linewidth, float ventmax)
+void AfficherLIC(float *uu, float *vv, int ni, int nj, int couleur, int linewidth, float ventmax)
 {
   int i,j,k,n;
   int idebut, jdebut, ifin, jfin, largeur, hauteur;

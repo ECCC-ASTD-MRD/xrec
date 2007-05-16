@@ -19,14 +19,25 @@
  */
 
 #include <Xm/Xm.h>
-#include <Xm/PushBG.h>
 #include <Xm/CascadeBG.h>
+#include <Xm/Form.h>
+#include <Xm/Frame.h>
+#include <Xm/Label.h>
+#include <Xm/PushBG.h>
+#include <Xm/PushB.h>
 #include <Xm/RowColumn.h>
+#include <Xm/Scale.h>
+#include <Xm/Separator.h>
+#include <Xm/ToggleB.h>
+
+
 
 #include <xinit.h>
 #include <wgl.h>
 #include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 
 extern SuperWidgetStruct SuperWidget;
 extern _XContour xc;
@@ -112,8 +123,8 @@ static char
 #define BARBULE        0
 #define FLECHES         1
 #define NONE           -1
-#define NO_MODULE       0
-#define MODULE          1
+#define NO_MODULUS       0
+#define MODULUS          1
 
 #define NO_LIC       0
 #define LIC          1
@@ -147,14 +158,12 @@ char panneauVentsGeometrie[32];
 
 int pventSelectionTerminee;
 
-static XtCallbackProc PventAfficher();
-
 void SetModuleOn (w, client_data, call_data)
      Widget w;    /*  widget id   */
      caddr_t  client_data;  /*  data from application   */
      caddr_t  call_data;  /*  data from widget class  */
 {
-  flagModule = MODULE;
+  flagModule = MODULUS;
   flagLIC = NO_LIC;
   if (XmToggleButtonGetState(w))
     {
@@ -168,6 +177,7 @@ XtCallbackProc PVentSetNPTS(Widget w, caddr_t client_data, caddr_t call_data)
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
    npts = donnees->value;
+   return 0;
    }
 
 
@@ -177,6 +187,7 @@ XtCallbackProc PVentSetNPAS(Widget w, caddr_t client_data, caddr_t call_data)
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
    nnpas = donnees->value;
+   return 0;
    }
 
 /** ARGSUSED **/
@@ -185,6 +196,7 @@ XtCallbackProc PVentSetDEET(Widget w, caddr_t client_data, caddr_t call_data)
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
    deet = donnees->value;
+   return 0;
    }
 
 /** ARGSUSED **/
@@ -193,6 +205,7 @@ XtCallbackProc PVentSetSEGLEN(Widget w, caddr_t client_data, caddr_t call_data)
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
    seglen = donnees->value;
+   return 0;
    }
 
 /** ARGSUSED **/
@@ -201,6 +214,7 @@ XtCallbackProc PVentSetSEGSTEP(Widget w, caddr_t client_data, caddr_t call_data)
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
    segstep = donnees->value;
+   return 0;
    }
 
 /** ARGSUSED **/
@@ -209,28 +223,26 @@ XtCallbackProc PVentSetDELAI(Widget w, caddr_t client_data, caddr_t call_data)
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
    delai = 0.01 * (float)(donnees->value);
+   return 0;
    }
 
 /** ARGSUSED **/
-XtCallbackProc PVentStop(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PVentStop(Widget w, caddr_t unused1, caddr_t unused2)
 {
    xc.annulationDemandee = TRUE;
+   return 0;
    }
 
 void c_animvent(float *uu,float *vv,float *mapscl,int ni,int nj, int seglen, float *uut,float *vvt,int npts,int nnpas,int deet,int segstep,float delai);
 
 /** ARGSUSED **/
-XtCallbackProc PVentStart(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PVentStart(Widget w, caddr_t unused1, caddr_t unused2)
 {
   _Champ *champ;
   float *mapscl;
   int ni, nj, found;
   float *uut, *vvt, *uu, *vv;
-  int ig1, ig2, ig3, ig4,i,j;
+  int ig1, ig2, ig3, ig4,i;
   char grtyp[2];
   float pi,pj,d60,dgrw;
   int nbChampsActifs;
@@ -253,12 +265,12 @@ caddr_t unused1, unused2;
       }
     }
 
-  if (found == 0) return;
+  if (found == 0) return 0;
   grtyp[0] = champ->dst.grtyp[0];
   if (champ->dst.grtyp[0] != 'N' && champ->dst.grtyp[0] != 'S')
     {
-    MessageAvertissement(mauvaiseProjection[c_getulng()]);
-    return;
+    MessageAvertissement(mauvaiseProjection[c_getulng()], 0);
+    return 0;
     }
   ig1 = champ->dst.ig1;
   ig2 = champ->dst.ig2;
@@ -286,37 +298,29 @@ caddr_t unused1, unused2;
   free(vv);
   free(uut);
   free(vvt);
+  return 0;
    }
 
-void SetLICOn (w, client_data, call_data)
-     Widget w;    /*  widget id   */
-     caddr_t  client_data;  /*  data from application   */
-     caddr_t  call_data;  /*  data from widget class  */
+void SetLICOn(Widget w, caddr_t client_data, caddr_t call_data)
 {
   flagLIC = LIC;
-  flagModule=NO_MODULE;
+  flagModule=NO_MODULUS;
   if (XmToggleButtonGetState(w))
     {
     PventAfficher(NULL,NULL,NULL);
     }
 }
 
-void SetModuleOff (w, client_data, call_data)
-     Widget w;    /*  widget id   */
-     caddr_t  client_data;  /*  data from application   */
-     caddr_t  call_data;  /*  data from widget class  */
+void SetModuleOff(Widget w, caddr_t client_data, caddr_t call_data)
 {
-  flagModule = NO_MODULE;
+  flagModule = NO_MODULUS;
   if (XmToggleButtonGetState(w))
     {
     PventAfficher(NULL,NULL,NULL);
     }
 }
 
-void SetLICOff (w, client_data, call_data)
-     Widget w;    /*  widget id   */
-     caddr_t  client_data;  /*  data from application   */
-     caddr_t  call_data;  /*  data from widget class  */
+void SetLICOff (Widget w, caddr_t client_data, caddr_t call_data)
 {
   flagLIC = NO_LIC;
   if (XmToggleButtonGetState(w))
@@ -325,10 +329,7 @@ void SetLICOff (w, client_data, call_data)
     }
 }
 
-void SetModeNone(w, client_data, call_data)
-     Widget w;    /*  widget id   */
-     caddr_t  client_data;  /*  data from application   */
-     caddr_t  call_data;  /*  data from widget class  */
+void SetModeNone(Widget w, caddr_t client_data, caddr_t call_data)
 {
   displayMode = NONE;
   if (XmToggleButtonGetState(w))
@@ -337,10 +338,7 @@ void SetModeNone(w, client_data, call_data)
     }
 }
 
-void SetModeBarbules(w, client_data, call_data)
-     Widget w;    /*  widget id   */
-     caddr_t  client_data;  /*  data from application   */
-     caddr_t  call_data;  /*  data from widget class  */
+void SetModeBarbules(Widget w, caddr_t client_data, caddr_t call_data)
 {
   displayMode = BARBULE;
   if (XmToggleButtonGetState(w))
@@ -349,10 +347,7 @@ void SetModeBarbules(w, client_data, call_data)
     }
 }
 
-void SetModeFleches (w, client_data, call_data)
-     Widget w;    /*  widget id   */
-     caddr_t  client_data;  /*  data from application   */
-     caddr_t  call_data;  /*  data from widget class  */
+void SetModeFleches(Widget w, caddr_t client_data, caddr_t call_data)
 {
   displayMode = FLECHES;
   if (XmToggleButtonGetState(w))
@@ -361,10 +356,7 @@ void SetModeFleches (w, client_data, call_data)
     }
 }
 
-void SetDensiteToggle (w, client_data, call_data)
-     Widget w;    /*  widget id   */
-     caddr_t  client_data;  /*  data from application   */
-     caddr_t  call_data;  /*  data from widget class  */
+void SetDensiteToggle (Widget w, caddr_t client_data, caddr_t call_data)
 {
   if (0 == strcmp(XtName(w), pventLabelOptionsDensite[0][0]))
     {
@@ -377,28 +369,19 @@ void SetDensiteToggle (w, client_data, call_data)
   PventAfficher(NULL,NULL,NULL);
 }
 
-void SetLongueurToggle (w, client_data, call_data)
-     Widget w;    /*  widget id   */
-     caddr_t  client_data;  /*  data from application   */
-     caddr_t  call_data;  /*  data from widget class  */
+void SetLongueurToggle(Widget w, caddr_t client_data, caddr_t call_data)
 {
   sscanf(XtName(w),"%d",&longueur);
   PventAfficher(NULL,NULL,NULL);
 }
 
-void SetEpaisseurFToggle (w, client_data, call_data)
-     Widget w;    /*  widget id   */
-     caddr_t  client_data;  /*  data from application   */
-     caddr_t  call_data;  /*  data from widget class  */
+void SetEpaisseurFToggle (Widget w, caddr_t client_data, caddr_t call_data)
 {
   sscanf(XtName(w),"%d",&epaisseurF);
   PventAfficher(NULL,NULL,NULL);
 }
 
-void SetEchelleWWToggle (w, client_data, call_data)
-     Widget w;    /*  widget id   */
-     caddr_t  client_data;  /*  data from application   */
-     caddr_t  call_data;  /*  data from widget class  */
+void SetEchelleWWToggle (Widget w, caddr_t client_data, caddr_t call_data)
 {
   int i;
   int oldEchelleWW = echelleWW;
@@ -416,13 +399,8 @@ void SetEchelleWWToggle (w, client_data, call_data)
   RedessinerFenetreCoupe();
 }
 
-void SetEchelleFlechesToggle (w, client_data, call_data)
-     Widget w;    /*  widget id   */
-     caddr_t  client_data;  /*  data from application   */
-     caddr_t  call_data;  /*  data from widget class  */
+void SetEchelleFlechesToggle(Widget w, caddr_t client_data, caddr_t call_data)
 {
-  int i;
-  float x1,y1,x2,y2;
 
   if ((int)client_data == 0)
     {
@@ -436,10 +414,7 @@ void SetEchelleFlechesToggle (w, client_data, call_data)
   RedessinerFenetres();
 }
 
-void SetCroissanceToggle (w, client_data, call_data)
-     Widget w;    /*  widget id   */
-     caddr_t  client_data;  /*  data from application   */
-     caddr_t  call_data;  /*  data from widget class  */
+void SetCroissanceToggle (Widget w, caddr_t client_data, caddr_t call_data)
 {
   switch((int)client_data)
     {
@@ -466,27 +441,22 @@ void SetCroissanceToggle (w, client_data, call_data)
   PventAfficher(NULL,NULL,NULL);
 }
 
-static XtCallbackProc PventOk(w, unused1, unused2)
-     Widget w;
-     caddr_t unused1, unused2;
+XtCallbackProc PventOk(Widget w, caddr_t client_data, caddr_t call_data)
 {
   pventSelectionTerminee = TRUE;
   DesactiverPanneauVents();
+  return 0;
 }
 
-static XtCallbackProc PventAfficher(w, unused1, unused2)
-     Widget w;
-     caddr_t unused1, unused2;
+XtCallbackProc PventAfficher(Widget w, caddr_t client_data, caddr_t call_data)
 {
-  int i;
-
   RedessinerFenetres();
   LibererImages();
-
+  return 0;
 }
 
 
-InitPanneauVents()
+void InitPanneauVents()
 {
 
   int i;
@@ -495,8 +465,6 @@ InitPanneauVents()
 
   int n,lng;
   char nomShell[128];
-  Pixel indCouleurs[16];
-  Colormap cmap;
 
   Xinit("xregarder");
   lng = c_getulng();
@@ -1004,39 +972,35 @@ InitPanneauVents()
    
    i = 0;
    pventBoutonXStreamStart = (Widget)XmCreatePushButton(pventXStreamBoutonsRc, "start", args, i);
-   XtAddCallback(pventBoutonXStreamStart, XmNactivateCallback, PVentStart, NULL);
+   XtAddCallback(pventBoutonXStreamStart, XmNactivateCallback, (XtCallbackProc) PVentStart, NULL);
    XtManageChild(pventBoutonXStreamStart);
 
    pventBoutonXStreamStop = (Widget)XmCreatePushButton(pventXStreamBoutonsRc, "stop", args, i);
-   XtAddCallback(pventBoutonXStreamStop, XmNactivateCallback, PVentStop, NULL);
+   XtAddCallback(pventBoutonXStreamStop, XmNactivateCallback, (XtCallbackProc) PVentStop, NULL);
    XtManageChild(pventBoutonXStreamStop);
 
    
-   XtAddCallback(pventScaleNpts, XmNdragCallback, PVentSetNPTS, NULL);
-   XtAddCallback(pventScaleNpts, XmNvalueChangedCallback, PVentSetNPTS, NULL);
+   XtAddCallback(pventScaleNpts, XmNdragCallback, (XtCallbackProc)PVentSetNPTS, NULL);
+   XtAddCallback(pventScaleNpts, XmNvalueChangedCallback, (XtCallbackProc)PVentSetNPTS, NULL);
    
-   XtAddCallback(pventScaleNpas, XmNdragCallback, PVentSetNPAS, NULL);
-   XtAddCallback(pventScaleNpas, XmNvalueChangedCallback, PVentSetNPAS, NULL);
+   XtAddCallback(pventScaleNpas, XmNdragCallback, (XtCallbackProc)PVentSetNPAS, NULL);
+   XtAddCallback(pventScaleNpas, XmNvalueChangedCallback, (XtCallbackProc)PVentSetNPAS, NULL);
 
-   XtAddCallback(pventScaleDeet, XmNdragCallback, PVentSetDEET, NULL);
-   XtAddCallback(pventScaleDeet, XmNvalueChangedCallback, PVentSetDEET, NULL);
+   XtAddCallback(pventScaleDeet, XmNdragCallback, (XtCallbackProc)PVentSetDEET, NULL);
+   XtAddCallback(pventScaleDeet, XmNvalueChangedCallback, (XtCallbackProc)PVentSetDEET, NULL);
 
-   XtAddCallback(pventScaleDelai, XmNdragCallback, PVentSetDELAI, NULL);
-   XtAddCallback(pventScaleDelai, XmNvalueChangedCallback, PVentSetDELAI, NULL);
+   XtAddCallback(pventScaleDelai, XmNdragCallback, (XtCallbackProc)PVentSetDELAI, NULL);
+   XtAddCallback(pventScaleDelai, XmNvalueChangedCallback, (XtCallbackProc)PVentSetDELAI, NULL);
 
-   XtAddCallback(pventScaleSeglen, XmNdragCallback, PVentSetSEGLEN, NULL);
-   XtAddCallback(pventScaleSeglen, XmNvalueChangedCallback, PVentSetSEGLEN, NULL);
+   XtAddCallback(pventScaleSeglen, XmNdragCallback, (XtCallbackProc)PVentSetSEGLEN, NULL);
+   XtAddCallback(pventScaleSeglen, XmNvalueChangedCallback, (XtCallbackProc) PVentSetSEGLEN, NULL);
 
-   XtAddCallback(pventScaleSegstep, XmNdragCallback, PVentSetSEGSTEP, NULL);
-   XtAddCallback(pventScaleSegstep, XmNvalueChangedCallback, PVentSetSEGSTEP, NULL);
+   XtAddCallback(pventScaleSegstep, XmNdragCallback, (XtCallbackProc) PVentSetSEGSTEP, NULL);
+   XtAddCallback(pventScaleSegstep, XmNvalueChangedCallback, (XtCallbackProc) PVentSetSEGSTEP, NULL);
 }
 
-ActiverPanneauVents()
+void ActiverPanneauVents()
 {
-  Colormap cmap;
-  Arg args[2];
-  int i;
-
   if (!pventTopLevel)
     InitPanneauVents();
 
@@ -1052,16 +1016,14 @@ ActiverPanneauVents()
 
 }
 
-f77name(xpventact)()
+void f77name(xpventact)()
 {
   LocalEventLoop(pventTopLevel);
 }
 
 
-DesactiverPanneauVents()
+void DesactiverPanneauVents()
 {
-  int i;
-
   XtUnrealizeWidget(pventTopLevel);
 }
 
@@ -1075,43 +1037,38 @@ int WindMgrGetCroissance()
   return croissance;
 }
 
-WindMgrGetDisplayMode()
+int WindMgrGetDisplayMode()
 {
   return displayMode;
 }
 
-WindMgrGetLongueur()
+int WindMgrGetLongueur()
 {
   return longueur;
 }
 
-WindMgrGetEpaisseur()
+int WindMgrGetEpaisseur()
 {
   return epaisseurF;
 }
 
-WindMgrGetModulusState()
+int WindMgrGetModulusState()
 {
   return flagModule;
 }
 
-WindMgrGetLICState()
+int WindMgrGetLICState()
 {
   return flagLIC;
 }
 
-WindMgrGetEchelleWW()
+int WindMgrGetEchelleWW()
 {
   return echelleWW;
 }
 
-f77name(c_swndatr)(item,valeur,lenItem,lenValeur)
-     char item[],valeur[];
+void f77name(c_swndatr)( char item[], char valeur[], int lenItem, int lenValeur)
 {
-  Arg args[10];
-  int i;
-  int indItem;
-  char fakeWidgetName[32];
 
   item[lenItem-1] = '\0';
   valeur[lenValeur-1] = '\0';
@@ -1127,20 +1084,20 @@ f77name(c_swndatr)(item,valeur,lenItem,lenValeur)
     {
     if (0 == strncmp("automati",valeur,8))
       {
-      densite =-32767;
-      printf("densite: %d\n", densite);
+      densite =-32767.0;
+      printf("densite: %f\n", densite);
       }
     else
       {
       if (0 == strcmp(valeur,"maximum"))
   {
-  densite = 32767;
-  printf("densite: %d\n", densite);
+  densite = 32767.0;
+  printf("densite: %f\n", densite);
   }
       else
   {
-  densite = atoi(valeur);
-  printf("densite: %d\n", densite);
+  densite = atof(valeur);
+  printf("densite: %f\n", densite);
   }
       }
     }
@@ -1161,8 +1118,7 @@ f77name(c_swndatr)(item,valeur,lenItem,lenValeur)
     }
 }
 
-EcrWndAtr(fichierDemarrage)
-     FILE *fichierDemarrage;
+void EcrWndAtr(FILE *fichierDemarrage)
 {
   char tableau[32];
   char ligne[80];
@@ -1170,10 +1126,6 @@ EcrWndAtr(fichierDemarrage)
   int i;
 
   Arg  args[10];
-  XmString label;
-  XmFontList fontListe;
-  char *geom;
-  Window root;
   Position x,y;
   Display *disp;
   Window win;

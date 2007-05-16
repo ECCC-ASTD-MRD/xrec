@@ -19,11 +19,7 @@
  */
 
 
-pack(shortvec, floatvec, npts, min, max)
-unsigned short shortvec[];
-float floatvec[];
-int npts;
-float min, max;
+void pack(unsigned short shortvec[], float floatvec[], int npts, float min, float max)
 {
    register unsigned short *i;
    register float *f;
@@ -45,11 +41,7 @@ float min, max;
       }
    }
 
-unpack(shortvec, floatvec, npts, min, max)
-unsigned short shortvec[];
-float floatvec[];
-int npts;
-float min, max;
+void unpack(unsigned short shortvec[], float floatvec[], int npts, float min, float max)
 {
    register unsigned short *i;
    register float *f;

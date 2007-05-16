@@ -19,7 +19,10 @@
  */
 
 #include <wgl.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <math.h>
 #include <rpnmacros.h>
 
@@ -28,27 +31,33 @@ extern float c_wgldsx();
 extern _Viewport viewp;
 extern _XContour xc;
 extern _InfoChamps *infoChamps;
+typedef struct
+   {
+   int nbCols;
+   float mins[256];
+   float maxs[256];
+   int rgbs[256][3];
+   } _InfoLegendeCouleur;
+   
+static _InfoLegendeCouleur ilc;   
 
-AfficherLegendeCouleur(colorTable, contourMin, contourMax, intervalles, nbIntervalles, facteur, x1, y1, x2, y2)
-int colorTable[];
-float contourMin, contourMax, intervalles[];
-int nbIntervalles;
-float facteur;
-float x1, y1, x2, y2;
+void AfficherLegendeCouleur(int colorTable[], float contourMin, float contourMax, float intervalles[], int nbIntervalles, 
+  float facteur, float x1, float y1, float x2, float y2)
 {
   float x;
-  float contourCourant, contourLimite;
-  int i,j, k, n,increment, milieu, imax;
+  float contourCourant;
+  int i,j, k, n,increment, imax;
   char nombre[32], format[32];
   float pos, hauteurTexte;
   float cmin, cmax, inter,cmin2;
   float xa, ya, xb, yb;
   int   ia, ja, ib, jb;
-  int oldAspectRatioFlag;
+  int r,g,b, nbCols;
+  int oldAspectRatioFlag, indCol;
   int transformationFenetre,annulationDemandee,fz;
   
-  int i1, j1, i2, j2, largeur, hauteur,indcol;
-  float fraction, px, py;
+  int i1, j1, i2, j2, largeur, hauteur;
+  float fraction, px;
   int largeurLegende, hauteurLegende, longueurString;
   int variation = PaletteMgrGetVariation();
   
@@ -76,6 +85,10 @@ float x1, y1, x2, y2;
   
   c_wglfsz(14);
   largeurLegende = CalculerLargeurLegendeCouleur();
+  if (largeurLegende == 0)
+    {
+    return;
+    }
   hauteurLegende = (int)(0.8 * hauteur);
   
   c_wglssp(0.0, 0.0, 100.0, 256.0, 
@@ -104,11 +117,14 @@ float x1, y1, x2, y2;
   
   if (nbIntervalles == 1)
     {
+    nbCols = 0;
     contourCourant = cmin;
     n = 0;
     while (contourCourant <= cmax && !annulationDemandee)
       {
       fraction = contourCourant;
+      ilc.mins[nbCols] = contourCourant;
+      ilc.maxs[nbCols] = contourCourant+inter;
       enhancefracs(&fraction,1,cmin,cmax-cmin,variation);
       
       i = ROUND(255 * (contourCourant - cmin) / (cmax - cmin));
@@ -116,7 +132,14 @@ float x1, y1, x2, y2;
       
       if (8 < c_wglgpl())
         {
-        c_wglcolf(colorTable[0] + fraction*(colorTable[255]-colorTable[0]));
+        indCol = ROUND(colorTable[0] + fraction*(colorTable[255]-colorTable[0]));
+        c_wglcolf((float)indCol);
+        c_wglgco(indCol, &r, &g, &b);
+        ilc.rgbs[nbCols][0] = r;
+        ilc.rgbs[nbCols][1] = g;
+        ilc.rgbs[nbCols][2] = b;
+        nbCols++;
+        if (nbCols > 255) nbCols = 255;
         }
       else
         {
@@ -126,30 +149,77 @@ float x1, y1, x2, y2;
       contourCourant += inter;
       n++;
       if (0 == (n% 16))
-  annulationDemandee = c_wglanul();
+         annulationDemandee = c_wglanul();
       }
+    ilc.nbCols = nbCols;
+
     }
   else
     {
+/*    for (i=0; i < nbIntervalles; i++)
+      {
+      fprintf(stderr, "%d %f\n", i, intervalles[i]);
+      }*/
+    nbCols = 0;
     if (cmin < intervalles[0])
+      {
       contourCourant = 0.0;
+      indCol = colorTable[0];
+      c_wglcol(indCol);
+      c_wglgco(indCol, &r, &g, &b);
+      ilc.rgbs[nbCols][0] = r;
+      ilc.rgbs[nbCols][1] = g;
+      ilc.rgbs[nbCols][2] = b;
+      ilc.mins[nbCols] = cmin/facteur;
+      ilc.maxs[nbCols] = intervalles[0];
+      }
     else
+      {
       contourCourant = 1.0;
-    
-    if (cmax > intervalles[nbIntervalles - 1])
-      contourLimite = (float)nbIntervalles;
-    else
-      contourLimite = (float)(nbIntervalles-1);
+      indCol = colorTable[0];
+      c_wglcol(indCol);
+      c_wglgco(indCol, &r, &g, &b);
+      ilc.rgbs[nbCols][0] = r;
+      ilc.rgbs[nbCols][1] = g;
+      ilc.rgbs[nbCols][2] = b;
+      ilc.mins[nbCols] = intervalles[0];
+      ilc.maxs[nbCols] = intervalles[1];
+      }
+      
+      nbCols++;
     
     while (contourCourant <= (float)(nbIntervalles))
       {
       i = ROUND(255 * (contourCourant ) / (float)(nbIntervalles+1));
       j = ROUND(255 * (contourCourant+1.0) / (float)(nbIntervalles+1));
       
-      c_wglcol(colorTable[ROUND(255 * contourCourant / (float)nbIntervalles)]);
+      if (contourCourant != 0.0)
+         {
+         indCol = colorTable[ROUND(255 * contourCourant / (float)nbIntervalles)];
+         c_wglcol(indCol);
+         c_wglgco(indCol, &r, &g, &b);
+         ilc.rgbs[nbCols][0] = r;
+         ilc.rgbs[nbCols][1] = g;
+         ilc.rgbs[nbCols][2] = b;
+         ilc.mins[nbCols] = intervalles[nbCols-1];
+         ilc.maxs[nbCols] = intervalles[nbCols];
+         nbCols++;
+         }
+
       c_wglrfx(10.0/largeurLegende*100.0, (float)(i), 40.0/largeurLegende*100.0, (float)(j));
       contourCourant += 1.0;
       }
+      
+    if (cmax > (facteur*intervalles[nbIntervalles - 1]))
+      {
+     ilc.maxs[nbCols-1] = cmax/facteur;
+      }
+    else
+      {
+      ilc.maxs[nbCols-1] = intervalles[nbIntervalles - 1];
+      }
+    ilc.nbCols = nbCols;
+
     }
   
   if (annulationDemandee) return;
@@ -229,7 +299,29 @@ float x1, y1, x2, y2;
   
 }
 
-AjusterViewport(_Viewport *viewp)
+int ImprimerLegendeCouleur(char tableau[], int lngMaxTableau, int colorTable[], float contourMin, float contourMax, 
+  float intervalles[], int nbIntervalles, float facteur)
+{
+  int i;
+  char texte[128];
+  
+  
+  sprintf(texte, "%03d couleurs\n-----------------------------\n", ilc.nbCols);
+  strcat(tableau, texte);
+  sprintf(texte, "Min        Max         R   G   B \n");
+  strcat(tableau, texte);
+  sprintf(texte, "---------- ---------- --- --- ---\n");
+  strcat(tableau, texte);
+  for (i=0; i < ilc.nbCols; i++)
+   {
+   sprintf(texte, "%10.5g %10.5g %03d %03d %03d\n", ilc.mins[i], ilc.maxs[i], ilc.rgbs[i][0], ilc.rgbs[i][1],ilc.rgbs[i][2]);
+/*   fprintf(stderr, "%8.3g %8.3g %03d %03d %03d\n", ilc.mins[i], ilc.maxs[i], ilc.rgbs[i][0], ilc.rgbs[i][1],ilc.rgbs[i][2]);*/
+   strcat(tableau, texte);
+   }
+   return 0;
+}
+  
+void AjusterViewport(_Viewport *viewp)
 {
   static int oldLargeurFenetre = 0;
   static int oldHauteurFenetre = 0;
@@ -308,7 +400,7 @@ AjusterViewport(_Viewport *viewp)
   oldFlagLegende = flagLegende;
 }
 
-CalculerLargeurLegendeCouleur()
+int CalculerLargeurLegendeCouleur()
 {
   int i, largeurLegende;
   int exposant = 0;
@@ -337,9 +429,9 @@ CalculerLargeurLegendeCouleur()
     return 0;
 }
 
-CalculerHauteurLegende()
+int CalculerHauteurLegende()
 {
-  int hauteurLegende,fz;
+  int hauteurLegende;
   
   
   c_wglfsz(AttrMgrGetFontSizeLegend());
@@ -351,14 +443,15 @@ CalculerHauteurLegende()
 
 void AfficherLegende2(_Champ champ)
 {
-  int i, couleur;
+  int i;
   
   int LargeurTitre[6], Largeur; 
   int HauteurRectangle, hauteurTitre[6];
   int hauteurTexte, descent;
   int largeurFenetre, hauteurFenetre;
-  int fontSize;
+  int fontSize, res;
   char tmpStr[132];
+  char uu_comp[5], vv_comp[5], ww_comp[5];
   
   c_wglgwz(&largeurFenetre, &hauteurFenetre);
   c_wglcmi(0, 0, largeurFenetre, hauteurFenetre);
@@ -369,8 +462,9 @@ void AfficherLegende2(_Champ champ)
   
   if (champ.natureTensorielle == VECTEUR && xc.statuts[BARBULES])
     {
-    strcpy(tmpStr, champ.titreVariable);
-    strcpy(champ.titreVariable,"UU-VV ");
+/*    strcpy(tmpStr, champ.titreVariable);*/
+    res = c_getVectorVars(champ.nomvar, uu_comp, vv_comp, ww_comp);     
+    sprintf(champ.titreVariable,"%s-%s", uu_comp, vv_comp);
     }
   
   strcpy(tmpStr, champ.titreNiveau);
@@ -437,7 +531,7 @@ void AfficherLegende2(_Champ champ)
 **/
 
 
-EffacerLegende2()
+void EffacerLegende2()
 {
    int largeurFenetre, hauteurFenetre;
    int largeurPinceau;
@@ -463,18 +557,16 @@ EffacerLegende2()
    }
 
 
-AfficherLegendeSup2()
+void AfficherLegendeSup2()
 {
    int i;
    
    int largeurTexte, largeurMax; 
    int hauteurRectangle;
    int hauteurTexte, descent;
-   int tempDate,tempDate0,tempDate2;
-   char buffer[72];
+   int tempDate, tempDate2;
    char texte[4][72];
    int rect[4][4];
-   int h1, h2;
    char pdfdatev[16];
    int largeurFenetre, hauteurFenetre;
    int fontSize;
@@ -493,7 +585,7 @@ AfficherLegendeSup2()
    static char *Mois[] = {"bid", "Jan", "Fev", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sep", "Oct", "Nov", "Dec"};
    static char *Month[] = {"bid", "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
    
-   char dateMess[32],dateMess0[32];
+   char dateMess[32];
    char **leMois;
    
    c_wglgwz(&largeurFenetre, &hauteurFenetre);
@@ -510,55 +602,56 @@ AfficherLegendeSup2()
       leMois = Month;
       }
    
+   ind = 0;
    op = CtrlMgrGetMathOp();
    nbChampsActifs = FldMgrGetNbChampsActifs();
    nbChampsActifs = nbChampsActifs > 4 ? 4 : nbChampsActifs;
    if (op == NO_OP || nbChampsActifs < 2)
       {
       for (i=0; i < nbChampsActifs; i++)
-   {
-   ind = i%4;
-   strcpy(texte[ind], "");
-   FldMgrGetChamp(&champ, i);
-   deltaT =  (champ->npas*champ->deet)/3600.0;
-   tempDate = champ->dateo;
-   tempDate2 = champ->dateo;
-   f77name(incdatr)(&tempDate, &tempDate, &deltaT);
-   
-   FldMgrCalcPDFDatev(pdfdatev,&(champ->datev),champ->dateo,champ->deet,champ->npas,champ->ip2);
-   mo[3] = '\0';
-   strncpy(mo,champ->mois,3);
-   sprintf(dateMess, "V%s", pdfdatev);
-   
-   rip1 = champ->ip1;
-         f77name(convip)(&rip1, &rniveau, &kind, &mode, kindstring, &un, 15);
-         kindstring[15] = '\0';
-   nettoyer(kindstring);
-   if (champ->cle >= 0)
-      {
-      if (champ->natureTensorielle == VECTEUR && !xc.statuts[BARBULES])
-         {
-         sprintf(texte[ind], "%s-%s-%s-%3d-%3d-%s-%s", "UU-VV", champ->typvar, 
-           kindstring, champ->ip2, champ->ip3, dateMess, champ->etiket);
-         }
-      else
-         {
-         sprintf(texte[ind], "%s-%s-%s-%3d-%3d-%s-%s", champ->nomvar, champ->typvar, 
-           kindstring, (int)(champ->ip2), champ->ip3, dateMess, champ->etiket);
-         }
-      }
-   }
+        {
+        ind = i%4;
+        strcpy(texte[ind], "");
+        FldMgrGetChamp(&champ, i);
+        deltaT =  (champ->npas*champ->deet)/3600.0;
+        tempDate = champ->dateo;
+        tempDate2 = champ->dateo;
+        f77name(incdatr)(&tempDate, &tempDate, &deltaT);
+        
+        FldMgrCalcPDFDatev(pdfdatev,&(champ->datev),champ->dateo,champ->deet,champ->npas,champ->ip2);
+        mo[3] = '\0';
+        strncpy(mo,champ->mois,3);
+        sprintf(dateMess, "V%s", pdfdatev);
+        
+        rip1 = champ->ip1;
+              f77name(convip)(&rip1, &rniveau, &kind, &mode, kindstring, &un, 15);
+              kindstring[15] = '\0';
+        nettoyer(kindstring);
+        if (champ->cle >= 0)
+            {
+            if (champ->natureTensorielle == VECTEUR && !xc.statuts[BARBULES])
+              {
+              sprintf(texte[ind], "%s-%s-%s-%3d-%3d-%s-%s", "UU-VV", champ->typvar, 
+                kindstring, champ->ip2, champ->ip3, dateMess, champ->etiket);
+              }
+            else
+              {
+              sprintf(texte[ind], "%s-%s-%s-%3d-%3d-%s-%s", champ->nomvar, champ->typvar, 
+                kindstring, (int)(champ->ip2), champ->ip3, dateMess, champ->etiket);
+              }
+            }
+        }
       }
    else
       { 
       for (ind=0; ind < nbChampsActifs;ind+=2)
-   {
-   strcpy(texte[ind],"");
-   strcpy(texte[ind+1],"");
-   FldMgrGetChamp(&champ, ind+1);
-   FldMgrGetChamp(&champ0, ind);
-   CombinerLegendeDiffChamps(texte[ind], champ0, champ);
-   }
+        {
+        strcpy(texte[ind],"");
+        strcpy(texte[ind+1],"");
+        FldMgrGetChamp(&champ, ind+1);
+        FldMgrGetChamp(&champ0, ind);
+        CombinerLegendeDiffChamps(texte[ind], champ0, champ);
+        }
       }
    
    fontSize = SelectFontSize(texte[ind], (int)(0.5 * viewp.vlargeur - 10.0), viewp.vj1);
@@ -672,9 +765,7 @@ AfficherLegendeSup2()
  **************************************************************************
  **/
    
-int SelectFontSize(str, largeur, hauteur)
-char *str;
-int largeur, hauteur;
+int SelectFontSize(char *str, int largeur, int hauteur)
 {
    int fontSizes[5];
    int hauteurTexte, largeurTexte;
@@ -721,12 +812,11 @@ int largeur, hauteur;
    }
 
 
-void AfficherLegendeCoupe2(champ)
-_Champ champ;
+void AfficherLegendeCoupe2(_Champ champ)
 {
    static char *legendeCoupe[] = {"Coupe verticale","Vertical cross-section"};
    static char *legendeSerie[] = {"Serie temporelle","Time series"};
-   int i, couleur;
+   int i;
 
    int LargeurTitre[6], Largeur; 
    int HauteurRectangle, hauteurTitre[6];
@@ -853,18 +943,19 @@ _Champ champ;
 **/
 
 
-AfficherAxeY(champ)
-_Champ champ;
+void AfficherAxeY(_Champ champ)
 {
    float x1, y1;
+   float pres, presMin, presMax;
    int   i, i1, j1;
    char  strNiveaux[16], format[16];
    int largeurStr, hauteurStr;
-   int largeurFenetre, hauteurFenetre;
+   int largeurFenetre, hauteurFenetre, selectedVertCoord;
    
    c_wglgwz(&largeurFenetre, &hauteurFenetre);
    c_wglcmi(0,0,largeurFenetre-1, hauteurFenetre-1);
    c_wglcol(xc.attributs[FOND].indCouleurBack);
+   selectedVertCoord = GetSelectedVertCoord();
 
    if (xc.statuts[COULEURS])
       {
@@ -878,35 +969,90 @@ _Champ champ;
    if (ZP == CoupeMgrGetDimensionCoupe())
       {
       hauteurStr = c_wglhsi("1234", 4);
-      if (champ.coupe.niveauMin <= 10.0)
-   {
-   strcpy(format, "%5.3f");
-   largeurStr = c_wglwsi("12345", 5);
-   }
+      if ((champ.coordonneeVerticale == SIGMA || champ.coordonneeVerticale == HYBRIDE)  && selectedVertCoord == NATIVE_VCOORD)
+        {
+        strcpy(format, "%5.3f");
+        largeurStr = c_wglwsi("123456", 6);
+        }
       else
-   {
-   strcpy(format, "%4.0f");
-   largeurStr = c_wglwsi("1234", 4);
-   }
+        {
+        strcpy(format, "%6.0f");
+        largeurStr = c_wglwsi("123456", 6);
+        }
       
       c_wglfsz(14);
       c_wglfsz(AttrMgrGetFontSizeLegend());
-      for (i=0; i < champ.coupe.nbNiveauxCoupe; i++)
-   {
-   sprintf(strNiveaux, format, champ.coupe.niveauxCoupe[i]);
-   x1 = 1.0;
-   y1 = (float)(i+1);
-   c_wglxai(&i1, &j1, 1.0, champ.coupe.niveauxCoupe[i]);
-   if (j1 > (viewp.vj1-10) && j1 < (viewp.vj2+10))
-      {
-      c_wglpsi(i1 - largeurStr - 8, j1 - hauteurStr/2, strNiveaux, strlen(strNiveaux), AttrMgrGetFontSizeLegend(), 0, 0);
-      c_wglmvi(i1,j1);
-      c_wgldri(i1+10, j1);
-      c_wglxai(&i1, &j1, (float)champ.coupe.niCoupe, champ.coupe.niveauxCoupe[i]);
-      c_wglmvi(i1-10,j1);
-      c_wgldri(i1,j1);
-      }
-   }
+      if (champ.coordonneeVerticale == SIGMA || champ.coordonneeVerticale == HYBRIDE)
+        {
+        switch (selectedVertCoord)
+          {
+          case NATIVE_VCOORD:
+          for (i=0; i < champ.coupe.nbNiveauxCoupe; i++)
+            {
+            sprintf(strNiveaux, format, champ.coupe.niveauxCoupe[i]);
+            x1 = 1.0;
+            y1 = (float)(i+1);
+            c_wglxai(&i1, &j1, 1.0, champ.coupe.niveauxCoupe[i]);
+            
+            if (j1 > (viewp.vj1-10) && j1 < (viewp.vj2+10))
+              {
+              c_wglpsi(i1 - largeurStr - 8, j1 - hauteurStr/2, strNiveaux, strlen(strNiveaux), AttrMgrGetFontSizeLegend(), 0, 0);
+              c_wglmvi(i1,j1);
+              c_wgldri(i1+10, j1);
+              c_wglxai(&i1, &j1, (float)champ.coupe.niCoupe, champ.coupe.niveauxCoupe[i]);
+              c_wglmvi(i1-10,j1);
+              c_wgldri(i1,j1);
+              }
+            }
+            break;
+            
+          case PRES_VCOORD:
+          presMin = champ.coupe.niveauPresMin;
+          presMax = champ.coupe.niveauPresMax;
+          AjusterMinMax(&presMin, &presMax, 1.0, 50.0);
+          if (presMax > 1000.0) presMax = 1000.0;
+          pres = presMax;
+          while (pres >= presMin)
+            {
+            sprintf(strNiveaux, "%4.0f", pres);
+            x1 = 1.0;
+            y1 = (float)(i+1);
+            c_wglxai(&i1, &j1, 1.0, pres);
+            
+            if (j1 > (viewp.vj1-10) && j1 < (viewp.vj2+10))
+              {
+              c_wglpsi(i1 - largeurStr - 8, j1 - hauteurStr/2, strNiveaux, strlen(strNiveaux), AttrMgrGetFontSizeLegend(), 0, 0);
+              c_wglmvi(i1,j1);
+              c_wgldri(i1+10, j1);
+              c_wglxai(&i1, &j1, (float)champ.coupe.niCoupe, pres);
+              c_wglmvi(i1-10,j1);
+              c_wgldri(i1,j1);
+              }
+             pres -= 50.0;
+             }
+          break;
+          }
+        }
+       else
+        {
+        for (i=0; i < champ.coupe.nbNiveauxCoupe; i++)
+          {
+          sprintf(strNiveaux, format, champ.coupe.niveauxCoupe[i]);
+          x1 = 1.0;
+          y1 = (float)(i+1);
+          c_wglxai(&i1, &j1, 1.0, champ.coupe.niveauxCoupe[i]);
+          
+          if (j1 > (viewp.vj1-10) && j1 < (viewp.vj2+10))
+            {
+            c_wglpsi(i1 - largeurStr - 8, j1 - hauteurStr/2, strNiveaux, strlen(strNiveaux), AttrMgrGetFontSizeLegend(), 0, 0);
+            c_wglmvi(i1,j1);
+            c_wgldri(i1+10, j1);
+            c_wglxai(&i1, &j1, (float)champ.coupe.niCoupe, champ.coupe.niveauxCoupe[i]);
+            c_wglmvi(i1-10,j1);
+            c_wgldri(i1,j1);
+            }
+          }
+        }
       }
    else
       {
@@ -917,28 +1063,26 @@ _Champ champ;
       c_wglfsz(14);
       c_wglfsz(AttrMgrGetFontSizeLegend());
       for (i=0; i < champ.seqanim.nbFldsAnim; i++)
-   {
-   sprintf(strNiveaux, format, (float)champ.seqanim.ip2s[i]);
-   x1 = 1.0;
-   y1 = (float)(i+1);
-   c_wglxai(&i1, &j1, 1.0, (float)champ.seqanim.ip2s[i]);
-   if (j1 > (viewp.vj1-10) && j1 < (viewp.vj2+10))
-      {
-      c_wglpsi(i1 - largeurStr - 8, j1 - hauteurStr/2, strNiveaux, strlen(strNiveaux), 14, 0, 0);
-      c_wglmvi(i1,j1);
-      c_wgldri(i1+10, j1);
-      c_wglxai(&i1, &j1, (float)champ.seqanim.niSerie, (float)champ.seqanim.ip2s[i]);
-      c_wglmvi(i1-10,j1);
-      c_wgldri(i1,j1);
-      }
-   }
+        {
+        sprintf(strNiveaux, format, (float)champ.seqanim.ip2s[i]);
+        x1 = 1.0;
+        y1 = (float)(i+1);
+        c_wglxai(&i1, &j1, 1.0, (float)champ.seqanim.ip2s[i]);
+        if (j1 > (viewp.vj1-10) && j1 < (viewp.vj2+10))
+          {
+          c_wglpsi(i1 - largeurStr - 8, j1 - hauteurStr/2, strNiveaux, strlen(strNiveaux), 14, 0, 0);
+          c_wglmvi(i1,j1);
+          c_wgldri(i1+10, j1);
+          c_wglxai(&i1, &j1, (float)champ.seqanim.niSerie, (float)champ.seqanim.ip2s[i]);
+          c_wglmvi(i1-10,j1);
+          c_wgldri(i1,j1);
+          }
+        }
       }
    }
 
 
-AfficherLegendeSupProfil(xx, yy, xmin, ymin, xmax, ymax)
-float xx, yy;
-float xmin, ymin, xmax, ymax;
+void AfficherLegendeSupProfil(float xx, float yy, float xmin, float ymin, float xmax, float ymax)
 {
    int i;
    int i1, j1, i2, j2,ix1,iy1;
@@ -949,7 +1093,6 @@ float xmin, ymin, xmax, ymax;
    char texte[4][72];
    char texteProfil[64];
    int rect[4][4];
-   int h1, h2;
    int largeurFenetre, hauteurFenetre;
    int largeur, hauteur;
    int fontSize;
@@ -961,7 +1104,6 @@ float xmin, ymin, xmax, ymax;
    
    static char *Mois[] = {"bid", "Jan", "Fev", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sep", "Oct", "Nov", "Dec"};
    static char *Month[] = {"bid", "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
-   static char *lettres[] = {"A", "B", "C", "D"};
 
    char dateMess[16];
    char mo[4];
@@ -988,24 +1130,24 @@ float xmin, ymin, xmax, ymax;
    if (ZP == CoupeMgrGetDimensionCoupe())
       {
       if (lng == 0)
-   {
-   sprintf(texteProfil, "Profil vertical - pt (%5.2f, %5.2f)", xx, yy);
-   }
-      else
-   {
-   sprintf(texteProfil, "Vertical profile - pt (%5.2f, %5.2f)", xx, yy);
-   }
+        {
+        sprintf(texteProfil, "Profil vertical - pt (%5.2f, %5.2f)", xx, yy);
+        }
+            else
+        {
+        sprintf(texteProfil, "Vertical profile - pt (%5.2f, %5.2f)", xx, yy);
+        }
       }
    else
       {
       if (lng == 0)
-   {
-   sprintf(texteProfil, "Serie temporelle - pt (%5.2f, %5.2f)", xx, yy);
-   }
-      else
-   {
-   sprintf(texteProfil, "Time serie - pt (%5.2f, %5.2f)", xx, yy);
-   }
+        {
+        sprintf(texteProfil, "Serie temporelle - pt (%5.2f, %5.2f)", xx, yy);
+        }
+            else
+        {
+        sprintf(texteProfil, "Time serie - pt (%5.2f, %5.2f)", xx, yy);
+        }
       }
 
    ix1 = (largeurFenetre - c_wglwsi(texteProfil,strlen(texteProfil))) / 2;
@@ -1018,52 +1160,52 @@ float xmin, ymin, xmax, ymax;
    if (op == NO_OP || nbChampsActifs < 2)
       {
       for (i=0; i < nbChampsActifs; i++)
-   {
-   strcpy(texte[i], "");
-   FldMgrGetChamp(&champ, i);
-   if (ZP == CoupeMgrGetDimensionCoupe())
-      {
-      ok = champ->cle >= 0 && champ->coupe.coupeValide;
-      }
-   else
-      {
-      ok = champ->cle >= 0 && champ->seqanim.nbFldsAnim > 0;
-      }
+        {
+        strcpy(texte[i], "");
+        FldMgrGetChamp(&champ, i);
+        if (ZP == CoupeMgrGetDimensionCoupe())
+            {
+            ok = champ->cle >= 0 && champ->coupe.coupeValide;
+            }
+        else
+            {
+            ok = champ->cle >= 0 && champ->seqanim.nbFldsAnim > 0;
+            }
 
-   if (ok)
-      {
-      tempDate = champ->dateo;
-      deltaT =  (champ->npas*champ->deet)/3600.0;
-      f77name(incdatr)(&tempDate, &tempDate, &deltaT);
-      
-      FldMgrCalcPDFDatev(pdfdatev,&(champ->datev),champ->dateo,champ->deet,champ->npas,champ->ip2);
-      mo[3] = '\0';
-      strncpy(mo,champ->mois,3);
-      sprintf(dateMess, "V%s", pdfdatev);
-      
-      if (champ->natureTensorielle == VECTEUR)
-         {
-         sprintf(texte[i], "%s-%s-%3d-%3d-%s-%s", "UU-VV", champ->typvar, 
-           champ->ip2, champ->ip3, dateMess, champ->etiket);
-         }
-      else
-         {
-         sprintf(texte[i], "%s-%s-%3d-%3d-%s-%s", champ->nomvar, champ->typvar, 
-           champ->ip2, champ->ip3, dateMess, champ->etiket);
-         }
-      }
-   }
+        if (ok)
+            {
+            tempDate = champ->dateo;
+            deltaT =  (champ->npas*champ->deet)/3600.0;
+            f77name(incdatr)(&tempDate, &tempDate, &deltaT);
+            
+            FldMgrCalcPDFDatev(pdfdatev,&(champ->datev),champ->dateo,champ->deet,champ->npas,champ->ip2);
+            mo[3] = '\0';
+            strncpy(mo,champ->mois,3);
+            sprintf(dateMess, "V%s", pdfdatev);
+            
+            if (champ->natureTensorielle == VECTEUR)
+              {
+              sprintf(texte[i], "%s-%s-%3d-%3d-%s-%s", "UU-VV", champ->typvar, 
+                champ->ip2, champ->ip3, dateMess, champ->etiket);
+              }
+            else
+              {
+              sprintf(texte[i], "%s-%s-%3d-%3d-%s-%s", champ->nomvar, champ->typvar, 
+                champ->ip2, champ->ip3, dateMess, champ->etiket);
+              }
+            }
+        }
       }
    else
       {
       for (i=0; i < nbChampsActifs;i+=2)
-   {
-   strcpy(texte[i],"");
-   strcpy(texte[i+1],"");
-   FldMgrGetChamp(&champ, i+1);
-   FldMgrGetChamp(&champ2, i);
-   CombinerLegendeDiffChamps(texte[i], champ, champ2);
-   }
+        {
+        strcpy(texte[i],"");
+        strcpy(texte[i+1],"");
+        FldMgrGetChamp(&champ, i+1);
+        FldMgrGetChamp(&champ2, i);
+        CombinerLegendeDiffChamps(texte[i], champ, champ2);
+        }
       }
 
    i = 0;
@@ -1084,6 +1226,9 @@ float xmin, ymin, xmax, ymax;
       case 4:
       fontSize = 14;
       break;
+      
+      default:
+      fontSize = 14;
       }
    
    c_wglfsz(fontSize);
@@ -1091,11 +1236,12 @@ float xmin, ymin, xmax, ymax;
    hauteurTexte = c_wglasi("1234", 4);
    hauteurRectangle = hauteurTexte + 5;
    largeurMax = 0;
+   largeurTexte = 0;
    for (i=0; i < nbChampsActifs; i++)
       {
       largeurTexte = c_wglwsi(texte[i], strlen(texte[i]));
       if (largeurMax < largeurTexte)
-   largeurMax = largeurTexte;
+          largeurMax = largeurTexte;
       }
    
    largeurMax += 6;
@@ -1111,39 +1257,39 @@ float xmin, ymin, xmax, ymax;
    if (op == NO_OP || nbChampsActifs < 2)
       {
       switch (nbChampsActifs)
-   {
-   case 1:
-   rect[0][0] = i1 + 0.5 * (largeur - largeurMax);
-   rect[0][1] = (int)(((int)(j2+0.5*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
-   break;
-   
-   case 2:
-   rect[0][0] = i1 + 0.5 * (largeur - largeurMax);
-   rect[1][0] = rect[0][0];
-   rect[0][1] = (int)(((int)(j2+0.66*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
-   rect[1][1] = (int)(((int)(j2+0.33*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
-   break;
-   
-   case 3:
-   case 4:
-   rect[0][0] = largeurFenetre/2 - largeurTexte - 20;
-   rect[1][0] = largeurFenetre/2 + 20;
-   rect[2][0] = rect[0][0];
-   rect[3][0] = rect[1][0];
-   
-   rect[0][1] = (int)(((int)(j2+0.66*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
-   rect[1][1] = rect[0][1];
-   rect[2][1] = (int)(((int)(j2+0.33*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
-   rect[3][1] = rect[2][1];
-   break;
-   }
+        {
+        case 1:
+        rect[0][0] = i1 + 0.5 * (largeur - largeurMax);
+        rect[0][1] = (int)(((int)(j2+0.5*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
+        break;
+        
+        case 2:
+        rect[0][0] = i1 + 0.5 * (largeur - largeurMax);
+        rect[1][0] = rect[0][0];
+        rect[0][1] = (int)(((int)(j2+0.66*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
+        rect[1][1] = (int)(((int)(j2+0.33*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
+        break;
+        
+        case 3:
+        case 4:
+        rect[0][0] = largeurFenetre/2 - largeurTexte - 20;
+        rect[1][0] = largeurFenetre/2 + 20;
+        rect[2][0] = rect[0][0];
+        rect[3][0] = rect[1][0];
+        
+        rect[0][1] = (int)(((int)(j2+0.66*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
+        rect[1][1] = rect[0][1];
+        rect[2][1] = (int)(((int)(j2+0.33*(hauteurFenetre-j2))) - hauteurTexte * 0.5);
+        rect[3][1] = rect[2][1];
+        break;
+        }
       for (i=0; i < nbChampsActifs; i++)
-   {
-   c_wglcol(xc.attributs[i].indCouleurFore);
-   AfficherSymbole(rect[i][0]-10, rect[i][1]+hauteurTexte/2, i);
-   c_wglrli(rect[i][0]-18,rect[i][1]-8+hauteurTexte/2, rect[i][0]-2,rect[i][1]+8+hauteurTexte/2);
-   c_wglpsi(rect[i][0]+5, rect[i][1], texte[i], strlen(texte[i]), fontSize, 0, 0);
-   }
+        {
+        c_wglcol(xc.attributs[i].indCouleurFore);
+        AfficherSymbole(rect[i][0]-10, rect[i][1]+hauteurTexte/2, i);
+        c_wglrli(rect[i][0]-18,rect[i][1]-8+hauteurTexte/2, rect[i][0]-2,rect[i][1]+8+hauteurTexte/2);
+        c_wglpsi(rect[i][0]+5, rect[i][1], texte[i], strlen(texte[i]), fontSize, 0, 0);
+        }
       }
    else
       {
@@ -1169,8 +1315,7 @@ float xmin, ymin, xmax, ymax;
 **/
 
 
-AfficherLegendeVentUVW(ventUVWmax)
-float ventUVWmax;
+void AfficherLegendeVentUVW(float ventUVWmax)
 {
    int largeurLegende,hauteurLegende;
    
@@ -1179,14 +1324,11 @@ float ventUVWmax;
    
    }
 
-GetDimensionsLegendeVent(largeur,hauteur)
-int *largeur, *hauteur;
+void GetDimensionsLegendeVent(int *largeur, int *hauteur)
 {
    int hauteurTexte,hauteurLegende;
    int largeurLegende, largeurTexte;
-   float x,y;
-   int i,j,rayon,longueur,lwi;
-   char nombre[16];
+   int rayon,longueur;
 
    longueur = WindMgrGetLongueur();
    rayon = longueur;
@@ -1201,13 +1343,9 @@ int *largeur, *hauteur;
    
    }
 
-extern void PointerFleche(float xdepart, float ydepart, float dirVent, float vitVent, int rayon, int width);
-
 extern int flagLegendeFleches;
 
-AfficherLegendeVent(ventMax, offsetX, offsetY, angleFleche)
-float ventMax;
-int offsetX, offsetY,angleFleche;
+void AfficherLegendeVent(float ventMax, int offsetX, int offsetY, int angleFleche)
 {
    int hauteurTexte,hauteurLegende;
    int largeurLegende, largeurTexte;
@@ -1308,11 +1446,9 @@ int offsetX, offsetY,angleFleche;
    PointerFleche(x,y,270.-(float)angleFleche,0.25*ventMax,rayon, lwi);
    }
 
-CombinerLegendeDiffChamps(texte, champ1, champ2)
-char texte[];
-_Champ *champ1, *champ2;
+void CombinerLegendeDiffChamps(char texte[], _Champ *champ1, _Champ *champ2)
 {
-   int tempDate1,tempDate2,deltaT,lng;
+   int lng;
    char buffer[72];
    static char *Mois[] = {"bid", "Jan", "Fev", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sep", "Oct", "Nov", "Dec"};
    static char *Month[] = {"bid", "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};

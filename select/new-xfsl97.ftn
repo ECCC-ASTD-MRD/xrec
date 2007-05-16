@@ -26,12 +26,12 @@
 
       integer ligne,maxrecs,maxdes
 
-      parameter (ligne  = 68)
+      parameter (ligne  = 69)
       parameter (maxrecs= 64)
       parameter (maxdes = 8)
 
       character*12 idents 
-      character*68 tableau
+      character*69 tableau
       common /xfscinf/ idents(maxdes), tableau(0:maxrecs)
 
       integer table, listbuf, nrecs, nbrecs, nbdes
@@ -54,10 +54,10 @@
       integer yymmdd, hhmmss
 
       integer i, j, inf, kind, mode
-      real niveau
+      real niveau, f_ip3
       integer m, jour, an, heure, r
       character*4 mois(0:12), month(0:12), mm
-      character*15 cniveau
+      character*15 cniveau, c_ip3
       
       integer ier, ulng, getulng
       external getulng
@@ -124,15 +124,22 @@
 
 
       mode = -1
-      call convip(ip1, niveau, kind, mode, cniveau, 1)
-      cniveau = adjustl(cniveau)
+      if (nomvar(1:2).ne.'^^'.and.nomvar(1:2).ne.'>>'.and.nomvar(1:2).ne.'HY'.and.nomvar(1:4).ne.'####') then
+        call convip(ip1, niveau, kind, mode, cniveau, .true.)
+        cniveau = adjustl(cniveau)
+        call convip(ip3, f_ip3, kind, mode, c_ip3, .true.)
+        c_ip3 = adjustl(c_ip3)
+      else
+        write(cniveau, '(i10)') ip1
+        write(c_ip3, '(i5)')  ip3
+      endif
       if (ulng.eq.0.and.m.ge.6.and.m.le.8) then
          write(tableau(mod(i-1,64)), 11) nomvar, typvar, 
-     $        cniveau, ip2, ip3,
+     $        cniveau, ip2, c_ip3,
      *        etiket, jour, mm, an, heure
       else
          write(tableau(mod(i-1,64)), 12) nomvar, typvar, 
-     $        cniveau, ip2, ip3,
+     $        cniveau, ip2, c_ip3,
      *        etiket, jour, mm, an, heure
       endif
 
@@ -169,15 +176,23 @@
       endif
       
       mode = -1
-      call convip(ip1, niveau, kind, mode, cniveau, 1)
-      cniveau=adjustl(cniveau)
+      if (nomvar(1:2).ne.'^^'.and.nomvar(1:2).ne.'>>'.and.nomvar(1:2).ne.'HY'.and.nomvar(1:4).ne.'####') then
+        call convip(ip1, niveau, kind, mode, cniveau, .true.)
+        cniveau = adjustl(cniveau)
+        call convip(ip3, f_ip3, kind, mode, c_ip3, .true.)
+        c_ip3 = adjustl(c_ip3)
+      else
+        write(cniveau, '(i10)') ip1
+        write(c_ip3, '(i5)')  ip3
+      endif
+!      print *, ip3, f_ip3, c_ip3
       if (ulng.eq.0.and.m.ge.6.and.m.le.8) then
          write(tableau(mod(i-1,64)), 11) nomvar, typvar, 
-     $        cniveau, ip2, ip3,
+     $        cniveau, ip2, c_ip3,
      *        etiket, jour, mm, an, heure
       else
          write(tableau(mod(i-1,64)), 12) nomvar, typvar, 
-     $        cniveau, ip2, ip3,
+     $        cniveau, ip2, c_ip3,
      *        etiket, jour, mm, an, heure
       endif
 
@@ -203,9 +218,9 @@
  4    format(3i16)
  5    format(128a)
  6    format(40a)
- 11   format(a4,2x, a2, 3x, a15,2x, i5, x, i4, 
+ 11   format(a4,2x, a2, 3x, a15,2x, i5, x, a5, 
      *       x, a12, 1x, i2.2,a4,i4.4,'-',i2.2,'Z')
- 12   format(a4,2x, a2, 3x, a15,2x, i5, x, i4, 
+ 12   format(a4,2x, a2, 3x, a15,2x, i5, x, a5, 
      *       x, a12, 1x, i2.2,a3,i4.4,'-',i2.2,'Z')
  
 
@@ -224,12 +239,12 @@ c     ****************************************************************
 
       integer ligne,maxrecs,maxdes
 
-      parameter (ligne  = 68)
+      parameter (ligne  = 69)
       parameter (maxrecs= 64)
       parameter (maxdes = 8)
 
       character*12 idents 
-      character*68 tableau
+      character*69 tableau
       common /xfscinf/ idents(maxdes), tableau(0:maxrecs)
 
       integer table, listbuf, nrecs, nbrecs, nbdes
@@ -258,12 +273,12 @@ c     ****************************************************************
 
       integer ligne,maxrecs,maxdes
 
-      parameter (ligne  = 68)
+      parameter (ligne  = 69)
       parameter (maxrecs= 64)
       parameter (maxdes = 8)
 
       character*12 idents 
-      character*68 tableau
+      character*69 tableau
       common /xfscinf/ idents(maxdes), tableau(0:maxrecs)
 
       integer table, listbuf, nrecs, nbrecs, nbdes
@@ -342,17 +357,17 @@ c     ****************************************************************
       table(2,4)   = len
       table(3,4)   = 27
       
-      table(1,5)   = 5
+      table(1,5)   = 6
       table(2,5)   = len
       table(3,5)   = 33
       
       table(1,6)   = 13
       table(2,6)   = len
-      table(3,6)   = 38
+      table(3,6)   = 39
       
       table(1,7)  = 13
       table(2,7)  = len
-      table(3,7)  = 51
+      table(3,7)  = 52
       return 
       end
 
@@ -369,12 +384,12 @@ c     ****************************************************************
 
       integer ligne,maxrecs,maxdes
 
-      parameter (ligne  = 68)
+      parameter (ligne  = 69)
       parameter (maxrecs= 64)
       parameter (maxdes = 8)
 
       character*12 idents 
-      character*68 tableau
+      character*69 tableau
       common /xfscinf/ idents(maxdes), tableau(0:maxrecs)
 
       integer table, listbuf, nrecs, nbrecs, nbdes

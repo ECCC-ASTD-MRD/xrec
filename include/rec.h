@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <math.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 #define  RADIAN_A_DEGRE    57.29577951
 #define  DEGRE_A_RADIAN    0.01745329252
@@ -46,6 +46,10 @@
 #define METRES_AGL               4
 #define HYBRIDE                  5
 #define THETA                    6
+
+#define NATIVE_VCOORD 0
+#define PRES_VCOORD   1
+#define HEIGHT_VCOORD 2
 
 #define ZP                       0
 #define T                        1
@@ -181,11 +185,15 @@
 #define FROM_FSTD       2
 #define FROM_USER       3
 
+#define SRC_GRID        100
+#define DST_GRID        101
+#define ZOOM_GRID       102
+
 #define FTN2C(i,j,ni)  (int)((ni) * (j) + i)
 #define BITPOS(i) (i - ((i >> 5) << 5))
 #define GETMSK(fld,i) ((fld[i >> 5]  & (1 << BITPOS(i))) >> BITPOS(i))
 #define SETMSK(fld,i) (fld[i >> 5] | (fld[i] << BITPOS(i))) 
-#if defined  (hp720) || defined (i386)
+#if defined  (hp720) || defined (i386) || defined (Darwin)
 #define ffloor floor
 #define fceil ceil
 #define flog10 log10
@@ -197,9 +205,9 @@ typedef struct
   int coupeValide;
   int nbNiveauxCoupe;
   int   cleRef;
-  int   niCoupe, njCoupe;
+  int   niCoupe, njCoupe, niMaxCoupe;
   float xmin, ymin, xmax, ymax;
-  float niveauMin,niveauMax;
+  float niveauMin,niveauMax,niveauPresMin,niveauPresMax;
   float FLDmin3d[5],FLDmax3d[5];
   float UUmin3d[5],UUmax3d[5];
   float VVmin3d[5],VVmax3d[5];
@@ -214,7 +222,7 @@ typedef struct
   float UVmin2d[5],UVmax2d[5];
   float WWmin2d[5],WWmax2d[5];
   float UVWmin2d[5],UVWmax2d[5];
-  float scaleWW;
+  float ptop, pref, rcoef, scaleWW;
   int   indChampCourant;
   int   cleMT,cleP0;
   int   *clesNiveaux;
@@ -222,7 +230,7 @@ typedef struct
   float **fld3d,**uu3d,**vv3d,**ww3d,**other3d;
   float *uu2d,*vv2d;
   float *fld2d, *uvwtang2d,*uvwnorm2d,*ww2d,*uvw2d,*other2d;
-  float *montagnes;
+  float *x, *y, *montagnes;
   float *ligneMontagnes;
 } _CoupeVerticale;
 
@@ -290,6 +298,23 @@ typedef struct
   unsigned int *missing;
 } _Grille;
 
+typedef struct
+{
+  int to_be_updated;
+  int couverture;
+  float   min,   max,   mean,   stddev;
+  float uumin, uumax, uumean, uustddev;;
+  float vvmin, vvmax, vvmean, vvstddev; ;
+  float uvmin, uvmax, uvmean, uvstddev;
+  int   imin,   jmin,   imax,   jmax;
+  int iuumin, juumin, iuumax, juumax;
+  int ivvmin, jvvmin, ivvmax, jvvmax;
+  int iuvmin, juvmin, iuvmax, juvmax;
+  int iz1, jz1, iz2, jz2;
+  int   kmin,   tmin,   kmax,   tmax;
+  float minlat, maxlat, minlon,maxlon;
+  int npts_total, npts_active, npts_missing;
+} _Stats;
 
 typedef struct
 {
@@ -308,9 +333,9 @@ typedef struct
   float rnpas;
   int nbits, datyp;
   int ip1, ip2, ip3;
-  char typvar[4];
-  char nomvar[8];
-  char etiket[16];
+  char typvar[3];
+  char nomvar[5];
+  char etiket[13];
   char pdfdatev[24];
   int swa, lng, dltf, ubc;
   int extra1, extra2, extra3;
@@ -355,6 +380,7 @@ typedef struct
   _LigneHorizontale ligne;
   _Grille src;
   _Grille dst;
+  _Stats stats_src, stats_dst, stats_zoom;
 } _Champ;
 
 
@@ -433,7 +459,7 @@ typedef struct
   Widget menuFichier, menuAffichage, menuIntervalleDeContour, menuVecteurs, menuGrille, menuCalculs, menuVarSuper, menuOptions;
   Widget menuFichierItems[16], menuAffichageItems[16], menuIntervalleItems[32], menuCalculItems[12],menuGrItems[32],menuVecItems[8];
   Widget menuVarSuperItems[12], menuOptionItems[24];
-  Widget rafraichir, valeursPonctuelles, zoom;
+  Widget rafraichir, valeursPonctuelles, zoom, stats;
   Widget superposition, effacer, menuEffacageSelectif, menuEff, menuEffItems[4];
   Widget stop;
   Widget labelInfo, formeMessage, formeMessageFrame;
@@ -446,3 +472,17 @@ typedef struct
   float x,y,value;
   char symbol;
 } Hilo;
+
+typedef struct
+{
+   int ind;
+   float val;
+   } PointEditionStruct;
+
+typedef struct 
+{
+   int type;
+   int x1, y1, x2, y2;
+   float valeur, ancienneValeur;
+   PointEditionStruct *anciennesValeurs;
+   } EditionStruct;

@@ -22,14 +22,7 @@
 #include <wgl.h>
 #include <rpnmacros.h>
    
-courbe(x, y, npts, xmin, xmax, ymin, ymax, intX, nbIntX, intY, nbIntY, axeXRenverse, axeYRenverse, i1, j1, i2, j2)
-float x[], y[];
-int npts;
-float xmin, xmax, ymin, ymax;
-float *intX, *intY;
-int nbIntX, nbIntY;
-int axeXRenverse, axeYRenverse;
-int i1, j1, i2, j2;
+void courbe(float x[], float y[], int npts, float xmin, float xmax, float ymin, float ymax, float *intX, float *intY, int nbIntX, int nbIntY, int axeXRenverse, int axeYRenverse, int i1, int j1, int i2, int j2)
 {
    int wini1, winj1, wini2, winj2;
    float wxmin, wxmax, wymin, wymax;

@@ -19,27 +19,31 @@
  */
 
 #include <Xm/Xm.h>
-#include <Xm/PushBG.h>
-#include <Xm/CascadeBG.h>
 #include <Xm/RowColumn.h>
+#include <Xm/CascadeB.h>
+#include <Xm/Form.h>
+#include <Xm/Frame.h>
+#include <Xm/Label.h>
+#include <Xm/PushB.h>
+#include <Xm/PushBG.h>
+#include <Xm/RowColumn.h>
+#include <Xm/Scale.h>
+#include <Xm/Separator.h>
+
+#include <Xm/ToggleB.h>
+#include <Xm/ToggleBG.h>
+
 
 #include <xinit.h>
 #include <wgl.h>
 #include <rpnmacros.h>
 #include <gmp.h>
+#include <rec.h>
+#include <rec_functions.h>
 
 extern SuperWidgetStruct SuperWidget;
 extern int facteurLissage;
 extern GeoMapFlagsStruct   mapFlags;
-
-static XtCallbackProc PgResolution();
-static XtCallbackProc PgOk();
-static XtCallbackProc PgAfficher();
-static XtCallbackProc PgMeridiens();
-static XtCallbackProc PgActive();
-static XtCallbackProc PgEspaceMeridiens();
-static XtCallbackProc PgEpaisseur();
-
 
 
 #define OUI 1
@@ -70,34 +74,12 @@ Widget pgPanneauTailleValeursCentrales,pgOptionsTailleValeursCentrales,pgTailleV
 Widget pgRowCol, pgToggleBox, pgToggleItems[14];
 
 static char *nomPanneauContour[] = {"PanneauGeo", "GeoPanel"};
-static char *labelTopLevel[] = {"Geographie", "Geo"};
 static char *labelChamps[][14] = { 
 {"Continents", "Lat-lon", "Pays", 
  "Provinces", "Villes", "Lacs", "Rivieres", "Routes", "Rails", 
  "Utilites", "Canaux", "Topographie", "Bathymetrie", "Type de Terrain"},
 {"Continents", "Lat-lon", "Countries","Provinces", "Cities", "Lakes", "Rivers", "Roads", "Rails", 
    "Utilities", "Canals", "Topography", "Bathymetry", "Terrain Type"}};
-
-static char *pgValCentraleFontSize[][13] = {
-{"10                  ","15","20","25","30","35","40","50","60","70","80","90","100"},
-{"10                  ","15","20","25","30","35","40","50","60","70","80","90","100"}};
-
-
-static char *pgLabelFontSize[][6] = {{"Auto","12                  ", "14", "17", "18", "24"},
-{ "Auto","12                  ", "14", "17", "18", "24"}};
-
-static char *pgLabelTailleValeursCentrales[] = {"Taille val.\ncentrales","Central val.\nSize"};
-static char *labelOptionsCouleur[][9] = {{"blanc", "noir", "rouge", "cyan", "jaune", "magenta", "vert", "bleu", "gris"},
-						{"white", "black", "red", "cyan", "yellow", "magenta", "green", "blue", "gray"}};
-
-static char *activationSelect[][3] = {
-{"Selon menu Affichage", "Toujours", "Jamais"},
-{"According to Display menu", "Always", "Never"}};
-
-
-
-static char *colors[][9] = { {"blanc","noir","rouge","cyan", "jaune", "magenta","vert","bleu","gris"},
-{"white","black","red","cyan","yellow","magenta","green","blue","gray"}};
 
 
 static char *labelOk[] = {"Fermer", "Close"};
@@ -113,7 +95,6 @@ static char *labelAfficher[] = {"Redessiner", "Refresh"};
 static char *labelStyle[] = {"Style     ", "Style     "};
 static char *labelCouleur[] = {"Couleur   ", "Color     "};
 static char *labelEpaisseur[] = {"Epaisseur \ndes lignes", "Line      \nThickness "};
-static char *labelTraitementVectoriel[] = {"Traitement\nVectoriel","Vector\nProcessing"};
 
 static char *pgLabelOptionsStyle[]= { "--------------------", 
 				      "--  --  --  --  --  ", 
@@ -123,17 +104,14 @@ static char *pgLabelOptionsStyle[]= { "--------------------",
 static char *pgLabelOptionsCouleur[][9] = {{"blanc               ", "noir","rouge","cyan","jaune","magenta","vert","bleu","gris"},
 					    {"white               ", "black","red","cyan","yellow","magenta","green","blue", "gray"}};
 static char *pgLabelOptionsEpaisseur[]= {"1                   ", "2", "3", "4", "5"};
-static Pixel indCouleurs[16];
 
 int currentGeoToggle = CONTINENTS;
 int pgSelectionTerminee;
-static int nbItemsListe = 8;
 
 void CheckGeoToggles (Widget w, caddr_t client_data, caddr_t call_data) 
 {
-  int lng;
   Arg args[3];
-  int i,j, n, ind, pos, toggleChanged;
+  int i, pos, toggleChanged;
   Pixel back, fore;
   static int last_pos = -1;
   
@@ -239,7 +217,6 @@ void CheckGeoToggles (Widget w, caddr_t client_data, caddr_t call_data)
 
 void SetGeoColorToggle (Widget w, caddr_t client_data, caddr_t call_data) 
 {
-  int r, g, b;
   Arg args[2];
   Pixel back, fore;
   
@@ -261,10 +238,7 @@ void SetGeoColorToggle (Widget w, caddr_t client_data, caddr_t call_data)
 ***********************************************************************
 ****/
 
-void SetGeoThicknessToggle (w, client_data, call_data) 
-     Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void SetGeoThicknessToggle (Widget w, caddr_t client_data, caddr_t call_data)
 {
   mapFlags.epaisseur[currentGeoToggle] = atoi(XtName(w));
 }
@@ -274,10 +248,7 @@ caddr_t	call_data;	/*  data from widget class  */
 ***********************************************************************
 ****/
 
-void SetGeoStyleToggle (w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void SetGeoStyleToggle (Widget w, caddr_t client_data, caddr_t call_data)
 {
    mapFlags.style[currentGeoToggle] = (int)client_data;
 
@@ -299,13 +270,12 @@ caddr_t	call_data;	/*  data from widget class  */
 ***********************************************************************
 ***********************************************************************
 ****/
-
-static XtCallbackProc PgOk(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+ 
+XtCallbackProc PgOk(Widget w, caddr_t client_data, caddr_t call_data)
 {
    pgSelectionTerminee = TRUE;
    DesactiverPanneauGeo();
+   return 0;
    }
 
 /****
@@ -313,14 +283,10 @@ caddr_t unused1, unused2;
 ***********************************************************************
 ****/
 
-static XtCallbackProc PgAfficher(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PgAfficher(Widget w, caddr_t client_data, caddr_t call_data)
 {
-   int i;
-
    RedessinerFenetres();
-
+   return 0;
    }
 
 /***
@@ -328,9 +294,9 @@ caddr_t unused1, unused2;
 ***************************************************************************
 ***/
 
-InitPanneauGeo()
+void InitPanneauGeo()
 {
-   int i,j;
+   int i;
    Arg args[6];
    XmString string;
    char *gdb_path;
@@ -338,9 +304,7 @@ InitPanneauGeo()
    int n,lng;
    char nomShell[128];
    Pixel indCouleurs[16];
-   Colormap cmap;
-   XmStringTable table;
-
+   
    Xinit("xregarder");
    lng = c_getulng();
 
@@ -547,7 +511,7 @@ InitPanneauGeo()
     **/
    
    n = 0;
-   pgSeparateur1 =  (Widget) XmCreateSeparator(pgRC, "sep 1", args, (XtPointer) n);
+   pgSeparateur1 =  (Widget) XmCreateSeparator(pgRC, "sep 1", args, n);
    XtManageChild(pgSeparateur1);
 
    
@@ -568,102 +532,8 @@ InitPanneauGeo()
 ****/
 
 
-EcrGeoAtr(fichierDemarrage)
-FILE *fichierDemarrage;
+void EcrGeoAtr(FILE *fichierDemarrage)
 {
-   char tableau[32];
-   char ligne[80];
-   char item[32],valeur[32];
-   int i,indSuf;
-
-   /*
-   Arg  args[10];
-   XmString label;
-   XmFontList fontListe;
-   char *geom;
-   Window root;
-   Position x,y;
-   Display *disp;
-   Window win;
-   strcpy(tableau, "contours");
-   
-   strcpy(item,"geometrie");
-   if (pgTopLevel)
-      {
-      disp = XtDisplay(pgTopLevel);
-      win  = XtWindow(pgTopLevel);
-      i = 0;
-      XtSetArg(args[i], XmNx, &x); i++;
-      XtSetArg(args[i], XmNy, &y); i++;
-      XtGetValues(pgTopLevel, args, i);
-      
-      sprintf(valeur,"%+d%+d",x,y);
-      sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
-      fprintf(fichierDemarrage,"%s\n",ligne);
-      }
-   else
-      {
-      if (strlen(panneauContoursGeometrie) > 0)
-         {
-         strcpy(valeur,panneauContoursGeometrie);
-         sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
-         fprintf(fichierDemarrage,"%s\n",ligne);
-         }
-      }
-
-   for (i=0; i < 34; i++)
-      {
-      switch (i)
-	 {
-	 case FOND:
-	 indSuf =0;
-	 break;
-
-	 case GRID:
-	 indSuf = 1;
-	 break;
-
-	 default:
-	 indSuf = 2;
-	 break;
-	 }
-	 
-      strcpy(item,"couleur_");
-      strcat(item,suffixes[0][indSuf]);
-      if (i < 32)
-	 {
-	 sprintf(item,"%s_%02d",item,i+1);
-	 }
-      strcpy(valeur,colors[0][mapFlags.[i].couleurFore]);
-      sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
-      fprintf(fichierDemarrage,"%s\n",ligne);
-
-      strcpy(item,"epaisseur_");
-      strcat(item,suffixes[0][indSuf]);
-      if (i < 32)
-	 {
-	 sprintf(item,"%s_%02d",item,i+1);
-	 }
-      sprintf(valeur,"%2d",mapFlags.[i].epaisseur);
-      sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
-      fprintf(fichierDemarrage,"%s\n",ligne);
-
-      strcpy(item,"style_");
-      strcat(item,suffixes[0][indSuf]);
-      if (i < 32)
-	 {
-	 sprintf(item,"%s_%02d",item,i+1);
-	 }
-      if (mapFlags.[i].codeDash > 0)
-         sprintf(valeur,"%2d",mapFlags.[i].style+3*(mapFlags.[i].codeDash-1));
-      else
-         sprintf(valeur,"%2d",mapFlags.[i].style);
-
-      sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
-      fprintf(fichierDemarrage,"%s\n",ligne);
-      }
-   
-   */
    }
 
 
@@ -672,24 +542,13 @@ FILE *fichierDemarrage;
 ***********************************************************************
 ****/
 
-PGSplitItem(attribut, ind, item)   
-int *attribut;
-int *ind;
-char *item;
+void PGSplitItem(int *attribut, int *ind, char *item)
 {
    
    }
 
-ActiverPanneauGeo()
+void ActiverPanneauGeo()
 {
-   XEvent pgEvent;
-   Widget pgWidgetParent;
-   
-
-   Colormap cmap;
-   Arg args[2];
-   int i;
-
 
    if (!pgTopLevel)
       InitPanneauGeo();
@@ -704,39 +563,20 @@ ActiverPanneauGeo()
    
    }
 
-f77name(xpangact)()
+void f77name(xpangact)()
 {
    LocalEventLoop(pgTopLevel);
    }
 
 
-DesactiverPanneauGeo()
+void DesactiverPanneauGeo()
 {
    XtUnrealizeWidget(pgTopLevel);
    }
 
 
-/*
-  static XtCallbackProc PgOk(w, unused1, unused2)
-  Widget w;
-  caddr_t unused1, unused2;
-  {
-  pgSelectionTerminee = TRUE;
-  DesactiverPanneauGeo();
-  }
-  
-  static XtCallbackProc PgAfficher(w, unused1, unused2)
-  Widget w;
-  caddr_t unused1, unused2;
-  {
-  RedessinerFenetreAffichage();
-  }
-  
-*/
 
-static XtCallbackProc PgResolution(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PgResolution(Widget w, caddr_t unused1, caddr_t unused2)
 {
    float res;
    
@@ -749,11 +589,10 @@ caddr_t unused1, unused2;
       sscanf(XtName(w), "%f", &res);
       }
    PgSetResolution((int)(100.0*res+0.5));   
+   return 0;
    }
 
-static XtCallbackProc PgMeridiens(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PgMeridiens(Widget w, caddr_t unused1, caddr_t unused2)
 {
    switch ((int)unused1)
       {
@@ -765,11 +604,10 @@ caddr_t unused1, unused2;
       PgSetMeridiens(NON);
       break;
       }
+   return 0;
    }
 
-static XtCallbackProc PgActive(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PgActive(Widget w, caddr_t unused1, caddr_t unused2)
 {
    
    switch ((int)unused1)
@@ -782,32 +620,29 @@ caddr_t unused1, unused2;
       PgSetFrontieresActives(NON);
       break;
       }
+   return 0;
    }
 
-static XtCallbackProc PgEspaceMeridiens(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PgEspaceMeridiens(Widget w, caddr_t unused1, caddr_t unused2)
 {
    float grid;
 
    sscanf(XtName(w), "%f", &grid);
    PgSetEspacementMeridiens((int)grid);
+   return 0;
    }
 
-static XtCallbackProc PgEpaisseur(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PgEpaisseur(Widget w, caddr_t unused1, caddr_t unused2)
 {
    int epaisseur;
 
    sscanf(XtName(w), "%d", &epaisseur);
    PgSetEpaisseur(epaisseur);
+   return 0;
    }
 
 
-f77name(c_sgeoatr)(item,valeur,lenItem,lenValeur)
-char item[],valeur[];
-int lenItem,lenValeur;
+void f77name(c_sgeoatr)(char item[],char valeur[], int lenItem, int lenValeur)
 {
 
    }
@@ -815,8 +650,7 @@ int lenItem,lenValeur;
          
 
 
-PgSetMeridiens(valeur)
-int valeur;
+void PgSetMeridiens(int valeur)
 {
    char valeurStr[8];
 
@@ -830,17 +664,13 @@ int valeur;
 
    }
 
-PgSetFrontieresActives(valeur)
-int valeur;
+void PgSetFrontieresActives(int valeur)
 {
-   char valeurStr[8];
-
    frontieresActives = valeur;
 
    }
 
-PgSetEpaisseur(valeur)
-int valeur;
+void PgSetEpaisseur(int valeur)
 {
    epaisseur = valeur;
    c_gmpopti("OUTLINE_THICK", epaisseur);
@@ -848,15 +678,13 @@ int valeur;
    
    }
 
-PgSetEspacementMeridiens(valeur)
-int valeur;
+void PgSetEspacementMeridiens(int valeur)
 {
    espacementMeridiens = valeur;
    c_gmpopti("GRID", espacementMeridiens);
    }
 
-PgSetResolution(valeur)
-int valeur;
+void PgSetResolution(int valeur)
 {
    resolution = valeur;
    c_gmpopti("RESOLUTION",resolution);

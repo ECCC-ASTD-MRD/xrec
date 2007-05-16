@@ -66,7 +66,6 @@ gmp_gvlatlon(float *vlatmin, float *vlonmin, float *vlatmax, float *vlonmax, int
   *vlonmin = tlon;
   *vlonmax = tlon;
 
-
   j = jdebut;
   while (j <= jfin)
     {
@@ -91,6 +90,11 @@ gmp_gvlatlon(float *vlatmin, float *vlonmin, float *vlatmax, float *vlonmax, int
     {
     if (*vlonmin < -170.0) *vlonmin = -180.0;
     if (*vlonmax > 170.0)*vlonmax = 180.0;
+    if (*vlonmin > 180.0 && *vlonmax > 180.0)
+      {
+      *vlonmin -= 360.0;
+      *vlonmax -= 360.0;
+      }
     }
   else
     {
@@ -98,5 +102,5 @@ gmp_gvlatlon(float *vlatmin, float *vlonmin, float *vlatmax, float *vlonmax, int
     if (*vlonmax > 350.0)*vlonmax = 359.99;
     }
 
-  fprintf(stderr, "limits : (%f,%f),(%f,%f)\n", *vlatmin, *vlonmin, *vlatmax, *vlonmax);
+/*  fprintf(stderr, "gv_latlon limits : (%f,%f),(%f,%f)\n", *vlatmin, *vlonmin, *vlatmax, *vlonmax);*/
 }

@@ -52,10 +52,9 @@ extern Colormap cmap;
  **
  *****************************************************/
 
-XFontStruct *chargerLaFonte(display, fontName)
-Display *display;
-char fontName[];
-{ XFontStruct *fontStruct;
+XFontStruct *chargerLaFonte(Display *display, char fontName[])
+{ 
+  XFontStruct *fontStruct;
  
   fontStruct = XLoadQueryFont(display, fontName);
 
@@ -76,9 +75,7 @@ char fontName[];
  **
  ***************************************************************/
 
-void InitColor(display, foreground, background, bordercolor)
-Display *display;
-int *foreground, *background, *bordercolor;
+void InitColor(Display *display, int *foreground, int *background, int *bordercolor)
 { 
   XColor exact_def;
   int depth, screen;
@@ -127,10 +124,9 @@ else
  *
  *********************************************************/
 
-void XmToS(xm, string)
-XmString xm;
-char **string;
-{ int i;
+void XmToS(XmString xm, char **string)
+{ 
+  int i;
 
   XmStringGetLtoR(xm, XmSTRING_DEFAULT_CHARSET, string);
 }
@@ -143,9 +139,8 @@ char **string;
  *
  *********************************************************/
 
-void SToXm(xm, string)
-XmString *xm;
-char *string;
+void SToXm(XmString *xm, char *string)
+
 {
   *xm= XmStringCreateLtoR(string, XmSTRING_DEFAULT_CHARSET);
 }

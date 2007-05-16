@@ -78,8 +78,8 @@ void c_wglssp(float xdebut, float ydebut, float xfin, float yfin, int idebut, in
   
   if ((idebut == 0) && (jdebut == 0) && (ifin == 0) & (jfin == 0))
     {
-      usSpace.ifin = w  - 1;
-      usSpace.jfin = h - 1;
+    usSpace.ifin = w  - 1;
+    usSpace.jfin = h - 1;
     }
   
   usSpace.densiteX = (float)(usSpace.ifin - usSpace.idebut) / (usSpace.xfin - usSpace.xdebut);
@@ -89,11 +89,11 @@ void c_wglssp(float xdebut, float ydebut, float xfin, float yfin, int idebut, in
     {
       if (usSpace.densiteX < usSpace.densiteY)
 	{
-	  usSpace.densiteY = usSpace.densiteX;
+	usSpace.densiteY = usSpace.densiteX;
 	}
       else
 	{
-	  usSpace.densiteX = usSpace.densiteY;
+	usSpace.densiteX = usSpace.densiteY;
 	}
       
       if (usSpace.ifin == (w - 1) && (usSpace.jfin == (h - 1)))

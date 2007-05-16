@@ -18,15 +18,16 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <rpnmacros.h>
 
 #define MODULE2D(a,b)   (sqrt(a*a+b*b))
 #define MODULE3D(a,b,c) (sqrt(a*a+b*b+c*c))
 
-DiffMgrSetDiffs(fld1,fld2,opmin,opmax,npts)
-float *fld1,*fld2,*opmin,*opmax;
-int   npts;
+void DiffMgrSetDiffs(float *fld1,float *fld2,float *opmin,float *opmax, int npts)
 {
    int i,n;
 
@@ -68,9 +69,7 @@ int   npts;
       }
    }
 
-DiffMgrCalcDiffs(out,fld1,fld2,npts,op)
-float *out,*fld1,*fld2;
-int npts,op;
+void DiffMgrCalcDiffs(float *out,float *fld1,float *fld2, int npts, int op)
 {
    int i;
 
@@ -107,9 +106,7 @@ int npts,op;
    }
 
 
-DiffMgrCalcVDiffs2D(out,uu1,vv1,uu2,vv2,npts,op)
-float *out,*uu1,*vv1,*uu2,*vv2;
-int npts,op;
+void DiffMgrCalcVDiffs2D(float *out,float *uu1,float *vv1,float *uu2,float *vv2,int npts,int op)
 {
    int i;
 
@@ -135,14 +132,12 @@ int npts,op;
    }
 
 
-DiffMgrSetVDiffs2D(uu1,vv1,uu2,vv2,opmin,opmax,npts)
-float *uu1,*uu2,*vv1,*vv2,*opmin,*opmax;
-int   npts;
+void DiffMgrSetVDiffs2D(float *uu1,float *vv1,float *uu2,float *vv2,float *opmin,float *opmax,int npts)
 {
    int i,n;
 
-   float diffuu,diffvv,somme_uu,somme_vv,abs_diff_uu,abs_diff_vv,abs_somme_uu,abs_somme_vv;
-   float diff,somme,abs_diff,abs_somme,module;
+   float diffuu,diffvv,somme_uu,somme_vv;
+   float diff,somme,module;
 
    diffuu = uu1[0] - uu2[0];
    diffvv = vv1[0] - vv2[0];
@@ -187,14 +182,12 @@ int   npts;
    opmax[ABS_SOMME] = opmax[SOMME];
    }
 
-DiffMgrSetVDiffs3D(uu1,vv1,ww1, uu2,vv2,ww2, opmin, opmax, npts)
-float *uu1,*vv1,*ww1,*uu2,*vv2,*ww2,*opmin,*opmax;
-int   npts;
+void DiffMgrSetVDiffs3D(float *uu1,float *vv1,float *ww1, float *uu2,float *vv2,float *ww2, float *opmin, float *opmax, int npts)
 {
    int i,n;
 
    float diffuu,diffvv,diffww,somme_uu,somme_vv,somme_ww;
-   float diff,somme,abs_diff,abs_somme,module;
+   float diff,somme,module;
 
    diffuu = uu1[0] - uu2[0];
    diffvv = vv1[0] - vv2[0];
@@ -241,10 +234,9 @@ int   npts;
    opmax[ABS_SOMME] = opmax[SOMME];
    }
 
-DiffMgrGetNbChampsAffichables()
+int DiffMgrGetNbChampsAffichables()
 {
    int op,nbChampsActifs;
-   int i;
 
    op = CtrlMgrGetMathOp();
    nbChampsActifs = FldMgrGetNbChampsActifs();
@@ -266,7 +258,7 @@ DiffMgrGetNbChampsAffichables()
       }
    }
    
-DiffMgrMergeMasks(int indChamp1, int indChamp2)
+void DiffMgrMergeMasks(int indChamp1, int indChamp2)
 {
   _Champ *champ1, *champ2;
   int i, npts;

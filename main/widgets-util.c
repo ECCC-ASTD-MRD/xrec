@@ -24,8 +24,7 @@
 
 extern SuperWidgetStruct SuperWidget;
 
-InitPixelsCouleursDeBase(indCouleurs)
-Pixel indCouleurs[];
+InitPixelsCouleursDeBase(Pixel indCouleurs[])
 {
    Display *disp;
    Colormap cmap;
@@ -62,8 +61,7 @@ Pixel indCouleurs[];
    indCouleurs[GRIS] = exact.pixel;
    }
 
-InvertWidget(w)
-Widget w;
+InvertWidget(Widget w)
 {
    int i;
    Pixel back, fore;
@@ -85,8 +83,7 @@ Widget w;
 
 
 
-ActiverWidget(w)
-Widget w;
+ActiverWidget(Widget w)
 {
    int i;
    Arg args[1];
@@ -99,8 +96,7 @@ Widget w;
    }
 
 
-DesactiverWidget(w)
-Widget w;
+DesactiverWidget(Widget w)
 {
    int i;
    Arg args[1];
@@ -114,8 +110,7 @@ Widget w;
 
 
 
-AjusterPositionForme(w, wp)
-Widget w, wp;
+AjusterPositionForme(Widget w, Widget wp)
 {
    Position i,x,y,wWidth,wHeight, wpWidth, wpHeight;
    Position displayWidth, displayHeight;

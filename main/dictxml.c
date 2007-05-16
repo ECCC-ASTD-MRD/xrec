@@ -23,7 +23,10 @@
 #include <fcntl.h>
 #include <ctype.h>
 #include <malloc.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <xinit.h>
 #include <rpnmacros.h>
 #include <libxml/xmlmemory.h>

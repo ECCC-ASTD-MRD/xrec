@@ -9,7 +9,7 @@
 #include <gdfontt.h>
 
 #include <rpnmacros.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <math.h>
 #include <wgl.h>
 

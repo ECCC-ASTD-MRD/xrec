@@ -36,9 +36,9 @@
 
       integer xconouv, xinit
       integer xfslouv97, xfslact97
-      integer xconact, xpandact, xpancact, xpaneact, xpangact, 
+      integer xconact, xpandact, xpancact, xpaneact, xpangact, xpancbiact,
      $     xpanmact ,xpanpaact, xpanpcsac, xpanpact, xpanpavact, 
-     $     xpanpcpact ,xpanpcsact, xpventact, xpattact
+     $     xpanpcpact ,xpanpcsact, xpventact, xpattact, xpanstatact
 
 
       integer ier, nrecs
@@ -214,6 +214,7 @@
       if (inf.eq.quitter) goto 3000
 
       ier = xfslact97(recs, nrecs, 1)
+      ier = xpanstatact()
       ier = xpandact()
       ier = xpancact()
       ier = xpaneact()
@@ -227,6 +228,7 @@
       ier = xpanpcsact()
       ier = xpventact()
       ier = xpattact()
+      ier = xpancbiact()
       goto 1000
 
  2    format(72a)
@@ -249,11 +251,11 @@ c     ****************************************************************
       integer lnkdiun(*)
       integer nf
 
-      integer i, ier, niun, nrecs
+      integer i, ier, niun, nrecs, nrecs2
       integer, dimension(:), allocatable :: liste
-      integer fnom, fstouv, fstinl
+      integer fnom, fstouv, fstinl, fstnbr
       integer ni, nj, nk, fstopi
-      external fnom, fstouv, fstinl, fstopi
+      external fnom, fstouv, fstinl, fstopi, fstnbr
       logical flag
        
 
@@ -287,6 +289,10 @@ c     ****************************************************************
       nbrecs = 0
       do i=1,nf
          nrecs = fstouv(lnkdiun(i), 'RND')
+         call get_nbrecs_actifs(nrecs2, lnkdiun(i))
+         if (nrecs.ne.nrecs2) then
+          print *, nrecs, nrecs2
+         endif
          if (nrecs.lt.0) then
             call messerr(val(i))
             print *, '**********************************************'
@@ -295,7 +301,7 @@ c     ****************************************************************
             print *, '**********************************************'
             stop
          endif
-      nbrecs = nbrecs + nrecs
+      nbrecs = nbrecs + nrecs2
       enddo
          
       tol = 6
@@ -423,3 +429,19 @@ c     ****************************************************************
       return 
       end
 
+c     ****************************************************************
+      
+      subroutine get_nbrecs_actifs(nbrecs, iun)
+      implicit none
+      integer nbrecs, iun, key, fstinf, fstsui, ni,nj,nk
+      
+      nbrecs = 0 
+      key = fstinf(iun, ni, nj, nk,  -1, ' ', -1, -1, -1, ' ', ' ')
+      do while (key >= 0)
+        nbrecs = nbrecs+1
+        key = fstsui(iun,ni,nj,nk)
+      end do
+
+      
+      return
+      end subroutine get_nbrecs_actifs

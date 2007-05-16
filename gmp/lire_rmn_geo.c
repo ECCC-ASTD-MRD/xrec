@@ -22,6 +22,7 @@
 #include <rpnmacros.h>
 #include <stdio.h>
 #include <gdb.h>
+#include <string.h>
 
 static ListePointsStruct *gdb_liste;
 static int gdb_nbItems;
@@ -53,6 +54,9 @@ lire_rmn_geo()
   
   int npts, centCinquanteHuit, code;  
 
+  for (i=0; i<128; i++)
+    nomFichierGeographie[i] = ' ';
+
   for (i=0; i < NMAP_FLAGS; i++)
     {
     if (i != LATLON)
@@ -69,8 +73,9 @@ lire_rmn_geo()
     {
     strcpy(nomFichierGeographie, rmn_geo);
     strcat(nomFichierGeographie, mapOptions.fichierGeographie[n]);
+
     centCinquanteHuit = 158;
-    f77name(opllfl)(&centCinquanteHuit, nomFichierGeographie, &code, strlen((char *)nomFichier));
+    f77name(opllfl)(&centCinquanteHuit, nomFichierGeographie, &code, strlen((char *)nomFichierGeographie));
     
     npts = -1;
     while (npts != 0)
@@ -85,8 +90,8 @@ lire_rmn_geo()
        if (lonMax < lonMin)
 	swapFloats(&lonMin, &lonMax);
       
-
       res = gmp_perim(&xmin, &ymin, &xmax, &ymax, &latMin, &lonMin, &latMax, &lonMax, &nbSeg);
+
       if (res)
 	{
 	gmp_trim(pts, &npts,mapOptions.resolution);

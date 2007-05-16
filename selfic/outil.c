@@ -21,7 +21,7 @@
 /* #ident "CMC/DOE: %W% %G%" */
 
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <string.h>
 #include <strings.h>
 #include <sys/types.h>

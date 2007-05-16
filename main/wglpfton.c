@@ -18,7 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <wgl_x.h>
 
 /**
@@ -43,14 +46,7 @@ extern _Viewport viewp;
 extern int recColorTable[];
 #define C_TO_FTN(i,j,ni)  (int)((ni) * (j) + i)
 
-c_wglpfton(fld, ni, nj, intervalles, nbIntervalles, facteur, min, max, colorTable, ncol, flagInterrupt, lissfac)
-float *fld;
-int ni, nj;
-float intervalles[];
-int nbIntervalles;
-float facteur;
-float min, max;
-int colorTable[], ncol, flagInterrupt, lissfac;
+void c_wglpfton(float *fld, int ni, int nj, float intervalles[], int nbIntervalles, float facteur, float min, float max, int colorTable[], int ncol, int flagInterrupt, int lissfac)
 {
    int i,j,k;
    int idebut, jdebut, ifin, jfin, largeur, hauteur;

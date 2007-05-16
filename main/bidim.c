@@ -18,10 +18,11 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <rec.h>
-#include <gmp.h>
 #include <wgl.h>
 #include <rpnmacros.h>
+#include <gmp.h>
+#include <rec.h>
+#include <rec_functions.h>
 
 extern GeoMapInfoStruct    mapInfo;
 extern _Viewport viewp;
@@ -31,23 +32,15 @@ extern int sizeRecColorTable;
 extern int facteurLissage;
 extern float labelPos[][4];
 
-extern void c_wglfton_m(float *fld, unsigned int *mask, int ni, int nj, float intervalles[], int nbIntervalles, float facteur, float min, float max,  int colorTable[], int ncol, int flagInterrupt, int lissfac);
-extern  void c_wglrfton_m(float *fld, unsigned int *missing, int ni, int nj, float intervalles[], int nbIntervalles, float facteur, float min, float max, int colorTable[], int ncolors);
 
-
-AfficherChampBiDimensionnel(indChamp,nbChampsActifs,fld,min,max,uu,vv)
-int indChamp,nbChampsActifs;
-float *fld, min, max;
-float *uu,*vv;
+void AfficherChampBiDimensionnel(int indChamp,int nbChampsActifs,float *fld,float min,float max,float *uu,float * vv)
 {
    int lissfac,fontSize;
    float xdebut, ydebut, xfin, yfin;
    int idebut, jdebut, ifin, jfin;
    int largeurFenetre, hauteurFenetre;
    int fond;
-   float localmin,localmax;
    int mdeb,ndeb,mfin,nfin;
-   int i;
    Hilo hilo[256];
    int hlcount;
    int hlnmax = 256;
@@ -60,6 +53,8 @@ float *uu,*vv;
    xc.statuts[EN_TRAIN_DE_DESSINER] = TRUE;
    c_wglgwz(&largeurFenetre, &hauteurFenetre);
    c_wglgsx(&xdebut, &ydebut, &xfin, &yfin);
+
+   DefinirFenetreGrille(&mdeb, &ndeb, &mfin, &nfin, mapInfo.ni, mapInfo.nj);
 
    if (xc.statuts[ZOOM_LOCAL] && AUTO == DictMgrGetMinMaxMode(champ->nomvar))
       {
@@ -272,7 +267,7 @@ float *uu,*vv;
       SetLabFontSize(fontSize);
       c_wgllab(fld, mapInfo.ni, mapInfo.nj, champ->intervalles, champ->nbIntervalles,
                champ->facteur, min, max, labelPos[indChamp%4], 4, xc.attributs[indChamp].indCouleurFore,
-               xc.attributs[indChamp].indCouleurBack, lissfac);
+               xc.attributs[indChamp].indCouleurBack, indChamp, lissfac);
       }
 
 
@@ -320,14 +315,18 @@ float *uu,*vv;
       if (c_wglanul())
    {
    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+   f77name(xpanstatact)();
+   f77name(xpanstatact)();
+   f77name(xpanstatact)();
+   f77name(xpanstatact)();
+   f77name(xpanstatact)();
    return;
    }
       }
 }
 
 
-int AfficherItem(indChamp,itemAAfficher)
-     int indChamp,  itemAAfficher;
+int AfficherItem(int indChamp,  int itemAAfficher)
 {
    _Champ *champ;
 

@@ -165,11 +165,12 @@ lire_gdb_geo()
   int ex=1;
   int ppd_mode = 0;
   int user_ppd = -1;
-  char *ppd_env;
+  int ppd_maxval = 128;
+  char *ppd_env, *ppd_max;
   static GeoMapInfoStruct oldMapInfo;
   static int once = 0;
   int rereadmapFlag = 0;
-  
+#ifndef Darwin_OSX_PPC
   if (once == 0)
     {
     memset(&oldMapInfo, NULL, sizeof(GeoMapInfoStruct));
@@ -177,6 +178,7 @@ lire_gdb_geo()
     }
   
   ppd_env = (char *) getenv("GDB_RESOLUTION");
+  ppd_max = (char *) getenv("GDB_MAX");
   
   if (ppd_env != NULL)
     {
@@ -184,6 +186,11 @@ lire_gdb_geo()
     ppd_mode = 1;
     }
   
+  if (ppd_max != NULL)
+   {
+   sscanf(ppd_max, "%d", &ppd_maxval);
+   }
+   
   if (0 != memcmp(&oldMapInfo, &mapInfo, sizeof(GeoMapInfoStruct)))
     {
     rereadmapFlag = 1;
@@ -195,7 +202,7 @@ lire_gdb_geo()
   gmp_gvlatlon(&latmin, &lonmin, &latmax, &lonmax, M180_180);
 
   gdb_limit(latmin, lonmin, latmax, lonmax);
-  fprintf(stderr, "limits : (%f,%f),(%f,%f)\n", latmin, lonmin, latmax, lonmax);
+/*  fprintf(stderr, "limits : (%f,%f),(%f,%f)\n", latmin, lonmin, latmax, lonmax);*/
   
   switch (ppd_mode)
     {
@@ -209,9 +216,9 @@ lire_gdb_geo()
 
     if (ex == 0) ex = 1;
     pixperdegree = ex;
-    if (pixperdegree > 128) 
+    if (pixperdegree > ppd_maxval) 
       {
-      pixperdegree = 128;
+      pixperdegree = ppd_maxval;
       }
 
     break;
@@ -221,7 +228,7 @@ lire_gdb_geo()
     break;
     }
   
-  fprintf(stderr, "Pixperdegree : %d\n", pixperdegree);
+/*  fprintf(stderr, "Pixperdegree : %d\n", pixperdegree);*/
   
   if (ppd_mode == 1 && rereadmapFlag == 1)
     {
@@ -303,7 +310,7 @@ lire_gdb_geo()
 
       gmp_vecs[i] = gdb_liste;
       gmp_nbVecs[i] = gdb_nbItems;
-      fprintf(stderr, "%d : %d\n", i, gmp_nbVecs[i]);
+/*      fprintf(stderr, "%d : %d\n", i, gmp_nbVecs[i]);*/
       }
     else
       {
@@ -327,5 +334,6 @@ lire_gdb_geo()
       }
     }
   memcpy(&oldMapInfo, &mapInfo, sizeof(GeoMapInfoStruct));
+#endif
   }
 

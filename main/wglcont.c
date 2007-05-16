@@ -19,7 +19,10 @@
  */
 
 #include <math.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <rpnmacros.h>
 
 /**
@@ -47,14 +50,7 @@
   
 **/
 
-void c_wglcont(fld, ni, nj, intervalles, nbIntervalles, facteur, min, max, couleur,
-	       epaisseur, codeDash, dashPattern, facteurLissage, flagInterrupt)
-float *fld;
-int ni, nj;
-float intervalles[];
-int nbIntervalles;
-float facteur, min, max;
-int couleur, epaisseur, codeDash, dashPattern, facteurLissage, flagInterrupt;
+void c_wglcont(float *fld, int ni, int nj, float intervalles[], int nbIntervalles, float facteur, float rmin, float rmax, int couleur, int epaisseur, int codeDash, int dashPattern, int facteurLissage, int flagInterrupt)
 {
    float contourMin, contourMax, leContour;
    int mdeb,ndeb,mfin,nfin;
@@ -101,8 +97,8 @@ int couleur, epaisseur, codeDash, dashPattern, facteurLissage, flagInterrupt;
    if (nbIntervalles == 1)
       {
       f77name(sminmax)(&contourMin, &contourMax, fld, &ni, &nj, &mdeb, &ndeb, &mfin, &nfin);
-      contourMin = contourMin < min ? min : contourMin;
-      contourMax = contourMax > max ? max : contourMax;
+      contourMin = contourMin < rmin ? rmin : contourMin;
+      contourMax = contourMax > rmax ? rmax : contourMax;
       AjusterMinMax(&contourMin, &contourMax, facteur, intervalles[0]);
       
       leContour = contourMin;
@@ -123,6 +119,8 @@ int couleur, epaisseur, codeDash, dashPattern, facteurLissage, flagInterrupt;
         if (0 == (nContours % 8) && flagInterrupt)
             annulationDemandee = c_wglanul();
         }
+      f77name(wglstl)(fld, &ni, &ni , &nj, &mdeb, &ndeb, &mfin, &nfin, &contourMax, &lissfac);
+
       }
    else
       {

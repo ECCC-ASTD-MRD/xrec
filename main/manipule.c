@@ -18,10 +18,12 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <rec.h>
-#include <gmp.h>
-#include <wgl.h>
 #include <rpnmacros.h>
+#include <rpnmacros.h>
+#include <gmp.h>
+#include <rec.h>
+#include <rec_functions.h>
+#include <wgl.h>
 
 extern GeoMapInfoStruct    mapInfo;
 extern _Viewport viewp;
@@ -36,15 +38,11 @@ des champs scalaires et vectoriels", "\
 It is not possible to perform arithmetic operations\n\
 between scalar and vector fields"};
 
-ManipulerChampBiDimensionnel(indChamp)
-int indChamp;
+void ManipulerChampBiDimensionnel(int indChamp)
 {
-   float xdebut, ydebut, xfin, yfin;
-   int idebut, jdebut, ifin, jfin;
-   int largeurFenetre, hauteurFenetre;
-   int lng,fond;
-   float min,max,vmin,vmax,tmpmin,tmpmax;
-   float *fld,*uu,*vv,*module;
+   int lng;
+   float min,max;
+   float *uu,*vv;
    float *tmpfld,*tmpuu,*tmpvv,*tmpmodule;
    float *pfld;
    unsigned int *maskfld, *maskfld2;
@@ -53,14 +51,11 @@ int indChamp;
    float *origFld;
 
    int i,npts;
-   Hilo hilo[64];
-   int hlcount;
-   int hlnmax = 64;
+
    
-   _Champ *champ,*champ2,*tmpchamp;
+   _Champ *champ,*champ2;
    int nbChampsActifs;
    int op,customFld;
-   float *fld1, *fld2;
 
    customFld = False;
 

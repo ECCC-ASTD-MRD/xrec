@@ -28,13 +28,6 @@
 #define  RMN_GEO                0
 #define  GDB_GEO                1
 
-#define  ROUND(x) (int)(x+0.5)
-#define  INT(x)   (int)(x)
-#ifndef FALSE
-#define  TRUE 1
-#define  FALSE 0
-#endif
-
 #define  GEOGRLR                "/data/GEOGRLR"
 #define  GEOGRHR                "/data/GEOGRHR"
 #define  GEOPOLR                "/data/GEOPOLR"

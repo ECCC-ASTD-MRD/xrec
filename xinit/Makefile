@@ -12,7 +12,7 @@ WGLLIB = $(HOME)/userlibs/$(ARCH)$(ABI)/libx_wgl.a
 
 FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
 
-CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -DX_WGL
+CFLAGS = -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -DX_WGL
 
 OPTIMIZ = -O 2
 

@@ -46,7 +46,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <fcntl.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -124,7 +124,7 @@ typedef struct
  **/
 
 static char *messString[] = {"%5d /% 5d ",
-				"%5d /% 5d "};
+        "%5d /% 5d "};
 
 typedef struct
 {
@@ -271,7 +271,7 @@ static void     panRowColSelect();
 
 wordint             ActiverSelWidgets();
 void            AfficherListe();
-void            AfficherNbSelect();
+void            AfficherNbSelect(wordint);
 wordint             AjouterCle();
 wordint             AjouterFiltre();
 wordint             AjouterNouvelleCle();
@@ -309,6 +309,7 @@ wordint             XSelectstdActiver();
 wordint             XSelectstdFermer();
 Widget          XSelectstdOuvrir();
 
+void XSelectstdInserer(char *tableau, wordint table[][3], wordint nbrecs);
 void XSelectstdTerminerInit(wordint table[][3], wordint nbrecs);
 /*===============================================================================
 
@@ -341,11 +342,7 @@ VALEUR RETOUNEE:       Aucune.
 
 ------------------------------------------------------------------------------*/
 
-static void AfficherInfoFiltres(w, unused1, unused2)
-
-Widget  w;              /* Le widget duquel le callback a ete appele: infoFiltres.      */
-caddr_t unused1;        /* Pointeur a la structure envoyee par le programme: NULL.      */
-caddr_t unused2;        /* Pointeur a la structure envoyee par le widget w.             */
+static void AfficherInfoFiltres(Widget w, caddr_t unused1, caddr_t unused2)
 {
    Position     x, y;           /* La position sur l'ecran ou le popup va apparaitre.   */
    Dimension    height;         /* La hauteure du widget infoFiltres.                   */
@@ -397,18 +394,13 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-static void DeselectionnerRecords(w, unused1, unused2)
-
-Widget  w;              /* Le widget duquel le callback a ete appele: deselectionnerRecs.*/
-caddr_t unused1;        /* Pointeur a la structure envoyee par le programme: NULL.       */
-caddr_t unused2;        /* Pointeur a la structure envoyee par le widget w.              */
-
+static void DeselectionnerRecords(Widget w, caddr_t unused1, caddr_t unused2)
 {
    wordint i; /* Compteur. */
 
    XmListDeselectAllItems(xs[wi].liste);
    xs[wi].nbRecsSelect          = 0;
-   AfficherNbSelect(0);
+   AfficherNbSelect((wordint)0);
 }
 /*======================================================================================================*/
 /**
@@ -442,17 +434,13 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-static void EffacerFiltres(w, unused1, unused2)
-
-Widget  w;              /* Le widget duquel le callback a ete appele: effacerFiltres.   */
-caddr_t unused1;        /* Pointeur a la structure envoyee par le programme: NULL.      */
-caddr_t unused2;        /* Pointeur a la structure envoyee par le widget w.             */
-
+static void EffacerFiltres(Widget w, caddr_t unused1, caddr_t unused2)
 {
    wordint  j;       /* Compteur.                                   */
    wordint  nb;      /* Nombre de records affiches.                 */
    wordint  i;       /* Nombre de resources utilisees; compteur.    */
    Arg  args[5]; /* Resources des widgets qui sont utilisees.   */
+   wordint zero = 0;
 
    InvertWidget(w);
    for (j = 0; j < xs[wi].nbRecs; j++)
@@ -468,7 +456,7 @@ caddr_t unused2;        /* Pointeur a la structure envoyee par le widget w.     
    DeselectionnerRecords(NULL, NULL, NULL);
    xs[wi].nbRecsFiltres = xs[wi].nbRecs;
    xs[wi].nbFiltres     = 0;
-   AfficherNbSelect(0);
+   AfficherNbSelect(zero);
    InvertWidget(w);
    }
 /*======================================================================================================*/
@@ -498,11 +486,7 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-static void HighlightFields(w, unused1, call_data)
-
-Widget  w;              /* Le widget duquel le callback a ete appele: liste ou listeNb. */
-caddr_t unused1;        /* Pointeur a la structure envoyee par le programme: NULL.      */
-caddr_t call_data;      /* Pointeur a la structure envoyee par le widget w.             */
+static void HighlightFields(Widget  w, caddr_t unused1, caddr_t call_data)
 {
    wordint                  i, j;                                      /* Compteurs.                                */
    wordint                  numItem;                                   /* La position de l'item (de)selectionne.    */
@@ -602,11 +586,7 @@ VALEUR RETOUNEE:       Aucune.
 
 ------------------------------------------------------------------------------*/
 
-void AfficherListe(w, items, nbItems)
-
-Widget          w;       /* La liste qui doit etre affichee.                               */
-XmStringTable   items;   /* Le tableau de XmString qui contient les items a etre affiches. */
-wordint             nbItems; /* Le nombre d'items dans la liste a etre affichee.               */
+void AfficherListe(Widget w, XmStringTable items, wordint nbItems)
 {
    wordint nb, cnt; /* Nombre d'items visibles.                     */
    wordint i;       /* Nombre de resources utilisees.               */
@@ -643,10 +623,7 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-void AfficherNbSelect(nb)
-
-wordint nb; /* Nombre de records selectionnes. */
-
+void AfficherNbSelect(wordint nb)
 {
    Cardinal i;       /* Le nombre de resources changees.                            */
    Arg          args[5]; /* Les resources changees.                                     */
@@ -690,12 +667,11 @@ VALEUR RETOUNEE:       Aucune.
 
 ------------------------------------------------------------------------------*/
 
-wordint AjouterCle(cles, pos, indDes, indCle)
-
-cleStruct cles[]; /* Le tableau qui contient les tableau de descripteurs.                       */
-wordint       pos;    /* La position dans le tableau du descripteur ou la cle se trouve.            */
-wordint       indDes; /* Indice qui indique de quel tableau de descripteur la cle fait partie.      */
-wordint       indCle; /* Indice qui indique la position de la cle dans le tableau des records.      */
+wordint AjouterCle(cleStruct cles[], wordint pos, wordint indDes, wordint indCle)
+//cles /* Le tableau qui contient les tableau de descripteurs.                       */
+//      pos;    /* La position dans le tableau du descripteur ou la cle se trouve.            */
+//     indDes; /* Indice qui indique de quel tableau de descripteur la cle fait partie.      */
+//      indCle; /* Indice qui indique la position de la cle dans le tableau des records.      */
 {
    wordint nbElem; /* Nombre d'elements dans la liste des indices ou la cle se trouve dans tableau[]. */
 
@@ -1735,6 +1711,24 @@ void InitWidgetsBouton()
    wordint          h;       /* La hauteur de boutonform.                  */
    XmString     label;   /* Le nom de chaque bouton.                    */
    unsigned char         str[32];
+   XmFontList fontListe;
+   XmString infoLabelWidth;
+   wordint largeurTexte;
+   
+/*   Arg args[10];
+   char bidon[32];
+   XmString labelBidon[32], label1, label2;
+
+   strcpy(bidon, " ");
+   for (i=1; i < 32; i++)
+      {
+      labelBidon[i] = XmStringCreate(bidon, XmSTRING_DEFAULT_CHARSET);
+      strcat(bidon, " ");
+      }
+   
+   i = 0;
+   XtSetArg(args[i], XmNfontList, &fontListe); i++;
+   XtGetValues(xs[wi].ok, args, i);*/
    
    /*................................ok.....................................*/
    
@@ -1752,9 +1746,7 @@ void InitWidgetsBouton()
       i = 0;
       label = XmStringCreateLtoR(label_desact[langue], XmSTRING_DEFAULT_CHARSET);
       XtSetArg(args[i], XmNlabelString, label); i++;
-      xs[wi].deselectionnerRecs = (Widget)XmCreatePushButton(xs[wi].boutonform,
-							     "desactiver items",
-							     args, i);
+      xs[wi].deselectionnerRecs = (Widget)XmCreatePushButton(xs[wi].boutonform, "desactiver items", args, i);
       XtManageChild(xs[wi].deselectionnerRecs);
       XmStringFree(label);
       }
@@ -1775,6 +1767,13 @@ void InitWidgetsBouton()
    XtManageChild(xs[wi].frameInfoLabel);
    
    i = 0;
+   XtSetArg(args[i], XmNfontList, &fontListe); i++;
+   XtGetValues(xs[wi].ok, args, i);
+   
+   infoLabelWidth = XmStringCreate("999999/999999", XmSTRING_DEFAULT_CHARSET);
+   
+   i = 0;
+   XtSetArg(args[i], XmNwidth, XmStringWidth(fontListe, infoLabelWidth)); i++;
    xs[wi].infoLabel = (Widget)XmCreateLabel(xs[wi].frameInfoLabel, "   ", args, i);
    XtManageChild(xs[wi].infoLabel);
    
@@ -1795,9 +1794,7 @@ void InitWidgetsBouton()
       XtSetArg(args[i], XmNmarginHeight, 0); i++;
       XtSetArg(args[i], XmNmarginWidth, 0); i++;
       
-      xs[wi].nbForm = (Widget)XmCreateRowColumn(xs[wi].nbFrame,
-                                                "label Frame",
-                                                args, i);
+      xs[wi].nbForm = (Widget)XmCreateRowColumn(xs[wi].nbFrame, "label Frame", args, i);
       XtManageChild(xs[wi].nbForm);
       
       /*...........................selMsg.......................................*/
@@ -1839,9 +1836,9 @@ static XtCallbackProc SelectionListeTerminee(w, u1, u2)
 Widget w;
 caddr_t u1, u2;
 {
-   
+   wordint zero = 0;
    UpdateFiltres();
-   AfficherNbSelect(0);
+   AfficherNbSelect(zero);
    XtUnmanageChild(xs[wi].panListe);
    XtUnmapWidget(xs[wi].panListe);
    }
@@ -2100,6 +2097,7 @@ wordint      nbDes;         /* Le nombre de descripteurs. */
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++; 
    XtSetArg(args[i], XmNtopWidget, xs[wi].panRetour); i++; 
    XtSetArg(args[i], XmNpacking, XmPACK_TIGHT); i++; 
+   XtSetArg(args[i], XmNspacing, 0); i++; 
    XtSetArg(args[i], XmNorientation, XmHORIZONTAL); i++; 
    XtSetArg(args[i], XmNnumColumns, 1); i++; 
    xs[wi].panListeForm = (Widget)XmCreateRowColumn(xs[wi].panForme, "row", args, i);
@@ -2145,7 +2143,7 @@ wordint      nbDes;         /* Le nombre de descripteurs. */
                                                             "panListe",
                                                             args, i);
          XtManageChild(xs[wi].panListeItems[j]);
-	 free(tableItems);
+   free(tableItems);
          }
       }
    }
@@ -2170,6 +2168,7 @@ wordint      nbDes;         /* Le nombre de descripteurs. */
       i = 0;
       XtSetArg(args[i], XmNlabelString, TitresMenus[j]); i++;
       XtSetArg(args[i], XmNx, (Position)positionCourante); i++;
+      XtSetArg(args[i], XmNspacing, 0); i++;
       XtSetArg(args[i], XmNshadowThickness, 0); i++;
       xs[wi].menus[j] = (Widget)XmCreatePushButton(xs[wi].menuform,
                                                           "menus",
@@ -2279,36 +2278,36 @@ wordint nbRecs1, nbRecs2;
    else
       {
       if (nbRecs1 < 100)
-	 {
-	 strcpy(infoMessage,"%2d/");
-	 }
+   {
+   strcpy(infoMessage,"%2d/");
+   }
       else
-	 {
-	 if (nbRecs1 < 1000)
-	    {
-	    strcpy(infoMessage,"%3d/");
-	    }
-	 else
-	    {
-	    if (nbRecs1 < 10000)
-	       {
-	       strcpy(infoMessage,"%4d/");
-	       }
-	    else
-	       {
-	       if (nbRecs1 < 100000)
-		  {
-		  strcpy(infoMessage,"%5d/");
-		  }
-	       else
-		  {
-		  strcpy(infoMessage,"%6d/");
-		  }
-	       }
-	    }
-	 }
+   {
+   if (nbRecs1 < 1000)
+      {
+      strcpy(infoMessage,"%3d/");
       }
-	    
+   else
+      {
+      if (nbRecs1 < 10000)
+         {
+         strcpy(infoMessage,"%4d/");
+         }
+      else
+         {
+         if (nbRecs1 < 100000)
+      {
+      strcpy(infoMessage,"%5d/");
+      }
+         else
+      {
+      strcpy(infoMessage,"%6d/");
+      }
+         }
+      }
+   }
+      }
+      
    if (nbRecs2 < 10)
       {
       strcat(infoMessage, "%1d");
@@ -2316,36 +2315,36 @@ wordint nbRecs1, nbRecs2;
    else
       {
       if (nbRecs2 < 100)
-	 {
-	 strcat(infoMessage,"%2d");
-	 }
+   {
+   strcat(infoMessage,"%2d");
+   }
       else
-	 {
-	 if (nbRecs2 < 1000)
-	    {
-	    strcat(infoMessage,"%3d");
-	    }
-	 else
-	    {
-	    if (nbRecs2 < 10000)
-	       {
-	       strcat(infoMessage,"%4d");
-	       }
-	    else
-	       {
-	       if (nbRecs2 < 100000)
-		  {
-		  strcat(infoMessage,"%5d");
-		  }
-	       else
-		  {
-		  strcat(infoMessage,"%6d");
-		  }
-	       }
-	    }
-	 }
+   {
+   if (nbRecs2 < 1000)
+      {
+      strcat(infoMessage,"%3d");
       }
-	    
+   else
+      {
+      if (nbRecs2 < 10000)
+         {
+         strcat(infoMessage,"%4d");
+         }
+      else
+         {
+         if (nbRecs2 < 100000)
+      {
+      strcat(infoMessage,"%5d");
+      }
+         else
+      {
+      strcat(infoMessage,"%6d");
+      }
+         }
+      }
+   }
+      }
+      
    sprintf(message, infoMessage, nbRecs1, nbRecs2);
    
    xmMessage = XmStringCreateLtoR(message, XmSTRING_DEFAULT_CHARSET);
@@ -2713,20 +2712,20 @@ VALEUR RETOURNEE:      Le widget id du topLevel.
 
 ------------------------------------------------------------------------------*/
 
-Widget XSelectstdOuvrir(table, m, idents, n, indSelecteur, typeSelection)
-wordint  table[][3];
-wordint  m;                /* Le nombre de records.                */
-char **idents;          /* Tableau des noms des descripteurs.   */
-wordint  n;                /* Le nombre de descripteurs.           */
-wordint  indSelecteur;     /* Le ID de la fenetre.                 */
-wordint  typeSelection;
-{
-   
-   XSelectstdCommencerInit("", m, idents, n, indSelecteur, typeSelection);
-   XSelectstdInserer(table, m);
-   XSelectstdTerminerInit(table, m);
-   
-   }
+///*Widget XSelectstdOuvrir(table, m, idents, n, indSelecteur, typeSelection)
+//wordint  table[][3];
+//wordint  m;                /* Le nombre de records.                */
+//char **idents;          /* Tableau des noms des descripteurs.   */
+//wordint  n;                /* Le nombre de descripteurs.           */
+//wordint  indSelecteur;     /* Le ID de la fenetre.                 */
+//wordint  typeSelection;
+//{
+//   
+//   XSelectstdCommencerInit("", m, idents, n, indSelecteur, typeSelection);
+//   XSelectstdInserer(table, m);
+//   XSelectstdTerminerInit(table, m);
+//   
+//   }*/
 /*======================================================================================================**
  **                                                                                                      **
  **                                      FIN DE XSELECTSTD.C                                             **
@@ -2759,6 +2758,7 @@ wordint table[][3];
    for (i=0; i < xs[wi].nbDes; i++)
       {
       largeurMenus[i] = (int) XmStringWidth(fontListe, labelBidon[table[i][0]]);
+/*      largeurMenus[i] = (int) (8 * table[i][0]);*/
       }  
 
    for (i=1; i < 32; i++)
@@ -2922,42 +2922,42 @@ wordint f77name(xselupd)()
    }
 
 
-wordint f77name(xselouv)(titre, sel, nbsel, idents, table, m, n, indsel, lenTitre, lenIdents)
-
-char *titre;     /* Le titre de la fenetre. */
-wordint  sel[];
-wordint  *nbsel;
-char idents[];
-wordint  table[][3]; /* tableau contenant les noms des fichiers resources. */
-wordint  *m, *n;
-wordint  *indsel;    /* no du window: wi */
-wordint  lenTitre;
-wordint  lenIdents; /* longueur du titre et de la table  */
-{
-   wordint  i,j,k;
-   char tmp;
-   char **identsMenus;
-
-   identsMenus = (char **) calloc(*n, sizeof(char *));
-   for (i = 0; i < *n; i++)
-      {
-/*      idents[i*lenIdents + (lenIdents - 1)] = NULL;*/
-      idents[i*lenIdents + (lenIdents - 1)] = '\0';
-      NettoyerString(&(idents[i*lenIdents]));
-      identsMenus[i] = (char *) calloc(strlen(&(idents[i*lenIdents])) + 1, sizeof(char));
-      strcpy(identsMenus[i], &(idents[i*lenIdents]));
-      }
-
-  XSelectstdOuvrir(sel, nbsel, identsMenus, table, m, n, indsel, titre);
-
-   for (i = 0; i < *nbsel; i++)
-      sel[i]++;
-
-   for (i = 0; i < *n; i++)
-      free(identsMenus[i]);
-   free(identsMenus);
-   return 0;
-}
+// wordint f77name(xselouv)(titre, sel, nbsel, idents, table, m, n, indsel, lenTitre, lenIdents)
+// 
+// char *titre;     /* Le titre de la fenetre. */
+// wordint  sel[];
+// wordint  *nbsel;
+// char idents[];
+// wordint  table[][3]; /* tableau contenant les noms des fichiers resources. */
+// wordint  *m, *n;
+// wordint  *indsel;    /* no du window: wi */
+// wordint  lenTitre;
+// wordint  lenIdents; /* longueur du titre et de la table  */
+// {
+//    wordint  i,j,k;
+//    char tmp;
+//    char **identsMenus;
+// 
+//    identsMenus = (char **) calloc(*n, sizeof(char *));
+//    for (i = 0; i < *n; i++)
+//       {
+// /*      idents[i*lenIdents + (lenIdents - 1)] = NULL;*/
+//       idents[i*lenIdents + (lenIdents - 1)] = '\0';
+//       NettoyerString(&(idents[i*lenIdents]));
+//       identsMenus[i] = (char *) calloc(strlen(&(idents[i*lenIdents])) + 1, sizeof(char));
+//       strcpy(identsMenus[i], &(idents[i*lenIdents]));
+//       }
+// 
+//   XSelectstdOuvrir(sel, nbsel, identsMenus, table, m, n, indsel, titre);
+// 
+//    for (i = 0; i < *nbsel; i++)
+//       sel[i]++;
+// 
+//    for (i = 0; i < *n; i++)
+//       free(identsMenus[i]);
+//    free(identsMenus);
+//    return 0;
+// }
 
 /*======================================================================================================*/
 XSelectstdCommencerInit(titre, nbrecs, idents, nbdes, indSel, typeSel)
@@ -3001,7 +3001,7 @@ wordint   typeSel;
       }
    }
 
-XSelectstdInserer(char *tableau, wordint table[][3], wordint *nbrecs)
+void XSelectstdInserer(char *tableau, wordint table[][3], wordint nbrecs)
 {
    wordint lng;
    char message[256];
@@ -3071,6 +3071,7 @@ wordint nbrecs;
    InvertWidget(xs[wi].infoLabel);
    AjusterSensibiliteBoutons();
    
+/**
    c_wglgetcmap(&cmap);
    i = 0;
    if (cmap != -1)
@@ -3079,7 +3080,7 @@ wordint nbrecs;
       }
    XtSetValues(xs[wi].topLevel, args, i);
    XtSetValues(xs[wi].panListe, args, i);
-   
+**/   
    }
 
 /***
@@ -3180,9 +3181,9 @@ c_xselopt(wordint indSelecteur, char *option, char *valeur)
    if (0 == strcmp(option, "bouton_fermer") || 0 == strcmp(option, "BOUTON_FERMER"))
       {
       if (0 == strcmp(valeur, "oui") || 0 == strcmp(valeur, "OUI"))
-	 xs[indSelecteur].statutBoutonFermer = BOUTON_FERMER_ACTIF;
+   xs[indSelecteur].statutBoutonFermer = BOUTON_FERMER_ACTIF;
       else
-	 xs[indSelecteur].statutBoutonFermer = BOUTON_FERMER_INACTIF;
+   xs[indSelecteur].statutBoutonFermer = BOUTON_FERMER_INACTIF;
       return;
       }
    

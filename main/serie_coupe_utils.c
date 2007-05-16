@@ -24,7 +24,10 @@
 #include <Xm/RowColumn.h>
 
 #include <xinit.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <wgl.h>
 #include <rpnmacros.h>
 #include <souris.h>
@@ -37,8 +40,7 @@
 #define TOPO_INACTIVE 0
 #define TOPO_ACTIVE   1
 
-TracerCercle(x, y)
-float x,y;
+void TracerCercle(float x, float y)
 {
    int ii,jj;
    float rx, ry;
@@ -61,9 +63,7 @@ float x,y;
  **/
 
 
-Ligne(event,fcx1,fcy1,fcx2,fcy2)
-int *event;
-float *fcx1, *fcy1, *fcx2, *fcy2;
+void Ligne(int *event, float *fcx1, float *fcy1, float *fcx2, float *fcy2)
 {
    int bouton;
    int x0, y0, xsize, ysize;
@@ -115,8 +115,7 @@ float *fcx1, *fcy1, *fcx2, *fcy2;
  **/
 
 
-TracerLigne(rcx1, rcy1, rcx2, rcy2)
-float rcx1,rcy1,rcx2,rcy2;
+void TracerLigne(float rcx1, float rcy1, float rcx2, float rcy2)
 {
    int i, j, n;
    float theta;
@@ -194,8 +193,7 @@ float rcx1,rcy1,rcx2,rcy2;
  ******************************************************************************
  **/
 
-AfficherSymbole(i,j,n)
-int i,j,n;
+void AfficherSymbole(int i, int j, int n)
 {
    switch(n)
       {

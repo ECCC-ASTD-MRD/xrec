@@ -1,14 +1,12 @@
-      integer ligne,maxrecs,maxdes
-
-      parameter (ligne  = 160)
-      parameter (maxrecs= 64)
-      parameter (maxdes = 24)
-
-      character*12 idents 
-      character*160 tableau
-      common /xfscinf/ idents(maxdes), tableau(0:maxrecs)
-
-      integer table, recs,listbuf, nrecs, nbrecs, nbdes
-      real liste
-      common /xfsiinf/ table(3,maxdes),recs(maxrecs),
-     *                 liste(1), listbuf,nrecs, nbrecs, nbdes
+  integer ligne,maxrecs,maxdes
+  
+  parameter (ligne  = 148)
+  parameter (maxrecs= 64)
+  parameter (maxdes = 24)
+  
+  character*16 idents 
+  character*148 tableau
+  common /xfscinf/ idents(maxdes), tableau(0:maxrecs)
+  
+  integer table, recs,nrecs, nbrecs, nbdes
+  common /xfsiinf/ table(3,maxdes),recs(maxrecs),nrecs, nbrecs, nbdes

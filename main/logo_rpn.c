@@ -24,12 +24,15 @@
 #include <service_f.xbm>
 #include <service_e.xbm>
 #include <stdio.h>
+#include <gmp.h>
 #include <rec_version.h>
+#include <rec.h>
+#include <rec_functions.h>
 
 int logo_width, logo_height;
 char *logo_bits;
 
-draw_rpn_logo()
+void draw_rpn_logo()
 {
    int i,j,k,n;
    int langue;
@@ -45,7 +48,7 @@ draw_rpn_logo()
 
    }
 
-draw_rec_version()
+void draw_rec_version()
 {
    int i,j,k,n;
    int langue;
@@ -75,8 +78,7 @@ draw_rec_version()
    c_wglcol(NOIR);
 }
 
-get_rpn_logo_size(largeurLogo, hauteurLogo)
-int *largeurLogo, *hauteurLogo;
+void get_rpn_logo_size(int *largeurLogo, int *hauteurLogo)
 {
    int langue;
    
@@ -98,8 +100,7 @@ int *largeurLogo, *hauteurLogo;
       }
    }
 
-get_sea_logo_size(largeurLogo, hauteurLogo)
-int *largeurLogo, *hauteurLogo;
+void get_sea_logo_size(int *largeurLogo, int *hauteurLogo)
 {
    int langue;
    
@@ -122,10 +123,7 @@ int *largeurLogo, *hauteurLogo;
    }
 
 
-draw_logo(idebut, jdebut, width, height, bits, fore)
-int idebut, jdebut, width, height;
-char bits[];
-int fore;
+void draw_logo(int idebut, int jdebut, int width, int height, char bits[], int fore)
 {
    int i,j,k,n;
    int bytes_per_line;

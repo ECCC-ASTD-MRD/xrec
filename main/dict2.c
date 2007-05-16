@@ -23,7 +23,10 @@
 #include <fcntl.h>
 #include <ctype.h>
 #include <malloc.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <xinit.h>
 #include <rpnmacros.h>
 #include <expat.h>
@@ -48,8 +51,7 @@ int GetNbChampsDict()
 *****************************************************************
 **/
 
-int LireDictionnaireRMNLIB(infoChamps)
-_InfoChamps infoChamps[];
+int  LireDictionnaireRMNLIB(_InfoChamps infoChamps[])
 {
    FILE *fichierEntree;
    int i, j, k;
@@ -94,8 +96,7 @@ _InfoChamps infoChamps[];
 *****************************************************************
 **/
 
-int LireDictionnaireRMNLIB_XML(infoChamps)
-_InfoChamps infoChamps[];
+void LireDictionnaireRMNLIB_XML(_InfoChamps infoChamps[])
 {
    FILE *fichierEntree;
    int i, j, k;
@@ -145,8 +146,7 @@ _InfoChamps infoChamps[];
 *****************************************************************
 **/
 
-int LireDictionnaireUsager(infoChamps)
-_InfoChamps infoChamps[];
+int  LireDictionnaireUsager(_InfoChamps infoChamps[])
 {
    FILE *fichierEntree;
    char *tmp, *home;
@@ -208,8 +208,7 @@ int LireStartRec()
 *****************************************************************
 **/
 
-int ChercherNomVar(nomVar)
-char *nomVar;
+int ChercherNomVar(char *nomVar)
 {
    int i;
    
@@ -232,8 +231,7 @@ char *nomVar;
 *****************************************************************
 **/
 
-int AjouterNomVar(nomVar)
-char *nomVar;
+int AjouterNomVar(char *nomVar)
 {
    int i;
 
@@ -270,17 +268,7 @@ char *nomVar;
 **/
 
 
-void f77name(initvar)(nomVar, idVar, unitesVar, paletteVar, echelleVar, indDef, intVar, nbIntVar, 
-		      nomVarLen, idVarLen, unitesVarLen, paletteVarLen)
-char nomVar[];
-char idVar[];
-char unitesVar[];
-char paletteVar[];
-float *echelleVar;
-int   *indDef;
-float  intVar[][24];
-int   *nbIntVar;
-int   nomVarLen, idVarLen, unitesVarLen, paletteVarLen;
+void f77name(initvar)(char nomVar[], char idVar[], char unitesVar[], char paletteVar[], float *echelleVar,int *indDef,float  intVar[][24],int  *nbIntVar,int  nomVarLen, int idVarLen, int unitesVarLen, int paletteVarLen)
 {
    int i,j, indDict;
    int nbMenuItems;
@@ -363,8 +351,7 @@ int   nomVarLen, idVarLen, unitesVarLen, paletteVarLen;
    }
 
 
-nettoyer(chaine)
-char chaine[];
+nettoyer(char chaine[])
 {
    int longueur;
 
@@ -376,67 +363,47 @@ char chaine[];
       }
    }
 
-DictMgrGetIdentifVar(identifVar, indDict)
-char identifVar[];
-int indDict;
+void DictMgrGetIdentifVar(char identifVar[], int indDict);
 {
    strcpy(identifVar, infoChamps[indDict].identifVar);
    }
 
-DictMgrGetUnitesVar(unitesVar, indDict)
-char unitesVar[];
-int indDict;
+void DictMgrGetUnitesVar(char unitesVar[], int indDict)
 {
    strcpy(unitesVar, infoChamps[indDict].unitesVar);
    }
 
-DictMgrGetPaletteVar(paletteVar, indDict)
-char paletteVar[];
-int indDict;
+void DictMgrGetPaletteVar(char paletteVar[], int indDict)
 {
    strcpy(paletteVar, infoChamps[indDict].paletteVar);
    }
 
-DictMgrGetIndIntervalleDeDefaut(indIntervalle, indDict)
-int *indIntervalle;
-int indDict;
+void DictMgrGetIndIntervalleDeDefaut(int *indIntervalle, int indDict)
 {
    *indIntervalle = infoChamps[indDict].indIntervalleDeDefaut;
    }
 
-DictMgrSetIndIntervalleDeDefaut(indIntervalle, indDict)
-int indIntervalle;
-int indDict;
+void DictMgrSetIndIntervalleDeDefaut(int indIntervalle, int indDict)
 {
    infoChamps[indDict].indIntervalleDeDefaut = indIntervalle;
    }
 
-DictMgrGetNbMenuItems(nbMenuItems, indDict)
-int *nbMenuItems;
-int indDict;
+void DictMgrGetNbMenuItems(int *nbMenuItems, int indDict)
 {
    *nbMenuItems = infoChamps[indDict].nbMenuItems;
    }
 
-DictMgrGetFacteurDeConversion(facteur, indDict)
-float *facteur;
-int indDict;
+void DictMgrGetFacteurDeConversion(float *facteur, int indDict)
 {
    *facteur = infoChamps[indDict].facteurDeConversion;
    }
 
-DictMgrSetFacteurDeConversion(facteur, indDict)
-float facteur;
-int indDict;
+void DictMgrSetFacteurDeConversion(float facteur, int indDict)
 {
    infoChamps[indDict].facteurDeConversion = facteur;
    }
 
-DictMgrGetIntervallesDeContours(intervalles, nbIntervalles, indDict, indIntervalle)
-float *intervalles;
-int *nbIntervalles;
-int indDict;
-int indIntervalle;
+void DictMgrGetIntervallesDeContours(float *intervalles, int *nbIntervalles, int indDict, int indIntervalle)
 {
    int i;
    *nbIntervalles = infoChamps[indDict].nbIntervalles[indIntervalle];
@@ -448,11 +415,7 @@ int indIntervalle;
 
    }
 
-DictMgrSetIntervallesDeContour(intervalles, nbIntervalles, indDict, indIntervalle)
-float *intervalles;
-int nbIntervalles;
-int indDict;
-int indIntervalle;
+void DictMgrSetIntervallesDeContour(float *intervalles, int *nbIntervalles, int indDict, int indIntervalle)
 {
    int i;
 
@@ -471,9 +434,7 @@ int indIntervalle;
 **/
 
 
-DictMgrGetVariableList(varlist,n,nmax)
-char varlist[][5];
-int *n,nmax;
+void DictMgrGetVariableList(char varlist[][5], int *n,int nmax)
 {
    int i;
 
@@ -493,9 +454,7 @@ int *n,nmax;
 
    }
 
-DictMgrSetMinMaxMode(nomvar,pos,mode)
-char nomvar[];
-int pos,mode;
+void DictMgrSetMinMaxMode(char nomvar[],int pos, int mode)
 {
    if (0 == strcmp(nomvar, infoChamps[pos].nomVar))
       {
@@ -517,9 +476,7 @@ float min,max;
    
    }
 
-DictMgrGetMinMaxValues(nomvar,min,max)
-char nomvar[];
-float *min,*max;
+void DictMgrGetMinMaxValues(char nomvar[],float *min,float *max)
 {
    int pos;
    pos = ChercherNomVar(nomvar);
@@ -529,8 +486,7 @@ float *min,*max;
    }
 
 
-DictMgrGetMinMaxMode(nomvar)
-char nomvar[];
+DictMgrGetMinMaxMode(char nomvar[])
 {
    int pos;
    pos = ChercherNomVar(nomvar);

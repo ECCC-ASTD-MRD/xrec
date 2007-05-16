@@ -23,7 +23,10 @@
 #include <xinit.h>
 #include <wgl.h>
 #include <rpnmacros.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 
 extern SuperWidgetStruct SuperWidget;
 extern _XContour xc;
@@ -68,15 +71,13 @@ extern int sizeRecColorTable;
 static XtCallbackProc PoOk(w, unused1, unused2)
 static XtCallbackProc PoAfficher(w, unused1, unused2)
 
-static XtCallbackProc PoOk(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PoOk(Widget w, caddr_t unused1, caddr_t unused2)
 {
    poSelectionTerminee = TRUE;
    DesactiverPanneauPalette();
    }
 
-static XtCallbackProc PoAfficher(w, unused1, unused2)
+static XtCallbackProc PoAfficher(Widget w, caddr_t unused1, caddr_t unused2)
 Widget w;
 caddr_t unused1, unused2;
 {

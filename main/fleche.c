@@ -19,7 +19,10 @@
  */
 
 #include <wgl.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 
 void PointerFleche(float xdepart, float ydepart, float dirVent, float vitVent, int rayon, int width)
 {

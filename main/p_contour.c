@@ -26,7 +26,10 @@
 #include <xinit.h>
 #include <wgl.h>
 #include <rpnmacros.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 
 extern SuperWidgetStruct SuperWidget;
 extern _XContour xc;
@@ -126,10 +129,7 @@ int pcSelectionTerminee;
 char panneauContoursGeometrie[32];
 static int nbItemsListe = 34;
 
-void CheckToggles (w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void CheckToggles (Widget w, caddr_t client_data, caddr_t call_data)
 {
    int lng;
    Arg args[3];
@@ -218,10 +218,7 @@ caddr_t	call_data;	/*  data from widget class  */
 ***********************************************************************
 ****/
 
-void SetColorToggle (w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void SetColorToggle (Widget w, caddr_t client_data, caddr_t call_data) 
 {
    int r, g, b;
    Arg args[2];
@@ -274,10 +271,7 @@ caddr_t	call_data;	/*  data from widget class  */
 ***********************************************************************
 ****/
 
-void SetThicknessToggle (w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void SetThicknessToggle (Widget w, caddr_t client_data, caddr_t call_data) 
 {
    xc.attributs[currentToggle].epaisseur = atoi(XtName(w));
    }
@@ -287,10 +281,7 @@ caddr_t	call_data;	/*  data from widget class  */
 ***********************************************************************
 ****/
 
-void SetLabelSizeToggle (w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void SetLabelSizeToggle (Widget w, caddr_t client_data, caddr_t call_data)
 {
    xc.attributs[currentToggle].labelSize = atoi(XtName(w));
    }
@@ -300,10 +291,7 @@ caddr_t	call_data;	/*  data from widget class  */
 ***********************************************************************
 ****/
 
-void SetCentralValueSizeToggle (w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void SetCentralValueSizeToggle (Widget w, caddr_t client_data, caddr_t call_data)
 {
    xc.attributs[currentToggle].centralValSize = atoi(XtName(w));
    }
@@ -313,10 +301,7 @@ caddr_t	call_data;	/*  data from widget class  */
 ***********************************************************************
 ****/
 
-void SetStyleToggle (w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void SetStyleToggle (Widget w, caddr_t client_data, caddr_t call_data) 
 {
    xc.attributs[currentToggle].style = (int)client_data;
 
@@ -348,10 +333,7 @@ caddr_t	call_data;	/*  data from widget class  */
 ***********************************************************************
 ****/
 
-void SetContoursToggle (w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void SetContoursToggle (Widget w, caddr_t client_data, caddr_t call_data) 
 {
    xc.attributs[currentToggle].displayContours = (int)client_data;
    }
@@ -361,10 +343,7 @@ caddr_t	call_data;	/*  data from widget class  */
 ***********************************************************************
 ****/
 
-void SetLabelsToggle (w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void SetLabelsToggle (Widget w, caddr_t client_data, caddr_t call_data) 
 {
    xc.attributs[currentToggle].displayLabels = (int)client_data;
    }
@@ -374,10 +353,7 @@ caddr_t	call_data;	/*  data from widget class  */
 ***********************************************************************
 ****/
 
-void SetCentralValuesToggle (w, client_data, call_data) 
-Widget	w;		/*  widget id		*/
-caddr_t	client_data;	/*  data from application   */
-caddr_t	call_data;	/*  data from widget class  */
+void SetCentralValuesToggle (Widget w, caddr_t client_data, caddr_t call_data) 
 {
    xc.attributs[currentToggle].displayValCentrales = (int)client_data;
    }
@@ -387,9 +363,7 @@ caddr_t	call_data;	/*  data from widget class  */
 ***********************************************************************
 ****/
 
-static XtCallbackProc PcOk(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+static XtCallbackProc PcOk(Widget w, caddr_t client_data, caddr_t call_data)
 {
    pcSelectionTerminee = TRUE;
    DesactiverPanneauContour();
@@ -400,9 +374,7 @@ caddr_t unused1, unused2;
 ***********************************************************************
 ****/
 
-static XtCallbackProc PcAfficher(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PcAfficher(Widget w, caddr_t client_data, caddr_t call_data)
 {
    int i;
 
@@ -415,7 +387,7 @@ caddr_t unused1, unused2;
 ***************************************************************************
 ***/
 
-InitPanneauContour()
+void InitPanneauContour()
 {
    int i,j;
    Arg args[6];
@@ -774,7 +746,7 @@ InitPanneauContour()
 ***********************************************************************
 ****/
 
-ActiverPanneauContour()
+void ActiverPanneauContour()
 {
 
    Colormap cmap;
@@ -803,7 +775,7 @@ ActiverPanneauContour()
 ***********************************************************************
 ****/
 
-f77name(xpancact)()
+void f77name(xpancact)()
 {
    LocalEventLoop(pcTopLevel);
    }
@@ -814,7 +786,7 @@ f77name(xpancact)()
 ***********************************************************************
 ****/
 
-DesactiverPanneauContour()
+void DesactiverPanneauContour()
 {
    int i;
 
@@ -826,9 +798,7 @@ DesactiverPanneauContour()
 ***********************************************************************
 ****/
 
-f77name(c_sconatr)(item,valeur,lenItem,lenValeur)
-char item[],valeur[];
-int lenItem,lenValeur;
+void f77name(c_sconatr)(char item[],char valeur[], int lenItem, int lenValeur)
 {
    Arg args[10];
    int i,j,r,g,b;
@@ -927,8 +897,7 @@ int lenItem,lenValeur;
 ***********************************************************************
 ****/
 
-EcrConAtr(fichierDemarrage)
-FILE *fichierDemarrage;
+void EcrConAtr(FILE *fichierDemarrage)
 {
    char tableau[32];
    char ligne[80];
@@ -1029,10 +998,7 @@ FILE *fichierDemarrage;
 ***********************************************************************
 ****/
 
-PCSplitItem(attribut, ind, item)   
-int *attribut;
-int *ind;
-char *item;
+void PCSplitItem(int *attribut, int *ind, char *item)
 {
    
 

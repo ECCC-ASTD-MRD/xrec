@@ -18,7 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <wgl_x.h>
 
 /**
@@ -44,9 +47,6 @@
 
 extern _Viewport    viewp;
 extern _XContour xc;
-
-extern int c_wglcalcolf_m(float indices[], float val[], int nbVals, float min, float delta, float intervalles[], 
-               int nbIntervalles, float facteur, int nbCol);
 
 
 void c_wglpfton32_m(float *fld, unsigned int *mask, int ni, int nj, float intervalles[], int nbIntervalles, float facteur,
@@ -108,8 +108,8 @@ void c_wglpfton32_m(float *fld, unsigned int *mask, int ni, int nj, float interv
   axey    = (float *) calloc(hauteur, sizeof(float));
   tmpVals = (float *) calloc(lh, sizeof(float));
   tmpInds = (int *) calloc(lh, sizeof(int));
-  pixels =  (unsigned int *)malloc(lh*sizeof(unsigned int));
-  pixdata = (unsigned int *) malloc(lh*sizeof(unsigned int));
+  pixels =  (unsigned int *)malloc(2*lh*sizeof(unsigned int));
+  pixdata = (unsigned int *) malloc(2*lh*sizeof(unsigned int));
   
   
   image = XCreateImage(wglDisp, visInfo.visual, visInfo.depth, ZPixmap, 0, (char *)pixdata,largeur, slice, 32, 0);
@@ -180,7 +180,7 @@ void c_wglpfton32_m(float *fld, unsigned int *mask, int ni, int nj, float interv
         {
         ii = i - idebut;
         ix = iaxex[ii];
-        if ((0 == GETMSK(mask,ix-1+iy1)) || (0 == GETMSK(mask,ix+iy1))  ||  (0 == GETMSK(mask,ix-1+iy2))  || (0 == GETMSK(mask,ix+iy2)))
+        if ((0 == GETMSK(mask,(ix-1+iy1))) || (0 == GETMSK(mask,(ix+iy1)))  ||  (0 == GETMSK(mask,(ix-1+iy2)))  || (0 == GETMSK(mask,(ix+iy2))))
           {
           tmpVals[j*largeur+ii] =  MISSING;
           }

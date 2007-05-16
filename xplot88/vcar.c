@@ -370,7 +370,7 @@
     va_start(argv, chaine);
     while( (variable = va_arg(argv,int)) != 0 )
          {
-         printf("%d --- %d\n", i, variable);
+/*         printf("%d --- %d\n", i, variable); */
          i++;
          switch( variable )
                {
@@ -385,7 +385,6 @@
          }
     va_end(argv);
 
-    printf("On sort de la fonction\n");
     return;
     }
 

@@ -29,8 +29,7 @@
 
 extern SuperWidgetStruct SuperWidget;
 
-CheckColormap(w)
-Widget w;
+void CheckColormap(Widget w)
 {
    Colormap cmap;
    int i;

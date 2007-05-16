@@ -1,4 +1,7 @@
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 
 int c_ezsint_mask(unsigned int *maskout, unsigned int *maskin, int gdin, int gdout)
   {

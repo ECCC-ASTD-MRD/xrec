@@ -18,10 +18,12 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <rec.h>
-#include <gmp.h>
-#include <wgl.h>
 #include <rpnmacros.h>
+#include <rpnmacros.h>
+#include <gmp.h>
+#include <rec.h>
+#include <rec_functions.h>
+#include <wgl.h>
 
 extern _Viewport viewp;
 extern _XContour xc;
@@ -31,7 +33,7 @@ extern int facteurLissage;
 extern float labelPos[][4];
 
 
-xrecGetCurrentMinMax(float *min, float *max, int mode)
+void xrecGetCurrentMinMax(float *min, float *max, int mode)
 {
   int nbChampsActifs;
   int minmaxset;

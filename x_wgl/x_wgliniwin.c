@@ -40,8 +40,8 @@ x_wgliniwin(char *nomFenetre)
       {
       wglHints.x     = 0;
       wglHints.y     = 0;
-      wglHints.width = 150;
-      wglHints.height = 30;
+      wglHints.width = 800;
+      wglHints.height = 600;
 
       if (aspectRatioSet)
 	 wglHints.flags = PAspect;

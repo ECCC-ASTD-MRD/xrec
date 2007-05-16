@@ -20,8 +20,10 @@
 
 #include <string.h>
 #include <fcntl.h>
-#include <rec.h>
+#include <rpnmacros.h>
 #include <gmp.h>
+#include <rec.h>
+#include <rec_functions.h>
 #include <xinit.h>
 #include <wgl.h>
 #include <rpnmacros.h>
@@ -31,7 +33,9 @@
 #include <sys/times.h>
 #include <sys/param.h>
    
+#ifndef Darwin_OSX_PPC
 long times (struct tms *buffer);
+#endif
 
 struct tms buffer_temps;
 extern SuperWidgetStruct SuperWidget;
@@ -40,7 +44,6 @@ extern _XContour xc;
 extern _AnimInfo animInfo;
 extern GeoMapInfoStruct mapInfo;
 
-
 extern Display *wglDisp;
 extern int  wglScrNum;
 extern Window  wglWin, wglDrawable;
@@ -48,22 +51,15 @@ extern GC wglLineGC;
 
 extern void EffacerFenetreAffichage();
 
-static char *pasAssezDeMemoire[] = {"Quantite de memoire insuffisante.\nSeulement %4d images sur %4d peuvent etre chargees.\n\
-L'animation serait possible si les dimensions de la fenetre\netaient reduites a %4d x %4d",
-                                     "Not enough memory.\nOnly %4d images on %4d can be loaded.\nHowever, animation could be possible if window dimension is reduced to %4d x4d"};
-
 static char *pasAssezDeNiveaux[] = {"Nombre insuffisant de niveaux.",
                                        "Insufficient number of levels."};
 
 extern int PasAssezDeMemoire();
 extern int interpolationVerticale;
 static int nbNiveauxCoupe;
-static char messageErreur[512];
 static int lng;
 
-void VAnimMgrInterpolateVerticalField(_Champ *champ, float niveau);
-
-VAnimerFrames(int nbFrames)
+void VAnimerFrames(int nbFrames)
 {
   if (interpolationVerticale)
     {
@@ -75,27 +71,21 @@ VAnimerFrames(int nbFrames)
     }
 }
 
-VAnimerFramesAvecInterpolation(nbFrames)
-int nbFrames;
+void VAnimerFramesAvecInterpolation(int nbFrames)
 {
-   int i, j, k, ier, ii;
+   int i, k;
    int n;
-   int annulationDemandee;
-   int statut, signeIncrement;
+   int signeIncrement;
    float incrementVertical;
-   int res, fenetreAffichage, status;
+   int res, fenetreAffichage;
    int nbChampsActifs;
    _Champ *champ;
 
-   int temps1, temps2;
-   int largeurFenetre, hauteurFenetre, nouvelleLargeur, nouvelleHauteur;
+   int largeurFenetre, hauteurFenetre;
    static int lastLargeur, lastHauteur;
    int animationContinue;
-   int op,i_initial;
-   double dt,dt1,dt2;
-   int datev;
-   double weight;
-   float *fld, *fld1, *fld2, niveauCourant;
+   int op;
+   float niveauCourant;
    double delai;
 
    nbChampsActifs = FldMgrGetNbChampsActifs();
@@ -253,27 +243,21 @@ int nbFrames;
    c_wglfbf();
 }
 
-VAnimerFramesSansInterpolation(nbFrames)
-int nbFrames;
+void VAnimerFramesSansInterpolation(int nbFrames)
 {
-   int i, j, k, ier, ii;
+   int i;
    int n;
-   int annulationDemandee;
-   int statut, increment;
+   int increment;
    
-   int res, fenetreAffichage, status;
+   int res, fenetreAffichage;
    int nbChampsActifs;
    _Champ *champ;
 
    int npts,temps1, temps2;
-   int largeurFenetre, hauteurFenetre, nouvelleLargeur, nouvelleHauteur;
+   int largeurFenetre, hauteurFenetre;
    static int lastLargeur, lastHauteur;
    int animationContinue;
    int op,i_initial;
-   double dt,dt1,dt2;
-   int datev;
-   double weight;
-   float *fld, *fld1, *fld2;
 
    nbChampsActifs = FldMgrGetNbChampsActifs();
    
@@ -379,7 +363,7 @@ int nbFrames;
           (*champ).cle = (*champ).coupe.clesNiveaux[i];
           if ((*champ).cle >= 0)
             {
-        		memcpy((char *) (*champ).fld, (char *)(*champ).coupe.fld3d[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float));
+            memcpy((char *) (*champ).fld, (char *)(*champ).coupe.fld3d[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float));
             (*champ).fldmin[op] = (*champ).coupe.FLDmin3d[op];
             (*champ).fldmax[op] = (*champ).coupe.FLDmax3d[op];
 
@@ -424,6 +408,8 @@ int nbFrames;
    
    UnsetIgnoreMode();
    UnSetCurseur(fenetreAffichage);
+   if (i < 0) i += (*champ).coupe.nbNiveauxCoupe;
+
    VRemettreChampsAJour(i); 
    lastLargeur = largeurFenetre;
    lastHauteur = hauteurFenetre;
@@ -435,7 +421,7 @@ int nbFrames;
  **************************************************************
  **/
 
-VAfficherOperationAnnulee()
+void VAfficherOperationAnnulee()
 {
 
    static char *operationAnnulee[] = {"\nOperation annulee\n\n", "\nOperation cancelled\n\n"};
@@ -452,8 +438,7 @@ VAfficherOperationAnnulee()
  **************************************************************
  **/
 
-VRemettreChampsAJour(i)
-int i;
+void VRemettreChampsAJour(int i)
 {
    _Champ (*champ);
    int n, nbChampsActifs,op,npts;
@@ -506,7 +491,7 @@ int i;
  **************************************************************
  **/
 
-VAllouerImages()
+int VAllouerImages()
 {
    int i, j;
    int x, y;
@@ -532,8 +517,8 @@ VAllouerImages()
 	 for (j=0; j <= i; j++)
 	    {
 	    XFreePixmap(wglDisp, animInfo.pixmaps[j]);
-	    animInfo.pixmaps[j] = NULL;
-	    animInfo.flagsImagesChargees[j] = NULL;
+	    animInfo.pixmaps[j] = (int)NULL;
+	    animInfo.flagsImagesChargees[j] = (int)NULL;
 	    }
 	 wglWin = c_wglgacw();
 	 XResizeWindow(wglDisp,wglWin,nouvelleLargeur,nouvelleHauteur);
@@ -549,170 +534,149 @@ VAllouerImages()
    }
    
    
-VAnimerFrame()
+void VAnimerFrame()
 {
-   int i, j, k, ier;
-   int n;
-   int annulationDemandee;
-   int statut, increment;
-   
-   int res, fenetreAffichage, status;
-   int nbChampsActifs;
-   _Champ *champ;
-
-   int npts,temps1, temps2;
-   int largeurFenetre, hauteurFenetre, nouvelleLargeur, nouvelleHauteur;
-   static int lastLargeur, lastHauteur;
-   int animationContinue;
-   int op,i_initial;
-
-   nbChampsActifs = FldMgrGetNbChampsActifs();
-
-   if (nbChampsActifs == 0)
-      {
-      return;
-      }
-
-   lng = c_getulng();
-   GetFenetreAffichageID(&fenetreAffichage);
-   c_wglsetw(fenetreAffichage);
-   
-   xc.annulationDemandee = False;
-   xc.flagInterrupt = False;
-   FldMgrGetChamp(&champ, 0);
-
-   npts = champ->dst.ni*champ->dst.nj*champ->dst.nk;
-
-   if ((*champ).champModifie)
-      {
-      RefuserOperation();
-      return;
-      }
-
-   c_wglsetw(fenetreAffichage);
-   res = FldMgrLoadVerticalXSection();
-   if ((*champ).coupe.nbNiveauxCoupe < 2)
-     {
-     MessageAvertissement(pasAssezDeNiveaux[lng], AVERTISSEMENT);
-     return;
-     }
-   
-   if (res == CHARGEMENT_ANNULE)
-      {
-      AfficherOperationAnnulee();
-      AfficherMessageInfoStandard();
-      return;
-      }
-   
-   i = (*champ).coupe.indChampCourant;
-   
-   XSetErrorHandler(PasAssezDeMemoire);
-   
-   c_wglgwz(&largeurFenetre, &hauteurFenetre);
-   c_wglbbf();
-   EffacerFenetreAffichage();
-
-   increment =  1;
-
-   animationContinue = FALSE;
-
-   FlusherTousLesEvenements();
-   
-   nbNiveauxCoupe = (*champ).coupe.nbNiveauxCoupe;
-   
-   i = (*champ).coupe.indChampCourant;
-   i_initial = i;
-
-   do 
-      {
-      i += increment;
-      i = i % (*champ).coupe.nbNiveauxCoupe;
-      if (i < 0)
-	i += (*champ).coupe.nbNiveauxCoupe;
-      
-      if (animInfo.animationRapide && animInfo.flagsImagesChargees[i])
-	 {
-	 XCopyArea(wglDisp, animInfo.pixmaps[i], wglWin, wglLineGC, 0, 0, largeurFenetre, hauteurFenetre, 0, 0);
-	 }
-      else
-	 {
-	 for (n=0; n < nbChampsActifs; n++)
-	    {
-	    FldMgrGetChamp(&champ, n);
-	    if ((*champ).coupe.fld3d != NULL)
-	      {
-	      (*champ).coupe.indChampCourant = i;
-	      (*champ).cle = (*champ).coupe.clesNiveaux[i];
-	      if ((*champ).cle >= 0)
-		{
-		(*champ).fld = (*champ).coupe.fld3d[i];
-		(*champ).fldmin[op] = (*champ).coupe.FLDmin3d[op];
-		(*champ).fldmax[op] = (*champ).coupe.FLDmax3d[op];
-		
-		FldMgrGetFstPrm(champ);
-		FldMgrUpdateFldParams(champ);
-		}
-	      }
-	    }
-	 }
-	 
-      for (n=0; n < nbChampsActifs; n++)
-	{
-	AfficherCarte(n);
-	}
-      
-      FlusherTousLesEvenements();
-      c_wglswb();
-      
-      animInfo.flagsImagesChargees[i] = TRUE;
-      
-      if (animInfo.animationRapide)
-	{
-	XCopyArea(wglDisp, wglWin, animInfo.pixmaps[i], wglLineGC, 0, 0, largeurFenetre, hauteurFenetre, 0, 0);
-	}
-      
-      temps1 = times(&buffer_temps);
-      temps2 = times(&buffer_temps) - temps1;
-      while (animInfo.delai > temps2)
-	{
-	 temps2 = times(&buffer_temps) - temps1;
-	 }
-      FlusherTousLesEvenements();
-      
-      if (animInfo.typeDefilement == DEFILEMENT_AVANT_ARRIERE)
-	 {
-	 if (i == 0 || i == (animInfo.nbImages-1))
-	    {
-	    increment *= -1;
-	    }
-	 }
-      } while (!c_wglanul() && animationContinue);
+  int i;
+  int n;
+  int increment;
   
-   UnsetIgnoreMode();
-   UnSetCurseur(fenetreAffichage);
-   VRemettreChampsAJour(i);
-   lastLargeur = largeurFenetre;
-   lastHauteur = hauteurFenetre;
-   c_wglfbf();
-   }
+  int res, fenetreAffichage;
+  int nbChampsActifs;
+  _Champ *champ;
+  
+  int npts;
+  int largeurFenetre, hauteurFenetre;
+  static int lastLargeur, lastHauteur;
+  int animationContinue;
+  int op,i_initial;
+  
+  nbChampsActifs = FldMgrGetNbChampsActifs();
+  
+  if (nbChampsActifs == 0)
+    {
+    return;
+    }
+
+  lng = c_getulng();
+  GetFenetreAffichageID(&fenetreAffichage);
+  c_wglsetw(fenetreAffichage);
+  
+  xc.annulationDemandee = False;
+  xc.flagInterrupt = False;
+  FldMgrGetChamp(&champ, 0);
+  
+  npts = champ->dst.ni*champ->dst.nj*champ->dst.nk;
+  
+  if ((*champ).champModifie)
+    {
+    RefuserOperation();
+    return;
+    }
+  
+  res = FldMgrLoadVerticalXSection();
+  if ((*champ).coupe.nbNiveauxCoupe < 2)
+    {
+    MessageAvertissement(pasAssezDeNiveaux[lng], AVERTISSEMENT);
+    return;
+    }
+   
+  if (res == CHARGEMENT_ANNULE)
+    {
+    AfficherOperationAnnulee();
+    AfficherMessageInfoStandard();
+    return;
+    }
+  
+  i = (*champ).coupe.indChampCourant;
+  
+  XSetErrorHandler(PasAssezDeMemoire);
+   
+  c_wglgwz(&largeurFenetre, &hauteurFenetre);
+  c_wglbbf();
+  EffacerFenetreAffichage();
+  
+  increment =  1;
+  
+  animationContinue = FALSE;
+  
+  FlusherTousLesEvenements();
+  
+  nbNiveauxCoupe = (*champ).coupe.nbNiveauxCoupe;
+  
+  op = CtrlMgrGetMathOp();
+  i = (*champ).coupe.indChampCourant;
+  i_initial = i;
+
+  i += increment;
+  i = i % (*champ).coupe.nbNiveauxCoupe;
+  if (i < 0)
+    i += (*champ).coupe.nbNiveauxCoupe;
+  
+  if (animInfo.animationRapide && animInfo.flagsImagesChargees[i])
+    {
+    XCopyArea(wglDisp, animInfo.pixmaps[i], wglWin, wglLineGC, 0, 0, largeurFenetre, hauteurFenetre, 0, 0);
+    }
+  else
+    {
+    for (n=0; n < nbChampsActifs; n++)
+      {
+      FldMgrGetChamp(&champ, n);
+      if ((*champ).coupe.fld3d != NULL)
+        {
+        (*champ).coupe.indChampCourant = i;
+        (*champ).cle = (*champ).coupe.clesNiveaux[i];
+        if ((*champ).cle >= 0)
+          {
+          memcpy((char *) (*champ).fld, (char *)(*champ).coupe.fld3d[i], (*champ).dst.ni*(*champ).dst.nj*sizeof(float));
+          (*champ).fldmin[op] = (*champ).coupe.FLDmin3d[op];
+          (*champ).fldmax[op] = (*champ).coupe.FLDmax3d[op];
+          
+          FldMgrGetFstPrm(champ);
+          FldMgrUpdateFldParams(champ);
+          }
+        }
+      }
+    }
+      
+  for (n=0; n < nbChampsActifs; n++)
+    {
+    AfficherCarte(n);
+    }
+        
+  FlusherTousLesEvenements();
+  c_wglswb();
+      
+  animInfo.flagsImagesChargees[i] = TRUE;
+  
+  if (animInfo.animationRapide)
+    {
+    XCopyArea(wglDisp, wglWin, animInfo.pixmaps[i], wglLineGC, 0, 0, largeurFenetre, hauteurFenetre, 0, 0);
+    }
+  
+  FlusherTousLesEvenements();
+    
+  if (animInfo.typeDefilement == DEFILEMENT_AVANT_ARRIERE)
+      {
+      if (i == 0 || i == (animInfo.nbImages-1))
+        {
+        increment *= -1;
+        }
+      }
+    
+  UnsetIgnoreMode();
+  UnSetCurseur(fenetreAffichage);
+  VRemettreChampsAJour(i);
+  lastLargeur = largeurFenetre;
+  lastHauteur = hauteurFenetre;
+  c_wglfbf();
+  }
 
 void VAnimMgrInterpolateVerticalField(_Champ *champ, float niveau)
 {
-  static int lastIndex = 0;
-
-   int i, j, k, ier, n;
-   int annulationDemandee;
-   int statut, increment;
-   
-   int res, fenetreAffichage, status;
-   int nbChampsActifs;
-
-   int npts,temps1, temps2;
-   int op,i_initial;
-   double dt,dt1,dt2;
+   int i, n;
+   int npts;
    double weight;
-   float *fld, *fld1, *fld2, *uu1, *uu2, *vv1, *vv2, *uv1, *uv2;
-   int ldatev, found,nbNiveauxCoupe;
+   int found,nbNiveauxCoupe;
    static int last_index;
 
    npts = champ->dst.ni*champ->dst.nj*champ->dst.nk;

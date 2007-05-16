@@ -33,13 +33,13 @@ VerifierSegmentLatlon(float lonMin, float lonMax)
    c_gmpl2g(&delx,&ybidon, 0.0, fmod((float)mapInfo.lonOrigine + lonMax - lonMin, 360.0));
    
    return 1;
-   if (ROUND ((x2 - x1+1.0)) < INT((delx))  && !((lonMin < -120.0) && (lonMax > 120.0)))
+/*   if (((int)(x2 - x1+1.5) < (int)(delx))  && !((lonMin < -120.0) && (lonMax > 120.0)))
       {
       return 2;
       }
    else
       {
       return 1;
-      }
+      }*/
    }
 

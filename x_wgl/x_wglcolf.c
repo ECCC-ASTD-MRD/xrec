@@ -109,6 +109,7 @@ unsigned int x_wglcolfs(float *cols, unsigned int *pixels, int n)
 
 unsigned int x_wglcolfs_fst(float *cols, unsigned int *pixels, int n)
 {
+#define MISSING HUGE
   int r,g,b;
   int r1,g1,b1;
   int r2,g2,b2;
@@ -127,7 +128,14 @@ unsigned int x_wglcolfs_fst(float *cols, unsigned int *pixels, int n)
   
   for (i=0; i < n; i++)
     {
-    icol = (int) cols[i];
+    if (cols[i] != MISSING)
+      {
+      icol = (int) (cols[i]+0.5);
+      }
+    else
+      {
+      icol = 0;
+      }
     
     pixels[i] =  (((xcouleurs[icol].red * ir2) >>16) << ir0) + (((xcouleurs[icol].green * ig2) >>16) << ig0) + (((xcouleurs[icol].blue*ib2) >>16) << ib0);
     }

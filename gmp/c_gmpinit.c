@@ -25,6 +25,7 @@
 #include <gmp.h>
 #include <math.h>
 #include <wgl.h>
+#include <rec.h>
 
 GeoMapInfoStruct     mapInfo = { ' ', -1, -1, -1, -1, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0 };
 GeoMapInfoStruct  oldMapInfo = { ' ', -1, -1, -1, -1, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0 };

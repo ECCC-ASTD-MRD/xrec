@@ -205,7 +205,9 @@
       ENDIF 
       WRITE (IPUNIT,1001) MUMX,MUMY
       CALL XULIBER (0,'0NUMX OR NUMY .GT. 20 IN XLABMOD CALL')
+#ifndef Darwin_OSX_PPC
       CALL PERROR
+#endif
 *
 
       RETURN

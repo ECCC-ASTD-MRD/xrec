@@ -10,7 +10,7 @@ CPP = /lib/cpp
 
 GD_WGLLIB = $(HOME)/userlibs/$(ARCH)$(ABI)/libgd_wgl.a
 
-CFLAGS =  -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(HOME)/src/gd2/ -DX_WGL
+CFLAGS =  -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -I$(HOME)/src/gd2/ -DX_WGL
 
 OPTIMIZ = -debug -O 0
 OPTIMIZ = -O 3

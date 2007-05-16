@@ -2,7 +2,7 @@ include /usr/local/env/armnlib/include/$(ARCH)$(ABI)/Makefile_addons
 
 .SUFFIXES : 
 
-.SUFFIXES : .ftn .f .c .o 
+.SUFFIXES : .ftn90 .ftn .f .c .o 
 
 SHELL = /bin/sh
 
@@ -10,20 +10,24 @@ CPP = /lib/cpp
 
 RECLIB = $(HOME)/userlibs/$(ARCH)$(ABI)/librec.a
 
-FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
+FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL -O0 -g
+FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL -O2
 
-CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I/usr/include/libxml2 -I$(HOME)/src/images/gd2/ -DX_WGL -Wall
+#CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I/usr/include/libxml2 -I$(HOME)/src/images/gd2/ -DX_WGL -Wall
+CFLAGS = -I$(HOME)/data0/openMotif-2.2.3/lib -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I/usr/include/libxml2 -I$(HOME)/src/images/gd2/ -DX_WGL -Wall -Wno-trigraphs
 
 #OPTIMIZ = -O 3 -optc =-Wall
-OPTIMIZ = -debug -O 0 
+OPTIMIZ = -O 0 -debug
 OPTIMIZ = -O 2
-
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
 .PRECIOUS: $(RECLIB)
 
 default: reclib
+
+.ftn90.o:
+	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 
 .ftn.o:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
@@ -43,9 +47,9 @@ default: reclib
 
 FTNDECKS= \
          convpr.ftn       defvar.ftn       drlstl.ftn \
-         grid.ftn              new-xfsl.ftn       readrec.ftn \
+         grid.ftn         ij2xy_warp.ftn90 ij2xy_warp_r.ftn90 new-xfsl.ftn       readrec.ftn \
          rec.ftn       recgrille.ftn       rlx.ftn       setcoupe.ftn \
-         setitem.ftn       statfld4.ftn       unsat.ftn       wglrfton.ftn
+	 setitem.ftn       statfld4.ftn       unsat.ftn       wglrfton.ftn
 
 CDECKS= \
          PointerVent.c       aff_coupe.c       anim.c v_anim.c       aux.c \
@@ -58,10 +62,11 @@ CDECKS= \
          dictxml.c      manipule.c       mapinfo.c       message.c       minmax_mgr.c no_rmnlib.c \
          nocore.c       newdictxml.c opRefusee.c       p_anim.c       p_vanim.c p_attr.c \
          p_avert.c       p_contour.c       p_coupe.c       p_serie.c p_diapo.c \
+	 p_echelle_legende_couleur.c \
          p_edition.c       p_geo.c       p_minmax.c       p_palette.c p_valeursponctuelles.c p_valeursmanquantes.c \
          p_vent.c       pack.c       parent.c \
-         profil.c       ptval.c       rle.c       serie.c sfcpres.c \
-         strutil.c       util.c       valptgr.c       vent.c homelic.c \
+         profil.c       ptval.c       rle.c       serie.c sfcpres.c stats.c \
+         strutil.c       util.c       valptgr.c       vecteur.c vent.c homelic.c \
          wglanul.c       wglcalcols.c       wglcalcols_m.c       wglcont.c       wglfton.c \
          wgllab.c       wglpfton.c       wglpfton32.c       widgets-util.c \
          serie_coupe_utils.c xm-controle.c  wglrfton_m.c wglpfton32_m.c wglfton_m.c enhance_m.c c_ezsint_mask.c xstream.c
@@ -101,6 +106,8 @@ reclib: $(RECLIB)(PointerVent.o) \
 	$(RECLIB)(grille.o) \
 	$(RECLIB)(hilo.o) \
 	$(RECLIB)(i2rgdint.o) \
+	$(RECLIB)(ij2xy_warp.o) \
+	$(RECLIB)(ij2xy_warp_r.o) \
 	$(RECLIB)(inversion.o) \
 	$(RECLIB)(lclevent.o) \
 	$(RECLIB)(legende.o) \
@@ -120,6 +127,7 @@ reclib: $(RECLIB)(PointerVent.o) \
 	$(RECLIB)(p_contour.o) \
 	$(RECLIB)(p_coupe.o) \
 	$(RECLIB)(p_diapo.o) \
+	$(RECLIB)(p_echelle_legende_couleur.o) \
 	$(RECLIB)(p_edition.o) \
 	$(RECLIB)(p_geo.o) \
 	$(RECLIB)(p_minmax.o) \
@@ -144,12 +152,14 @@ reclib: $(RECLIB)(PointerVent.o) \
 	$(RECLIB)(setitem.o) \
 	$(RECLIB)(sfcpres.o) \
 	$(RECLIB)(statfld4.o) \
+	$(RECLIB)(stats.o) \
 	$(RECLIB)(strutil.o) \
 	$(RECLIB)(unsat.o) \
 	$(RECLIB)(util.o) \
 	$(RECLIB)(v_anim.o) \
 	$(RECLIB)(valptgr.o) \
 	$(RECLIB)(homelic.o) \
+	$(RECLIB)(vecteur.o) \
 	$(RECLIB)(vent.o) \
 	$(RECLIB)(wglanul.o) \
 	$(RECLIB)(wglcalcols.o) \
@@ -182,14 +192,17 @@ xrec-ezscint:
 xrec-stereo2:
 	r.build -bidon -main xrec -o xrec -libpath $(REC)/lib/$(ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec wglx Xm Xt X11 m -librmn  rmn_x
 
-xrec:
-	r.build -bidon -main xrec -o xrec -libpath $(REC)/lib/$(ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec ezscint wglx Xm Xt X11 m -librmn -fstd89
-
-xrec-Linux_alpha:
-	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Mrm Xp Xt Xmu X11 gd2 z png m -librmn
-
 xrec-Linux:
-	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmnbeta
+	cd main; r.compile_021 -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmn_rc008
+
+xrec-Linux_pgi611:
+	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/userlibs/$(ARCH)/*.o /users/dor/armn/lib/public/fstd98.o -o $(TMPDIR)/xrec -libpath $(HOME)/userlibs/$(ARCH) /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 gd2 z png m dl -librmn rmnbeta
+
+xrec-2007:
+	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/src/isi4/*.o -o $(TMPDIR)/xrec -libpath $(HOME)/userlibs/$(ARCH) /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 gd2 z png m dl rmnbeta 
+
+xrec-Darwin:
+	r.compile -src rec.ftn $(OPTIMIZ); r.build -obj rec.o -o xrec -libpath $(REC)/lib/$(ARCH)$(ABI) $(HOME)/userlibs/$(ARCH) /usr/OpenMotif/lib /usr/X11R6/lib /sw/lib -libappl rec rec_util lic wgl gd_wgl x_wgl Xm Xt X11 xml2 gd m -librmn
 
 xrec-debian:
 	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl Xm Mrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmn_x
@@ -223,7 +236,7 @@ xrec-intel2:
 	ifc *.o -o xrec-intel -i_dynamic -L$(REC)/lib/$(ARCH) -L/opt/old-libc -L/usr/X11R6/lib -L/opt/intel/compiler70/ia32/lib/ -lrec -lrec_util -lgdb -lwgl -lx_wgl -lgd_wgl -lwgl $(ARMNLIB)/lib/librmn-intel.a  -lMrm -lXp -lXext -lX11 -lxml2 -lexpat -lgd2 -lz -lpng -lm -ldl -lPEPCF90
 
 xrec-IRIX64:
-	r.build -obj $(REC)/main/rec.o $(HOME)/userlibs/IRIX64/*.o -o $(TMPDIR)/xrec  -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util gdb wgl gd_wgl x_wgl lic Xm Xt X11 gd2 png z m -librmn rmnbeta
+	r.build -obj $(REC)/main/rec.o $(HOME)/userlibs/IRIX64/*.o -o $(TMPDIR)/xrec  -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util gdb wgl gd_wgl x_wgl lic Xm Xt X11 gd2 png z m -librmn rmn_008
 
 xrec-HP-UX:
 	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Xt X11 gd2 png z m -librmn  rmnbeta

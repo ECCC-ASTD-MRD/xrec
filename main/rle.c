@@ -21,11 +21,7 @@
 #include <stdio.h>
 #include <rpnmacros.h>
 
-EncodeRLEData(out,nptsout,in,nptsin)
-unsigned char *out;
-int  *nptsout;
-char *in;
-int   nptsin;
+void EncodeRLEData(unsigned char *out, int  *nptsout, char *in, int  nptsin)
 {
    int i,pos,repeat;
    unsigned char valOffset = 32;

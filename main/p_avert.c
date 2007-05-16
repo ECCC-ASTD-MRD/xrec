@@ -19,12 +19,29 @@
  */
 
 #include <Xm/Xm.h>
-#include <Xm/PushBG.h>
+#include <Xm/CascadeB.h>
 #include <Xm/CascadeBG.h>
+#include <Xm/Form.h>
+#include <Xm/Frame.h>
+#include <Xm/Label.h>
+#include <Xm/List.h>
+#include <Xm/MessageB.h>
+#include <Xm/PushB.h>
+#include <Xm/PushBG.h>
 #include <Xm/RowColumn.h>
+#include <Xm/Scale.h>
+#include <Xm/SeparatoG.h>
+#include <Xm/Separator.h>
+#include <Xm/Text.h>
+#include <Xm/TextF.h>
+#include <Xm/ToggleB.h>
+#include <Xm/ToggleBG.h>
 
 #include <xinit.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <rpnmacros.h>
 
 extern SuperWidgetStruct SuperWidget;
@@ -32,51 +49,30 @@ extern _XContour xc;
 
 Widget avrtWidget, errorWidget, infoWidget, okCancelWidget, widgetCourant;
 
-static char *labelOk[] = {"Ok", "Ok"};
 static char *labelOui[] = {"Oui", "Yes"};
 static char *labelNon[] = {"Non", "No"};
-static char *labelMessage[] = {"Allo", "Allo"};
 static char *labelQuitter[] = {"Quitter", "Quit"};
 static char *finiRaide[]    = {"Impossible d'ouvrir le fichier suivant:\n", 
 				  "Can't open the following file:"};
 int avrtSelectionTerminee;
 int okCancel = 0;
 
-Widget CreateWarningDialog();
-Widget CreateInfoDialog();
-Widget CreateErrorDialog();
-Widget CreateWarningDialogWithCancelBox();
-
-/**
-******
-**/
-
-static XtCallbackProc AvrtOk(w, client_data, call_data)
-Widget w;
-caddr_t client_data, call_data;
+XtCallbackProc AvrtOk(Widget w, caddr_t client_data, caddr_t call_data) 
 {
    avrtSelectionTerminee = TRUE;
    DesactiverPanneauAvertissement();
 
    okCancel = (int)client_data;
+   return 0;
    }
 
-static XtCallbackProc ErrorQuit(w, client_data, call_data)
-Widget w;
-caddr_t client_data, call_data;
+XtCallbackProc ErrorQuit(Widget w, caddr_t client_data, caddr_t call_data) 
 {
    exit(13);
    }
 
-InitPanneauxInfo()
+void InitPanneauxInfo()
 {
-   int i;
-   Arg args[6];
-   XmString string;
-   Widget bouton;
-
-   int n,lng;
-
    avrtWidget = (Widget) CreateWarningDialog(xc.topLevel);
    infoWidget = (Widget) CreateInfoDialog(xc.topLevel);
    okCancelWidget = (Widget) CreateWarningDialogWithCancelBox(xc.topLevel);
@@ -85,9 +81,7 @@ InitPanneauxInfo()
 
 /** ---------------------------------------------------------------------------------------- **/
 
-int f77name(messerr)(message, len)
-char message[];
-int len;
+int f77name(messerr)(char message[], int len)
 {
    char longMessage[256];
    int lng;
@@ -100,15 +94,14 @@ int len;
    strcat(longMessage, message);
    
    MessageErreur(longMessage);
+   return 0;
    }
 
-MessageErreur(message)
-char message[];
+void MessageErreur(char message[])
 {
    XEvent avrtEvent;
    Arg args[2];
    XmString label;
-   Widget avrtWidgetParent;
    
    Xinit("xrec");
    if (errorWidget  == NULL)
@@ -135,9 +128,7 @@ char message[];
       }
    }
 
-MessageAvertissement(message, typeMessage)
-char *message;
-int typeMessage;
+int MessageAvertissement(char *message, int typeMessage)
 {   XEvent avrtEvent;
    Arg args[2];
    XmString label;
@@ -207,10 +198,7 @@ int typeMessage;
   }
 
 
-MessageAvertissementAux(message, typeMessage, widgetMessage, widgetParent)
-char *message;
-int typeMessage;
-Widget widgetMessage, widgetParent;
+int  MessageAvertissementAux(char *message, int typeMessage, Widget widgetMessage, Widget widgetParent)
 {
    Widget avrtWidgetParent;
    XEvent avrtEvent;
@@ -262,16 +250,13 @@ Widget widgetMessage, widgetParent;
    }
 
 
-DesactiverPanneauAvertissement()
+void DesactiverPanneauAvertissement()
 {
-   int i;
-
    XtUnmanageChild(widgetCourant);
    }
 
 
-Widget CreateWarningDialogWithCancelBox(widgetParent)
-Widget widgetParent;
+Widget CreateWarningDialogWithCancelBox(Widget widgetParent)
 {
    int i, lng;
    Widget warning, bouton;
@@ -304,12 +289,10 @@ Widget widgetParent;
    }
 
 
-Widget CreateInfoDialog(widgetParent)
-Widget widgetParent;
+Widget CreateInfoDialog(Widget widgetParent)
 {
    int i, lng;
    Widget info, bouton;
-   XmString label;
    Arg args[8];
 
    lng = c_getulng();
@@ -332,12 +315,10 @@ Widget widgetParent;
    }
 
 
-Widget CreateWarningDialog(widgetParent)
-Widget widgetParent;
+Widget CreateWarningDialog(Widget widgetParent)
 {
    int i, lng;
    Widget warning, bouton;
-   XmString label;
    Arg args[8];
 
    lng = c_getulng();
@@ -360,8 +341,7 @@ Widget widgetParent;
    }
 
 
-Widget CreateErrorDialog(widgetParent)
-Widget widgetParent;
+Widget CreateErrorDialog(Widget widgetParent)
 {
    int i, lng;
    Widget error, bouton;

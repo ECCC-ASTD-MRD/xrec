@@ -19,13 +19,12 @@
  */
 
 #include <math.h>
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 
-enhancefracs(vals,nbVals,min,delta,variation)
-float *vals;
-int nbVals;
-float min,delta;
-int variation;
+void enhancefracs(float *vals, int nbVals, float min, float delta, int variation)
 {
    int i;
    float fraction;

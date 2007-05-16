@@ -44,9 +44,7 @@ static char *defaultResourceDir = NULL;
 ************************************************************
 **/
 
-int f77name(xinit)(nomApplication, lenNomApplication)
-char nomApplication[];
-int  lenNomApplication;
+int f77name(xinit)(char nomApplication[], int  lenNomApplication)
 {
    char copieNomApplication[256];
    
@@ -62,8 +60,7 @@ int  lenNomApplication;
 ************************************************************
 **/
 
-int Xinit(nomApplication)
-char nomApplication[];
+int Xinit(char nomApplication[])
 {
    Arg args[10];
    static char **argv;  

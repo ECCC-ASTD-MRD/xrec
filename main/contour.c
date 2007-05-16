@@ -18,11 +18,12 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <rec.h>
+#include <rpnmacros.h>
 #include <gmp.h>
+#include <rec.h>
+#include <rec_functions.h>
 #include <xinit.h>
 #include <wgl.h>
-#include <rpnmacros.h>
 #include <time.h>
 #include <math.h>
 
@@ -54,8 +55,11 @@ extern _InfoChamps *infoChamps;
 #define LOG(x)                   ((x) <= 0.0 ? -38.0 : (float)log10(x))
 #endif
 
-void c_wglcont();
-void AjusterMinMax();
+#ifdef Darwin_OSX_PPC
+#define LOG(x)                   ((x) <= 0.0 ? -38.0 : (float)flog10(x))
+#endif
+
+void   AjusterMinMax(float *ContourMin, float *ContourMax, float facteur, float intervalles);
 
 float ContourMin, ContourMax, leContour;
 float RGBvec[3];
@@ -69,10 +73,7 @@ static char *labelIntervalle[] = {"Intervalle: %s * %6.1e %s",
 ***********************************************************************
 **/
 
-UpdateFld_IntervalleDeContour(champ , nouvelIntervalle, nbIntervalles)
-_Champ *champ;
-float nouvelIntervalle[];
-int nbIntervalles;
+void UpdateFld_IntervalleDeContour(_Champ *champ, float nouvelIntervalle[], int nbIntervalles)
 {
    int lng;
 
@@ -91,12 +92,7 @@ int nbIntervalles;
 ***********************************************************************
 **/
 
-UpdateTitreIntervalle(titreIntervalles, intervalles, nbIntervalles, facteurEchelle, titreUnites)
-char titreIntervalles[];
-float intervalles[];
-int nbIntervalles;
-float facteurEchelle;
-char titreUnites[];
+void UpdateTitreIntervalle(char titreIntervalles[], float intervalles[], int nbIntervalles, float facteurEchelle, char titreUnites[])
 {
    char format[8], interInfo[32], tampon[16];
    int i;
@@ -138,8 +134,7 @@ char titreUnites[];
 ***********************************************************************
 **/
 
-DefinirFenetreGrille(ideb, jdeb, ifin, jfin, ni, nj)
-int *ideb, *jdeb, *ifin, *jfin, ni, nj;
+void DefinirFenetreGrille(int *ideb, int *jdeb, int *ifin, int *jfin, int ni, int nj)
 {
    float xdeb, ydeb, xfin, yfin;
 
@@ -182,15 +177,12 @@ int *ideb, *jdeb, *ifin, *jfin, ni, nj;
 ***********************************************************************
 **/
 
-void f77name(ajusminmax)(cmin, cmax, facteur, intervalle)
-float *cmin, *cmax, *facteur, *intervalle;
+void f77name(ajusminmax)(float *cmin, float *cmax, float *facteur, float *intervalle)
 {
    AjusterMinMax(cmin, cmax, *facteur, *intervalle);
    }
 
-void AjusterMinMax(ContourMin, ContourMax, facteur, intervalle)
-float *ContourMin, *ContourMax;
-float  facteur, intervalle;
+void AjusterMinMax(float *ContourMin, float *ContourMax, float facteur, float intervalle)
 {
    float del;
 
@@ -226,9 +218,7 @@ float  facteur, intervalle;
 ***********************************************************************
 **/
 
-DrawBoxedStr(str, x1, y1, size, foreground, background)
-char str[];
-int size, foreground, background;
+void DrawBoxedStr(char *str, int x1, int y1, int size, int foreground, int background)
 {
    int   strWidth, strHeight;
 
@@ -253,9 +243,7 @@ int size, foreground, background;
 **/
 
 
-ConvertFloatToString(str, val)
-char str[];
-float val;
+void ConvertFloatToString(char str[], float val)
 {
    if (0.01 < fabs(val) && 1.0e6 > fabs(val))
       {
@@ -275,12 +263,9 @@ float val;
 ***********************************************************************
 **/
 
-ConvertFloatToString2(str, val)
-char str[];
-float val;
+void ConvertFloatToString2(char str[], float val)
 {
    int exposant;
-   int i1, i2;
    int nbDecimales;
    float expo;
    char format[8], tmp[8];
@@ -320,14 +305,10 @@ float val;
 **/
 
 
-GetFormat(str, intervalles, nbIntervalles, facteurEchelle)
-char str[];
-float intervalles[];
-int nbIntervalles;
-float facteurEchelle;
+void GetFormat(char str[], float intervalles[], int nbIntervalles, float facteurEchelle)
 {
    int e, exposantMin, exposantMax;
-   int i, i1, i2;
+   int i;
    int nbDecimales = 0;
    int nbDecimalesMax;
    float expo, inter, logg, r1;

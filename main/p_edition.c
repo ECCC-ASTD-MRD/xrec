@@ -19,15 +19,33 @@
  */
 
 #include <X11/Intrinsic.h>
-#include <Xm/Xm.h>
 
+#include <Xm/Xm.h>
+#include <Xm/CascadeB.h>
+#include <Xm/CascadeBG.h>
+#include <Xm/Form.h>
+#include <Xm/Frame.h>
+#include <Xm/Label.h>
+#include <Xm/PushB.h>
+#include <Xm/PushBG.h>
+#include <Xm/RowColumn.h>
+#include <Xm/Scale.h>
+#include <Xm/SeparatoG.h>
+#include <Xm/Separator.h>
+#include <Xm/Text.h>
+#include <Xm/TextF.h>
+#include <Xm/ToggleB.h>
+#include <Xm/ToggleBG.h>
+
+
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 #include <wgl.h>
 #include <xinit.h>
 #include <memory.h>
-#include <gmp.h>
 #include <souris.h>
-#include <rpnmacros.h>
 #include <ctype.h>
 
 #define C2FTN(i,j,ni)  (int)((ni) * (j) + (i))
@@ -62,19 +80,6 @@ Widget    peSeparateurs[3];
 Widget    peInfo, peWarning, peWarningWithCancel;
 /*<----------------------------------------------------------------------------------------->*/
 
-typedef struct
-{
-   int ind;
-   float val;
-   } PointEditionStruct;
-
-typedef struct 
-{
-   int type;
-   int x1, y1, x2, y2;
-   float valeur, ancienneValeur;
-   PointEditionStruct *anciennesValeurs;
-   } EditionStruct;
 
 EditionStruct *pileEd = NULL; 
 int nbCellulesPile = 64;
@@ -100,13 +105,6 @@ static char *EtiquetteDefaut[] = {"EXPERIMENTAL", "EXPERIMENTAL"};
 
 /*<----------------------------------------------------------------------------------------->*/
 
-static XtCallbackProc PeFermer();
-static XtCallbackProc PeAfficher();
-static XtCallbackProc PeEditerValeurs();
-static XtCallbackProc PeAnnulerToutesModifs();
-static XtCallbackProc PeAnnulerEdition();
-static XtCallbackProc PeRefaireEdition();
-static XtCallbackProc PeEnregistrer();
 /*<----------------------------------------------------------------------------------------->*/
 void InitPanneauEdition()
 {
@@ -116,12 +114,11 @@ void InitPanneauEdition()
    register int n;	
    char nomShell[128];
    int lng = 0;
-   Colormap cmap;
    
    Xinit("xrec");
    lng = c_getulng();
    
-   memset(&champOriginal, NULL, sizeof(_Champ));
+   memset(&champOriginal, (int)NULL, sizeof(_Champ));
 
    n = 0;
    strcpy(nomShell, XtName(SuperWidget.topLevel));
@@ -278,15 +275,8 @@ void InitPanneauEdition()
 
 
 /*<----------------------------------------------------------------------------------------->*/
-ActiverPanneauEdition()
+void ActiverPanneauEdition()
 {
-   XEvent peEvent;
-   Widget peWidgetParent;
-   
-
-   Colormap cmap;
-   Arg args[2];
-   int i;
 
    if (!peTopLevel)
       InitPanneauEdition();
@@ -302,7 +292,7 @@ ActiverPanneauEdition()
    }
 
 /*<----------------------------------------------------------------------------------------->*/
-f77name(xpaneact)()
+void f77name(xpaneact)()
 {
    _Champ *champ;
 
@@ -354,21 +344,20 @@ f77name(xpaneact)()
 
 
 /*<----------------------------------------------------------------------------------------->*/
-DesactiverPanneauEdition()
+void DesactiverPanneauEdition()
 {
    XtUnrealizeWidget(peTopLevel);
    }
 
 /*<----------------------------------------------------------------------------------------->*/
-static XtCallbackProc PeFermer()
+XtCallbackProc PeFermer()
 {
    DesactiverPanneauEdition();
+   return 0;
    }
 
 /*<----------------------------------------------------------------------------------------->*/
-static XtCallbackProc PeAfficher(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PeAfficher(Widget w, caddr_t unused1, caddr_t unused2)
 {
    int i;
    
@@ -387,15 +376,13 @@ caddr_t unused1, unused2;
       }
    c_wglfsh();
    FlusherTousLesEvenements();
-
+   return 0;
    }
 
 /*<----------------------------------------------------------------------------------------->*/
 
 /** ARGSUSED **/
-static XtCallbackProc PeEditerValeurs(w, clientData, callData)
-Widget w;
-caddr_t clientData, callData;
+XtCallbackProc PeEditerValeurs(Widget w, caddr_t clientData, caddr_t  callData)
 {
    int lng;
    static char *pasAvecDesChampsVectoriels[] = {"\nCette fonction ne s'applique pas\naux champs vectoriels\n", 
@@ -418,11 +405,13 @@ caddr_t clientData, callData;
 
    FldMgrGetChamp(&champ, 0);
    mode = (int)clientData;
+   anciennesValeurs = NULL;
+   ancienneValeur = 0.0;
 
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return;
+      return 0;
       }
    
    if (champ->natureTensorielle == VECTEUR)
@@ -431,7 +420,7 @@ caddr_t clientData, callData;
       DesactiverTousPeWidgets();
       MessageAvertissementAux(pasAvecDesChampsVectoriels[lng], AVERTISSEMENT, peWarning, peTopLevel);
       ActiverTousPeWidgets();
-      return;
+      return 0;
       }
 
    oldIndCourantPile = indCourantPile;
@@ -448,7 +437,7 @@ caddr_t clientData, callData;
    xc.statuts[EN_TRAIN_DE_DESSINER] = TRUE;
    nbMenus = 0;
    
-   event = NULL;
+   event = 0;
    while (event != RESET)
       {
       f77name(souris)(&bouton, &event, 
@@ -547,7 +536,8 @@ caddr_t clientData, callData;
 	 break;
 
 	 case BACK_CLIC:
-	 PeAfficher();
+	 PeAfficher( NULL, NULL, NULL);
+
 	 break;
 
 	 case NIL:
@@ -572,17 +562,17 @@ caddr_t clientData, callData;
 
    if (champ->champModifie && indCourantPile > oldIndCourantPile)
       {
-      PeAfficher();
+      PeAfficher(NULL, NULL, NULL);
       }
    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
    InvertWidget(w);
+   return 0;
+
    }
 
 /*<----------------------------------------------------------------------------------------->*/
 
-static XtCallbackProc PeAnnulerToutesModifs(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+XtCallbackProc PeAnnulerToutesModifs(Widget w, caddr_t unused1, caddr_t unused2)
 {
    static char *annulModif[] = {"Annuler toutes\nles modifications ?", "Cancel all\nmodifications ?"};
    int lng;
@@ -608,10 +598,12 @@ caddr_t unused1, unused2;
       DesactiverAuxPeWidgets();
       PeAfficher(NULL, NULL, NULL);
       }
+   return 0;
+
    }
 
 /*<----------------------------------------------------------------------------------------->*/
-static XtCallbackProc PeAnnulerEdition()
+XtCallbackProc PeAnnulerEdition()
 {
    int i,j, k, n;
    _Champ *champ;
@@ -619,7 +611,7 @@ static XtCallbackProc PeAnnulerEdition()
    FldMgrGetChamp(&champ, 0);
 
    if (indCourantPile < 0)
-      return;
+      return 0;
 
    switch(pileEd[indCourantPile].type)
       {
@@ -661,12 +653,14 @@ static XtCallbackProc PeAnnulerEdition()
 
    ActiverWidget(peRefaireEdition);
    PeAfficher(NULL, NULL, NULL);
+   return 0;
+
    }
    
 /*<----------------------------------------------------------------------------------------->*/
-static XtCallbackProc PeRefaireEdition()
+XtCallbackProc PeRefaireEdition()
 {
-   int i,j, k, n;
+   int i,j, k;
    _Champ *champ;
 
    FldMgrGetChamp(&champ, 0);
@@ -708,12 +702,11 @@ static XtCallbackProc PeRefaireEdition()
    
    PeAfficher(NULL, NULL, NULL);
 
+   return 0;
    }
 
 /*<----------------------------------------------------------------------------------------->*/
-static XtCallbackProc PeEnregistrer(w, clientData, callData)
-Widget w;
-caddr_t clientData, callData;
+XtCallbackProc PeEnregistrer(Widget w, caddr_t clientData, caddr_t  callData)
 {
    char nomFich[1024];
    char *nouvelleEtiquette;
@@ -729,10 +722,9 @@ caddr_t clientData, callData;
    char succesStr[256];
    Arg args[2];
    int i;
-   float *work;
    float tmp;
    int ni, nj, nk;
-   int ier, key, dateo, deet, npas, nbits, datyp, ip1, ip2, ip3;
+   int ier, dateo, deet, npas, nbits, datyp, ip1, ip2, ip3;
    int ig1,ig2,ig3,ig4,swa,fstlng,dltf,ubc,extra1,extra2,extra3;
    char grtyp[2], typvar[3], nomvar[5], etiket[13];
    float *tmpfld;
@@ -787,7 +779,7 @@ caddr_t clientData, callData;
       DesactiverTousPeWidgets();
       MessageAvertissementAux(problemeFnom[lng], AVERTISSEMENT, peWarning, peTopLevel);
       ActiverTousPeWidgets();
-      return;
+      return 0;
       }
 
    ier = c_fstprm(champ->cle, &dateo, &deet, &npas, &ni, &nj, &nk, &nbits,
@@ -816,7 +808,7 @@ caddr_t clientData, callData;
 	 }
       }
 
-   ier = c_fstecr(champ->fld, work, -nbits, iunSortie, 
+   ier = c_fstecr(champ->fld, champ->fld, -nbits, iunSortie, 
 		  champ->dateo, deet, npas, mapInfo.ni, mapInfo.nj, 1,
 		  ip1, ip2, ip3, champ->typvar, 
 		  champ->nomvar, nouvelleEtiquette, &mapInfo.type,
@@ -859,12 +851,12 @@ caddr_t clientData, callData;
    MAJLabelsPile(nbTotalPile, nbTotalPile);
    DesactiverAuxPeWidgets();
    champ->champModifie = False;
+   return 0; 
    }
 
 /*<----------------------------------------------------------------------------------------->*/
 
-AfficherPixelBarre(rx1, ry1, rx2, ry2)
-float rx1,ry1,rx2,ry2;
+void AfficherPixelBarre(float rx1, float ry1, float rx2, float ry2)
 {
 
    float x1, y1, x2, y2;
@@ -894,7 +886,7 @@ float rx1,ry1,rx2,ry2;
 
 /*<----------------------------------------------------------------------------------------->*/
 
-ActiverAuxPeWidgets()
+void ActiverAuxPeWidgets()
 {
    if (indCourantPile >= 0)
       {
@@ -917,11 +909,8 @@ ActiverAuxPeWidgets()
 
 /*<----------------------------------------------------------------------------------------->*/
    
-DesactiverAuxPeWidgets()
+void DesactiverAuxPeWidgets()
 {
-   int i;
-   Arg args[2];
-
    DesactiverWidget(peAnnulerToutesModifs);
    DesactiverWidget(peAnnulerEdition);
    DesactiverWidget(peRefaireEdition);
@@ -929,7 +918,7 @@ DesactiverAuxPeWidgets()
    DesactiverWidget(peEnregistrer);
    }
 
-ActiverTextFields()
+void ActiverTextFields()
 {
    int i;
    Arg args[2];
@@ -942,7 +931,7 @@ ActiverTextFields()
    XtSetValues(peTextEtikRemplacement, args, i);
    }
 
-DesactiverTextFields()
+void DesactiverTextFields()
 {
    int i;
    Arg args[2];
@@ -958,18 +947,15 @@ DesactiverTextFields()
    
 /*<----------------------------------------------------------------------------------------->*/
 
-MAJLabelsPile(noAnnul, noRefaire)
-int noAnnul, noRefaire;
+void MAJLabelsPile(int noAnnul, int noRefaire)
 {
-   int lng;
+   int i, lng;
    static char *AnnulerEditionTmp[] = {"Annuler\nedition # ", "Undo\nEdition # "};
    static char *RefaireEditionTmp[] = {"Refaire\nedition # ", "Redo\nEdition # "};
    char tmp[128];
    XmString label;
-   
-   int i;
-   Arg args[2];
-
+   Arg args[8];
+      
    lng = c_getulng();
 
    sprintf(tmp, "%s %2d", AnnulerEditionTmp[lng], noAnnul);
@@ -992,14 +978,9 @@ int noAnnul, noRefaire;
 
 /*<----------------------------------------------------------------------------------------->*/
 
-AjouterItemDansLaPile(type, valeur, ancienneValeur, anciennesValeurs, x1, y1, x2, y2)
-int type;
-float valeur, ancienneValeur;
-PointEditionStruct *anciennesValeurs;
-int x1, y1, x2, y2;
+void AjouterItemDansLaPile(int type, float valeur, float ancienneValeur, PointEditionStruct *anciennesValeurs, int x1, int y1, int x2, int y2)
 {
-   int i, n;
-   Arg args[2];
+   int n;
 
    if (!pileEd)
       {
@@ -1018,7 +999,7 @@ int x1, y1, x2, y2;
       pileEd = (EditionStruct *)realloc(pileEd, nbCellulesPile * sizeof(EditionStruct));
       for (n=indCourantPile; n < nbCellulesPile; n++)
 	 {
-	 memset(&pileEd[n], NULL, sizeof(EditionStruct));
+	 memset(&pileEd[n], (int)NULL, sizeof(EditionStruct));
 	 }
       }
    
@@ -1038,19 +1019,19 @@ int x1, y1, x2, y2;
    }
 
 
-PeDesactiverBoutons()
+void PeDesactiverBoutons()
 {
    DesactiverWidget(peFermer);
    DesactiverWidget(peAfficher);
    }
 
-PeActiverBoutons()
+void PeActiverBoutons()
 {
    ActiverWidget(peFermer);
    ActiverWidget(peAfficher);
    }
 
-DesactiverTousPeWidgets()
+void DesactiverTousPeWidgets()
 {
       DesactiverAuxPeWidgets();
       DesactiverWidget(peEditerValeurs);
@@ -1058,7 +1039,7 @@ DesactiverTousPeWidgets()
       DesactiverTextFields();
    }
 
-ActiverTousPeWidgets()
+void ActiverTousPeWidgets()
 {
       ActiverAuxPeWidgets();
       ActiverWidget(peEditerValeurs);

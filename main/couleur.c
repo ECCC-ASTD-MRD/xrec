@@ -20,8 +20,10 @@
 
 #include <math.h>
 #include <stdio.h>
-#include <rec.h>
 #include <rpnmacros.h>
+#include <gmp.h>
+#include <rec.h>
+#include <rec_functions.h>
 
 #define LIRE   0
 #define ECRIRE 1
@@ -45,9 +47,7 @@ extern _ColormapInfo recCmap;
 ***********************************************************************
 **/
 
-ResetColorMap(colorTable, ncol, colorMapType)
-int colorTable[], ncol;
-int colorMapType;
+void ResetColorMap(int colorTable[], int ncol, int colorMapType)
 {
   float x;
   int availPlanes;
@@ -129,173 +129,176 @@ int colorMapType;
       case COULEURS_STANDARDS:
       case COULEURS_STANDARDS_INVERSEES:
       if (!stdcmapInitialisee)
-  {
-  tmp = (char *) getenv("ARMNLIB");
-  strcpy(paletteDeDefaut, tmp);
-  strcat(paletteDeDefaut, "/data/defpal.rec");
-  f = fopen(paletteDeDefaut, "r");
-  if (f != NULL)
-      {
-      while (fgets(ligne, 80, f) != NULL)
-        {
-        sscanf(ligne, "%d %d %d %d", &indCol, &r, &g, &b);
-        stdcmap[indCol][0] = r;
-        stdcmap[indCol][1] = g;
-        stdcmap[indCol][2] = b;
-        }
-      fclose(f);
-      }
-  else
-      {
-      printf("<ResetColormap> : palette de defaut introuvable\n");
-      BuildColIndexTable(colorTable, stdcmap, 256, indColMin, indColMax - nbColReservees, ECRIRE);
-      }
-  stdcmapInitialisee = 1;
-  }
+         {
+         tmp = (char *) getenv("ARMNLIB");
+         strcpy(paletteDeDefaut, tmp);
+         strcat(paletteDeDefaut, "/data/defpal.rec");
+         f = fopen(paletteDeDefaut, "r");
+         if (f != NULL)
+               {
+               while (fgets(ligne, 80, f) != NULL)
+               {
+               sscanf(ligne, "%d %d %d %d", &indCol, &r, &g, &b);
+               stdcmap[indCol][0] = r;
+               stdcmap[indCol][1] = g;
+               stdcmap[indCol][2] = b;
+               }
+               fclose(f);
+               }
+         else
+               {
+               printf("<ResetColormap> : palette de defaut introuvable\n");
+               BuildColIndexTable(colorTable, stdcmap, 256, indColMin, indColMax - nbColReservees, ECRIRE);
+               }
+         stdcmapInitialisee = 1;
+         }
 
       for (i=0; i < 256; i++)
-  for (j=0; j < 3; j++)
-      {
-      oldcmap[i][j] = stdcmap[i][j];
-      hsvTable[i][j] = stdcmap[i][j];
-      }
+         for (j=0; j < 3; j++)
+               {
+               oldcmap[i][j] = stdcmap[i][j];
+               hsvTable[i][j] = stdcmap[i][j];
+               }
       break;
 
       case BLANC_NOIR:
       case NOIR_BLANC:
       for (i=0; i < 256; i++)
-  {
-  oldcmap[i][0] = i;
-  oldcmap[i][1] = i;
-  oldcmap[i][2] = i;
-  }
+         {
+         oldcmap[i][0] = i;
+         oldcmap[i][1] = i;
+         oldcmap[i][2] = i;
+         }
       break;
 
       case UTOPIC_IR:
       case UTOPIC_VZ:
       for ( i = 0 ; i < 256 ; i++ )
-  {
-        oldcmap[i][0] = i; 
-  oldcmap[i][1] = i; 
-  oldcmap[i][2] = i; 
-  }
+         {
+         oldcmap[i][0] = i; 
+         oldcmap[i][1] = i; 
+         oldcmap[i][2] = i; 
+         }
 
       oldcmap[0][0] =   0 ; 
       oldcmap[0][1] =   0 ; 
       oldcmap[0][2] = 230 ;
 
       for ( i = 51 ; i >= 0 ; i-- )
-  {
-  oldcmap[i+2][0]   =   i * 5 ;
-  oldcmap[i+2][1] = ( i * 5 < 192 ) ? i * 5 + 64  : i * 5 ;
-  oldcmap[i+2][2]  = ( i * 5 < 128 ) ? i * 5 + 128 : oldcmap[i+2][1] ;
-  }
+         {
+         oldcmap[i+2][0]   =   i * 5 ;
+         oldcmap[i+2][1] = ( i * 5 < 192 ) ? i * 5 + 64  : i * 5 ;
+         oldcmap[i+2][2]  = ( i * 5 < 128 ) ? i * 5 + 128 : oldcmap[i+2][1] ;
+         }
 
       for (i=2; i < 53 ; i++)
-  {
-  j = ((i-2) * 5);
-  newcmap[j][0] = oldcmap[i][0];
-  newcmap[j][1] = oldcmap[i][1];
-  newcmap[j][2] = oldcmap[i][2];
-
-  newcmap[j+1][0] = oldcmap[i][0];
-  newcmap[j+1][1] = oldcmap[i][1];
-  newcmap[j+1][2] = oldcmap[i][2];
-
-  newcmap[j+2][0] = oldcmap[i][0];
-  newcmap[j+2][1] = oldcmap[i][1];
-  newcmap[j+2][2] = oldcmap[i][2];
-
-  newcmap[j+3][0] = oldcmap[i][0];
-  newcmap[j+3][1] = oldcmap[i][1];
-  newcmap[j+3][2] = oldcmap[i][2];
-
-  newcmap[j+4][0] = oldcmap[i][0];
-  newcmap[j+4][1] = oldcmap[i][1];
-  newcmap[j+4][2] = oldcmap[i][2];
-
-  newcmap[j+5][0] = oldcmap[i][0];
-  newcmap[j+5][1] = oldcmap[i][1];
-  newcmap[j+5][2] = oldcmap[i][2];
-  }
+         {
+         j = ((i-2) * 5);
+         newcmap[j][0] = oldcmap[i][0];
+         newcmap[j][1] = oldcmap[i][1];
+         newcmap[j][2] = oldcmap[i][2];
+         
+         newcmap[j+1][0] = oldcmap[i][0];
+         newcmap[j+1][1] = oldcmap[i][1];
+         newcmap[j+1][2] = oldcmap[i][2];
+         
+         newcmap[j+2][0] = oldcmap[i][0];
+         newcmap[j+2][1] = oldcmap[i][1];
+         newcmap[j+2][2] = oldcmap[i][2];
+         
+         newcmap[j+3][0] = oldcmap[i][0];
+         newcmap[j+3][1] = oldcmap[i][1];
+         newcmap[j+3][2] = oldcmap[i][2];
+         
+         newcmap[j+4][0] = oldcmap[i][0];
+         newcmap[j+4][1] = oldcmap[i][1];
+         newcmap[j+4][2] = oldcmap[i][2];
+         
+         newcmap[j+5][0] = oldcmap[i][0];
+         newcmap[j+5][1] = oldcmap[i][1];
+         newcmap[j+5][2] = oldcmap[i][2];
+         }
 
 
       for (i=0; i < 256; i++)
-  {
-  oldcmap[i][0] = newcmap[i][0];
-  oldcmap[i][1] = newcmap[i][1];
-  oldcmap[i][2] = newcmap[i][2];
-  }
+         {
+         oldcmap[i][0] = newcmap[i][0];
+         oldcmap[i][1] = newcmap[i][1];
+         oldcmap[i][2] = newcmap[i][2];
+         }
       break;
 
       case EXP_1:
       for (i=0; i < 64; i++)
-  {
-  oldcmap[i][0] = (63 - i) * 4;
-  oldcmap[i][1] = (63 - i) * 4;
-  oldcmap[i][2] = 255;
-  }
+         {
+         oldcmap[i][0] = (63 - i) * 4;
+         oldcmap[i][1] = (63 - i) * 4;
+         oldcmap[i][2] = 255;
+         }
 
       for (i=64; i < 128; i++)
-  {	
-  oldcmap[i][0] = 0;
-  oldcmap[i][1] = 0;
-  oldcmap[i][2] = (127 - i) * 4;
-  }
+         {	
+         oldcmap[i][0] = 0;
+         oldcmap[i][1] = 0;
+         oldcmap[i][2] = (127 - i) * 4;
+         }
 
       for (i=128; i < 192; i++)
-  {
-  oldcmap[i][0] = (i-128)*4;
-  oldcmap[i][1] = 0;
-  oldcmap[i][2] = 0;
-  }
+         {
+         oldcmap[i][0] = (i-128)*4;
+         oldcmap[i][1] = 0;
+         oldcmap[i][2] = 0;
+         }
 
       for (i=192; i < 256; i++)
-  {
-  oldcmap[i][0] = 255;
-  oldcmap[i][1] = (i-192)*4;
-  oldcmap[i][2] = (i-192)*4;
-  }
+         {
+         oldcmap[i][0] = 255;
+         oldcmap[i][1] = (i-192)*4;
+         oldcmap[i][2] = (i-192)*4;
+         }
       break;
 
       case EXP_2:
       for (i=0; i < 64; i++)
-  {
-  oldcmap[i][0] = 0;
-  oldcmap[i][1] = 0;
-  oldcmap[i][2] = i * 4;
-  }
+         {
+         oldcmap[i][0] = 0;
+         oldcmap[i][1] = 0;
+         oldcmap[i][2] = 128 + i * 2;
+         }
 
       for (i=64; i < 128; i++)
-  {	
-  oldcmap[i][0] = (i-64)*4;
-  oldcmap[i][1] = (i-64)*4;
-  oldcmap[i][2] = 255;
-  }
+         {	
+         oldcmap[i][0] = (i-64)*4;
+         oldcmap[i][1] = (i-64)*4;
+         oldcmap[i][2] = 255;
+         }
 
       for (i=128; i < 192; i++)
-  {
-  oldcmap[i][0] = 255;
-  oldcmap[i][1] = (192-i)*4;
-  oldcmap[i][2] = (192-i)*4;
-  }
+         {
+         oldcmap[i][0] = 255;
+         oldcmap[i][1] = (191-i)*4;
+         oldcmap[i][2] = (191-i)*4;
+         }
 
       for (i=192; i < 256; i++)
-  {
-  oldcmap[i][0] = (256-i)*4;
-  oldcmap[i][1] = 0;
-
-  oldcmap[i][2] = 0;
-  }
+         {
+         oldcmap[i][0] = 128+ (255-i)*2;
+         oldcmap[i][1] = 0; 
+         oldcmap[i][2] = 0;
+         }
+/*      for (i=0; i < 256; i++)
+         {
+         printf("%d %d %d %d\n", i, oldcmap[i][0], oldcmap[i][1], oldcmap[i][2]);
+         }*/
       break;
 
       default:
       for (i=0; i < 256; i++)
-  {
-  oldcmap[i][0] = externcmap[i][0];
-  oldcmap[i][1] = externcmap[i][1];
-  oldcmap[i][2] = externcmap[i][2];
-  }
+         {
+         oldcmap[i][0] = externcmap[i][0];
+         oldcmap[i][1] = externcmap[i][1];
+         oldcmap[i][2] = externcmap[i][2];
+         }
       break;
 
       }
@@ -306,18 +309,18 @@ int colorMapType;
       case BLANC_NOIR:
       case UTOPIC_IR:
       for (i=0; i < 256; i++)
-  {
-  newcmap[255-i][0] = oldcmap[i][0];
-  newcmap[255-i][1] = oldcmap[i][1];
-  newcmap[255-i][2] = oldcmap[i][2];
-  }
+         {
+         newcmap[255-i][0] = oldcmap[i][0];
+         newcmap[255-i][1] = oldcmap[i][1];
+         newcmap[255-i][2] = oldcmap[i][2];
+         }
 
       for (i=0; i < 256; i++)
-  {
-  oldcmap[i][0] = newcmap[i][0];
-  oldcmap[i][1] = newcmap[i][1];
-  oldcmap[i][2] = newcmap[i][2];
-  }
+         {
+         oldcmap[i][0] = newcmap[i][0];
+         oldcmap[i][1] = newcmap[i][1];
+         oldcmap[i][2] = newcmap[i][2];
+         }
       break;
 
       default:
@@ -330,17 +333,17 @@ int colorMapType;
   if (c_wglgpl() > 4)
       {
       for (i=0; i < 256; i++)
-  colorTable[i] = indColMin + (int)((float) i / 255.0 * (indColMax - nbColReservees - 1 - indColMin));
+         colorTable[i] = indColMin + (int)((float) i / 255.0 * (indColMax - nbColReservees - 1 - indColMin));
 
       c_wglmcos(colorTable, 256, newcmap);
       }
   else
       {
       for (i=0; i < 256; i++)
-  {
-  x = 8.0 + (6.0 * i) / 255.0;
-  memcpy(&colorTable[i], &x, sizeof(float));
-  }
+         {
+         x = 8.0 + (6.0 * i) / 255.0;
+         memcpy(&colorTable[i], &x, sizeof(float));
+         }
 
 
 /**
@@ -358,9 +361,7 @@ int colorMapType;
       }
   }
 
-AjusterVariationPalette(newcmap, oldcmap, colorTable, amplificationMin, reductionMax)
-int newcmap[][3], oldcmap[][3], colorTable[];
-float amplificationMin, reductionMax;
+void AjusterVariationPalette(int newcmap[][3], int oldcmap[][3], int colorTable[], float amplificationMin, float reductionMax)
 {
   int i, j, newi;
   float delta, newdelta;
@@ -395,15 +396,13 @@ float amplificationMin, reductionMax;
 
   }
 
-c_wglgetcolrange(indMin, indMax)
-int *indMin, *indMax;
+void c_wglgetcolrange(int *indMin, int *indMax)
 {
   *indMin = indColMin;
   *indMax = indColMax;
   }
 
-f77name(setcolors)(indMin, indMax)
-int *indMin, *indMax;
+void f77name(setcolors)(int *indMin, int *indMax)
 {
   indColMin = *indMin;
   indColMax = *indMax;   

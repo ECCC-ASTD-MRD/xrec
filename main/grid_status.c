@@ -18,7 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <rpnmacros.h>
+#include <gmp.h>
 #include <rec.h>
+#include <rec_functions.h>
 
 static char grtyp = ' ';
 static int ni,nj,nk, ig1,ig2,ig3,ig4;
