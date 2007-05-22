@@ -363,7 +363,7 @@ void SetCentralValuesToggle (Widget w, caddr_t client_data, caddr_t call_data)
 ***********************************************************************
 ****/
 
-static XtCallbackProc PcOk(Widget w, caddr_t client_data, caddr_t call_data)
+XtCallbackProc PcOk(Widget w, caddr_t client_data, caddr_t call_data)
 {
    pcSelectionTerminee = TRUE;
    DesactiverPanneauContour();

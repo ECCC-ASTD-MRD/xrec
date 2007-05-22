@@ -1,5 +1,5 @@
 /*
- * $Header$
+ * $Header: /data/cvs/RMNLIB/utils/xrec/include/lic.h,v 1.1 2003/12/08 19:51:24 chartier Exp $
  */
 
 /*

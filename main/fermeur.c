@@ -52,11 +52,13 @@ char **clsListeFich = NULL;
 int clsNbFich;
 int fermeurSelectionTerminee = False;
 
-static XtCallbackProc FermeurAnnuler();
+/*
+  static XtCallbackProc FermeurAnnuler();
 static XtCallbackProc FermeurOK();
 static XtCallbackProc FermeurToutSelectionner();
 static XtCallbackProc FermeurEffacerSelection();
 static XtCallbackProc FermeurFermerFichiers();
+*/
 
 
 void XFileFermeur(char **listeFich, int *nbFich)
