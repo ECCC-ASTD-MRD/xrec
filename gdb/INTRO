@@ -1,0 +1,133 @@
+
+  Bonjour,
+
+     un petit resume des possibilites de gdb :
+
+
+     1- il y a une variable d' environnement qui designe
+        ou est la base de donnees... par exemple sur pollux :
+
+     export GDB_PATH=/data/cmdsx2/afsm/gis
+
+
+     2- la librairie et les includes sont dans
+    
+     /software/cmc/gdb-1.0/publib
+     /software/cmc/gdb-1.0/include
+
+
+     3- la base de donnees est pyramidale i.e.
+        les resolutions possibles sont :
+
+        1   pixel  par degres
+        2   pixels par degres
+        4   pixels par degres
+        8   pixels par degres
+        16  pixels par degres
+        32  pixels par degres
+        64  pixels par degres
+        128 pixels par degres
+                  
+
+     4- il y a 5 sortes de donnees :
+
+        des polygones fermes sous l' appellation  FIL... pour filled
+        des lignes           sous l' appellation  LIN... pour line
+        des tableaux         sous l' appellation  MAP... pour map
+        des points           sous l' appellation  PNT... pour point
+        du  textes           sous l' appellation  TXT... pour texte
+
+
+
+    5- utilisation dans un programme C ou C++  ... etc
+
+       on doit faire une initialisation au debut du programme 
+       puis identifier la boite lat lon d' ou on veut extraire
+       les donnees :
+
+       gdb_init();
+       gdb_limit( latmin, lonmin, latmax, lonmax );
+
+       *** le monde entier   gdb_limit( -90.0, -180.0, 90.0, 180.0 );
+
+
+    6- si tu veux utilise les lignes
+       tu dois definir une fonction de reception de lignes 
+       selon la definition de GDB_LINE
+
+       (idem pour fill, point et text...)
+
+
+    7- ensuite tu peux faire l' appel a la fonction qui va chercher
+       le type de donnees a la resolution que tu lui demandes...
+
+
+    VOICI UN EXEMPLE
+
+    sauve le fichier qui suit et compile le de cette facon
+
+
+# pollux
+
+    gcc -I/software/cmc/gdb-1.0/include         file.c
+          /software/cmc/gdb-1.0/publib/gdb.a -o montreal
+
+# linux
+
+    gcc -I/software/cmc/gdb-1.0/include              file.c
+          /software/cmc/gdb-1.0/publib/gdb.a -ldl -o montreal
+
+
+    puis execute
+
+    ./montreal
+
+
+    ce fichier imprime a la resolution 128 pix par degrees
+    les lines cotieres dans la region de montreal
+
+    c'est pas plus complique que ca...
+
+
+    Quand tu seras rendu au map... je te donnerai
+    un autre exemple
+
+
+    CIAO
+
+    Michel G.
+
+
+---------------- FILE.C -------------------------
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#include "gdb.h"
+
+ void
+ line_print( int type, int n, float minlat, float minlon, float maxlat, float maxlon, float *ll )
+    {
+    switch( type )
+      {
+      case GDB_LIN_COAST : {
+                           int i;
+                           printf(" coast %d \n",n);
+                           for( i=0; i<n; ++i )
+                              printf(" %f %f\n",ll[2*i],ll[2*i+1]);
+                           }
+                           break;
+      }
+    }
+
+ main( int argc, char **argv )
+    {
+    int reso = 128;
+
+    gdb_init();
+    gdb_limit( 44.0,-76.0,45.0,-75.0);
+    gdb_line( reso, GDB_LIN_COAST, line_print );
+
+    return(0);
+    }

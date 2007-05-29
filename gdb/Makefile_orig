@@ -1,0 +1,53 @@
+SHELL=/bin/sh
+
+INS=$(HOME)/$(OS)/$(VER)
+
+INC=$(HOME)/dev/include
+LIB=$(HOME)/dev/lib
+ 
+CFLAG=-I$(INC)
+
+always:
+	 make common OS=`uname` VER=`pwd | sed 's/^.*\///'`
+
+common:
+	 make $(OS)
+	 ar -rv libgdb.a *.o
+	 make copie
+	 make include
+	 make lib
+	 make clean
+
+copie:
+	-rm -r -f $(INS)
+	-mkdir -p $(INS)
+	-mkdir -p $(INS)/include
+	-mkdir -p $(INS)/publib
+	-mkdir -p $(INS)/data
+	 cp DESCRIPTION $(INS)/data
+	 cp *.a              $(INS)/publib
+	-mv *.s[ol]          $(INS)/publib
+	 cp gdb.h            $(INS)/include
+	 cp $(INC)/declare.h $(INS)/include
+
+include:
+	 chmod 700 $(INC)
+	 cp    *.h $(INC)
+	 chmod 500 $(INC)
+
+lib:
+	 chmod 700 $(LIB)
+	 cp    *.a $(LIB)
+	 chmod 500 $(LIB)
+
+clean:
+	 rm *.o *.a
+
+Linux:
+	 gcc $(CFLAG) -DLinux -DSOCKADDR -rdynamic -c *.c
+
+IRIX64: 
+	 cc  $(CFLAG) -DIRIX64 -n32                -c *.c
+
+HP-UX: 
+	 cc  $(CFLAG) -DHP +z -Ae +DAportable      -c *.c
