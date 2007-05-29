@@ -10,18 +10,19 @@ CPP = /lib/cpp
 
 REC_UTILLIB = ../lib/lib$(EC_ARCH)$(ABI)_rec_util.a
 
-FFLAGS = 
+FFLAGS =  
 
-CFLAGS = -I$(ARMNLIB)/include -I../include -DX_REC_UTIL
+#CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I$(HOME)/src/gd2/ -DX_WGL  -Wall
+CFLAGS = -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I$(HOME)/src/gd2/ -DX_WGL  -Wall
 
-OPTIMIZ = -O 0  -debug
-OPTIMIZ = -O 2
+OPTIMIZ = -debug -O 0
+OPTIMIZ = -O 3
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_REC_UTIL
+CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
 .PRECIOUS:
 
-default: rec_utillib
+default: recutil_lib
 
 .ftn.o:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
@@ -39,28 +40,13 @@ default: rec_utillib
 	ar rv $@ $*.o
 	rm -f $*.o
 
-FTNDECKS= \
-         xopget.ftn       xopset.ftn
-
-FDECKS= \
-         xopget.f       xopset.f
-
 CDECKS= \
-         init.c       vcar.c       xplot88.c
+	 ComputeImage.c  Convolve2D.c  Convolve3D.c  Create.c  Destroy.c  Filters.c \
+	 Modify.c        Query.c
 
-FDECKS= \
-         xopget.f       xopset.f
+FICHIERS = $(CDECKS) 
 
-COMDECKS= \
-         impnone.cdk       libra.cdk
-
-FICHIERS = $(FDECKS) $(CDECKS) $(ASDECKS) $(HDECKS)
-
-
-xopget.f: xopget.ftn 	impnone.cdk 	libra.cdk 
-xopset.f: xopset.ftn 	impnone.cdk 	libra.cdk 
-
-obj: $(FTNDECKS) $(FDECKS) $(CDECKS)
+obj: $(CDECKS)
 #Produire les fichiers objets (.o) pour tous les fichiers
 
 qclean:
@@ -76,9 +62,13 @@ qclean:
 	rm *.o
 
 
-rec_utillib: \
-	$(REC_UTILLIB)(xopget.o) \
-	$(REC_UTILLIB)(xopset.o) \
-	$(REC_UTILLIB)(init.o) \
-	$(REC_UTILLIB)(vcar.o) \
-	$(REC_UTILLIB)(xplot88.o) 
+recutil_lib: \
+	$(REC_UTILLIB)(ComputeImage.o) \
+	$(REC_UTILLIB)(Convolve2D.o) \
+	$(REC_UTILLIB)(Convolve3D.o) \
+	$(REC_UTILLIB)(Create.o) \
+	$(REC_UTILLIB)(Destroy.o) \
+	$(REC_UTILLIB)(Filters.o) \
+	$(REC_UTILLIB)(Modify.o) \
+	$(REC_UTILLIB)(Query.o) 
+

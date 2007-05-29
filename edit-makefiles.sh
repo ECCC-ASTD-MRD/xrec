@@ -1,5 +1,5 @@
 #!/bin/sh -x
-for dir in autog gmp select util wgl xdash xplot88 xinit selfic main wgl x_wgl gd_wgl
+for dir in autog gdb gmp main select selfic wgl x_wgl xdash xinit xplot88 
 do
     cd $dir
     vi Makefile

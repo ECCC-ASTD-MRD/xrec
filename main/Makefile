@@ -8,7 +8,7 @@ SHELL = /bin/sh
 
 CPP = /lib/cpp
 
-RECLIB = $(HOME)/userlibs/$(ARCH)$(ABI)/librec.a
+RECLIB = ../lib/lib$(EC_ARCH)$(ABI)_rec.a
 
 FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL -O0 -g
 FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL -O2
@@ -194,7 +194,7 @@ xrec-Linux:
 	cd main; r.compile_021 -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmn_rc008
 
 xrec-Linux_pgi611:
-	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/userlibs/$(ARCH)/*.o /users/dor/armn/lib/public/fstd98.o -o $(TMPDIR)/xrec -libpath $(HOME)/userlibs/$(ARCH) $(ARMNLIB)/lib/$(ARCH) /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 gd2 z png m dl -librmn rmnbeta
+	cd main; echo $(CWD); r.compile -src rec.ftn $(OPTIMIZ); cd .. ; r.build -obj main/rec.o ../lib/$(EC_ARCH)$(ABI)/*.o -o $(TMPDIR)/xrec -libpath lib $(ARMNLIB)/lib/$(ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 gd z png m dl -librmn rmn_009
 
 xrec-2007:
 	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/src/isi4/*.o -o $(TMPDIR)/xrec -libpath $(HOME)/userlibs/$(ARCH) /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl Xm Mrm Xmu Xp Xt Xext X11 xml2 gd2 z png m dl rmnbeta 

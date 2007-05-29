@@ -1,7 +1,6 @@
 SHELL = /bin/sh
 
-subdirs = autog gd_wgl gmp main select selfic wgl x_wgl xdash xinit xplot88
-subdirs = autog gmp main select selfic wgl x_wgl xdash xinit xplot88
+subdirs = autog gdb gmp lic main select selfic wgl x_wgl gd_wgl xdash xinit xplot88
 
 default: genlib
 

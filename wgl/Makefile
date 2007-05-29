@@ -8,7 +8,7 @@ SHELL = /bin/sh
 
 CPP = /lib/cpp
 
-WGLLIB = $(HOME)/userlibs/$(ARCH)$(ABI)/libwgl.a
+WGLLIB = ../lib/lib$(EC_ARCH)$(ABI)_wgl.a
 
 FFLAGS = 
 

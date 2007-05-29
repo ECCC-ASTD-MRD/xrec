@@ -8,7 +8,7 @@ SHELL = /bin/sh
 
 CPP = /lib/cpp
 
-WGLLIB = $(HOME)/userlibs/$(ARCH)$(ABI)/libx_wgl.a
+WGLLIB = ../lib/lib$(EC_ARCH)$(ABI)_x_wgl.a
 
 FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
 

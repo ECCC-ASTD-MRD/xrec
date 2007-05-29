@@ -1,0 +1,108 @@
+.\" Copyright (c) 1993 The Regents of the University of California.
+.\" All rights reserved.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions
+.\" are met:
+.\" 1. Redistributions of source code must retain the above copyright
+.\"    notice, this list of conditions and the following disclaimer.
+.\" 2. Redistributions in binary form must reproduce the above copyright
+.\"    notice, this list of conditions and the following disclaimer in the
+.\"    documentation and/or other materials provided with the distribution.
+.\" 3. All advertising materials mentioning features or use of this software
+.\"    must display the following acknowledgement:
+.\"	This product includes software developed by the University of
+.\"	California, Lawrence Livermore National Laboratory and its
+.\"	contributors.
+.\" 4. Neither the name of the University nor the names of its contributors
+.\"    may be used to endorse or promote products derived from this software
+.\"    without specific prior written permission.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+.\" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+.\" FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+.\" DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+.\" OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+.\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+.\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+.\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+.\" SUCH DAMAGE.
+.\"
+.de Hd
+.ds Dt \\$4
+..
+.Hd $Header: /usr/local/src/lic/liblic/RCS/LIC_ComputeImage.3,v 1.5 1993/11/03 20:16:11 casey Exp $
+.TH LIC_COMPUTEIMAGE 3 \*(Dt
+.SH NAME
+LIC_ComputeImage \- compute image using Line Integral Convolution
+.SH SYNOPSIS
+.nf
+#include <lic.h>
+
+void \fBLIC_ComputeImage\fP(LIC *\fIThis\fP)
+
+int \fBLIC_NumThreads\fP(LIC *\fIThis\fP)
+void \fBLIC_ChangeNumThreads\fP(LIC *\fIThis\fP, int \fIthreads\fP)
+.fi
+.SH DESCRIPTION
+.B LIC_ComputeImage
+calls the appropriate Line Integral Convolution method for each input
+vector field cell and deposits the normalized results into the output image.
+.PP
+For each cell,
+.B LIC_ComputeImage
+calls the appropriate convolution method twice: once to compute the partial LIC
+for the positive vector field direction and once for the negative direction.
+The two partial results are summed and normalized by the summed normalization
+factors.
+.PP
+Currently two- and three-dimensional versions of Line Integral Convolution
+are implemented.
+.B LIC_ComputeImage
+calls one of
+.BR LIC_Convolve2D (3)
+or
+.BR LIC_Convolve3D (3)
+depending on the Z depth of the input vector field.
+.PP
+.B LIC_NumThreads
+returns the number of parallel threads that will be used by
+.BR LIC_ComputeImage .
+A
+.B 0
+indicates that the maximum number of CPUs available for parallel
+processing on the current system will be used.
+.PP
+.B LIC_ChangeNumThreads
+specifies the number of parallel threads that should be used by
+.BR LIC_ComputeImage (3).
+As above, if a
+.B 0
+is specified, the maximum number of CPUs available for parallel
+processing on the current system will be used.  Note that parallel
+processing support is not available on all systems.  If a value other
+than
+.B 1
+is specified on a system which does not support parallel processing, a
+warning will be issued via
+.I ReportError
+and calculations will execute single threaded.
+.PP
+Note that if the computation partioning selected by
+.B LIC_ComputeImage
+generates fewer partitions than the number of threads requested,
+parallelism will be restricted to the number of partitions.
+Currently,
+.B LIC_ComputeImage
+partitions the computation by having each thread execute a row stripe.
+Thus, the maximum number of parallel threads is limited to the number
+of rows in the input vector field.  A more intelligent partitioning
+scheme is probably needed ...
+.SH "SEE ALSO"
+.BR LIC (3),
+.BR LIC_Convolve (3)
+.SH STANDARDS
+This is unsupported, non-standard software.  It is not the subject of any
+standards effort.

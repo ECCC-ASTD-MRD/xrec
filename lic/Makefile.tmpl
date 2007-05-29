@@ -1,0 +1,70 @@
+#
+# $Header: /usr/local/src/lic/liblic/RCS/Makefile.tmpl,v 1.9 1993/10/26 18:26:14 casey Exp $
+#
+      DEFINES = $(IMAGE_DEFINES) $(MPC_DEFINES)
+
+         HDRS = liblic.h
+         SRCS = ComputeImage.c Convolve2D.c Convolve3D.c Create.c Destroy.c \
+		Filters.c Modify.c Query.c
+         OBJS = ComputeImage.o Convolve2D.o Convolve3D.o Create.o Destroy.o \
+		Filters.o Modify.o Query.o
+      LIBRARY = liblic.a
+         MANS = LIC.3 LIC_ComputeImage.3 LIC_Convolve.3 LIC_Create.3 \
+		LIC_Destroy.3 LIC_Filters.3 LIC_Modify.3 LIC_Query.3
+
+          ALL = $(LIBRARY)
+
+all: $(ALL)
+
+$(LIBRARY): $(OBJS)
+	rm -f $@
+	$(AR) $@ $(OBJS)
+	$(RANLIB) $(LIBRARY)
+
+install: $(LIBRARY) $(LIBDIR) install_$(MANINSTALL)
+	rm -f $(LIBDIR)/$(LIBRARY)
+	cp $(LIBRARY) $(LIBDIR)/$(LIBRARY)
+	$(RANLIB) $(LIBDIR)/$(LIBRARY)
+	chmod $(INSTLIBPROT) $(LIBDIR)/$(LIBRARY)
+
+install_man: $(MANROOT) $(MAN3DIR)
+	@set -x; \
+	for i in $(MANS); do \
+		m=$(MAN3DIR)/`basename $$i .3`.$(MAN3EXT); \
+		rm -f $$m; \
+		cp $$i $$m; \
+		chmod $(INSTMANPROT) $$m; \
+	done
+
+install_cat: $(MANROOT) $(MAN3DIR)
+	@set -x; \
+	for i in $(MANS); do \
+		m=$(MAN3DIR)/`basename $$i .3`.$(MAN3EXT); \
+		rm -f $$m; \
+		$(NROFF) -man $$i > $$m; \
+		chmod $(INSTMANPROT) $$m; \
+	done
+
+install_none:
+
+$(LIBDIR) $(MANROOT) $(MAN3DIR):
+	mkdir $@
+
+clean:
+	rm -f $(LIBRARY) $(OBJS)
+	rm -f *~ *.o core a.out MAKELOG
+
+lint:
+
+tags:
+
+depend:
+
+ComputeImage.o:	ComputeImage.c liblic.h $(BUILDINCTOP)/lic.h
+Convolve2D.o:	Convolve2D.c   liblic.h $(BUILDINCTOP)/lic.h
+Convolve3D.o:	Convolve3D.c   liblic.h $(BUILDINCTOP)/lic.h
+Create.o:	Create.c       liblic.h $(BUILDINCTOP)/lic.h
+Destroy.o:	Destroy.c      liblic.h $(BUILDINCTOP)/lic.h
+Filters.o:	Filters.c      liblic.h $(BUILDINCTOP)/lic.h
+Modify.o:	Modify.c       liblic.h $(BUILDINCTOP)/lic.h
+Query.o:	Query.c        liblic.h $(BUILDINCTOP)/lic.h

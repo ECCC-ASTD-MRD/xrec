@@ -1,0 +1,349 @@
+.\" Copyright (c) 1993 The Regents of the University of California.
+.\" All rights reserved.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions
+.\" are met:
+.\" 1. Redistributions of source code must retain the above copyright
+.\"    notice, this list of conditions and the following disclaimer.
+.\" 2. Redistributions in binary form must reproduce the above copyright
+.\"    notice, this list of conditions and the following disclaimer in the
+.\"    documentation and/or other materials provided with the distribution.
+.\" 3. All advertising materials mentioning features or use of this software
+.\"    must display the following acknowledgement:
+.\"	This product includes software developed by the University of
+.\"	California, Lawrence Livermore National Laboratory and its
+.\"	contributors.
+.\" 4. Neither the name of the University nor the names of its contributors
+.\"    may be used to endorse or promote products derived from this software
+.\"    without specific prior written permission.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+.\" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+.\" FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+.\" DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+.\" OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+.\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+.\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+.\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+.\" SUCH DAMAGE.
+.\"
+.de Hd
+.ds Dt \\$4
+..
+.Hd $Header: /usr/local/src/lic/liblic/RCS/LIC_Create.3,v 1.8 1993/10/28 01:08:08 casey Exp $
+.TH LIC_CREATE 3 \*(Dt
+.SH NAME
+LIC_Create \- create Line Integral Convolution object instance
+.SH SYNOPSIS
+.nf
+#include <lic.h>
+
+.ta \w'LIC *\fBLIC_Create\fP('u +\w'unsigned charXXX('u
+LIC *\fBLIC_Create\fP(unsigned char	*\fIInputImage\fP,
+.ta \w'LIC *\fBLIC_Create\fP('u +\w'unsigned charXXX(*'u
+	int		\fIiiXres\fP,
+	int		\fIiiYres\fP,
+	int		\fIiiZres\fP,
+.ta \w'LIC *\fBLIC_Create\fP('u +\w'unsigned charXXX('u
+	float	*\fIInputField\fP,
+.ta \w'LIC *\fBLIC_Create\fP('u +\w'unsigned charXXX(*'u
+	int		\fIifXres\fP,
+	int		\fIifYres\fP,
+	int		\fIifZres\fP,
+.ta \w'LIC *\fBLIC_Create\fP('u +\w'unsigned charXXX('u
+	unsigned char	*\fIOutputImage\fP,
+.ta \w'LIC *\fBLIC_Create\fP('u +\w'unsigned charXXX(*'u
+	LIC_Filter	\fIFilter\fP,
+	int		\fINormalizationType\fP,
+	int		\fINormalized\fP,
+	double	\fILength\fP,
+	double	\fIFrequency\fP,
+	int		\fIVariableLength\fP,
+	int		\fIVariableSpeed\fP,
+	int	\fIDefaultRed\fP,
+	int	\fIDefaultGreen\fP,
+	int	\fIDefaultBlue\fP,
+	int	\fIDefaultAlpha\fP,
+.ta \w'LIC *\fBLIC_Create\fP('u +\w'unsigned charXXX'u
+	void		(*\fIUpdateUser\fP)(double \fIpercent-complete\fP),
+	void		(*\fIReportError\fP)(const char *\fImessage\fP))
+.DT
+.fi
+.SH DESCRIPTION
+.if t .ds pi \(*p
+.if n .ds pi Pi
+.B LIC_Create
+constructs an instance of a LIC object.
+.PP
+.I InputImage
+is the input image to be convolved,
+.I InputField
+is the input vector field which controls the directional convolution and
+.I OutputImage
+is the output image where Line Integral Convolution results will be placed.
+.IR iiXres ,
+.I iiYres
+and
+.I iiZres
+are the X, Y and Z sizes of
+.IR InputImage .
+.IR ifXres ,
+.I ifYres
+and
+.I ifZres
+are the X, Y and Z sizes of
+.I InputField
+and
+.IR OutputImage .
+If
+.I InputImage
+is smaller than
+.I InputField
+in some dimension, references to
+.I InputImage
+pixels corresponding to
+.I InputField
+cells will be wrapped toriodally.
+If
+.B NULL
+is passed for
+.IR OutputImage ,
+.B LIC_Create
+will automatically allocate space for it.
+.PP
+The input and output images and input vector field are stored as raw binary
+row major arrays.
+.PP
+.I InputImage
+and
+.I OutputImage
+are arrays of pixels.  Each pixel is 1 to 4 bytes and must match
+the pixel size configured into the LIC library when it was compiled (see
+.B LIC_ConfiguredPixelSize
+in the
+.B LIC_Query
+manual page).
+.PP
+.I InputField
+is an array of single precision floating point Cartesian vectors. Each vector
+is of rank equal to the dimension of the data, 2 for two-dimensional
+fields and 3 for three-dimensional fields.  The vectors are stored as
+two- and three-tuples, respectively, ordered as x-ordinate, y-ordinate
+and, if applicable, z-ordinate.
+.PP
+Note that vectors with positive y-coordinates point towards lower row
+coordinates.  That is, towards the \(lqtop\(rq of a two-dimensional
+image.  Positive x-coordinates and z-coordinates point towards larger
+column and plane coordinates, respectively.  The y-coordinate flip is
+a consequence of using the left-handed image field coordinate system
+to access the input vector field which contains right-handed vectors.
+.PP
+.I Filter
+must be a pointer to a LIC_Filter type function:
+.PP
+.RS
+.nf
+double \fIFilter\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+.fi
+.RE
+.PP
+.I Filter
+should return the integral of the filter kernel between
+.I a
+and
+.IR b .
+.I speed
+specifies the speed with respect to phase shift animation that
+.I Filter
+should use for its filter kernel.
+.I speed
+is used to implement the variable speed option (though many filters ignore
+this parameter).
+.PP
+The following filters are supplied with the LIC library:
+.PP
+.RS
+.nf
+double \fBLIC_Box\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+double \fBLIC_Ripple\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+double \fBLIC_Ramp\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+double \fBLIC_Select\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+.fi
+.RE
+.PP
+They implement a box filter, a Hanning windowed Hanning ripple filter,
+a ramp filter and a pixel selection filter, respectively.  See
+.BR LIC_Filters (3)
+for more information on LIC filters and the integration process.
+.PP
+.I NormalizationType
+specifies the type of normalization to be used:
+.B LIC_FIXED
+or
+.BR LIC_VARIABLE .
+With fixed normalization, output image pixels will be attenuated near
+input vector field singularities and edges of the input field where
+vectors are not parallel to the edges.  With variable normalization,
+output image pixels will maintain an even brightness level (relative
+to the input image pixels they are summed from).
+.PP
+.I Normalized
+specifies that the input vector field is normalized: all vectors have
+magnitude 1 or 0.  If the vector field is not normalized, a separate
+normalized copy will be constructed for use in the convolution
+methods.  This may affect the ability to handle large problems because
+of memory constraints.  If this becomes a problem, you may want to
+consider pre-normalizing the vector field.  However, this isn't an
+option if you want to do variable length or variable speed convolution
+since the vector magnitudes are used to control the length and speed
+variations (see variable length and variable speed documentation
+below).
+.PP
+.I Length
+specifies the length of the filter kernel.  The filter kernel will actually be
+.RI 2* Length ,
+extending from
+.RI - Length
+to
+.RI + Length .
+It is an error to specify a
+.I length
+less than
+.BR 0 .
+.PP
+.I Frequency
+specifies the frequency of the filter kernel.
+.I Frequency
+is interpreted as the number of cycles of the filter kernel over the domain
+.RB - \*(pi
+to
+.BR \*(pi .
+(See
+.B LIC_ChangePhase
+in the
+.BR LIC_Modify (3)
+manual page for a description of how to change the phase of the filter
+kernel.)
+.I Frequency
+is scaled to the length of the filter kernel.  Thus, a
+.I Frequency
+of 2 will cause two repetitions of the filter kernel across the domain
+.RI - Length
+to
+.RI + Length .
+.I Frequency
+must be non-zero and positive.
+Currently, the only filter supplied with the LIC library that uses this
+option is
+.BR LIC_Ripple .
+.PP
+.I VariableLength
+is a boolean flag which, when TRUE, specifies that variable length filtering
+should be performed.  The LIC filter length for each vector \fIv\fP will
+vary from 0 to
+.I Length
+based on the vector's magnitude.  This magnitude scaling is performed
+by finding the maximum magnitude vector in the input vector field,
+\fImax_v\fP, and then using a filter length equal to
+\fILength\fP  * ||\fIv\fP|| / ||\fImax_v\fP||.
+The filter will be dilated to match the length of the convolution.
+This prevents any visual artifacts which might occur because of abrupt
+filter truncation if the filter were not dilated.
+.PP
+.I VariableSpeed
+is a boolean flag which, when TRUE, specifies that variable
+.I speed
+filtering should be performed.
+High magnitude regions of the vector field will use high
+.I speed
+versions of the filter.  These higher speeds variations are typically
+phase multiplied versions of the base phase and are used in periodic
+motion animations to give the appearance of higher speed in higher magnitude
+regions of the vector field.
+However, it is up to each filter to implement its own interpretation of
+.IR speed .
+.PP
+For the ripple filter, the speed variations use a different phase for each
+vector
+.I v
+based on its magnitude.  These phase variations vary from
+.I Phase
+to 3 *
+.IR Phase .
+.PP
+Variable speed filtering is currently only implemented by the ripple
+filter (it doesn't have any effect on the box filter and is of dubious
+value for the ramp filter.)
+.PP
+.IR DefaultRed ,
+.IR DefaultGreen ,
+.I DefaultBlue
+and
+.I DefaultAlpha
+define the default red, green, blue and alpha pixel values to use to represent
+zero magnitude vectors.  A value of
+.B -1
+specifies that the underlaying input image pixel value should be used.
+For
+.B MONOCHROME
+images,
+.I default-alpha
+controls the default pixel value.
+.PP
+.I UpdateUser
+should be
+.B NULL
+or a pointer to user supplied function.  If
+.RB non- NULL ,
+it will be called by
+.B LIC_ComputeImage
+from time to time to report computation progress with a
+.I percent-complete
+value between 0.0 and 100.0.
+.PP
+.B ReportError
+should be
+.B NULL
+or a pointer to user supplied function.  If
+.RB non- NULL ,
+it will be called by the LIC library routines to report various errors.
+Typically these will be to report memory allocation failure or errors
+in user supplied parameters.  A
+.B NULL
+terminated character string value,
+.IR message ,
+will be passed to
+.BR ReportError .
+.I message
+will not contain a trailing newline.
+.SH "RETURN VALUES"
+.B NULL
+will be returned if
+.B LIC_Create
+is unable to allocate memory for the new LIC instance, otherwise a pointer
+to the new instance is returned.
+.SH ERRORS
+LIC_Create: Unable to allocate memory for LIC instance variable
+.PP
+LIC_Create: Unable to allocate memory for normalized input vector field
+.PP
+LIC_Create: Unable to allocate memory for output image
+.SH "SEE ALSO"
+.BR LIC (3),
+.BR LIC_Destroy (3),
+.BR LIC_Modify (3),
+.BR LIC_Query (3)
+.SH BUGS
+If a negative
+.I Length
+is specified, a length of 0 will be used instead.
+If a negative or zero
+.I Frequency
+is specified, a frequency of 1e-6 will be used instead.  In both cases error
+messages should probably be output.
+.SH STANDARDS
+This is unsupported, non-standard software.  It is not the subject of any
+standards effort.
