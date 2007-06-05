@@ -14,7 +14,7 @@ le_test:
 genlib:
 	echo $(XRECDIR)
 	for dir in $(subdirs); do  cd $$dir; make; cd ..; done
-	cd gd-2.0; make clean; ./configure --prefix $(XRECDIR)/lib --disable-shared;make install-libLTLIBRARIES; mv .libs/libgd.a $(XRECDIR)/lib/lib$(EC_ARCH)_gd.a; make clean; cd ..
+	cd gd-2.0; ./configure --prefix $(XRECDIR)/lib --disable-shared;make install-libLTLIBRARIES; mv .libs/libgd.a $(XRECDIR)/lib/lib$(EC_ARCH)_gd.a; make clean; cd ..
 
 optimiz:
 	for dir in $(subdirs); do  cd $$dir; make OPTIMIZ="-O 3"; cd ..; done
