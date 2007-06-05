@@ -1,4 +1,5 @@
 SHELL = /bin/sh
+XRECDIR = $(PWD)
 
 subdirs = autog gdb gmp lic main select selfic wgl x_wgl gd_wgl xdash xinit xplot88
 
@@ -7,8 +8,13 @@ default: genlib
 link_makefiles:
 	for dir in $(subdirs); do  cd $$dir; Link_Makefiles; cd ..; done
 
+le_test:
+	echo 'CWD' $(CWD) 'PWD' $(PWD)
+
 genlib:
+	echo $(XRECDIR)
 	for dir in $(subdirs); do  cd $$dir; make; cd ..; done
+	cd gd-2.0; make clean; ./configure --prefix $(XRECDIR)/lib --disable-shared;make install-libLTLIBRARIES; mv .libs/libgd.a $(XRECDIR)/lib/lib$(EC_ARCH)_gd.a; make clean; cd ..
 
 optimiz:
 	for dir in $(subdirs); do  cd $$dir; make OPTIMIZ="-O 3"; cd ..; done
