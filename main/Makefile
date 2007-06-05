@@ -190,54 +190,20 @@ xrec-ezscint:
 xrec-stereo2:
 	r.build -bidon -main xrec -o xrec -libpath $(REC)/lib/$(ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec wglx Xm Xt X11 m -librmn  rmn_x
 
-xrec-Linux:
-	cd main; r.compile_021 -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmn_rc008
+xrec-IRIX64:
+	cd main; r.compile -src rec.ftn -o $(TMPDIR)/xrec -libpath ../lib $(ARMNLIB)/lib/$(ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl StaticXm StaticMrm Xmu Xt Xext X11 $(EC_ARCH)$(ABI)_gd png z m dl -librmn rmn_009
 
 xrec-Linux_pgi611:
-	cd main; echo $(CWD); r.compile -src rec.ftn $(OPTIMIZ); cd .. ; r.build -obj main/rec.o ../lib/$(EC_ARCH)$(ABI)/*.o -o $(TMPDIR)/xrec -libpath lib $(ARMNLIB)/lib/$(ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 gd z png m dl -librmn rmn_009
-
-xrec-2007:
-	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/src/isi4/*.o -o $(TMPDIR)/xrec -libpath $(HOME)/userlibs/$(ARCH) /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl Xm Mrm Xmu Xp Xt Xext X11 xml2 gd2 z png m dl rmnbeta 
+	cd main; r.compile -src rec.ftn -o $(TMPDIR)/xrec -libpath $(PWD)/../lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 $(EC_ARCH)$(ABI)_gd z png m dl -librmn rmn_009
 
 xrec-Darwin:
 	r.compile -src rec.ftn $(OPTIMIZ); r.build -obj rec.o -o xrec -libpath $(REC)/lib/$(ARCH)$(ABI) $(HOME)/userlibs/$(ARCH) /usr/OpenMotif/lib /usr/X11R6/lib /sw/lib -libappl rec rec_util lic wgl gd_wgl x_wgl Xm Xt X11 xml2 gd m -librmn
 
-xrec-debian:
-	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl Xm Mrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmn_x
-
-xrec-socket:
-	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj /users/dor/armn/mlp/obj/$(ARCH)/*.o main/rec.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmn_x
-
-xrec-zip:
-	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/src/utils/compression/*.o /users/dor/armn/lib/public/*.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmnbeta
-
-xrec-zip2:
-	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; ls -l $(HOME)/userlibs/$(ARCH)/*.o; r.build -obj main/rec.o $(HOME)/src/utils/compression/*.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmnbeta
-
-
-xrec-zip3:
-	cd main; r.compile -src rec.ftn $(OPTIMIZ); cd .. ; r.build -obj main/rec.o $(HOME)/src/utils/compression/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmnbeta
-
-
-xrec-phillips:
-	r.build -obj $(REC)/main/rec.o $(HOME)/userlibs/$(ARCH)/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl x_wgl gd_wgl wgl Xm Mrm Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmn_006
-
-xrec-local:
-	r.compile -src rec.ftn $(OPTIMIZ); r.build -obj main/rec.o $(HOME)/src/interp/*.o -o $(TMPDIR)/xrec -libpath /usr/X11R6/lib -libappl rec rec_util lic gdb wgl gd_wgl x_wgl Xm Mrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmnbeta; mv $(TMPDIR)/xrec .
-
-
 xrec-Linux-intel:
 	ifort *.o -o $(TMPDIR)/xrec -C90 -L$(REC)/lib/$(ARCH) -L/usr/X11R6/lib -lrec -lrec_util -lgdb -lwgl -lgd_wgl -lx_wgl -lwgl -llic $(ARMNLIB)/lib/$(ARCH)/librmn-intel.a  -lMrm -lXp -lXext -lX11 -lxml2 -lexpat -lgd2 -lz -lpng -lm -ldl -lc 
 
-
 xrec-intel2:
 	ifc *.o -o xrec-intel -i_dynamic -L$(REC)/lib/$(ARCH) -L/opt/old-libc -L/usr/X11R6/lib -L/opt/intel/compiler70/ia32/lib/ -lrec -lrec_util -lgdb -lwgl -lx_wgl -lgd_wgl -lwgl $(ARMNLIB)/lib/librmn-intel.a  -lMrm -lXp -lXext -lX11 -lxml2 -lexpat -lgd2 -lz -lpng -lm -ldl -lPEPCF90
-
-xrec-IRIX64:
-	r.build -obj $(REC)/main/rec.o $(HOME)/userlibs/IRIX64/*.o -o $(TMPDIR)/xrec  -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util gdb wgl gd_wgl x_wgl lic Xm Xt X11 gd2 png z m -librmn rmn_008
-
-xrec-HP-UX:
-	r.build -bidon -main xrec -o $(TMPDIR)/xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec rec_util wgl x_wgl wgl Xm Xt X11 gd2 png z m -librmn  rmnbeta
 
 dictxml: dictxml.o test-dictxml.o
 	r.build -conly -o dictxml -obj test-dictxml.o dictxml.o -librmn rmn_006 -libappl xml2 m z
