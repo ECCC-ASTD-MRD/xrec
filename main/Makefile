@@ -29,6 +29,9 @@ default: reclib
 .ftn90.o:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 
+.f90.o:
+	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+
 .ftn.o:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 
@@ -45,9 +48,15 @@ default: reclib
 	ar rv $@ $*.o
 	rm -f $*.f $*.o
 
+.ftn90.a:
+	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	ar rv $@ $*.o
+	rm -f $*.f $*.o
+
 FTNDECKS= \
          convpr.ftn       defvar.ftn       drlstl.ftn \
-         grid.ftn         ij2xy_warp.ftn90 ij2xy_warp_r.ftn90 new-xfsl.ftn       readrec.ftn \
+         grid.ftn         ij2xy_warp.ftn90 ij2xy_warp_r.ftn90 \
+	 new-xfsl.ftn       readrec.ftn \
          rec.ftn       recgrille.ftn       rlx.ftn       setcoupe.ftn \
 	 setitem.ftn       statfld4.ftn       unsat.ftn       wglrfton.ftn
 
