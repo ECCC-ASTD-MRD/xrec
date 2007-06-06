@@ -2932,6 +2932,11 @@ int FldMgrFlagMissingValues(_Champ *champ)
     }
     */
 
+  if (champ->domaine != XY)
+    {
+    return 0;
+    }
+
   if (champ->src.grtyp[0] == 'Y')
     {
     return 0;
