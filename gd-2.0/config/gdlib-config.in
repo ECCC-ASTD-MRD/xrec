@@ -5,11 +5,11 @@
 # Modeled after pdflib-config
 
 # installation directories
-prefix=/users/dor/armn/yrc/data0/xrec2/trunk/lib
-exec_prefix=${prefix}
-libdir=${exec_prefix}/lib
-includedir=${prefix}/include
-bindir=${exec_prefix}/bin
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+bindir=@bindir@
 
 usage()
 {
@@ -56,37 +56,37 @@ while test $# -gt 0; do
 	echo $includedir
 	;;
     --version)
-	echo 2.0.35
+	echo @VERSION@
 	;;
     --majorversion)
-	echo 2
+	echo @GDLIB_MAJOR@
 	;;
     --minorversion)
-	echo 0
+	echo @GDLIB_MINOR@
 	;;
     --revision)
-	echo 35
+	echo @GDLIB_REVISION@
 	;;
     --ldflags)
-	echo    -L/usr/X11R6/lib
+	echo @LDFLAGS@
 	;;
     --libs)
-	echo -lXpm -lX11 -ljpeg -lfontconfig -lfreetype -lpng12 -lz -lm  
+	echo @LIBS@ @LIBICONV@
 	;;
     --cflags|--includes)
-	echo -I${prefix}/include
+	echo -I@includedir@
 	;;
     --features)
-	echo GD_XPM GD_JPEG GD_FONTCONFIG GD_FREETYPE GD_PNG GD_GIF GD_GIFANIM GD_OPENPOLYGON
+	echo @FEATURES@
 	;;
     --all)
-	echo "GD library  2.0.35"
+	echo "GD library  @VERSION@"
 	echo "includedir: $includedir"
-	echo "cflags:     -I${prefix}/include"
-	echo "ldflags:       -L/usr/X11R6/lib"
-	echo "libs:       -lXpm -lX11 -ljpeg -lfontconfig -lfreetype -lpng12 -lz -lm  "
+	echo "cflags:     -I@includedir@"
+	echo "ldflags:    @LDFLAGS@"
+	echo "libs:       @LIBS@ @LIBICONV@"
 	echo "libdir:     $libdir"
-	echo "features:   GD_XPM GD_JPEG GD_FONTCONFIG GD_FREETYPE GD_PNG GD_GIF GD_GIFANIM GD_OPENPOLYGON"
+	echo "features:   @FEATURES@"
 	;;
     *)
 	usage 1 1>&2
