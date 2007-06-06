@@ -16,7 +16,7 @@ FFLAGS =
 CFLAGS = -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I$(HOME)/src/gd2/ -DX_WGL -DLinux -Wall
 
 OPTIMIZ = -debug -O 0
-OPTIMIZ = -O 3
+OPTIMIZ = -O 2
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 

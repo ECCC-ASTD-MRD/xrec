@@ -125,8 +125,9 @@ get_coastline(int type, int n, float lat0, float lon0, float lat1, float lon1,fl
     /*     gmp_trim(pts, &npts,mapOptions.resolution); */
     gmp_convert(gdb_liste, &gdb_nbItems, ll, npts, xmin, ymin, xmax, ymax, nbSeg);
     
-    for (i=oldNbItems; i < gdb_nbItems; i++)
-      {
+/*    for (i=oldNbItems; i < gdb_nbItems; i++)
+      {*/
+      i = gdb_nbItems -1;
       switch(mapOptions.styleGeo)
         {
         case LIGNE:
@@ -138,7 +139,7 @@ get_coastline(int type, int n, float lat0, float lon0, float lat1, float lon1,fl
           TracerPoints(&(gdb_liste[i]));
           break;
         }
-      }
+/*      }*/
     NewGeoItem(&gdb_liste,&gdb_nbItems);
     oldNbItems = gdb_nbItems-1;
     }

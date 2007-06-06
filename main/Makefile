@@ -191,7 +191,7 @@ xrec-stereo2:
 	r.build -bidon -main xrec -o xrec -libpath $(REC)/lib/$(ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec wglx Xm Xt X11 m -librmn  rmn_x
 
 xrec-IRIX64:
-	cd main; r.compile -src rec.ftn -o $(TMPDIR)/xrec -libpath ../lib $(ARMNLIB)/lib/$(ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl StaticXm StaticMrm Xmu Xt Xext X11 $(EC_ARCH)$(ABI)_gd png z m dl -librmn rmn_009
+	r.compile -src rec.ftn -o $(TMPDIR)/xrec -libpath ../lib $(ARMNLIB)/lib/$(ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl StaticXm StaticMrm Xmu Xt Xext X11 $(EC_ARCH)$(ABI)_gd png z m dl -librmn rmn_009
 
 xrec-Linux_pgi611:
 	cd main; r.compile -src rec.ftn -o $(TMPDIR)/xrec -libpath $(PWD)/../lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 $(EC_ARCH)$(ABI)_gd z png m dl -librmn rmn_009
