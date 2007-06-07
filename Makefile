@@ -6,22 +6,20 @@ subdirs = autog gdb gmp lic main select selfic wgl x_wgl gd_wgl xdash xinit xplo
 default: genbin 
 
 genbin:
+	make libpng
 	make libgd
 	make genlib
 	make xrec
-
-link_makefiles:
-	for dir in $(subdirs); do  cd $$dir; Link_Makefiles; cd ..; done
-
-le_test:
-	echo 'CWD' $(CWD) 'PWD' $(PWD)
 
 genlib:
 	echo $(XRECDIR)
 	for dir in $(subdirs); do  cd $$dir; make; cd ..; done
 
 libgd:
-	cd gd-2.0; ./configure --prefix $(XRECDIR)/lib --disable-shared;make install-libLTLIBRARIES; mv .libs/libgd.a $(XRECDIR)/lib/lib$(EC_ARCH)_gd.a; make clean; cd ..
+	cd gd2; make clean; make libgd.a; mv libgd.a ../lib/lib$(EC_ARCH)_gd.a; cd ..
+
+libpng:
+	cd png; make clean; make libpng.a; mv libpng.a ../lib/lib$(EC_ARCH)_png.a; cd ..
 
 optimiz:
 	for dir in $(subdirs); do  cd $$dir; make OPTIMIZ="-O 3"; cd ..; done
