@@ -200,6 +200,13 @@
 #define rint(x)  (int)(x + 0.5)
 #endif
 
+#if defined (Amd64)
+#define ffloor floorf
+#define fceil ceilf
+#define flog10 log10
+#define rint(x) (int)(x+0.5)
+#endif
+
 typedef struct
 {
   int coupeValide;

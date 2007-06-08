@@ -319,14 +319,14 @@ void GetFormat(char str[], float intervalles[], int nbIntervalles, float facteur
    else
       inter = intervalles[0];
    
-   logg = LOG(fabs(inter));
+   logg = LE_LOG(fabs(inter));
    exposantMin = (int)(logg-1.0);
    exposantMax = (int)(logg-1.0);
    
    for (i=1; i < nbIntervalles; i++)
       {
       if (intervalles[i] != 0.0) 
-         logg =  LOG(fabs(intervalles[i]));
+         logg =  LE_LOG(fabs(intervalles[i]));
       else
          logg = 0.0;
       e = (int)(logg-1.0);
