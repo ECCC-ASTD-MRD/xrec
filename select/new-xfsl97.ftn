@@ -17,12 +17,10 @@
 * * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 * * Boston, MA 02111-1307, USA.
 * */
-      integer function xfslouv97(nomfich, iun, ttlrecs, winind, typesel)
-      implicit none
-      integer ttlrecs,ntmrecs
-      character*(*) nomfich
-      integer iun, winind, typesel
 
+      module xfslouv
+      implicit none
+      save
 
       integer ligne,maxrecs,maxdes
 
@@ -30,14 +28,21 @@
       parameter (maxrecs= 64)
       parameter (maxdes = 8)
 
-      character*12 idents 
-      character*69 tableau
-      common /xfscinf/ idents(maxdes), tableau(0:maxrecs)
+      character*12 idents(maxdes) 
+      character*69 tableau(0:maxrecs)
 
-      integer table, listbuf, nrecs, nbrecs, nbdes
-      integer liste(1)
-      common /xfsiinf/ table(3,maxdes),
-     *                 liste, listbuf,nrecs, nbrecs, nbdes
+      integer table(3,maxdes), nrecs, nbrecs, nbdes
+      integer, dimension(:), allocatable :: liste
+      end module xfslouv
+
+      integer function xfslouv97(nomfich, iun, ttlrecs, winind, typesel)
+      use xfslouv
+      implicit none
+      integer ttlrecs,ntmrecs
+      character*(*) nomfich
+      integer iun, winind, typesel
+
+
 
       character*4 nomvar
       character*2 typvar 
@@ -60,6 +65,7 @@
       character*15 cniveau, c_ip3
       
       integer ier, ulng, getulng
+       
       external getulng
 
       data (mois(i),i=0,12) /'*** ', 'Jan ','Fev ','Mar ','Avr ',
@@ -73,7 +79,7 @@
       ulng = getulng()
 
       if (ttlrecs.gt.0) then
-         call memoirh(liste, listbuf, ttlrecs)
+         allocate(liste(ttlrecs))
       endif
       
 *     
@@ -143,7 +149,7 @@
      *        etiket, jour, mm, an, heure
       endif
 
-      liste(listbuf+i-1) = key
+      liste(i) = key
       
       if (ttlrecs.le.1) then
          res = xselins(tableau,table,ttlrecs)
@@ -197,7 +203,7 @@
       endif
 
 *     print *, tableau(mod(i-1,64))
-      liste(listbuf+i-1) = key
+      liste(i) = key
       
       ntmrecs = mod(i,64)
       if (ntmrecs.eq.0) then
@@ -233,24 +239,9 @@ c     **                                                            **
 c     ****************************************************************
 
       integer function xfslfer97(winind)
+      use xfslouv
       implicit none
       integer winind
-
-
-      integer ligne,maxrecs,maxdes
-
-      parameter (ligne  = 69)
-      parameter (maxrecs= 64)
-      parameter (maxdes = 8)
-
-      character*12 idents 
-      character*69 tableau
-      common /xfscinf/ idents(maxdes), tableau(0:maxrecs)
-
-      integer table, listbuf, nrecs, nbrecs, nbdes
-      integer liste(1)
-      common /xfsiinf/ table(3,maxdes),
-     *                 liste, listbuf,nrecs, nbrecs, nbdes
       
       integer xselfer
       integer i, inf, res
@@ -266,25 +257,12 @@ c     **                                                            **
 c     ****************************************************************
 
       integer function xfslact97(slkeys, nslkeys, winind)
+      use xfslouv
       implicit none
       integer nslkeys
       integer slkeys(nslkeys), winind
 
 
-      integer ligne,maxrecs,maxdes
-
-      parameter (ligne  = 69)
-      parameter (maxrecs= 64)
-      parameter (maxdes = 8)
-
-      character*12 idents 
-      character*69 tableau
-      common /xfscinf/ idents(maxdes), tableau(0:maxrecs)
-
-      integer table, listbuf, nrecs, nbrecs, nbdes
-      integer liste(1)
-      common /xfsiinf/ table(3,maxdes),
-     *                 liste, listbuf,nrecs, nbrecs, nbdes
       
       integer xselact
       integer i, inf, res
@@ -294,7 +272,8 @@ c     ****************************************************************
       xfslact97 = xselact(slkeys, nslkeys, winind)
 
       do 200 i=1, nslkeys
-         slkeys(i) = liste(listbuf+slkeys(i)-1)
+!         print *, 'selecteur', i, slkeys(i)
+         slkeys(i) = liste(slkeys(i))
  200  continue
       
 
@@ -374,6 +353,7 @@ c     ****************************************************************
 c     ****************************************************************
 
       integer function xfslupd97(nomfich, iun, ttlrecs, winind, typesel)
+      use xfslouv
       implicit none
 
       integer ttlrecs,ntmrecs,typesel
@@ -382,24 +362,9 @@ c     ****************************************************************
       integer xfslouv97
       
 
-      integer ligne,maxrecs,maxdes
 
-      parameter (ligne  = 69)
-      parameter (maxrecs= 64)
-      parameter (maxdes = 8)
-
-      character*12 idents 
-      character*69 tableau
-      common /xfscinf/ idents(maxdes), tableau(0:maxrecs)
-
-      integer table, listbuf, nrecs, nbrecs, nbdes
-      integer liste(1)
-      common /xfsiinf/ table(3,maxdes),
-     *                 liste, listbuf,nrecs, nbrecs, nbdes
-
-      if (listbuf.gt.0) then
-         call memoirh(liste, listbuf, 0)
-         listbuf = 0
+      if (allocated(liste)) then
+        deallocate(liste)
       endif
       call xselupd(winind)
       ier = xfslouv97(nomfich, iun, ttlrecs, winind, typesel)

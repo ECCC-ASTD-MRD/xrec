@@ -2,7 +2,7 @@ include /usr/local/env/armnlib/include/$(ARCH)$(ABI)/Makefile_addons
 
 .SUFFIXES : 
 
-.SUFFIXES : .ftn .c .o 
+.SUFFIXES : .ftn .c .o  .a
 
 SHELL = /bin/sh
 
@@ -12,8 +12,8 @@ REC_UTILLIB = ../lib/lib$(EC_ARCH)$(ABI)_rec_util.a
 
 FFLAGS =  
 
-#CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I$(HOME)/src/gd2/ -DX_WGL  -Wall
-CFLAGS = -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I$(HOME)/src/gd2/ -DX_WGL  -Wall
+#CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I$(HOME)/src/gd2/ -DX_WGL 
+CFLAGS = -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I$(HOME)/src/gd2/ -DX_WGL  -DMONOCHROME
 
 OPTIMIZ = -debug -O 0
 OPTIMIZ = -O 3

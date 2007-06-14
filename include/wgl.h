@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 #include <rpnmacros.h>
 #ifndef __CPLUSPPLUS
 #include <math.h>

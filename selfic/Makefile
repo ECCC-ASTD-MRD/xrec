@@ -2,7 +2,7 @@ include /usr/local/env/armnlib/include/$(ARCH)$(ABI)/Makefile_addons
 
 .SUFFIXES : 
 
-.SUFFIXES : .ftn .c .o 
+.SUFFIXES : .ftn .c .o .a 
 
 SHELL = /bin/sh
 
@@ -15,6 +15,9 @@ FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
 CFLAGS = -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -DX_WGL
 
 OPTIMIZ = -O 2
+#OPTIMIZ = -debug -O 0 -optc =-qinfo=all
+#OPTIMIZ = -debug -O 0  -optc=-Wall
+OPTIMIZ = -debug -O 0  
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 

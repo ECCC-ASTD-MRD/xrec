@@ -33,8 +33,12 @@
 #include <sys/times.h>
 #include <sys/param.h>
    
-#ifndef Darwin_OSX_PPC
+#if defined (Darwin_OSX_PPC)
+#else
+#if defined (AIX)
+#else
 long times (struct tms *buffer);
+#endif
 #endif
 
 struct tms buffer_temps;

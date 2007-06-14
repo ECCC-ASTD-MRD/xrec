@@ -286,7 +286,7 @@ void AfficherProfilCoupe(float xx, float yy)
    else
     {*/
      f77name(xezxy)(champ->coupe.fld2d, champ->coupe.niveauxCoupe, &zero, titre, 0);
-//     }
+/*     } */
 
    c_wgllwi(1);
    f77name(setprof2)();

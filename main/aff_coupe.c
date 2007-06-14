@@ -150,7 +150,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
      break;
      }
    
-//    f77name(aminmax)(&localmin,&localmax,localfld,&champ->coupe.niCoupe, &champ->coupe.njCoupe);
+/*    f77name(aminmax)(&localmin,&localmax,localfld,&champ->coupe.niCoupe, &champ->coupe.njCoupe); */
 
      if (CUSTOM == DictMgrGetMinMaxMode(champ->nomvar))
        {

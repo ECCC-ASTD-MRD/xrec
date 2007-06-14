@@ -22,6 +22,9 @@
 #include <rpnmacros.h>
 #include <stdio.h>
 #include <gdb.h>
+#include <stdlib.h>
+#include <string.h>
+
 
 extern GeoMapOptionsStruct mapOptions;
 static ListePointsStruct *gdb_liste;

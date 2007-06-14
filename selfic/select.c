@@ -42,13 +42,189 @@
 #include <xinit.h>
 #include <rpnmacros.h>
 #include <stdio.h>
-
+#include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
 #include <X11/Shell.h>
+#include <X11/Intrinsic.h>
 #include <Xm/Xm.h>
-#include <Xm/Text.h>
+
+#include <Xm/CascadeB.h>
 #include <Xm/DialogS.h>
+#include <Xm/Form.h>
+#include <Xm/Frame.h>
+#include <Xm/List.h>
+#include <Xm/MessageB.h>
 #include <Xm/MwmUtil.h>
+#include <Xm/PushB.h>
+#include <Xm/PushBG.h>
+#include <Xm/RowColumn.h>
+#include <Xm/SeparatoG.h>
+#include <Xm/Text.h>
+#include <Xm/TextF.h>
+#include <Xm/ToggleB.h>
+#include <Xm/ToggleBG.h>
+
+/*
+#include <Xm/AccTextT.h>
+#include <Xm/ActivatableT.h>
+#include <Xm/ArrowB.h>
+#include <Xm/ArrowBG.h>
+#include <Xm/ArrowBGP.h>
+#include <Xm/ArrowBP.h>
+#include <Xm/AtomMgr.h>
+#include <Xm/BaseClassP.h>
+#include <Xm/BulletinB.h>
+#include <Xm/BulletinBP.h>
+#include <Xm/CacheP.h>
+#include <Xm/CareVisualT.h>
+#include <Xm/CascadeB.h>
+#include <Xm/CascadeBG.h>
+#include <Xm/CascadeBGP.h>
+#include <Xm/CascadeBP.h>
+#include <Xm/ColorObjP.h>
+#include <Xm/ComboBox.h>
+#include <Xm/ComboBoxP.h>
+#include <Xm/Command.h>
+#include <Xm/CommandP.h>
+#include <Xm/ContItemT.h>
+#include <Xm/Container.h>
+#include <Xm/ContainerP.h>
+#include <Xm/ContainerT.h>
+#include <Xm/CutPaste.h>
+#include <Xm/DesktopP.h>
+#include <Xm/DialogS.h>
+#include <Xm/DialogSEP.h>
+#include <Xm/DialogSP.h>
+#include <Xm/DialogSavvyT.h>
+#include <Xm/Display.h>
+#include <Xm/DisplayP.h>
+#include <Xm/DragC.h>
+#include <Xm/DragCP.h>
+#include <Xm/DragDrop.h>
+#include <Xm/DragIcon.h>
+#include <Xm/DragIconP.h>
+#include <Xm/DragOverS.h>
+#include <Xm/DragOverSP.h>
+#include <Xm/DrawP.h>
+#include <Xm/DrawingA.h>
+#include <Xm/DrawingAP.h>
+#include <Xm/DrawnB.h>
+#include <Xm/DrawnBP.h>
+#include <Xm/DropSMgr.h>
+#include <Xm/DropSMgrP.h>
+#include <Xm/DropTrans.h>
+#include <Xm/DropTransP.h>
+#include <Xm/ExtObjectP.h>
+#include <Xm/FileSB.h>
+#include <Xm/FileSBP.h>
+#include <Xm/Form.h>
+#include <Xm/FormP.h>
+#include <Xm/Frame.h>
+#include <Xm/FrameP.h>
+#include <Xm/Gadget.h>
+#include <Xm/GadgetP.h>
+#include <Xm/GrabShell.h>
+#include <Xm/GrabShellP.h>
+#include <Xm/IconG.h>
+#include <Xm/IconGP.h>
+#include <Xm/IconH.h>
+#include <Xm/JoinSideT.h>
+#include <Xm/Label.h>
+#include <Xm/LabelG.h>
+#include <Xm/LabelGP.h>
+#include <Xm/LabelP.h>
+#include <Xm/LayoutT.h>
+#include <Xm/List.h>
+#include <Xm/ListP.h>
+#include <Xm/MainW.h>
+#include <Xm/MainWP.h>
+#include <Xm/Manager.h>
+#include <Xm/ManagerP.h>
+#include <Xm/MenuShell.h>
+#include <Xm/MenuShellP.h>
+#include <Xm/MenuT.h>
+#include <Xm/MenuUtilP.h>
+#include <Xm/MessageB.h>
+#include <Xm/MessageBP.h>
+#include <Xm/MwmUtil.h>
+#include <Xm/NavigatorT.h>
+#include <Xm/Notebook.h>
+#include <Xm/NotebookP.h>
+#include <Xm/PanedW.h>
+#include <Xm/PanedWP.h>
+#include <Xm/Primitive.h>
+#include <Xm/PrimitiveP.h>
+#include <Xm/Print.h>
+#include <Xm/PrintSP.h>
+#include <Xm/Protocols.h>
+#include <Xm/ProtocolsP.h>
+#include <Xm/PushB.h>
+#include <Xm/PushBG.h>
+#include <Xm/PushBGP.h>
+#include <Xm/PushBP.h>
+#include <Xm/RepType.h>
+#include <Xm/RowColumn.h>
+#include <Xm/RowColumnP.h>
+#include <Xm/SSpinB.h>
+#include <Xm/SSpinBP.h>
+#include <Xm/SashP.h>
+#include <Xm/Scale.h>
+#include <Xm/ScaleP.h>
+#include <Xm/Screen.h>
+#include <Xm/ScreenP.h>
+#include <Xm/ScrollBar.h>
+#include <Xm/ScrollBarP.h>
+#include <Xm/ScrollFrameT.h>
+#include <Xm/ScrolledW.h>
+#include <Xm/ScrolledWP.h>
+#include <Xm/SelectioB.h>
+#include <Xm/SelectioBP.h>
+#include <Xm/SeparatoG.h>
+#include <Xm/SeparatoGP.h>
+#include <Xm/Separator.h>
+#include <Xm/SeparatorP.h>
+#include <Xm/ShellEP.h>
+#include <Xm/SpecRenderT.h>
+#include <Xm/SpinB.h>
+#include <Xm/SpinBP.h>
+#include <Xm/TakesDefT.h>
+#include <Xm/TearOffBP.h>
+#include <Xm/TearOffP.h>
+#include <Xm/Text.h>
+#include <Xm/TextF.h>
+#include <Xm/TextFP.h>
+#include <Xm/TextFSelP.h>
+#include <Xm/TextInP.h>
+#include <Xm/TextOutP.h>
+#include <Xm/TextP.h>
+#include <Xm/TextSelP.h>
+#include <Xm/TextStrSoP.h>
+#include <Xm/ToggleB.h>
+#include <Xm/ToggleBG.h>
+#include <Xm/ToggleBGP.h>
+#include <Xm/ToggleBP.h>
+#include <Xm/TraitP.h>
+#include <Xm/Transfer.h>
+#include <Xm/TransferP.h>
+#include <Xm/TransferT.h>
+#include <Xm/TransltnsP.h>
+#include <Xm/TxtPropCv.h>
+#include <Xm/VaSimpleP.h>
+#include <Xm/VendorS.h>
+#include <Xm/VendorSEP.h>
+#include <Xm/VendorSP.h>
+#include <Xm/VirtKeys.h>
+#include <Xm/VirtKeysP.h>
+#include <Xm/Xm.h>
+#include <Xm/XmAll.h>
+#include <Xm/XmIm.h>
+#include <Xm/XmP.h>
+#include <Xm/XmStrDefs.h>
+
+#include <Xm/XmosP.h>
+#include <Xm/XpmP.h>
+*/
 #include "select.h"
 #include "edit.h"
 #include "repertoire.h"
@@ -66,6 +242,7 @@ extern Display *wglDisp;
 extern EditStruct       Edit;         
 extern RepertoireStruct Repertoire;
 
+static void InitWidgetsActions();
 extern void pathinfo();
 extern void XEditActiver();
 extern void XEditOuvrir();
@@ -79,8 +256,8 @@ void XSelectChangerRepertoire();
 
 /* Initialisation des widgets. */
 
-void c_selfic();
-void f77name(selfic)();
+void c_selfic (char *liste, int maximum, int longueur, int *nombre);
+void f77name(selfic) (char *liste, int  *maximum, int  *longueur, int  *nombre, int  len);
 
 static void InitWidgetsActions();
 static void InitWidgetsAll();
@@ -88,23 +265,24 @@ static void InitWidgetsBasic();
 static void InitWidgetsCurrentPath();
 static void InitWidgetsPulldown();
 static void XSelectActiver();
-static void XSelectAddToList();
+static void XSelectAddToList ( Widget w, caddr_t client, caddr_t data );
 static void XSelectCallbacks();
 static void XSelectDirectory();
-static void XSelectFermer();
-static void XSelectGetFichiers();
+static void XSelectFermer(Widget w, caddr_t unused1, caddr_t unused2);
+static void XSelectGetFichiers (char *liste, int   maximum, int   len, int  *nombre);
 static void XSelectItemListeFichier();
 static void XSelectMenuListeItem ( );
-static void XSelectOk();
+static void XSelectOk ( Widget w, caddr_t client, caddr_t data );
 static void XSelectOuvrir();
 static void XSelectTextCallback();
 static void XSelectUpdateDirectoryCourant();
 static void XSelectUpdateListe();
 static void XSelectUpdatePath();
+void XSelectDeselectItem (Widget w, caddr_t client, caddr_t data);
 
 /* Fonctions appeles de l'exterieur de select.c */
 
-static Widget     TrouverWidgetParent();
+static Widget TrouverWidgetParent(Window eventWindow);
 
 /*
  * variable globales
@@ -471,8 +649,7 @@ VALEURE RETOURNEE:      Aucune.
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XSelectUpdateListe(creation)
-int creation;
+static void XSelectUpdateListe(int creation)
 {
   Arg  args[20];
   int  i, visible;
@@ -619,7 +796,7 @@ static void InitWidgetsBasic()
    i = 0;
    XtSetArg(args[i], XmNsaveUnder, True); i++;
    /*XtSetArg(args[i], XmNallowShellResize, True); i++;*/
-   XtSetArg(args[i], XmNmappedWhenManaged, False); i++;
+/*   XtSetArg(args[i], XmNmappedWhenManaged, False); i++;*/
    XtSetArg(args[i], XmNmwmFunctions, MWM_FUNC_MOVE| MWM_FUNC_RESIZE|MWM_FUNC_MINIMIZE|MWM_FUNC_MAXIMIZE); i++;
    XtSetArg(args[i], XmNmwmDecorations, MWM_DECOR_ALL); i++;
 
@@ -647,7 +824,7 @@ static void InitWidgetsBasic()
    XtUnmanageChild(tmp);
 
    tmp = (Widget)XmMessageBoxGetChild(Select.message, XmDIALOG_OK_BUTTON);
-   XtAddCallback ( tmp,  XmNactivateCallback, XSelectOk , NULL );
+   XtAddCallback ( tmp,  XmNactivateCallback, (XtCallbackProc)XSelectOk , NULL );
 
 /*.................................form....................................*/
 
@@ -754,8 +931,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void  XSelectFermer(w,client,data)
-caddr_t w,client,data;
+static void  XSelectFermer(Widget w, caddr_t unused1, caddr_t unused2)
 {
    XSelectAddToList ( NULL, NULL, NULL );
    XtUnmapWidget(Repertoire.toplevel);
@@ -826,6 +1002,8 @@ LIBRAIRIES :            Motif
 static void XSelectDirectory()
 {
   char *toto=NULL;
+  char buffer [256];
+  int len_toto = 0;
 
   /*
    * nom du directory courant
@@ -833,23 +1011,26 @@ static void XSelectDirectory()
 
     dir_nom = NULL;
     liste_fichiers = NULL ;
-    if ( dir_courant != NULL ) {
-        XtFree( dir_courant );
-        dir_courant = NULL ;
-    }
+    if ( dir_courant != NULL ) 
+      {
+      XtFree( dir_courant );
+      dir_courant = NULL ;
+      }
 /*
      if ((dir_courant = (char *) getcwd ((char *)NULL, 256)) == NULL )
 */
-     toto = (char *) getcwd ((char *)NULL, 256);
+     toto = (char *) getcwd ((char *)buffer, 256);
      if (toto != NULL)
        {
-         dir_courant = (char *) malloc (strlen(toto)+1);
-         strcpy(dir_courant, toto);
+       len_toto = strlen(toto);
+       dir_courant = (char *) malloc (len_toto + 10);
+       strcpy(dir_courant, toto);
        }
-      if (dir_courant == NULL)
+     
+     if (dir_courant == NULL)
        {
-            perror("getcwd");
-            exit(2);
+       perror("getcwd");
+       exit(2);
        }
      pathinfo ( dir_courant, &nb_dir, &dir_nom, &nb_file, &liste_fichiers );
 }
@@ -881,23 +1062,23 @@ static void XSelectCallbacks()
 
 {
  XtAddCallback ( Select.ok,        XmNactivateCallback,
-                                   XSelectFermer ,          NULL );
+                                   (XtCallbackProc) XSelectFermer ,          NULL );
  XtAddCallback ( Select.clear,     XmNactivateCallback,
-                                   XSelectDeselectItem ,    Select.liste );
+                                    (XtCallbackProc) XSelectDeselectItem ,    Select.liste );
  XtAddCallback ( Select.add_list,  XmNactivateCallback,
-                                   XSelectAddToList ,       NULL );
+                                    (XtCallbackProc) XSelectAddToList ,       NULL );
  XtAddCallback ( Select.edit_list, XmNactivateCallback,
-                                   XEditActiver ,           NULL );
+                                    (XtCallbackProc)XEditActiver ,           NULL );
  XtAddCallback ( Select.path_list, XmNactivateCallback,
-                                   XRepertoireActiver ,     NULL );
+                                    (XtCallbackProc)XRepertoireActiver ,     NULL );
 /*
  XtAddCallback ( Select.liste,     XmNmultipleSelectionCallback,
                                    XSelectItemListeFichier, NULL );
 */
  XtAddCallback ( Select.liste,     XmNextendedSelectionCallback,
-                                   XSelectItemListeFichier, NULL );
+                                    (XtCallbackProc)XSelectItemListeFichier, NULL );
  XtAddCallback ( Select.liste,     XmNdefaultActionCallback,
-                                   XSelectAddToList,        NULL );
+                                    (XtCallbackProc)XSelectAddToList,        NULL );
 }
 
 /******************************************************************************
@@ -924,9 +1105,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XSelectTextCallback( w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+static void XSelectTextCallback(Widget w, caddr_t unused1, caddr_t unused2)
 {
    char *pos;
    int i, nombre, turn_on;
@@ -1010,8 +1189,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-void XSelectChangerRepertoire( path)
-char   *path;
+void XSelectChangerRepertoire(char *path)
 {
    Arg args[5];
    static char entree[256];
@@ -1095,8 +1273,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XSelectUpdatePath ( path )
-char *path;
+static void XSelectUpdatePath ( char *path )
 {
  Arg  arg[1];
 
@@ -1128,8 +1305,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XSelectUpdateDirectoryCourant ( current )
-char *current;
+static void XSelectUpdateDirectoryCourant ( char *current )
 {
  Arg  arg[1];
  XmString str;
@@ -1167,17 +1343,14 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XSelectMenuListeItem ( w, client, data )
-Widget w;
-caddr_t data;
-int client;
+static void XSelectMenuListeItem ( Widget w, caddr_t client, caddr_t data )
 {
  char nouveau_dir[256];
  int i;
 
  strcpy ( nouveau_dir, "/" );
 
- for ( i = 1; i < client + 1; i ++ )
+ for ( i = 1; i < (int)client + 1; i ++ )
     {
      strcat ( nouveau_dir , dir_nom[i] );
      strcat ( nouveau_dir, "/" );
@@ -1215,9 +1388,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XSelectItemListeFichier ( w, client, data )
-Widget w;
-caddr_t data, client;
+static void XSelectItemListeFichier ( Widget w, caddr_t client, caddr_t data )
 {
  char *last_dir;
  char nouveau_dir[256], nom[128];
@@ -1289,10 +1460,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-void XSelectDeselectItem ( w, client, data )
-Widget w;
-caddr_t data;
-Widget client;
+void XSelectDeselectItem (Widget w, caddr_t client, caddr_t data)
 {
   XmListDeselectAllItems ( client );
 }
@@ -1322,9 +1490,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XSelectAddToList ( w, client, data )
-Widget w;
-caddr_t client, data;
+static void XSelectAddToList ( Widget w, caddr_t client, caddr_t data )
 {
    int i, nombre;
    Arg args[1];
@@ -1404,8 +1570,7 @@ VALEURE RETOURNEE:      Le widget ID du plus vieil ancetre de la fenetre
 
 LIBRAIRIES :            Motif
 ------------------------------------------------------------------------------*/
-static Widget TrouverWidgetParent(eventWindow)
-Window  eventWindow; /* La fenetre ou l'evenment X s'est produit. */
+static Widget TrouverWidgetParent(Window eventWindow)
 {
    Widget  widgetCourant; /* Le widget ou l'evenement X s'est produit.   */
    Widget  widgetParent;  /* L'ancetre du widget ou evenement X s'est produit.*/
@@ -1449,11 +1614,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XSelectGetFichiers ( liste, maximum, len, nombre )
-char *liste;
-int   maximum;
-int   len;
-int  *nombre;
+static void XSelectGetFichiers (char *liste, int   maximum, int   len, int  *nombre)
 {
  int i, lu;
  Arg args[1];
@@ -1537,11 +1698,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-void c_selfic ( liste, maximum, longueur, nombre)
-char *liste ;
-int maximum;
-int longueur;
-int *nombre;
+void c_selfic (char *liste, int maximum, int longueur, int *nombre)
 {
    char *lng = (char *)getenv("CMCLNG");
    register int i;
@@ -1588,12 +1745,7 @@ VALEURE RETOURNEE:      NONE
 
 LIBRAIRIES :            Motif
 ------------------------------------------------------------------------------*/
-void f77name(selfic) ( liste, maximum, longueur, nombre , len)
-char *liste;
-int  *maximum;
-int  *longueur;
-int  *nombre;
-int  len;
+void f77name(selfic) (char *liste, int  *maximum, int  *longueur, int  *nombre, int  len)
 {
   c_selfic ( liste, *maximum, *longueur, nombre);
 }
@@ -1622,8 +1774,7 @@ VALEURE RETOURNEE:      NONE
 
 LIBRAIRIES :            Motif
 ------------------------------------------------------------------------------*/
-static void XSelectOk ( w, client, data )
-caddr_t w, client, data;
+static void XSelectOk ( Widget w, caddr_t client, caddr_t data )
 {
    Select.etat = SELECT_FINIE;
 }

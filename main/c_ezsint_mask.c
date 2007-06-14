@@ -21,12 +21,12 @@ int c_ezsint_mask(unsigned int *maskout, unsigned int *maskin, int gdin, int gdo
   fmask_in = (float *)malloc(ni_gdin*nj_gdin*sizeof(float));
   
   fmask_out = (float *)malloc(ni_gdout*nj_gdout*sizeof(float));
-  imask_out = (int *)  malloc(ni_gdout*nj_gdout*sizeof(int));
+  imask_out = (unsigned int *)  malloc(ni_gdout*nj_gdout*sizeof(int));
 
   npts_in  = ni_gdin*nj_gdin;
   npts_out = ni_gdout*nj_gdout;
 
-//   ier = uncompact_mask(imask_in, maskin, npts_in);
+/*   ier = uncompact_mask(imask_in, maskin, npts_in); */
 
   for (i=0; i < npts_in; i++)
     {
@@ -54,7 +54,7 @@ int compact_mask(unsigned int *dest, int *src, int npts)
   int i,entier, fraction,npts32;
 
   npts32 = 1 + (npts >> 5);
-//   memset((unsigned int *)dest, (int)NULL, sizeof(unsigned int)*npts32);
+/*   memset((unsigned int *)dest, (int)NULL, sizeof(unsigned int)*npts32); */
 
   for (i=0; i < npts32; i++)
     {

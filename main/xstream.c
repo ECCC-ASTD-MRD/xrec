@@ -94,7 +94,7 @@ void c_animvent(float *uu,float *vv,float *mapscl,int ni,int nj, int seglen, flo
   l = 0;
   l_delai = (double)delai;
 
-//   c_wglssp(1.0, 1.0, 1.0*ni, 1.0*nj, 0, 0, 0, 0, 1);
+/*   c_wglssp(1.0, 1.0, 1.0*ni, 1.0*nj, 0, 0, 0, 0, 1); */
 
   AjusterViewport(&viewp);
   c_wgliax(&xdebut, &ydebut, viewp.vi1, viewp.vj1);

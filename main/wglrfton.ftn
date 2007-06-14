@@ -49,9 +49,10 @@
       integer ctable(0:ncol-1)
       integer flagint, lissfac
 
-      integer i,j,tmpind(1), itmp, itmpfld,itmppos
-      real tmpfld(1), tmppos(1)
-      real cmin, cmax, delta
+      integer i,j,itmpfld,itmppos
+      integer, dimension(:), allocatable :: tmpind
+      real, dimension(:), allocatable :: tmpfld, tmppos
+       real cmin, cmax, delta
       real x1,y1,x2,y2, dx, dy
       integer ix1, iy1
       real rx1,ry1,rx2,ry2
@@ -81,9 +82,12 @@
       jfin = (nfin-1)*lissfac+1
       rowl = lissfac * (mfin - mdeb) + 1
 
-      call memoirh(tmpfld, itmpfld, rowl)
-      call memoirh(tmppos, itmppos, rowl)
-      call memoirh(tmpind, itmp, rowl)
+      allocate(tmpfld(ideb:ifin))
+      allocate(tmppos(ideb:ifin))
+      allocate(tmpind(ideb:ifin))
+!       call memoirh(tmpfld, itmpfld, rowl)
+!       call memoirh(tmppos, itmppos, rowl)
+!       call memoirh(tmpind, itmp, rowl)
       if (interv(1).ne.0.0) then
          call ajusminmax(cmin,cmax,facteur,interv)
       endif
@@ -91,16 +95,16 @@
       delta = cmax - cmin
 
       if (lissfac.ne.1) then
-         do 5 i=ideb, ifin
-            iptp = itmppos+i-ideb
- 5          tmppos(iptp) = real(i-1)/lissfac+1
+         do i=ideb, ifin
+            tmppos(i) = real(i-1)/lissfac+1
+         enddo
       else
-         do 6 i=ideb, ifin
-            iptp = itmppos+i-ideb
- 6          tmppos(iptp) = real(i)
+         do i=ideb, ifin
+           tmppos(i) = real(i)
+         enddo
       endif
          
-      do 10 j=jfin,jdeb,-1
+      do j=jfin,jdeb,-1
          if ((0.eq.mod(j,32)).and.(1.eq.flagint)) then
             if (1.eq.wglanul()) return
          endif
@@ -110,35 +114,32 @@
          dy = y1 - real(iy1)
 
          if (lissfac.ne.1) then
-            do 15 i=ideb,ifin
-               iptr = itmpfld+i-ideb
-               iptp = itmppos+i-ideb
-               x1 = tmppos(iptp)
+            do  i=ideb,ifin
+               x1 = i
                ix1 = max(1,min(ifix(x1),ni-1))
                dx = x1 - real(ix1)
-               tmpfld(iptr) = zlin(zlin(z(ix1,iy1),z(ix1+1,iy1),dx),
+               tmpfld(i) = zlin(zlin(z(ix1,iy1),z(ix1+1,iy1),dx),
      2              zlin(z(ix1,iy1+1),z(ix1+1,iy1+1), dx),
      3              dy)
- 15         continue
+            enddo
          else
-            do 16 i=ideb,ifin
-               iptr = itmpfld+i-ideb
-               tmpfld(iptr) = z(i,j)
- 16         continue
+            do i=ideb,ifin
+               tmpfld(i) = z(i,j)
+            enddo
          endif
 
-         call wglcalcols(tmpind(itmp), tmpfld(itmpfld), rowl,
+         call wglcalcols(tmpind, tmpfld, rowl,
      2                   cmin, delta, interv, nbinterv, facteur,ncol)
 
-         oldindc = tmpind(itmp)
-         iptp = tmppos(itmppos)
-         x1 = tmppos(itmppos) - 0.5/lissfac
+         oldindc = tmpind(1)
+         iptp = tmppos(1)
+         x1 = tmppos(1) - 0.5/lissfac
          y1 = y1 - 0.5/lissfac
          y2 = y1 + 1.0/lissfac
          
          do 20 i=ideb, ifin
-            x2 = tmppos(itmppos+i-ideb) + 0.5/lissfac
-            indc = tmpind(itmp+i-ideb)
+            x2 = tmppos(i) + 0.5/lissfac
+            indc = tmpind(i)
             if (ctable(indc).ne.ctable(oldindc)) then
                call wglcol(ctable(oldindc))
  	       call xy2fxfy(rx1,ry1,x1,y1)
@@ -150,15 +151,18 @@
  20      continue
 
          call wglcol(ctable(oldindc))
- 	 call xy2fxfy(rx1,ry1,x1,y1)
- 	 call xy2fxfy(rx2,ry2,x2,y2)
+          call xy2fxfy(rx1,ry1,x1,y1)
+          call xy2fxfy(rx2,ry2,x2,y2)
          call wglrfx(rx1,ry1,rx2,ry2)
 
- 10   continue
+      enddo
 
       
-      call memoirh(tmpind, itmp, 0)
-      call memoirh(tmppos, itmppos, 0)
-      call memoirh(tmpfld, itmpfld, 0)
+      deallocate(tmpind)
+      deallocate(tmppos)
+      deallocate(tmpfld)
+!       call memoirh(tmpind, itmp, 0)
+!       call memoirh(tmppos, itmppos, 0)
+!       call memoirh(tmpfld, itmpfld, 0)
       return
       end

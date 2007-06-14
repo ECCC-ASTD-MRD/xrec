@@ -2,7 +2,7 @@ include /usr/local/env/armnlib/include/$(ARCH)$(ABI)/Makefile_addons
 
 .SUFFIXES : 
 
-.SUFFIXES : .ftn .c .o 
+.SUFFIXES : .ftn .c .o  .a
 
 SHELL = /bin/sh
 

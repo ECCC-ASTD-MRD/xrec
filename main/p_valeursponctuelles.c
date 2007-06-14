@@ -82,7 +82,7 @@ static int p_ptvalSelectionTerminee;
 
 void SetAffichageTailleSymbole(Widget w, caddr_t client_data, caddr_t call_data);
 
-//--------------------------------------------------------------------------------------------------------------------------
+/*----------------------------------------------------------------------------------------------------------------------*/
 void SetCouleurToggle (Widget w, caddr_t client_data, caddr_t call_data)
   {
   char *str;
@@ -102,7 +102,7 @@ void SetCouleurToggle (Widget w, caddr_t client_data, caddr_t call_data)
   RedessinerFenetres();
   }
 
-//--------------------------------------------------------------------------------------------------------------------------
+/*----------------------------------------------------------------------------------------------------------------------*/
 void SetSymboleToggle (Widget w, caddr_t client_data, caddr_t call_data)
 {
   int lng;
@@ -126,7 +126,6 @@ void SetSymboleToggle (Widget w, caddr_t client_data, caddr_t call_data)
     RedessinerFenetres();
    }
 
-//--------------------------------------------------------------------------------------------------------------------------
 void SetAffichageValeurToggle (Widget w, caddr_t client_data, caddr_t call_data)
 {
   int lng;
@@ -145,7 +144,6 @@ void SetAffichageValeurToggle (Widget w, caddr_t client_data, caddr_t call_data)
   RedessinerFenetres();
    }
 
-//--------------------------------------------------------------------------------------------------------------------------
 void SetAffichageValeurLatlon (Widget w, caddr_t client_data, caddr_t call_data)
 {
    int lng;
@@ -164,19 +162,18 @@ void SetAffichageValeurLatlon (Widget w, caddr_t client_data, caddr_t call_data)
    RedessinerFenetres();
    }
 
-// void SetAffichageValeurXY (Widget w, caddr_t client_data, caddr_t call_data)
+/* void SetAffichageValeurXY (Widget w, caddr_t client_data, caddr_t call_data)
 // {
 //    AffichageLatlon = atoi(XtName(w));
 //    }
+*/
 
-//--------------------------------------------------------------------------------------------------------------------------
 void SetAffichageTailleSymbole (Widget w, caddr_t client_data, caddr_t call_data)
   {
   tailleSymbole = atof(XtName(w));
   RedessinerFenetres();
   }
 
-//--------------------------------------------------------------------------------------------------------------------------
 void SetUnitesSymbole (Widget w, caddr_t client_data, caddr_t call_data)
 {
   int lng;
@@ -203,7 +200,7 @@ void SetUnitesSymbole (Widget w, caddr_t client_data, caddr_t call_data)
 
   RedessinerFenetres();
    }
-//--------------------------------------------------------------------------------------------------------------------------
+
 XtCallbackProc PtValOk(Widget w, caddr_t unused1, caddr_t unused2)
 {
    p_ptvalSelectionTerminee = TRUE;
@@ -211,7 +208,7 @@ XtCallbackProc PtValOk(Widget w, caddr_t unused1, caddr_t unused2)
    return 0;
    }
 
-//--------------------------------------------------------------------------------------------------------------------------
+
 XtCallbackProc PtValAfficher(Widget w, caddr_t unused1, caddr_t unused2)
 {
    RedessinerFenetres();
@@ -219,7 +216,6 @@ XtCallbackProc PtValAfficher(Widget w, caddr_t unused1, caddr_t unused2)
    }
 
 
-//--------------------------------------------------------------------------------------------------------------------------
 void InitPanneauValeursPonctuelles()
 {
 
@@ -286,7 +282,6 @@ void InitPanneauValeursPonctuelles()
    p_ptvalRc = XmCreateRowColumn(p_ptvalFramePonctuelles, "p_ptvalRc", args, i);
    XtManageChild(p_ptvalRc);
 
-//--------------------------------------------------------------------------------------------------------------------------
 
    i = 0;
    p_ptvalFrameCouleur = (Widget) XmCreateFrame(p_ptvalRc, "form", args, i);
@@ -318,7 +313,6 @@ void InitPanneauValeursPonctuelles()
 
    XtManageChild(p_ptvalPanneauCouleur);
 
-//--------------------------------------------------------------------------------------------------------------------------
    i = 0;
    p_ptvalFrameSymbole = (Widget) XmCreateFrame(p_ptvalRc, "frame", args, i);
    XtManageChild(p_ptvalFrameSymbole);
@@ -348,7 +342,6 @@ void InitPanneauValeursPonctuelles()
 
    XtManageChild(p_ptvalPanneauSymbole);
 
-//--------------------------------------------------------------------------------------------------------------------------
 
 
    i = 0;
@@ -381,7 +374,6 @@ void InitPanneauValeursPonctuelles()
 
    XtManageChild(p_ptvalPanneauAffichageValeurs);
 
-//--------------------------------------------------------------------------------------------------------------------------
 
 
    i = 0;
@@ -415,7 +407,6 @@ void InitPanneauValeursPonctuelles()
    XtManageChild(p_ptvalPanneauAffichageLatlon);
 
 
-//--------------------------------------------------------------------------------------------------------------------------
    i = 0;
    p_ptvalFrameTailleSymbole = (Widget) XmCreateFrame(p_ptvalRc, "frame", args, i);
    XtManageChild(p_ptvalFrameTailleSymbole);
@@ -445,7 +436,6 @@ void InitPanneauValeursPonctuelles()
 
    XtManageChild(p_ptvalPanneauTailleSymbole);
 
-//--------------------------------------------------------------------------------------------------------------------------
    i = 0;
    p_ptvalFrameUnitesSymbole = (Widget) XmCreateFrame(p_ptvalRc, "frame", args, i);
    XtManageChild(p_ptvalFrameUnitesSymbole);
@@ -475,7 +465,6 @@ void InitPanneauValeursPonctuelles()
    XtManageChild(p_ptvalPanneauUnitesSymbole);
   }
 
-//--------------------------------------------------------------------------------------------------------------------------
 void ActiverPanneauValeursPonctuelles()
 {
    if (!p_ptvalTopLevel)
@@ -493,50 +482,42 @@ void ActiverPanneauValeursPonctuelles()
 
    }
 
-//--------------------------------------------------------------------------------------------------------------------------
 void f77name(xp_ptvalact)()
 {
    LocalEventLoop(p_ptvalTopLevel);
    }
 
 
-//--------------------------------------------------------------------------------------------------------------------------
 void DesactiverPanneauValeursPonctuelles()
 {
 
    XtUnrealizeWidget(p_ptvalTopLevel);
    }
 
-//--------------------------------------------------------------------------------------------------------------------------
 int PtValMgrGetColorStatus()
 {
    return couleurSymbole;
 }
 
-//--------------------------------------------------------------------------------------------------------------------------
 int PtValMgrGetAffichageValeurs()
 {
    return affichageValeurs;
 }
 
-//--------------------------------------------------------------------------------------------------------------------------
 float PtValMgrGetSymbolSize()
 {
    return tailleSymbole;
 }
 
-//--------------------------------------------------------------------------------------------------------------------------
 int PtValMgrGetSymboleType()
 {
    return typeSymbole;
 }
 
-//--------------------------------------------------------------------------------------------------------------------------
 int PtValMgrGetAffichageLatlon()
 {
    return affichageLatlon;
 }
-//--------------------------------------------------------------------------------------------------------------------------
 
 int PtValMgrGetUnitesSymbole()
 {

@@ -19,13 +19,178 @@
  */
 
 #include <Xm/Xm.h>
-#include <Xm/PushBG.h>
-#include <Xm/CascadeBG.h>
+#include <Xm/CascadeB.h>
+#include <Xm/Form.h>
+#include <Xm/Frame.h>
+#include <Xm/List.h>
+#include <Xm/PushB.h>
 #include <Xm/RowColumn.h>
+#include <Xm/Separator.h>
+#include <Xm/TextF.h>
+#include <Xm/ToggleB.h>
+
+/*
+#include <Xm/AccTextT.h>
+#include <Xm/ActivatableT.h>
+#include <Xm/ArrowB.h>
+#include <Xm/ArrowBG.h>
+#include <Xm/ArrowBGP.h>
+#include <Xm/ArrowBP.h>
+#include <Xm/AtomMgr.h>
+#include <Xm/BaseClassP.h>
+#include <Xm/BulletinB.h>
+#include <Xm/BulletinBP.h>
+#include <Xm/CacheP.h>
+#include <Xm/CareVisualT.h>
+#include <Xm/CascadeB.h>
+#include <Xm/CascadeBG.h>
+#include <Xm/CascadeBGP.h>
+#include <Xm/CascadeBP.h>
+#include <Xm/ColorObjP.h>
+#include <Xm/ComboBox.h>
+#include <Xm/ComboBoxP.h>
+#include <Xm/Command.h>
+#include <Xm/CommandP.h>
+#include <Xm/ContItemT.h>
+#include <Xm/Container.h>
+#include <Xm/ContainerP.h>
+#include <Xm/ContainerT.h>
+#include <Xm/CutPaste.h>
+#include <Xm/DesktopP.h>
+#include <Xm/DialogS.h>
+#include <Xm/DialogSEP.h>
+#include <Xm/DialogSP.h>
+#include <Xm/DialogSavvyT.h>
+#include <Xm/Display.h>
+#include <Xm/DisplayP.h>
+#include <Xm/DragC.h>
+#include <Xm/DragCP.h>
+#include <Xm/DragDrop.h>
+#include <Xm/DragIcon.h>
+#include <Xm/DragIconP.h>
+#include <Xm/DragOverS.h>
+#include <Xm/DragOverSP.h>
+#include <Xm/DrawP.h>
+#include <Xm/DrawingA.h>
+#include <Xm/DrawingAP.h>
+#include <Xm/DrawnB.h>
+#include <Xm/DrawnBP.h>
+#include <Xm/DropSMgr.h>
+#include <Xm/DropSMgrP.h>
+#include <Xm/DropTrans.h>
+#include <Xm/DropTransP.h>
+#include <Xm/ExtObjectP.h>
+#include <Xm/FileSB.h>
+#include <Xm/FileSBP.h>
+#include <Xm/FormP.h>
+#include <Xm/Frame.h>
+#include <Xm/FrameP.h>
+#include <Xm/Gadget.h>
+#include <Xm/GadgetP.h>
+#include <Xm/GrabShell.h>
+#include <Xm/GrabShellP.h>
+#include <Xm/IconG.h>
+#include <Xm/IconGP.h>
+#include <Xm/IconH.h>
+#include <Xm/JoinSideT.h>
+#include <Xm/Label.h>
+#include <Xm/LabelG.h>
+#include <Xm/LabelGP.h>
+#include <Xm/LabelP.h>
+#include <Xm/LayoutT.h>
+#include <Xm/List.h>
+#include <Xm/ListP.h>
+#include <Xm/MainW.h>
+#include <Xm/MainWP.h>
+#include <Xm/Manager.h>
+#include <Xm/ManagerP.h>
+#include <Xm/MenuShell.h>
+#include <Xm/MenuShellP.h>
+#include <Xm/MenuT.h>
+#include <Xm/MenuUtilP.h>
+#include <Xm/MessageB.h>
+#include <Xm/MessageBP.h>
+#include <Xm/MwmUtil.h>
+#include <Xm/NavigatorT.h>
+#include <Xm/Notebook.h>
+#include <Xm/NotebookP.h>
+#include <Xm/PanedW.h>
+#include <Xm/PanedWP.h>
+#include <Xm/Primitive.h>
+#include <Xm/PrimitiveP.h>
+#include <Xm/Print.h>
+#include <Xm/PrintSP.h>
+#include <Xm/Protocols.h>
+#include <Xm/ProtocolsP.h>
+#include <Xm/PushB.h>
+#include <Xm/PushBG.h>
+#include <Xm/PushBGP.h>
+#include <Xm/PushBP.h>
+#include <Xm/RepType.h>
+#include <Xm/RowColumn.h>
+#include <Xm/RowColumnP.h>
+#include <Xm/SSpinB.h>
+#include <Xm/SSpinBP.h>
+#include <Xm/SashP.h>
+#include <Xm/Scale.h>
+#include <Xm/ScaleP.h>
+#include <Xm/Screen.h>
+#include <Xm/ScreenP.h>
+#include <Xm/ScrollBar.h>
+#include <Xm/ScrollBarP.h>
+#include <Xm/ScrollFrameT.h>
+#include <Xm/ScrolledW.h>
+#include <Xm/ScrolledWP.h>
+#include <Xm/SelectioB.h>
+#include <Xm/SelectioBP.h>
+#include <Xm/SeparatoG.h>
+#include <Xm/SeparatoGP.h>
+#include <Xm/Separator.h>
+#include <Xm/SeparatorP.h>
+#include <Xm/ShellEP.h>
+#include <Xm/SpecRenderT.h>
+#include <Xm/SpinB.h>
+#include <Xm/SpinBP.h>
+#include <Xm/TakesDefT.h>
+#include <Xm/TearOffBP.h>
+#include <Xm/TearOffP.h>
+#include <Xm/Text.h>
+#include <Xm/TextF.h>
+#include <Xm/TextFP.h>
+#include <Xm/TextFSelP.h>
+#include <Xm/TextInP.h>
+#include <Xm/TextOutP.h>
+#include <Xm/TextP.h>
+#include <Xm/TextSelP.h>
+#include <Xm/TextStrSoP.h>
+#include <Xm/ToggleB.h>
+#include <Xm/ToggleBG.h>
+#include <Xm/ToggleBGP.h>
+#include <Xm/ToggleBP.h>
+#include <Xm/TraitP.h>
+#include <Xm/Transfer.h>
+#include <Xm/TransferP.h>
+#include <Xm/TransferT.h>
+#include <Xm/TransltnsP.h>
+#include <Xm/TxtPropCv.h>
+#include <Xm/VaSimpleP.h>
+#include <Xm/VendorS.h>
+#include <Xm/VendorSEP.h>
+#include <Xm/VendorSP.h>
+#include <Xm/VirtKeys.h>
+#include <Xm/VirtKeysP.h>
+#include <Xm/Xm.h>
+#include <Xm/XmAll.h>
+#include <Xm/XmIm.h>
+#include <Xm/XmP.h>
+#include <Xm/XmStrDefs.h>
+
+#include <Xm/XmosP.h>
+#include <Xm/XpmP.h>
+*/
 
 #include <xinit.h>
 #include <wgl.h>
-#include <rpnmacros.h>
 #include <rpnmacros.h>
 #include <gmp.h>
 #include <rec.h>
@@ -531,7 +696,7 @@ void InitPanneauContour()
    for (n=0; n < XtNumber(pcLabelOptionsEpaisseur[lng]); n++)
 	{
 	i = 0;
-	pcOptionsEpaisseurItems[n] = XmCreatePushButtonGadget(pcOptionsEpaisseur, pcLabelOptionsEpaisseur[lng][n], args, i);
+	pcOptionsEpaisseurItems[n] = XmCreatePushButton(pcOptionsEpaisseur, pcLabelOptionsEpaisseur[lng][n], args, i);
 	XtAddCallback(pcOptionsEpaisseurItems[n], XmNactivateCallback, (XtCallbackProc)  SetThicknessToggle, (XtPointer) n);
 	}
 
@@ -559,7 +724,7 @@ void InitPanneauContour()
 	i = 0;
 	string = XmStringCreateLtoR(pcLabelOptionsStyle[lng][n], XmSTRING_DEFAULT_CHARSET); 
 	XtSetArg(args[i], XmNlabelString, string); i++;
-	pcOptionsStyleItems[n] = XmCreatePushButtonGadget(pcOptionsStyle, pcLabelOptionsStyle[lng][n], args, i);
+	pcOptionsStyleItems[n] = XmCreatePushButton(pcOptionsStyle, pcLabelOptionsStyle[lng][n], args, i);
 	XmStringFree(string);   
 	XtAddCallback(pcOptionsStyleItems[n], XmNactivateCallback, (XtCallbackProc)  SetStyleToggle, (XtPointer) n);
 	}
@@ -582,7 +747,7 @@ void InitPanneauContour()
 **/
 
    n = 0;
-   pcSeparateur1 =  (Widget) XmCreateSeparator(pcRc, "sep 1", args, (XtPointer) n);
+   pcSeparateur1 =  (Widget) XmCreateSeparator(pcRc, "sep 1", args, (Cardinal) n);
    XtManageChild(pcSeparateur1);
 
 /**
@@ -596,7 +761,7 @@ void InitPanneauContour()
 	i = 0;
 	string = XmStringCreateLtoR(activationSelect[lng][n], XmSTRING_DEFAULT_CHARSET); 
 	XtSetArg(args[i], XmNlabelString, string); i++;
-	pcContourItems[n] = XmCreatePushButtonGadget(pcOptionsContours, activationSelect[lng][n], args, i);
+	pcContourItems[n] = XmCreatePushButton(pcOptionsContours, activationSelect[lng][n], args, i);
 	XtAddCallback(pcContourItems[n], XmNactivateCallback, (XtCallbackProc)  SetContoursToggle, (XtPointer) n);
 	XmStringFree(string);   
 	}
@@ -626,7 +791,7 @@ void InitPanneauContour()
 	i = 0;
 	string = XmStringCreateLtoR(activationSelect[lng][n], XmSTRING_DEFAULT_CHARSET); 
 	XtSetArg(args[i], XmNlabelString, string); i++;
-	pcLabelItems[n] = XmCreatePushButtonGadget(pcOptionsLabels, activationSelect[lng][n], args, i);
+	pcLabelItems[n] = XmCreatePushButton(pcOptionsLabels, activationSelect[lng][n], args, i);
 	XtAddCallback(pcLabelItems[n], XmNactivateCallback, (XtCallbackProc)  SetLabelsToggle, (XtPointer) n);
 	XmStringFree(string);   
 	}
@@ -655,7 +820,7 @@ void InitPanneauContour()
 	i = 0;
 	string = XmStringCreateLtoR(pcLabelFontSize[lng][n], XmSTRING_DEFAULT_CHARSET); 
 	XtSetArg(args[i], XmNlabelString, string); i++;
-	pcTailleLabelItems[n] = XmCreatePushButtonGadget(pcOptionsTailleLabels, pcLabelFontSize[lng][n], args, i);
+	pcTailleLabelItems[n] = XmCreatePushButton(pcOptionsTailleLabels, pcLabelFontSize[lng][n], args, i);
 	XtAddCallback(pcTailleLabelItems[n], XmNactivateCallback, (XtCallbackProc)  SetLabelSizeToggle, (XtPointer) n);
 	XmStringFree(string);   
 	}
@@ -679,7 +844,7 @@ void InitPanneauContour()
 
 
    n = 0;
-   pcSeparateur2 =  (Widget) XmCreateSeparator(pcRc, "sep 1", args, (XtPointer) n);
+   pcSeparateur2 =  (Widget) XmCreateSeparator(pcRc, "sep 1", args, (Cardinal) n);
    XtManageChild(pcSeparateur2);
 
 /**
@@ -692,7 +857,7 @@ void InitPanneauContour()
 	i = 0;
 	string = XmStringCreateLtoR(activationSelect[lng][n], XmSTRING_DEFAULT_CHARSET); 
 	XtSetArg(args[i], XmNlabelString, string); i++;
-	pcValeurItems[n] = XmCreatePushButtonGadget(pcOptionsValeursCentrales, activationSelect[lng][n], args, i);
+	pcValeurItems[n] = XmCreatePushButton(pcOptionsValeursCentrales, activationSelect[lng][n], args, i);
 	XtAddCallback(pcValeurItems[n], XmNactivateCallback, (XtCallbackProc)  SetCentralValuesToggle, (XtPointer) n);
 	XmStringFree(string);   
 	}
@@ -721,7 +886,7 @@ void InitPanneauContour()
 	i = 0;
 	string = XmStringCreateLtoR(pcValCentraleFontSize[lng][n], XmSTRING_DEFAULT_CHARSET); 
 	XtSetArg(args[i], XmNlabelString, string); i++;
-	pcTailleValeurItems[n] = XmCreatePushButtonGadget(pcOptionsTailleValeursCentrales, pcValCentraleFontSize[lng][n], args, i);
+	pcTailleValeurItems[n] = XmCreatePushButton(pcOptionsTailleValeursCentrales, pcValCentraleFontSize[lng][n], args, i);
 	XtAddCallback(pcTailleValeurItems[n], XmNactivateCallback, (XtCallbackProc)  SetCentralValueSizeToggle, (XtPointer) (XtPointer) n);
 	XmStringFree(string);   
 	}

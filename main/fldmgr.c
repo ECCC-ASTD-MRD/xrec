@@ -473,6 +473,11 @@ int FldMgrComparerDates();
 
 /* -------------------------------------------------------------------------------------------------- */
 
+int string_compare(void *str1, void *str2)
+{
+  return strcmp((char *) str1, (char *) str2);
+}
+
 void FldMgrGetAllDates(dates, nbDates)
 char dates[][16];
 int *nbDates;
@@ -512,7 +517,7 @@ int *nbDates;
         strcpy(allDates[i],bidon.pdfdatev);
         }
 
-    qsort(allDates, nbTotalCles, 16, strcmp);
+    qsort(allDates, nbTotalCles, 16, string_compare);
 
     strcpy(lastpdfdate,"");
     i = 0;
@@ -2763,11 +2768,11 @@ void FldMgrCalcPDFDatev(char pdfdatev[], int *datev, int dateo, int deet,int npa
   double deltat;
   int idateo,idatev00,idatev01,mode;
 
-//   if (deet == 0 && npas == 0)
+/*   if (deet == 0 && npas == 0)
 //     {
 //     deet = 3600;
 //     npas = ip2;
-//     }
+     } */
 
   deltat = (double)((deet*npas)/3600.0);
   idateo = dateo;

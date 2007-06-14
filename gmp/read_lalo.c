@@ -25,6 +25,8 @@
 #include <rpnmacros.h>
 #include <math.h>
 #include <memory.h>
+#include <stdlib.h>
+
 
 extern GeoMapInfoStruct     mapInfo;
 extern GeoMapInfoStruct     oldMapInfo;

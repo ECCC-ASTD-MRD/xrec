@@ -4,7 +4,7 @@
 #If you do not have gcc, change the setting for COMPILER, but you must
 #use an ANSI standard C compiler (NOT the old SunOS 4.1.3 cc
 #compiler; get gcc if you are still using that). 
-COMPILER=gcc
+COMPILER=cc
 
 #If the ar command fails on your system, consult the ar manpage
 #for your system. 
@@ -15,7 +15,7 @@ AR=ar
 #Add -DHAVE_XPM if you have X and xpm installed and you want that feature.
 
 CFLAGS=-g -DHAVE_LIBPNG -DHAVE_LIBJPEG -DHAVE_LIBFREETYPE
-CFLAGS=-g -DHAVE_LIBPNG -DHAVE_LIBJPEG
+CFLAGS=-g -DHAVE_LIBPNG
 
 #PLEASE NOTE: YOU MAY HAVE TO JUGGLE THE ORDER OF THE LIBRARIES.
 #Some systems are very picky about link order. They don't all agree

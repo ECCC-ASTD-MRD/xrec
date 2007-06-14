@@ -3,7 +3,7 @@ XRECDIR = $(PWD)
 
 subdirs = autog gdb gmp lic main select selfic wgl x_wgl gd_wgl xdash xinit xplot88
 
-default: genbin 
+default: genlib
 
 genbin:
 	make libpng

@@ -45,6 +45,9 @@
 
 extern _XContour xc;
 
+extern void f77name(wglrfton)(float *fld, int *ni, int *nj, int *mdeb, int *ndeb, int *mfin, int *nfin, float intervalles[], 
+             int *nbint, float *rfac, float *rmin, float *rmax, int colorTable[], int *rnbcol, int *flagInterrupt, int *rlissfac);
+
 void c_wglfton(float *fld, int ni, int nj, float intervalles[], int nbIntervalles, float facteur, float min, float max, int colorTable[], int ncol, int flagInterrupt, int lissfac)
 {
    int i, j, k;

@@ -24,6 +24,7 @@
 #include <gdb.h>
 #include <wgl.h>
 #include <string.h>
+#include <stdlib.h>
 
 extern GeoMapOptionsStruct mapOptions;
 static ListePointsStruct *gdb_liste;

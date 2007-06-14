@@ -136,7 +136,7 @@ unsigned int x_wglcolfs_fst(float *cols, unsigned int *pixels, int n)
       {
       icol = 0;
       }
-    
+    if (cols[i]< 0.0) icol = 0;
     pixels[i] =  (((xcouleurs[icol].red * ir2) >>16) << ir0) + (((xcouleurs[icol].green * ig2) >>16) << ig0) + (((xcouleurs[icol].blue*ib2) >>16) << ib0);
     }
 }

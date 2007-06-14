@@ -2,7 +2,7 @@ include /usr/local/env/armnlib/include/$(ARCH)$(ABI)/Makefile_addons
 
 .SUFFIXES : 
 
-.SUFFIXES : .ftn .ftn90 .c .o 
+.SUFFIXES : .ftn .ftn90 .c .o .a
 
 SHELL = /bin/sh
 
@@ -14,8 +14,10 @@ FFLAGS =
 
 CFLAGS =  -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -DX_WGL
 
-OPTIMIZ = -O 0 -debug
 OPTIMIZ = -O 2
+OPTIMIZ = -O 0 -debug -optc =-qinfo=all
+OPTIMIZ = -O 0 -debug -optc =-qinfo=all
+#OPTIMIZ = -O 0 -debug -optc =-Wall 
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
@@ -49,8 +51,7 @@ FDECKS= \
          new-xfsl97.f
 
 CDECKS= \
-         flush.c       langue.c       parent.c \
-         strutil.c       widgets-util.c       xinit.c       xrecsel.c
+         flush.c parent.c strutil.c widgets-util.c xrecsel.c
 
 COMDECKS= \
          xfsl.cdk
@@ -61,16 +62,10 @@ obj: $(CDECKS) $(FDECKS)
 
 rec_utillib:	\
 	$(REC_UTILLIB)(flush.o) \
-	$(REC_UTILLIB)(langue.o) \
 	$(REC_UTILLIB)(parent.o) \
 	$(REC_UTILLIB)(strutil.o) \
 	$(REC_UTILLIB)(widgets-util.o) \
-	$(REC_UTILLIB)(xinit.o) \
 	$(REC_UTILLIB)(xrecsel.o) \
 	$(REC_UTILLIB)(new-xfsl97.o) 
-
-xvoir-2000: xfsl-xvoir-2000.o xvoir-2000.o
-	r.build -bidon -main xvoir2000 -obj *.o -o xvoir-Linux -libpath /usr/X11R6/lib -libappl rec rec_util rec gdb wgl x_wgl gd_wgl wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 xml2 expat gd2 z png m dl -librmn rmnbeta
-
 
 

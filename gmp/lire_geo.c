@@ -22,12 +22,14 @@
 #include <rpnmacros.h>
 #include <stdio.h>
 #include <gdb.h>
+#include <stdlib.h>
+#include <string.h>
 
 extern GeoMapOptionsStruct mapOptions;
 static ListePointsStruct **gdb_liste;
 static int *gdb_nbItems;
 extern int geography_source;
-char *rmn_geo;
+char *rmn_geo = NULL;
 
 lire_geo()
 {

@@ -3,7 +3,7 @@
 # Copyright (C) 1996, 1997 Andreas Dilger
 # For conditions of distribution and use, see copyright notice in png.h
 
-CC=gcc
+CC=cc
 
 # where "make install" puts libpng.a, libpng.so*, png.h and pngconf.h
 prefix=/usr/local
@@ -24,8 +24,9 @@ WARNMORE=-Wwrite-strings -Wpointer-arith -Wshadow \
 
 # for pgcc version 2.95.1, -O3 is buggy; don't use it.
 
-CFLAGS=-I$(ZLIBINC) -Wall -O3 -funroll-loops \
-	$(ALIGN) # $(WARNMORE) -g -DPNG_DEBUG=5
+CFLAGS=-I$(ZLIBINC) -Wall -O3 -funroll-loops $(ALIGN) # $(WARNMORE) -g -DPNG_DEBUG=5
+CFLAGS=-I$(ZLIBINC) -Wall -O3 -funroll-loops $(ALIGN) # $(WARNMORE) -g -DPNG_DEBUG=5
+CFLAGS=-I$(ZLIBINC) -O2 
 LDFLAGS=-L. -Wl,-rpath,. -L$(ZLIBLIB) -Wl,-rpath,$(ZLIBLIB) -lpng -lz -lm
 
 RANLIB=ranlib

@@ -23,6 +23,8 @@
 #include <stdio.h>
 #include <gdb.h>
 #include <string.h>
+#include <stdlib.h>
+
 
 static ListePointsStruct *gdb_liste;
 static int gdb_nbItems;
@@ -54,8 +56,9 @@ lire_rmn_geo()
   
   int npts, centCinquanteHuit, code;  
 
-  for (i=0; i<128; i++)
+  for (i=0; i<127; i++)
     nomFichierGeographie[i] = ' ';
+  nomFichierGeographie[127] = '\0';
 
   for (i=0; i < NMAP_FLAGS; i++)
     {
