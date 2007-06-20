@@ -323,7 +323,7 @@ void InitPanneauSerie()
    XtSetArg(args[i], XmNvalue, "0.00"); i++;
    XtSetArg(args[i], XmNblinkRate, 0);  i++;
    XtSetArg(args[i], XmNeditable, False); i++;
-   pcsTextMinX = (Widget) XmCreateTextField(pcsRCLimiteX, "Min:", args, i);
+   pcsTextMinX = (Widget) XmCreateTextField(pcsRCLimiteX, (char *)"Min:", args, i);
    XtManageChild(pcsTextMinX);
 
 

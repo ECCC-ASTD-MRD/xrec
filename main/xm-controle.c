@@ -41,6 +41,7 @@
 #include <Xm/PushBG.h>
 #include <Xm/RowColumn.h>
 #include <Xm/Separator.h>
+#include <Xm/Text.h>
 #include <Xm/TextF.h>
 #include <Xm/ToggleB.h>
 #include <Xm/ToggleBG.h>
@@ -199,10 +200,10 @@
 #include <Xm/XmIm.h>
 #include <Xm/XmP.h>
 #include <Xm/XmStrDefs.h>
-*/
+
 #include <Xm/XmosP.h>
 #include <Xm/XpmP.h>
-
+*/
 
 #define  TERMINE         0
 #define  OUVRIR          1
@@ -862,7 +863,7 @@ XtCallbackProc ChangerMenuIntervalles(int indMenu)
    }
 
       xc.menuIntervalleItems[i] = (Widget)XmCreateToggleButton(xc.menuIntervalleDeContour, menuCourant[i], args, j);
-      XtAddCallback(xc.menuIntervalleItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuIntervalleSelect, (XtPointer) i);
+      XtAddCallback(xc.menuIntervalleItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuIntervalleSelect, (XtPointer) (long)i);
       }
 
    XtManageChildren(xc.menuIntervalleItems, xc.NbMenusIntervalles);
@@ -1219,16 +1220,18 @@ void InitFormeMessage()
    XtManageChild(xc.formeMessageFrame);
 
 
+   strcpy(tempStr, "Normal");
    i = 0;
-/*   label = XmStringCreateLtoR("Normal", XmSTRING_DEFAULT_CHARSET); */
+   label = XmStringCreateLtoR("Normal", XmSTRING_DEFAULT_CHARSET); 
    XtSetArg(args[i], XmNalignment, XmALIGNMENT_BEGINNING); i++;
-/*   XtSetArg(args[i], XmNlabelString, label); i++; */
+   XtSetArg(args[i], XmNlabelString, label); i++; 
+   XtSetArg(args[i], XmNvalue, (char *)tempStr); i++; 
    XtSetArg(args[i], XmNeditable, False); i++;
-   xc.labelInfo = (Widget)XmCreateTextField(xc.formeMessageFrame, "label", args, i);
+   xc.labelInfo = (Widget)XmCreateTextField(xc.formeMessageFrame, "TextField", args, i);
    XtManageChild(xc.labelInfo);
 
    i = 0;
-   XtSetArg(args[i], XmNvalue, tempStr); i++;
+   XtSetArg(args[i], XmNvalue, (char *)tempStr); i++;
    sprintf(tempStr, "%s", "Normal");
    XtSetValues(xc.labelInfo, args, i);
 
@@ -1526,7 +1529,7 @@ void InitMenuGrille()
    XtSetArg(args[j], XmNlabelString, label); j++;
    XtSetArg(args[j], XmNset, True); j++;
    xc.menuGrItems[i] = (Widget)XmCreateToggleButton(xc.menuGrille, "item", args, j);
-   XtAddCallback(xc.menuGrItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuGrilleSelect, (XtPointer) i);
+   XtAddCallback(xc.menuGrItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuGrilleSelect, (XtPointer) (long)i);
    XmStringFree(label);
 
 
@@ -1539,7 +1542,7 @@ void InitMenuGrille()
       XtSetArg(args[j], XmNlabelString, label); j++;
       XtSetArg(args[j], XmNindicatorType, XmONE_OF_MANY); j++;
       xc.menuGrItems[i] = (Widget)XmCreateToggleButton(xc.menuGrille, "item", args, j);
-      XtAddCallback(xc.menuGrItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuGrilleSelect, (XtPointer) i);
+      XtAddCallback(xc.menuGrItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuGrilleSelect, (XtPointer)(long) i);
       XmStringFree(label);
       }
 
@@ -1576,7 +1579,7 @@ void InitMenuVecteurs()
      XtSetArg(args[j], XmNlabelString, label); j++;
      XtSetArg(args[j], XmNindicatorType, XmONE_OF_MANY); j++;
      xc.menuVecItems[i] = (Widget)XmCreateToggleButton(xc.menuVecteurs, "item", args, j);
-     XtAddCallback(xc.menuVecItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuVecteurSelect, (XtPointer) i);
+     XtAddCallback(xc.menuVecItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuVecteurSelect, (XtPointer)(long) i);
      XmStringFree(label);
      }
 
@@ -1608,7 +1611,7 @@ void InitMenuFichier()
    i = 0;
    j = 0;
    xc.menuFichierItems[i] = (Widget)XmCreatePushButton(xc.menuFichier, labelRecAPropos[lng], args, j);
-   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) INFO_REC);
+   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer)(long) INFO_REC);
    i++;
 
    j = 0;
@@ -1688,7 +1691,7 @@ void InitMenuIntervalles()
       label = XmStringCreate(item, XmSTRING_DEFAULT_CHARSET);
       XtSetArg(args[0], XmNlabelString, label);
       xc.menuIntervalleItems[i] = (Widget)XmCreatePushButton(xc.menuIntervalleDeContour, "menu", args,1);
-      XtAddCallback(xc.menuIntervalleItems[i], XmNactivateCallback, (XtCallbackProc) MenuIntervalleSelect, (XtPointer) i);
+      XtAddCallback(xc.menuIntervalleItems[i], XmNactivateCallback, (XtCallbackProc) MenuIntervalleSelect, (XtPointer)(long) i);
       XmStringFree(label);
       }
 
@@ -1799,23 +1802,23 @@ void InitMenuOptions()
    i = 0;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelAttributs[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelContours[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelGeographie[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
 
 
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelPalette[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc)  MenuOptionSelect, (XtPointer) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc)  MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    xc.menuOptionItems[i] = (Widget)XmCreateSeparator(xc.menuOptions, "ligne", args, 0);
@@ -1823,17 +1826,17 @@ void InitMenuOptions()
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelMinMax[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelVent[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelValeursPonctuelles[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    xc.menuOptionItems[i] = (Widget)XmCreateSeparator(xc.menuOptions, "ligne", args, 0);
@@ -1841,7 +1844,7 @@ void InitMenuOptions()
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelEdition[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    xc.menuOptionItems[i] = (Widget)XmCreateSeparator(xc.menuOptions, "ligne", args, 0);
@@ -1849,12 +1852,12 @@ void InitMenuOptions()
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelAnimation[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelSerie[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    xc.menuOptionItems[i] = (Widget)XmCreateSeparator(xc.menuOptions, "ligne", args, 0);
@@ -1862,11 +1865,11 @@ void InitMenuOptions()
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelCoupe[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
    i++;
    j=0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelAnimationVerticale[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
 
 
 
@@ -1896,7 +1899,7 @@ void InitOldMapInfo()
 XtCallbackProc MenuOptionSelect(Widget w, XtPointer unused1, XtPointer unused2)
 {
 
-   switch((int)unused1)
+   switch((long)unused1)
       {
       case 0:
       ActiverPanneauAttributs();
@@ -1977,7 +1980,7 @@ XtCallbackProc MenuGrilleSelect(Widget w, XtPointer unused1, XtPointer unused2)
        return 0;
      }
 
-   drawcode = (int) unused2;
+   drawcode = (long) unused2;
 
    for (i=0; i < nbgi+1; i++)
       {
@@ -1986,10 +1989,10 @@ XtCallbackProc MenuGrilleSelect(Widget w, XtPointer unused1, XtPointer unused2)
       }
 
    XtSetArg(args[0], XmNset, True);
-   XtSetValues(xc.menuGrItems[(int)unused1], args, 1);
+   XtSetValues(xc.menuGrItems[(long)unused1], args, 1);
 
 
-   i = (int)unused1;
+   i = (long)unused1;
    itemGrilleSelectionnee = i;
 
    if (i == 0)
@@ -2068,9 +2071,9 @@ XtCallbackProc MenuVecteurSelect(Widget w, XtPointer unused1, XtPointer unused2)
       }
 
   XtSetArg(args[0], XmNset, True);
-  XtSetValues(xc.menuVecItems[(int)unused1], args, 1);
+  XtSetValues(xc.menuVecItems[(long)unused1], args, 1);
 
-  switch ((int)unused1)
+  switch ((long)unused1)
     {
     case 0:
       xc.statuts[TRAITEMENT_VECTORIEL] = FALSE;
@@ -2165,9 +2168,9 @@ XtCallbackProc MenuCalculSelect(Widget w, XtPointer unused1, XtPointer unused2)
       }
 
    XtSetArg(args[0], XmNset, True);
-   XtSetValues(xc.menuCalculItems[(int)unused1], args, 1);
+   XtSetValues(xc.menuCalculItems[(long)unused1], args, 1);
 
-   CtrlMgrSetMathOp((int)unused1);
+   CtrlMgrSetMathOp((long)unused1);
    LibererImages();
    RedessinerFenetres();
    return 0;
@@ -2283,7 +2286,7 @@ XtCallbackProc MenuFichierSelect(Widget w, XtPointer client_data, XtPointer call
 
    lng = c_getulng();
 
-   switch((int)client_data)
+   switch((long)client_data)
       {
       case INFO_REC:
       if (GetLogoToggle())
@@ -2364,10 +2367,10 @@ XtCallbackProc MenuIntervalleSelect(Widget w, XtPointer client_data, XtPointer c
 
    if (champ->indDict >= 0)
       {
-      infoChamps[champ->indDict].indIntervalleDeDefaut = (int)client_data;
-      champ->nbIntervalles = infoChamps[champ->indDict].nbIntervalles[(int)client_data];
-      for (n=0; n < infoChamps[champ->indDict].nbIntervalles[(int)client_data]; n++)
-          champ->intervalles[n] = infoChamps[champ->indDict].intervallesDeContour[(int)client_data][n];
+      infoChamps[champ->indDict].indIntervalleDeDefaut = (long)client_data;
+      champ->nbIntervalles = infoChamps[champ->indDict].nbIntervalles[(long)client_data];
+      for (n=0; n < infoChamps[champ->indDict].nbIntervalles[(long)client_data]; n++)
+          champ->intervalles[n] = infoChamps[champ->indDict].intervallesDeContour[(long)client_data][n];
 
       for (j=0; j < FldMgrGetNbChampsActifs(); j++)
    {

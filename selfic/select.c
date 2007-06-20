@@ -59,11 +59,9 @@
 #include <Xm/PushB.h>
 #include <Xm/PushBG.h>
 #include <Xm/RowColumn.h>
-#include <Xm/SeparatoG.h>
 #include <Xm/Text.h>
 #include <Xm/TextF.h>
-#include <Xm/ToggleB.h>
-#include <Xm/ToggleBG.h>
+
 
 /*
 #include <Xm/AccTextT.h>
@@ -274,7 +272,7 @@ static void XSelectItemListeFichier();
 static void XSelectMenuListeItem ( );
 static void XSelectOk ( Widget w, caddr_t client, caddr_t data );
 static void XSelectOuvrir();
-static void XSelectTextCallback();
+static void XSelectTextCallback(Widget w, caddr_t unused1, caddr_t unused2);
 static void XSelectUpdateDirectoryCourant();
 static void XSelectUpdateListe();
 static void XSelectUpdatePath();
@@ -498,20 +496,23 @@ static void InitWidgetsCurrentPath()
 {
    Arg            args[9]; /* Resources des widgets qui sont utilises.  */
    int            i;     /* Nombre de resources utilisees.        */
+   char str[128];
+
+   strcpy(str, "current_path");
 
    i = 0;
-   XtSetArg(args[i], XmNvalue, dir_courant );i++;
+   XtSetArg(args[i], XmNvalue, (char *)dir_courant );i++;
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM );i++;
    XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM );i++;
    XtSetArg(args[i], XmNcursorPosition, strlen(dir_courant) );i++;
-   XtSetArg(args[i], XmNrows, 1); i++;
-   XtSetArg(args[i], XmNeditMode, XmSINGLE_LINE_EDIT); i++;
-   XtSetArg(args[i], XmNwordWrap, True); i++;
+/*   XtSetArg(args[i], XmNrows, 1); i++;*/
+/*   XtSetArg(args[i], XmNeditMode, XmSINGLE_LINE_EDIT); i++;*/
+/*    XtSetArg(args[i], XmNwordWrap, True); i++; */
 
-   Select.current_path = (Widget) XmCreateText(Select.form, "current_path",
-                                               args, i);
-   XtAddCallback(Select.current_path, XmNactivateCallback,
-                                      XSelectTextCallback, 0);
+   Select.current_path = (Widget) XmCreateTextField(Select.form, (String)str, args, (Cardinal)i);
+/*    Select.current_path = XtCreateWidget(str, xmTextFieldWidgetClass, Select.form, args, i);*/
+    XtAddCallback(Select.current_path, XmNactivateCallback,
+                                      (XtCallbackProc) XSelectTextCallback, (XtPointer)(long)0);
    XtManageChild(Select.current_path);
 }
 
@@ -543,6 +544,7 @@ static void InitWidgetsPulldown()
 {
  Arg args[10];
  int i;
+char str[128];
  XmString tmp;
 
 /**
@@ -593,7 +595,7 @@ static void InitWidgetsPulldown()
       Select.dir[i] = (Widget) XmCreatePushButtonGadget(Select.pulldown,
                                                         "dir_list", 
                                                         args, 1);
-      XtAddCallback(Select.dir[i], XmNactivateCallback, (XtCallbackProc) XSelectMenuListeItem,(XtPointer) i);
+      XtAddCallback(Select.dir[i], XmNactivateCallback, (XtCallbackProc) XSelectMenuListeItem, (XtPointer) (long)i);
       XmStringFree ( tmp );
       }
 
@@ -742,7 +744,7 @@ static void XSelectUpdateListe(int creation)
 
    for ( i = 0; i < nb_file; i++ )
         XmStringFree ( fichiers[i] ); 
-   XtFree ( fichiers );
+   XtFree ( (char *)fichiers );
 }
 
 /******************************************************************************
@@ -780,7 +782,7 @@ static void InitWidgetsBasic()
 
    int lng;
    Arg          args[8]; /* Resources des widgets qui sont utilises.      */
-   int          i;           /* Nombre de resources utilisees.                  */
+   Cardinal          i;           /* Nombre de resources utilisees.                  */
    XmString label1,label2,label3;   /* Le nom des boutons.          */
    Widget   tmp;
 
@@ -794,13 +796,6 @@ static void InitWidgetsBasic()
    strcat(nomShell, nomSelecteurFichiers[lng]);
 
    i = 0;
-   XtSetArg(args[i], XmNsaveUnder, True); i++;
-   /*XtSetArg(args[i], XmNallowShellResize, True); i++;*/
-/*   XtSetArg(args[i], XmNmappedWhenManaged, False); i++;*/
-   XtSetArg(args[i], XmNmwmFunctions, MWM_FUNC_MOVE| MWM_FUNC_RESIZE|MWM_FUNC_MINIMIZE|MWM_FUNC_MAXIMIZE); i++;
-   XtSetArg(args[i], XmNmwmDecorations, MWM_DECOR_ALL); i++;
-
-
    Select.toplevel = XtAppCreateShell(nomShell, nomShell, applicationShellWidgetClass, wglDisp, args, i);
 
 /*.................................message....................................*/
@@ -818,10 +813,10 @@ static void InitWidgetsBasic()
    XmStringFree(label2);
    XmStringFree(label3);
 
-   tmp = (Widget)XmMessageBoxGetChild(Select.message, XmDIALOG_CANCEL_BUTTON);
-   XtUnmanageChild(tmp);
-   tmp = (Widget)XmMessageBoxGetChild(Select.message, XmDIALOG_HELP_BUTTON);
-   XtUnmanageChild(tmp);
+/*   tmp = (Widget)XmMessageBoxGetChild(Select.message, XmDIALOG_CANCEL_BUTTON);*/
+/*   XtUnmanageChild(tmp);*/
+/*   tmp = (Widget)XmMessageBoxGetChild(Select.message, XmDIALOG_HELP_BUTTON);*/
+/*    XtUnmanageChild(tmp); */
 
    tmp = (Widget)XmMessageBoxGetChild(Select.message, XmDIALOG_OK_BUTTON);
    XtAddCallback ( tmp,  XmNactivateCallback, (XtCallbackProc)XSelectOk , NULL );
@@ -1214,7 +1209,7 @@ void XSelectChangerRepertoire(char *path)
 
    if( nb_dir > mx_dir )
      {
-     Select.dir = (Widget *)XtRealloc ( Select.dir, nb_dir*sizeof(Widget) );
+     Select.dir = (Widget *)XtRealloc ( (char *)Select.dir, (Cardinal) (nb_dir*sizeof(Widget)) );
      for (i=nb_dir-1; i >= mx_dir; i-- )
         {
         tmp = XmStringCreate("                  ", XmSTRING_DEFAULT_CHARSET);
@@ -1222,7 +1217,7 @@ void XSelectChangerRepertoire(char *path)
         Select.dir[i] = (Widget) XmCreatePushButtonGadget(Select.pulldown, 
                                                           "directory_list",
                                                           args , 1);
-        XtAddCallback(Select.dir[i],XmNactivateCallback,(XtCallbackProc) XSelectMenuListeItem,(XtPointer)i);
+        XtAddCallback(Select.dir[i],XmNactivateCallback,(XtCallbackProc) XSelectMenuListeItem,(XtPointer)(long)i);
         XmStringFree ( tmp ); 
         }
      mx_dir = nb_dir;
@@ -1350,7 +1345,7 @@ static void XSelectMenuListeItem ( Widget w, caddr_t client, caddr_t data )
 
  strcpy ( nouveau_dir, "/" );
 
- for ( i = 1; i < (int)client + 1; i ++ )
+ for ( i = 1; i < (long)client + 1; i ++ )
     {
      strcat ( nouveau_dir , dir_nom[i] );
      strcat ( nouveau_dir, "/" );
@@ -1462,7 +1457,7 @@ LIBRAIRIES :            Motif
 ------------------------------------------------------------------------------*/
 void XSelectDeselectItem (Widget w, caddr_t client, caddr_t data)
 {
-  XmListDeselectAllItems ( client );
+  XmListDeselectAllItems ( (Widget) w );
 }
 
 /******************************************************************************

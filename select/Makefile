@@ -12,7 +12,7 @@ REC_UTILLIB = ../lib/lib$(EC_ARCH)$(ABI)_rec_util.a
 
 FFLAGS = 
 
-CFLAGS =  -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -DX_WGL
+CFLAGS =  -I/opt/include -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -DX_WGL
 
 OPTIMIZ = -O 2
 OPTIMIZ = -O 0 -debug -optc =-qinfo=all

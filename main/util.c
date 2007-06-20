@@ -77,4 +77,3 @@ int ip1;
 
    return SIGMA;
    }
-
