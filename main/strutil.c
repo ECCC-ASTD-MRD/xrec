@@ -74,3 +74,15 @@ void LireLigne(FILE *FichierEntree, char Ligne[])
 	  }
    Ligne[i] = '\0';
    }
+
+int RemplirDeBlancs(char str[],int longueur)
+{
+  int i;
+
+  for (i=strlen(str);i < longueur; i++)
+    {
+    str[i] = ' ';
+    }
+  str[longueur - 1] = '\0';
+  return 0;
+}

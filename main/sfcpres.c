@@ -87,10 +87,10 @@ int GetSurfacePressure(_Champ *champ)
   static char *pasdeTT[] = {"Champ de temperature non disponible.\n Generation de PO impossible",
         "Temperature field not available.\n Cannot generate P0 field"};
 
-   if (champ->coupe.montagnes == NULL)
+/*   if (champ->coupe.montagnes == NULL)
     {
     return -1;
-    }
+    }*/
    
    strcpy(p0, "P0  ");
    
@@ -124,6 +124,7 @@ int GetSurfacePressure(_Champ *champ)
       
       case SIGMA:
       case HYBRIDE:
+      case PRESSION:
       cleP0 = c_fstinf(champ->iun, &ni, &nj, &nk, champ->datev,champ->etiket, moins1, champ->ip2, champ->ip3, champ->typvar, p0);      
       if (cleP0 < 0)
          {
@@ -335,11 +336,11 @@ int GetSurfacePressure(_Champ *champ)
       return 0;
       break;
       
-      case PRESSION:
+/*      case PRESSION:
       cleP0 = NULL;
       champ->coupe.montagnes = NULL;
       return -1;
-      break;
+      break;*/
       
       default:
       cleP0 = NULL;

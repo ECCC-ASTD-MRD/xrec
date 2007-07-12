@@ -174,15 +174,15 @@ void AfficherChampBiDimensionnel(int indChamp,int nbChampsActifs,float *fld,floa
    if (indChamp == 0)
       {
       switch(xc.statuts[GEOGRAPHIE])
-   {
-   case TRUE:
-           SetClipMask();
-           c_gmpdrw();
-           break;
-
-   case FALSE:
-           break;
-   }
+        {
+        case TRUE:
+                SetClipMask();
+                c_gmpdrw();
+                break;
+      
+        case FALSE:
+                break;
+        }
       }   /** if (indChamp > 0) **/
 
    if (xc.flagInterrupt)
@@ -239,29 +239,29 @@ void AfficherChampBiDimensionnel(int indChamp,int nbChampsActifs,float *fld,floa
 
 
    if (AfficherItem(indChamp, LABELS))
-      {
-      switch(xc.attributs[indChamp].couleurFore)
-         {
-         case BLANC:
-         case JAUNE:
-         case CYAN:
-           fond = NOIR;
-           break;
-
-      default:
-              fond = BLANC;
-              break;
-         }
-
-
-      if (xc.attributs[indChamp].labelSize == 0)
+    {
+    switch(xc.attributs[indChamp].couleurFore)
         {
-        fontSize = AttrMgrGetFontSizeLabels();
-        }
-      else
-         {
-        fontSize = xc.attributs[indChamp].labelSize;
-         }
+        case BLANC:
+        case JAUNE:
+        case CYAN:
+        fond = NOIR;
+        break;
+    
+    default:
+    fond = BLANC;
+    break;
+    }
+
+
+    if (xc.attributs[indChamp].labelSize == 0)
+      {
+      fontSize = AttrMgrGetFontSizeLabels();
+      }
+    else
+      {
+      fontSize = xc.attributs[indChamp].labelSize;
+      }
 
       SetClipMask();
       SetLabFontSize(fontSize);
@@ -274,10 +274,10 @@ void AfficherChampBiDimensionnel(int indChamp,int nbChampsActifs,float *fld,floa
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
-   {
-   xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-   return;
-   }
+        {
+        xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+        return;
+        }
       }
 
    if (champ->natureTensorielle == VECTEUR && champ->cle >= 0 && xc.statuts[BARBULES])
@@ -285,11 +285,11 @@ void AfficherChampBiDimensionnel(int indChamp,int nbChampsActifs,float *fld,floa
       SetClipMask();
       c_wgllwi(1);
       if (-1 != WindMgrGetDisplayMode())
-   {
-   AfficherFleches(uu,vv, mapInfo.ni, mapInfo.nj, xc.attributs[indChamp].indCouleurFore,xc.attributs[indChamp].epaisseur,max);
-   if (0 != WindMgrGetDisplayMode())
-      AfficherLegendeVent(max,10,10,0);
-   }
+        {
+        AfficherFleches(uu,vv, mapInfo.ni, mapInfo.nj, xc.attributs[indChamp].indCouleurFore,xc.attributs[indChamp].epaisseur,max);
+        if (0 != WindMgrGetDisplayMode())
+            AfficherLegendeVent(max,10,10,0);
+        }
       }
 
    if (AfficherItem(indChamp, VALEURS_CENTRALES))
@@ -313,15 +313,15 @@ void AfficherChampBiDimensionnel(int indChamp,int nbChampsActifs,float *fld,floa
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
-   {
-   xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-   f77name(xpanstatact)();
-   f77name(xpanstatact)();
-   f77name(xpanstatact)();
-   f77name(xpanstatact)();
-   f77name(xpanstatact)();
-   return;
-   }
+        {
+        xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+        f77name(xpanstatact)();
+        f77name(xpanstatact)();
+        f77name(xpanstatact)();
+        f77name(xpanstatact)();
+        f77name(xpanstatact)();
+        return;
+        }
       }
 }
 

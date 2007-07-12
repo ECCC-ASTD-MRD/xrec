@@ -3214,7 +3214,7 @@ void InitAttributs()
    c_wgldld(3, 0xff00);
 
    nplanes = c_wglgpl();
-   for (i=0; i< 34; i++)
+   for (i=0; i< 35; i++)
       {
       xc.attributs[i].indCouleurFore = NOIR;
       xc.attributs[i].couleurFore = NOIR;
@@ -3231,6 +3231,7 @@ void InitAttributs()
    c_wglmco(indMax - OFFSET_FORE_CHAMP1, r, g, b);
    c_wglmco(indMax - OFFSET_GRILLE, r, g, b);
    c_wglmco(indMax - OFFSET_BACK_FOND,   r, g, b);
+   c_wglmco(indMax - OFFSET_TOPOGRAPHIE,   r, g, b);
 
    c_wglgco(BLEU, &r, &g, &b);
    c_wglmco(indMax - OFFSET_FORE_CHAMP2, r, g, b);
@@ -3290,8 +3291,13 @@ void InitAttributs()
    xc.attributs[GRID].codeDash = 0;
    xc.attributs[GRID].style = 0;
 
+   xc.attributs[TOPOG].indCouleurFore = indMax - OFFSET_TOPOGRAPHIE;
+   xc.attributs[OFFSET_TOPOGRAPHIE].couleurFore = NOIR;
+   xc.attributs[OFFSET_TOPOGRAPHIE].codeDash = 0;
+   xc.attributs[OFFSET_TOPOGRAPHIE].style = 0;
 
-   for (i=0; i < 34; i++)
+
+   for (i=0; i < 35; i++)
       {
 #ifdef GL_WGL
       xc.attributs[i].epaisseur = 2;
@@ -3300,7 +3306,7 @@ void InitAttributs()
 #endif
       }
 
-   for (i=0; i < 34; i++)
+   for (i=0; i < 35; i++)
       {
       xc.attributs[i].displayValCentrales = SELON_MENU;
       xc.attributs[i].displayContours     = SELON_MENU;
@@ -3312,6 +3318,7 @@ void InitAttributs()
 
    xc.attributs[GRID].epaisseur = 1;
    xc.attributs[FOND].epaisseur = 1;
+   xc.attributs[TOPOG].epaisseur = 1;
 
 
    }

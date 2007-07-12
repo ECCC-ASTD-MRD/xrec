@@ -215,14 +215,14 @@ Widget pcPanneauTailleValeursCentrales,pcOptionsTailleValeursCentrales,pcTailleV
 
 static char *nomPanneauContour[] = {"PanneauContours", "ContourPanel"};
 static char *labelTopLevel[] = {"Contours", "Contours"};
-static char *labelChamps[][34] = { 
-{"Fond   ", "Grille  ", "Champ  1", "Champ  2", "Champ  3", "Champ  4", 
+static char *labelChamps[][35] = { 
+{"Fond   ", "Grille  ", "Topographie", "Champ  1", "Champ  2", "Champ  3", "Champ  4", 
  "Champ  5", "Champ  6", "Champ  7", "Champ  8", "Champ  9", "Champ 10", 
  "Champ 11", "Champ 12", "Champ 13", "Champ 14", "Champ 15", "Champ 16",
  "Champ 17", "Champ 18", "Champ 19", "Champ 20", "Champ 21", "Champ 22",
  "Champ 23", "Champ 24", "Champ 25", "Champ 26", "Champ 27", "Champ 28",
  "Champ 29", "Champ 30", "Champ 31", "Champ 32"}, 
-{"Background", "Grid", "Field  1", "Field  2", "Field  3", "Field  4", 
+{"Background", "Grid", "Topography", "Field  1", "Field  2", "Field  3", "Field  4", 
  "Field  5", "Field  6", "Field  7", "Field  8", "Field  9", "Field 10", 
  "Field 11", "Field 12", "Field 13", "Field 14", "Field 15", "Field 16",
  "Field 17", "Field 18", "Field 19", "Field 20", "Field 21", "Field 22",
@@ -245,8 +245,8 @@ static char *activationSelect[][3] = {
 {"According to Display menu", "Always", "Never"}};
 
 
-static char *suffixes[][3] = { {"fond", "grille", "champ"}, 
-{"background", "grid", "field" }};
+static char *suffixes[][4] = { {"fond", "grille", "topo", "champ"}, 
+{"background", "grid", "topo", "field" }};
 
 static char *colors[][9] = { {"blanc","noir","rouge","cyan", "jaune", "magenta","vert","bleu","gris"},
 {"white","black","red","cyan","yellow","magenta","green","blue","gray"}};
@@ -269,30 +269,30 @@ static char *labelValeursCentrales[] = {"Valeurs   \ncentrales","Central \nValue
 static char *labelTraitementVectoriel[] = {"Traitement\nVectoriel","Vector\nProcessing"};
 
 static char *pcLabelOptionsStyle[][7] = {{"Lignes pleines      ", 
-					     "--  --  --  --      ", 
-					     "----    ----        ", 
-					     "--------            ", 
-					     "--  --   (< 0 seul.)", 
-					     "----     (< 0 seul.)", 
-					     "-------- (< 0 seul.)"},
-					    {"Full lines      ", 
-						"--  --  --  --  ", 
-						"----    ----    ", 
-						"--------        ",
-						"--  --   (< 0 only)", 
-						"----     (< 0 only)", 
-						"-------- (< 0 only)"}};
+               "--  --  --  --      ", 
+               "----    ----        ", 
+               "--------            ", 
+               "--  --   (< 0 seul.)", 
+               "----     (< 0 seul.)", 
+               "-------- (< 0 seul.)"},
+              {"Full lines      ", 
+            "--  --  --  --  ", 
+            "----    ----    ", 
+            "--------        ",
+            "--  --   (< 0 only)", 
+            "----     (< 0 only)", 
+            "-------- (< 0 only)"}};
 
 static char *pcLabelOptionsCouleur[][9] = {{"blanc               ", "noir","rouge","cyan","jaune","magenta","vert","bleu","gris"},
-					    {"white               ", "black","red","cyan","yellow","magenta","green","blue", "gray"}};
+              {"white               ", "black","red","cyan","yellow","magenta","green","blue", "gray"}};
 static char *pcLabelOptionsEpaisseur[][5] = {{"1                   ", "2", "3", "4", "5"}, 
-					      {"1                   ", "2", "3", "4", "5"}};
+                {"1                   ", "2", "3", "4", "5"}};
 
 
-int currentToggle = FOND;
+int currentToggle = 34;
 int pcSelectionTerminee;
 char panneauContoursGeometrie[32];
-static int nbItemsListe = 34;
+static int nbItemsListe = 35;
 
 void CheckToggles (Widget w, caddr_t client_data, caddr_t call_data)
 {
@@ -309,11 +309,12 @@ void CheckToggles (Widget w, caddr_t client_data, caddr_t call_data)
       {
       case 0:
       case 1:
+      case 2:
       currentToggle = pos+32;
       break;
 
       default:
-      currentToggle = pos-2;
+      currentToggle = pos-3;
       break;
       }
 
@@ -401,10 +402,14 @@ void SetColorToggle (Widget w, caddr_t client_data, caddr_t call_data)
    xc.attributs[currentToggle].couleurFore = (int)client_data;
    c_wglgco(xc.attributs[currentToggle].couleurFore, &r, &g, &b);
    if (8 <= c_wglgpl() && (currentToggle < 4 || currentToggle >= 32))
+      {
       c_wglmco(xc.attributs[currentToggle].indCouleurFore, r, g, b);
+      }
    else
+      {
       xc.attributs[currentToggle].indCouleurFore = xc.attributs[currentToggle].couleurFore;
-   c_wglmco(xc.attributs[currentToggle].indCouleurFore, r, g, b);
+      c_wglmco(xc.attributs[currentToggle].indCouleurFore, r, g, b);
+      }
 
    switch((int)client_data)
       {
@@ -413,19 +418,27 @@ void SetColorToggle (Widget w, caddr_t client_data, caddr_t call_data)
       case CYAN:
       xc.attributs[currentToggle].couleurBack = NOIR;
       if (8 <= c_wglgpl() && (currentToggle < 4 || currentToggle >= 32))
-	 c_wglmco(xc.attributs[currentToggle].indCouleurBack, 0, 0, 0);
+        {
+        c_wglmco(xc.attributs[currentToggle].indCouleurBack, 0, 0, 0);
+        }
       else
-	 xc.attributs[currentToggle].indCouleurBack = xc.attributs[currentToggle].couleurBack;
-	 c_wglmco(xc.attributs[currentToggle].indCouleurBack, 0, 0, 0);
+        {
+        xc.attributs[currentToggle].indCouleurBack = xc.attributs[currentToggle].couleurBack;
+        c_wglmco(xc.attributs[currentToggle].indCouleurBack, 0, 0, 0);
+        }
       break;
 
       default:
       xc.attributs[currentToggle].couleurBack = BLANC;
       if (8 <= c_wglgpl() && (currentToggle < 4 || currentToggle >= 32))
-	 c_wglmco(xc.attributs[currentToggle].indCouleurBack, 255, 255, 255);
+        {
+        c_wglmco(xc.attributs[currentToggle].indCouleurBack, 255, 255, 255);
+        }
       else
-	 xc.attributs[currentToggle].indCouleurBack = xc.attributs[currentToggle].couleurBack;
-	 c_wglmco(xc.attributs[currentToggle].indCouleurBack, 255, 255, 255);
+        {
+        xc.attributs[currentToggle].indCouleurBack = xc.attributs[currentToggle].couleurBack;
+        c_wglmco(xc.attributs[currentToggle].indCouleurBack, 255, 255, 255);
+        }
       break;
       }
 
@@ -617,7 +630,7 @@ void InitPanneauContour()
    XtSetArg(args[i], XmNselectionPolicy, XmSINGLE_SELECT); i++;
    pcListeItems = (Widget) XmCreateScrolledList(pcFormeChamps, "option_menu1", args, i);
 
-   XmListSelectPos(pcListeItems, 1, True);
+   XmListSelectPos(pcListeItems, 34, True);
    XtAddCallback(pcListeItems, XmNsingleSelectionCallback, (XtCallbackProc)  CheckToggles, NULL);
    XtManageChild(pcListeItems);
 
@@ -649,25 +662,25 @@ void InitPanneauContour()
    pcOptionsCouleur = (Widget)XmCreatePulldownMenu(pcRc, labelCouleur[lng], args, i);
    
    for (n=0; n < XtNumber(pcLabelOptionsCouleur[lng]); n++)
-	{
-	i = 0;
-	XtSetArg(args[i], XmNbackground, indCouleurs[n]); i++;
-	switch(n)
-	   {
-	   case JAUNE:
-	   case BLANC:
-	   case CYAN:
-	   XtSetArg(args[i], XmNforeground, indCouleurs[NOIR]); i++;
-	   break;
-
-	   default:
-	   XtSetArg(args[i], XmNforeground, indCouleurs[BLANC]); i++;
-	   break;
-	   }
-	   
-	pcOptionsCouleurItems[n] = (Widget) XmCreatePushButton(pcOptionsCouleur, pcLabelOptionsCouleur[lng][n], args, i);
-	XtAddCallback(pcOptionsCouleurItems[n], XmNactivateCallback, (XtCallbackProc)  SetColorToggle, (XtPointer) n);
-	}
+    {
+    i = 0;
+    XtSetArg(args[i], XmNbackground, indCouleurs[n]); i++;
+    switch(n)
+      {
+      case JAUNE:
+      case BLANC:
+      case CYAN:
+      XtSetArg(args[i], XmNforeground, indCouleurs[NOIR]); i++;
+      break;
+  
+      default:
+      XtSetArg(args[i], XmNforeground, indCouleurs[BLANC]); i++;
+      break;
+      }
+      
+    pcOptionsCouleurItems[n] = (Widget) XmCreatePushButton(pcOptionsCouleur, pcLabelOptionsCouleur[lng][n], args, i);
+    XtAddCallback(pcOptionsCouleurItems[n], XmNactivateCallback, (XtCallbackProc)  SetColorToggle, (XtPointer) n);
+    }
 
    XtManageChildren(pcOptionsCouleurItems, XtNumber(pcLabelOptionsCouleur[lng]));
 
@@ -694,11 +707,11 @@ void InitPanneauContour()
    pcOptionsEpaisseur = (Widget)XmCreatePulldownMenu(pcRc, labelEpaisseur[lng], NULL, 0);
 
    for (n=0; n < XtNumber(pcLabelOptionsEpaisseur[lng]); n++)
-	{
-	i = 0;
-	pcOptionsEpaisseurItems[n] = XmCreatePushButton(pcOptionsEpaisseur, pcLabelOptionsEpaisseur[lng][n], args, i);
-	XtAddCallback(pcOptionsEpaisseurItems[n], XmNactivateCallback, (XtCallbackProc)  SetThicknessToggle, (XtPointer) n);
-	}
+    {
+    i = 0;
+    pcOptionsEpaisseurItems[n] = XmCreatePushButton(pcOptionsEpaisseur, pcLabelOptionsEpaisseur[lng][n], args, i);
+    XtAddCallback(pcOptionsEpaisseurItems[n], XmNactivateCallback, (XtCallbackProc)  SetThicknessToggle, (XtPointer) n);
+    }
 
    XtManageChildren(pcOptionsEpaisseurItems, XtNumber(pcLabelOptionsEpaisseur[lng]));
 
@@ -720,14 +733,14 @@ void InitPanneauContour()
    pcOptionsStyle = (Widget)XmCreatePulldownMenu(pcRc, labelStyle[lng], NULL, 0);
 
    for (n=0; n < XtNumber(pcLabelOptionsStyle[lng]); n++)
-	{
-	i = 0;
-	string = XmStringCreateLtoR(pcLabelOptionsStyle[lng][n], XmSTRING_DEFAULT_CHARSET); 
-	XtSetArg(args[i], XmNlabelString, string); i++;
-	pcOptionsStyleItems[n] = XmCreatePushButton(pcOptionsStyle, pcLabelOptionsStyle[lng][n], args, i);
-	XmStringFree(string);   
-	XtAddCallback(pcOptionsStyleItems[n], XmNactivateCallback, (XtCallbackProc)  SetStyleToggle, (XtPointer) n);
-	}
+    {
+    i = 0;
+    string = XmStringCreateLtoR(pcLabelOptionsStyle[lng][n], XmSTRING_DEFAULT_CHARSET); 
+    XtSetArg(args[i], XmNlabelString, string); i++;
+    pcOptionsStyleItems[n] = XmCreatePushButton(pcOptionsStyle, pcLabelOptionsStyle[lng][n], args, i);
+    XmStringFree(string);   
+    XtAddCallback(pcOptionsStyleItems[n], XmNactivateCallback, (XtCallbackProc)  SetStyleToggle, (XtPointer) n);
+    }
 
    XtManageChildren(pcOptionsStyleItems, XtNumber(pcLabelOptionsStyle[lng]));
 
@@ -757,14 +770,14 @@ void InitPanneauContour()
    pcOptionsContours = (Widget)XmCreatePulldownMenu(pcRc, "Contours  ", NULL, 0);
 
    for (n=0; n < XtNumber(activationSelect[lng]); n++)
-	{
-	i = 0;
-	string = XmStringCreateLtoR(activationSelect[lng][n], XmSTRING_DEFAULT_CHARSET); 
-	XtSetArg(args[i], XmNlabelString, string); i++;
-	pcContourItems[n] = XmCreatePushButton(pcOptionsContours, activationSelect[lng][n], args, i);
-	XtAddCallback(pcContourItems[n], XmNactivateCallback, (XtCallbackProc)  SetContoursToggle, (XtPointer) n);
-	XmStringFree(string);   
-	}
+    {
+    i = 0;
+    string = XmStringCreateLtoR(activationSelect[lng][n], XmSTRING_DEFAULT_CHARSET); 
+    XtSetArg(args[i], XmNlabelString, string); i++;
+    pcContourItems[n] = XmCreatePushButton(pcOptionsContours, activationSelect[lng][n], args, i);
+    XtAddCallback(pcContourItems[n], XmNactivateCallback, (XtCallbackProc)  SetContoursToggle, (XtPointer) n);
+    XmStringFree(string);   
+    }
 
    XtManageChildren(pcContourItems, XtNumber(activationSelect[lng]));
 
@@ -787,14 +800,14 @@ void InitPanneauContour()
    pcOptionsLabels = (Widget)XmCreatePulldownMenu(pcRc, "Labels    ", NULL, 0);
 
    for (n=0; n < XtNumber(activationSelect[lng]); n++)
-	{
-	i = 0;
-	string = XmStringCreateLtoR(activationSelect[lng][n], XmSTRING_DEFAULT_CHARSET); 
-	XtSetArg(args[i], XmNlabelString, string); i++;
-	pcLabelItems[n] = XmCreatePushButton(pcOptionsLabels, activationSelect[lng][n], args, i);
-	XtAddCallback(pcLabelItems[n], XmNactivateCallback, (XtCallbackProc)  SetLabelsToggle, (XtPointer) n);
-	XmStringFree(string);   
-	}
+    {
+    i = 0;
+    string = XmStringCreateLtoR(activationSelect[lng][n], XmSTRING_DEFAULT_CHARSET); 
+    XtSetArg(args[i], XmNlabelString, string); i++;
+    pcLabelItems[n] = XmCreatePushButton(pcOptionsLabels, activationSelect[lng][n], args, i);
+    XtAddCallback(pcLabelItems[n], XmNactivateCallback, (XtCallbackProc)  SetLabelsToggle, (XtPointer) n);
+    XmStringFree(string);   
+    }
 
    XtManageChildren(pcLabelItems, XtNumber(activationSelect[lng]));
 
@@ -816,14 +829,14 @@ void InitPanneauContour()
    pcOptionsTailleLabels = (Widget)XmCreatePulldownMenu(pcRc, "TailleLabels", NULL, 0);
 
    for (n=0; n < XtNumber(pcLabelFontSize[lng]); n++)
-	{
-	i = 0;
-	string = XmStringCreateLtoR(pcLabelFontSize[lng][n], XmSTRING_DEFAULT_CHARSET); 
-	XtSetArg(args[i], XmNlabelString, string); i++;
-	pcTailleLabelItems[n] = XmCreatePushButton(pcOptionsTailleLabels, pcLabelFontSize[lng][n], args, i);
-	XtAddCallback(pcTailleLabelItems[n], XmNactivateCallback, (XtCallbackProc)  SetLabelSizeToggle, (XtPointer) n);
-	XmStringFree(string);   
-	}
+    {
+    i = 0;
+    string = XmStringCreateLtoR(pcLabelFontSize[lng][n], XmSTRING_DEFAULT_CHARSET); 
+    XtSetArg(args[i], XmNlabelString, string); i++;
+    pcTailleLabelItems[n] = XmCreatePushButton(pcOptionsTailleLabels, pcLabelFontSize[lng][n], args, i);
+    XtAddCallback(pcTailleLabelItems[n], XmNactivateCallback, (XtCallbackProc)  SetLabelSizeToggle, (XtPointer) n);
+    XmStringFree(string);   
+    }
 
    XtManageChildren(pcTailleLabelItems, XtNumber(pcLabelFontSize[lng]));
 
@@ -853,14 +866,14 @@ void InitPanneauContour()
    pcOptionsValeursCentrales = (Widget)XmCreatePulldownMenu(pcRc, labelValeursCentrales[lng], NULL, 0);
 
    for (n=0; n < XtNumber(activationSelect[lng]); n++)
-	{
-	i = 0;
-	string = XmStringCreateLtoR(activationSelect[lng][n], XmSTRING_DEFAULT_CHARSET); 
-	XtSetArg(args[i], XmNlabelString, string); i++;
-	pcValeurItems[n] = XmCreatePushButton(pcOptionsValeursCentrales, activationSelect[lng][n], args, i);
-	XtAddCallback(pcValeurItems[n], XmNactivateCallback, (XtCallbackProc)  SetCentralValuesToggle, (XtPointer) n);
-	XmStringFree(string);   
-	}
+    {
+    i = 0;
+    string = XmStringCreateLtoR(activationSelect[lng][n], XmSTRING_DEFAULT_CHARSET); 
+    XtSetArg(args[i], XmNlabelString, string); i++;
+    pcValeurItems[n] = XmCreatePushButton(pcOptionsValeursCentrales, activationSelect[lng][n], args, i);
+    XtAddCallback(pcValeurItems[n], XmNactivateCallback, (XtCallbackProc)  SetCentralValuesToggle, (XtPointer) n);
+    XmStringFree(string);   
+    }
 
    XtManageChildren(pcValeurItems, XtNumber(activationSelect[lng]));
 
@@ -882,14 +895,14 @@ void InitPanneauContour()
    pcOptionsTailleValeursCentrales = (Widget)XmCreatePulldownMenu(pcRc, pcLabelTailleValeursCentrales[lng], NULL, 0);
 
    for (n=0; n < XtNumber(pcValCentraleFontSize[lng]); n++)
-	{
-	i = 0;
-	string = XmStringCreateLtoR(pcValCentraleFontSize[lng][n], XmSTRING_DEFAULT_CHARSET); 
-	XtSetArg(args[i], XmNlabelString, string); i++;
-	pcTailleValeurItems[n] = XmCreatePushButton(pcOptionsTailleValeursCentrales, pcValCentraleFontSize[lng][n], args, i);
-	XtAddCallback(pcTailleValeurItems[n], XmNactivateCallback, (XtCallbackProc)  SetCentralValueSizeToggle, (XtPointer) (XtPointer) n);
-	XmStringFree(string);   
-	}
+    {
+    i = 0;
+    string = XmStringCreateLtoR(pcValCentraleFontSize[lng][n], XmSTRING_DEFAULT_CHARSET); 
+    XtSetArg(args[i], XmNlabelString, string); i++;
+    pcTailleValeurItems[n] = XmCreatePushButton(pcOptionsTailleValeursCentrales, pcValCentraleFontSize[lng][n], args, i);
+    XtAddCallback(pcTailleValeurItems[n], XmNactivateCallback, (XtCallbackProc)  SetCentralValueSizeToggle, (XtPointer) (XtPointer) n);
+    XmStringFree(string);   
+    }
 
    XtManageChildren(pcTailleValeurItems, XtNumber(pcValCentraleFontSize[lng]));
 
@@ -991,17 +1004,17 @@ void f77name(c_sconatr)(char item[],char valeur[], int lenItem, int lenValeur)
       j = 0;
       found = 0;
       while (j < 9 && !found)
-	 {
-	 if (0 == strcmp(valeur,colors[0][j]) || 0 == strcmp(valeur,colors[1][j]))
-	    {
-	    found = 1;
-	    xc.attributs[ind].couleurFore = j;
-	    }
-	 j++;
-	 }
+      {
+      if (0 == strcmp(valeur,colors[0][j]) || 0 == strcmp(valeur,colors[1][j]))
+          {
+          found = 1;
+          xc.attributs[ind].couleurFore = j;
+          }
+      j++;
+      }
 
       j--;
-      if (ind < 4 ||  ind >= 32)
+      if (ind < 5 ||  ind >= 32)
         {
         c_wglgco(xc.attributs[ind].couleurFore,&r,&g,&b);
         c_wglmco(xc.attributs[ind].indCouleurFore,r,g,b);
@@ -1020,7 +1033,7 @@ void f77name(c_sconatr)(char item[],char valeur[], int lenItem, int lenValeur)
             break;
             }
         }
-            else
+      else
         {
         xc.attributs[ind].indCouleurFore = xc.attributs[ind].couleurFore;
         }
@@ -1103,7 +1116,7 @@ void EcrConAtr(FILE *fichierDemarrage)
          }
       }
 
-   for (i=0; i < 34; i++)
+   for (i=0; i < 35; i++)
       {
       switch (i)
         {
@@ -1115,11 +1128,15 @@ void EcrConAtr(FILE *fichierDemarrage)
         indSuf = 1;
         break;
 
-        default:
+        case TOPOG:
         indSuf = 2;
         break;
+        
+        default:
+        indSuf = 3;
+        break;
         }
-	 
+   
       strcpy(item,"couleur_");
       strcat(item,suffixes[0][indSuf]);
       if (i < 32)
@@ -1174,13 +1191,13 @@ void PCSplitItem(int *attribut, int *ind, char *item)
    else
       {
       if (strstr(item,"epaisseur_"))
-	 {
-	 *attribut = EPAISSEUR;
-	 }
+        {
+        *attribut = EPAISSEUR;
+        }
       else
-	 {
-	 *attribut = STYLE;
-	 }
+        {
+        *attribut = STYLE;
+        }
       }
    
    if (strstr(item,"fond"))
@@ -1190,13 +1207,17 @@ void PCSplitItem(int *attribut, int *ind, char *item)
    else
       {
       if (strstr(item,"grille"))
-	 {
-	 *ind = GRID;
-	 }
+        {
+        *ind = GRID;
+        }
+      else if (strstr(item, "topo"))
+        {
+        *ind = TOPOG;
+        }
       else
-	 {
-	 *ind = atoi(&item[strlen(item)-2])-1;
-	 }
+        {
+        *ind = atoi(&item[strlen(item)-2])-1;
+        }
       }
 
    }

@@ -50,8 +50,8 @@ void DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThicknes
   int offsetX, offsetY;
   int indChampRel;
   char strVal[64], tempVal[64];
-  float vitesse, direction, u, v, lat, lon;
-  int rayon,rayon2;
+  float vitesse, direction, temp, u, v, lat, lon;
+  int rayon,rayon2,tmp_rayon, variation;
   float rayon_orig;
   float delta, rayonDeg;
   int un, op, grsrc, grdst,ier; 
@@ -60,6 +60,8 @@ void DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThicknes
   float *tmpVals, *lats, *lons;
   float rmin, rmax, tmplat,tmpuu,tmpvv;
   int longueurFleche = WindMgrGetLongueur();
+  int largeurFleche;
+  int epaisseur, longueur, densite;
 
   _Champ *champRef, *tmpchamp;
   float uvmin, uvmax;
@@ -307,6 +309,12 @@ void DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThicknes
         break;
         
         case VECTEUR:
+             variation = WindMgrGetCroissance();
+              densite = WindMgrGetDensite();
+              longueur = WindMgrGetLongueur();
+              epaisseur = WindMgrGetEpaisseur();
+              displayMode = WindMgrGetDisplayMode();
+              
               grdst = c_ezgetgdout();
               vitesse = sqrt(champ->uu[i]*champ->uu[i] + champ->vv[i]*champ->vv[i]);
               if (vitesse != 0.0)
@@ -332,15 +340,25 @@ void DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThicknes
               if (direction > 360.0)
                 direction -= 360.0;
               
-              displayMode = WindMgrGetDisplayMode();
               if (displayMode == 0)
                 {
                 PointerVent(x1, y1, direction, vitesse, longueurFleche);
                 }
               else
                 {
-                PointerFleche(x1, y1, direction, vitesse, (int)(vitesse/uvmax*longueurFleche), 1);
+                temp = vitesse;
+                enhancefracs(&temp,1,0.0,uvmax,variation);
+                largeurFleche  = ROUND(1.0*epaisseur*temp);
+                longueurFleche = ROUND((float)longueur*temp);
+                longueurFleche = longueurFleche < 1 ? 1 : longueurFleche;
+                PointerFleche(x1, y1, direction, temp, longueurFleche, largeurFleche);
+/*                tmp_rayon = (int)(vitesse/uvmax*longueurFleche);
+                if (tmp_rayon == 0) tmp_rayon = 1;
+                PointerFleche(x1, y1, direction, vitesse, tmp_rayon, 1);*/
                 }
+
+            if (0 != WindMgrGetDisplayMode()) AfficherLegendeVent(uvmax,10,10,0);
+
 /*                  temp = vit;
                   enhancefracs(&temp,1,0.0,vm,variation);
                   largeurFleche  = ROUND(1.0*epaisseur*temp);

@@ -14,10 +14,10 @@ FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
 
 CFLAGS = -I/opt/include -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -DX_WGL
 
-OPTIMIZ = -O 2
 #OPTIMIZ = -debug -O 0 -optc =-qinfo=all
 #OPTIMIZ = -debug -O 0  -optc=-Wall
 OPTIMIZ = -debug -O 0  
+OPTIMIZ = -O 2
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 

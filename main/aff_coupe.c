@@ -875,7 +875,7 @@ void AfficherTopo()
     c_wglsetw(fenetreCoupe);
          
     c_wglgetcolrange(&indmin, &indmax);
-    c_wglcol(GRIS);
+    c_wglcol(xc.attributs[TOPOG].indCouleurFore);
     
     if (c_wglgdbg())
        {

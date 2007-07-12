@@ -123,8 +123,9 @@
 #define ANIMATION  0
 #define SIMPLE     1
 
-#define FOND       32
-#define GRID       33
+#define FOND        32
+#define GRID        33
+#define TOPOG       34
 
 #define OFFSET_FORE_CHAMP1  0
 #define OFFSET_BACK_CHAMP1  1
@@ -138,6 +139,7 @@
 #define OFFSET_BACK_FOND    9
 #define OFFSET_GRILLE       10
 #define OFFSET_GEO          11
+#define OFFSET_TOPOGRAPHIE  12
 
 #define LINEAIRE 1
 #define LOG      2
@@ -458,7 +460,7 @@ typedef struct
   int carteLue;
   int annulationDemandee;
    int iun;
-  _Attributs attributs[36];
+  _Attributs attributs[37];
   Widget topLevel;
   Widget panneauContour;
   Widget formeAff, formeZoom, formeSup, formeAnim, formeCoupe;

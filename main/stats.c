@@ -477,13 +477,13 @@ void MettreAJourZoomStats(void)
    {
    int i;
    int ix1, iy1, ix2, iy2;
+   int un =  1;
 
    float x0, y0, x1, y1;
    int fenetreAffichage;
    _Champ *champ;
    float *uv;
    int npts;
-
 
    GetFenetreAffichageID(&fenetreAffichage);
    c_wglsetw(fenetreAffichage);
@@ -494,70 +494,110 @@ void MettreAJourZoomStats(void)
    iy1 = (int) y0;
    ix2 = (int) x1;
    iy2 = (int) y1;
+
    
-   for (i=0; i < FldMgrGetNbChampsActifs(); i++)
-      {
-      FldMgrGetChamp(&champ, i);
+  for (i=0; i < FldMgrGetNbChampsActifs(); i++)
+    { 
+    FldMgrGetChamp(&champ, i);
     champ->stats_zoom.couverture = ZOOM_GRID;
     champ->stats_zoom.iz1 = ix1;
     champ->stats_zoom.jz1 = iy1;
     champ->stats_zoom.iz2 = ix2;
     champ->stats_zoom.jz2 = iy2;
+    switch (champ->domaine)
+      {
+      case VALEURS_PONCTUELLES:
+      ix1 = un;
+      ix2 = champ->src.ni;
+      iy1 = un;
+      iy2 = un;
       if (champ->stats_zoom.to_be_updated == 1)
         {
-        if (champ->natureTensorielle == SCALAIRE)
+        switch (champ->natureTensorielle)
           {
-          if (champ->missingFlag)
-            {
-            sminmax_missing_ij(&(champ->stats_zoom.min), &(champ->stats_zoom.max), &(champ->stats_zoom.imin), &(champ->stats_zoom.jmin), 
-                    &(champ->stats_zoom.imax), &(champ->stats_zoom.jmax), champ->fld, champ->dst.missing, champ->dst.ni, champ->dst.nj, ix1, iy1, ix2, iy2);
-            smeanvar_missing(&(champ->stats_zoom.mean), &(champ->stats_zoom.stddev),  champ->fld, champ->dst.missing, &champ->stats_zoom.npts_active, &champ->stats_zoom.npts_total, champ->dst.ni, champ->dst.nj, ix1, iy1, ix2, iy2);
-            }
-          else
-            {
-            f77name(sminmax_ij)(&(champ->stats_zoom.min), &(champ->stats_zoom.max), &(champ->stats_zoom.imin), &(champ->stats_zoom.jmin), 
-              &(champ->stats_zoom.imax), &(champ->stats_zoom.jmax), champ->fld, &(champ->dst.ni), &(champ->dst.nj), &ix1, &iy1, &ix2, &iy2);
-          f77name(smeanvar)(&(champ->stats_zoom.mean), &(champ->stats_zoom.stddev),  champ->fld, &(champ->dst.ni), &(champ->dst.nj), &ix1, &iy1, &ix2, &iy2);
-            }
-          }
-        else
-          {
+          case SCALAIRE:
+          f77name(sminmax_ij)(&(champ->stats_src.min), &(champ->stats_src.max), &(champ->stats_src.imin), &(champ->stats_src.jmin),
+                 &(champ->stats_src.imax), &(champ->stats_src.jmax), champ->fld, &(champ->src.ni), &(champ->src.nj), &un, &un, &(champ->src.ni), &(champ->src.nj));
+          f77name(smeanvar)(&(champ->stats_src.mean), &(champ->stats_src.stddev),  champ->fld, &(champ->src.ni), &(champ->src.nj), &un, &un, &(champ->src.ni), &(champ->src.nj));
+          break;
+
+          case VECTEUR:
           npts = champ->dst.ni*champ->dst.nj;
           uv = (float *)malloc(sizeof(float)*npts);
-          if (champ->missingFlag)
+          f77name(modulus)(uv, champ->uu, champ->vv, &npts);
+          f77name(sminmax_ij)(&(champ->stats_src.uumin), &(champ->stats_src.uumax), &(champ->stats_src.iuumin), &(champ->stats_src.juumin),
+            &(champ->stats_src.iuumax), &(champ->stats_src.juumax), champ->uu, &(champ->src.ni), &(champ->src.nj), &un, &un, &champ->src.ni, &champ->src.nj);
+          f77name(sminmax_ij)(&(champ->stats_src.vvmin), &(champ->stats_src.vvmax), &(champ->stats_src.ivvmin), &(champ->stats_src.jvvmin),
+            &(champ->stats_src.ivvmax), &(champ->stats_src.jvvmax), champ->vv, &(champ->src.ni), &(champ->src.nj), &un, &un, &champ->src.ni, &champ->src.nj);
+          f77name(vsminmax_ij)(&(champ->stats_src.uvmin), &(champ->stats_src.uvmax), &(champ->stats_src.iuvmin), &(champ->stats_src.juvmin),
+            &(champ->stats_src.iuvmax), &(champ->stats_src.juvmax), champ->uu, champ->vv,  &(champ->src.ni), &(champ->src.nj), &un, &un, &champ->src.ni, &champ->src.nj);
+          f77name(smeanvar)(&(champ->stats_src.uumean), &(champ->stats_src.uustddev),  champ->uu, &(champ->src.ni), &(champ->src.nj), &un, &un, &(champ->src.ni), &(champ->src.nj));
+          f77name(smeanvar)(&(champ->stats_src.vvmean), &(champ->stats_src.vvstddev),  champ->vv, &(champ->src.ni), &(champ->src.nj), &un, &un, &(champ->src.ni), &(champ->src.nj));
+          f77name(smeanvar)(&(champ->stats_src.uvmean), &(champ->stats_src.uvstddev),  uv, &(champ->src.ni), &(champ->src.nj), &un, &un, &(champ->src.ni), &(champ->src.nj));
+          free(uv);
+          break;
+          }
+        }
+    break;
+
+    default:
+        if (champ->stats_zoom.to_be_updated == 1)
+          {
+          if (champ->natureTensorielle == SCALAIRE)
             {
-            champ->stats_zoom.npts_total = champ->dst.ni*champ->dst.nj;
-            sminmax_missing_ij(&(champ->stats_zoom.uumin), &(champ->stats_zoom.uumax), &(champ->stats_zoom.iuumin), &(champ->stats_zoom.juumin), 
-                    &(champ->stats_zoom.iuumax), &(champ->stats_zoom.juumax), champ->uu, champ->dst.missing, champ->dst.ni, champ->dst.nj, ix1, iy1, ix2, iy2);
-            smeanvar_missing(&(champ->stats_zoom.uumean), &(champ->stats_zoom.uustddev),  champ->uu, champ->dst.missing, &champ->stats_dst.npts_active, &champ->stats_dst.npts_total, champ->dst.ni, champ->dst.nj, ix1, iy1, ix2, iy2);
-            
-            sminmax_missing_ij(&(champ->stats_zoom.vvmin), &(champ->stats_zoom.vvmax), &(champ->stats_zoom.ivvmin), &(champ->stats_zoom.jvvmin), 
-                    &(champ->stats_zoom.ivvmax), &(champ->stats_zoom.jvvmax), champ->vv, champ->dst.missing, champ->dst.ni, champ->dst.nj, ix1, iy1, ix2, iy2);
-            smeanvar_missing(&(champ->stats_zoom.vvmean), &(champ->stats_zoom.vvstddev),  champ->vv, champ->dst.missing, &champ->stats_dst.npts_active, &champ->stats_dst.npts_total, champ->dst.ni, champ->dst.nj,ix1, iy1, ix2, iy2);
-            
-            sminmax_missing_ij(&(champ->stats_zoom.uvmin), &(champ->stats_zoom.uvmax), &(champ->stats_zoom.iuvmin), &(champ->stats_zoom.juvmin), 
-                    &(champ->stats_zoom.iuvmax), &(champ->stats_zoom.juvmax), uv, champ->dst.missing, champ->dst.ni, champ->dst.nj, ix1, iy1, ix2, iy2);
-            smeanvar_missing(&(champ->stats_zoom.uvmean), &(champ->stats_zoom.uvstddev),  uv, champ->dst.missing, &champ->stats_dst.npts_active, &champ->stats_dst.npts_total, champ->dst.ni, champ->dst.nj, ix1, iy1, ix2, iy2);
+            if (champ->missingFlag)
+              {
+              sminmax_missing_ij(&(champ->stats_zoom.min), &(champ->stats_zoom.max), &(champ->stats_zoom.imin), &(champ->stats_zoom.jmin),
+                      &(champ->stats_zoom.imax), &(champ->stats_zoom.jmax), champ->fld, champ->dst.missing, champ->dst.ni, champ->dst.nj, ix1, iy1, ix2, iy2);
+              smeanvar_missing(&(champ->stats_zoom.mean), &(champ->stats_zoom.stddev),  champ->fld, champ->dst.missing, &champ->stats_zoom.npts_active, &champ->stats_zoom.npts_total, champ->dst.ni, champ->dst.nj, ix1, iy1, ix2, iy2);
+              }
+            else
+              {
+              f77name(sminmax_ij)(&(champ->stats_zoom.min), &(champ->stats_zoom.max), &(champ->stats_zoom.imin), &(champ->stats_zoom.jmin),
+                &(champ->stats_zoom.imax), &(champ->stats_zoom.jmax), champ->fld, &(champ->dst.ni), &(champ->dst.nj), &ix1, &iy1, &ix2, &iy2);
+            f77name(smeanvar)(&(champ->stats_zoom.mean), &(champ->stats_zoom.stddev),  champ->fld, &(champ->dst.ni), &(champ->dst.nj), &ix1, &iy1, &ix2, &iy2);
+              }
             }
           else
             {
-          f77name(modulus)(uv, champ->uu, champ->vv, &npts);
-            f77name(sminmax_ij)(&(champ->stats_zoom.uumin), &(champ->stats_zoom.uumax), &(champ->stats_zoom.iuumin), &(champ->stats_zoom.juumin), 
-              &(champ->stats_zoom.iuumax), &(champ->stats_zoom.juumax), champ->uu, &(champ->dst.ni), &(champ->dst.nj), &ix1, &iy1, &ix2, &iy2);
-            f77name(sminmax_ij)(&(champ->stats_zoom.vvmin), &(champ->stats_zoom.vvmax), &(champ->stats_zoom.ivvmin), &(champ->stats_zoom.jvvmin), 
-              &(champ->stats_zoom.ivvmax), &(champ->stats_zoom.jvvmax), champ->vv, &(champ->dst.ni), &(champ->dst.nj), &ix1, &iy1, &ix2, &iy2);
-            f77name(vsminmax_ij)(&(champ->stats_zoom.uvmin), &(champ->stats_zoom.uvmax), &(champ->stats_zoom.iuvmin), &(champ->stats_zoom.juvmin), 
-              &(champ->stats_zoom.iuvmax), &(champ->stats_zoom.juvmax), champ->uu, champ->vv,  &(champ->dst.ni), &(champ->dst.nj), &ix1, &iy1, &ix2, &iy2);              
-          f77name(smeanvar)(&(champ->stats_zoom.uumean), &(champ->stats_zoom.uustddev),  champ->uu, &(champ->dst.ni), &(champ->dst.nj), &ix1, &iy1, &ix2, &iy2);
-          f77name(smeanvar)(&(champ->stats_zoom.vvmean), &(champ->stats_zoom.vvstddev),  champ->vv, &(champ->dst.ni), &(champ->dst.nj), &ix1, &iy1, &ix2, &iy2);
-          f77name(smeanvar)(&(champ->stats_zoom.uvmean), &(champ->stats_zoom.uvstddev),  uv, &(champ->dst.ni), &(champ->dst.nj), &ix1, &iy1, &ix2, &iy2);
-            free(uv);
-            }
-           }  
-        champ->stats_zoom.to_be_updated = 0; 
+            npts = champ->dst.ni*champ->dst.nj;
+            uv = (float *)malloc(sizeof(float)*npts);
+            if (champ->missingFlag)
+              {
+              champ->stats_zoom.npts_total = champ->dst.ni*champ->dst.nj;
+              sminmax_missing_ij(&(champ->stats_zoom.uumin), &(champ->stats_zoom.uumax), &(champ->stats_zoom.iuumin), &(champ->stats_zoom.juumin),
+                      &(champ->stats_zoom.iuumax), &(champ->stats_zoom.juumax), champ->uu, champ->dst.missing, champ->dst.ni, champ->dst.nj, ix1, iy1, ix2, iy2);
+              smeanvar_missing(&(champ->stats_zoom.uumean), &(champ->stats_zoom.uustddev),  champ->uu, champ->dst.missing, &champ->stats_dst.npts_active, &champ->stats_dst.npts_total, champ->dst.ni, champ->dst.nj, ix1, iy1, ix2, iy2);
+
+              sminmax_missing_ij(&(champ->stats_zoom.vvmin), &(champ->stats_zoom.vvmax), &(champ->stats_zoom.ivvmin), &(champ->stats_zoom.jvvmin),
+                      &(champ->stats_zoom.ivvmax), &(champ->stats_zoom.jvvmax), champ->vv, champ->dst.missing, champ->dst.ni, champ->dst.nj, ix1, iy1, ix2, iy2);
+              smeanvar_missing(&(champ->stats_zoom.vvmean), &(champ->stats_zoom.vvstddev),  champ->vv, champ->dst.missing, &champ->stats_dst.npts_active, &champ->stats_dst.npts_total, champ->dst.ni, champ->dst.nj,ix1, iy1, ix2, iy2);
+
+              sminmax_missing_ij(&(champ->stats_zoom.uvmin), &(champ->stats_zoom.uvmax), &(champ->stats_zoom.iuvmin), &(champ->stats_zoom.juvmin),
+                      &(champ->stats_zoom.iuvmax), &(champ->stats_zoom.juvmax), uv, champ->dst.missing, champ->dst.ni, champ->dst.nj, ix1, iy1, ix2, iy2);
+              smeanvar_missing(&(champ->stats_zoom.uvmean), &(champ->stats_zoom.uvstddev),  uv, champ->dst.missing, &champ->stats_dst.npts_active, &champ->stats_dst.npts_total, champ->dst.ni, champ->dst.nj, ix1, iy1, ix2, iy2);
+              }
+            else
+              {
+            f77name(modulus)(uv, champ->uu, champ->vv, &npts);
+              f77name(sminmax_ij)(&(champ->stats_zoom.uumin), &(champ->stats_zoom.uumax), &(champ->stats_zoom.iuumin), &(champ->stats_zoom.juumin),
+                &(champ->stats_zoom.iuumax), &(champ->stats_zoom.juumax), champ->uu, &(champ->dst.ni), &(champ->dst.nj), &ix1, &iy1, &ix2, &iy2);
+              f77name(sminmax_ij)(&(champ->stats_zoom.vvmin), &(champ->stats_zoom.vvmax), &(champ->stats_zoom.ivvmin), &(champ->stats_zoom.jvvmin),
+                &(champ->stats_zoom.ivvmax), &(champ->stats_zoom.jvvmax), champ->vv, &(champ->dst.ni), &(champ->dst.nj), &ix1, &iy1, &ix2, &iy2);
+              f77name(vsminmax_ij)(&(champ->stats_zoom.uvmin), &(champ->stats_zoom.uvmax), &(champ->stats_zoom.iuvmin), &(champ->stats_zoom.juvmin),
+                &(champ->stats_zoom.iuvmax), &(champ->stats_zoom.juvmax), champ->uu, champ->vv,  &(champ->dst.ni), &(champ->dst.nj), &ix1, &iy1, &ix2, &iy2);
+            f77name(smeanvar)(&(champ->stats_zoom.uumean), &(champ->stats_zoom.uustddev),  champ->uu, &(champ->dst.ni), &(champ->dst.nj), &ix1, &iy1, &ix2, &iy2);
+            f77name(smeanvar)(&(champ->stats_zoom.vvmean), &(champ->stats_zoom.vvstddev),  champ->vv, &(champ->dst.ni), &(champ->dst.nj), &ix1, &iy1, &ix2, &iy2);
+            f77name(smeanvar)(&(champ->stats_zoom.uvmean), &(champ->stats_zoom.uvstddev),  uv, &(champ->dst.ni), &(champ->dst.nj), &ix1, &iy1, &ix2, &iy2);
+              free(uv);
+              }
+             }
+          champ->stats_zoom.to_be_updated = 0;
+          }
         }
-      }
-  }
+    break;
+    }
+   }
 
 void sminmax_missing_ij(float *rmin, float *rmax, int *imin, int *jmin, int *imax, int *jmax, float *fld, unsigned int *mask,
                          int ni, int nj, int idebut, int jdebut, int ifin, int jfin)
