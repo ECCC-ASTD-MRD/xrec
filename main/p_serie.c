@@ -133,7 +133,7 @@ void InitPanneauSerie()
    XmString label;
    char nomShell[128];
  
-   static char *nomPanneauSerie[] = {"PanneauSerie", "XSectionPanel"};
+   static char *nomPanneauSerie[] = {"PanneauSerie", "TimeSeriesPanel"};
    static char *labelOk[] = {"Fermer", "Close"};
    static char *labelAfficher[] = {"Redessiner", "Redraw"};
 
@@ -142,9 +142,9 @@ void InitPanneauSerie()
    static char *labelStop[] = {"Stop", "Stop"};
    static char *labelScanIncrement[] = {"Increment (%)", "Increment (%)"};
 
-   static char *labelNouvelleSerie[] = {"Nouveau\nprofil/Serie", "New profile\nor Xsection"};
-   static char *labelScanProfilSerie[] = {"Scan\nprofil", "Scan\nprofile"};
-   static char *labelScanSerie[] = {"Scan\nSerie", "Scan\nXsection"};
+   static char *labelNouvelleSerie[] = {"Nouveau\nprofil temporel\nou diagramme Hovmoller", "New time series\nor Hovmoller Diagram"};
+   static char *labelScanProfilSerie[] = {"Scan\nprofil\ntemporel", "Scan\nTime\nSeries"};
+   static char *labelScanSerie[] = {"Scan\nDiagramme\nHovmoller", "Scan\nHovmoller\nDiagram"};
 
    int lng;
    

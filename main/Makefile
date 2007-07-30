@@ -18,8 +18,8 @@ FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL -O2
 CFLAGS = -I/opt/xm/include -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -I$(HOME)/src/images/gd2/ -DX_WGL
 
 #OPTIMIZ = -O 3 -optc =-Wall
-OPTIMIZ = -O 2
 OPTIMIZ = -O 0 -debug
+OPTIMIZ = -O 2
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 

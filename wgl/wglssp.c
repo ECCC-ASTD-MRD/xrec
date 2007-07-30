@@ -82,23 +82,31 @@ void c_wglssp(float xdebut, float ydebut, float xfin, float yfin, int idebut, in
     usSpace.jfin = h - 1;
     }
   
-  usSpace.densiteX = (float)(usSpace.ifin - usSpace.idebut) / (usSpace.xfin - usSpace.xdebut);
-  usSpace.densiteY = (float)(usSpace.jfin - usSpace.jdebut) / (usSpace.yfin - usSpace.ydebut);
+  if (usSpace.xfin == usSpace.xdebut)
+    {
+    usSpace.densiteX = 1.0*(usSpace.ifin);
+    usSpace.densiteY = 1.0*(usSpace.jfin);
+    }
+  else
+    {
+    usSpace.densiteX = (float)(usSpace.ifin - usSpace.idebut) / (usSpace.xfin - usSpace.xdebut);
+    usSpace.densiteY = (float)(usSpace.jfin - usSpace.jdebut) / (usSpace.yfin - usSpace.ydebut);
+    }
   
   if (wglForceAspect)
     {
-      if (usSpace.densiteX < usSpace.densiteY)
-	{
-	usSpace.densiteY = usSpace.densiteX;
-	}
-      else
-	{
-	usSpace.densiteX = usSpace.densiteY;
-	}
-      
-      if (usSpace.ifin == (w - 1) && (usSpace.jfin == (h - 1)))
-	c_wglxai(&usSpace.ifin, &usSpace.jfin, xfin, yfin);
-    }
+    if (usSpace.densiteX < usSpace.densiteY)
+     {
+     usSpace.densiteY = usSpace.densiteX;
+     }
+    else
+     {
+     usSpace.densiteX = usSpace.densiteY;
+     }
+
+    if (usSpace.ifin == (w - 1) && (usSpace.jfin == (h - 1)))
+      c_wglxai(&usSpace.ifin, &usSpace.jfin, xfin, yfin);
+  }
   
 }
 

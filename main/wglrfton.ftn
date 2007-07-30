@@ -131,9 +131,9 @@
          call wglcalcols(tmpind, tmpfld, rowl,
      2                   cmin, delta, interv, nbinterv, facteur,ncol)
 
-         oldindc = tmpind(1)
-         iptp = tmppos(1)
-         x1 = tmppos(1) - 0.5/lissfac
+         oldindc = tmpind(ideb)
+         iptp = tmppos(ideb)
+         x1 = tmppos(ideb) - 0.5/lissfac
          y1 = y1 - 0.5/lissfac
          y2 = y1 + 1.0/lissfac
          

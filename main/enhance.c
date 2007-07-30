@@ -29,74 +29,79 @@ void enhancefracs(float *vals, int nbVals, float min, float delta, int variation
    int i;
    float fraction;
 
+   if (delta == 0.0)
+    {
+    return;
+    }
+   
 
    switch (variation)
       {
       case LINEAIRE:
       for (i=0; i < nbVals; i++)
-	 {
-	 vals[i] = (vals[i]-min)/delta;
-	 }
+        {
+        vals[i] = (vals[i]-min)/delta;
+        }
       break;
       
       case QUADRATIQUE:
       for (i=0; i < nbVals; i++)
-	 {
-	 fraction = (vals[i]-min)/delta;
-	 vals[i] = fraction*fraction;
-	 }
+        {
+        fraction = (vals[i]-min)/delta;
+        vals[i] = fraction*fraction;
+        }
       break;
       
       case CUBIQUE:
       for (i=0; i < nbVals; i++)
-	 {
-	 fraction = (vals[i]-min)/delta;
-	 vals[i] = fraction*fraction*fraction;
-	 }
+        {
+        fraction = (vals[i]-min)/delta;
+        vals[i] = fraction*fraction*fraction;
+        }
       break;
       
       case RACINE_CARREE:
       for (i=0; i < nbVals; i++)
-	 {
-	 fraction = (vals[i]-min)/delta;
-	 fraction = fraction < 0.0 ? 0.0 : (fraction > 1.0 ? 1.0 : fraction);
-	 vals[i] = sqrt(fraction);
-	 }
+        {
+        fraction = (vals[i]-min)/delta;
+        fraction = fraction < 0.0 ? 0.0 : (fraction > 1.0 ? 1.0 : fraction);
+        vals[i] = sqrt(fraction);
+        }
       break;
       
       case RACINE_CUBIQUE:
       for (i=0; i < nbVals; i++)
-	 {
-	 fraction = (vals[i]-min)/delta;
-	 fraction = fraction < 0.0 ? 0.0 : (fraction > 1.0 ? 1.0 : fraction);
-	 vals[i] = pow(fraction,0.3333);
-	 }
+        {
+        fraction = (vals[i]-min)/delta;
+        fraction = fraction < 0.0 ? 0.0 : (fraction > 1.0 ? 1.0 : fraction);
+        vals[i] = pow(fraction,0.3333);
+        }
       break;
 
       case EXTREMUM:
       for (i=0; i < nbVals; i++)
-	 {
-	 fraction = (vals[i]-min)/delta;
-	 fraction = fraction < 0.0 ? 0.0 : (fraction > 1.0 ? 1.0 : fraction);
-	 fraction -= 0.5;
-	 vals[i] = 0.5 + 4.0 * (pow(fraction,3.0));
-	 }
+        {
+        fraction = (vals[i]-min)/delta;
+        fraction = fraction < 0.0 ? 0.0 : (fraction > 1.0 ? 1.0 : fraction);
+        fraction -= 0.5;
+        vals[i] = 0.5 + 4.0 * (pow(fraction,3.0));
+        }
       break;
 
       case MOYENNE:
       for (i=0; i < nbVals; i++)
-	 {
-	 fraction = (vals[i]-min)/delta;
-	 fraction = fraction < 0.0 ? 0.0 : (fraction > 1.0 ? 1.0 : fraction);
-	 fraction -= 0.5;
-	 vals[i] =pow(fabs(fraction),0.33);
-	 if (fraction < 0.0)
-	    {
-	    vals[i] = -vals[i];
-	    }
-	 
-	 vals[i] = 0.625*(0.8+vals[i]);
-	 }
+        {
+        fraction = (vals[i]-min)/delta;
+        fraction = fraction < 0.0 ? 0.0 : (fraction > 1.0 ? 1.0 : fraction);
+        fraction -= 0.5;
+        vals[i] =pow(fabs(fraction),0.33);
+        if (fraction < 0.0)
+           {
+           vals[i] = -vals[i];
+           }
+        
+        vals[i] = 0.625*(0.8+vals[i]);
+        }
       break;
 
       }
