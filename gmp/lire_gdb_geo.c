@@ -263,16 +263,16 @@ lire_gdb_geo()
           break;
 
         case PAYS:
+            gdb_line(pixperdegree,GDB_LIN_POLIT,get_coastline);
           if (pixperdegree >= 16)
             {
-            gdb_line(pixperdegree,GDB_LIN_POLIT,get_coastline);
-            } 
+            }
           break;
 
         case PROVINCES:
+            gdb_line(pixperdegree,GDB_LIN_ADMIN,get_coastline);
           if (pixperdegree >= 16)
             {
-            gdb_line(pixperdegree,GDB_LIN_ADMIN,get_coastline);
             }
           break;
 
@@ -285,9 +285,9 @@ lire_gdb_geo()
           break;
 
         case LACS:
+            gdb_line(pixperdegree,GDB_LIN_LAKE,get_coastline);
           if (pixperdegree >= 16)
             {
-            gdb_line(pixperdegree,GDB_LIN_LAKE,get_coastline);
             }
           break;
 

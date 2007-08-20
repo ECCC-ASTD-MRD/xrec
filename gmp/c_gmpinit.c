@@ -85,11 +85,14 @@ int c_gmpinit()
   mapFlags.etat[LATLON] = OUI;
   mapFlags.etat[PAYS] = OUI;
   mapFlags.etat[PROVINCES] = OUI;
-  mapFlags.etat[RIVIERES] = NON;
+  mapFlags.etat[LACS] = OUI;
+  
   mapFlags.lu[CONTINENTS] = NON;
   mapFlags.lu[LATLON] = NON;
+  mapFlags.lu[RIVIERES] = NON;
   mapFlags.typeValide = NON;
   mapFlags.clipNecessaire = OUI;
+  
   mapFlags.verifStatutNecessaire = OUI;
   
   for (i=0; i < NMAP_FLAGS; i++)
