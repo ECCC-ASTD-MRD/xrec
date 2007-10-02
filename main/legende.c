@@ -18,13 +18,12 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl.h>
 #include <rpnmacros.h>
-#include <gmp.h>
 #include <rec.h>
 #include <rec_functions.h>
+#include <wgl.h>
 #include <math.h>
-#include <rpnmacros.h>
+#include <string.h>
 
 extern float c_wglhsx();
 extern float c_wgldsx();
@@ -1453,7 +1452,7 @@ void CombinerLegendeDiffChamps(char texte[], _Champ *champ1, _Champ *champ2)
    static char *Mois[] = {"bid", "Jan", "Fev", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sep", "Oct", "Nov", "Dec"};
    static char *Month[] = {"bid", "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
    
-   char dateMess1[24],dateMess2[24];
+   char pdfdatev1[16], pdfdatev2[16],dateMess1[24],dateMess2[24];
    char **leMois;
    char mo[4];
    
@@ -1503,17 +1502,11 @@ void CombinerLegendeDiffChamps(char texte[], _Champ *champ1, _Champ *champ2)
       sprintf(buffer, "[%3d-%3d]*", champ1->ip3, champ2->ip3);
    strcat(texte,buffer);
    
-   mo[3] = '\0';
-   mo[4] = '\0';
-   strncpy(mo,champ2->mois,3);
-   sprintf(dateMess2, "V%s:%sZ %s%s%s", 
-     champ2->heureInit,champ2->minute,champ2->jour,mo,champ2->annee);
-   
-   mo[3] = '\0';
-   mo[4] = '\0';
-   strncpy(mo,champ1->mois,3);
-   sprintf(dateMess1, "V%s:%sZ %s%s%2s", 
-     champ1->heureInit,champ1->minute,champ1->jour,mo,champ1->annee);
+  FldMgrCalcPDFDatev(pdfdatev2,&(champ2->datev),champ2->dateo,champ2->deet,champ2->npas,champ2->ip2);
+  sprintf(dateMess2, "V%s", pdfdatev2);
+  
+  FldMgrCalcPDFDatev(pdfdatev1,&(champ1->datev),champ1->dateo,champ1->deet,champ1->npas,champ1->ip2);
+  sprintf(dateMess1, "V%s", pdfdatev1);
    
    if (0 == strcmp(dateMess2,dateMess1))
       sprintf(buffer, "%s*", dateMess1);

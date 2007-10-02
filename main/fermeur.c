@@ -40,7 +40,6 @@
 #include <rpnmacros.h>
 #include <stdlib.h>
 #include <xinit.h>
-#include <gmp.h>
 #include <rec.h>
 #include <rec_functions.h>
 

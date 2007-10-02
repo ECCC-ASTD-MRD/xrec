@@ -272,7 +272,7 @@ c     ****************************************************************
       xfslact97 = xselact(slkeys, nslkeys, winind)
 
       do 200 i=1, nslkeys
-!         print *, 'selecteur', i, slkeys(i)
+          print *, 'selecteur', i, slkeys(i)
          slkeys(i) = liste(slkeys(i))
  200  continue
       

@@ -22,7 +22,6 @@
 #include <math.h>
 #include <wgl.h>
 #include <rpnmacros.h>
-#include <gmp.h>
 #include <rec.h>
 #include <rec_functions.h>
 #include <rpnmacros.h>

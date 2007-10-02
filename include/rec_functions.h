@@ -1,3 +1,5 @@
+#include <gmp.h>
+
 int  AllouerImages();
 int  FldMgrVerConsistanceNiveauxChamps(int *indiceFautif);
 void  f77name(xconup)();

@@ -24,7 +24,6 @@
 #include <service_f.xbm>
 #include <service_e.xbm>
 #include <stdio.h>
-#include <gmp.h>
 #include <rec_version.h>
 #include <rec.h>
 #include <rec_functions.h>
