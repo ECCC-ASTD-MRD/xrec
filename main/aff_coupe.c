@@ -931,52 +931,52 @@ void AfficherTopo()
 
 
 void ManipulerEtAfficherCoupeVerticale(int indChamp)
-{
-   int op,nbChampsActifs,npts;
-   float *tmpfld,*valeurs,*fld,*uu,*vv,*uut,*uun,*ww,*uvw;
-   _Champ *champ,*champ1, *champ2;
-   int customFld;
+  {
+  int op,nbChampsActifs,npts;
+  float *tmpfld,*valeurs,*fld,*uu,*vv,*uut,*uun,*ww,*uvw;
+  _Champ *champ,*champ1, *champ2;
+  int customFld;
    
-   customFld = False;
-   FldMgrGetChamp(&champ, indChamp);
-   fld = champ->coupe.fld2d;
-   uu      = champ->coupe.uu2d;
-   vv      = champ->coupe.vv2d;
-   ww      = champ->coupe.ww2d;
+  customFld = False;
+  FldMgrGetChamp(&champ, indChamp);
+  fld = champ->coupe.fld2d;
+  uu      = champ->coupe.uu2d;
+  vv      = champ->coupe.vv2d;
+  ww      = champ->coupe.ww2d;
 
-   uut     = champ->coupe.uvwtang2d;
-   uun     = champ->coupe.uvwnorm2d;
-   uvw     = champ->coupe.uvw2d;
+  uut     = champ->coupe.uvwtang2d;
+  uun     = champ->coupe.uvwnorm2d;
+  uvw     = champ->coupe.uvw2d;
    
-   op = CtrlMgrGetMathOp();
-   nbChampsActifs = FldMgrGetNbChampsActifs();
-   valeurs = fld;
-   if (0 == (nbChampsActifs %2) && op != NO_OP)
+  op = CtrlMgrGetMathOp();
+  nbChampsActifs = FldMgrGetNbChampsActifs();
+  valeurs = fld;
+  if (0 == (nbChampsActifs %2) && op != NO_OP)
+    {
+    if (0 != indChamp%2)
       {
-      if (0 != indChamp%2)
-        {
-        return;
-        }
-      
-      champ1 = champ;
-      FldMgrGetChamp(&champ2,indChamp+1);
-      
-      customFld = True;
-      npts = (*champ).coupe.niCoupe*(*champ).coupe.njCoupe;
-      tmpfld = (float *)calloc(npts,  sizeof(float));
-      valeurs = tmpfld;
-      
-      DiffMgrCalcDiffs(tmpfld,(*champ1).coupe.fld2d,(*champ2).coupe.fld2d,npts,op);
+      return;
       }
+    
+    champ1 = champ;
+    FldMgrGetChamp(&champ2,indChamp+1);
+    
+    customFld = True;
+    npts = (*champ).coupe.niCoupe*(*champ).coupe.njCoupe;
+    tmpfld = (float *)calloc(npts,  sizeof(float));
+    valeurs = tmpfld;
+    
+    DiffMgrCalcDiffs(tmpfld,(*champ1).coupe.fld2d,(*champ2).coupe.fld2d,npts,op);
+    }
    
-   AfficherCoupe(indChamp,valeurs,uu,vv,ww,uut,uun,uvw);
+   AfficherCoupe(indChamp,valeurs,uu,vv,uut,uun,ww, uvw);
    /*   AfficherCoupe(indChamp,fld,uut,uun,ww,uvw);*/
 
-   if (customFld)
-      {
-      free(tmpfld);
-      }
-   }
+  if (customFld)
+     {
+     free(tmpfld);
+     }
+  }
 /**
 ****
 ****

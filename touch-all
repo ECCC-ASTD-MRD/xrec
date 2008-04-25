@@ -1,5 +1,6 @@
 #!/bin/sh -x
-for dir in autog gd_wgl gmp include main select selfic util wgl x_wgl xdash xinit xplot88 xvoir 
+
+for dir in autog gd_wgl gdb gmp include lic main select png selfic wgl x_wgl xdash xinit xplot88 
 do
     cd $dir
     touch *.ftn *.c

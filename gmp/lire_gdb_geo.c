@@ -43,14 +43,38 @@ get_cityname(int type, float lat, float lon, char *name)
   char *tmp;
   
   int res;
-  int npts,i, j, nbSeg, gdid;
+  int npts,i, j, n,nbSeg, gdid, ok;
   float rx, ry; 
   float latMin, latMax, lonMin, lonMax;
   int oldNbItems = 0;
   int len;
+  char *big_only = NULL;
 
+
+  big_only = (char *) getenv("GDB_CITY_SIZE");
   len = strlen(name);
   if (len == 0) return;
+    
+  if (big_only != NULL)
+    {
+    if (0 == strcmp(big_only, "BIG"))
+      {
+      i = 0;
+      ok = 1;
+      while (ok == 1 && i < len)
+        {
+        if (isupper(name[i]) || ispunct(name[i]))
+          {
+          i++;
+          }
+        else
+          {
+          ok = 0;
+          }
+        }
+      if (!ok) return;
+      }
+    }
    
   NewTextItem(&gmp_cities,&gmp_nbCities);
   i = gmp_nbCities -1;
@@ -64,8 +88,23 @@ get_cityname(int type, float lat, float lon, char *name)
     strcpy(gmp_cities[i].text, name);
     }
 
+  for (n=1; n < strlen(gmp_cities[i].text); n++)
+    {
+    gmp_cities[i].text[n] = tolower(gmp_cities[i].text[n]);
+    }
+  for (n=1; n < strlen(gmp_cities[i].text); n++)
+    {
+    if (ispunct(gmp_cities[i].text[n-1]))
+      {
+      gmp_cities[i].text[n] = toupper(gmp_cities[i].text[n]);
+      }
+    }
   gmp_cities[i].lat = lat;
   gmp_cities[i].lon = lon;
+  if (gmp_cities[i].lon < 0.0)
+    {
+    gmp_cities[i].lon += 360.0;
+    }
   gmp_cities[i].statutPRGrille = 1;
   gdid = c_ezgetgdout();
   c_gdxyfll(gdid, &(gmp_cities[i].x), &(gmp_cities[i].y), &(gmp_cities[i].lat), &(gmp_cities[i].lon), 1);
@@ -198,6 +237,7 @@ lire_gdb_geo()
     rereadmapFlag = 1;
     }
   
+    rereadmapFlag = 1;
   gdid = mapInfo.gdid;
   c_wglgvi(&idebut,&jdebut,&ifin,&jfin);
 
@@ -218,10 +258,10 @@ lire_gdb_geo()
 
     if (ex == 0) ex = 1;
     pixperdegree = ex;
-    if (pixperdegree > ppd_maxval) 
+    if (pixperdegree > ppd_maxval)
       {
       pixperdegree = ppd_maxval;
-      }
+       }
 
     break;
     
@@ -232,7 +272,8 @@ lire_gdb_geo()
   
 /*  fprintf(stderr, "Pixperdegree : %d\n", pixperdegree);*/
   
-  if (ppd_mode == 1 && rereadmapFlag == 1)
+/*  if (ppd_mode == 1 && rereadmapFlag == 1)*/
+  if (rereadmapFlag == 1)
     {
     for (i=0; i < NMAP_FLAGS; i++)
       {
@@ -263,46 +304,28 @@ lire_gdb_geo()
           break;
 
         case PAYS:
-            gdb_line(pixperdegree,GDB_LIN_POLIT,get_coastline);
-          if (pixperdegree >= 16)
-            {
-            }
+          gdb_line(pixperdegree,GDB_LIN_POLIT,get_coastline);
           break;
 
         case PROVINCES:
-            gdb_line(pixperdegree,GDB_LIN_ADMIN,get_coastline);
-          if (pixperdegree >= 16)
-            {
-            }
+          gdb_line(pixperdegree,GDB_LIN_ADMIN,get_coastline);
           break;
 
         case VILLES:
-          if (pixperdegree >= 16)
-            {
-            gdb_line(pixperdegree,GDB_LIN_CITY,get_coastline);
-            gdb_text(pixperdegree, GDB_TXT_CITY, get_cityname);
-            }
+          gdb_line(pixperdegree,GDB_LIN_CITY,get_coastline);
+          gdb_text(pixperdegree, GDB_TXT_CITY, get_cityname);
           break;
 
         case LACS:
-            gdb_line(pixperdegree,GDB_LIN_LAKE,get_coastline);
-          if (pixperdegree >= 16)
-            {
-            }
+          gdb_line(pixperdegree,GDB_LIN_LAKE,get_coastline);
           break;
 
         case RIVIERES:
-          if (pixperdegree >= 16)
-            {
-            gdb_line(pixperdegree,GDB_LIN_RIVER,get_coastline);
-            }
+          gdb_line(pixperdegree,GDB_LIN_RIVER,get_coastline);
           break;
 
         case ROUTES:
-          if (pixperdegree >= 16)
-            {
-            gdb_line(pixperdegree,GDB_LIN_ROAD,get_coastline);
-            }
+          gdb_line(pixperdegree,GDB_LIN_ROAD,get_coastline);
           break;
 
         default:
@@ -321,10 +344,6 @@ lire_gdb_geo()
         switch (i)
           {
           case VILLES:
-            for (n=0; n < gmp_nbCities; n++)
-              {
-              c_gmpDrawCityName(gmp_cities[n].x, gmp_cities[n].y, (char *)gmp_cities[n].text);
-              }
             /* absence de break intentionnelle */
 
           default:
@@ -335,6 +354,15 @@ lire_gdb_geo()
         }
       }
     }
+  
+  if (mapFlags.etat[VILLES] == OUI)
+    {
+    for (n=0; n < gmp_nbCities; n++)
+      {
+      c_gmpDrawCityName(gmp_cities[n].x, gmp_cities[n].y, (char *)gmp_cities[n].text);
+      }
+    }
+
   memcpy(&oldMapInfo, &mapInfo, sizeof(GeoMapInfoStruct));
 #endif
   }

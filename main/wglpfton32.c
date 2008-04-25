@@ -58,12 +58,12 @@ void c_wglpfton32(float *fld, int ni, int nj, float intervalles[], int nbInterva
   unsigned int *pixdata, *pixels;
   float *axex, *axey, *axdx;
   int *iaxex;
-   
+
   int ix, iy, iy1, iy2;
   float x,y;
   float dy;
   float fld1, fld2;
-   
+
   int largeurFenetre, hauteurFenetre;
   float ContourMin, ContourMax;
   float delta;
@@ -73,37 +73,37 @@ void c_wglpfton32(float *fld, int ni, int nj, float intervalles[], int nbInterva
   float colrange;
 
   int ii, jj, lh, slice, curslice;
-   
+
   XImage *image;
-   
+
   c_wglgwz(&largeurFenetre,&hauteurFenetre);
-   
+
   DefinirFenetreGrille(&mdeb, &ndeb, &mfin, &nfin, ni, nj);
   c_xy2fxfy(&x, &y, (float)mdeb, (float)ndeb);
   c_wglxai(&idebut, &jdebut, x, y);
-   
+
   c_xy2fxfy(&x, &y, (float)mfin, (float)nfin);
   c_wglxai(&ifin, &jfin, x, y);
-   
+
   if (idebut < viewp.vi1)
     idebut = viewp.vi1;
-   
+
   if (jdebut < viewp.vj1)
     jdebut = viewp.vj1;
-   
+
   if (ifin > viewp.vi2)
     ifin = viewp.vi2;
-   
+
   if (jfin > viewp.vj2)
     jfin = viewp.vj2;
-   
+
   largeur = ifin - idebut + 1;
   hauteur = jfin - jdebut + 1;
-  
+
   slice = 32;
   curslice = 0;
   lh = largeur * slice;
-   
+
   axex    = (float *) malloc(largeur * sizeof(float));
   axdx    = (float *) malloc(largeur * sizeof(float));
   iaxex    = (int *) malloc(largeur * sizeof(int));
@@ -112,26 +112,26 @@ void c_wglpfton32(float *fld, int ni, int nj, float intervalles[], int nbInterva
   tmpInds = (float *) malloc(lh * sizeof(int));
   pixels =  (unsigned int *)calloc(lh, sizeof(unsigned int));
   pixdata = (unsigned int *) calloc(lh, sizeof(unsigned int));
-   
-   
+
+
   image = XCreateImage(wglDisp, visInfo.visual, visInfo.depth, ZPixmap, 0, (char *)pixdata,largeur, slice, 32, 0);
-   
+
   ContourMin = min;
   ContourMax = max;
-   
+
   if (ContourMin == ContourMax)
     {
     c_wglcol(15);
     c_wglclr();
     return;
     }
-   
+
   if (nbIntervalles == 1)
     {
     if (intervalles[0] != 0.0)
       {
       AjusterMinMax(&ContourMin, &ContourMax, facteur, intervalles[0]);
-      }    
+      }
     }
 
   delta = ContourMax - ContourMin;
@@ -144,14 +144,14 @@ void c_wglpfton32(float *fld, int ni, int nj, float intervalles[], int nbInterva
     iaxex[ii] = (ix < 1) ? 1 : (ix > ni-1) ? ni-1 : ix;
     axdx[ii] = x - (float)ix;
     }
-   
+
   for (j=jdebut; j <= jfin; j++)
     {
     c_wgliax(&x, &y, 0, j);
     c_fxfy2xy(&x, &y, x, y);
     axey[j - jdebut] = y;
     }
-   
+
 
   colrange = (colorTable[255]-colorTable[0])/256.0;
   for (curslice=0; curslice < hauteur; curslice += slice)
@@ -169,7 +169,7 @@ void c_wglpfton32(float *fld, int ni, int nj, float intervalles[], int nbInterva
         {
         if (c_wglanul()) goto abort;
         }
-      
+
       y = axey[hauteur-1-jj];
       iy = (int) y;
       iy = (iy < 1) ? 1 : (iy > nj-1) ? nj-1 : iy;
@@ -185,14 +185,14 @@ void c_wglpfton32(float *fld, int ni, int nj, float intervalles[], int nbInterva
         tmpVals[j*largeur+ii] =  fld1 + (fld2 - fld1) * dy;
         }
       }
-    
+
     c_wglcalcolf(tmpInds, tmpVals, lh, ContourMin, delta, intervalles, nbIntervalles, facteur, ncol);
-    
+
     for (i=0; i < lh; i++)
       {
       tmpVals[i] = (float) (colorTable[0] + tmpInds[i]*colrange);
       }
-    
+
     c_wglcolfs_fst(tmpVals, pixels, lh);
     for (j=0; j < slice; j++)
       {
@@ -202,11 +202,11 @@ void c_wglpfton32(float *fld, int ni, int nj, float intervalles[], int nbInterva
         XPutPixel(image, i, j, pixels[jj+i]);
         }
       }
-    
+
     XPutImage(wglDisp, wglDrawable, wglFillGC, image, 0, 0, idebut, hauteurFenetre - jfin + curslice, largeur, slice);
     }
 
-   
+
  abort:
   free(axex);
   free(axdx);
@@ -217,18 +217,18 @@ void c_wglpfton32(float *fld, int ni, int nj, float intervalles[], int nbInterva
   free(pixels);
 /*  free(pixdata);*/
   XDestroyImage(image);
-  
+
 }
 
 extern void f77name(ez_rgdint_1_nw)(float *tmpVals, float *x, float *y, int *lh, float *fld, int *lni, int *un, int *lnj);
 
-void c_wglpfton32_x(float *fld, float *x, float *y, int ni, int nj, float intervalles[], int nbIntervalles, 
+void c_wglpfton32_x(float *fld, float *x, float *y, int ni, int nj, float intervalles[], int nbIntervalles,
   float facteur, float min, float max, int colorTable[], int ncol, int flagInterrupt, int lissfac)
 {
   int i,j;
-  int idebut, jdebut, ifin, jfin, largeur, hauteur;
+  int idebut, jdebut, ifin, jfin, largeur, hauteur, recInterpolationLevel;
   unsigned int *pixdata, *pixels;
-      
+
   int largeurFenetre, hauteurFenetre;
   float ContourMin, ContourMax, xdebut, ydebut, xfin, yfin;
   float delta;
@@ -239,57 +239,71 @@ void c_wglpfton32_x(float *fld, float *x, float *y, int ni, int nj, float interv
 
   int jj, lh;
   int lni, lnj, un;
-  
+
   lni = ni;
   lnj = nj;
   un  = 1;
-   
-   
+
+
   c_wglgwz(&largeurFenetre,&hauteurFenetre);
-   
+
   colrange = (colorTable[255]-colorTable[0])/256.0;
-   
+
  c_wglgsp(&xdebut, &ydebut, &xfin, &yfin, &idebut, &jdebut, &ifin, &jfin);
 
 
   largeur = ifin - idebut + 1;
   hauteur = jfin - jdebut + 1;
-  
+
   lh = largeur * hauteur;
-   
+
   tmpVals = (float *) malloc(lh* sizeof(float));
   tmpInds = (float *) malloc(lh* sizeof(int));
   pixels =  (unsigned int *) malloc(2*lh * sizeof(unsigned int));
   pixdata = (unsigned int *) malloc(2*lh * sizeof(unsigned int));
-   
-   
+
+
   image = XCreateImage(wglDisp, visInfo.visual, visInfo.depth, ZPixmap, 0, (char *)pixdata,largeur, hauteur, 32, 0);
-   
+
   ContourMin = min;
   ContourMax = max;
-   
+
   if (ContourMin == ContourMax)
     {
     c_wglcol(15);
     c_wglclr();
     return;
     }
-   
+
   if (nbIntervalles == 1)
     {
     if (intervalles[0] != 0.0)
       {
       AjusterMinMax(&ContourMin, &ContourMax, facteur, intervalles[0]);
       }
-      
+
     }
 
-  f77name(ez_rgdint_1_nw)(tmpVals, x, y, &lh, fld, &lni, &un, &lnj);
-    
-    
+  recInterpolationLevel = AttrMgrGetInterpolationLevel();
+  switch (recInterpolationLevel)
+   {
+   case 0:
+   f77name(ez_rgdint_0)(tmpVals, x, y, &lh, fld, &lni, &un, &lnj);
+   break;
+
+   case 1:
+   f77name(ez_rgdint_1_nw)(tmpVals, x, y, &lh, fld, &lni, &un, &lnj);
+   break;
+
+   case 3:
+   f77name(ez_rgdint_3_nw)(tmpVals, x, y, &lh, fld, &lni, &un, &lnj);
+   break;
+   }
+
+
   delta = ContourMax - ContourMin;
   c_wglcalcolf(tmpInds, tmpVals, lh, ContourMin, delta, intervalles, nbIntervalles, facteur, ncol);
-  
+
   for (i=0; i < lh; i++)
     {
     if (y[i] == 0.0)
@@ -300,9 +314,9 @@ void c_wglpfton32_x(float *fld, float *x, float *y, int ni, int nj, float interv
       {
       tmpVals[i] = (float) (colorTable[0] + tmpInds[i]*colrange);
       }
-    
+
     }
-  
+
   c_wglcolfs_fst(tmpVals, pixels, lh);
   for (j=0; j < hauteur; j++)
     {
@@ -312,12 +326,12 @@ void c_wglpfton32_x(float *fld, float *x, float *y, int ni, int nj, float interv
       XPutPixel(image, i,hauteur-j, pixels[jj+i]);
       }
     }
-  
+
   XPutImage(wglDisp, wglDrawable, wglFillGC, image, 0, 0, idebut, hauteurFenetre - jfin, largeur, hauteur);
 
   free(tmpVals);
   free(tmpInds);
   free(pixels);
   XDestroyImage(image);
-  
+
 }

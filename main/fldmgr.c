@@ -115,7 +115,7 @@ int FldMgrAddChamp(int cle, int iun)
         {
         case XY:
         break;
-      
+
         case XZ:
         case YZ:
             if (fmflds[ind].src.ni != fmflds[0].src.ni ||
@@ -128,7 +128,7 @@ int FldMgrAddChamp(int cle, int iun)
               return CHAMP_NON_SUPERPOSABLE;
               }
             break;
-      
+
         default:
             break;
         }
@@ -323,17 +323,17 @@ return 0;
 void FldMgrFreeCoupeFlds(_Champ *champ)
 {
   int i;
-  
+
   champ->coupe.coupeValide = 0;
-  
+
   if (champ->coupe.nbNiveauxCoupe == 0)
       return;
-  
+
   free(champ->coupe.x);
   free(champ->coupe.y);
   champ->coupe.x = NULL;
   champ->coupe.y = NULL;
-  
+
   if (champ->natureTensorielle == SCALAIRE)
     {
     if (champ->coupe.fld3d != NULL)
@@ -345,7 +345,7 @@ void FldMgrFreeCoupeFlds(_Champ *champ)
         }
       free(champ->coupe.fld3d);
       }
-  
+
     if (champ->coupe.fld2d != NULL)
       {
       free(champ->coupe.fld2d);
@@ -372,7 +372,7 @@ void FldMgrFreeCoupeFlds(_Champ *champ)
       champ->coupe.vv3d = NULL;
       champ->coupe.ww3d = NULL;
       }
-  
+
     if (champ->coupe.ww2d != NULL)
       {
       free(champ->coupe.uvwtang2d);
@@ -385,19 +385,19 @@ void FldMgrFreeCoupeFlds(_Champ *champ)
       champ->coupe.ww2d = NULL;
       }
     }
-  
+
   if (champ->coupe.montagnes != NULL)
     {
     free( champ->coupe.montagnes);
     free( champ->coupe.ligneMontagnes);
     }
-  
+
   if (champ->coupe.niveauxCoupe != NULL)
     free(champ->coupe.niveauxCoupe);
-  
+
   if (champ->coupe.clesNiveaux != NULL)
     free(champ->coupe.clesNiveaux);
-  
+
   memset((char *)&(champ->coupe), (char)NULL, sizeof(_CoupeVerticale));
 }
 
@@ -785,14 +785,14 @@ int FldMgrLoadTimeAnimationSeq()
               fmflds[n].seqanim.animVVmax[i] = tmpchamp.vvmax[o];
               fmflds[n].seqanim.animUVmin[i] = tmpchamp.uvmin[o];
               fmflds[n].seqanim.animUVmax[i] = tmpchamp.uvmax[o];
-        
+
               fmflds[n].uumin[o] = fmflds[n].uumin[o] > tmpchamp.uumin[o] ?  tmpchamp.uumin[o] : fmflds[n].uumin[o];
               fmflds[n].uumax[o] = fmflds[n].uumax[o] < tmpchamp.uumax[o] ?  tmpchamp.uumax[o] : fmflds[n].uumax[o];
               fmflds[n].vvmin[o] = fmflds[n].vvmin[o] > tmpchamp.vvmin[o] ?  tmpchamp.vvmin[o] : fmflds[n].vvmin[o];
               fmflds[n].vvmax[o] = fmflds[n].vvmax[o] < tmpchamp.vvmax[o] ?  tmpchamp.vvmax[o] : fmflds[n].vvmax[o];
               fmflds[n].uvmin[o] = fmflds[n].uvmin[o] > tmpchamp.uvmin[o] ?  tmpchamp.uvmin[o] : fmflds[n].uvmin[o];
               fmflds[n].uvmax[o] = fmflds[n].uvmax[o] < tmpchamp.uvmax[o] ?  tmpchamp.uvmax[o] : fmflds[n].uvmax[o];
-        
+
               memcpy((char *)fmflds[n].seqanim.animUUs[i], (char *)tmpchamp.uu,tmpchamp.dst.ni*tmpchamp.dst.nj*sizeof(float));
               memcpy((char *)fmflds[n].seqanim.animVVs[i], (char *)tmpchamp.vv,tmpchamp.dst.ni*tmpchamp.dst.nj*sizeof(float));
               memcpy((char *)fmflds[n].seqanim.animUVs[i], (char *)tmpchamp.module,tmpchamp.dst.ni*tmpchamp.dst.nj*sizeof(float));
@@ -807,16 +807,16 @@ int FldMgrLoadTimeAnimationSeq()
               fmflds[n].seqanim.animFLDmax[i] = tmpchamp.fldmax[o];
               fmflds[n].fldmin[o] = fmflds[n].fldmin[o] > tmpchamp.fldmin[o] ?  tmpchamp.min : fmflds[n].fldmin[o];
               fmflds[n].fldmax[o] = fmflds[n].fldmax[o] < tmpchamp.fldmax[o] ?  tmpchamp.max : fmflds[n].fldmax[o];
-        
+
               memcpy((char *)fmflds[n].seqanim.animFLDs[i], (char *)tmpchamp.fld,tmpchamp.dst.ni*tmpchamp.dst.nj*sizeof(float));
               }
-    
+
             FldMgrMessageChargementFichiers(texteLecture, it, nbTotalChamps);
-    
+
             fmflds[n].seqanim.ip1s[i]  = tmpchamp.ip1;
             fmflds[n].seqanim.ip2s[i]  = tmpchamp.ip2;
             fmflds[n].seqanim.ip3s[i]  = tmpchamp.ip3;
-    
+
             dt2 = (double) ((tmpchamp.deet * tmpchamp.npas) / 3600.0);
             dt1 = (double) ((fmflds[n].deet * fmflds[n].npas) / 3600.0);
             f77name(incdatr)(&date1, &fmflds[n].dateo, &dt1);
@@ -835,7 +835,7 @@ int FldMgrLoadTimeAnimationSeq()
             }
           it++;
           }
-    
+
         fmflds[n].min = fmflds[n].fldmin[o];
         fmflds[n].max = fmflds[n].fldmax[o];
         for (i=0; i < fmflds[n].seqanim.nbFldsAnim; i++)
@@ -954,7 +954,7 @@ int FldMgrLoadVerticalXSection()
         {
         free(fmflds[n].coupe.montagnes);
         }
-      
+
       fmflds[n].coupe.niMaxCoupe = 1+ (int)(sqrt(fmflds[n].dst.ni*fmflds[n].dst.ni+fmflds[n].dst.nj*fmflds[n].dst.nj));
       fmflds[n].coupe.x =              (float *) malloc(fmflds[n].coupe.niMaxCoupe* sizeof(float));
       fmflds[n].coupe.y =              (float *) malloc(fmflds[n].coupe.niMaxCoupe* sizeof(float));
@@ -965,7 +965,7 @@ int FldMgrLoadVerticalXSection()
         case SCALAIRE:
         fmflds[n].coupe.fld2d =     (float *) malloc(fmflds[n].coupe.niMaxCoupe * fmflds[n].coupe.nbNiveauxCoupe * sizeof(float));
         break;
-        
+
         case VECTEUR:
         fmflds[n].coupe.uu2d =      (float *) malloc(fmflds[n].coupe.niMaxCoupe * fmflds[n].coupe.nbNiveauxCoupe * sizeof(float));
         fmflds[n].coupe.vv2d =      (float *) malloc(fmflds[n].coupe.niMaxCoupe * fmflds[n].coupe.nbNiveauxCoupe * sizeof(float));
@@ -975,7 +975,7 @@ int FldMgrLoadVerticalXSection()
         fmflds[n].coupe.uvw2d =     (float *) malloc(fmflds[n].coupe.niMaxCoupe * fmflds[n].coupe.nbNiveauxCoupe * sizeof(float));
         break;
         }
-      
+
       if (fmflds[n].natureTensorielle == VECTEUR)
         {
         fmflds[n].coupe.uu3d  = (float **) malloc(fmflds[n].coupe.nbNiveauxCoupe * sizeof(float *));
@@ -987,7 +987,7 @@ int FldMgrLoadVerticalXSection()
         fmflds[n].coupe.fld3d  = (float **) malloc(fmflds[n].coupe.nbNiveauxCoupe * sizeof(float *));
         }
 
-       
+
       if (fmflds[n].coordonneeVerticale == SIGMA || fmflds[n].coordonneeVerticale == HYBRIDE)
         {
         FldMgrLoad_HY(n);
@@ -997,9 +997,9 @@ int FldMgrLoadVerticalXSection()
           f77name(aminmax)(&p0min,&p0max,fmflds[n].coupe.montagnes,&(fmflds[n].dst.ni),&(fmflds[n].dst.nj));
           }
         fmflds[n].coupe.niveauPresMin = fmflds[n].coupe.ptop;
-        fmflds[n].coupe.niveauPresMax = p0max;          
+        fmflds[n].coupe.niveauPresMax = p0max;
         }
-      
+
       correctionNecessaire = 0;
       i = fmflds[n].coupe.nbNiveauxCoupe -1;
       found = -1;
@@ -1015,7 +1015,7 @@ int FldMgrLoadVerticalXSection()
           }
         i--;
         }
-      
+
       for (i=0; i < fmflds[n].coupe.nbNiveauxCoupe; i++)
         {
         tmpchamp.cle = fmflds[n].coupe.clesNiveaux[i];
@@ -1032,11 +1032,11 @@ int FldMgrLoadVerticalXSection()
           if (correctionNecessaire == 1)
             {
             /*fprintf(stderr, "Avant: %f", tmpchamp.niveau);*/
-            tmpchamp.niveau = tmpchamp.niveau*(1.0-fmflds[n].coupe.ptop/fmflds[n].coupe.pref) + fmflds[n].coupe.ptop/fmflds[n].coupe.pref;          
+            tmpchamp.niveau = tmpchamp.niveau*(1.0-fmflds[n].coupe.ptop/fmflds[n].coupe.pref) + fmflds[n].coupe.ptop/fmflds[n].coupe.pref;
             /*fprintf(stderr, "\tApres: %f\n", tmpchamp.niveau);*/
             }
           }
-        
+
         if (i == 0)
           {
           fmflds[n].coupe.niveauMin = tmpchamp.niveau;
@@ -1145,7 +1145,7 @@ int FldMgrLoadVerticalXSection()
         FldMgrSetDiffCoupeMinMax(n);
         }
       }
-      
+
     }
   return 0;
   }
@@ -1275,6 +1275,8 @@ float *rx1,*ry1,*rx2,*ry2;
   float x1, y1, x2, y2, module;
   int ind;
   float angleCoupe,dirvent;
+  int recInterpolationLevel;
+
 
   x1 = *rx1; x2 = *rx2; y1 = *ry1; y2 = *ry2;
 
@@ -1293,6 +1295,7 @@ float *rx1,*ry1,*rx2,*ry2;
       }
     }
 
+   recInterpolationLevel = AttrMgrGetInterpolationLevel();
   x1 = (x1 < 1.0) ? 1.0 : (x1 > (float)champ->dst.ni ) ? (float) champ->dst.ni : x1;
   x2 = (x2 < 1.0) ? 1.0 : (x2 > (float)champ->dst.ni ) ? (float) champ->dst.ni : x2;
   y1 = (y1 < 1.0) ? 1.0 : (y1 > (float)champ->dst.nj ) ? (float) champ->dst.nj : y1;
@@ -1312,24 +1315,70 @@ float *rx1,*ry1,*rx2,*ry2;
     champ->coupe.niCoupe = 1;
     champ->coupe.x[0] = x1;
     champ->coupe.y[0] = y1;
-  
+
     if (champ->natureTensorielle == SCALAIRE)
       {
-      for (i=0; i < champ->coupe.nbNiveauxCoupe; i++)
-        {
-        f77name(ez_rgdint_3_nw)(&champ->coupe.fld2d[i],&x1, &y1, &champ->coupe.niCoupe,champ->coupe.fld3d[i], &i2,&j1,&j2);
-        }
+      switch(recInterpolationLevel)
+         {
+         case 0:
+         for (i=0; i < champ->coupe.nbNiveauxCoupe; i++)
+           {
+           f77name(ez_rgdint_0)(&champ->coupe.fld2d[i],&x1, &y1, &champ->coupe.niCoupe,champ->coupe.fld3d[i], &i2,&j1,&j2);
+           }
+         break;
+
+         case 1:
+         for (i=0; i < champ->coupe.nbNiveauxCoupe; i++)
+           {
+           f77name(ez_rgdint_1_nw)(&champ->coupe.fld2d[i],&x1, &y1, &champ->coupe.niCoupe,champ->coupe.fld3d[i], &i2,&j1,&j2);
+           }
+         break;
+
+         case 3:
+         for (i=0; i < champ->coupe.nbNiveauxCoupe; i++)
+           {
+           f77name(ez_rgdint_3_nw)(&champ->coupe.fld2d[i],&x1, &y1, &champ->coupe.niCoupe,champ->coupe.fld3d[i], &i2,&j1,&j2);
+           }
+         break;
+         }
       }
     else
       {
-      for (i=0; i < champ->coupe.nbNiveauxCoupe; i++)
-        {
-        f77name(ez_rgdint_3_nw)(&champ->coupe.uu2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.uu3d[i],&i2,&j1,&j2);
-        f77name(ez_rgdint_3_nw)(&champ->coupe.vv2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.vv3d[i],&i2,&j1,&j2);
-        f77name(ez_rgdint_3_nw)(&champ->coupe.ww2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.ww3d[i],&i2,&j1,&j2);
-        f77name(ez_rgdint_3_nw)(&champ->coupe.uvwtang2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.uu3d[i],&i2,&j1,&j2);
-        f77name(ez_rgdint_3_nw)(&champ->coupe.uvwnorm2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.vv3d[i],&i2,&j1,&j2);
-        }
+      switch(recInterpolationLevel)
+         {
+         case 0:
+         for (i=0; i < champ->coupe.nbNiveauxCoupe; i++)
+           {
+           f77name(ez_rgdint_0)(&champ->coupe.uu2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.uu3d[i],&i2,&j1,&j2);
+           f77name(ez_rgdint_0)(&champ->coupe.vv2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.vv3d[i],&i2,&j1,&j2);
+           f77name(ez_rgdint_0)(&champ->coupe.ww2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.ww3d[i],&i2,&j1,&j2);
+           f77name(ez_rgdint_0)(&champ->coupe.uvwtang2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.uu3d[i],&i2,&j1,&j2);
+           f77name(ez_rgdint_0)(&champ->coupe.uvwnorm2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.vv3d[i],&i2,&j1,&j2);
+           }
+         break;
+
+         case 1:
+         for (i=0; i < champ->coupe.nbNiveauxCoupe; i++)
+           {
+           f77name(ez_rgdint_1_nw)(&champ->coupe.uu2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.uu3d[i],&i2,&j1,&j2);
+           f77name(ez_rgdint_1_nw)(&champ->coupe.vv2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.vv3d[i],&i2,&j1,&j2);
+           f77name(ez_rgdint_1_nw)(&champ->coupe.ww2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.ww3d[i],&i2,&j1,&j2);
+           f77name(ez_rgdint_1_nw)(&champ->coupe.uvwtang2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.uu3d[i],&i2,&j1,&j2);
+           f77name(ez_rgdint_1_nw)(&champ->coupe.uvwnorm2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.vv3d[i],&i2,&j1,&j2);
+           }
+         break;
+
+         case 3:
+         for (i=0; i < champ->coupe.nbNiveauxCoupe; i++)
+           {
+           f77name(ez_rgdint_3_nw)(&champ->coupe.uu2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.uu3d[i],&i2,&j1,&j2);
+           f77name(ez_rgdint_3_nw)(&champ->coupe.vv2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.vv3d[i],&i2,&j1,&j2);
+           f77name(ez_rgdint_3_nw)(&champ->coupe.ww2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.ww3d[i],&i2,&j1,&j2);
+           f77name(ez_rgdint_3_nw)(&champ->coupe.uvwtang2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.uu3d[i],&i2,&j1,&j2);
+           f77name(ez_rgdint_3_nw)(&champ->coupe.uvwnorm2d[i],&x1, &y1,&champ->coupe.niCoupe,champ->coupe.vv3d[i],&i2,&j1,&j2);
+           }
+         break;
+         }
 
       f77name(modulus3d)(champ->coupe.uvw2d,champ->coupe.uvwtang2d,champ->coupe.uvwnorm2d,
             &champ->coupe.ww2d,&champ->coupe.nbNiveauxCoupe);
@@ -1358,51 +1407,84 @@ float *rx1,*ry1,*rx2,*ry2;
   angleCoupe = atan2(dy,dx);
 
   if (champ->natureTensorielle == SCALAIRE)
-      {
-      vals = (float *) malloc(champ->coupe.niMaxCoupe*sizeof(float));
-      for (j=0; j < champ->coupe.nbNiveauxCoupe; j++)
-        {
-        f77name(ez_rgdint_3_nw)(vals,champ->coupe.x,champ->coupe.y, &champ->coupe.niCoupe,champ->coupe.fld3d[j],&i2,&j1,&j2);
-
-        for (i=0; i < champ->coupe.niCoupe; i++)
+     {
+     vals = (float *) malloc(champ->coupe.niMaxCoupe*sizeof(float));
+        for (j=0; j < champ->coupe.nbNiveauxCoupe; j++)
+          {
+          switch(recInterpolationLevel)
             {
-            ind = FTN2C(i,j,champ->coupe.niCoupe);
-            champ->coupe.fld2d[ind] = vals[i];
+            case 0:
+/*            fprintf(stderr, "XY-Voisin!\n");*/
+            f77name(ez_rgdint_0)(vals,champ->coupe.x,champ->coupe.y, &champ->coupe.niCoupe,champ->coupe.fld3d[j],&i2,&j1,&j2);
+            break;
+
+            case 1:
+/*            fprintf(stderr, "XY-Bilineaire!\n");*/
+            f77name(ez_rgdint_1_nw)(vals,champ->coupe.x,champ->coupe.y,&champ->coupe.niCoupe,champ->coupe.fld3d[j],&i2,&j1,&j2);
+            break;
+
+            case 3:
+/*            fprintf(stderr, "XY-Bicubique!\n");*/
+              f77name(ez_rgdint_3_nw)(vals,champ->coupe.x,champ->coupe.y, &champ->coupe.niCoupe, champ->coupe.fld3d[j], &i2, &j1, &j2);
+            break;
             }
-        }
+
+         for (i=0; i < champ->coupe.niCoupe; i++)
+             {
+             ind = FTN2C(i,j,champ->coupe.niCoupe);
+             champ->coupe.fld2d[ind] = vals[i];
+             }
+         }
       free(vals);
-      }
+     }
   else
+     {
+    uuvals = (float *) malloc(champ->coupe.niCoupe * sizeof(float));
+    vvvals = (float *) malloc(champ->coupe.niCoupe * sizeof(float));
+    wwvals = (float *) malloc(champ->coupe.niCoupe * sizeof(float));
+
+    for (j=0; j < champ->coupe.nbNiveauxCoupe; j++)
       {
-      uuvals = (float *) malloc(champ->coupe.niCoupe * sizeof(float));
-      vvvals = (float *) malloc(champ->coupe.niCoupe * sizeof(float));
-      wwvals = (float *) malloc(champ->coupe.niCoupe * sizeof(float));
+      switch(recInterpolationLevel)
+         {
+         case 0:
+         f77name(ez_rgdint_0)(uuvals,champ->coupe.x,champ->coupe.y, &champ->coupe.niCoupe,champ->coupe.uu3d[j],&i2,&j1,&j2);
+         f77name(ez_rgdint_0)(vvvals,champ->coupe.x,champ->coupe.y, &champ->coupe.niCoupe,champ->coupe.vv3d[j],&i2,&j1,&j2);
+         f77name(ez_rgdint_0)(wwvals,champ->coupe.x,champ->coupe.y, &champ->coupe.niCoupe,champ->coupe.ww3d[j],&i2,&j1,&j2);
+         break;
 
-      for (j=0; j < champ->coupe.nbNiveauxCoupe; j++)
+         case 1:
+         f77name(ez_rgdint_1_nw)(uuvals,champ->coupe.x,champ->coupe.y, &champ->coupe.niCoupe,champ->coupe.uu3d[j],&i2,&j1,&j2);
+         f77name(ez_rgdint_1_nw)(vvvals,champ->coupe.x,champ->coupe.y, &champ->coupe.niCoupe,champ->coupe.vv3d[j],&i2,&j1,&j2);
+         f77name(ez_rgdint_1_nw)(wwvals,champ->coupe.x,champ->coupe.y, &champ->coupe.niCoupe,champ->coupe.ww3d[j],&i2,&j1,&j2);
+         break;
+
+         case 3:
+         f77name(ez_rgdint_3_nw)(uuvals,champ->coupe.x,champ->coupe.y, &champ->coupe.niCoupe,champ->coupe.uu3d[j],&i2,&j1,&j2);
+         f77name(ez_rgdint_3_nw)(vvvals,champ->coupe.x,champ->coupe.y, &champ->coupe.niCoupe,champ->coupe.vv3d[j],&i2,&j1,&j2);
+         f77name(ez_rgdint_3_nw)(wwvals,champ->coupe.x,champ->coupe.y, &champ->coupe.niCoupe,champ->coupe.ww3d[j],&i2,&j1,&j2);
+         break;
+         }
+
+      for (i=0; i < champ->coupe.niCoupe; i++)
         {
-        f77name(ez_rgdint_3_nw)(uuvals,champ->coupe.x,champ->coupe.y, &champ->coupe.niCoupe,champ->coupe.uu3d[j],&i2,&j1,&j2);        
-        f77name(ez_rgdint_3_nw)(vvvals,champ->coupe.x,champ->coupe.y, &champ->coupe.niCoupe,champ->coupe.vv3d[j],&i2,&j1,&j2);
-        f77name(ez_rgdint_3_nw)(wwvals,champ->coupe.x,champ->coupe.y, &champ->coupe.niCoupe,champ->coupe.ww3d[j],&i2,&j1,&j2);
-        
-        for (i=0; i < champ->coupe.niCoupe; i++)
-            {
-            ind = FTN2C(i,j,champ->coupe.niCoupe);
-            dirvent  = atan2(vvvals[i],uuvals[i]);
-            module = sqrt(uuvals[i]*uuvals[i]+vvvals[i]*vvvals[i]);
-        
-            champ->coupe.uvwtang2d[ind] = module*cos(angleCoupe-dirvent);
-            champ->coupe.uvwnorm2d[ind] = module*sin(angleCoupe-dirvent);
-            champ->coupe.uu2d[ind] = uuvals[i];
-            champ->coupe.vv2d[ind] = vvvals[i];
-            champ->coupe.ww2d[ind] = wwvals[i];
-            champ->coupe.uvw2d[ind] = sqrt(champ->coupe.uvwtang2d[ind] * champ->coupe.uvwtang2d[ind]+wwvals[i]*wwvals[i]);
-            }
-        }
+        ind = FTN2C(i,j,champ->coupe.niCoupe);
+        dirvent  = atan2(vvvals[i],uuvals[i]);
+        module = sqrt(uuvals[i]*uuvals[i]+vvvals[i]*vvvals[i]);
 
-      free(uuvals);
-      free(vvvals);
-      free(wwvals);
+        champ->coupe.uvwtang2d[ind] = module*cos(angleCoupe-dirvent);
+        champ->coupe.uvwnorm2d[ind] = module*sin(angleCoupe-dirvent);
+        champ->coupe.uu2d[ind] = uuvals[i];
+        champ->coupe.vv2d[ind] = vvvals[i];
+        champ->coupe.ww2d[ind] = wwvals[i];
+        champ->coupe.uvw2d[ind] = sqrt(champ->coupe.uvwtang2d[ind] * champ->coupe.uvwtang2d[ind]+wwvals[i]*wwvals[i]);
+        }
       }
+
+    free(uuvals);
+    free(vvvals);
+    free(wwvals);
+    }
 
 
   *rx1 = x1;
@@ -1599,7 +1681,7 @@ void FldMgrProcessChamp(_Champ *champ)
   champ->stats_dst.to_be_updated = 0;
   champ->stats_zoom.to_be_updated = 0;
   MettreAJourStats();
-  
+
   switch (champ->domaine)
     {
     case XY:
@@ -1684,7 +1766,7 @@ void FldMgrProcessChamp(_Champ *champ)
     champ->min = champ->fldmin[NO_OP];
     champ->max = champ->fldmax[NO_OP];
     }
-    
+
   FldMgrFlagMissingValues(champ);
 
   champ->min = champ->fldmin[NO_OP];
@@ -1937,7 +2019,7 @@ int *nbCles;
       }
 
   *nbCles = i;
-  
+
 /*  for (i=0; i < *nbCles; i++)
     {
     fprintf(stderr, "%d %f\n", i, tmp[i].niveau);
@@ -2119,22 +2201,40 @@ _Champ *champ;
 
 void FldMgrUpdateGridParams(_Champ *champ)
 {
-  int gdin, gdout;
-  float *lat, *lon;
-  int npts;
+   int gdin, gdout;
+   float *lat, *lon;
+   int npts;
+   char grtyp, grref;
+   int ni, nj, ig1, ig2, ig3, ig4, ig1ref, ig2ref, ig3ref, ig4ref;
 
-  FldMgrAjusterDimensionsGrille(champ);
-  if (champ->src.grtyp[0] == 'Y')
-    {
+   FldMgrAjusterDimensionsGrille(champ);
+   if (champ->src.grtyp[0] == 'Y')
+      {
+      gdin = c_ezgetgdin();
+      if (gdin == -1)
+         {
+         champ->src.gdid = c_ezqkdef(champ->src.ni, champ->src.nj, champ->src.grtyp, champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4, champ->iun);
+         }
+      gdin = FldMgrDefinirGrille();
       champ->domaine = VALEURS_PONCTUELLES;
-    }
-  f77name(chkgrid)(champ->fld, &champ->src.ni, &champ->src.nj, &champ->src.grtyp[0], &champ->src.ig2, 1);
+      c_ezgxprm(gdin, &ni, &nj, &grtyp, &ig1, &ig2, &ig3, &ig4, &grref, &ig1ref, &ig2ref, &ig3ref, &ig4ref);
+      if (grref == 'O')
+         {
+         champ->domaine = XY;
+         champ->src.grref[0] = 'O';
+         champ->src.ig1ref = ig1ref;
+         champ->src.ig2ref = ig2ref;
+         champ->src.ig3ref = ig3ref;
+         champ->src.ig4ref = ig4ref;
+         }
+      }
 
   /*  CheckForPointValues(champ, nbChampsActifs-1); */
 
-  switch(champ->domaine)
-    {
+   switch(champ->domaine)
+      {
     case XY:
+      f77name(chkgrid)(champ->fld, &champ->src.ni, &champ->src.nj, &champ->src.grtyp[0], &champ->src.ig2, 1);
       if (GetGrilleSelectionnee() == 0)
         {
         if (HasGridChanged(champ->src.grtyp[0],champ->src.ni,champ->src.nj,champ->src.nk,
@@ -2147,7 +2247,7 @@ void FldMgrUpdateGridParams(_Champ *champ)
       gdout = c_ezgetgdout();
       gdin  = c_ezgdefrec(champ->src.ni,champ->src.nj,
         champ->src.grtyp,champ->src.ig1,champ->src.ig2,champ->src.ig3,champ->src.ig4);
-      if (gdout != gdin)
+      if (gdout != gdin && gdout != -1)
         {
         c_ezdefset(gdout, gdin);
         }
@@ -2271,7 +2371,7 @@ int *indiceFautif;
          *indiceFautif = n;
          return NB_NIVEAUX_INCONSISTANTS;
          }
- 
+
        for (i=0; i < fmflds[ichamps[n]].coupe.nbNiveauxCoupe; i++)
          {
          if (fmflds[ichamps[n]].coupe.niveauxCoupe[i] != fmflds[ichamps[n-1]].coupe.niveauxCoupe[i])
@@ -2332,7 +2432,7 @@ int FldMgrPreparerTopo()
   ier = 0;
   valtoggle = CoupeMgrGetToggleTopo();
   selectedVertCoord = GetSelectedVertCoord();
-  
+
   if (!valtoggle && selectedVertCoord != PRES_VCOORD)
         return -1;
 
@@ -2341,25 +2441,25 @@ int FldMgrPreparerTopo()
     FldMgrGetChamp(&champ,n);
     FldMgrGetFstPrm(champ);
     ier = GetSurfacePressure(champ);
-  
+
     if (ier < 0) return -1;
-  
+
     if (champ->coupe.niCoupe == 1)
       npts = 25;
     else
       npts = champ->coupe.niCoupe;
-    
+
     i1 = 1;
     j1 = 1;
     i2 = champ->dst.ni;
     j2 = champ->dst.nj;
-  
+
     f77name(ez_rgdint_1_nw)(champ->coupe.ligneMontagnes, champ->coupe.x, champ->coupe.y, &champ->coupe.niCoupe, champ->coupe.montagnes, &i2,&j1,&j2);
-  
+
     if (c_wglgdbg())
       {
       printf("Debug PreparerTopo: npts = %d\n",champ->coupe.niCoupe);
-  
+
       for (i=0; i < champ->coupe.niCoupe; i++)
         {
         printf("%d %f %f %f\n",i,champ->coupe.x[i], champ->coupe.y[i],champ->coupe.ligneMontagnes[i]);
@@ -2584,7 +2684,7 @@ int ind;
               fmflds[ind].coupe.uu3d[j], &fmflds[ind].dst.ni,&fmflds[ind].dst.nj);
         fmflds[n].coupe.UUmin3d[0] = (fmflds[n].coupe.UUmin3d[0]  < opmin[0]) ? fmflds[n].coupe.UUmin3d[0] : opmin[0];
         fmflds[n].coupe.UUmax3d[0] = (fmflds[n].coupe.UUmax3d[0]  > opmax[0]) ? fmflds[n].coupe.UUmax3d[0] : opmax[0];
-      
+
         }
 
       f77name(aminmax)(&fmflds[ind].coupe.VVmin3d[NO_OP], &fmflds[ind].coupe.VVmax3d[NO_OP],
@@ -2608,7 +2708,7 @@ int ind;
               fmflds[ind].coupe.ww3d[j], &fmflds[ind].dst.ni,&fmflds[ind].dst.nj);
         fmflds[n].coupe.WWmin3d[0] = (fmflds[n].coupe.WWmin3d[0]  < opmin[0]) ? fmflds[n].coupe.WWmin3d[0] : opmin[0];
         fmflds[n].coupe.WWmax3d[0] = (fmflds[n].coupe.WWmax3d[0]  > opmax[0]) ? fmflds[n].coupe.WWmax3d[0] : opmax[0];
-      
+
         }
 
       npts = fmflds[ind].dst.ni * fmflds[ind].dst.nj;
@@ -2684,7 +2784,7 @@ int ind;
         for (j=1; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
           {
           DiffMgrSetDiffs(fmflds[ind-1].coupe.fld3d[j],fmflds[ind].coupe.fld3d[j], opmin,opmax,npts);
-  
+
           for (i=0; i < 5; i++)
               {
               fmflds[ind-1].coupe.FLDmin3d[i] = opmin[i] < fmflds[ind-1].coupe.FLDmin3d[i] ? opmin[i] : fmflds[ind-1].coupe.FLDmin3d[i];
@@ -2700,25 +2800,25 @@ int ind;
         {
         DiffMgrSetDiffs(fmflds[ind-1].coupe.uu3d[0],fmflds[ind].coupe.uu3d[0],
             fmflds[ind-1].coupe.UUmin3d,fmflds[ind-1].coupe.UUmax3d,npts);
-  
+
         for (j=1; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
           {
           DiffMgrSetDiffs(fmflds[ind-1].coupe.uu3d[j],fmflds[ind].coupe.uu3d[j], opmin,opmax,npts);
-  
+
           for (i=0; i < 5; i++)
               {
               fmflds[ind-1].coupe.UUmin3d[i] = opmin[i] < fmflds[ind-1].coupe.UUmin3d[i] ? opmin[i] : fmflds[ind-1].coupe.UUmin3d[i];
               fmflds[ind-1].coupe.UUmax3d[i] = opmax[i] > fmflds[ind-1].coupe.UUmax3d[i] ? opmax[i] : fmflds[ind-1].coupe.UUmax3d[i];
               }
           }
-  
+
         DiffMgrSetDiffs(fmflds[ind-1].coupe.vv3d[0],fmflds[ind].coupe.vv3d[0],
             fmflds[ind-1].coupe.VVmin3d,fmflds[ind-1].coupe.VVmax3d,npts);
-  
+
         for (j=1; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
           {
           DiffMgrSetDiffs(fmflds[ind-1].coupe.vv3d[j],fmflds[ind].coupe.vv3d[j], opmin,opmax,npts);
-  
+
           for (i=0; i < 5; i++)
               {
               fmflds[ind-1].coupe.VVmin3d[i] = opmin[i] < fmflds[ind-1].coupe.VVmin3d[i] ? opmin[i] : fmflds[ind-1].coupe.VVmin3d[i];
@@ -2726,35 +2826,35 @@ int ind;
               }
           }
         DiffMgrSetDiffs(fmflds[ind-1].coupe.ww3d[0],fmflds[ind].coupe.ww3d[0], fmflds[ind-1].coupe.WWmin3d,fmflds[ind-1].coupe.WWmax3d,npts);
-  
+
         for (j=1; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
           {
           DiffMgrSetDiffs(fmflds[ind-1].coupe.ww3d[j],fmflds[ind].coupe.ww3d[j], opmin,opmax,npts);
-  
+
           for (i=0; i < 5; i++)
               {
               fmflds[ind-1].coupe.WWmin3d[i] = opmin[i] < fmflds[ind-1].coupe.WWmin3d[i] ? opmin[i] : fmflds[ind-1].coupe.WWmin3d[i];
               fmflds[ind-1].coupe.WWmax3d[i] = opmax[i] > fmflds[ind-1].coupe.WWmax3d[i] ? opmax[i] : fmflds[ind-1].coupe.WWmax3d[i];
               }
           }
-  
+
         DiffMgrSetVDiffs3D(fmflds[ind-1].coupe.uu3d[0], fmflds[ind-1].coupe.vv3d[0],fmflds[ind-1].coupe.ww3d[0],
         fmflds[ind].coupe.uu3d[0], fmflds[ind].coupe.vv3d[0],fmflds[ind].coupe.ww3d[0],
         fmflds[ind-1].coupe.UVWmin3d,  fmflds[ind-1].coupe.UVWmax3d, npts);
-  
+
         for (j=1; j < fmflds[ind].coupe.nbNiveauxCoupe;j++)
           {
           DiffMgrSetVDiffs3D(fmflds[ind-1].coupe.uu3d[j], fmflds[ind-1].coupe.vv3d[j],fmflds[ind-1].coupe.ww3d[j],
                   fmflds[ind].coupe.uu3d[j], fmflds[ind].coupe.vv3d[j],fmflds[ind].coupe.ww3d[j],
                   opmin,  opmax, npts);
-  
+
           for (i=0; i < 5; i++)
               {
               fmflds[ind-1].coupe.UVWmin3d[i] = opmin[i] < fmflds[ind-1].coupe.UVWmin3d[i] ? opmin[i] : fmflds[ind-1].coupe.UVWmin3d[i];
               fmflds[ind-1].coupe.UVWmax3d[i] = opmax[i] > fmflds[ind-1].coupe.UVWmax3d[i] ? opmax[i] : fmflds[ind-1].coupe.UVWmax3d[i];
               }
           }
-      }        
+      }
     }
   return 0;
   }
@@ -2883,8 +2983,9 @@ int FldMgrDefinirGrille()
   int ig1ref, ig2ref, ig3ref, ig4ref;
   int ni, nj, ig1, ig2, ig3, ig4;
 
-  gdin = c_ezgdefrec(fmflds[0].src.ni, fmflds[0].src.nj, fmflds[0].src.grtyp,
+  fmflds[0].src.gdid = c_ezgdefrec(fmflds[0].src.ni, fmflds[0].src.nj, fmflds[0].src.grtyp,
                       fmflds[0].src.ig1, fmflds[0].src.ig2, fmflds[0].src.ig3, fmflds[0].src.ig4);
+  gdin = fmflds[0].src.gdid;
   gdout= gdin;
   c_ezgprm(gdin,&grtyp, &ni, &nj, &ig1, &ig2, &ig3, &ig4);
 
@@ -2899,8 +3000,12 @@ int FldMgrDefinirGrille()
           gdout = c_ezgdefrec(360, 180, &grtyp_a, 0, 0, 0, 0);
           InitMapInfo(grtyp_a, 360, 180, 0,0,0,0);
           ThisIsTheCurrentGrid(grtyp_a, 360, 180, 1, 0,0,0,0);
-
         }
+      if (grref == 'O')
+         {
+         InitMapInfo(grtyp, ni, nj, ig1, ig2, ig3, ig4);
+         ThisIsTheCurrentGrid(grtyp, ni, nj, 1, ig1, ig2, ig3, ig4);
+         }
       break;
 
     default:
@@ -2926,7 +3031,7 @@ int FldMgrFlagMissingValues(_Champ *champ)
   int i;
   int dateo, deet, npas, ni,nj,nk,nbits,datyp,ip1,ip2,ip3,ig1,ig2,ig3,ig4,swa,lng,dltf,ubc,extra1,extra2,extra3;
   char nomvar[8],etiket[16],typvar[4],grtyp[2];
-  
+
   huge = HUGE;
 
   /*
@@ -2950,7 +3055,7 @@ int FldMgrFlagMissingValues(_Champ *champ)
     {
     return 0;
     }
-  
+
   npts_src = champ->src.ni * champ->src.nj;
   npts_dst = champ->dst.ni * champ->dst.nj;
   f77name(sminmax2)(&champ->min, &champ->max, &champ->min2, &champ->max2,
@@ -2965,14 +3070,14 @@ int FldMgrFlagMissingValues(_Champ *champ)
         {
         free(champ->src.missing);
         }
-       
+
       ier = c_fstprm(cleMasque, &dateo, &deet, &npas, &ni, &nj, &nk, &nbits,
                &datyp, &ip1, &ip2, &ip3, typvar, nomvar, etiket, grtyp,
                &ig1, &ig2, &ig3, &ig4,&swa, &lng, &dltf, &ubc,&extra1, &extra2, &extra3);
 
       src_missing = (int *) malloc(npts_src*sizeof(int));
-               
-      if (datyp == 1)
+
+      if (datyp == 1 || datyp == 134)
          {
          flt_src_missing = (float *) malloc(npts_src*sizeof(float));
          ier = c_fstluk(flt_src_missing, cleMasque, &mask_ni, &mask_nj, &mask_nk);
@@ -2987,9 +3092,9 @@ int FldMgrFlagMissingValues(_Champ *champ)
          {
          ier = c_fstluk(src_missing, cleMasque, &mask_ni, &mask_nj, &mask_nk);
          }
-      
+
       champ->src.missing = calloc((1+npts_src/32), sizeof(int));
-  
+
       ier = compact_mask(champ->src.missing, src_missing, npts_src);
       free(src_missing);
       champ->missingVal = 1.01*champ->max;
@@ -3050,7 +3155,7 @@ int FldMgrFlagMissingValues(_Champ *champ)
     champ->dst.missing = calloc((1+npts_dst/32), sizeof(int));
     gdin  = c_ezgetgdin();
     gdout = c_ezgetgdout();
-    c_ezsint_mask(champ->dst.missing, champ->src.missing, gdin, gdout);  
+    c_ezsint_mask(champ->dst.missing, champ->src.missing, gdin, gdout);
     champ->stats_src.to_be_updated = 0;
     champ->stats_dst.to_be_updated = 1;
     champ->stats_zoom.to_be_updated = 1;
@@ -3073,7 +3178,7 @@ void FldMgrLoad_HY(int indChamp)
   int ier, ier2;
   char nomvar[8] = "HY     ";
   int moins1 = -1;
-  
+
   FldMgrGetChamp(&champ, indChamp);
   ier = f77name(read_decode_hyb)(&(champ->iun), nomvar, &(champ->ip2),&(champ->ip3) ,champ->etiket, &(champ->datev), &(champ->coupe.ptop), &(champ->coupe.pref), &(champ->coupe.rcoef), 8, 16);
   if (ier < 0)
@@ -3086,6 +3191,6 @@ void FldMgrLoad_HY(int indChamp)
       champ->coupe.rcoef = 1.0;
       }
     }
-   
+
    fprintf(stderr, "HY: ptop: %f pref: %f rcoef:%f\n", champ->coupe.ptop, champ->coupe.pref,champ->coupe.rcoef);
   }

@@ -183,7 +183,7 @@ void CheckForWW(_Champ *champ)
   int i,ier;
   int ni, nj, nk;
   
-  int datev;  
+  int datev, ww_present;  
   static char ww[] = "WW";
   static char tt[] = "TT";
   
@@ -206,57 +206,70 @@ void CheckForWW(_Champ *champ)
   champ->ww     = (float *) calloc(champ->src.ni*champ->src.nj, sizeof(float));
   wwptr = champ->ww;
   
-  ier = c_fstlir(champ->ww, champ->iun, &ni, &nj, &nk, datev,
+  ww_present = c_fstlir(champ->ww, champ->iun, &ni, &nj, &nk, datev,
                 champ->etiket, champ->ip1, champ->ip2, champ->ip3, champ->typvar, ww);
   
   
-  if (champ->coordonneeVerticale == SIGMA)
+  if (ww_present >= 0)
     {
-    niveau = champ->niveau * 1000.0;
-    }
-  else
-    {
-    niveau = champ->niveau;
-    }
-  
-  ier = c_fstlir(ttptr, champ->iun, &ni, &nj, &nk, datev, champ->etiket, champ->ip1, champ->ip2, champ->ip3, champ->typvar, tt);
-  if (ier < 0)
-    {
-    fprintf(stderr,"%s-%f-%s\n","<LoadWW> Level: ", champ->ip1, 
-      "Cannot read associated temperature field\nApproximating the density\n\n");
-    rho = empirique[0] + niveau * empirique[1] + niveau * niveau * empirique[2];
-    for (i=0; i < champ->src.ni*champ->src.nj; i++)
+    if (champ->coordonneeVerticale == SIGMA)
       {
-      wwptr[i] /= (-9.81*rho);
-    /*   wwptr[i] *= 0.5147; */ /* Ancienne version */
-      wwptr[i] /= 0.5147;
+      niveau = champ->niveau * 1000.0;
       }
-    }
-  else
-    {
-    for (i=0; i < champ->src.ni*champ->src.nj; i++)
+    else
       {
-      rho = niveau*100.0/(287.0*(ttptr[i]+273.));
-      if (rho != 0.0)
+      niveau = champ->niveau;
+      }
+    
+    ier = c_fstlir(ttptr, champ->iun, &ni, &nj, &nk, datev, champ->etiket, champ->ip1, champ->ip2, champ->ip3, champ->typvar, tt);
+    if (ier < 0)
+      {
+      fprintf(stderr,"%s-%f-%s\n","<LoadWW> Level: ", champ->ip1, 
+        "Cannot read associated temperature field\nApproximating the density\n\n");
+      rho = empirique[0] + niveau * empirique[1] + niveau * niveau * empirique[2];
+      for (i=0; i < champ->src.ni*champ->src.nj; i++)
         {
         wwptr[i] /= (-9.81*rho);
-        wwptr[i] /= 0.5147; /* Conversion en noeuds  - 1 noeud = 0.5147 ms-1 */
-        }
-      else
-        {
-        wwptr[i] = 0.0;
+      /*   wwptr[i] *= 0.5147; */ /* Ancienne version */
+        wwptr[i] /= 0.5147;
         }
       }
+    else
+      {
+      for (i=0; i < champ->src.ni*champ->src.nj; i++)
+        {
+        rho = niveau*100.0/(287.0*(ttptr[i]+273.));
+        if (rho != 0.0)
+          {
+          wwptr[i] /= (-9.81*rho);
+          wwptr[i] /= 0.5147; /* Conversion en noeuds  - 1 noeud = 0.5147 ms-1 */
+          }
+        else
+          {
+          wwptr[i] = 0.0;
+          }
+        }
+      } 
     }
+  
   free(ttptr);
- 
-   
-   ww_interpole = (float *) calloc(champ->dst.ni*champ->dst.nj, sizeof(float));
-   c_ezsint(ww_interpole, champ->ww);
-   free(champ->ww);
-   champ->ww = ww_interpole;
-   f77name(aminmax)(&champ->wwmin[NO_OP],&champ->wwmax[NO_OP],champ->ww,&champ->dst.ni,&champ->dst.nj);
+  ww_interpole = (float *) calloc(champ->dst.ni*champ->dst.nj, sizeof(float));
+  if (ww_present >= 0)
+    {
+    c_ezsint(ww_interpole, champ->ww);
+    free(champ->ww);
+    champ->ww = ww_interpole;
+    f77name(aminmax)(&champ->wwmin[NO_OP],&champ->wwmax[NO_OP],champ->ww,&champ->dst.ni,&champ->dst.nj);
+    }
+  else
+    {
+    free(champ->ww);
+    champ->ww = ww_interpole;
+    champ->wwmin[NO_OP]  = 0.0;
+    champ->wwmax[NO_OP] = 0.0;
+    }
    }
+   
 
 /**
 ************************************************************* 
@@ -264,74 +277,74 @@ void CheckForWW(_Champ *champ)
 **/
 
 void CalcWWForZCoord(_Champ *champ)
-{
-   int i,n,ier;
-   int ni, nj, nk;
-   
-   int datev, ip1, coord;
-   float pression;
-   
-   static char tt[] = "TT";
-   static char p0[] = "P0";
-   static char gz[] = "GZ";
-   
-   float *gzptr,*ttptr,*ttcumul,*p0ptr;
-   int tempDate;
-   double dddeltaT;
-   
-   
-   gzptr         = (float *) calloc(champ->src.ni*champ->src.nj, sizeof(float));
-   ttptr         = (float *) calloc(champ->src.ni*champ->src.nj, sizeof(float));
-   ttcumul       = (float *) calloc(champ->src.ni*champ->src.nj, sizeof(float));
-   p0ptr         = (float *) calloc(champ->src.ni*champ->src.nj, sizeof(float));
+ {
+ int i,n,ier;
+ int ni, nj, nk;
 
-   tempDate = champ->dateo;
-   dddeltaT = (double)(champ->npas*champ->deet)/3600.0;
-   
-   f77name(incdatr)(&datev, &tempDate, &dddeltaT);
-   ier = c_fstlir(p0ptr, champ->iun, &ni, &nj, &nk, datev,
-      champ->etiket, 0, champ->ip2, champ->ip3, champ->typvar, p0);
+ int datev, ip1, coord;
+ float pression;
 
-   for (n=0; n < champ->coupe.nbNiveauxCoupe; n++)
+ static char tt[] = "TT";
+ static char p0[] = "P0";
+ static char gz[] = "GZ";
+
+ float *gzptr,*ttptr,*ttcumul,*p0ptr;
+ int tempDate;
+ double dddeltaT;
+
+
+ gzptr         = (float *) calloc(champ->src.ni*champ->src.nj, sizeof(float));
+ ttptr         = (float *) calloc(champ->src.ni*champ->src.nj, sizeof(float));
+ ttcumul       = (float *) calloc(champ->src.ni*champ->src.nj, sizeof(float));
+ p0ptr         = (float *) calloc(champ->src.ni*champ->src.nj, sizeof(float));
+
+ tempDate = champ->dateo;
+ dddeltaT = (double)(champ->npas*champ->deet)/3600.0;
+
+ f77name(incdatr)(&datev, &tempDate, &dddeltaT);
+ ier = c_fstlir(p0ptr, champ->iun, &ni, &nj, &nk, datev,
+    champ->etiket, 0, champ->ip2, champ->ip3, champ->typvar, p0);
+
+ for (n=0; n < champ->coupe.nbNiveauxCoupe; n++)
+    {
+    coord = ip12coord(champ->ip1);
+    ip1 = lvl2ip1(champ->coupe.niveauxCoupe[n],coord);
+    ier = c_fstlir(ttptr, champ->iun, &ni, &nj, &nk, datev,
+                    champ->etiket, ip1, champ->ip2, champ->ip3, champ->typvar, tt);
+    for (i=0; i < champ->src.ni*champ->src.nj; i++)
       {
-      coord = ip12coord(champ->ip1);
-      ip1 = lvl2ip1(champ->coupe.niveauxCoupe[n],coord);
-      ier = c_fstlir(ttptr, champ->iun, &ni, &nj, &nk, datev,
-                      champ->etiket, ip1, champ->ip2, champ->ip3, champ->typvar, tt);
-      for (i=0; i < champ->src.ni*champ->src.nj; i++)
-        {
-        ttcumul[i] += ttptr[i];
-        }
+      ttcumul[i] += ttptr[i];
       }
+    }
 
-   for (i=0; i < champ->src.ni*champ->src.nj; i++)
-      {
-      ttcumul[i] /= champ->coupe.nbNiveauxCoupe;
-      ttcumul[i] += 273.0;
-      }
+ for (i=0; i < champ->src.ni*champ->src.nj; i++)
+    {
+    ttcumul[i] /= champ->coupe.nbNiveauxCoupe;
+    ttcumul[i] += 273.0;
+    }
 
-   for (n=0; n < champ->coupe.nbNiveauxCoupe; n++)
-      {
-      coord = ip12coord(champ->ip1);
-      ip1 = lvl2ip1(champ->coupe.niveauxCoupe[n],coord);
-      ier = c_fstlir(ttptr, champ->iun, &ni, &nj, &nk, datev,
-         champ->etiket, ip1, champ->ip2, champ->ip3, champ->typvar, tt);
-      ier = c_fstlir(gzptr, champ->iun, &ni, &nj, &nk, datev,
-         champ->etiket, ip1, champ->ip2, champ->ip3, champ->typvar, gz);
+ for (n=0; n < champ->coupe.nbNiveauxCoupe; n++)
+    {
+    coord = ip12coord(champ->ip1);
+    ip1 = lvl2ip1(champ->coupe.niveauxCoupe[n],coord);
+    ier = c_fstlir(ttptr, champ->iun, &ni, &nj, &nk, datev,
+       champ->etiket, ip1, champ->ip2, champ->ip3, champ->typvar, tt);
+    ier = c_fstlir(gzptr, champ->iun, &ni, &nj, &nk, datev,
+       champ->etiket, ip1, champ->ip2, champ->ip3, champ->typvar, gz);
 
-      for (i=0; i < champ->src.ni*champ->src.nj; i++)
-   {
-   pression = 100.0*p0ptr[i]*exp(-gzptr[i]*10.0*9.81/(287.0*ttcumul[i]));
-   champ->coupe.ww3d[n][i] = -(287.0*(273.0+ttptr[i])*champ->coupe.ww3d[n][i])/(9.81*pression);
-   champ->coupe.ww3d[n][i] *= 0.5147;
-   }
-      }
-   
-   free(gzptr);
-   free(ttptr);
-   free(ttcumul);
-   free(p0ptr);
-   }
+    for (i=0; i < champ->src.ni*champ->src.nj; i++)
+     {
+     pression = 100.0*p0ptr[i]*exp(-gzptr[i]*10.0*9.81/(287.0*ttcumul[i]));
+     champ->coupe.ww3d[n][i] = -(287.0*(273.0+ttptr[i])*champ->coupe.ww3d[n][i])/(9.81*pression);
+     champ->coupe.ww3d[n][i] *= 0.5147;
+     }
+    }
+
+ free(gzptr);
+ free(ttptr);
+ free(ttcumul);
+ free(p0ptr);
+ }
 
 
 /**
@@ -394,55 +407,55 @@ void AfficherFleches(float *uu, float *vv, int ni, int nj, int couleur, int line
       
       rj = (float)jdebut;
       while (rj < (float)jfin)
-   {
-   if (densite < 1.0)
-      {
-      f77name(ez_rgdint_3_nw)(&uutmp,&ri,&rj,&un,uu,&fni,&un,&fnj);
-      f77name(ez_rgdint_3_nw)(&vvtmp,&ri,&rj,&un,vv,&fni,&un,&fnj);
-      }
-   else
-      {
-      k = C2FTN(ROUND(ri)-1,ROUND(rj)-1,ni);
-      uutmp = uu[k];
-      vvtmp = vv[k];
-      }
-   vit = sqrt(uutmp*uutmp+vvtmp*vvtmp);
-   if (vit != 0.0)
-      dir = 270.0 - 57.29577951 * atan2(vvtmp,uutmp);
-   else
-      dir = 0.0;
-   
-   if (dir < 0.0)
-      dir += 360.0;
-   
-   if (dir > 360.0)
-      dir -= 360.0;
-   
-   c_xy2fxfy(&x, &y, ri,rj);
-   if (displayMode == 0)
-      {
-      PointerVent(x, y, dir, vit, longueur);
-      }
-   else
-      {
-      temp = vit;
-      enhancefracs(&temp,1,0.0,vm,variation);
-      largeurFleche  = ROUND(1.0*epaisseur*temp);
-      longueurFleche = ROUND((float)longueur*temp);
-      longueurFleche = longueurFleche < 1 ? 1 : longueurFleche;
-      PointerFleche(x, y, dir, vit, longueurFleche, largeurFleche);
-      }
+       {
+       if (densite < 1.0)
+          {
+          f77name(ez_rgdint_3_nw)(&uutmp,&ri,&rj,&un,uu,&fni,&un,&fnj);
+          f77name(ez_rgdint_3_nw)(&vvtmp,&ri,&rj,&un,vv,&fni,&un,&fnj);
+          }
+       else
+          {
+          k = C2FTN(ROUND(ri)-1,ROUND(rj)-1,ni);
+          uutmp = uu[k];
+          vvtmp = vv[k];
+          }
+       vit = sqrt(uutmp*uutmp+vvtmp*vvtmp);
+       if (vit != 0.0)
+          dir = 270.0 - 57.29577951 * atan2(vvtmp,uutmp);
+       else
+          dir = 0.0;
+       
+       if (dir < 0.0)
+          dir += 360.0;
+       
+       if (dir > 360.0)
+          dir -= 360.0;
+       
+       c_xy2fxfy(&x, &y, ri,rj);
+       if (displayMode == 0)
+          {
+          PointerVent(x, y, dir, vit, longueur);
+          }
+       else
+          {
+          temp = vit;
+          enhancefracs(&temp,1,0.0,vm,variation);
+          largeurFleche  = ROUND(1.0*epaisseur*temp);
+          longueurFleche = ROUND((float)longueur*temp);
+          longueurFleche = longueurFleche < 1 ? 1 : longueurFleche;
+          PointerFleche(x, y, dir, vit, longueurFleche, largeurFleche);
+          }
 
-   jdist = 0;
-   c_wglxai(&idist1, &jdist1, x, y);
-   while (jdist < longueurMax && rj <= (float)jfin)
-      {
-      c_xy2fxfy(&x2, &y2, ri, rj+densite);
-      c_wglxai(&idist2, &jdist2, x2, y2);
-      jdist = jdist2 - jdist1;
-      rj+=densite;
-      }
-   }
+       jdist = 0;
+       c_wglxai(&idist1, &jdist1, x, y);
+       while (jdist < longueurMax && rj <= (float)jfin)
+          {
+          c_xy2fxfy(&x2, &y2, ri, rj+densite);
+          c_wglxai(&idist2, &jdist2, x2, y2);
+          jdist = jdist2 - jdist1;
+          rj+=densite;
+          }
+       }
    
       idist = 0;
       c_xy2fxfy(&x, &y, ri,rj);

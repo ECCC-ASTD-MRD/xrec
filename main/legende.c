@@ -1201,8 +1201,8 @@ void AfficherLegendeSupProfil(float xx, float yy, float xmin, float ymin, float 
         {
         strcpy(texte[i],"");
         strcpy(texte[i+1],"");
-        FldMgrGetChamp(&champ, i+1);
-        FldMgrGetChamp(&champ2, i);
+        FldMgrGetChamp(&champ, i);
+        FldMgrGetChamp(&champ2, i+1);
         CombinerLegendeDiffChamps(texte[i], champ, champ2);
         }
       }

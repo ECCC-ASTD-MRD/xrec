@@ -298,10 +298,8 @@ typedef struct
 
 typedef struct
 {
-  int type;
-  int ni,nj,nk;
-  char grtyp[4];
-  char grref[4];
+  int type,gdid,ni,nj,nk;
+  char grtyp[4], grref[4];
   int ig1, ig2, ig3, ig4;
   int ig1ref, ig2ref, ig3ref, ig4ref;
   unsigned int *missing;

@@ -25,7 +25,7 @@
 #define X                        0
 #define Y                        1
 
-#define NB_MAX_POINTS   1024 
+#define NB_MAX_POINTS   1024
 #define  ROUND(x)               (int)(x + 0.5)
 
 #define LE_LOG(x)                   ((x) <= 0.0 ? -38.0 : (float)log10(x))
@@ -34,29 +34,29 @@
 #define LE_LOG(x)                   ((x) <= 0.0 ? -38.0 : (float)flog10(x))
 #endif
 
-typedef struct 
+typedef struct
 {
    int mode, mapping, ni, nj;
    int idebut, jdebut, ifin, jfin;
    float xdebut, ydebut, xfin, yfin;
    float densiteX, densiteY;
-   float *axex, *axey, *z;
+   float *axex, *axey, *z, *zx, *zy, *azy;
    } UserSpaceInfo;
 
-typedef struct 
+typedef struct
 {
   short x, y;
 } wgl_point;
 
 
 
-typedef struct 
+typedef struct
 {
   short x, y;
   unsigned short width, height;
 } wgl_rectangle;
 
-typedef struct 
+typedef struct
 {
   int r, g, b;
 } wgl_color;

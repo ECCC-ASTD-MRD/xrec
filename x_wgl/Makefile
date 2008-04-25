@@ -8,11 +8,11 @@ SHELL = /bin/sh
 
 CPP = /lib/cpp
 
-X_WGLLIB = ../lib/lib$(EC_ARCH)$(ABI)_x_wgl.a
+X_WGLLIB = ../lib/$(EC_ARCH)$(ABI)/libx_wgl.a
 
 FFLAGS = 
 
-CFLAGS =  -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -DX_WGL  -I$(HOME)/src/gd/
+CFLAGS =  -I../include -DX_WGL  -I/opt/xm230/include -I$(HOME)/src/gd/
 
 OPTIMIZ = -debug -O 0
 OPTIMIZ = -O 2

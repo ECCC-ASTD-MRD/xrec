@@ -8,7 +8,7 @@ SHELL = /bin/sh
 
 CPP = /lib/cpp
 
-REC_UTILLIB = ../lib/lib$(EC_ARCH)$(ABI)_rec_util.a
+RECLIB = ../lib/$(EC_ARCH)/librec.a
 
 FFLAGS =  
 
@@ -63,12 +63,12 @@ qclean:
 
 
 recutil_lib: \
-	$(REC_UTILLIB)(ComputeImage.o) \
-	$(REC_UTILLIB)(Convolve2D.o) \
-	$(REC_UTILLIB)(Convolve3D.o) \
-	$(REC_UTILLIB)(Create.o) \
-	$(REC_UTILLIB)(Destroy.o) \
-	$(REC_UTILLIB)(Filters.o) \
-	$(REC_UTILLIB)(Modify.o) \
-	$(REC_UTILLIB)(Query.o) 
+	$(RECLIB)(ComputeImage.o) \
+	$(RECLIB)(Convolve2D.o) \
+	$(RECLIB)(Convolve3D.o) \
+	$(RECLIB)(Create.o) \
+	$(RECLIB)(Destroy.o) \
+	$(RECLIB)(Filters.o) \
+	$(RECLIB)(Modify.o) \
+	$(RECLIB)(Query.o) 
 

@@ -238,7 +238,7 @@ void CalculerStats2(char texte[], int index, _Champ *champ, _Stats stats)
       strcat(texte, tmpStr);
       sprintf(tmpStr, "Niveau:%d Heure:%d IP3:%d\n", champ->ip1, champ->ip2, champ->ip3);
       strcat(texte, tmpStr);
-      if (champ->missingFlag)
+      if (champ->missingFlag && GetValeursManquantesToggle())
         {
         sprintf(tmpStr, "Champ source: (%d x %d) - Npts valides: %d sur %d (%4.2f)\n",champ->src.ni, champ->src.nj,stats.npts_active, stats.npts_total, 100.0*(float)(stats.npts_active)/(float)(stats.npts_total));
         strcat(texte, tmpStr);
@@ -251,7 +251,7 @@ void CalculerStats2(char texte[], int index, _Champ *champ, _Stats stats)
       break;
       
       case DST_GRID:
-      if (champ->missingFlag)
+      if (champ->missingFlag && GetValeursManquantesToggle())
         {
         sprintf(tmpStr, "Champ interpole: (%d x %d) - Npts valides: %d sur %d (%4.2f)\n",champ->dst.ni, champ->dst.nj,stats.npts_active, stats.npts_total, 100.0*(float)(stats.npts_active)/(float)(stats.npts_total));
         strcat(texte, tmpStr);
@@ -264,7 +264,7 @@ void CalculerStats2(char texte[], int index, _Champ *champ, _Stats stats)
       break;
       
       case ZOOM_GRID:
-      if (champ->missingFlag)
+      if (champ->missingFlag && GetValeursManquantesToggle())
         {
         sprintf(tmpStr, "Champ zoom: (%d,%d)--(%d,%d) - Npts valides: %d sur %d (%4.2f)\n",champ->stats_zoom.iz1, champ->stats_zoom.jz1, champ->stats_zoom.iz2, champ->stats_zoom.jz2 ,stats.npts_active, stats.npts_total, 100.0*(float)(stats.npts_active)/(float)(stats.npts_total));
         strcat(texte, tmpStr);
@@ -346,7 +346,7 @@ void MettreAJourSrcStats()
       {
       if (champ->natureTensorielle == SCALAIRE)
         {
-        if (champ->missingFlag)
+        if (champ->missingFlag && GetValeursManquantesToggle())
          {
          champ->stats_src.npts_total = champ->src.ni*champ->src.nj;
          sminmax_missing_ij(&(champ->stats_src.min), &(champ->stats_src.max), &(champ->stats_src.imin), &(champ->stats_src.jmin), 
@@ -365,7 +365,7 @@ void MettreAJourSrcStats()
           npts = champ->src.ni*champ->src.nj;
           uv = (float *)malloc(sizeof(float)*npts);
           f77name(modulus)(uv, champ->uu, champ->vv, &npts);
-          if (champ->missingFlag)
+          if (champ->missingFlag && GetValeursManquantesToggle())
             {
             champ->stats_src.npts_total = champ->src.ni*champ->src.nj;
             sminmax_missing_ij(&(champ->stats_src.uumin), &(champ->stats_src.uumax), &(champ->stats_src.iuumin), &(champ->stats_src.juumin), 
@@ -416,7 +416,7 @@ void MettreAJourDstStats()
       {
       if (champ->natureTensorielle == SCALAIRE)
         {
-        if (champ->missingFlag)
+        if (champ->missingFlag && GetValeursManquantesToggle())
          {
          champ->stats_dst.npts_total = champ->dst.ni*champ->dst.nj;
          sminmax_missing_ij(&(champ->stats_dst.min), &(champ->stats_dst.max), &(champ->stats_dst.imin), &(champ->stats_dst.jmin), 
@@ -434,7 +434,7 @@ void MettreAJourDstStats()
         {
           npts = champ->dst.ni*champ->dst.nj;
           uv = (float *)malloc(sizeof(float)*npts);
-          if (champ->missingFlag)
+          if (champ->missingFlag && GetValeursManquantesToggle())
             {
             champ->stats_dst.npts_total = champ->dst.ni*champ->dst.nj;
             sminmax_missing_ij(&(champ->stats_dst.uumin), &(champ->stats_dst.uumax), &(champ->stats_dst.iuumin), &(champ->stats_dst.juumin), 
@@ -544,7 +544,7 @@ void MettreAJourZoomStats(void)
           {
           if (champ->natureTensorielle == SCALAIRE)
             {
-            if (champ->missingFlag)
+            if (champ->missingFlag && GetValeursManquantesToggle())
               {
               sminmax_missing_ij(&(champ->stats_zoom.min), &(champ->stats_zoom.max), &(champ->stats_zoom.imin), &(champ->stats_zoom.jmin),
                       &(champ->stats_zoom.imax), &(champ->stats_zoom.jmax), champ->fld, champ->dst.missing, champ->dst.ni, champ->dst.nj, ix1, iy1, ix2, iy2);
@@ -561,7 +561,7 @@ void MettreAJourZoomStats(void)
             {
             npts = champ->dst.ni*champ->dst.nj;
             uv = (float *)malloc(sizeof(float)*npts);
-            if (champ->missingFlag)
+            if (champ->missingFlag && GetValeursManquantesToggle())
               {
               champ->stats_zoom.npts_total = champ->dst.ni*champ->dst.nj;
               sminmax_missing_ij(&(champ->stats_zoom.uumin), &(champ->stats_zoom.uumax), &(champ->stats_zoom.iuumin), &(champ->stats_zoom.juumin),

@@ -16,10 +16,10 @@ genlib:
 	for dir in $(subdirs); do  cd $$dir; make; cd ..; done
 
 libgd:
-	cd gd2; make clean; make libgd.a; mv libgd.a ../lib/lib$(EC_ARCH)_gd.a; cd ..
+	cd gd2; make clean; make libgd.a; mv libgd.a ../lib/$(EC_ARCH)/librmngd.a; cd ..
 
 libpng:
-	cd png; make clean; make libpng.a; mv libpng.a ../lib/lib$(EC_ARCH)_png.a; cd ..
+	cd png; make clean; make libpng.a; mv libpng.a ../lib/$(EC_ARCH)/librmnpng.a; cd ..
 
 optimiz:
 	for dir in $(subdirs); do  cd $$dir; make OPTIMIZ="-O 3"; cd ..; done

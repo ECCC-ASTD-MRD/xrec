@@ -59,7 +59,7 @@ void AfficherChampBiDimensionnel(int indChamp,int nbChampsActifs,float *fld,floa
       {
       DefinirFenetreGrille(&mdeb, &ndeb, &mfin, &nfin, mapInfo.ni, mapInfo.nj);
       {
-      if (champ->natureTensorielle == SCALAIRE)
+      if (champ->natureTensorielle == SCALAIRE ||  xc.statuts[BARBULES] == 0)
         {
         f77name(sminmax)(&champ->localMin, &champ->localMax, fld,  &mapInfo.ni, &mapInfo.nj, &mdeb, &ndeb, &mfin, &nfin);
         min = champ->localMin;

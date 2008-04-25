@@ -8,7 +8,7 @@ SHELL = /bin/sh
 
 CPP = /lib/cpp
 
-GD_WGLLIB = ../lib/lib$(EC_ARCH)$(ABI)_gd_wgl.a
+GD_WGLLIB = ../lib/$(EC_ARCH)$(ABI)/libgd_wgl.a
 
 CFLAGS =  -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -I$(HOME)/src/gd2/ -DX_WGL
 

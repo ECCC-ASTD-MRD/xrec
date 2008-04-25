@@ -35,7 +35,7 @@ extern int gmp_nbVecs[];
 extern int gmp_nbCities;
 extern GeoMapInfoStruct     mapInfo;
 extern GeoMapFlagsStruct   mapFlags;
-
+wordint c_gdllfxyz(wordint gdid, ftnfloat *lat, ftnfloat *lon, ftnfloat *x, ftnfloat *y, wordint n);
 void
 gmp_gvlatlon(float *vlatmin, float *vlonmin, float *vlatmax, float *vlonmax, int coord)
 {
@@ -56,6 +56,7 @@ gmp_gvlatlon(float *vlatmin, float *vlonmin, float *vlatmax, float *vlonmax, int
   int pixperdegree = 1;
 
   gdid = mapInfo.gdid;
+  gdid = c_ezgetgdout();
   c_wglgvx(&xmin, &ymin, &xmax, &ymax); 
   c_wglxai(&idebut, &jdebut, xmin, ymin);
   c_wglxai(&ifin, &jfin, xmax, ymax);

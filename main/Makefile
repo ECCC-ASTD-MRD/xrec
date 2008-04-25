@@ -8,18 +8,17 @@ SHELL = /bin/sh
 
 CPP = /lib/cpp
 
-RECLIB = ../lib/lib$(EC_ARCH)$(ABI)_rec.a
-RECLIB = ../lib/lib$(EC_ARCH)$(ABI)_rec.a
+RECLIB = ../lib/$(EC_ARCH)$(ABI)/librec.a
 
-FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL -O0 -g
 FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL -O2
+FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL -O0 -g
 
 #CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I/usr/include/libxml2 -I$(HOME)/src/images/gd2/ -DX_WGL
 CFLAGS = -I/usr/X11R6/include -I/opt/xm/include -I$(ARMNLIB)/include -I../include -I$(HOME)/src/images/gd2/ -DX_WGL
 
 #OPTIMIZ = -O 3 -optc =-Wall
-OPTIMIZ = -O 0 -debug
 OPTIMIZ = -O 2
+OPTIMIZ = -O 0 -debug
 
 CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 
@@ -47,7 +46,8 @@ default: reclib
 .ftn.a:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 	ar rv $@ $*.o
-	rm -f $*.f $*.o
+#	rm -f $*.f $*.o
+	rm -f $*.o
 
 .ftn90.a:
 	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
@@ -59,7 +59,7 @@ FTNDECKS= \
          grid.ftn         ij2xy_warp.ftn90 ij2xy_warp_r.ftn90 \
 	 new-xfsl.ftn       readrec.ftn \
          rec.ftn       recgrille.ftn       rlx.ftn       setcoupe.ftn \
-	 setitem.ftn       statfld4.ftn       unsat.ftn       wglrfton.ftn
+	 setitem.ftn       statfld4.ftn       unsat.ftn       wglrfton.ftn wglpolyftn.ftn
 
 CDECKS= \
          PointerVent.c       aff_coupe.c       anim.c v_anim.c       aux.c \
@@ -180,6 +180,7 @@ reclib: $(RECLIB)(PointerVent.o) \
 	$(RECLIB)(wglpfton32.o) \
 	$(RECLIB)(wglpfton32_m.o) \
 	$(RECLIB)(wglrfton.o) \
+	$(RECLIB)(wglpolyfton.o) \
 	$(RECLIB)(wglrfton_m.o) \
 	$(RECLIB)(widgets-util.o) \
 	$(RECLIB)(xm-controle.o) \
@@ -201,13 +202,16 @@ xrec-stereo2:
 	r.build -bidon -main xrec -o xrec -libpath $(REC)/lib/$(ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec wglx Xm Xt X11 m -librmn  rmn_x
 
 xrec-IRIX64:
-	r.compile -src rec.ftn -o $(TMPDIR)/xrec -libpath ../lib $(ARMNLIB)/lib/$(ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl StaticXm StaticMrm Xmu Xt Xext X11 $(EC_ARCH)$(ABI)_gd png z m dl -librmn rmn_009
+	r.compile -src rec.ftn -o $(TMPDIR)/xrec -libpath ../lib/$(ARCH) $(ARMNLIB)/lib/$(ARCH) /usr/X11R6/lib -libappl rec rec_util rec wgl gd_wgl x_wgl Xm Mrm Xmu Xt Xext X11 rmngd rmnpng z m dl -librmn rmnbeta
 
 xrec-AIX:
 	r.compile -debug -O  0 -src rec.ftn -o $(TMPDIR)/xrec -libpath /opt/xm/lib/ $(PWD)/../lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl Xm Mrm Xmu Xp Xt Xext X11 $(EC_ARCH)$(ABI)_gd z $(EC_ARCH)$(ABI)_png m dl jpeg -librmn rmnbeta
 
 xrec-Linux_pgi611:
-	cd main; r.compile -src rec.ftn -o $(TMPDIR)/xrec -libpath $(PWD)/../lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl StaticXm StaticMrm Xmu Xp Xt Xext X11 $(EC_ARCH)$(ABI)_gd z $(EC_ARCH)$(ABI)_png m dl -librmn rmn_009
+	cd main; r.compile -src rec.ftn -o $(TMPDIR)/xrec -obj $(HOME)/src/isi4/*.o -libpath ../lib/$(EC_ARCH) /opt/xm230/lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl rec rec_util wgl gd_wgl x_wgl wgl Xm Xft Mrm Xmu Xp Xt Xext X11 rmngd z rmnpng jpeg m dl -librmn rmn_009
+
+xrec-pgi7:
+	r.compile -debug -O  0 -src rec.ftn -o $(TMPDIR)/xrec -libpath /opt/xm/lib/ ~armnlib/public/Linux $(PWD)/../lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl Xm Mrm Xmu Xp Xt Xext Xft Xrender X11 $(EC_ARCH)$(ABI)_gd z $(EC_ARCH)$(ABI)_png m dl jpeg -librmn rmnbeta_pgi7
 
 xrec-Linux_x86-64_pgi611:
 	r.compile -debug -O  0 -src rec.ftn -o $(TMPDIR)/xrec -libpath /opt/xm/lib/ $(PWD)/../lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl Xm Mrm Xmu Xp Xt Xext Xft Xrender X11 $(EC_ARCH)$(ABI)_gd z $(EC_ARCH)$(ABI)_png m dl jpeg -librmn rmnbeta

@@ -66,9 +66,9 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
 
    c_gmpinit();
 
-   iig1 = ig1; 
-   iig2 = ig2; 
-   iig3 = ig3, 
+   iig1 = ig1;
+   iig2 = ig2;
+   iig3 = ig3,
    iig4 = ig4;
 
    gdxmin = 1.0;
@@ -79,7 +79,7 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
    lgrtyp[0] = grtyp;
    lgrtyp[1] = '\0';
    mapInfo.gdid = c_ezqkdef(ni, nj, lgrtyp, ig1, ig2, ig3, ig4, 0);
-   
+
    mapInfo.ig1 = ig1;
    mapInfo.ig2 = ig2;
    mapInfo.ig3 = ig3;
@@ -105,20 +105,36 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
          mapInfo.latOrigine = -90.0 + mapInfo.deltaLat * 0.50;
          mapInfo.lonOrigine = 0.0;
          break;
-         
+
          case NORD:
          mapInfo.deltaLat = 90.0 / (float) (mapInfo.nj);
          mapInfo.latOrigine = mapInfo.deltaLat * 0.50;
          break;
-         
+
          case SUD:
          mapInfo.deltaLat = 90.0 / (float) (mapInfo.nj);
-         mapInfo.latOrigine = -90.0 + mapInfo.deltaLat * 0.50;   
+         mapInfo.latOrigine = -90.0 + mapInfo.deltaLat * 0.50;
          break;
          }
       mapFlags.typeValide = OUI;
       break;
-      
+
+      case 'O':
+      mapInfo.type = grtyp;
+      mapInfo.xOrigine = 1.0;
+      mapInfo.yOrigine = 1.0;
+      mapInfo.ni = ni;
+      mapInfo.nj = nj;
+      mapInfo.hemisphere = GLOBAL;
+      mapInfo.indOrientation = NORD;
+      mapInfo.deltaLon = 1.0;
+      mapInfo.lonOrigine = 0.0;
+      mapInfo.deltaLat = 180.0 / (float) (mapInfo.nj);
+      mapInfo.latOrigine = -90.0 + mapInfo.deltaLat * 0.50;
+      mapInfo.lonOrigine = 0.0;
+      mapFlags.typeValide = OUI;
+      break;
+
       case 'B':
       mapInfo.type = grtyp;
       mapInfo.xOrigine = 1.0;
@@ -135,12 +151,12 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
          mapInfo.deltaLat = 180.0 / (float) (mapInfo.nj - 1);
          mapInfo.latOrigine = -90.0;
          break;
-         
+
          case NORD:
          mapInfo.deltaLat = 90.0 / (float) (mapInfo.nj - 1);
          mapInfo.latOrigine = 0.0;
          break;
-         
+
          case SUD:
          mapInfo.deltaLat = 90.0 / (float) (mapInfo.nj - 1);
          mapInfo.latOrigine = -90.0;
@@ -148,7 +164,7 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
          }
       mapFlags.typeValide = OUI;
       break;
-      
+
       case 'E':
       mapInfo.type = grtyp;
       mapInfo.hemisphere = GLOBAL;
@@ -159,7 +175,7 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
                       &iig1, &iig2, &iig3, &iig4);
       mapFlags.typeValide = OUI;
       break;
-      
+
       case 'L':
       mapInfo.type = grtyp;
       mapInfo.hemisphere = GLOBAL;
@@ -168,13 +184,13 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
       mapInfo.yOrigine = 1.0;
       mapInfo.ni = ni;
       mapInfo.nj = nj;
-      f77name(cigaxg)(&grtyp,  &mapInfo.latOrigine, &mapInfo.lonOrigine, &mapInfo.deltaLat, &mapInfo.deltaLon, 
+      f77name(cigaxg)(&grtyp,  &mapInfo.latOrigine, &mapInfo.lonOrigine, &mapInfo.deltaLat, &mapInfo.deltaLon,
                       &iig1, &iig2, &iig3, &iig4);
       if (mapInfo.lonOrigine >= 180)
          mapInfo.lonOrigine -= 360.0;
       mapFlags.typeValide = OUI;
       break;
-      
+
       case 'N':
       mapInfo.type = grtyp;
       mapInfo.ni = ni;
@@ -186,7 +202,7 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
               &iig1, &iig2, &iig3, &iig4);
       mapFlags.typeValide = OUI;
       break;
-      
+
       case 'S':
       mapInfo.type = grtyp;
       mapInfo.ni = ni;
@@ -210,7 +226,7 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
               &iig1, &iig2, &iig3, &iig4);
       mapFlags.typeValide = OUI;
       break;
-      
+
       case '!':
       mapInfo.type = grtyp;
       mapInfo.ni = ni;
@@ -234,7 +250,7 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
       mapFlags.lu[CONTINENTS] = NON;
       mapFlags.lu[LATLON] = NON;
       }
-   
+
    CopierMapInfos(&oldMapInfo, &mapInfo);
    return 1;
    }

@@ -72,7 +72,7 @@ void c_gmpdrw()
     mapFlags.verifStatutNecessaire = OUI;
     }
   
-/*  if (NULL != getenv("GDB_RESOLUTION") && mapFlags.verifStatutNecessaire == OUI)
+  if (NULL != getenv("GDB_RESOLUTION") && mapFlags.verifStatutNecessaire == OUI)
     {
     if (once == 0)
       {
@@ -93,7 +93,7 @@ void c_gmpdrw()
       {
       mapFlags.verifStatutNecessaire = NON;
       }
-    }*/
+    }
     
       
   if (mapFlags.verifStatutNecessaire == OUI)
@@ -119,10 +119,6 @@ void c_gmpdrw()
         switch (i)
           {
           case VILLES:
-            for (n=0; n < gmp_nbCities; n++)
-              {
-              c_gmpDrawCityName(gmp_cities[n].x, gmp_cities[n].y, (char *)gmp_cities[n].text);
-              }
             /* absence de break intentionnelle */
 
           default:
@@ -136,7 +132,14 @@ void c_gmpdrw()
       }
     }
       
-  
+  if (mapFlags.etat[VILLES] == OUI)
+    {
+    for (n=0; n < gmp_nbCities; n++)
+      {
+      c_gmpDrawCityName(gmp_cities[n].x, gmp_cities[n].y, (char *)gmp_cities[n].text);
+      }
+    }
+
   old_gmp_xmin = gmp_xmin;
   old_gmp_xmax = gmp_xmax;
   old_gmp_ymin = gmp_ymin;

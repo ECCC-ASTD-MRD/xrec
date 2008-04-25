@@ -130,15 +130,15 @@ int posX, posY;
    
    XtSetWarningHandler(HandlerBidon);
 
-   forme = XmCreatePopupMenu(topLevel, "forme", args, i);
+   forme = (Widget)XmCreatePopupMenu(topLevel, "forme", args, i);
 
    i = 0;
    string = XmStringCreate(menuTitreStr, XmSTRING_DEFAULT_CHARSET); 
    XtSetArg(args[i], XmNlabelString, string); i++;
-   menuTitre[0] = XmCreateLabelGadget(forme, "Title", args, i);
+   menuTitre[0] = (Widget)XmCreateLabel(forme, "Title", args, i);
    XmStringFree(string);
 
-   menuTitre[1] = XmCreateSeparatorGadget(forme, "separator", NULL, 0);
+   menuTitre[1] = (Widget)XmCreateSeparator(forme, "separator", NULL, 0);
  
    menuItems = (Widget *) calloc(nbMenuItems, sizeof(Widget));
    for (n=0; n < nbMenuItems; n++)
@@ -146,14 +146,14 @@ int posX, posY;
       i = 0;
       if (0 == strcmp(menuItemsStr[n],"separator"))
 	 {
-	 menuItems[n] = XmCreateSeparatorGadget(forme, "separator", NULL, 0);
+	 menuItems[n] = (Widget)XmCreateSeparator(forme, "separator", NULL, 0);
 	 }
       else
 	 {
 	 string = XmStringCreate(menuItemsStr[n], XmSTRING_DEFAULT_CHARSET); 
 	 XtSetArg(args[i], XmNlabelString, string); i++;
 	 
-	 menuItems[n] = XmCreatePushButtonGadget(forme, "menuItem", args, i);
+	 menuItems[n] = (Widget)XmCreatePushButton(forme, "menuItem", args, i);
 	 XtAddCallback(menuItems[n], XmNactivateCallback, SelectItem, NULL);
 	 
 	 XmStringFree(string);
@@ -164,7 +164,7 @@ int posX, posY;
    string = XmStringCreate(menuInfoStr, XmSTRING_DEFAULT_CHARSET); 
    XtSetArg(args[i], XmNlabelString, string); i++;
 
-   menuInfo = XmCreateLabelGadget(forme, "Title", args, i);
+   menuInfo = (Widget)XmCreateLabel(forme, "Title", args, i);
    XmStringFree(string);
 
    i = 0;
