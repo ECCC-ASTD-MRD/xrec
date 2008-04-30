@@ -61,7 +61,7 @@ static char *labelTailleSymbole[] =       {"Taille symboles:      ", "Symbol Siz
 static char *labelUnitesSymbole[] =       {"Unites taille symbole:", "Symbol Size Units:"};
 
 static char *labelOptionsCouleur[][2] =           {{"Oui             ", "Non"},{"Yes          ", "No"}};
-static char *labelOptionsSymbole[][3] =           {{"croix           ", "cercle", "carre"},{"cross", "circle", "square"}};
+static char *labelOptionsSymbole[][5] =           {{"croix           ", "cercle", "carre", "polygone", "polygone contoure"},{"cross", "circle", "square", "polygon", "contoured polygon"}};
 static char *labelOptionsAffichageValeurs[][2] =  {{"Oui             ", "Non"},{"Yes          ", "No"}};
 static char *labelOptionsAffichageLatlon[][2] =   {{"Oui             ", "Non"},{"Yes          ", "No"}};
 static char *labelOptionsUnitesSymbole[][4] =     {{"Pixels          ", "Degres", "Km", "Milles nautiques"},{"Pixels", "Degrees", "Km", "Nautical Miles"}};
@@ -121,6 +121,14 @@ void SetSymboleToggle (Widget w, caddr_t client_data, caddr_t call_data)
   if (0 == strcmp(str, labelOptionsSymbole[lng][2]))
      {
      typeSymbole = RECTANGLE;
+     }
+  if (0 == strcmp(str, labelOptionsSymbole[lng][3]))
+     {
+     typeSymbole = POLYGONE;
+     }
+  if (0 == strcmp(str, labelOptionsSymbole[lng][4]))
+     {
+     typeSymbole = POLYGONE_CONTOURE;
      }
     RedessinerFenetres();
    }
@@ -318,7 +326,7 @@ void InitPanneauValeursPonctuelles()
 
    p_ptvalOptionsSymbole = (Widget)XmCreatePulldownMenu(p_ptvalFrameSymbole, labelSymbole[lng], NULL, 0);
 
-   for (n=0; n < 3; n++)
+   for (n=0; n < 5; n++)
     {
     i = 0;
     string = XmStringCreateLtoR(labelOptionsSymbole[lng][n], XmSTRING_DEFAULT_CHARSET);
@@ -328,7 +336,7 @@ void InitPanneauValeursPonctuelles()
     XtAddCallback(p_ptvalOptionsSymboleItems[n], XmNactivateCallback, (XtCallbackProc)  SetSymboleToggle, (XtPointer) n);
     }
 
-   XtManageChildren(p_ptvalOptionsSymboleItems, 3);
+   XtManageChildren(p_ptvalOptionsSymboleItems, 5);
 
    i = 0;
    string = XmStringCreateLtoR(labelSymbole[lng], XmSTRING_DEFAULT_CHARSET);

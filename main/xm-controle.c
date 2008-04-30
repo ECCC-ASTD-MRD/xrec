@@ -934,7 +934,7 @@ XtCallbackProc ChangerStatutSuperposition(Widget w,  caddr_t unused1, caddr_t un
                 {
                 EffacerLegende2();
                 AfficherLegende2(*champ);
-                
+
                 if (AfficherItem(0,LEGENDE_COULEUR))
                    {
                    AfficherLegendeCouleur(recColorTable, min, max, champ->intervalles,
@@ -1221,10 +1221,10 @@ void InitFormeMessage()
 
    strcpy(tempStr, "Normal");
    i = 0;
-   label = XmStringCreateLtoR("Normal", XmSTRING_DEFAULT_CHARSET); 
+   label = XmStringCreateLtoR("Normal", XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNalignment, XmALIGNMENT_BEGINNING); i++;
-   XtSetArg(args[i], XmNlabelString, label); i++; 
-   XtSetArg(args[i], XmNvalue, (char *)tempStr); i++; 
+   XtSetArg(args[i], XmNlabelString, label); i++;
+   XtSetArg(args[i], XmNvalue, (char *)tempStr); i++;
    XtSetArg(args[i], XmNeditable, False); i++;
    xc.labelInfo = (Widget)XmCreateTextField(xc.formeMessageFrame, "TextField", args, i);
    XtManageChild(xc.labelInfo);
@@ -1449,7 +1449,7 @@ void InitMenuAffichage()
    int i, j;
    Arg  args[10];
    XmString label;
- 
+
    label = XmStringCreate(labelMenuAffichage[lng], XmSTRING_DEFAULT_CHARSET);
 
    i = 0;
@@ -1556,7 +1556,7 @@ void InitMenuVecteurs()
    int i, j;
    Arg  args[10];
    XmString label;
-   
+
    i = 0;
    label = XmStringCreate(labelMenuVecteurs[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, label); i++;
@@ -1969,7 +1969,7 @@ XtCallbackProc MenuGrilleSelect(Widget w, XtPointer unused1, XtPointer unused2)
    float rx1, rx2, ry1, ry2;
    int drawcode;
    _Champ *champ;
-   
+
    int c_ezgetgdin();
 
    FldMgrGetChamp(&champ, 0);
@@ -2254,7 +2254,7 @@ XtCallbackProc MenuAffichageSelect(Widget w, XtPointer unused1, XtPointer unused
 
       case AFF_AUTOMATIQUE:
       break;
-      
+
       default:
       if (xc.statuts[AFF_AUTOMATIQUE])
         {
@@ -2997,7 +2997,7 @@ XtCallbackProc Zoom(Widget w, caddr_t client_data, caddr_t call_data)
    fx2 = (float) (x2 - x0);
    fy1 = (float) (y1 - y0);
    fy2 = (float) (y2 - y0);
-   
+
 
    switch(event)
       {
@@ -3046,7 +3046,7 @@ XtCallbackProc Zoom(Widget w, caddr_t client_data, caddr_t call_data)
 
       ix1 = (int) fx1; ix2 = (int) fx2;
       iy1 = (int) fy1; iy2 = (int) fy2;
-      
+
       AjusterViewport(&viewp);
       c_wglssp(fx1, fy1, fx2, fy2,
                viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, 1);
@@ -3075,14 +3075,14 @@ XtCallbackProc Zoom(Widget w, caddr_t client_data, caddr_t call_data)
 
 /*   DefinirFenetreGrille(&ix1, &iy1, &ix2, &iy2, &mapInfo.ni, &mapInfo.nj);
    fprintf(stderr, "zoom: %d %d %d %d", ix1, iy1, ix2, iy2);*/
-   
+
    for (i=0; i < FldMgrGetNbChampsActifs(); i++)
       {
       FldMgrGetChamp(&champ, i);
       champ->stats_zoom.to_be_updated = 1;
-      }   
-   
-   MettreAJourStats();      
+      }
+
+   MettreAJourStats();
    LibererImages();
    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
    AfficherMessageInfoStandard();
@@ -3480,7 +3480,7 @@ void SetClipMask()
       j1 = viewp.vj1;
 
    if (i2 > viewp.vi2)
-      i2 = viewp.vj2;
+      i2 = viewp.vi2;
 
    if (j2 > viewp.vj2)
       j2 = viewp.vj2;
@@ -3694,7 +3694,7 @@ void f77name(c_sctlatr)(char item[],char valeur[],int lenItem,int lenValeur)
          {
          xc.statuts[indItem] = TRUE;
          }
-   
+
       if (0 == strcmp(valeur, "off"))
          {
          xc.statuts[indItem] = FALSE;

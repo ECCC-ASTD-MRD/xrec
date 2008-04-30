@@ -57,6 +57,8 @@
 #define CROIX                    0
 #define CERCLE                   1
 #define RECTANGLE                2
+#define POLYGONE                 3
+#define POLYGONE_CONTOURE        4
 
 #define PIXELS                   0
 #define DEGRES                   1
@@ -194,7 +196,7 @@
 #define FTN2C(i,j,ni)  (int)((ni) * (j) + i)
 #define BITPOS(i) (i - ((i >> 5) << 5))
 #define GETMSK(fld,i) ((fld[i >> 5]  & (1 << BITPOS(i))) >> BITPOS(i))
-#define SETMSK(fld,i) (fld[i >> 5] | (fld[i] << BITPOS(i))) 
+#define SETMSK(fld,i) (fld[i >> 5] | (fld[i] << BITPOS(i)))
 #if defined  (hp720) || defined (i386) || defined (Darwin) || defined (AIX)
 #define ffloor floor
 #define fceil ceil
@@ -486,7 +488,7 @@ typedef struct
    float val;
    } PointEditionStruct;
 
-typedef struct 
+typedef struct
 {
    int type;
    int x1, y1, x2, y2;

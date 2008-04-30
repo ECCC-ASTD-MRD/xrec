@@ -2214,11 +2214,18 @@ void FldMgrUpdateGridParams(_Champ *champ)
       if (gdin == -1)
          {
          champ->src.gdid = c_ezqkdef(champ->src.ni, champ->src.nj, champ->src.grtyp, champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4, champ->iun);
+         gdin = champ->src.gdid;
          }
-      gdin = FldMgrDefinirGrille();
+
+      gdout = FldMgrDefinirGrille();
+
       champ->domaine = VALEURS_PONCTUELLES;
       c_ezgxprm(gdin, &ni, &nj, &grtyp, &ig1, &ig2, &ig3, &ig4, &grref, &ig1ref, &ig2ref, &ig3ref, &ig4ref);
-      if (grref == 'O')
+      if (ni > 1 && nj > 1)
+         {
+         champ->domaine == XY;
+         }
+/*      if (grref == 'O')
          {
          champ->domaine = XY;
          champ->src.grref[0] = 'O';
@@ -2226,24 +2233,24 @@ void FldMgrUpdateGridParams(_Champ *champ)
          champ->src.ig2ref = ig2ref;
          champ->src.ig3ref = ig3ref;
          champ->src.ig4ref = ig4ref;
-         }
+         }*/
       }
 
   /*  CheckForPointValues(champ, nbChampsActifs-1); */
 
    switch(champ->domaine)
       {
-    case XY:
+      case XY:
       f77name(chkgrid)(champ->fld, &champ->src.ni, &champ->src.nj, &champ->src.grtyp[0], &champ->src.ig2, 1);
       if (GetGrilleSelectionnee() == 0)
-        {
-        if (HasGridChanged(champ->src.grtyp[0],champ->src.ni,champ->src.nj,champ->src.nk,
-              champ->src.ig1, champ->src.ig2, champ->src.ig3,champ->src.ig4))
+         {
+         if (HasGridChanged(champ->src.grtyp[0],champ->src.ni,champ->src.nj,champ->src.nk,
+             champ->src.ig1, champ->src.ig2, champ->src.ig3,champ->src.ig4))
             {
             gdout = FldMgrDefinirGrille();
             c_ezdefset(gdout,gdout);
             }
-        }
+         }
       gdout = c_ezgetgdout();
       gdin  = c_ezgdefrec(champ->src.ni,champ->src.nj,
         champ->src.grtyp,champ->src.ig1,champ->src.ig2,champ->src.ig3,champ->src.ig4);
@@ -2986,7 +2993,6 @@ int FldMgrDefinirGrille()
   fmflds[0].src.gdid = c_ezgdefrec(fmflds[0].src.ni, fmflds[0].src.nj, fmflds[0].src.grtyp,
                       fmflds[0].src.ig1, fmflds[0].src.ig2, fmflds[0].src.ig3, fmflds[0].src.ig4);
   gdin = fmflds[0].src.gdid;
-  gdout= gdin;
   c_ezgprm(gdin,&grtyp, &ni, &nj, &ig1, &ig2, &ig3, &ig4);
 
   switch (grtyp)
@@ -2994,18 +3000,23 @@ int FldMgrDefinirGrille()
     case 'Y':
       grtyp = 'L';
       c_ezgxprm(gdin, &ni, &nj, &grtyp, &ig1, &ig2, &ig3, &ig4, &grref, &ig1ref, &ig2ref, &ig3ref, &ig4ref);
-      if (grref == 'L')
-        {
-          grtyp_a = 'A';
-          gdout = c_ezgdefrec(360, 180, &grtyp_a, 0, 0, 0, 0);
-          InitMapInfo(grtyp_a, 360, 180, 0,0,0,0);
-          ThisIsTheCurrentGrid(grtyp_a, 360, 180, 1, 0,0,0,0);
-        }
-      if (grref == 'O')
+      gdout = c_ezgetgdout();
+      if (gdout == -1)
+         {
+         if (grref == 'L')
+           {
+           grtyp_a = 'B';
+           gdout = c_ezgdefrec(361, 181, &grtyp_a, 0, 0, 0, 0);
+           InitMapInfo(grtyp_a, 361, 181, 0,0,0,0);
+           ThisIsTheCurrentGrid(grtyp_a, 361, 181, 1, 0,0,0,0);
+           c_wglssp(1.0, 1.0, 361.0, 181.0, 0, 0, 0, 0, 1);
+           }
+         }
+/*      if (grref == 'O')
          {
          InitMapInfo(grtyp, ni, nj, ig1, ig2, ig3, ig4);
          ThisIsTheCurrentGrid(grtyp, ni, nj, 1, ig1, ig2, ig3, ig4);
-         }
+         }*/
       break;
 
     default:
