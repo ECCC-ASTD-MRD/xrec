@@ -140,7 +140,7 @@ void c_xsetxy(int mapping, float *tx, int nx, float *ty, int ny)
     {
     case 6:
     if (usSpace.zx) free(usSpace.zx);
-    if (usSpace.zx) free(usSpace.zy);
+    if (usSpace.zy) free(usSpace.zy);
     usSpace.ni = nx;
     usSpace.nj = ny;
     usSpace.zx = (float *)malloc(nx*ny*sizeof(float));

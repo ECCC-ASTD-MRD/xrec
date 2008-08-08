@@ -612,6 +612,7 @@ void c_wglfton(float *fld, int ni, int nj, float intervalles[], int nbIntervalle
 void c_wglfton_m(float *fld, unsigned int *mask, int ni, int nj, float intervalles[], int nbIntervalles, float facteur, float min, float max,  int colorTable[], int ncol, int flagInterrupt, int lissfac);
 void c_wglgetcolrange(int *indMin, int *indMax);
 void c_wgllab(float *fld, int ni, int nj, float intervalles[], int nbIntervalles, float facteur, float min, float max, float posLabels[], int nbLabels, int fore, int back, int indChamp, int lissfac);
+void c_wgllab_fxfy2(float *fld, float *px, float *py, int ni, int nj, float intervalles[], int nbIntervalles, float facteur, float min, float max, float posLabels[], int nbLabels, int fore, int back, int indChamp, int lissfac);
 void c_wglpastef(int ind);
 void c_wglpfton(float *fld, int ni, int nj, float intervalles[], int nbIntervalles, float facteur, float min, float max, int colorTable[], int ncol, int flagInterrupt, int lissfac);
 void c_wglpfton32(float *fld, int ni, int nj, float intervalles[], int nbIntervalles, float facteur, float min, float max, int colorTable[], int ncol, int flagInterrupt, int lissfac);
