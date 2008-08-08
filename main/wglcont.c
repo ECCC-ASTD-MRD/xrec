@@ -46,8 +46,10 @@
     facteurLissage: niveau de lissage demande
     flagInterrupt:  drapeau indiquant si la routine devra s'informer
                     d'une demande eventuelle d'annulation
-  
+
 **/
+
+void f77name(wglstl_fxfy2)(float *fld, float *px, float *py,  int *l, int *m , int *n, int *mdeb, int *ndeb, int *mfin, int *nfin, float *leContour, int *lissfac);
 
 void c_wglcont(float *fld, int ni, int nj, float intervalles[], int nbIntervalles, float facteur, float rmin, float rmax, int couleur, int epaisseur, int codeDash, int dashPattern, int facteurLissage, int flagInterrupt)
 {
@@ -72,7 +74,7 @@ void c_wglcont(float *fld, int ni, int nj, float intervalles[], int nbIntervalle
    c_wglgvi(&i1, &j1, &i2, &j2);
    densiteX = (float)(i2 - i1)/(float)(mfin-mdeb);
    densiteY = (float)(j2 - j1)/(float)(nfin-ndeb);
-   
+
    if (densiteX < densiteY)
       {
       densite = densiteX;
@@ -92,14 +94,14 @@ void c_wglcont(float *fld, int ni, int nj, float intervalles[], int nbIntervalle
 
    c_wglcol(couleur);
    origPattern = (codeDash == 1) ? dashPattern : 0;
-   
+
    if (nbIntervalles == 1)
       {
       f77name(sminmax)(&contourMin, &contourMax, fld, &ni, &nj, &mdeb, &ndeb, &mfin, &nfin);
       contourMin = contourMin < rmin ? rmin : contourMin;
       contourMax = contourMax > rmax ? rmax : contourMax;
       AjusterMinMax(&contourMin, &contourMax, facteur, intervalles[0]);
-      
+
       leContour = contourMin;
       nContours = 0;
       while ((leContour <= contourMax) && !annulationDemandee)
@@ -109,7 +111,7 @@ void c_wglcont(float *fld, int ni, int nj, float intervalles[], int nbIntervalle
         else
             c_wgllwi(epaisseur);
 
-              c_wgllwi(epaisseur); /** Modif pour Shilling **/
+        c_wgllwi(epaisseur); /** Modif pour Shilling **/
         c_wglsld((leContour < 0.0 && codeDash > 1) ? dashPattern : origPattern);
 
         f77name(wglstl)(fld, &ni, &ni , &nj, &mdeb, &ndeb, &mfin, &nfin, &leContour, &lissfac);
@@ -133,9 +135,10 @@ void c_wglcont(float *fld, int ni, int nj, float intervalles[], int nbIntervalle
         else
             c_wgllwi(epaisseur);
 
-              c_wgllwi(epaisseur); /** Modif pour Shilling **/
+        c_wgllwi(epaisseur); /** Modif pour Shilling **/
         f77name(wglstl)(fld, &ni, &ni , &nj, &mdeb, &ndeb, &mfin, &nfin, &leContour, &lissfac);
         }
       }
 
    }
+

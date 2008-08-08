@@ -1295,7 +1295,7 @@ float *rx1,*ry1,*rx2,*ry2;
       }
     }
 
-   recInterpolationLevel = AttrMgrGetInterpolationLevel();
+  recInterpolationLevel = AttrMgrGetInterpolationLevel();
   x1 = (x1 < 1.0) ? 1.0 : (x1 > (float)champ->dst.ni ) ? (float) champ->dst.ni : x1;
   x2 = (x2 < 1.0) ? 1.0 : (x2 > (float)champ->dst.ni ) ? (float) champ->dst.ni : x2;
   y1 = (y1 < 1.0) ? 1.0 : (y1 > (float)champ->dst.nj ) ? (float) champ->dst.nj : y1;
@@ -1382,6 +1382,7 @@ float *rx1,*ry1,*rx2,*ry2;
 
       f77name(modulus3d)(champ->coupe.uvw2d,champ->coupe.uvwtang2d,champ->coupe.uvwnorm2d,
             &champ->coupe.ww2d,&champ->coupe.nbNiveauxCoupe);
+
       }
     return 0;
     }
@@ -2267,6 +2268,21 @@ void FldMgrUpdateGridParams(_Champ *champ)
       c_ezgprm(gdout, &champ->dst.grtyp, &champ->dst.ni, &champ->dst.nj,
         &champ->dst.ig1, &champ->dst.ig2, &champ->dst.ig3, &champ->dst.ig4);
       champ->dst.nk = 1;
+      if (champ->src.grtyp == 'Y')
+         {
+         npts = champ->src.ni*champ->src.nj*champ->src.nk;
+         lat = (float *) calloc(npts, sizeof(float));
+         lon = (float *) calloc(npts, sizeof(float));
+         if (champ->x != NULL) free(champ->x);
+         if (champ->y != NULL) free(champ->y);
+         champ->x = (float *) calloc(npts, sizeof(float));
+         champ->y = (float *) calloc(npts, sizeof(float));
+         c_gdll(gdin, lat, lon);
+         c_gdxyfll(gdout, champ->x, champ->y, lat, lon, npts);
+         champ->dst.nk = 1;
+         free(lat);
+         free(lon);
+         }
       break;
 
     case XZ:
@@ -2318,6 +2334,8 @@ void FldMgrUpdateGridParams(_Champ *champ)
       c_ezgprm(gdout, &champ->dst.grtyp, &champ->dst.ni, &champ->dst.nj,
         &champ->dst.ig1, &champ->dst.ig2, &champ->dst.ig3, &champ->dst.ig4);
       champ->dst.nk = 1;
+      free(lat);
+      free(lon);
       break;
     }
 }
@@ -2993,6 +3011,7 @@ int FldMgrDefinirGrille()
   fmflds[0].src.gdid = c_ezgdefrec(fmflds[0].src.ni, fmflds[0].src.nj, fmflds[0].src.grtyp,
                       fmflds[0].src.ig1, fmflds[0].src.ig2, fmflds[0].src.ig3, fmflds[0].src.ig4);
   gdin = fmflds[0].src.gdid;
+  gdout = c_ezgetgdout();
   c_ezgprm(gdin,&grtyp, &ni, &nj, &ig1, &ig2, &ig3, &ig4);
 
   switch (grtyp)
@@ -3000,7 +3019,6 @@ int FldMgrDefinirGrille()
     case 'Y':
       grtyp = 'L';
       c_ezgxprm(gdin, &ni, &nj, &grtyp, &ig1, &ig2, &ig3, &ig4, &grref, &ig1ref, &ig2ref, &ig3ref, &ig4ref);
-      gdout = c_ezgetgdout();
       if (gdout == -1)
          {
          if (grref == 'L')

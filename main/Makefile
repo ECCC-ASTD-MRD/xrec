@@ -1,6 +1,6 @@
 include /usr/local/env/armnlib/include/$(ARCH)$(ABI)/Makefile_addons
 
-.SUFFIXES : 
+.SUFFIXES :
 
 .SUFFIXES : .ftn90 .ftn .f .c .o .a
 
@@ -55,11 +55,12 @@ default: reclib
 	rm -f $*.f $*.o
 
 FTNDECKS= \
-         convpr.ftn       defvar.ftn       drlstl.ftn \
+         convpr.ftn       defvar.ftn       drlstl_fxfy2.ftn drlstl.ftn \
          grid.ftn         ij2xy_warp.ftn90 ij2xy_warp_r.ftn90 \
 	 new-xfsl.ftn       readrec.ftn \
          rec.ftn       recgrille.ftn       rlx.ftn       setcoupe.ftn \
-	 setitem.ftn       statfld4.ftn       unsat.ftn       wglrfton.ftn wglpolyftn.ftn
+	 setitem.ftn       statfld4.ftn       unsat.ftn       wglrfton.ftn \
+	 mapxy2fxfy.ftn90 wglpolyftn.ftn
 
 CDECKS= \
          PointerVent.c       aff_coupe.c       anim.c v_anim.c       aux.c \
@@ -77,7 +78,7 @@ CDECKS= \
          p_vent.c       pack.c       parent.c \
          profil.c       ptval.c       rle.c       serie.c sfcpres.c stats.c \
          strutil.c       util.c       valptgr.c       vecteur.c vent.c homelic.c \
-         wglanul.c       wglcalcols.c       wglcalcols_m.c       wglcont.c       wglfton.c \
+         wglanul.c       wglcalcols.c       wglcalcols_m.c       s.c  wglcont_fxfy2.c     wglfton.c \
          wgllab.c       wglpfton.c       wglpfton32.c       widgets-util.c \
          serie_coupe_utils.c xm-controle.c  wglrfton_m.c wglpfton32_m.c wglfton_m.c enhance_m.c c_ezsint_mask.c xstream.c
 
@@ -102,6 +103,7 @@ reclib: $(RECLIB)(PointerVent.o) \
 	$(RECLIB)(dict.o) \
 	$(RECLIB)(diffmgr.o) \
 	$(RECLIB)(drlstl.o) \
+	$(RECLIB)(drlstl_fxfy2.o) \
 	$(RECLIB)(enhance.o) \
 	$(RECLIB)(enhance_m.o)	\
 	$(RECLIB)(fenlatlon.o) \
@@ -173,6 +175,7 @@ reclib: $(RECLIB)(PointerVent.o) \
 	$(RECLIB)(wglcalcols.o) \
 	$(RECLIB)(wglcalcols_m.o) \
 	$(RECLIB)(wglcont.o) \
+	$(RECLIB)(wglcont_fxfy2.o) \
 	$(RECLIB)(wglfton.o) \
 	$(RECLIB)(wglfton_m.o) \
 	$(RECLIB)(wgllab.o) \
@@ -181,13 +184,14 @@ reclib: $(RECLIB)(PointerVent.o) \
 	$(RECLIB)(wglpfton32_m.o) \
 	$(RECLIB)(wglrfton.o) \
 	$(RECLIB)(wglpolyfton.o) \
+	$(RECLIB)(mapxy2fxfy.o) \
 	$(RECLIB)(wglrfton_m.o) \
 	$(RECLIB)(widgets-util.o) \
 	$(RECLIB)(xm-controle.o) \
         $(RECLIB)(xstream.o)
 
 xrec2000:
-	r.build -bidon -main xrec -o xrec -libpath $(REC)/lib/$(ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec ezscint wglx Xm Xt X11 m -librmn 
+	r.build -bidon -main xrec -o xrec -libpath $(REC)/lib/$(ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec ezscint wglx Xm Xt X11 m -librmn
 
 xrec-stereo-linux:
 	r.build -bidon -main xrec -o xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec wglx StaticXm StaticMrm Xp Xt Xmu X11 gd2 z png m -librmn rmnbeta
@@ -205,10 +209,13 @@ xrec-IRIX64:
 	r.compile -src rec.ftn -o $(TMPDIR)/xrec -libpath ../lib/$(ARCH) $(ARMNLIB)/lib/$(ARCH) /usr/X11R6/lib -libappl rec rec_util rec wgl gd_wgl x_wgl Xm Mrm Xmu Xt Xext X11 rmngd rmnpng z m dl -librmn rmnbeta
 
 xrec-AIX:
-	r.compile -debug -O  0 -src rec.ftn -o $(TMPDIR)/xrec -libpath /opt/xm/lib/ $(PWD)/../lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl Xm Mrm Xmu Xp Xt Xext X11 $(EC_ARCH)$(ABI)_gd z $(EC_ARCH)$(ABI)_png m dl jpeg -librmn rmnbeta
+	r.compile -debug -O  0 -src rec.ftn -o $(TMPDIR)/xrec -obj $(HOME)/src/isi4/lib/ibm/*.o -libpath /opt/xm/lib/ $(PWD)/../lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl Xm Mrm Xmu Xp Xt Xext X11 $(EC_ARCH)$(ABI)_gd z $(EC_ARCH)$(ABI)_png m dl jpeg -librmn rmnbeta
 
 xrec-Linux_pgi611:
 	cd main; r.compile -src rec.ftn -o $(TMPDIR)/xrec -obj $(HOME)/src/isi4/*.o -libpath ../lib/$(EC_ARCH) /opt/xm230/lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl rec rec_util wgl gd_wgl x_wgl wgl Xm Xft Mrm Xmu Xp Xt Xext X11 rmngd z rmnpng jpeg m dl -librmn rmn_009
+
+xrec-Linux_pgi611-2:
+	cd main; r.compile -src rec.ftn -o $(TMPDIR)/xrec -libpath ../lib/$(EC_ARCH) /opt/xm230/lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl rec rec_util wgl gd_wgl x_wgl wgl Xm Xft Mrm Xmu Xp Xt Xext X11 rmngd z rmnpng jpeg m dl -librmn rmn_009
 
 xrec-pgi7:
 	r.compile -debug -O  0 -src rec.ftn -o $(TMPDIR)/xrec -libpath /opt/xm/lib/ ~armnlib/public/Linux $(PWD)/../lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl Xm Mrm Xmu Xp Xt Xext Xft Xrender X11 $(EC_ARCH)$(ABI)_gd z $(EC_ARCH)$(ABI)_png m dl jpeg -librmn rmnbeta_pgi7
@@ -220,7 +227,7 @@ xrec-Darwin:
 	r.compile -src rec.ftn $(OPTIMIZ); r.build -obj rec.o -o xrec -libpath $(REC)/lib/$(ARCH)$(ABI) $(HOME)/userlibs/$(ARCH) /usr/OpenMotif/lib /usr/X11R6/lib /sw/lib -libappl rec rec_util lic wgl gd_wgl x_wgl Xm Xt X11 xml2 gd m -librmn
 
 xrec-Linux-intel:
-	ifort *.o -o $(TMPDIR)/xrec -C90 -L$(REC)/lib/$(ARCH) -L/usr/X11R6/lib -lrec -lrec_util -lgdb -lwgl -lgd_wgl -lx_wgl -lwgl -llic $(ARMNLIB)/lib/$(ARCH)/librmn-intel.a  -lMrm -lXp -lXext -lX11 -lxml2 -lexpat -lgd2 -lz -lpng -lm -ldl -lc 
+	ifort *.o -o $(TMPDIR)/xrec -C90 -L$(REC)/lib/$(ARCH) -L/usr/X11R6/lib -lrec -lrec_util -lgdb -lwgl -lgd_wgl -lx_wgl -lwgl -llic $(ARMNLIB)/lib/$(ARCH)/librmn-intel.a  -lMrm -lXp -lXext -lX11 -lxml2 -lexpat -lgd2 -lz -lpng -lm -ldl -lc
 
 xrec-intel2:
 	ifc *.o -o xrec-intel -i_dynamic -L$(REC)/lib/$(ARCH) -L/opt/old-libc -L/usr/X11R6/lib -L/opt/intel/compiler70/ia32/lib/ -lrec -lrec_util -lgdb -lwgl -lx_wgl -lgd_wgl -lwgl $(ARMNLIB)/lib/librmn-intel.a  -lMrm -lXp -lXext -lX11 -lxml2 -lexpat -lgd2 -lz -lpng -lm -ldl -lPEPCF90

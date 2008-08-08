@@ -45,6 +45,7 @@ void CheckForPointValues(_Champ *champ, int indChamp)
 }
 
 void DrawPointValues_2D(_Champ *champ, int indChamp, int fontSize, int lineThickness, int fore, int back, int cols[], int nbcols);
+void c_wglcont_fxfy2(float *fld, float *px, float *py, int ni, int nj, float intervalles[], int nbIntervalles, float facteur, float rmin, float rmax, int couleur, int epaisseur, int codeDash, int dashPattern, int facteurLissage, int flagInterrupt);
 
 extern float PtValMgrGetSymbolSize();
 
@@ -79,16 +80,6 @@ void DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThicknes
    if ((champ->src.ni > 1) && (champ->src.nj > 1) && (typeSymbole == POLYGONE) || (typeSymbole == POLYGONE_CONTOURE))
       {
       DrawPointValues_2D(champ, indChamp, fontSize, lineThickness, fore, back, cols, nbcols);
-      switch(xc.statuts[GEOGRAPHIE])
-         {
-         case TRUE:
-         SetClipMask();
-         c_gmpdrw();
-         break;
-
-         case FALSE:
-         break;
-        }
       }   /** if (indChamp > 0) **/
 
 
@@ -382,7 +373,6 @@ void DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThicknes
                 PointerFleche(x1, y1, direction, vitesse, tmp_rayon, 1);*/
                }
 
-               if (0 != WindMgrGetDisplayMode()) AfficherLegendeVent(uvmax,10,10,0);
 
 /*                  temp = vit;
                   enhancefracs(&temp,1,0.0,vm,variation);
@@ -394,6 +384,7 @@ void DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThicknes
             }
 
          }
+      }
 
       if (valueStatus == 1)
          {
@@ -453,7 +444,14 @@ void DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThicknes
               }
             }
          }
-      }
+
+      if (0 != WindMgrGetDisplayMode())
+         {
+         if (champ->natureTensorielle == VECTEUR)
+            {
+            AfficherLegendeVent(uvmax,10,10,0);
+            }
+         }
 
    free(tmpInds);
    free(tmpVals);
@@ -579,10 +577,38 @@ void DrawPointValues_2D(_Champ *champ, int indChamp, int fontSize, int lineThick
       contour = 1;
       }
 
-   DefinirFenetreGrille(&mdeb, &ndeb, &mfin, &nfin, mapInfo.ni, mapInfo.nj);
-   f77name(wglpolyfton)(champ->fld, lats, lons, &champ->src.ni, &champ->src.nj, champ->intervalles, &(champ->nbIntervalles), &(champ->facteur), &rmin, &rmax, cols, &lcl_nbcols, &contour, &grdst);
+    DefinirFenetreGrille(&mdeb, &ndeb, &mfin, &nfin, mapInfo.ni, mapInfo.nj);
+   if (AfficherItem(indChamp, COULEURS))
+      {
+      f77name(wglpolyfton)(champ->fld, champ->x, champ->y, &champ->src.ni, &champ->src.nj, champ->intervalles, &(champ->nbIntervalles), &(champ->facteur), &rmin, &rmax, cols, &lcl_nbcols, &contour, &grdst);
 
+      }
 
+   if (AfficherItem(indChamp, CONTOURS))
+      {
+      c_wglcont_fxfy2(champ->fld, champ->x, champ->y, champ->src.ni, champ->src.nj, champ->intervalles,
+                champ->nbIntervalles, champ->facteur, rmin, rmax,
+                xc.attributs[indChamp].indCouleurFore, xc.attributs[indChamp].epaisseur,
+                xc.attributs[indChamp].codeDash, xc.attributs[indChamp].style, 1, xc.flagInterrupt);
+      }
+
+      switch(xc.statuts[GEOGRAPHIE])
+         {
+         case TRUE:
+         SetClipMask();
+         c_gmpdrw();
+         break;
+
+         case FALSE:
+         break;
+        }
+
+   if (AfficherItem(indChamp, LABELS))
+      {
+      c_wgllab_fxfy2(champ->fld, champ->x, champ->y, champ->src.ni, champ->src.nj, champ->intervalles,
+                champ->nbIntervalles, champ->facteur, rmin, rmax, labelPos[indChamp%4], 4, xc.attributs[indChamp].indCouleurFore,
+               xc.attributs[indChamp].indCouleurBack, indChamp, facteurLissage);
+      }
   free(lats);
   free(lons);
   }
