@@ -3364,17 +3364,17 @@ void AfficherGrille()
    c_wglsld(xc.attributs[GRID].style);
    c_wglcol(xc.attributs[GRID].indCouleurFore);
 
-   for (j=(int)y1; j <= ROUND(y2); j++)
-     {
-       for (i=(int)x1; i <= (int)x2; i++)
-   {
-     c_xy2fxfy(&rx1, &ry1, (float)(int)i,  (float) j);
-     c_wglxai(&ix,&iy,rx1,ry1);
-     c_wglcfi(ix,iy,2);
-   }
-     }
+//    for (j=(int)y1; j <= ROUND(y2); j++)
+//       {
+//       for (i=(int)x1; i <= (int)x2; i++)
+//          {
+//          c_xy2fxfy(&rx1, &ry1, (float)(int)i,  (float) j);
+//          c_wglxai(&ix,&iy,rx1,ry1);
+//          c_wglcfi(ix,iy,2);
+//          }
+//       }
 
-   /*   for (j=(int)y1; j <= ROUND(y2); j++)
+   for (j=(int)y1; j <= ROUND(y2); j++)
       {
       c_xy2fxfy(&rx1, &ry1, (float)(int)x1,  (float) j);
       c_wglmvx(rx1,ry1);
@@ -3389,7 +3389,7 @@ void AfficherGrille()
       c_xy2fxfy(&rx2, &ry2, (float)i, (float) ROUND(y2));
       c_wgldrx(rx2, ry2);
       }
-   */
+
 
    c_wgllwi(1);
    c_wglsld(0);
@@ -3408,26 +3408,35 @@ void AfficherGrilleSource(int indchamp)
 {
    int i,j,ix,iy,ier,npts;
    float x1, y1, x2, y2;
-   float rx1, ry1;
-   float *lats, *lons, *x, *y;
+   float rx1, ry1, rx2, ry2;
+   float *lats, *lons, *x, *y /***x2, **y2*/;
    _Champ *champ;
 
    int grsrc, grdst;
 
    FldMgrGetChamp(&champ, indchamp);
 
-   c_wgllwi(xc.attributs[GRID].epaisseur);
-   c_wglsld(xc.attributs[GRID].style);
-   c_wglcol(xc.attributs[GRID].indCouleurFore);
+   c_wgllwi(xc.attributs[indchamp].epaisseur);
+   c_wglsld(xc.attributs[indchamp].style);
+   c_wglcol(xc.attributs[indchamp].indCouleurFore);
 
    grsrc = c_ezqkdef(champ->src.ni, champ->src.nj, champ->src.grtyp,
          champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4, 1);
    grdst = c_ezgetgdout();
+/*   grdst = c_ezqkdef(champ->dst.ni, champ->dst.nj, champ->dst.grtyp,
+         champ->dst.ig1, champ->dst.ig2, champ->dst.ig3, champ->dst.ig4, 1);*/
    npts = champ->src.ni*champ->src.nj;
    lats = (float *) malloc(npts*sizeof(float));
    lons = (float *) malloc(npts*sizeof(float));
    x = (float *) malloc(npts*sizeof(float));
    y = (float *) malloc(npts*sizeof(float));
+//    x2 = (float **) malloc(4*sizeof(float));
+//    y2 = (float **) malloc(4*sizeof(float));
+//    for (i=0; i < 4; i++)
+//       {
+//       x2[i] = (float *) malloc(npts*sizeof(float));
+//       y2[i] = (float *) malloc(npts*sizeof(float));
+//       }
 
    for (j=0; j < champ->src.nj; j++)
      {
@@ -3435,6 +3444,8 @@ void AfficherGrilleSource(int indchamp)
        {
        x[i+j*champ->src.ni] = (float)(i+1);
        y[i+j*champ->src.ni] = (float)(j+1);
+/*       x[0][i+j*champ->src.ni] = (float)(i+0.5);
+       y[0][i+j*champ->src.ni] = (float)(j+0.5);*/
        }
      }
 
@@ -3454,6 +3465,21 @@ void AfficherGrilleSource(int indchamp)
        }
      }
 
+/*   for (j=1; j <= champ->src.nj; j++)
+      {
+      c_xy2fxfy(&rx1, &ry1, x[FTN2C(1,j,champ->src.ni)],  (y[FTN2C(1,j,champ->src.ni)]);
+      c_wglmvx(rx1,ry1);
+      c_xy2fxfy(&rx1, &ry1, x[FTN2C(champ->src.ni,j,champ->src.ni)],  (y[FTN2C(1,j,champ->src.ni)]);
+      c_wgldrx(rx2, ry2);
+      }
+
+   for (i=1; i <= champ->src.ni; i++)
+      {
+      c_xy2fxfy(&rx1, &ry1, (float)i,  (float)(int)y1);
+      c_wglmvx(rx1, ry1);
+      c_xy2fxfy(&rx2, &ry2, (float)i, (float) ROUND(y2));
+      c_wgldrx(rx2, ry2);
+      }*/
    c_wgllwi(1);
    c_wglsld(0);
    free(x);

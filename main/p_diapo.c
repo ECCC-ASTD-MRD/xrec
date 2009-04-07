@@ -458,7 +458,7 @@ void InitPanneauDiapo()
    XtSetArg(args[i], XmNshowValue, True); i++;
    XtSetArg(args[i], XmNscaleMultiple, 1); i++;
    XtSetArg(args[i], XmNminimum, 1); i++;
-   XtSetArg(args[i], XmNmaximum, 6); i++;
+   XtSetArg(args[i], XmNmaximum, 10); i++;
    XtSetArg(args[i], XmNvalue, 1); i++;
    pdTaille = (Widget)XmCreateScale(pdRCcontrole, labelTaille[lng], args, i);
    XtAddCallback(pdTaille, XmNdragCallback, (XtCallbackProc) PdAdjustLargeur, NULL);

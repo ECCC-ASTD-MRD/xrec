@@ -2,7 +2,7 @@
 #include <rec.h>
 #include <rec_functions.h>
 
-int c_ezsint_mask(unsigned int *maskout, unsigned int *maskin, int gdin, int gdout)
+int c_rec_ezsint_mask(unsigned int *maskout, unsigned int *maskin, int gdin, int gdout)
   {
   char grtyp_in[2], grtyp_out[2];
   int ni_gdin, ni_gdout, nj_gdin, nj_gdout;

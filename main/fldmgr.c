@@ -3050,6 +3050,7 @@ int FldMgrDefinirGrille()
 int FldMgrFlagMissingValues(_Champ *champ)
 {
   int un = 1;
+  int zero = 0;
   unsigned int k, bitpos,mask_ni,mask_nj,mask_nk;
   int gdin, gdout, npts_src, npts_dst,cleMasque,ier;
   float *masque_src;
@@ -3092,7 +3093,8 @@ int FldMgrFlagMissingValues(_Champ *champ)
   if (champ->typvar[1] == '@' && champ->typvar[0] != '@')
     {
     strcpy(typvar_masque, "@@");
-    cleMasque = c_fstinf(champ->iun, &mask_ni, &mask_nj, &mask_nk,champ->datev,champ->etiket,champ->ip1,champ->ip2, champ->ip3,typvar_masque, champ->nomvar);
+    ier = f77name(fst_get_mask_key)(&cleMasque, &champ->cle, &zero, &champ->iun);
+/*    cleMasque = c_fstinf(champ->iun, &mask_ni, &mask_nj, &mask_nk,champ->datev,champ->etiket,champ->ip1,champ->ip2, champ->ip3,typvar_masque, champ->nomvar);*/
      if (cleMasque >= 0)
       {
       if (champ->src.missing != NULL)
@@ -3184,7 +3186,7 @@ int FldMgrFlagMissingValues(_Champ *champ)
     champ->dst.missing = calloc((1+npts_dst/32), sizeof(int));
     gdin  = c_ezgetgdin();
     gdout = c_ezgetgdout();
-    c_ezsint_mask(champ->dst.missing, champ->src.missing, gdin, gdout);
+    c_rec_ezsint_mask(champ->dst.missing, champ->src.missing, gdin, gdout);
     champ->stats_src.to_be_updated = 0;
     champ->stats_dst.to_be_updated = 1;
     champ->stats_zoom.to_be_updated = 1;

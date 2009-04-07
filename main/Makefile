@@ -214,6 +214,9 @@ xrec-AIX:
 xrec-Linux_pgi611:
 	cd main; r.compile -src rec.ftn -o $(TMPDIR)/xrec -obj $(HOME)/src/isi4/*.o -libpath ../lib/$(EC_ARCH) /opt/xm230/lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl rec rec_util wgl gd_wgl x_wgl wgl Xm Xft Mrm Xmu Xp Xt Xext X11 rmngd z rmnpng jpeg m dl -librmn rmn_009
 
+xrec-2009:
+	cd main; r.compile -src rec.ftn -o $(TMPDIR)/xrec -libpath ../lib/$(EC_ARCH) /opt/xm230/lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl rec rec_util ezscint-607 wgl gd_wgl x_wgl wgl Xm Xft Mrm Xmu Xp Xt Xext X11 rmngd z rmnpng jpeg m dl -librmn rmn_009
+
 xrec-Linux_pgi611-2:
 	cd main; r.compile -src rec.ftn -o $(TMPDIR)/xrec -libpath ../lib/$(EC_ARCH) /opt/xm230/lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl rec rec_util wgl gd_wgl x_wgl wgl Xm Xft Mrm Xmu Xp Xt Xext X11 rmngd z rmnpng jpeg m dl -librmn rmn_009
 
