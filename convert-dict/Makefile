@@ -1,4 +1,4 @@
-include /usr/local/env/armnlib/include/$(ARCH)$(ABI)/Makefile_addons
+include $(ARMNLIB)/include/$(EC_ARCH)$(ABI)/Makefile_addons
 
 .SUFFIXES : 
 
@@ -8,7 +8,7 @@ SHELL = /bin/sh
 
 CPP = /lib/cpp
 
-RECLIB = $(HOME)/userlibs/$(ARCH)$(ABI)/librec.a
+RECLIB = $(HOME)/userlibs/$(EC_ARCH)$(ABI)/librec.a
 
 FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
 
@@ -24,18 +24,18 @@ CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
 default: reclib
 
 .ftn.o:
-	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 
 .c.o:
-	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
+	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
 
 .c.a:
-	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
+	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
 	ar rv $@ $*.o
 	rm -f $*.o
 
 .ftn.a:
-	r.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 	ar rv $@ $*.o
 	rm -f $*.f $*.o
 
@@ -47,5 +47,5 @@ CDECKS= \
 COMDECKS= \
 
 cvtdictrec:
-	r.build -o cvtdictrec -obj *.o  -libpath $(REC)/lib/$(ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl m -librmn  rmnbeta
+	r.build -o cvtdictrec -obj *.o  -libpath $(REC)/lib/$(EC_ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl m -librmn  rmnbeta
 

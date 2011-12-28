@@ -34,4 +34,4 @@ touch:
 	for dir in $(subdirs); do cd $$dir; touch *.ftn *.c; cd ..; done
 
 xrec:
-	cd main; make xrec-$(ARCH); mv $(TMPDIR)/xrec ../xrec-$(ARCH); cd ..
+	cd main; make xrec-$(EC_ARCH); mv $(TMPDIR)/xrec ../xrec-$(EC_ARCH); cd ..
