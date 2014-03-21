@@ -18,10 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <rec.h>
 #include <wgl.h>
 #include <gmp.h>
-#include <gdb.h>
-#include <rec.h>
+#include "../include/gdb.h"
 
 extern float gdxmin, gdymin, gdxmax, gdymax;
 extern float gmp_xmin, gmp_ymin, gmp_xmax, gmp_ymax;

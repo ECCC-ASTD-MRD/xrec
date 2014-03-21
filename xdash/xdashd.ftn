@@ -31,9 +31,9 @@
 *
       PARAMETER (NBCHR=8, NBWD=8, NCHRWD=NBWD/NBCHR)
       INTEGER IGAP, ISOL, IBLK
-      data igap/'"   '/,isol/'$   '/,iblk/'    '/
-*     DATA IGAP /4H"   /, ISOL /4H$   /, IBLK /4H    /
-*    
+*     data igap/'"   '/,isol/'$   '/,iblk/'    '/
+      DATA IGAP /4H"   /, ISOL /4H$   /, IBLK /4H    /
+*   "
 #include "xdashd1.cdk"
 #include "xdashd2.cdk"
 #include "xdashd3.cdk"

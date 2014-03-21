@@ -1,41 +1,40 @@
-include $(ARMNLIB)/include/$(EC_ARCH)$(ABI)/Makefile_addons
-
 .SUFFIXES : 
 
 .SUFFIXES : .ftn .c .o .a 
 
-SHELL = /bin/sh
+SHELL = /bin/bash
 
 CPP = /lib/cpp
 
-WGLLIB = ../lib/$(EC_ARCH)$(ABI)/libwgl.a
+WGLLIB = ../lib/$(EC_ARCH)/libwgl.a
 
 FFLAGS = 
 
-CFLAGS =  -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -DX_WGL
+#CFLAGS =  -I/opt/motif-2.3.2/include -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -DX_WGL
+CFLAGS =  -I../include -DX_WGL
 
+#OPTIMIZ = -debug -O 0
 OPTIMIZ = -O 2
-OPTIMIZ = -debug -O 0
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
+CPPFLAGS = -I../include -DX_WGL
 
 .PRECIOUS:
 
 default: wgllib
 
 .ftn.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	s.compile $(OPTIMIZ) -src $<
 
 .c.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
+	s.cc $(OPTIMIZ) $(CFLAGS) -c $<
 
 .c.a:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
+	s.cc $(OPTIMIZ) $(CFLAGS) -c $<
 	ar rv $@ $*.o
 	rm -f $*.o
 
 .ftn.a:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	s.compile $(OPTIMIZ) -src $<
 	ar rv $@ $*.o
 	rm -f $*.o
 
@@ -72,20 +71,21 @@ CDECKS= \
 	wglssp.c      wglstu.c	      wglswb.c	   wglwsi.c	 wglwsx.c\
 	wglwtwrsz.c   wglxai.c
 
-obj: $(CDECKS) $(FDECKS)
+#obj: $(CDECKS) $(FDECKS)
+obj: $(CDECKS)
 #Produire les fichiers objets (.o) pour tous les fichiers
 
-qclean:
+clean:
 #Faire un petit menage. On enleve tous les .o et les .f \nproduits a partir de .ftn/.ptn
 	-if [ "*.[fp]tn" != "`echo *.[fp]tn`" ] ; \
 	then \
 	for i in *.[fp]tn ; \
 	do \
-	fn=`r.basename $$i '.[fp]tn'`; \
+	fn=$${i%.[fp]tn} ; \
 	rm -f $$fn.f; \
 	done \
 	fi
-	rm *.o
+	rm -f *.o
 
 wgllib:	$(WGLLIB)(bitfinder.o) \
 	$(WGLLIB)(couleur-util.o) \
@@ -95,7 +95,6 @@ wgllib:	$(WGLLIB)(bitfinder.o) \
 	$(WGLLIB)(logo.o) \
 	$(WGLLIB)(logo_sea.o) \
 	$(WGLLIB)(souris2.o) \
-	$(WGLLIB)(unsat.o) \
 	$(WGLLIB)(wglafi.o) \
 	$(WGLLIB)(wglafx.o) \
 	$(WGLLIB)(wglali.o) \
@@ -226,4 +225,5 @@ wgllib:	$(WGLLIB)(bitfinder.o) \
 	$(WGLLIB)(wglwsx.o) \
 	$(WGLLIB)(wglwtwrsz.o) \
 	$(WGLLIB)(wglxai.o) \
+	$(WGLLIB)(unsat.o) \
 	$(WGLLIB)(wwwlpt.o)

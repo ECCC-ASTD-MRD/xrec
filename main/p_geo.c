@@ -95,10 +95,7 @@ static char *labelStyle[] = {"Style     ", "Style     "};
 static char *labelCouleur[] = {"Couleur   ", "Color     "};
 static char *labelEpaisseur[] = {"Epaisseur \ndes lignes", "Line      \nThickness "};
 
-static char *pgLabelOptionsStyle[]= { "--------------------", 
-				      "--  --  --  --  --  ", 
-				      "----    ----   -----", 
-				      "--------      ------"}; 
+static char *pgLabelOptionsStyle[]= { "--------------------", "--  --  --  --  --  ", "----    ----   -----", "--------      ------"}; 
 
 static char *pgLabelOptionsCouleur[][9] = {{"blanc               ", "noir","rouge","cyan","jaune","magenta","vert","bleu","gris"},
 					    {"white               ", "black","red","cyan","yellow","magenta","green","blue", "gray"}};
@@ -456,14 +453,14 @@ void InitPanneauGeo()
 
    pgOptionsEpaisseur = (Widget)XmCreatePulldownMenu(pgRC, labelEpaisseur[lng], NULL, 0);
 
-   for (n=0; n < XtNumber(pgLabelOptionsEpaisseur[lng]); n++)
+   for (n=0; n < 5; n++)
 	{
 	i = 0;
 	pgOptionsEpaisseurItems[n] = XmCreatePushButtonGadget(pgOptionsEpaisseur, pgLabelOptionsEpaisseur[n], args, i);
 	XtAddCallback(pgOptionsEpaisseurItems[n], XmNactivateCallback, (XtCallbackProc)  SetGeoThicknessToggle, (XtPointer) n);
 	}
 
-   XtManageChildren(pgOptionsEpaisseurItems, XtNumber(pgLabelOptionsEpaisseur[lng]));
+   XtManageChildren(pgOptionsEpaisseurItems, 5);
 
    i = 0;
    string = XmStringCreateLtoR(labelEpaisseur[lng], XmSTRING_DEFAULT_CHARSET); 
@@ -482,7 +479,7 @@ void InitPanneauGeo()
 
    pgOptionsStyle = (Widget)XmCreatePulldownMenu(pgRC, labelStyle[lng], NULL, 0);
 
-   for (n=0; n < XtNumber(pgLabelOptionsStyle[lng]); n++)
+   for (n=0; n < 4; n++)
      {
      i = 0;
      string = XmStringCreateLtoR(pgLabelOptionsStyle[n], XmSTRING_DEFAULT_CHARSET); 
@@ -492,7 +489,7 @@ void InitPanneauGeo()
      XtAddCallback(pgOptionsStyleItems[n], XmNactivateCallback, (XtCallbackProc)  SetGeoStyleToggle, (XtPointer) n);
      }
    
-   XtManageChildren(pgOptionsStyleItems, XtNumber(pgLabelOptionsStyle[lng]));
+   XtManageChildren(pgOptionsStyleItems, 4);
    
    i = 0;
    string = XmStringCreateLtoR(labelStyle[lng], XmSTRING_DEFAULT_CHARSET); 

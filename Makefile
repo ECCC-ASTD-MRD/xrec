@@ -1,37 +1,24 @@
-SHELL = /bin/sh
-XRECDIR = $(PWD)
+DIRS = autog png gd2 xplot88 xdash wgl x_wgl gd_wgl gmp gdb lic select selfic main convert-dict
 
-subdirs = autog gdb gmp lic main select selfic wgl x_wgl gd_wgl xdash xinit xplot88
+default:	libs 
 
-default: genlib
-
-genbin:
-	make libpng
-	make libgd
-	make genlib
-	make xrec
-
-genlib:
-	echo $(XRECDIR)
-	for dir in $(subdirs); do  cd $$dir; make; cd ..; done
-
-libgd:
-	cd gd2; make clean; make libgd.a; mv libgd.a ../lib/$(EC_ARCH)/librmngd.a; cd ..
-
-libpng:
-	cd png; make clean; make libpng.a; mv libpng.a ../lib/$(EC_ARCH)/librmnpng.a; cd ..
-
-optimiz:
-	for dir in $(subdirs); do  cd $$dir; make OPTIMIZ="-O 3"; cd ..; done
-
-prof:
-	for dir in $(subdirs); do  cd $$dir; make OPTIMIZ="-prof"; cd ..; done
+libs:
+	for target in $(DIRS) ; do ( cd $$target ; make ; ) ; done
 
 clean:
-	for dir in $(subdirs); do cd $$dir; /bin/rm -f *.o *.f *.f90 *~ *.stb *.mod *.MOD; cd ..; done
-
-touch:
-	for dir in $(subdirs); do cd $$dir; touch *.ftn *.c; cd ..; done
+	for target in $(DIRS) metacode ; do ( cd $$target ; make clean; ) ; done
 
 xrec:
-	cd main; make xrec-$(EC_ARCH); mv $(TMPDIR)/xrec ../xrec-$(EC_ARCH); cd ..
+	cd main ; make xrec
+
+trames:
+	cd metacode ; make clean_obj ; make raster ; make clean_obj
+	mv metacode/trames_$(BASE_ARCH) bin/$(BASE_ARCH)/trames
+
+raster: trames
+
+xmetaview:
+	cd metacode ; make clean_obj ; make metaview ; make clean_obj
+	mv metacode/xmetaview_$(BASE_ARCH) bin/$(BASE_ARCH)/xmetaview
+
+metaview: xmetaview

@@ -1,0 +1,56 @@
+***S/P TTTCARI INITIALISER LES DESCRIPTIONS DE CARACTERES
+#include "aaaamac.cdk"
+*
+      SUBROUTINE TTTCARI
+#include "impnone.cdk"
+*
+*AUTEUR ?
+*
+*REVISION 001 Y. BOURASSA - MAI 94 RATFOR @ FTN77
+*
+*LANGUAGE   - FTN77
+*
+#include "carac.cdk"
+#if defined (CRAY) 
+      EXTERNAL RELEASE, ACCESS
+      INTEGER  IER
+
+      DATA IVP /1280*0/   # PAS DE DESCRIPTION PAR DEFAUT
+
+      CALL ACCESS(IER,'DN'L,'AAATMPP'L,'PDN'L,'CARFNTU'L,'ID'L,'ARMN000'L,
+                  'OWN'L,'ARMN000'L)
+      READ('AAATMPP'L)IVP,ICHAR,IVL
+      READ('AAATMPP'L)IVH
+      CALL RELEASE(IER,'DN'L,'AAATMPP'L)
+#endif
+#if defined (SUN) 
+*     PAS DE DESCRIPTION PAR DEFAUT
+      DATA IVP /1280*0/
+
+      OPEN(55, FILE='/usr/local/lib/rmndata/carfntu',FORM='UNFORMATTED')
+      READ(55) IVP, ICHAR, IVL
+      READ(55) IVH
+      CLOSE(55)
+#endif
+#if defined (C910)
+*
+*MODULES
+      EXTERNAL LONGUEUR, GETENV
+      INTEGER  LONGUEUR
+*
+**
+      INTEGER  L
+      CHARACTER * 128 DATAREP
+
+      DATA IVP /1280*0/   ! PAS DE DESCRIPTION PAR DEFAUT
+
+      CALL GETENV('ARMNLIB', DATAREP)
+      L = LONGUEUR( DATAREP )
+      OPEN(55,FILE=DATAREP(1:L)//'/data/carfntu',FORM='UNFORMATTED')
+      READ(55) IVP, ICHAR, IVL
+      READ(55) IVH
+      CLOSE(55)
+#endif
+
+      RETURN
+      END

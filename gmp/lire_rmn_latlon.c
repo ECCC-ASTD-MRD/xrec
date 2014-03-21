@@ -1,7 +1,7 @@
 #include <gmp.h>
 #include <rpnmacros.h>
 #include <stdio.h>
-#include <gdb.h>
+#include "../include/gdb.h"
 
 extern GeoMapOptionsStruct mapOptions;
 static ListePointsStruct *gdb_liste;

@@ -62,7 +62,7 @@ int x_wglgbf();
 int x_wglgci();
 int x_wglgco(int indCol, int *red, int *green, int *blue);
 int x_wglgdbg();
-int x_wglgetcmap(int  *colormap);
+int x_wglgetcmap(unsigned int  *colormap);
 int x_wglgld();
 int x_wglglpti(int *ix, int *iy);
 int x_wglglw();

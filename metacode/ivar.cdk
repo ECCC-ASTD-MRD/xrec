@@ -1,0 +1,11 @@
+!#if defined (CRAY) || defined (Alpha)
+!      INTEGER          IVAR, PTIV
+!      POINTER(PIVAR,   IVAR(1000))
+!      COMMON /QQQIVAR/ PTIV, PIVAR
+!#else
+!      INTEGER     PTIV, IVAR
+!      COMMON /IV/ PTIV, IVAR(1)
+!#endif
+      COMMON /IV/ PTIV, IVAR
+      integer :: ptiv
+      integer, pointer, dimension(:) :: IVAR

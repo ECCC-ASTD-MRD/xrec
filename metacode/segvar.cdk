@@ -1,0 +1,5 @@
+      INTEGER          PILE,    SAVUNIT,            SEGUNIT
+      COMMON /SEGVART/ PILE,    SAVUNIT(MAXPILE),   SEGUNIT
+      LOGICAL          SEGCLOS
+      REAL                      MAPUSAV,            MAPVSAV
+      COMMON /SEGVART/ SEGCLOS, MAPVSAV(3,MAXPILE), MAPUSAV(3,MAXPILE)

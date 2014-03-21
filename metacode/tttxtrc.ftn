@@ -1,0 +1,76 @@
+***FONCTION TTTXTRC - EXTRAIRE LES COORDONNEES POUR TRACER LE CARACTERE.
+#include "aaaamac.cdk"
+*
+      FUNCTION TTTXTRC( ITABLE,    INDX, IPEN, IDX, IDY)
+#include "impnone.cdk"
+      INTEGER  TTTXTRC, ITABLE(*), INDX, IPEN, IDX, IDY
+*
+*AUTEUR     - M. VALIN
+*
+*REVISION 001 Y. BOURASSA - MAI 94 RATFOR @ FTN77
+*
+*LANGUAGE   - FTN77
+*
+*OBJET(TTTXTRC)
+*         - EXTRAIRE DU DATA DE ICHAR LES COORDONNEES QUI PERMETTRONT
+*           DE TRACER LE CARACTERE DEMANDE
+*
+*
+*ARGUMENTS
+*    E    - ICHAR   - TABLE CONTENANT LES COORDONNEES A TRACER
+*         - IREF    - A QUEL PARTIE DU MOT ON EST RENDU
+*    S    - IPEN    - CONTROLE DE LA PLUME
+*         - IDX,IDY - COORDONNEES DU TRACER
+*         - TTTXTRC  - INDICATEUR DE FIN DE CARACTERE
+*
+*VARIABLES
+*         - IPOS - INDIQUE LE MOT OU L'ON EST
+*         - IBIT - INDIQUE LA POSITION DANS LE MOT
+*
+*NOTES    - TTTXTRC NE VERIFIE PAS SI LA SORTE DE CARACTERE DEMANDE
+*           EXISTE OU NON
+*
+*     IPOS NOUS INDIQUE LE MOT DANS LEQUEL ON DOIT TRAVAILLER.
+*     (INDX = 0,1,2,...)
+*
+      INTEGER IPOS, ICC, IBIT
+
+      IPOS = 1+INDX/5
+
+*     IBIT NOUS INDIQUE A QUEL SERIE DE BITS NOUS SOMMES RENDUES.
+      IBIT = 1+MOD(INDX,5)
+*
+*     CHAQUE MOT PEUT CONTENIR 5 COORDONNEES CONSTRUITE DE LA FACON SUIVANTE;
+*
+*        12 BITS PAR COORDONNEES, 1  = CONTROL DE LA PLUME
+*
+*                                 2-6  = COORDONNEE EN X
+*
+*                                 7-12  = COORDONNEE EN Y
+*
+*                  ____________________________________________________
+*                  / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10 / 11 / 12 /
+*                  ____________________________________________________
+*
+*
+
+*     ICC = ISHFT(ITABLE(IPOS), 12*IBIT)
+      ICC = ISHFT(iand(ishft(-1,-(12*IBIT)),ITABLE(IPOS)),12*IBIT)
+*     GET LAST 12 BITS
+      ICC = IAND(ICC, 4095)
+
+*     SOUSTRAIRE 16 POUR OBTENIR LA COORDONNEE Y
+      IDY  = IAND(ICC, 63)  -16
+
+*     LA COORDONNEE X
+      IDX  = IAND(ISHFT(ICC,-6), 31)  
+
+*     CONTROLE DE LA PLUME
+      IPEN = IAND(ISHFT(ICC,-11), 1)  
+
+*     12 BITS A 1(7777B)  SIGNIFIENT LA FIN DU CARACTERE A TRACER.
+
+      TTTXTRC = ICC
+
+      RETURN
+      END

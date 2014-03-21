@@ -19,8 +19,11 @@
  */
 
 #include <Xm/Xm.h>
-#include <Xm/PushBG.h>
-#include <Xm/CascadeBG.h>
+//#include <Xm/PushBG.h>
+#include <Xm/PushB.h>
+//#include <Xm/CascadeBG.h>
+#include <Xm/CascadeB.h>
+#include <Xm/TextF.h>
 #include <Xm/RowColumn.h>
 
 #include <rpnmacros.h>

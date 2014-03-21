@@ -1,10 +1,8 @@
-include $(ARMNLIB)/include/$(EC_ARCH)$(ABI)/Makefile_addons
-
 .SUFFIXES : 
 
 .SUFFIXES : .ftn .c .o .a
 
-SHELL = /bin/sh
+SHELL = /bin/bash
 
 CPP = /lib/cpp
 
@@ -12,30 +10,30 @@ REC_UTILLIB = ../lib/$(EC_ARCH)$(ABI)/librec_util.a
 
 FFLAGS = 
 
-CFLAGS = -I$(ARMNLIB)/include -I../include -DX_REC_UTIL
+CFLAGS = -I../include -DX_REC_UTIL
 
-OPTIMIZ = -O 0  -debug
+#OPTIMIZ = -O 0  -debug
 OPTIMIZ = -O 2
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_REC_UTIL
+CPPFLAGS = -DX_REC_UTIL
 
 .PRECIOUS:
 
 default: rec_utillib
 
 .ftn.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	s.compile $(OPTIMIZ) -src $<
 
 .c.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
+	s.cc -c $(OPTIMIZ) $(CFLAGS) $<
 
 .c.a:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
+	s.cc -c $(OPTIMIZ) $(CFLAGS) $<
 	ar rv $@ $*.o
 	rm -f $*.o
 
 .ftn.a:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	s.compile $(OPTIMIZ) -src $<
 	ar rv $@ $*.o
 	rm -f $*.o
 
@@ -63,20 +61,22 @@ xopset.f: xopset.ftn 	impnone.cdk 	libra.cdk
 obj: $(FTNDECKS) $(FDECKS) $(CDECKS)
 #Produire les fichiers objets (.o) pour tous les fichiers
 
-qclean:
+clean:
 #Faire un petit menage. On enleve tous les .o et les .f \nproduits a partir de .ftn/.ptn
 	-if [ "*.[fp]tn" != "`echo *.[fp]tn`" ] ; \
 	then \
 	for i in *.[fp]tn ; \
 	do \
-	fn=`r.basename $$i '.[fp]tn'`; \
+	fn=$${i%.[fp]tn} ; \
 	rm -f $$fn.f; \
 	done \
 	fi
-	rm *.o
+	rm -f *.o
 
+libdir:
+	mkdir -p ../lib/$(EC_ARCH)
 
-rec_utillib: \
+rec_utillib: libdir \
 	$(REC_UTILLIB)(xopget.o) \
 	$(REC_UTILLIB)(xopset.o) \
 	$(REC_UTILLIB)(init.o) \

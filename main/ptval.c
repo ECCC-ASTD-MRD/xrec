@@ -98,7 +98,7 @@ void DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThicknes
    lats = (float *) malloc(npts*sizeof(float));
    lons = (float *) malloc(npts*sizeof(float));
 
-   grsrc = c_ezqkdef(champ->src.ni, champ->src.nj, champ->src.grtyp, champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4, 1);
+   grsrc = c_ezqkdef(champ->src.ni, champ->src.nj, champ->src.grtyp, champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4, champ->iun);
    grdst = c_ezgetgdout();
    ier = c_gdll(grsrc, lats, lons);
    c_wglfsz(fontSize);
@@ -428,7 +428,7 @@ void DrawPointValues(_Champ *champ, int indChamp, int fontSize, int lineThicknes
 
       if (latlonStatus == 1 && indChamp <= 1)
          {
-         grsrc = c_ezqkdef(champ->src.ni, champ->src.nj, champ->src.grtyp, champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4, 1);
+         grsrc = c_ezqkdef(champ->src.ni, champ->src.nj, champ->src.grtyp, champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4, champ->iun);
          ier = c_gdll(grsrc, lats, lons);
          for (i=0; i < npts; i++)
             {
@@ -504,7 +504,7 @@ void DrawPointValues_2D(_Champ *champ, int indChamp, int fontSize, int lineThick
    lats = (float *) malloc(npts*sizeof(float));
    lons = (float *) malloc(npts*sizeof(float));
 
-   grsrc = c_ezqkdef(champ->src.ni, champ->src.nj, champ->src.grtyp, champ->src.ig1, champ->src.ig2,   champ->src.ig3, champ->src.ig4, 1);
+   grsrc = c_ezqkdef(champ->src.ni, champ->src.nj, champ->src.grtyp, champ->src.ig1, champ->src.ig2,   champ->src.ig3, champ->src.ig4, champ->iun);
    grdst = c_ezgetgdout();
    ier  = c_gdll(grsrc, lats, lons);
    c_wglfsz(fontSize);

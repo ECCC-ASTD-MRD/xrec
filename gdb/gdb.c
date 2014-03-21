@@ -277,7 +277,7 @@
                           gdb_out );
              }
 
-          free(lls);
+          rgis_free(lls);
           }
        }
     }
@@ -304,12 +304,6 @@
  extern int
  gdb_init()
     {
-/*
-#ifdef HP
-    unsigned long *s = swap_ptr; * useless compiler warning shut up *
-#endif
-*/
-
     static int  done = 0;
     static int  i    = 0;
 
@@ -518,7 +512,7 @@
                          &lls->seg[i][4],
                           usr_bottom, usr_left, usr_top, usr_right,
                           gdb_out );
-          free(lls);
+          rgis_free(lls);
           }
        }
     }
@@ -758,8 +752,8 @@
 
  typedef struct {
                 int  magic;
-                int  fp1;
-                int  fp2;
+                int64_t  fp1;
+                int64_t  fp2;
                 int  type;
                 int  reso;
                 int  res;
@@ -767,7 +761,7 @@
                 } Mapfp;
 
  extern void
- gdb_mapclose ( int imfp )
+ gdb_mapclose ( caddr_t imfp )
     {
     Mapfp *mfp = (Mapfp *)imfp;
 
@@ -783,12 +777,12 @@
     }
 
  extern char *
- gdb_mapget ( int imfp, float lat, float lon, char *buf )
+ gdb_mapget ( caddr_t imfp, float lat, float lon, char *buf )
     {
     int    pos;
     int    w,h,d;
     int    x,y;
-    int    fp;
+    int64_t    fp;
     Mapfp *mfp = (Mapfp *)imfp;
     int    ylimit;
 
@@ -832,17 +826,17 @@
     return(buf);
     }
 
- extern char * gdb_mapgetv128( int imfp, int n, float *ll, char *buf );
+ extern char * gdb_mapgetv128( caddr_t imfp, int n, float *ll, char *buf );
 
  extern char *
- gdb_mapgetv( int imfp, int n, float *ll, char *buf )
+ gdb_mapgetv( caddr_t imfp, int n, float *ll, char *buf )
     {
     int    i;
     int    w,h,d;
     int    x,y;
-    int    fp;
+    int64_t fp;
     Mapfp *mfp = (Mapfp *)imfp;
-    int   *pos;
+    int64_t   *pos;
 
     unsigned char  *pbuf;
 
@@ -867,7 +861,7 @@
  
     pbuf = (unsigned char *) buf;
 
-    pos  = (int *) malloc ( n * sizeof(int));
+    pos  = (int64_t *) malloc ( n * sizeof(int64_t));
 
     for( i=0; i<n; ++i )
        {
@@ -894,14 +888,14 @@
     }
 
  extern char *
- gdb_mapgetv128( int imfp, int n, float *ll, char *buf )
+ gdb_mapgetv128( caddr_t imfp, int n, float *ll, char *buf )
     {
     int    i,l;
     int    w,h,d;
     int    x,y;
     Mapfp *mfp = (Mapfp *)imfp;
-    int   *pos;
-    int   *fp;
+    int64_t   *pos;
+    int64_t   *fp;
 
     unsigned char  *pbuf;
 
@@ -916,8 +910,8 @@
  
     pbuf = (unsigned char *) buf;
 
-    pos  = (int *) malloc ( n * sizeof(int));
-    fp   = (int *) malloc ( n * sizeof(int));
+    pos  = (int64_t *) malloc ( n * sizeof(int64_t));
+    fp   = (int64_t *) malloc ( n * sizeof(int64_t));
 
     for( i=0; i<n; ++i )
        {
@@ -954,15 +948,15 @@
     return(buf);
     }
 
- extern int
+ extern caddr_t
  gdb_mapopen ( int reso, int type, int *d )
     {
     char   path[256];
     char   name[25];
     int    i;
     int    res;
-    int    fp1;
-    int    fp2;
+    int64_t    fp1;
+    int64_t    fp2;
     Mapfp *mfp;
 
 /*
@@ -977,7 +971,7 @@
     if( res == -1 )
       {
       printf(" Error gdb_mapopen : reso  out of range\n");
-      return(0);
+      return(NULL);
       }
 
 /*
@@ -991,7 +985,7 @@
       case GDB_MAP_TER : strcpy(name,"TER"); *d = 1; break;
       case GDB_MAP_TEX : strcpy(name,"TEX"); *d = 3; break;
       default          : printf(" Error gdb_mapopen : type not supported\n");
-                         return(0);
+                         return(NULL);
       }
 
 /*
@@ -1007,7 +1001,7 @@
  *  open the map
  */
     fp1 = scn_open(path,"r",&i);
-    if( fp1 == 0 ) return(0);
+    if( fp1 == 0 ) return(NULL);
 
 /*
  *  open second file if needed
@@ -1017,7 +1011,7 @@
       {
       strcat(path,"2");
       fp2 = scn_open(path,"r",&i);
-      if( fp2 == 0 ){ scn_close(fp1); return(0); }
+      if( fp2 == 0 ){ scn_close(fp1); return(NULL); }
       }
 
 /*
@@ -1028,7 +1022,7 @@
       {
       scn_close(fp1);
       scn_close(fp2);
-      return(0);
+      return(NULL);
       }
     mfp->magic = 1234;
     mfp->fp1   = fp1;
@@ -1038,7 +1032,7 @@
     mfp->res   = res;
     mfp->d     = *d;
     
-    return((int)mfp);
+    return((caddr_t)mfp);
     }
 
 
@@ -1143,7 +1137,7 @@
                  plon <  usr_left    ) continue;
              (*module)( type, plat, plon );
              }
-          free(ll);
+          rgis_free(ll);
           }
        }
     }
@@ -1360,7 +1354,7 @@
                  tlon <  usr_left    ) continue;
              (*module)( type, tlat, tlon, llt->t[i] );
              }
-          free(llt);
+          rgis_free(llt);
           }
        }
     }

@@ -1,0 +1,2 @@
+      INTEGER         HPALET
+      COMMON /PALPAT/ HPALET(3,129)

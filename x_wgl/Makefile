@@ -1,41 +1,40 @@
-include $(ARMNLIB)/include/$(EC_ARCH)$(ABI)/Makefile_addons
-
 .SUFFIXES : 
 
 .SUFFIXES : .ftn .c .o .a 
 
-SHELL = /bin/sh
+SHELL = /bin/bash
 
 CPP = /lib/cpp
 
-X_WGLLIB = ../lib/$(EC_ARCH)$(ABI)/libx_wgl.a
+X_WGLLIB = ../lib/$(EC_ARCH)/libx_wgl.a
 
 FFLAGS = 
 
-CFLAGS =  -I../include -DX_WGL  -I/opt/xm230/include -I$(HOME)/src/gd/
+#CFLAGS =  -I/home/ordenv/ssm-domains/ssm-tools/motif_2.3.3_linux26-i686/include -I../include -DX_WGL  -I/opt/xm230/include -I$(HOME)/src/gd/
+CFLAGS =  -I../include -DX_WGL
 
-OPTIMIZ = -debug -O 0
+#OPTIMIZ = -debug -O 0
 OPTIMIZ = -O 2
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
+CPPFLAGS = -I../include -DX_WGL
 
 .PRECIOUS:
 
 default: x_wgllib
 
 .ftn.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	s.compile $(OPTIMIZ) -src $<
 
 .c.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
+	s.cc $(OPTIMIZ) $(CFLAGS) -c $<
 
 .c.a:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
+	s.cc $(OPTIMIZ) $(CFLAGS) -c $<
 	ar rv $@ $*.o
 	rm -f $*.o
 
 .ftn.a:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	s.compile $(OPTIMIZ) -src $<
 	ar rv $@ $*.o
 	rm -f $*.o
 
@@ -75,23 +74,23 @@ CDECKS= \
 	x_wglspt.c     x_wglstu.c	x_wglswb.c \
 	x_wglwsi.c     x_wglwtwrsz.c	x_wglxai.c \
 	x_xmmenu.c     x_wglgzx.c	x_invertChar.c  \
-	x_wwwlpt.c
+	x_wwwlpt.c     xinit.c
 
 
 obj: $(CDECKS) $(FDECKS) 
 #Produire les fichiers objets (.o) pour tous les fichiers
 
-qclean:
+clean:
 #Faire un petit menage. On enleve tous les .o et les .f \nproduits a partir de .ftn/.ptn
 	-if [ "*.[fp]tn" != "`echo *.[fp]tn`" ] ; \
 	then \
 	for i in *.[fp]tn ; \
 	do \
-	fn=`r.basename $$i '.[fp]tn'`; \
+	fn=$${i%.[fp]tn} ; \
 	rm -f $$fn.f; \
 	done \
 	fi
-	rm *.o
+	rm -f *.o
 
 x_wgllib: $(X_WGLLIB)(x_bitfinder.o) \
 	$(X_WGLLIB)(flush.o) \
@@ -158,6 +157,7 @@ x_wgllib: $(X_WGLLIB)(x_bitfinder.o) \
 	$(X_WGLLIB)(x_wglinids.o) \
 	$(X_WGLLIB)(x_wglinipat.o) \
 	$(X_WGLLIB)(x_wglinit.o) \
+	$(X_WGLLIB)(xinit.o) \
 	$(X_WGLLIB)(x_wgliniwin.o) \
 	$(X_WGLLIB)(x_wgliniwpx.o) \
 	$(X_WGLLIB)(x_wglinstcmap.o) \

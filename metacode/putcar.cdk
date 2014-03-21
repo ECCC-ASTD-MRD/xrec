@@ -1,0 +1,7 @@
+               PTR = PTR + 1
+     	       RESULT(PTR) = Arg1
+	       IF(PTR .EQ. 130) THEN
+                  PTR = 1
+                  CALL OUT130( RESULT )
+               ENDIF
+

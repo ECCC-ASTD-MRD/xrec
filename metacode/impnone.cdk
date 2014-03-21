@@ -1,0 +1,5 @@
+      IMPLICIT NONE 
+#if defined (SUN)
+      IMPLICIT Undefined(A-Z)
+#endif
+

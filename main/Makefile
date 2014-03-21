@@ -1,56 +1,60 @@
-include $(ARMNLIB)/include/$(EC_ARCH)$(ABI)/Makefile_addons
-
 .SUFFIXES :
 
 .SUFFIXES : .ftn90 .ftn .f .c .o .a
 
-SHELL = /bin/sh
+SHELL = /bin/bash
 
 CPP = /lib/cpp
 
 RECLIB = ../lib/$(EC_ARCH)$(ABI)/librec.a
 
-FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL -O2
-FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL -O0 -g
+#FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL -O0 -g
+FFLAGS = -I../include -DX_WGL -O2
 
 #CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I/usr/include/libxml2 -I$(HOME)/src/images/gd2/ -DX_WGL
-CFLAGS = -I/usr/X11R6/include -I/opt/xm/include -I$(ARMNLIB)/include -I../include -I$(HOME)/src/images/gd2/ -DX_WGL
+#CFLAGS = -I/usr/X11R6/include -I/home/ordenv/ssm-domains/ssm-tools/motif_2.3.3_linux26-i686/include -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I/usr/include/libxml2 -I$(HOME)/src/images/gd2/ -DX_WGL
+CFLAGS = -I../include -DX_WGL
 
+#OPTIMIZ = -O 0 -debug 
 #OPTIMIZ = -O 3 -optc =-Wall
 OPTIMIZ = -O 2
-OPTIMIZ = -O 0 -debug
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
+CPPFLAGS = -I../include -DX_WGL
+
+LIBRMN = rmn_014
+
+VER = 5.100
 
 .PRECIOUS: $(RECLIB)
 
 default: reclib
 
 .ftn90.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	s.compile $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 
 .f90.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	s.compile $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 
 .ftn.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	s.compile $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 
 .c.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -optc "=$(CFLAGS)" -src $<
+	s.cc -c $(OPTIMIZ) $(CFLAGS) $<
+#	s.compile -arch $(ARCH) -abi $(ABI) $(OPTIMIZ) -includes /opt/motif-2.3.2/include -optc "=$(CFLAGS)" -src $<
 
 .c.a:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
+	s.cc -c $(OPTIMIZ) $(CFLAGS) $<
 	ar rv $@ $*.o
 	rm -f $*.o
 
 .ftn.a:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	s.compile $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 	ar rv $@ $*.o
 #	rm -f $*.f $*.o
 	rm -f $*.o
 
 .ftn90.a:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	s.compile $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
 	ar rv $@ $*.o
 	rm -f $*.f $*.o
 
@@ -76,7 +80,7 @@ CDECKS= \
 	 p_echelle_legende_couleur.c \
          p_edition.c       p_geo.c       p_minmax.c       p_palette.c p_valeursponctuelles.c p_valeursmanquantes.c \
          p_vent.c       pack.c       parent.c \
-         profil.c       ptval.c       rle.c       serie.c sfcpres.c stats.c \
+         profil.c       ptval.c       rec_redirect.c rle.c       serie.c sfcpres.c stats.c \
          strutil.c       util.c       valptgr.c       vecteur.c vent.c homelic.c \
          wglanul.c       wglcalcols.c       wglcalcols_m.c       s.c  wglcont_fxfy2.c     wglfton.c \
          wgllab.c       wglpfton.c       wglpfton32.c       widgets-util.c \
@@ -87,6 +91,7 @@ COMDECKS= \
          impnone.cdk       qqqxtrp.cdk
 
 reclib: $(RECLIB)(PointerVent.o) \
+	$(RECLIB)(fst_get_mask_key.o) \
 	$(RECLIB)(aff_coupe.o) \
 	$(RECLIB)(anim.o) \
 	$(RECLIB)(aux.o) \
@@ -106,6 +111,7 @@ reclib: $(RECLIB)(PointerVent.o) \
 	$(RECLIB)(drlstl_fxfy2.o) \
 	$(RECLIB)(enhance.o) \
 	$(RECLIB)(enhance_m.o)	\
+	$(RECLIB)(f_convip.o)	\
 	$(RECLIB)(fenlatlon.o) \
 	$(RECLIB)(fermeur.o) \
 	$(RECLIB)(fldmgr.o) \
@@ -153,6 +159,7 @@ reclib: $(RECLIB)(PointerVent.o) \
 	$(RECLIB)(ptval.o) \
 	$(RECLIB)(readrec.o) \
 	$(RECLIB)(rec.o) \
+	$(RECLIB)(rec_redirect.o) \
 	$(RECLIB)(recgrille.o) \
 	$(RECLIB)(rle.o) \
 	$(RECLIB)(rlx.o) \
@@ -160,6 +167,7 @@ reclib: $(RECLIB)(PointerVent.o) \
 	$(RECLIB)(serie_coupe_utils.o) \
 	$(RECLIB)(setcoupe.o) \
 	$(RECLIB)(setitem.o) \
+	$(RECLIB)(set_stack_size.o) \
 	$(RECLIB)(sfcpres.o) \
 	$(RECLIB)(statfld4.o) \
 	$(RECLIB)(stats.o) \
@@ -190,50 +198,35 @@ reclib: $(RECLIB)(PointerVent.o) \
 	$(RECLIB)(xm-controle.o) \
         $(RECLIB)(xstream.o)
 
-xrec2000:
-	r.build -bidon -main xrec -o xrec -libpath $(REC)/lib/$(EC_ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec ezscint wglx Xm Xt X11 m -librmn
+clean:
+	-if [ "*.[fp]tn" != "`echo *.[fp]tn`" ] ; \
+	then \
+	for i in *.[fp]tn ; \
+	do \
+	fn=$${i%.[fp]tn} ; \
+	rm -f $$fn.f; \
+	done \
+	fi
 
-xrec-stereo-linux:
-	r.build -bidon -main xrec -o xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec wglx StaticXm StaticMrm Xp Xt Xmu X11 gd2 z png m -librmn rmnbeta
+	rm -f *.o xrec_$(VER)-$(BASE_ARCH)
 
-xrec-stereo:
-	r.build -bidon -main xrec -o xrec -libpath /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec wglx Xm Xt X11 gd2 png z m -librmn  rmn_x
+xrec:
+	s.compile -src rec.ftn
+	s.f90 -o xrec_$(VER)-$(BASE_ARCH) rec.o  -L../libStatic/$(EC_ARCH) -L../lib/$(EC_ARCH) -lrec -lrec_util -lwgl -lgd_wgl -lx_wgl -lgdb -l$(LIBRMN) -lXm -lXt -lSM -lICE -lXext -lXmu -lXp -lX11 -lgd -lz -lpng -lm -ldl -ljpeg
+	mv xrec_$(VER)-$(BASE_ARCH) ..
 
-xrec-ezscint:
-	r.build -bidon -main xrec -o xrec -libpath $(REC)/lib/$(EC_ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec wglx Xm Xt X11 m -obj $(REC)/interp/c_ezscint.o $(REC)/interp/f_ezscint.o -librmn  rmnbeta
+xrec-dyn:
+	s.compile -src rec.ftn
+	s.f90 -o xrec rec.o  -L../lib/$(EC_ARCH) -lrec -lrec_util -lwgl -lgd_wgl -lx_wgl -lgdb -l$(LIBRMN) -lXm -lXt -lX11 -lgd -lz -lpng -lm -ldl -ljpeg
+	mv xrec ..
 
-xrec-stereo2:
-	r.build -bidon -main xrec -o xrec -libpath $(REC)/lib/$(EC_ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl rec wglx Xm Xt X11 m -librmn  rmn_x
-
-xrec-IRIX64:
-	r.compile -src rec.ftn -o $(TMPDIR)/xrec -libpath ../lib/$(EC_ARCH) $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl rec rec_util rec wgl gd_wgl x_wgl Xm Mrm Xmu Xt Xext X11 rmngd rmnpng z m dl -librmn rmnbeta
+xrec-mfv:
+	s.compile -src rec.ftn
+	s.f90 -o xrec rec.o  -L../lib/$(EC_ARCH) -L../LibStatic -L../lib/$(BASE_ARCH) -lrec -lrec_util -lwgl -lgd_wgl -lx_wgl -lgdb -lrmn_014 -lXm_s -lMrm_s -lXmu -lXp -lXt -lXext -lXft -lXrender -lX11 -lgd -lz -lpng -lm -ldl -ljpeg
+	mv xrec ../bin/$(BASE_ARCH)
 
 xrec-AIX:
-	r.compile -debug -O  0 -src rec.ftn -o $(TMPDIR)/xrec -obj $(HOME)/src/isi4/lib/ibm/*.o -libpath /opt/xm/lib/ $(PWD)/../lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl Xm Mrm Xmu Xp Xt Xext X11 $(EC_ARCH)$(ABI)_gd z $(EC_ARCH)$(ABI)_png m dl jpeg -librmn rmnbeta
-
-xrec-Linux_pgi611:
-	cd main; r.compile -src rec.ftn -o $(TMPDIR)/xrec -obj $(HOME)/src/isi4/*.o -libpath ../lib/$(EC_ARCH) /opt/xm230/lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl rec rec_util wgl gd_wgl x_wgl wgl Xm Xft Mrm Xmu Xp Xt Xext X11 rmngd z rmnpng jpeg m dl -librmn rmn_009
-
-xrec-2009:
-	cd main; r.compile -src rec.ftn -o $(TMPDIR)/xrec -libpath ../lib/$(EC_ARCH) /opt/xm230/lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl rec rec_util ezscint-607 wgl gd_wgl x_wgl wgl Xm Xft Mrm Xmu Xp Xt Xext X11 rmngd z rmnpng jpeg m dl -librmn rmn_009
-
-xrec-Linux_pgi611-2:
-	cd main; r.compile -src rec.ftn -o $(TMPDIR)/xrec -libpath ../lib/$(EC_ARCH) /opt/xm230/lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl rec rec_util wgl gd_wgl x_wgl wgl Xm Xft Mrm Xmu Xp Xt Xext X11 rmngd z rmnpng jpeg m dl -librmn rmn_009
-
-xrec-pgi7:
-	r.compile -debug -O  0 -src rec.ftn -o $(TMPDIR)/xrec -libpath /opt/xm/lib/ ~armnlib/public/Linux $(PWD)/../lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl Xm Mrm Xmu Xp Xt Xext Xft Xrender X11 $(EC_ARCH)$(ABI)_gd z $(EC_ARCH)$(ABI)_png m dl jpeg -librmn rmnbeta_pgi7
-
-xrec-Linux_x86-64_pgi611:
-	r.compile -debug -O  0 -src rec.ftn -o $(TMPDIR)/xrec -libpath /opt/xm/lib/ $(PWD)/../lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl Xm Mrm Xmu Xp Xt Xext Xft Xrender X11 $(EC_ARCH)$(ABI)_gd z $(EC_ARCH)$(ABI)_png m dl jpeg -librmn rmnbeta
-
-xrec-Darwin:
-	r.compile -src rec.ftn $(OPTIMIZ); r.build -obj rec.o -o xrec -libpath $(REC)/lib/$(EC_ARCH)$(ABI) $(HOME)/userlibs/$(EC_ARCH) /usr/OpenMotif/lib /usr/X11R6/lib /sw/lib -libappl rec rec_util lic wgl gd_wgl x_wgl Xm Xt X11 xml2 gd m -librmn
-
-xrec-Linux-intel:
-	ifort *.o -o $(TMPDIR)/xrec -C90 -L$(REC)/lib/$(EC_ARCH) -L/usr/X11R6/lib -lrec -lrec_util -lgdb -lwgl -lgd_wgl -lx_wgl -lwgl -llic $(ARMNLIB)/lib/$(EC_ARCH)/librmn-intel.a  -lMrm -lXp -lXext -lX11 -lxml2 -lexpat -lgd2 -lz -lpng -lm -ldl -lc
-
-xrec-intel2:
-	ifc *.o -o xrec-intel -i_dynamic -L$(REC)/lib/$(EC_ARCH) -L/opt/old-libc -L/usr/X11R6/lib -L/opt/intel/compiler70/ia32/lib/ -lrec -lrec_util -lgdb -lwgl -lx_wgl -lgd_wgl -lwgl $(ARMNLIB)/lib/librmn-intel.a  -lMrm -lXp -lXext -lX11 -lxml2 -lexpat -lgd2 -lz -lpng -lm -ldl -lPEPCF90
+	s.compile -debug -O  0 -src rec.ftn -o $(TMPDIR)/xrec -obj $(HOME)/src/isi4/lib/ibm/*.o -libpath /opt/xm/lib/ $(PWD)/../lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl Xm Mrm Xmu Xp Xt Xext X11 $(EC_ARCH)$(ABI)_gd z $(EC_ARCH)$(ABI)_png m dl jpeg -librmn rmnbeta
 
 dictxml: dictxml.o test-dictxml.o
 	r.build -conly -o dictxml -obj test-dictxml.o dictxml.o -librmn rmn_006 -libappl xml2 m z

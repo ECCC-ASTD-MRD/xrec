@@ -1,39 +1,31 @@
-include $(ARMNLIB)/include/$(EC_ARCH)$(ABI)/Makefile_addons
-
 .SUFFIXES : 
 
-.SUFFIXES : .ftn .c .o  .a
+.SUFFIXES : .c .o  .a
 
-SHELL = /bin/sh
+SHELL = /bin/bash
 
 CPP = /lib/cpp
 
-GD_WGLLIB = ../lib/$(EC_ARCH)$(ABI)/libgd_wgl.a
+GD_WGLLIB = ../lib/$(EC_ARCH)/libgd_wgl.a
 
-CFLAGS =  -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -I$(HOME)/src/gd2/ -DX_WGL
+#CFLAGS =  -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -I$(HOME)/src/gd2/ -DX_WGL
+CFLAGS = -I../include -DX_WGL
 
-OPTIMIZ = -debug -O 0
-OPTIMIZ = -O 3
+#OPTIMIZ = -debug -O 0
+OPTIMIZ = -O 2
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
+#CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
+CPPFLAGS = -I../include -DX_WGL
 
 .PRECIOUS:
 
 default: gd_wgllib
 
 .c.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
-
-.ftn.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	s.cc -c $(OPTIMIZ) $(CFLAGS) -src $<
 
 .c.a:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
-	ar rv $@ $*.o
-	rm -f $*.o
-
-.ftn.a:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	s.cc -c $(OPTIMIZ) $(CFLAGS) -src $<
 	ar rv $@ $*.o
 	rm -f $*.o
 
@@ -120,17 +112,9 @@ gd_wglxai.c
 obj: $(CDECKS) 
 #Produire les fichiers objets (.o) pour tous les fichiers
 
-qclean:
+clean:
 #Faire un petit menage. On enleve tous les .o et les .f \nproduits a partir de .ftn/.ptn
-	-if [ "*.[fp]tn" != "`echo *.[fp]tn`" ] ; \
-	then \
-	for i in *.[fp]tn ; \
-	do \
-	fn=`r.basename $$i '.[fp]tn'`; \
-	rm -f $$fn.f; \
-	done \
-	fi
-	rm *.o
+	rm -f *.o
 
 gd_wgllib:	$(GD_WGLLIB)(gd_pwrit.o)\
 $(GD_WGLLIB)(gd_wglafi.o)\

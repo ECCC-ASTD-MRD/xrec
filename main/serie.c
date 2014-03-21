@@ -22,6 +22,7 @@
 #include <Xm/PushBG.h>
 #include <Xm/CascadeBG.h>
 #include <Xm/RowColumn.h>
+#include <Xm/TextF.h>
 
 #include <xinit.h>
 #include <rpnmacros.h>

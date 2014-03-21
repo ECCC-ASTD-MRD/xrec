@@ -1,43 +1,41 @@
-include $(ARMNLIB)/include/$(EC_ARCH)$(ABI)/Makefile_addons
-
 .SUFFIXES : 
 
 .SUFFIXES : .ftn .c .o .a 
 
-SHELL = /bin/sh
+SHELL = /bin/bash
 
 CPP = /lib/cpp
 
-REC_UTILLIB = ../lib/$(EC_ARCH)$(ABI)/librec_util.a
+REC_UTILLIB = ../lib/$(EC_ARCH)/librec_util.a
 
-FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
+FFLAGS = -I../include -DX_WGL
 
-CFLAGS = -I/opt/include -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -DX_WGL
+CFLAGS = -I../include -DX_WGL
 
 #OPTIMIZ = -debug -O 0 -optc =-qinfo=all
 #OPTIMIZ = -debug -O 0  -optc=-Wall
-OPTIMIZ = -debug -O 0  
+#OPTIMIZ = -debug -O 0  
 OPTIMIZ = -O 2
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
+CPPFLAGS = -I../include -DX_WGL
 
 .PRECIOUS: $(REC_UTILLIB)
 
 default: rec_utillib
 
 .ftn.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	r.compile $(OPTIMIZ) -src $<
 
 .c.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
+	s.cc -c $(OPTIMIZ) $(CFLAGS) $<
 
 .c.a:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
+	s.cc -c $(OPTIMIZ) $(CFLAGS) $<
 	ar rv $@ $*.o
 	rm -f $*.o
 
 .ftn.a:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	r.compile $(OPTIMIZ) -src $<
 	ar rv $@ $*.o
 	rm -f $*.o
 
@@ -53,17 +51,9 @@ obj: $(FTNDECKS) $(FDECKS) $(CDECKS)
 #Produire les fichiers objets (.o) pour tous les fichiers
 
 
-qclean:
+clean:
 #Faire un petit menage. On enleve tous les .o et les .f \nproduits a partir de .ftn/.ptn
-	-if [ "*.[fp]tn" != "`echo *.[fp]tn`" ] ; \
-	then \
-	for i in *.[fp]tn ; \
-	do \
-	fn=`r.basename $$i '.[fp]tn'`; \
-	rm -f $$fn.f; \
-	done \
-	fi
-	rm *.o
+	rm -f *.o
 
 rec_utillib:	\
 	$(REC_UTILLIB)(edit.o) \

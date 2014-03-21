@@ -14,8 +14,8 @@ AR=ar
 #Remove -DHAVE_LIBFREETYPE if you can live without FreeType text.
 #Add -DHAVE_XPM if you have X and xpm installed and you want that feature.
 
-CFLAGS=-g -DHAVE_LIBPNG -DHAVE_LIBJPEG -DHAVE_LIBFREETYPE
-CFLAGS=-g -DHAVE_LIBPNG
+#CFLAGS=-g -DHAVE_LIBPNG -DHAVE_LIBJPEG -DHAVE_LIBFREETYPE
+CFLAGS=-g -DHAVE_LIBPNG -fPIC
 
 #PLEASE NOTE: YOU MAY HAVE TO JUGGLE THE ORDER OF THE LIBRARIES.
 #Some systems are very picky about link order. They don't all agree
@@ -24,33 +24,39 @@ CFLAGS=-g -DHAVE_LIBPNG
 #Best for most users. If you don't have FreeType, remove -lfreetype.
 #Add -lxpm if you need XPM support.
 
-LIBS=-lgd -lpng -lz -ljpeg -lfreetype -lm
+#LIBS=-lgd -lpng -lz -ljpeg -lfreetype -lm
+LIBS=-lgd -lpng -lz -ljpeg -lm
 
 #Typical install locations for freetype 2.0, zlib, xpm, libjpeg 
 #and libpng header files. If yours are somewhere else, change this. 
 #-I. is important to ensure that the version of gd you are installing 
 #is used, and not an older release in your directory tree somewhere.
 
-INCLUDEDIRS=-I. -I$(HOME)/src/utils/xrec/include -I/usr/include/freetype2 -I/usr/include/X11 -I/usr/X11R6/include/X11 -I/usr/local/include  -I/users/dor/armn/yrc/src/freetype-2.0.2/include
+#INCLUDEDIRS=-I. -I$(HOME)/src/utils/xrec/include -I/usr/include/freetype2 -I/usr/include/X11 -I/usr/X11R6/include/X11 -I/usr/local/include  -I/users/dor/armn/yrc/src/freetype-2.0.2/include
+INCLUDEDIRS=-I. -I../include
 
 #Typical install locations for freetype, zlib, xpm and libpng libraries.
 #If yours are somewhere else, other than a standard location
 #such as /lib or /usr/lib, then change this. This line shouldn't hurt 
 #if you don't actually have some of the optional libraries and directories.
-LIBDIRS=-L/usr/local/lib -L/usr/lib/X11 -L/usr/X11R6/lib -L/users/dor/armn/yrc/src/freetype-2.0.2/objs/.libs/
+#LIBDIRS=-L/usr/local/lib -L/usr/lib/X11 -L/usr/X11R6/lib -L/users/dor/armn/yrc/src/freetype-2.0.2/objs/.libs/
+LIBDIRS=-L../lib/${BASE_ARCH} -Wl,-rpath,../lib/${BASE_ARCH}
 
 #Location where libgd.so should be installed by "make install".
 #THIS MUST BE ONE OF YOUR STANDARD SHARED LIBRARY LOCATIONS, unless
 #you add a new directory to your LD_LIBRARY_PATH environment setting.
 #Otherwise applications will NOT find libgd.so and will produce an 
 #error.  
-INSTALL_LIB=/users/dor/armn/yrc/data/gdlib
+#INSTALL_LIB=/users/dor/armn/yrc/data/gdlib
+INSTALL_LIB=../lib/$(EC_ARCH)
 
 #Location where .h files should be installed by "make install".
-INSTALL_INCLUDE=/usr/include
+#INSTALL_INCLUDE=/usr/include
+INSTALL_INCLUDE=../include
 
 #Location where useful non-test programs should be installed by "make install".
-INSTALL_BIN=/users/dor/armn/yrc/data/gdbin
+#INSTALL_BIN=/users/dor/armn/yrc/data/gdbin
+INSTALL_BIN=../bin/$(BASE_ARCH)
 
 #
 #
@@ -71,7 +77,7 @@ PROGRAMS=$(BIN_PROGRAMS) $(TEST_PROGRAMS)
 BIN_PROGRAMS=pngtogd pngtogd2 gdtopng gd2topng gd2copypal gdparttopng webpng
 TEST_PROGRAMS=gdtest gddemo gd2time gdtestft testac
 
-default: instructions
+default: libgd.a
 
 instructions:
 	@echo First, edit this Makefile. Read the comments at
@@ -88,7 +94,9 @@ instructions:
 
 test: $(TEST_PROGRAMS)
 
-install: libgd.so.${VERSION} $(BIN_PROGRAMS)
+#install: libgd.a libgd.so.${VERSION} $(BIN_PROGRAMS)
+install: libgd.a $(BIN_PROGRAMS)
+	mkdir -p $(INSTALL_BIN) $(INSTALL_INCLUDE) $(INSTALL_LIB)
 	sh ./install-item 755 pngtogd $(INSTALL_BIN)/pngtogd
 	sh ./install-item 755 pngtogd2 $(INSTALL_BIN)/pngtogd2
 	sh ./install-item 755 gdtopng $(INSTALL_BIN)/gdtopng
@@ -169,8 +177,9 @@ libgd.so.${VERSION}: ${LIBOBJS}
 libgd.a: ${LIBOBJS}
 	rm -f libgd.a
 	$(AR) rc libgd.a ${LIBOBJS}
-	-ranlib libgd.a
+	sh ./install-item 644 libgd.a $(INSTALL_LIB)/libgd.a
+	rm libgd.a *.o
 
 clean:
-	rm -f *.o *.a *.so ${PROGRAMS} test/gdtest.jpg test/gdtest.wbmp
+	rm -f *.o *.a *.so ${PROGRAMS} test/gdtest.jpg test/gdtest.wbmp libgd.so.${VERSION} libgd.a
 

@@ -91,6 +91,7 @@ int GetMinMaxUV(float *uvmin, float *uvmax)
       switch (i)
 	{
 	case 0:
+	case 2:
 	  *uvmin = champ->uvmin[0];
 	  *uvmax = champ->uvmax[0];
 	  break;

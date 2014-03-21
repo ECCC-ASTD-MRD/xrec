@@ -1,0 +1,32 @@
+SHELL=/bin/sh
+
+OBJS = dbinit.o desc.o dlb.o gdb.o map.o pln.o point.o pol.o rgis.o scnio.o segment.o sock.o swp.o
+CFLAG=-I. -O
+
+always:
+	 make common OS=`uname`
+
+TARGET = libgdb.a
+
+common: $(TARGET) copie
+
+copie:
+	-mkdir -p ./include
+	-mkdir -p ./lib
+	 cp *.a              ./lib
+	 cp gdb.h            ./include
+	 cp declare.h        ./include
+	 cp *.a              /users/dor/afsm/van/software/cmc/max2/libs/linux26-x86-64/
+
+clean:
+	 rm *.o *.a
+
+libgdb.a: $(OBJS)
+	 ar rv $@ *.o
+
+.c.o:
+	 gcc $(CFLAG) -DLinux -DSOCKADDR -rdynamic -c $?
+   
+
+#Linux: $(OBJS)
+#	 gcc $(CFLAG) -DLinux -DSOCKADDR -rdynamic -c $?

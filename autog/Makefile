@@ -1,10 +1,8 @@
-include $(ARMNLIB)/include/$(EC_ARCH)$(ABI)/Makefile_addons
-
 .SUFFIXES : 
 
 .SUFFIXES : .ftn .f .c .a .o  
 
-SHELL = /bin/sh
+SHELL = /bin/bash
 
 CPP = /lib/cpp
 
@@ -13,30 +11,30 @@ WGLLIB = ../lib/$(EC_ARCH)$(ABI)/librec_util.a
 FFLAGS = 
 
 #CFLAGS =  -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -DX_WGL
-CFLAGS =  -I/usr/X11R6/include -I$(ARMNLIB)/include -I../include -DX_WGL
+CFLAGS =  -I../include -DX_WGL
 
-OPTIMIZ = -debug -O 0
+#OPTIMIZ = -debug -O 0
 OPTIMIZ = -O 2
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
+CPPFLAGS = -I../include -DX_WGL
 
 .PRECIOUS:
 
 default: rec_utillib
 
 .ftn.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $*.ftn
+	s.compile $(OPTIMIZ) -src $*.ftn
 
 .c.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
+	s.cc -c $(OPTIMIZ) $(CFLAGS) $<
 
 .c.a:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
+	s.cc -c $(OPTIMIZ) $(CFLAGS) $<
 	ar rv $@ $*.o
 	rm -f $*.o
 
 .ftn.a:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	s.compile $(OPTIMIZ) -src $*.ftn
 	ar rv $@ $*.o
 	rm -f $*.o
 
@@ -98,8 +96,11 @@ xuliber.f: xuliber.ftn
 obj: $(CDECKS) $(FDECKS)
 #Produire les fichiers objets (.o) pour tous les fichiers
 
+libdir:
+	mkdir -p ../lib/$(EC_ARCH)
 
-rec_utillib: $(WGLLIB)(xanotat.o) \
+rec_utillib: libdir \
+	$(WGLLIB)(xanotat.o) \
 	$(WGLLIB)(xautoget.o) \
 	$(WGLLIB)(xautolab.o) \
 	$(WGLLIB)(xbreak.o) \
@@ -121,4 +122,7 @@ rec_utillib: $(WGLLIB)(xanotat.o) \
 	$(WGLLIB)(xsysdat.o) \
 	$(WGLLIB)(xtick4.o) \
 	$(WGLLIB)(xticks.o) \
-	$(WGLLIB)(xuliber.o) 
+	$(WGLLIB)(xuliber.o)
+
+clean:
+	rm -f *.o *.f

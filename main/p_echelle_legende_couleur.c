@@ -23,7 +23,6 @@
 #include <Xm/Frame.h>
 #include <Xm/Form.h>
 #include <rpnmacros.h>
-#include <rpnmacros.h>
 #include <rec.h>
 #include <rec_functions.h>
 #include <wgl.h>

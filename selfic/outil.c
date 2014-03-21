@@ -457,10 +457,13 @@
  selection(d)
  struct dirent *d;
     {
-return((int)d->d_name);
+return d->d_name != NULL;
+//return((int)d->d_name);
+/*
     if( rejet != NULL && strmatch(d->d_name,rejet)==1 ) return(0);
     if( match != NULL && strmatch(d->d_name,match)==1 ) return((int)d->d_name);
     if( match == NULL ) return((int)d->d_name);
+*/
 
     return(0);
     }

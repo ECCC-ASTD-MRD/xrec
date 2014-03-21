@@ -1,41 +1,34 @@
-include $(ARMNLIB)/include/$(EC_ARCH)$(ABI)/Makefile_addons
-
 .SUFFIXES : 
 
 .SUFFIXES : .ftn .f .c .o 
 
-SHELL = /bin/sh
+SHELL = /bin/bash
 
 CPP = /lib/cpp
 
-RECLIB = $(HOME)/userlibs/$(EC_ARCH)$(ABI)/librec.a
+RMNLIB = rmn_014
 
-FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL
+FFLAGS = -I../include -DX_WGL
 
-CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(HOME)/src/gd2/ -DX_WGL
+CFLAGS = -I../include -DX_WGL
 
 #@OPTIMIZ = -O 3
 OPTIMIZ = -debug -O 0
 
-CPPFLAGS = -I$(ARMNLIB)/include =-I../include -DX_WGL
+CPPFLAGS = -I../include -DX_WGL
 
-.PRECIOUS: $(RECLIB)
+.PRECIOUS: 
 
-default: reclib
-
-.ftn.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+default: cvtdictrec
 
 .c.o:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
+	s.cc -I../include -c $<
 
-.c.a:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
-	ar rv $@ $*.o
-	rm -f $*.o
+.ftn.o:
+	r.compile $(OPTIMIZ) -src $<
 
 .ftn.a:
-	r.compile -arch $(EC_ARCH) -abi $(ABI) $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
+	r.compile $(OPTIMIZ) -src $<
 	ar rv $@ $*.o
 	rm -f $*.f $*.o
 
@@ -43,9 +36,13 @@ FTNDECKS= \
 	cvtdictrec.ftn defvar.ftn recgrille.ftn rlx.ftn setitem.ftn
 
 CDECKS= \
+	dict.c  grille.c
 
 COMDECKS= \
 
-cvtdictrec:
-	r.build -o cvtdictrec -obj *.o  -libpath $(REC)/lib/$(EC_ARCH)$(ABI) /usr/lib/Motif1.2_R6 /usr/lib/X11R6 /usr/X11R6/lib -libappl m -librmn  rmnbeta
-
+cvtdictrec: dict.o grille.o
+	s.compile -o cvtdictrec -src $(FTNDECKS) -obj dict.o grille.o  -libpath ../lib/$(EC_ARCH) -libsys m -librmn  $(RMNLIB) 
+	mkdir -p ../bin/$(BASE_ARCH)
+	mv cvtdictrec ../bin/$(BASE_ARCH)
+clean:
+	rm -f *.o *.f

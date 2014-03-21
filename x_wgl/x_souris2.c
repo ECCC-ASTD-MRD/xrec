@@ -46,6 +46,7 @@ extern SuperWidgetStruct SuperWidget;
 
 #include <wgl.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 
 /** 

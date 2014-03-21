@@ -29,7 +29,7 @@
     char *file;
     char *line;
     float f;
-    int   fp;
+    fileref_t fp;
     int   i,n;
     int   siz;
     Desc *desc;

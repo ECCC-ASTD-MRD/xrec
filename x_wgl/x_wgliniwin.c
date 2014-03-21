@@ -67,7 +67,7 @@ x_wgliniwin(char *nomFenetre)
 			  attribmask,  &wglWinSetAttr);
    if (customWinSize) 
       {
-      XSetStandardProperties(wglDisp, wglWin, nomFenetre, nomFenetre, NULL, argv, argc, &wglHints);
+      XSetStandardProperties(wglDisp, wglWin, nomFenetre, nomFenetre, None, argv, argc, &wglHints);
       }
 
    if (1 != x_wglgpl())
@@ -82,7 +82,7 @@ x_wgliniwin(char *nomFenetre)
 
    wglLineGC = XCreateGC(wglDisp, wglWin, 0, 0);
    wglFillGC = XCreateGC(wglDisp, wglWin, 0, 0);
-   bgPix     = NULL;
+   bgPix     = 0;
 
    XSetBackground(wglDisp, wglLineGC, wglback);
    XSetForeground(wglDisp, wglLineGC, wglfore);

@@ -89,6 +89,7 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
       {
       case 'A':
       case 'G':
+		case 'U':
       mapInfo.type = grtyp;
       mapInfo.xOrigine = 1.0;
       mapInfo.yOrigine = 1.0;

@@ -24,6 +24,7 @@
 #include <Xm/Frame.h>
 #include <Xm/Label.h>
 #include <Xm/Form.h>
+#include <Xm/CascadeB.h>
 #include <Xm/CascadeBG.h>
 #include <Xm/RowColumn.h>
 
@@ -68,7 +69,7 @@ static char *pattLabelOptionsFontSize[][5] = {{"12                  ", "14", "17
 int fontSizeLegend = 12;
 int fontSizeColorLegend = 12;
 int fontSizeLabels = 12;
-int currentItem;
+int currentItem, nmax;
 char panneauAttributsGeometrie[32];
 
 int pattSelectionTerminee;
@@ -313,17 +314,19 @@ void InitPanneauAttributs()
 
    pattOptionsInterp = (Widget)XmCreatePulldownMenu(pattFrameInterp, labelInterp[lng], NULL, 0);
 
-   for (n=0; n < XtNumber(pattLabelOptionsInterp[lng][n]); n++)
+   nmax = XtNumber(pattLabelOptionsInterp[lng][n]);
+   nmax = 3;
+   for (n=0; n < nmax; n++)
 	{
 	i = 0;
 	string = XmStringCreateLtoR(pattLabelOptionsInterp[lng][n], XmSTRING_DEFAULT_CHARSET);
 	XtSetArg(args[i], XmNlabelString, string); i++;
-	pattOptionsInterpItems[n] = XmCreatePushButtonGadget(pattOptionsInterp, pattLabelOptionsInterp[lng][n], args, i);
+	pattOptionsInterpItems[n] = XmCreatePushButton(pattOptionsInterp, pattLabelOptionsInterp[lng][n], args, i);
 	XmStringFree(string);
 	XtAddCallback(pattOptionsInterpItems[n], XmNactivateCallback, (XtCallbackProc)  SetInterpolationToggle, (XtPointer) n);
 	}
 
-   XtManageChildren(pattOptionsInterpItems, XtNumber(pattLabelOptionsInterp[lng]));
+   XtManageChildren(pattOptionsInterpItems, 3);
 
    currentItem = 1;
 

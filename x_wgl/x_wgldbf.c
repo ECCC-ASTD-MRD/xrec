@@ -31,7 +31,7 @@ x_wgldbf()
    x_wglgwz(&w,&h);
    nplanes = x_wglgpl();
    
-   if (bgPix == NULL)
+   if (bgPix == None)
       {
       bgPix = XCreatePixmap(wglDisp, RootWindow(wglDisp, wglScrNum), w, h, nplanes);
       }

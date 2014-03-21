@@ -332,7 +332,6 @@ void AjusterViewport(_Viewport *viewp)
   int largeurFenetre, hauteurFenetre, largeurLegendeCouleur, hauteurLegende, flagLegende;
   int largeurAxeY;
   
-  FldMgrGetChamp(&champ, 0);
   c_wglgwz(&largeurFenetre, &hauteurFenetre);
   
   if (!xc.statuts[LEGENDE] && !xc.statuts[LEGENDE_COULEUR])
@@ -351,21 +350,21 @@ void AjusterViewport(_Viewport *viewp)
   else
     flagLegende = FALSE;
   
-  /**
-     if (largeurFenetre == oldLargeurFenetre && hauteurFenetre == oldHauteurFenetre && flagLegende == oldFlagLegende &&
-     0 == strcmp(lastnomvar, champ->nomvar) && lastInd == infoChamps[champ->indDict].indIntervalleDeDefaut)
-     {
-     strcpy(lastnomvar, champ->nomvar);
-     lastInd = infoChamps[champ->indDict].indIntervalleDeDefaut;
-     return;
-     }
-  **/
   
-  strcpy(lastnomvar, champ->nomvar);
-  lastInd = infoChamps[champ->indDict].indIntervalleDeDefaut;
-  
-  largeurLegendeCouleur = CalculerLargeurLegendeCouleur();
-  hauteurLegende = CalculerHauteurLegende();
+  if (0 < FldMgrGetNbChampsActifs())
+    {
+    FldMgrGetChamp(&champ, 0);
+    strcpy(lastnomvar, champ->nomvar);
+    lastInd = infoChamps[champ->indDict].indIntervalleDeDefaut;
+    largeurLegendeCouleur = CalculerLargeurLegendeCouleur();
+    hauteurLegende = CalculerHauteurLegende();
+    } 
+  else
+    {
+    largeurLegendeCouleur = 15 + 35 + c_wglwsi("123456", 6);
+    hauteurLegende = CalculerHauteurLegende();
+    }
+
   
   if (xc.statuts[AXE_Y] == TRUE)
     {
@@ -623,7 +622,7 @@ void AfficherLegendeSup2()
         sprintf(dateMess, "V%s", pdfdatev);
         
         rip1 = champ->ip1;
-              f77name(convip)(&rip1, &rniveau, &kind, &mode, kindstring, &un, 15);
+              f77name(f_convip)(&rip1, &rniveau, &kind, &mode, kindstring, &un, 15);
               kindstring[15] = '\0';
         nettoyer(kindstring);
         if (champ->cle >= 0)

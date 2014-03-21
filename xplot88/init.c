@@ -22,6 +22,7 @@
 #include <vcar.h>
 #include <rpnmacros.h>
 #include <stdlib.h>
+#include <string.h>
 
 f77name(initplot88)()
 {

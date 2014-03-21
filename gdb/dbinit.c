@@ -29,14 +29,14 @@
 
     int  gdb_client      = 0;
     int  gdb_port        = 1377;
-    char gdb_server[256] = "pollux";
-    char gdb_strsrv[256] = "pollux:1377";
+    char gdb_server[256] = "foo";
+    char gdb_strsrv[256] = "foo:1377";
 
 /*
  *  DEFAULT directories 
  */
 
-    char gdb_dbase[256]  = "/data/cmdsx2/afsm/gis";
+    char gdb_dbase[256]  = "/data/cmds/afsm/gis_le";
     char gdb_dreso[8][4] = { "001", "002", "004", "008",
                              "016", "032", "064", "128" };
 /*
@@ -80,6 +80,8 @@
     char  path[512];
     int   i,ierr;
     Desc *d;
+
+    printf("Using GDB: %s\n", gdb_dbase );
 
     for( i=0; i<8; ++i )
        {

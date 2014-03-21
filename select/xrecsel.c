@@ -2609,8 +2609,8 @@ CalculerLargeurMenus(wordint largeurMenus[], wordint table[][3])
    wordint largeurTexte;
    
    Arg args[10];
-   char bidon[32];
-   XmString labelBidon[32], label1, label2;
+   char bidon[48];
+   XmString labelBidon[48], label1, label2;
 
    strcpy(bidon, " ");
    for (i=1; i < 32; i++)
@@ -2623,10 +2623,11 @@ CalculerLargeurMenus(wordint largeurMenus[], wordint table[][3])
    XtSetArg(args[i], XmNfontList, &fontListe); i++;
    XtGetValues(xs[wi].ok, args, i);
 
-   for (i=0; i < xs[wi].nbDes; i++)
+	largeurMenus[0] = 0;
+	for (i=1; i < xs[wi].nbDes; i++)
       {
-      largeurMenus[i] = (int) XmStringWidth(fontListe, labelBidon[table[i][0]]);
-/*      largeurMenus[i] = (int) (8 * table[i][0]);*/
+      largeurMenus[i] = (int) XmStringWidth(fontListe, labelBidon[table[i][0]]); 
+/*      largeurMenus[i] = (int) (8 * table[i][0]); */
       }  
 
    for (i=1; i < 32; i++)

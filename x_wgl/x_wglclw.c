@@ -54,14 +54,14 @@ x_wglclw(int indFenetre)
    if (bgPix)
       {
       XFreePixmap(wglDisp, bgPix);
-      bgPix = NULL;
+      bgPix = None;
       }
 
    XFreeGC(wglDisp, wglLineGC);
    XFreeGC(wglDisp, wglFillGC);
    XDestroyWindow(wglDisp, fenetre[fenetreCourante].wglWin);
    
-   memset((char *) &fenetre[fenetreCourante], NULL, sizeof(_Fenetre));
+   memset((char *) &fenetre[fenetreCourante], None, sizeof(_Fenetre));
    
    fenetre[fenetreCourante].libre = True;
    i = 0;

@@ -52,4 +52,4 @@
 /* extern  void     set_vcar(char *chaine);*/
  extern  Vcar    *vcar();
 
-#endif   vcar_DEFINED
+#endif

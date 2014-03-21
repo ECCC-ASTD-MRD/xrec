@@ -50,6 +50,7 @@ void c_gmpg2l(float *lat,float *lon,float x,float y)
       case 'A':
       case 'B':
       case 'L':
+		case 'U':
       gmp_llfgr(lat, lon, tmpX, tmpY, mapInfo.latOrigine, mapInfo.lonOrigine, mapInfo.deltaLat, mapInfo.deltaLon);
       break;
 

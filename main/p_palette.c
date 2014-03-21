@@ -36,11 +36,10 @@
 #include <Xm/ToggleB.h>
 #include <Xm/ToggleBG.h>
 
+#include <rec.h>
 #include <xinit.h>
 #include <wgl.h>
 #include <rpnmacros.h>
-#include <rpnmacros.h>
-#include <rec.h>
 #include <rec_functions.h>
 
 extern SuperWidgetStruct SuperWidget;
@@ -98,13 +97,13 @@ void SetPaletteToggle(Widget  w, caddr_t client_data, caddr_t call_data)
       }
 
    ResetColorMap(recColorTable, sizeRecColorTable, recCmap.noPalette);
-    
+
    }
 
-void SetMinToggle(Widget  w, caddr_t client_data, caddr_t call_data) 
+void SetMinToggle(Widget  w, caddr_t client_data, caddr_t call_data)
 {
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
-   
+
    recCmap.amplificationMin = (float)(donnees->value);
    recCmap.amplificationMin /= 100.0;
    ResetColorMap(recColorTable, sizeRecColorTable, recCmap.noPalette);
@@ -135,15 +134,15 @@ XtCallbackProc PpAfficher(Widget  w, caddr_t client_data, caddr_t call_data)
    }
 
 
-void PpInfoColorBar(Widget w, caddr_t client_data, caddr_t call_data) 
+void PpInfoColorBar(Widget w, caddr_t client_data, caddr_t call_data)
 {
    char tableau[9600];
    int lngMaxTableau = 9600;
    _Champ *champ;
    float fldmin,fldmax,facteur;
    int nbIntervalles;
-  
-  strcpy(tableau, ""); 
+
+  strcpy(tableau, "");
   FldMgrGetChamp(&champ, 0);
 /*  sprintf(texte, "Champ #%02d: NV:%s TV:%s ET:%s\n", 0, champ->nomvar, champ->typvar, champ->etiket);
   strcat(tableau, texte);
@@ -158,7 +157,7 @@ void PpInfoColorBar(Widget w, caddr_t client_data, caddr_t call_data)
                          nbIntervalles, facteur);
 /*  fprintf(stderr, "%s\n", tableau);*/
    ActiverPanneauColorBarInfos();
-   RafraichirColorBarInfos(tableau);   
+   RafraichirColorBarInfos(tableau);
    }
 
 void InitPanneauPalette()
@@ -172,25 +171,27 @@ void InitPanneauPalette()
    char nomShell[128];
    char *armnlib;
    char nomFichierPalette[128];
+   int c_fnom();
 
-   int n,lng,key,iun,lrec,ierr;
+   int lng,key,iun,lrec,ierr;
+   long n;
    int ni, nj, nk;
    int ier;
    int bidon;
-   
+
    char grtyp[2], typvar[3], nomvar[5], etiket[13],options[9];
-   
+
    strcpy(nomvar, "    ");
    strcpy(typvar, "  ");
    strcpy(etiket, "            ");
    strcpy(grtyp, " ");
-   
-   
+
+
    /* Initialize toolkit */
    Xinit("xregarder");
    lng = c_getulng();
-   
-   strcpy(ppLabelOptionsPalette[0],"Col.std1");   
+
+   strcpy(ppLabelOptionsPalette[0],"Col.std1");
    strcpy(ppLabelOptionsPalette[1],"Col.std2");
    strcpy(ppLabelOptionsPalette[2],"N&B1");
    strcpy(ppLabelOptionsPalette[3],"N&B2");
@@ -199,15 +200,15 @@ void InitPanneauPalette()
    strcpy(ppLabelOptionsPalette[6],"R&B1");
    strcpy(ppLabelOptionsPalette[7],"R&B2");
    npalettes = 8;
-   
-   iun=128;
+
+   iun=0;
    lrec = 0;
    strcpy(options, "RND+R/O");
-   
+
    armnlib = (char *) getenv("ARMNLIB");
    strcpy(nomFichierPalette,armnlib);
    strcat(nomFichierPalette,"/data/palettes.fst");
-   ierr = c_fnom(iun,nomFichierPalette,"STD+RND+R/O",lrec);
+   ierr = c_fnom(&iun,nomFichierPalette,options,lrec);
    ierr = c_fstouv(iun,options);
    key = c_fstinf(iun,&ni,&nj,&nk,-1,"        ",-1,-1,-1," ","  ");
 
@@ -225,21 +226,21 @@ void InitPanneauPalette()
       } while (key >= 0);
    c_fstfrm(iun);
 
-   
+
    i = 0;
    strcpy(nomShell, XtName(SuperWidget.topLevel));
    strcat(nomShell, nomPanneauPalette[lng]);
    i = 0;
-   if (0 < strlen(panneauPaletteGeometrie)) 
+   if (0 < strlen(panneauPaletteGeometrie))
       {
       XtSetArg(args[i],XmNgeometry,panneauPaletteGeometrie);
       i++;
       }
-   
-   ppTopLevel = XtAppCreateShell(nomShell, nomShell, 
+
+   ppTopLevel = XtAppCreateShell(nomShell, nomShell,
                                  applicationShellWidgetClass,
                                  XtDisplay(SuperWidget.topLevel), args, i);
-   
+
    i = 0;
    ppForme = (Widget) XmCreateForm(ppTopLevel, "form", args, i);
    XtManageChild(ppForme);
@@ -276,8 +277,8 @@ void InitPanneauPalette()
     string = XmStringCreateLtoR(ppLabelOptionsVariation[lng][n], XmSTRING_DEFAULT_CHARSET);
     XtSetArg(args[i], XmNlabelString, string); i++;
     ppOptionsVariationItems[n] = (Widget) XmCreatePushButtonGadget(ppOptionsVariation, ppLabelOptionsVariation[lng][n], args, i);
-    XmStringFree(string);   
-    XtAddCallback(ppOptionsVariationItems[n], XmNactivateCallback, (XtCallbackProc)  SetVariationToggle, (XtPointer) n);
+    XmStringFree(string);
+    XtAddCallback((Widget) ppOptionsVariationItems[n], (String) XmNactivateCallback, (XtCallbackProc)  SetVariationToggle, (XtPointer) n);
     }
 
    XtManageChildren(ppOptionsVariationItems, XtNumber(ppLabelOptionsVariation[lng]));
@@ -291,13 +292,13 @@ void InitPanneauPalette()
 
    i = 0;
    currentItem = 2;
-   string = XmStringCreateLtoR(labelVariation[lng], XmSTRING_DEFAULT_CHARSET); 
+   string = XmStringCreateLtoR(labelVariation[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, string); i++;
    XtSetArg(args[i], XmNsubMenuId, ppOptionsVariation); i++;
    XtSetArg(args[i], XmNmenuHistory, ppOptionsVariationItems[currentItem]); i++;
    XtSetArg(args[i], XmNalignment, XmALIGNMENT_BEGINNING); i++;
    ppPanneauVariation = (Widget) XmCreateOptionMenu(ppFrameVariation, "option_menu1", args, i);
-   XmStringFree(string);   
+   XmStringFree(string);
 
    XtManageChild(ppPanneauVariation);
 
@@ -328,12 +329,12 @@ void InitPanneauPalette()
 
    for (j=0; j < npalettes; j++)
       {
-      table[j] = XmStringCreate(ppLabelOptionsPalette[j], XmSTRING_DEFAULT_CHARSET); 
+      table[j] = XmStringCreate(ppLabelOptionsPalette[j], XmSTRING_DEFAULT_CHARSET);
       }
 
    i = 0;
    XtSetArg(args[i], XmNitemCount, npalettes); i++;
-   XtSetArg(args[i], XmNvisibleItemCount, 8); i++; 
+   XtSetArg(args[i], XmNvisibleItemCount, 8); i++;
    XtSetArg(args[i], XmNitems, table); i++;
    XtSetArg(args[i], XmNselectionPolicy, XmSINGLE_SELECT); i++;
    ppPanneauPalette = (Widget) XmCreateScrolledList(ppFormePal, "option_menu1", args, i);
@@ -368,7 +369,7 @@ void InitPanneauPalette()
 
 /**
 **
-**/ 
+**/
    i = 0;
    XtSetArg(args[i], XmNorientation, XmVERTICAL); i++;
    ppFormeMax = (Widget)XmCreateRowColumn(ppRc, labelMax[lng], args, i);
@@ -387,22 +388,22 @@ void InitPanneauPalette()
    XtAddCallback(ppPanneauMax, XmNdragCallback, (XtCallbackProc)  SetMaxToggle, NULL);
    XtAddCallback(ppPanneauMax, XmNvalueChangedCallback, (XtCallbackProc)  SetMaxToggle, NULL);
    XtManageChild(ppPanneauMax);
-   
+
    }
 
 void ActiverPanneauPalette()
-{   
+{
    if (!ppTopLevel)
       InitPanneauPalette();
-   
+
    if (!XtIsRealized(ppTopLevel))
       {
       XtRealizeWidget(ppTopLevel);
       CheckColormap(ppTopLevel);
       }
-   
+
    f77name(xpanpact)();
-   
+
    }
 
 void f77name(xpanpact)()
@@ -420,7 +421,7 @@ void DesactiverPanneauPalette()
 
 
 
-void f77name(c_spalatr)(char item[],char valeur[], int lenItem, int lenValeur) 
+void f77name(c_spalatr)(char item[],char valeur[], int lenItem, int lenValeur)
 {
    item[lenItem-1] = '\0';
    valeur[lenValeur-1] = '\0';
@@ -431,18 +432,18 @@ void f77name(c_spalatr)(char item[],char valeur[], int lenItem, int lenValeur)
       {
       strcpy(panneauPaletteGeometrie,valeur);
       }
-   
+
    if (0 == strcmp(item,"palette"))
       {
       recCmap.noPalette = atoi(valeur);
       }
-   
+
    if (0 == strcmp(item,"max"))
       {
       recCmap.reductionMax = (float)(100 - atoi(valeur));
       recCmap.reductionMax /= 100.0;
       }
-   
+
    if (0 == strcmp(item,"min"))
       {
       recCmap.amplificationMin = (float)atoi(valeur);
@@ -466,7 +467,7 @@ void EcrPalAtr(FILE *fichierDemarrage)
    Window win;
 
    strcpy(tableau, "palette");
-   
+
    strcpy(item,"geometrie");
    if (ppTopLevel)
       {
@@ -476,7 +477,7 @@ void EcrPalAtr(FILE *fichierDemarrage)
       XtSetArg(args[i], XmNx, &x); i++;
       XtSetArg(args[i], XmNy, &y); i++;
       XtGetValues(ppTopLevel, args, i);
-      
+
       sprintf(valeur,"%+d%+d",x,y);
       sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
       fprintf(fichierDemarrage,"%s\n",ligne);
@@ -501,7 +502,7 @@ void EcrPalAtr(FILE *fichierDemarrage)
    sprintf(valeur, "%2d", (int)(recCmap.amplificationMin*100.0));
    sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
    fprintf(fichierDemarrage,"%s\n",ligne);
-   
+
    strcpy(item, "max");
    sprintf(valeur, "%2d", 100-(int)(recCmap.reductionMax*100.0));
    sprintf(ligne, " setitem('%s','%s','%s')",tableau,item,valeur);
@@ -514,26 +515,29 @@ int PaletteMgrGetVariation()
    return variation;
    }
 
-void SetVariationToggle (Widget w, caddr_t client_data, caddr_t call_data) 
+XtCallbackProc SetVariationToggle (Widget w, caddr_t client_data, caddr_t call_data)
 {
-   switch((int)client_data)
+   long lcl_client_data;
+
+   lcl_client_data = (long) client_data;
+   switch(lcl_client_data)
       {
       case 0:
       variation = CUBIQUE;
       break;
-      
+
       case 1:
       variation = QUADRATIQUE;
       break;
-      
+
       case 2:
       variation = LINEAIRE;
       break;
-      
+
       case 3:
       variation = RACINE_CARREE;
       break;
-      
+
       case 4:
       variation = RACINE_CUBIQUE;
       break;

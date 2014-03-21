@@ -1,0 +1,2 @@
+      COMMON /PWRYP/ X1, X2, Y1, Y2, SPX, SPY
+      REAL           X1, X2, Y1, Y2, SPX, SPY

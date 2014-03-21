@@ -16,6 +16,7 @@
  */
 
 #include <stdio.h>
+#include <limits.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
@@ -24,8 +25,26 @@
 #include "rgis.h"
 #include "swp.h"
 
- static int rgis_swaponl( char *info );
- static int rgis_update ( char *info );
+#define  DEBUG   0
+
+#define  COPY_LL(d,s)  strncpy((d)->magic, (s)->magic, 4 ); \
+	    strncpy((d)->version, (s)->version, 4 ); \
+	    strncpy((d)->datanam, (s)->datanam, 4 ); \
+	    (d)->type = (s)->type; \
+	    (d)->category = (s)->category; \
+	    (d)->value = (s)->value; \
+	    (d)->status = (s)->status; \
+	    (d)->n = (s)->n; \
+	    (d)->ll = NULL; \
+	    (d)->data = NULL
+	    
+	    
+
+
+ static void * rgis_update64le ( char *info );
+ static void * rgis_update32be ( char *info, int do_swap );
+ static void * rgis_transfer_header ( void *info, int *do_swap );
+ static void * rgis_transfer_header_le ( void *info );
 
  extern void
  rgis_print ( char *info )
@@ -56,13 +75,13 @@
     switch( ll->type )
           {
           case 0  :
-                    ll        = (Ll     *) info;
+                    ll        = (Ll     *) ll;
                     for( i=0; i< ll->n; ++i )
                     printf(" %f %f \n",ll->ll[2*i],ll->ll[2*i+1]);
                     break;
 
           case 1  : 
-                    lli       = (Lli    *) info;
+                    lli       = (Lli    *) ll;
                     for( i=0; i< ll->n; ++i )
                          printf(" %f %f %d \n",
                                   lli->ll[2*i],lli->ll[2*i+1],lli->i[i]);
@@ -70,14 +89,14 @@
 
           case 2  : 
           case 3  : 
-                    llt       = (Llt    *) info;
+                    llt       = (Llt    *) ll;
                     for( i=0; i< ll->n; ++i )
                          printf(" %f %f %s \n",
                                   llt->ll[2*i],llt->ll[2*i+1],llt->t[i]);
                     break;
 
           case 4  : 
-                    lls       = (Lls    *) info;
+                    lls       = (Lls    *) ll;
                     printf(" ns       : %d   \n",lls->ns);
                     for( i=0; i< lls->ns; ++i )
                        {
@@ -133,6 +152,9 @@
     if( stat(path,&buf) != 0 ) return(1); 
     *siz = (int) buf.st_size;
 
+#if DEBUG
+    fprintf( stderr, "Open gisfile: %s\n", path );
+#endif
 /*
  *  open the files and gets its size
  */
@@ -165,6 +187,7 @@
  */
     if( strncmp( &mem[0], MAGIC,    4 ) != 0 ||
       ( strncmp( &mem[4], VERSION,  4 ) != 0 &&
+        strncmp( &mem[4], VERSION12, 4 ) != 0 &&
         strncmp( &mem[4], VERSION1, 4 ) != 0 ))
       {
       free(mem);
@@ -174,35 +197,32 @@
 /*
  *  swap if needed
  */
-    if( SWAP_IS == SWAP_LSBF )
+   if (strncmp( &mem[4], VERSION12, 4 ) == 0 )
       {
-      n = rgis_swaponl( mem );
-      if( n != 0 )
-        {
-        free(mem);
-        return(6);
-        }
+      *info = rgis_update64le( mem );
+      }
+   else
+      {
+/*      *info = rgis_update32be( mem, SWAP_IS == SWAP_LSBF ); */
+      *info = rgis_update32be( mem, 0 );
+      }
+   if( *info == NULL )
+      {
+      free(mem);
+      return(6);
       }
 
-/*
- *  else update the pointers
- */
-    else
-      {
-      rgis_update( mem );
-      }
 
 /*
  *  everything all right
  */
-   *info = mem;
-    return(0);
+    return( (*info != NULL)? 0 : -1);
     }
 
 
 /*
  *
- *  module    :  RGIS_SWAPONL
+ *  module    :  RGIS_update64le
  *
  *  author    :  Michel Grenier
  *
@@ -213,96 +233,96 @@
  *  language  :  C
  *
  *  call      :  char *info;
- *               gis_swaponl( info );
+ *               gis_update( info, swap );
  *
- *  object    :  THIS MODULE SWAPS THE GIS INFORMATION
+ *  object    :  THIS MODULE LOAD THE GIS INFORMATION FROM DISK
  *
  */
 
- static int
- rgis_swaponl ( char *info )
+ static void *
+ rgis_update64le ( char *info )
     {
-    int   i,j,n;
-    Ll   *ll;
-    Lli  *lli;
-    Llt  *llt;
-    Lls  *lls;
+    int       i, j, n, n2;
+    Ll       *ll;
+    Lli      *lli;
+    Llt      *llt;
+    Lls      *lls;
+    caddr_t   ll_addr, t_addr, tex_addr;
+    int32_t  *t_i32;
 
-    ll = (Ll *) info;
-
-/*
- *  swap description in header
- */
-    swap_4(ll->size);
-    swap_4(ll->type);
-    swap_4(ll->category);
-    swap_4(ll->value);
-    swap_4(ll->status);
-    swap_4(ll->n);
+    ll = (Ll *) rgis_transfer_header_le( info  );
+#if DEBUG
+fprintf( stderr, "...Little Endian: no swap, type=%d\n", ll->type );
+#endif
 
 /*
  *  treat according to the type
  */
-    switch( ((Ll *)info)->type )
-          {
-          case 0  :
-                    ll        = (Ll     *) info;
-                    ll->ll    = (float  *) &ll[1];
-                    n         = 2 * ll->n;
-                    for( i=0; i<n; ++i ) swap_4x(ll->ll[i]);
-                    break;
+    switch( ll->type )
+       {
+       case 0  :
+          ll_addr   = (caddr_t)info;
+          ll_addr  += sizeof(__Ll);
+          ll->ll    = (float *)ll_addr;
+          break;
+       case 1  : 
+          ll_addr   = (caddr_t)info;
+          ll_addr  += sizeof(__Lli);
+          lli       = (Lli    *) ll;
+          lli->ll   = (float  *) ll_addr;
+		    n2        = 2 * n;
+		    ll_addr  += n2 * sizeof(float);
+		    lli->i    = (int    *) ll_addr;
+          break;
 
-          case 1  : 
-                    lli       = (Lli    *) info;
-                    lli->ll   = (float  *) &lli[1];
-                    lli->i    = (int    *) &lli->ll[2*lli->n];
-                    n         = 2 * ll->n;
-                    for( i=0; i<n;      ++i ) swap_4x(lli->ll[i]);
-                    for( i=0; i<lli->n; ++i ) swap_4 (lli->i [i]);
-                    break;
+       case 2  : 
+       case 3  : 
+          ll_addr = (caddr_t)info;
+          ll_addr += sizeof(__Llt);
+          llt       = (Llt    *) ll;
+          llt->ll   = (float *)ll_addr;
+		    n         = llt->n;
+		    n2        = 2*llt->n;
+          t_addr    = ll_addr + n2 * sizeof(float);
+          tex_addr  = t_addr + n * sizeof(int32_t);
+          llt->t    = (char **)malloc( n * sizeof(char *) );
+          llt->tex  = (char *)tex_addr;
+		    t_i32     = (int32_t *)t_addr;
+          for( i=0; i<n ; ++i ) 
+             llt->t[i] = &llt->tex[t_i32[i]];
+          break;
+       case 4  : 
+		    ll_addr = (caddr_t)info;
+		    ll_addr += sizeof(__Lls);
+          lls       = (Lls    *) ll;
+		    lls->ll = (float *)ll_addr;
+		    n2         = 2*lls->n;
+		    ll_addr  += n2 * sizeof(float);
+		    lls->sl   = (int    *) ll_addr;
+		    ll_addr  += lls->ns * sizeof(int);
+		    lls->seg  = (float **)malloc( n2 * sizeof(float *) );
 
-          case 2  : 
-          case 3  : 
-                    llt       = (Llt    *) info;
-                    swap_4(llt->l);
-                    llt->ll   = (float  *) &llt[1];
-                    llt->t    = (char  **) &llt->ll[2*llt->n];
-                    llt->tex  = (char   *) &llt->t[llt->n];
-                    n         = 2*llt->n;
-                    for( i=0; i<n;      ++i ) swap_4x(llt->ll[i]);
-                    for( i=0; i<llt->n; ++i ) swap_4x(llt->t[i]);
-                    for( i=0; i<llt->n; ++i ) llt->t[i] = &llt->tex[(int)llt->t[i]];
-                    break;
+          for( i=0, j=0; i<lls->ns; ++i )
+             {
+             lls->seg[i] = &lls->ll[j];
+             j += 2*lls->sl[i];
+             }
+          break;
 
-          case 4  : 
-                    lls       = (Lls    *) info;
-                    swap_4(lls->ns);
-                    lls->ll   = (float  *) &lls[1];
-                    lls->sl   = (int    *) &lls->ll[2*lls->n];
-                    lls->seg  = (float **) &lls->sl[lls->ns];
-                    n         = 2*lls->n;
-                    for( i=0; i<n;   ++i ) swap_4x(lls->ll[i]);
-                    for( i=0, j=0; i<lls->ns; ++i )
-                       {
-                       swap_4x(lls->sl[i]);
-                       lls->seg[i] = &lls->ll[j];
-                       j += 2*lls->sl[i];
-                       }
-                    break;
-
-          default : return(3);
+       default : 
+	       free( ll );
+	       return(NULL);
           }
-
 /*
  *  return
  */
-    return(0);
+    ll->data = info;
+    return(ll);
     }
 
-
 /*
  *
- *  module    :  RGIS_UPDATE
+ *  module    :  RGIS_update32be
  *
  *  author    :  Michel Grenier
  *
@@ -313,14 +333,153 @@
  *  language  :  C
  *
  *  call      :  char *info;
- *               rgis_update( info );
+ *               gis_update32( info, swap );
  *
  *  object    :  THIS MODULE SWAPS THE GIS INFORMATION
  *
  */
 
- static int
- rgis_update ( char *info )
+ static void *
+ rgis_update32be ( char *info, int do_swap )
+    {
+    int   i,j,n, n2;
+    Ll   *ll;
+    Lli  *lli;
+    Llt  *llt;
+    Lls  *lls;
+    caddr_t  ll_addr, t_addr, tex_addr;
+    int32_t  *t_i32;
+
+    ll = (Ll *) rgis_transfer_header( info, &do_swap );
+
+#if DEBUG
+fprintf( stderr, "...Big Endian: need swapping, type=%d\n", ll->type );
+#endif
+/*
+ *  treat according to the type
+ */
+    switch( ll->type )
+       {
+       case 0  :
+          ll_addr   = (caddr_t)info;
+          ll_addr  += sizeof(_Ll);
+          ll->ll    = (float *)ll_addr;
+                    
+		    if (do_swap)
+		       {
+		       n2 = 2 * ll->n;
+             for( i=0; i<n2; ++i ) 
+                swap_4x(ll->ll[i]);
+		       }
+          break;
+
+       case 1  : 
+          lli       = (Lli    *) ll;
+          ll_addr   = (caddr_t)info;
+          ll_addr  += sizeof(_Lli);
+          lli->ll   = (float  *) ll_addr;
+		    
+		    n2        = 2 * n;
+		    ll_addr  += n2 * sizeof(float);
+		    lli->i    = (int    *) ll_addr;
+                    
+		    if (do_swap)
+		       {
+             n  = lli->n;
+             for( i=0; i<n2;      ++i ) swap_4x(lli->ll[i]);
+             for( i=0; i<n ; ++i ) swap_4 (lli->i [i]);
+             }
+          break;
+
+       case 2  : 
+       case 3  : 
+          llt       = (Llt    *) ll;
+          ll_addr = (caddr_t)info;
+          ll_addr += sizeof(_Llt);
+          llt->ll   = (float *)ll_addr;
+          n         = llt->n;
+          n2        = 2*llt->n;
+          t_addr    = ll_addr + n2 * sizeof(float);
+          tex_addr  = t_addr + n * sizeof(addr32_t);
+          llt->t    = (char **)malloc( n * sizeof(char *) );
+          llt->tex  = (char *)tex_addr;
+		    t_i32   = (int32_t *)t_addr;
+		    if (do_swap)
+		       {
+             for( i=0; i<n2; ++i ) 
+                swap_4x(llt->ll[i]);                    
+             for( i=0; i<n ; ++i ) 
+                swap_4x(t_i32[i]);
+		       }
+          for( i=0; i<n ; ++i ) llt->t[i] = &llt->tex[t_i32[i]];
+          break;
+
+       case 4  : 
+       case 5  : 
+          lls       = (Lls    *) ll;
+		    ll_addr = (caddr_t)info;
+		    ll_addr += sizeof(_Lls);
+		    lls->ll = (float *)ll_addr;
+		    n2         = 2*lls->n;
+		    ll_addr  += n2 * sizeof(float);
+		    lls->sl   = (int    *) ll_addr;
+		    lls->seg  = (float **)malloc( n2 * sizeof(float *) );
+
+		    if (do_swap)
+		       {
+             for( i=0; i<n2;   ++i ) swap_4x(lls->ll[i]);
+             for( i=0, j=0; i<lls->ns; ++i )
+                {
+                swap_4x(lls->sl[i]);
+                lls->seg[i] = &lls->ll[j];
+                j += 2*lls->sl[i];
+                }
+		       }
+		    else 
+		       {
+             for( i=0, j=0; i<lls->ns; ++i )
+                {
+                lls->seg[i] = &lls->ll[j];
+                j += 2*lls->sl[i];
+                }
+		       }
+          break;
+
+       default : 
+	       free( ll );
+	       return(NULL);
+       }
+/*
+ *  return
+ */
+    ll->data = info;
+    return(ll);
+    }
+
+
+
+
+/*
+ *
+ *  module    :  RGIS_FREE
+ *
+ *  author    :  
+ *
+ *  revision  :  V0.0
+ *
+ *  status    :  DEVELOPMENT
+ *
+ *  language  :  C
+ *
+ *  call      :  char *info;
+ *               rgis_free( info );
+ *
+ *  object    :  THIS MODULE FREE THE GIS INFORMATION
+ *
+ */
+
+ void
+ rgis_free ( void *info )
     {
     int   i,j;
     Ll   *ll;
@@ -337,41 +496,232 @@
           {
           case 0  :
                     ll        = (Ll     *) info;
-                    ll->ll    = (float  *) &ll[1];
                     break;
 
           case 1  : 
                     lli       = (Lli    *) info;
-                    lli->ll   = (float  *) &lli[1];
-                    lli->i    = (int    *) &lli->ll[2*lli->n];
                     break;
 
           case 2  : 
           case 3  : 
                     llt       = (Llt    *) info;
-                    llt->ll   = (float  *) &llt[1];
-                    llt->t    = (char  **) &llt->ll[2*llt->n];
-                    llt->tex  = (char   *) &llt->t[llt->n];
-                    for( i=0; i<llt->n; ++i )
-                       llt->t[i] = &llt->tex[(int)llt->t[i]];
+		    if (llt->t)
+		       free( llt->t );
                     break;
 
           case 4  : 
                     lls       = (Lls    *) info;
-                    lls->ll   = (float  *) &lls[1];
-                    lls->sl   = (int    *) &lls->ll[2*lls->n];
-                    lls->seg  = (float **) &lls->sl[lls->ns];
-                    j = 0;
-                    for( i=0; i<lls->ns; ++i )
-                       {
-                       lls->seg[i] = &lls->ll[j];
-                       j += 2*lls->sl[i];
-                       }
+		    if (lls->seg)
+                       free ( lls->seg );
                     break;
           }
 
+    if (ll->data) free( ll->data );
+    free( ll );
+    }
+
 /*
- *  return
+ *
+ *  module    :  RGIS_transfer_header
+ *
+ *  author    :  
+ *
+ *  revision  :  V0.0
+ *
+ *  status    :  DEVELOPMENT
+ *
+ *  language  :  C
+ *
+ *  call      :  void *info;
+ *               rgis_transfer_header( info );
+ *
+ *  object    :  THIS MODULE TRANSFER THE GIS INFORMATION FROM physical 32 bits 
+ *               on DISK TO MEM which could be other than 32 bits.
+ *
  */
-    return(0);
+
+ static void *
+ rgis_transfer_header ( void *info, int *pdo_swap )
+    {
+    Ll       *ll;
+    Lli      *lli;
+    Llt      *llt;
+    Lls      *lls;
+    _Ll      *_ll;
+    _Lli     *_lli;
+    _Llt     *_llt;
+    _Lls     *_lls;
+    int32_t   type;
+    int      do_swap = *pdo_swap;
+
+/*
+ *  treat according to the type
+ */
+    _ll = (_Ll *)info;
+    type = _ll->type;
+    if ((type < 0)||(type > 100))
+       {
+       do_swap = 1;
+       }
+    else if (type == 0)
+       {
+       if (_ll->size > (INT_MAX/3*2))
+          do_swap = 1;
+       }
+
+    if (do_swap)
+       {
+       swap_4(type);
+       }
+       
+    switch( type )
+          {
+          case 0  :
+                    ll         = (Ll     *)malloc( sizeof(Ll) );
+                    _ll        = (_Ll    *) info;
+		    COPY_LL( ll, _ll );
+          ll->size = _ll->size;
+		    if (do_swap) swap_4(ll->size);
+          break;
+
+          case 1  : 
+                    lli        = (Lli     *)malloc( sizeof(Lli) );
+                    _lli       = (_Lli    *) info;
+		    COPY_LL( lli, _lli );
+          lli->size = _lli->size;
+		    if (do_swap) swap_4(lli->size);
+		    ll         = (Ll     *)lli;
+		    lli->i     = NULL;
+                    break;
+
+          case 2  : 
+          case 3  : 
+                    llt        = (Llt    *)malloc( sizeof(Llt) );
+                    _llt       = (_Llt    *) info;
+		    COPY_LL( llt, _llt );
+          llt->size = _llt->size;
+		    if (do_swap) swap_4(llt->size);
+		    ll         = (Ll     *)llt;
+		    llt->l     = _llt->l;
+		    if (do_swap)
+		       swap_4( llt->l );
+		    llt->t     = NULL;
+		    llt->tex   = NULL;
+                    break;
+
+          case 4  : 
+                    lls        = (Lls    *)malloc( sizeof(Lls) );
+                    _lls       = (_Lls    *) info;
+		    COPY_LL( lls, _lls );
+          lls->size = _lls->size;
+		    if (do_swap) swap_4(lls->size);
+		    ll         = (Ll     *)lls;
+		    lls->ns = _lls->ns;
+		    if (do_swap)
+		       swap_4(lls->ns);
+		    lls->seg   = NULL;
+		    lls->sl    = NULL;
+                    break;
+	  default :
+	            return NULL;
+          }
+          
+/*
+ *  swap description in header
+ */
+    if (do_swap)
+       {
+       ll->type = type;
+       swap_4(ll->category);
+       swap_4(ll->value);
+       swap_4(ll->status);
+       swap_4(ll->n);
+       }
+
+    *pdo_swap = do_swap;
+    return(ll);
+    }
+
+/*
+ *
+ *  module    :  RGIS_transfer_header
+ *
+ *  author    :  
+ *
+ *  revision  :  V0.0
+ *
+ *  status    :  DEVELOPMENT
+ *
+ *  language  :  C
+ *
+ *  call      :  void *info;
+ *               rgis_transfer_header_le( info );
+ *
+ *  object    :  THIS MODULE TRANSFER THE GIS INFORMATION FROM physical 32 bits 
+ *               on DISK TO MEM which could be other than 32 bits.
+ *
+ */
+
+ static void *
+ rgis_transfer_header_le ( void *info )
+   {
+   Ll       *ll;
+   Lli      *lli;
+   Llt      *llt;
+   Lls      *lls;
+   __Ll      *__ll;
+   __Lli     *__lli;
+   __Llt     *__llt;
+   __Lls     *__lls;
+
+/*
+ *  treat according to the type
+ */
+   __ll = (__Ll *)info;
+       
+   switch( __ll->type )
+   {
+      case 0  :
+         ll         = (Ll     *)malloc( sizeof(Ll) );
+         __ll        = (__Ll    *) info;
+		   COPY_LL( ll, __ll );
+         ll->size = __ll->size;
+         break;
+
+      case 1  : 
+         lli        = (Lli     *)malloc( sizeof(Lli) );
+         __lli       = (__Lli    *) info;
+		   COPY_LL( lli, __lli );
+         lli->size = __lli->size;
+		   ll         = (Ll     *)lli;
+		   lli->i     = NULL;
+         break;
+
+      case 2  : 
+      case 3  : 
+         llt        = (Llt    *)malloc( sizeof(Llt) );
+         __llt       = (__Llt    *) info;
+		   COPY_LL( llt, __llt );
+         llt->size = __llt->size;
+		   ll         = (Ll     *)llt;
+		   llt->l     = __llt->l;
+		   llt->t     = NULL;
+		   llt->tex   = NULL;
+         break;
+
+      case 4  : 
+         lls        = (Lls    *)malloc( sizeof(Lls) );
+         __lls       = (__Lls    *) info;
+		   COPY_LL( lls, __lls );
+         lls->size = __lls->size;
+		   ll         = (Ll     *)lls;
+		   lls->ns = __lls->ns;
+		   lls->seg   = NULL;
+		   lls->sl    = NULL;
+         break;
+	  default :
+	      return NULL;
+     }
+          
+    return(ll);
     }

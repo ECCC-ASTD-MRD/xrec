@@ -1,0 +1,1006 @@
+s.cc -O 2 -I../include -DX_WGL -c bitfinder.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+bitfinder.c: In function 'testbitfinder':
+bitfinder.c:31: warning: ignoring return value of 'fscanf', declared with attribute warn_unused_result
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a bitfinder.o
+ar: creating ../lib/Linux_x86-64/pgi9xx/libwgl.a
+a - bitfinder.o
+rm -f bitfinder.o
+s.cc -O 2 -I../include -DX_WGL -c couleur-util.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a couleur-util.o
+a - couleur-util.o
+rm -f couleur-util.o
+s.cc -O 2 -I../include -DX_WGL -c langue.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a langue.o
+a - langue.o
+rm -f langue.o
+s.cc -O 2 -I../include -DX_WGL -c gdwgl.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a gdwgl.o
+a - gdwgl.o
+rm -f gdwgl.o
+s.cc -O 2 -I../include -DX_WGL -c inversion.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a inversion.o
+a - inversion.o
+rm -f inversion.o
+s.cc -O 2 -I../include -DX_WGL -c logo.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a logo.o
+a - logo.o
+rm -f logo.o
+s.cc -O 2 -I../include -DX_WGL -c logo_sea.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+logo_sea.c: In function 'draw_logo':
+logo_sea.c:129: warning: passing argument 1 of 'c_wglptis' from incompatible pointer type
+../include/wglfonct.h:98: note: expected 'struct wgl_point *' but argument is of type 'struct p *'
+logo_sea.c:137: warning: passing argument 1 of 'c_wglptis' from incompatible pointer type
+../include/wglfonct.h:98: note: expected 'struct wgl_point *' but argument is of type 'struct p *'
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a logo_sea.o
+a - logo_sea.o
+rm -f logo_sea.o
+s.cc -O 2 -I../include -DX_WGL -c souris2.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a souris2.o
+a - souris2.o
+rm -f souris2.o
+s.cc -O 2 -I../include -DX_WGL -c wglafi.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglafi.o
+a - wglafi.o
+rm -f wglafi.o
+s.cc -O 2 -I../include -DX_WGL -c wglafx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglafx.o
+a - wglafx.o
+rm -f wglafx.o
+s.cc -O 2 -I../include -DX_WGL -c wglali.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglali.o
+a - wglali.o
+rm -f wglali.o
+s.cc -O 2 -I../include -DX_WGL -c wglalx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglalx.o
+a - wglalx.o
+rm -f wglalx.o
+s.cc -O 2 -I../include -DX_WGL -c wglasi.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglasi.o
+a - wglasi.o
+rm -f wglasi.o
+s.cc -O 2 -I../include -DX_WGL -c wglasx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglasx.o
+a - wglasx.o
+rm -f wglasx.o
+s.cc -O 2 -I../include -DX_WGL -c wglbbf.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglbbf.o
+a - wglbbf.o
+rm -f wglbbf.o
+s.cc -O 2 -I../include -DX_WGL -c wglbrb.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglbrb.o
+a - wglbrb.o
+rm -f wglbrb.o
+s.cc -O 2 -I../include -DX_WGL -c wglbti.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglbti.o
+a - wglbti.o
+rm -f wglbti.o
+s.cc -O 2 -I../include -DX_WGL -c wglbtn.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglbtn.o
+a - wglbtn.o
+rm -f wglbtn.o
+s.cc -O 2 -I../include -DX_WGL -c wglbtp.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglbtp.o
+a - wglbtp.o
+rm -f wglbtp.o
+s.cc -O 2 -I../include -DX_WGL -c wglbtpi.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglbtpi.o
+a - wglbtpi.o
+rm -f wglbtpi.o
+s.cc -O 2 -I../include -DX_WGL -c wglbtpx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglbtpx.o
+a - wglbtpx.o
+rm -f wglbtpx.o
+s.cc -O 2 -I../include -DX_WGL -c wglbtx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglbtx.o
+a - wglbtx.o
+rm -f wglbtx.o
+s.cc -O 2 -I../include -DX_WGL -c wglcfi.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglcfi.o
+a - wglcfi.o
+rm -f wglcfi.o
+s.cc -O 2 -I../include -DX_WGL -c wglcfx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglcfx.o
+a - wglcfx.o
+rm -f wglcfx.o
+s.cc -O 2 -I../include -DX_WGL -c wglchngfs.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglchngfs.o
+a - wglchngfs.o
+rm -f wglchngfs.o
+s.cc -O 2 -I../include -DX_WGL -c wglcli.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglcli.o
+a - wglcli.o
+rm -f wglcli.o
+s.cc -O 2 -I../include -DX_WGL -c wglclr.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglclr.o
+a - wglclr.o
+rm -f wglclr.o
+s.cc -O 2 -I../include -DX_WGL -c wglclw.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglclw.o
+a - wglclw.o
+rm -f wglclw.o
+s.cc -O 2 -I../include -DX_WGL -c wglclx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglclx.o
+a - wglclx.o
+rm -f wglclx.o
+s.cc -O 2 -I../include -DX_WGL -c wglcmi.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglcmi.o
+a - wglcmi.o
+rm -f wglcmi.o
+s.cc -O 2 -I../include -DX_WGL -c wglcmx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglcmx.o
+a - wglcmx.o
+rm -f wglcmx.o
+s.cc -O 2 -I../include -DX_WGL -c wglcol.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglcol.o
+a - wglcol.o
+rm -f wglcol.o
+s.cc -O 2 -I../include -DX_WGL -c wglcolf.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglcolf.o
+a - wglcolf.o
+rm -f wglcolf.o
+s.cc -O 2 -I../include -DX_WGL -c wglcrb.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglcrb.o
+a - wglcrb.o
+rm -f wglcrb.o
+s.cc -O 2 -I../include -DX_WGL -c wgldbf.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wgldbf.o
+a - wgldbf.o
+rm -f wgldbf.o
+s.cc -O 2 -I../include -DX_WGL -c wgldbg.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wgldbg.o
+a - wgldbg.o
+rm -f wgldbg.o
+s.cc -O 2 -I../include -DX_WGL -c wgldcm.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wgldcm.o
+a - wgldcm.o
+rm -f wgldcm.o
+s.cc -O 2 -I../include -DX_WGL -c wgldeflst.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wgldeflst.o
+a - wgldeflst.o
+rm -f wgldeflst.o
+s.cc -O 2 -I../include -DX_WGL -c wgldefncw.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wgldefncw.o
+a - wgldefncw.o
+rm -f wgldefncw.o
+s.cc -O 2 -I../include -DX_WGL -c wgldld.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wgldld.o
+a - wgldld.o
+rm -f wgldld.o
+s.cc -O 2 -I../include -DX_WGL -c wgldpt.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wgldpt.o
+a - wgldpt.o
+rm -f wgldpt.o
+s.cc -O 2 -I../include -DX_WGL -c wgldri.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wgldri.o
+a - wgldri.o
+rm -f wgldri.o
+s.cc -O 2 -I../include -DX_WGL -c wgldrx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wgldrx.o
+a - wgldrx.o
+rm -f wgldrx.o
+s.cc -O 2 -I../include -DX_WGL -c wgldsi.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wgldsi.o
+a - wgldsi.o
+rm -f wgldsi.o
+s.cc -O 2 -I../include -DX_WGL -c wgldsx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wgldsx.o
+a - wgldsx.o
+rm -f wgldsx.o
+s.cc -O 2 -I../include -DX_WGL -c wglecr.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglecr.o
+a - wglecr.o
+rm -f wglecr.o
+s.cc -O 2 -I../include -DX_WGL -c wglerb.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglerb.o
+a - wglerb.o
+rm -f wglerb.o
+s.cc -O 2 -I../include -DX_WGL -c wglfbf.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglfbf.o
+a - wglfbf.o
+rm -f wglfbf.o
+s.cc -O 2 -I../include -DX_WGL -c wglfsc.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglfsc.o
+a - wglfsc.o
+rm -f wglfsc.o
+s.cc -O 2 -I../include -DX_WGL -c wglfsh.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglfsh.o
+a - wglfsh.o
+rm -f wglfsh.o
+s.cc -O 2 -I../include -DX_WGL -c wglfshlb.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglfshlb.o
+a - wglfshlb.o
+rm -f wglfshlb.o
+s.cc -O 2 -I../include -DX_WGL -c wglfsz.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglfsz.o
+a - wglfsz.o
+rm -f wglfsz.o
+s.cc -O 2 -I../include -DX_WGL -c wglgacw.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgacw.o
+a - wglgacw.o
+rm -f wglgacw.o
+s.cc -O 2 -I../include -DX_WGL -c wglgaf.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgaf.o
+a - wglgaf.o
+rm -f wglgaf.o
+s.cc -O 2 -I../include -DX_WGL -c wglgbf.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgbf.o
+a - wglgbf.o
+rm -f wglgbf.o
+s.cc -O 2 -I../include -DX_WGL -c wglgci.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgci.o
+a - wglgci.o
+rm -f wglgci.o
+s.cc -O 2 -I../include -DX_WGL -c wglgco.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgco.o
+a - wglgco.o
+rm -f wglgco.o
+s.cc -O 2 -I../include -DX_WGL -c wglgdbg.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgdbg.o
+a - wglgdbg.o
+rm -f wglgdbg.o
+s.cc -O 2 -I../include -DX_WGL -c wglgetcmap.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgetcmap.o
+a - wglgetcmap.o
+rm -f wglgetcmap.o
+s.cc -O 2 -I../include -DX_WGL -c wglgld.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgld.o
+a - wglgld.o
+rm -f wglgld.o
+s.cc -O 2 -I../include -DX_WGL -c wglglpti.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglglpti.o
+a - wglglpti.o
+rm -f wglglpti.o
+s.cc -O 2 -I../include -DX_WGL -c wglglw.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglglw.o
+a - wglglw.o
+rm -f wglglw.o
+s.cc -O 2 -I../include -DX_WGL -c wglgmk.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgmk.o
+a - wglgmk.o
+rm -f wglgmk.o
+s.cc -O 2 -I../include -DX_WGL -c wglgmod.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgmod.o
+a - wglgmod.o
+rm -f wglgmod.o
+s.cc -O 2 -I../include -DX_WGL -c wglgpl.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgpl.o
+a - wglgpl.o
+rm -f wglgpl.o
+s.cc -O 2 -I../include -DX_WGL -c wglgpt.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgpt.o
+a - wglgpt.o
+rm -f wglgpt.o
+s.cc -O 2 -I../include -DX_WGL -c wglgsi.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgsi.o
+a - wglgsi.o
+rm -f wglgsi.o
+s.cc -O 2 -I../include -DX_WGL -c wglgsp.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgsp.o
+a - wglgsp.o
+rm -f wglgsp.o
+s.cc -O 2 -I../include -DX_WGL -c wglgsx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgsx.o
+a - wglgsx.o
+rm -f wglgsx.o
+s.cc -O 2 -I../include -DX_WGL -c wglgvi.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgvi.o
+a - wglgvi.o
+rm -f wglgvi.o
+s.cc -O 2 -I../include -DX_WGL -c wglgvp.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgvp.o
+a - wglgvp.o
+rm -f wglgvp.o
+s.cc -O 2 -I../include -DX_WGL -c wglgvx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgvx.o
+a - wglgvx.o
+rm -f wglgvx.o
+s.cc -O 2 -I../include -DX_WGL -c wglgwz.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgwz.o
+a - wglgwz.o
+rm -f wglgwz.o
+s.cc -O 2 -I../include -DX_WGL -c wglgzi.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgzi.o
+a - wglgzi.o
+rm -f wglgzi.o
+s.cc -O 2 -I../include -DX_WGL -c wglgzp.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgzp.o
+a - wglgzp.o
+rm -f wglgzp.o
+s.cc -O 2 -I../include -DX_WGL -c wglgzx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglgzx.o
+a - wglgzx.o
+rm -f wglgzx.o
+s.cc -O 2 -I../include -DX_WGL -c wglhsi.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglhsi.o
+a - wglhsi.o
+rm -f wglhsi.o
+s.cc -O 2 -I../include -DX_WGL -c wglhsx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglhsx.o
+a - wglhsx.o
+rm -f wglhsx.o
+s.cc -O 2 -I../include -DX_WGL -c wglias.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglias.o
+a - wglias.o
+rm -f wglias.o
+s.cc -O 2 -I../include -DX_WGL -c wgliax.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wgliax.o
+a - wgliax.o
+rm -f wgliax.o
+s.cc -O 2 -I../include -DX_WGL -c wgligd.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wgligd.o
+a - wgligd.o
+rm -f wgligd.o
+s.cc -O 2 -I../include -DX_WGL -c wglinicmap.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglinicmap.o
+a - wglinicmap.o
+rm -f wglinicmap.o
+s.cc -O 2 -I../include -DX_WGL -c wglinids.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglinids.o
+a - wglinids.o
+rm -f wglinids.o
+s.cc -O 2 -I../include -DX_WGL -c wglinipat.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglinipat.o
+a - wglinipat.o
+rm -f wglinipat.o
+s.cc -O 2 -I../include -DX_WGL -c wglinit.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglinit.o
+a - wglinit.o
+rm -f wglinit.o
+s.cc -O 2 -I../include -DX_WGL -c wgliniwin.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wgliniwin.o
+a - wgliniwin.o
+rm -f wgliniwin.o
+s.cc -O 2 -I../include -DX_WGL -c wgliniwpx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wgliniwpx.o
+a - wgliniwpx.o
+rm -f wgliniwpx.o
+s.cc -O 2 -I../include -DX_WGL -c wglinstcmap.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglinstcmap.o
+a - wglinstcmap.o
+rm -f wglinstcmap.o
+s.cc -O 2 -I../include -DX_WGL -c wglinvpat.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglinvpat.o
+a - wglinvpat.o
+rm -f wglinvpat.o
+s.cc -O 2 -I../include -DX_WGL -c wglkas.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglkas.o
+a - wglkas.o
+rm -f wglkas.o
+s.cc -O 2 -I../include -DX_WGL -c wgllpt.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wgllpt.o
+a - wgllpt.o
+rm -f wgllpt.o
+s.cc -O 2 -I../include -DX_WGL -c wgllwi.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wgllwi.o
+a - wgllwi.o
+rm -f wgllwi.o
+s.cc -O 2 -I../include -DX_WGL -c wglmapc.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglmapc.o
+a - wglmapc.o
+rm -f wglmapc.o
+s.cc -O 2 -I../include -DX_WGL -c wglmapcs.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglmapcs.o
+a - wglmapcs.o
+rm -f wglmapcs.o
+s.cc -O 2 -I../include -DX_WGL -c wglmco.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglmco.o
+a - wglmco.o
+rm -f wglmco.o
+s.cc -O 2 -I../include -DX_WGL -c wglmcos.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglmcos.o
+a - wglmcos.o
+rm -f wglmcos.o
+s.cc -O 2 -I../include -DX_WGL -c wglmcw.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglmcw.o
+a - wglmcw.o
+rm -f wglmcw.o
+s.cc -O 2 -I../include -DX_WGL -c wglmesagr.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglmesagr.o
+a - wglmesagr.o
+rm -f wglmesagr.o
+s.cc -O 2 -I../include -DX_WGL -c wglmvi.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglmvi.o
+a - wglmvi.o
+rm -f wglmvi.o
+s.cc -O 2 -I../include -DX_WGL -c wglmvx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglmvx.o
+a - wglmvx.o
+rm -f wglmvx.o
+s.cc -O 2 -I../include -DX_WGL -c wglncl.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglncl.o
+a - wglncl.o
+rm -f wglncl.o
+s.cc -O 2 -I../include -DX_WGL -c wglnewwin.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglnewwin.o
+a - wglnewwin.o
+rm -f wglnewwin.o
+s.cc -O 2 -I../include -DX_WGL -c wglopmw.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglopmw.o
+a - wglopmw.o
+rm -f wglopmw.o
+s.cc -O 2 -I../include -DX_WGL -c wglopw.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglopw.o
+a - wglopw.o
+rm -f wglopw.o
+s.cc -O 2 -I../include -DX_WGL -c wglpfi.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglpfi.o
+a - wglpfi.o
+rm -f wglpfi.o
+s.cc -O 2 -I../include -DX_WGL -c wglpfx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+wglpfx.c: In function 'c_wglpfx':
+wglpfx.c:46: warning: passing argument 2 of 'c_wglpfi' from incompatible pointer type
+../include/wglfonct.h:90: note: expected 'int (*)[2]' but argument is of type 'int *'
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglpfx.o
+a - wglpfx.o
+rm -f wglpfx.o
+s.cc -O 2 -I../include -DX_WGL -c wglpli.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglpli.o
+a - wglpli.o
+rm -f wglpli.o
+s.cc -O 2 -I../include -DX_WGL -c wglplx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+wglplx.c: In function 'c_wglplx':
+wglplx.c:55: warning: passing argument 2 of 'c_wglpli' from incompatible pointer type
+../include/wglfonct.h:92: note: expected 'int (*)[2]' but argument is of type 'int *'
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglplx.o
+a - wglplx.o
+rm -f wglplx.o
+s.cc -O 2 -I../include -DX_WGL -c wglppo.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglppo.o
+a - wglppo.o
+rm -f wglppo.o
+s.cc -O 2 -I../include -DX_WGL -c wglpsi.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglpsi.o
+a - wglpsi.o
+rm -f wglpsi.o
+s.cc -O 2 -I../include -DX_WGL -c wglpsx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglpsx.o
+a - wglpsx.o
+rm -f wglpsx.o
+s.cc -O 2 -I../include -DX_WGL -c wglpsz.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglpsz.o
+a - wglpsz.o
+rm -f wglpsz.o
+s.cc -O 2 -I../include -DX_WGL -c wglpti.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglpti.o
+a - wglpti.o
+rm -f wglpti.o
+s.cc -O 2 -I../include -DX_WGL -c wglptis.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglptis.o
+a - wglptis.o
+rm -f wglptis.o
+s.cc -O 2 -I../include -DX_WGL -c wglptx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglptx.o
+a - wglptx.o
+rm -f wglptx.o
+s.cc -O 2 -I../include -DX_WGL -c wglptxs.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglptxs.o
+a - wglptxs.o
+rm -f wglptxs.o
+s.cc -O 2 -I../include -DX_WGL -c wglrfi.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglrfi.o
+a - wglrfi.o
+rm -f wglrfi.o
+s.cc -O 2 -I../include -DX_WGL -c wglrfx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglrfx.o
+a - wglrfx.o
+rm -f wglrfx.o
+s.cc -O 2 -I../include -DX_WGL -c wglrli.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglrli.o
+a - wglrli.o
+rm -f wglrli.o
+s.cc -O 2 -I../include -DX_WGL -c wglrlx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglrlx.o
+a - wglrlx.o
+rm -f wglrlx.o
+s.cc -O 2 -I../include -DX_WGL -c wglroc.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglroc.o
+a - wglroc.o
+rm -f wglroc.o
+s.cc -O 2 -I../include -DX_WGL -c wglrstdpar.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglrstdpar.o
+a - wglrstdpar.o
+rm -f wglrstdpar.o
+s.cc -O 2 -I../include -DX_WGL -c wglrwc.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglrwc.o
+a - wglrwc.o
+rm -f wglrwc.o
+s.cc -O 2 -I../include -DX_WGL -c wglsavpfc.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglsavpfc.o
+a - wglsavpfc.o
+rm -f wglsavpfc.o
+s.cc -O 2 -I../include -DX_WGL -c wglsbf.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglsbf.o
+a - wglsbf.o
+rm -f wglsbf.o
+s.cc -O 2 -I../include -DX_WGL -c wglscon.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglscon.o
+a - wglscon.o
+rm -f wglscon.o
+s.cc -O 2 -I../include -DX_WGL -c wglsetw.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglsetw.o
+a - wglsetw.o
+rm -f wglsetw.o
+s.cc -O 2 -I../include -DX_WGL -c wglsetwcmap.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglsetwcmap.o
+a - wglsetwcmap.o
+rm -f wglsetwcmap.o
+s.cc -O 2 -I../include -DX_WGL -c wglsld.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglsld.o
+a - wglsld.o
+rm -f wglsld.o
+s.cc -O 2 -I../include -DX_WGL -c wglsmk.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglsmk.o
+a - wglsmk.o
+rm -f wglsmk.o
+s.cc -O 2 -I../include -DX_WGL -c wglspt.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglspt.o
+a - wglspt.o
+rm -f wglspt.o
+s.cc -O 2 -I../include -DX_WGL -c wglssp.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglssp.o
+a - wglssp.o
+rm -f wglssp.o
+s.cc -O 2 -I../include -DX_WGL -c wglstu.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglstu.o
+a - wglstu.o
+rm -f wglstu.o
+s.cc -O 2 -I../include -DX_WGL -c wglswb.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglswb.o
+a - wglswb.o
+rm -f wglswb.o
+s.cc -O 2 -I../include -DX_WGL -c wglwsi.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglwsi.o
+a - wglwsi.o
+rm -f wglwsi.o
+s.cc -O 2 -I../include -DX_WGL -c wglwsx.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglwsx.o
+a - wglwsx.o
+rm -f wglwsx.o
+s.cc -O 2 -I../include -DX_WGL -c wglwtwrsz.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglwtwrsz.o
+a - wglwtwrsz.o
+rm -f wglwtwrsz.o
+s.cc -O 2 -I../include -DX_WGL -c wglxai.c
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Pre_Compiler_rules
+USING: /home/ordenv/ssm-domains/ssm-development/code-tools_1.0_all/include/Linux_x86-64/pgi9xx/Common_Compiler_rules
+Compiler Rules applied for Linux PGI version 9
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wglxai.o
+a - wglxai.o
+rm -f wglxai.o
+r.compile -O 2 -src unsat.ftn
+r.compile version 028
+Changing multi-value argument delimiter from : to  
+Compiler_rules prises dans / Compiler_rules from : /usr/local/env/armnlib/include/Linux_x86-64/pgi9xx/Compiler_rules
+Compiler Rules applied for Linux_pgi9xx
+setting chop_bang mode
+r.gppf -chop_bang -gpp -F -I/usr/local/env/armnlib/include -D__FILE__="#file" -D__LINE__=#line -I./Sources. -I/home/ordenv/ssm-domains/ssm-mpich2-1.4/linux26-x86-64/include -I/home/ordenv/ssm-domains/ssm-mpich2-1.4/linux26-i386/include -I/home/ordenv/ssm-domains/ssm-development/multi/include/Linux_x86-64/pgi9xx -I/home/ordenv/ssm-domains/ssm-development/multi/include -I/home/ordenv/ssm-domains/ssm-development/all/include/Linux_x86-64/pgi9xx -I/home/ordenv/ssm-domains/ssm-development/all/include -I/usr/local/env/armnlib/include/Linux_x86-64/pgi9xx -I/usr/local/env/armnlib/include -I/usr/include  -DLittle_Endian -Di386=i386 -DWITHOUT_OpenMP unsat.ftn > ./unsat.f
+
+Commande effectuee
+pgf90 -c -I./Sources. -I/home/ordenv/ssm-domains/ssm-mpich2-1.4/linux26-x86-64/include -I/home/ordenv/ssm-domains/ssm-mpich2-1.4/linux26-i386/include -I/home/ordenv/ssm-domains/ssm-development/multi/include/Linux_x86-64/pgi9xx -I/home/ordenv/ssm-domains/ssm-development/multi/include -I/home/ordenv/ssm-domains/ssm-development/all/include/Linux_x86-64/pgi9xx -I/home/ordenv/ssm-domains/ssm-development/all/include -I/usr/local/env/armnlib/include/Linux_x86-64/pgi9xx -I/usr/local/env/armnlib/include -I/usr/include -fpic -byteswapio -I. -I/usr/local/env/armnlib/include -I/usr/local/env/armnlib/include/Linux_x86-64/pgi9xx -Wl,-rpath,/usr/local/env/armnlib/lib/Linux_x86-64/pgi9xx -Wl,--allow-shlib-undefined -Bstatic_pgi -Wl,-rpath,/home/ordenv/dist/sw/PGI/debian_64_squeeze/sid/linux86-64/9.0-4/lib -O2      ./unsat.f 
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a unsat.o
+a - unsat.o
+rm -f unsat.o
+r.compile -O 2 -src wwwlpt.ftn
+r.compile version 028
+Changing multi-value argument delimiter from : to  
+Compiler_rules prises dans / Compiler_rules from : /usr/local/env/armnlib/include/Linux_x86-64/pgi9xx/Compiler_rules
+Compiler Rules applied for Linux_pgi9xx
+setting chop_bang mode
+r.gppf -chop_bang -gpp -F -I/usr/local/env/armnlib/include -D__FILE__="#file" -D__LINE__=#line -I./Sources. -I/home/ordenv/ssm-domains/ssm-mpich2-1.4/linux26-x86-64/include -I/home/ordenv/ssm-domains/ssm-mpich2-1.4/linux26-i386/include -I/home/ordenv/ssm-domains/ssm-development/multi/include/Linux_x86-64/pgi9xx -I/home/ordenv/ssm-domains/ssm-development/multi/include -I/home/ordenv/ssm-domains/ssm-development/all/include/Linux_x86-64/pgi9xx -I/home/ordenv/ssm-domains/ssm-development/all/include -I/usr/local/env/armnlib/include/Linux_x86-64/pgi9xx -I/usr/local/env/armnlib/include -I/usr/include  -DLittle_Endian -Di386=i386 -DWITHOUT_OpenMP wwwlpt.ftn > ./wwwlpt.f
+
+Commande effectuee
+pgf90 -c -I./Sources. -I/home/ordenv/ssm-domains/ssm-mpich2-1.4/linux26-x86-64/include -I/home/ordenv/ssm-domains/ssm-mpich2-1.4/linux26-i386/include -I/home/ordenv/ssm-domains/ssm-development/multi/include/Linux_x86-64/pgi9xx -I/home/ordenv/ssm-domains/ssm-development/multi/include -I/home/ordenv/ssm-domains/ssm-development/all/include/Linux_x86-64/pgi9xx -I/home/ordenv/ssm-domains/ssm-development/all/include -I/usr/local/env/armnlib/include/Linux_x86-64/pgi9xx -I/usr/local/env/armnlib/include -I/usr/include -fpic -byteswapio -I. -I/usr/local/env/armnlib/include -I/usr/local/env/armnlib/include/Linux_x86-64/pgi9xx -Wl,-rpath,/usr/local/env/armnlib/lib/Linux_x86-64/pgi9xx -Wl,--allow-shlib-undefined -Bstatic_pgi -Wl,-rpath,/home/ordenv/dist/sw/PGI/debian_64_squeeze/sid/linux86-64/9.0-4/lib -O2      ./wwwlpt.f 
+ar rv ../lib/Linux_x86-64/pgi9xx/libwgl.a wwwlpt.o
+a - wwwlpt.o
+rm -f wwwlpt.o

@@ -1,0 +1,4 @@
+      COMMON /MAPPING/ A1, B1, C1, A2, B2, C2, ALPHA, DISTOR
+      REAL             A1, B1, C1, A2, B2, C2, ALPHA, DISTOR
+      REAL             RRX, RRY, ALPHAY, RMAPU, RMAPV
+      INTEGER          XX, YY, MAPU, MAPV

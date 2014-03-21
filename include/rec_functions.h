@@ -198,7 +198,7 @@ void EnleverLigneSerie(float x1, float y1, float x2, float y2);
 XtCallbackProc ErrorQuit(Widget w, caddr_t client_data, caddr_t call_data);
 void ExportImage();
 void ExportMovie();
-XtCallbackProc FermeurAnnuler();
+/*XtCallbackProc FermeurAnnuler();*/
 XtCallbackProc FermeurAnnuler(Widget w, caddr_t unused1, caddr_t unused2);
 XtCallbackProc FermeurEffacerSelection();
 XtCallbackProc FermeurFermerFichiers();
@@ -560,7 +560,7 @@ void SetStyleToggle (Widget w, caddr_t client_data, caddr_t call_data);
 void SetSymboleToggle (Widget w, caddr_t client_data, caddr_t call_data);
 void SetThicknessToggle (Widget w, caddr_t client_data, caddr_t call_data); 
 void SetUnitesSymbole (Widget w, caddr_t client_data, caddr_t call_data);
-void SetVariationToggle (Widget w, caddr_t client_data, caddr_t call_data); 
+XtCallbackProc SetVariationToggle (Widget w, caddr_t client_data, caddr_t call_data); 
 int  ThisIsTheCurrentGrid(char newgrtyp, int newni, int newnj, int newnk, int newig1, int newig2, int newig3, int newig4);
 void TracerCercle(float x, float y);
 void TracerLigne(float rcx1, float rcy1, float rcx2, float rcy2);

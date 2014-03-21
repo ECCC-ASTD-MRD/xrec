@@ -446,7 +446,15 @@ int f77name(souris)(int *bouton, int *event, int *x0, int *y0, int *xsize, int *
    *event = NIL;
    Confirmation = CONFIRMATION_NON_RECUE;
    backupx1 = 0; backupx2 = 0; backupy1 = 0; backupy2 = 0;
-   
+
+/* YC -- Mars 2014 */
+/* On force nbmenus a zero, il y a un bug de Motif qui empeche le menu contextuel apparaissant avec un clic du bouton droit de fonctionner correctement */
+/* Ca donnait une erreur du genre "XtGrabPointer failed" */
+
+   *nbmenus = 0;
+
+/* Fin de la patche */
+
    if (*nbmenus > 0)
       {
       initMenu(&menustr, menuTable, menulength, *nbmenus);

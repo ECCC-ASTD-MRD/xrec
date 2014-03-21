@@ -21,7 +21,7 @@
 #include <gmp.h>
 #include <rpnmacros.h>
 #include <stdio.h>
-#include <gdb.h>
+#include "../include/gdb.h"
 #include <wgl.h>
 #include <string.h>
 #include <stdlib.h>
@@ -38,7 +38,7 @@ extern GeoMapInfoStruct     mapInfo;
 extern GeoMapFlagsStruct   mapFlags;
 
 void
-get_cityname(int type, float lat, float lon, char *name)
+get_cityname(int gr_type, float lat, float lon, char *name)
 {
   char *tmp;
   
@@ -134,7 +134,7 @@ void c_gmpDrawCityName(float x, float y, char *text)
 }
 
 void
-get_coastline(int type, int n, float lat0, float lon0, float lat1, float lon1,float *ll )
+get_coastline(int gr_type, int n, float lat0, float lon0, float lat1, float lon1,float *ll )
 {
   float pts[24000];
   char *tmp;
@@ -217,7 +217,6 @@ lire_gdb_geo()
     memset(&oldMapInfo, NULL, sizeof(GeoMapInfoStruct));
     once = 1;
     }
-  
   ppd_env = (char *) getenv("GDB_RESOLUTION");
   ppd_max = (char *) getenv("GDB_MAX");
   
@@ -269,6 +268,14 @@ lire_gdb_geo()
     pixperdegree = user_ppd;
     break;
     }
+  for (i=0; i < NMAP_FLAGS; i++)
+    {
+    if (i != LATLON)
+      {
+      gmp_nbVecs[i] = 0;
+      }
+    }
+  gmp_nbVecs[LATLON] = 0;
   
 /*  fprintf(stderr, "Pixperdegree : %d\n", pixperdegree);*/
   
@@ -288,6 +295,14 @@ lire_gdb_geo()
         }
       }
     }
+  for (i=0; i < NMAP_FLAGS; i++)
+    {
+    if (i != LATLON)
+      {
+      gmp_nbVecs[i] = 0;
+      }
+    }
+  gmp_nbVecs[LATLON] = 0;
   
   for (i=0; i < 8; i++)
     {

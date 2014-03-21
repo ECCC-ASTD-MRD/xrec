@@ -1,0 +1,2 @@
+      INTEGER         NPAT, NTP,          ITP
+      COMMON /PATRNS/ NPAT, NTP(MAXPATS), ITP(32,MAXPATS)

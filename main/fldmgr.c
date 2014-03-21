@@ -1616,6 +1616,7 @@ void FldMgrProcessChamp(_Champ *champ)
   static char texteLecture[512];
   int langue;
   int ni,nj,nk,npts;
+  int gdin, gdout;
 
   langue = c_getulng();
 
@@ -1689,7 +1690,10 @@ void FldMgrProcessChamp(_Champ *champ)
       npts = champ->dst.ni*champ->dst.nj;
       if (champ->natureTensorielle == VECTEUR)
         {
-        tmpuufld = (float *) calloc(npts,  sizeof(float));
+	/*gdin = c_ezgetgdin();
+	gdout = c_ezgetgdout();
+	c_ezdefset(gdout, gdin);*/
+	tmpuufld = (float *) calloc(npts,  sizeof(float));
         tmpvvfld = (float *) calloc(npts,  sizeof(float));
         tmpmodule = (float *) calloc(npts, sizeof(float));
 
@@ -2076,7 +2080,7 @@ _Champ *champ;
     {
     stringNiveau[i] = '\0';
     }
-  f77name(convip)(&champ->ip1, &champ->niveau, &kind, &versPression, stringNiveau, &vrai, 15);
+  f77name(f_convip)(&champ->ip1, &champ->niveau, &kind, &versPression, stringNiveau, &vrai, 15);
   champ->coordonneeVerticale = kind;
   nettoyer(stringNiveau);
 
@@ -2209,16 +2213,16 @@ void FldMgrUpdateGridParams(_Champ *champ)
    int ni, nj, ig1, ig2, ig3, ig4, ig1ref, ig2ref, ig3ref, ig4ref;
 
    FldMgrAjusterDimensionsGrille(champ);
+    gdin = c_ezgetgdin();
+    if (gdin == -1)
+	{
+	champ->src.gdid = c_ezqkdef(champ->src.ni, champ->src.nj, champ->src.grtyp, champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4, champ->iun);
+	gdin = champ->src.gdid;
+	}
+
+    gdout = FldMgrDefinirGrille();
    if (champ->src.grtyp[0] == 'Y')
       {
-      gdin = c_ezgetgdin();
-      if (gdin == -1)
-         {
-         champ->src.gdid = c_ezqkdef(champ->src.ni, champ->src.nj, champ->src.grtyp, champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4, champ->iun);
-         gdin = champ->src.gdid;
-         }
-
-      gdout = FldMgrDefinirGrille();
 
       champ->domaine = VALEURS_PONCTUELLES;
       c_ezgxprm(gdin, &ni, &nj, &grtyp, &ig1, &ig2, &ig3, &ig4, &grref, &ig1ref, &ig2ref, &ig3ref, &ig4ref);
@@ -2249,6 +2253,7 @@ void FldMgrUpdateGridParams(_Champ *champ)
              champ->src.ig1, champ->src.ig2, champ->src.ig3,champ->src.ig4))
             {
             gdout = FldMgrDefinirGrille();
+            if (gdout == -1) gdout = gdin;
             c_ezdefset(gdout,gdout);
             }
          }
@@ -3038,7 +3043,15 @@ int FldMgrDefinirGrille()
       break;
 
     default:
-      InitMapInfo(grtyp, ni, nj, ig1, ig2, ig3, ig4);
+       if (gdout == -1)
+          {
+          c_ezgprm(gdin,&grtyp, &ni, &nj, &ig1, &ig2, &ig3, &ig4);
+          }
+       else
+          {
+          c_ezgprm(gdout,&grtyp, &ni, &nj, &ig1, &ig2, &ig3, &ig4);
+          }
+       InitMapInfo(grtyp, ni, nj, ig1, ig2, ig3, ig4);
       ThisIsTheCurrentGrid(grtyp, ni, nj, 1, ig1, ig2, ig3, ig4);
       break;
     }

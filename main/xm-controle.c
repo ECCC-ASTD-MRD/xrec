@@ -2797,6 +2797,10 @@ int f77name(xconouv)(int *iun)
    char nomShell[128];
    int largeurLogo, hauteurLogo, largeurFenetre, hauteurFenetre;
 
+   char grtyp[2];
+   int ni, nj, grille_bidon, ig1, ig2, ig3, ig4;
+   float xg1, xg2, xg3, xg4;
+
    int indMin, indMax;
 
    lng = c_getulng();
@@ -2830,6 +2834,17 @@ int f77name(xconouv)(int *iun)
    init_plot88();
    FldMgrInitChamps();
    CtrlMgrSetMathOp(NO_OP);
+
+/*   GRILLE('Canada    - PS100km', PS, 71,51, 24.3,  56.3, 100000.0, 21.0, NORD) */
+   xg1 = 24.3;
+   xg2 = 56.3;
+   xg3 = 100000.0;
+   xg4 = 21.0;
+   ni = 71;
+   nj = 51;
+   strcpy(grtyp, "N");
+   f77name(cxgaig)(&grtyp, &ig1, &ig2, &ig3, &ig4, &xg1, &xg2, &xg3, &xg4);
+   grille_bidon = c_ezqkdef(ni, nj, grtyp, ig1, ig2, ig3, ig4, 0);
 
    SetGeometrieFenetreAffichage(nomShell);
    fenetreAffichage = c_wglopw(nomShell);
@@ -2901,11 +2916,11 @@ int f77name(xconouv)(int *iun)
       get_rpn_logo_size(&largeurLogo, &hauteurLogo);
       c_wglgwz(&largeurFenetre, &hauteurFenetre);
       for (i=hauteurFenetre-1; i >= 0; i--)
-   {
-   c_wglcol(recColorTable[(int)(sizeRecColorTable * (1.0-(float)i/((float)(hauteurFenetre))))]);
-   c_wglmvi(0, i);
-   c_wgldri(largeurFenetre-1, i);
-   }
+         {
+         c_wglcol(recColorTable[(int)(sizeRecColorTable * (1.0-(float)i/((float)(hauteurFenetre))))]);
+         c_wglmvi(0, i);
+         c_wgldri(largeurFenetre-1, i);
+         }
 
       draw_rpn_logo();
       }
@@ -3421,10 +3436,10 @@ void AfficherGrilleSource(int indchamp)
    c_wglcol(xc.attributs[indchamp].indCouleurFore);
 
    grsrc = c_ezqkdef(champ->src.ni, champ->src.nj, champ->src.grtyp,
-         champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4, 1);
-   grdst = c_ezgetgdout();
-/*   grdst = c_ezqkdef(champ->dst.ni, champ->dst.nj, champ->dst.grtyp,
-         champ->dst.ig1, champ->dst.ig2, champ->dst.ig3, champ->dst.ig4, 1);*/
+         champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4, champ->iun);
+//   grdst = c_ezgetgdout();
+   grdst = c_ezqkdef(champ->dst.ni, champ->dst.nj, champ->dst.grtyp,
+         champ->dst.ig1, champ->dst.ig2, champ->dst.ig3, champ->dst.ig4, champ->iun);
    npts = champ->src.ni*champ->src.nj;
    lats = (float *) malloc(npts*sizeof(float));
    lons = (float *) malloc(npts*sizeof(float));

@@ -138,17 +138,20 @@
 *
 *  INITIALISATION DES DICTIONNAIRES
 *
-      DATA DICSZ4 /"SZXA", "SZYA", "SZXL", "SZYL", "SZCR", "SZTY" /
+*     DATA DICSZ4 /"SZXA", "SZYA", "SZXL", "SZYL", "SZCR", "SZTY" /
+      DATA DICSZ4 /4HSZXA, 4HSZYA, 4HSZXL, 4HSZYL, 4HSZCR, 4HSZTY /
 *
 *      DATA  ISZXAX, ISZYAX, ISZXLB, ISZYLB, ISZCRV, ISZTYT
 *     1    /    0  ,    0  ,    0  ,    0  ,    0  ,    0    /
 *
-      DATA DICBA /"CLIP", "ERRB", "JOIN" , "SSYM" , "SSIZ" , "EPAI" ,
-     1            "FONC" /
+*     DATA DICBA /"CLIP", "ERRB", "JOIN" , "SSYM" , "SSIZ" , "EPAI" ,
+*    1            "FONC" /
+      DATA DICBA /4HCLIP, 4HERRB, 4HJOIN , 4HSSYM , 4HSSIZ , 4HEPAI ,
+     1            4HFONC /
       DATA         CLIP  , ERRBAR,   JOIN  ,  SSYM  ,  SSIZ  ,  EPAIS  ,
      1             FONC
-     2           /.FALSE.,   0   ,  .TRUE. ,   " "  ,    0   ,    1    ,
-     3            "YVSX" /
+     2           /.FALSE.,   0   ,  .TRUE. , 4H     ,    0   ,    1    ,
+     3            4HYVSX /
 *
       CALL XOPGET(DICSZ4,REF,ISZXAX,IVAL,6)
       CALL XOPGET(DICBA,REF,CLIP,IVAL,7)

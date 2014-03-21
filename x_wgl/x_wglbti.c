@@ -52,7 +52,7 @@ int x_wglbti(int *i, int *j)
 	    {
 	    XBell(wglDisp, 0);
 	    XDefineCursor(wglDisp,wglWin,None);
-	    return NULL;
+	    return 0;
 	    }
 	 
 	 default:

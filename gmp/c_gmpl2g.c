@@ -60,6 +60,7 @@ void c_gmpl2g(float *x,float *y,float lat,float lon)
       case 'A':
       case 'B':
       case 'L':
+		case 'U':
       c_grfll(x, y, tmpLat, tmpLon,
 	      mapInfo.latOrigine, mapInfo.lonOrigine, mapInfo.deltaLat, mapInfo.deltaLon, 
 	      mapInfo.xOrigine, mapInfo.yOrigine, mapInfo.indOrientation);

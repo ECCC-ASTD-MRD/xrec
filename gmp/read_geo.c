@@ -21,7 +21,7 @@
 #include <gmp.h>
 #include <rpnmacros.h>
 #include <stdio.h>
-#include <gdb.h>
+#include "../include/gdb.h"
 #include <stdlib.h>
 #include <string.h>
 

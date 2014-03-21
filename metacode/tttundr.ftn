@@ -1,0 +1,65 @@
+***S/P TTTUNDR - SOUS-LIGNE UNE CHAINE DE CARACTERES
+#include "aaaamac.cdk"
+*
+      SUBROUTINE TTTUNDR(ISTLIX, ISTLIY, IFILIX, IFILIY, INT, MODE,
+     +                   FONTNB)
+#include "impnone.cdk"
+      INTEGER            ISTLIX, ISTLIY, IFILIX, IFILIY, INT, MODE,
+     +                   FONTNB
+#include "params.cdk"
+*
+*AUTEUR     - M. VALIN
+*
+*REVISION 001 Y. BOURASSA - MAI 94 RATFOR @ FTN77
+*
+*LANGUAGE   - FTN77
+*
+*OBJET(TTTUNDR)
+*         - SOUS-LIGNE UNE LIGNE EN CALCULANT LE POINT DE DEPART
+*           ET LE POINT FINAL.
+*         - VARIATION EN X P/R AU POINT DE DEPART = 0
+*                              AU POINT TERMINAL  = -5
+*         - VARIATION EN Y P/R A LA HAUTEUR =  0 VERS LA BASE
+*                                           = -5 VERS LE SOMMET
+*
+*ARGUMENTS
+*         - ISTLIX - COORDONNEE X DU DEBUT DE LA CHAINE A SOUS-LIGNER
+*         - ISTLIY - COORDONNEE Y DU DEBUT DE LA CHAINE A SOUS-LIGNER
+*         - IFILIX - COORDONNEE X DE LA FIN DE LA CHAINE A SOUS-LIGNER
+*         - IFILIY - COORDONNEE Y DE LA FIN DE LA CHAINE A SOUS-LIGNER
+*         - INT    - INTENSITE DU TRAIT
+*         - MODE  - MODE D'ECRITURE (VOIR MODLIN/MODCAR DANS/PARAMS/)
+*
+*IMPLICITES
+#include "pwryp.cdk"
+#include "carac.cdk"
+*
+*MODULES
+      EXTERNAL TTTDRAW
+*
+**
+      INTEGER  DISTY
+      REAL     RX0, RY0, RX1, RY1, RX2, RY2
+
+      RX0 = REAL( IFILIX )
+      RY0 = REAL( IFILIY )
+
+      IF( UPPERC ) THEN
+         DISTY = IVH(FONTNB, 3)
+      ELSE
+         DISTY = IVH(FONTNB, 5)
+      ENDIF
+
+      RX1 = ISTLIX-DISTY*X2+.5  ! CALCULE LES COORDONNEES DE LA LIGNE
+      RY1 = ISTLIY-DISTY*Y2+.5
+      RX2 = IFILIX-DISTY*X2+.5
+      RY2 = IFILIY-DISTY*Y2+.5
+
+*     TRACE
+
+      CALL TTTDRAW(RX1, RY1, 0, INT, MODE)
+      CALL TTTDRAW(RX2, RY2, 1, INT, MODE)
+      CALL TTTDRAW(RX0, RY0, 0, INT, MODE)
+
+      RETURN
+      END

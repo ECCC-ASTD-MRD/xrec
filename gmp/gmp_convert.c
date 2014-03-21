@@ -100,6 +100,7 @@ int gmp_convert(ListePointsStruct *liste, int *nbItems, float pts[], int nbPoint
        case 'N':
        case 'S':
        case 'T':
+		 case 'U':
        case '!':
 	 detected = 0;
 	 break;

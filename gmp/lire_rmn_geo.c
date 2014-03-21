@@ -21,7 +21,7 @@
 #include <gmp.h>
 #include <rpnmacros.h>
 #include <stdio.h>
-#include <gdb.h>
+#include "../include/gdb.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -67,6 +67,7 @@ lire_rmn_geo()
       gmp_nbVecs[i] = 0;
       }
     }
+  gmp_nbVecs[LATLON] = 0;
   
   gdb_liste = gmp_vecs[CONTINENTS];
   gdb_nbItems = gmp_nbVecs[CONTINENTS];
@@ -77,7 +78,7 @@ lire_rmn_geo()
     strcpy(nomFichierGeographie, rmn_geo);
     strcat(nomFichierGeographie, mapOptions.fichierGeographie[n]);
 
-    centCinquanteHuit = 158;
+    centCinquanteHuit = 0;
     f77name(opllfl)(&centCinquanteHuit, nomFichierGeographie, &code, strlen((char *)nomFichierGeographie));
     
     npts = -1;

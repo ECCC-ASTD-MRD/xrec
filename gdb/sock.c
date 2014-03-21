@@ -53,21 +53,7 @@
 #include "sock.h"
 #include "swp.h"
 
-/*
- *  shared library residense
- */
 
-#ifdef HP
-    static char sharedir[128] = "/users/dor/afsm/mjg/bin/HP-UX/";
-#endif
-
-#ifdef Linux
-    static char sharedir[128] = "/users/dor/afsm/mjg/bin/Linux/";
-#endif
-
-#ifdef IRIX64
-    static char sharedir[128] = "/users/dor/afsm/mjg/bin/IRIX64/";
-#endif
 
 /*
  *  dynamic library handle
@@ -182,6 +168,7 @@ shandler(int sig)
     char *ptr3;
     int   i, siz;
     unsigned char CLIENT_IS;
+    char  *sharedir;
 
     static char key      [16] = "load";
     static char path    [128];
@@ -234,7 +221,11 @@ shandler(int sig)
 /*
  *  second word is a dynamic library name
  */
-    strcpy(path,sharedir);
+    sharedir = getenv( "LD_LIBRARY_PATH" );
+    if (sharedir)
+       strcpy(path,sharedir);
+    else
+       strcpy( path, "./" );
     strcat(path,ptr2);
     handle = dlb_library( path );
     if( handle == NULL )

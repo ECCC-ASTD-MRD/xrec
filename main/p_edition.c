@@ -117,7 +117,7 @@ void InitPanneauEdition()
    Xinit("xrec");
    lng = c_getulng();
    
-   memset(&champOriginal, (int)NULL, sizeof(_Champ));
+   memset(&champOriginal, '\000', sizeof(_Champ));
 
    n = 0;
    strcpy(nomShell, XtName(SuperWidget.topLevel));
@@ -754,7 +754,7 @@ XtCallbackProc PeEnregistrer(Widget w, caddr_t clientData, caddr_t  callData)
       strcat(nomFich, nombidon[lng]);
       }
 
-   ier  = c_fnom(iunSortie, nomFich, typFich, 0);
+   ier  = c_fnom(&iunSortie, nomFich, typFich, 0);
    if (ier != 0)
       {
       DesactiverTousPeWidgets();
@@ -998,7 +998,7 @@ void AjouterItemDansLaPile(int type, float valeur, float ancienneValeur, PointEd
       pileEd = (EditionStruct *)realloc(pileEd, nbCellulesPile * sizeof(EditionStruct));
       for (n=indCourantPile; n < nbCellulesPile; n++)
 	 {
-	 memset(&pileEd[n], (int)NULL, sizeof(EditionStruct));
+	 memset(&pileEd[n], '\000', sizeof(EditionStruct));
 	 }
       }
    

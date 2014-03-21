@@ -27,25 +27,31 @@
  **
  **/
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
 
+#include <Xm/Form.h>
 #include <Xm/Xm.h>
-#include <Xm/LabelG.h>
-#include <Xm/PushBG.h>
-#include <Xm/CascadeBG.h>
-#include <Xm/SeparatoG.h>
+//#include <Xm/LabelG.h>
+#include <Xm/Label.h>
+//#include <Xm/PushBG.h>
+#include <Xm/PushB.h>
+//#include <Xm/CascadeBG.h>
+#include <Xm/CascadeB.h>
+//#include <Xm/SeparatoG.h>
+#include <Xm/Separator.h>
 #include <Xm/MenuShell.h>
 #include <Xm/RowColumn.h>
 
 #include <xinit.h>
 #include <wgl.h>
-
-#include <stdio.h>
-#include <string.h>
 
 #define SELECTION_EN_COURS 0
 #define SELECTION_TERMINEE 1
@@ -128,12 +134,13 @@ int posX, posY;
                                applicationShellWidgetClass,
                                XtDisplay(SuperWidget.topLevel), args, i);
    
-   XtSetWarningHandler(HandlerBidon);
+   XtSetWarningHandler((XtErrorHandler) HandlerBidon);
 
    forme = (Widget)XmCreatePopupMenu(topLevel, "forme", args, i);
 
    i = 0;
    string = XmStringCreate(menuTitreStr, XmSTRING_DEFAULT_CHARSET); 
+   XtSetArg(args[i], XmNlabelString, string); i++;
    XtSetArg(args[i], XmNlabelString, string); i++;
    menuTitre[0] = (Widget)XmCreateLabel(forme, "Title", args, i);
    XmStringFree(string);
@@ -154,7 +161,7 @@ int posX, posY;
 	 XtSetArg(args[i], XmNlabelString, string); i++;
 	 
 	 menuItems[n] = (Widget)XmCreatePushButton(forme, "menuItem", args, i);
-	 XtAddCallback(menuItems[n], XmNactivateCallback, SelectItem, NULL);
+	 XtAddCallback(menuItems[n], XmNactivateCallback, (XtCallbackProc) SelectItem, NULL);
 	 
 	 XmStringFree(string);
 	 }
@@ -172,7 +179,7 @@ int posX, posY;
    XtSetArg(args[i], XmNy, posY); i++;
    XtSetValues(forme, args, i);
 
-   XtSetWarningHandler(HandlerBidon);
+   XtSetWarningHandler((XtErrorHandler)HandlerBidon);
 
    XtManageChildren(menuTitre, 2);
    XtManageChildren(menuItems, nbMenuItems);
@@ -183,7 +190,7 @@ int posX, posY;
 
    StatutSelection = SELECTION_EN_COURS;
    itemSelectionne = -100;
-   while (StatutSelection == SELECTION_EN_COURS) /**  && wglbtp(BDROIT)) **/
+   while (StatutSelection == SELECTION_EN_COURS) /**  && c_wglbtp(BDROIT)) **/
       {
       XtAppNextEvent(SuperWidget.contexte, &theEvent);
       XtDispatchEvent(&theEvent);
@@ -226,8 +233,7 @@ caddr_t client_data, call_data;
 static XtErrorHandler HandlerBidon(avertissement)
 String avertissement;
 {
-/**   printf("Voici le message recu: %s\n\n\n", avertissement); **/
-   return;
+   printf("Voici le message recu: %s\n\n\n", avertissement); 
    }
 
 NettoyerVieuxStrings()
@@ -318,7 +324,7 @@ char *menuStr;
 
 	 i = nbMenuItems - 1;
 	 menuItemsStr[i] = (char *) calloc(strlen("separator")+1, sizeof(char));
-	 menuItemsStr[i-1][lenSep] = NULL;
+	 menuItemsStr[i-1][lenSep] = '\000';
 	 strcpy(menuItemsStr[i], "separator");
 	 }
       posBarre = strstr(copieMenuStr,"|");
@@ -329,4 +335,3 @@ char *menuStr;
    menuInfoStr = (char *) calloc(strlen(copieMenuStr)+1, sizeof(char));
    strcpy(menuInfoStr, copieMenuStr);
    }
-

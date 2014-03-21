@@ -20,9 +20,8 @@
       program xrec
       implicit none
 
-      integer maxrecs,maxfich,newfld,ouvrir,fermer,quitter
+      integer maxrecs,newfld,ouvrir,fermer,quitter
       parameter (maxrecs= 128)
-      parameter (maxfich= 124)
 
       parameter (newfld = 4)
       parameter (ouvrir = 1)
@@ -37,7 +36,7 @@
       integer xconouv, xinit
       integer xfslouv97, xfslact97
       integer xconact, xpandact, xpancact, xpaneact, xpangact, xpancbiact,
-     $     xpanmact ,xpanpaact, xpanpcsac, xpanpact, xpanpavact, 
+     $     xpanmact ,xpanpaact, xpanpcsac, xpanpact, xpanpavact,
      $     xpanpcpact ,xpanpcsact, xpventact, xpattact, xpanstatact
 
 
@@ -45,12 +44,14 @@
       integer i, inf, lnguser, getulng
       integer fnom, fstopi, ezsetopt
       external fnom, fstopi, ezsetopt
-      
+
       character*512   nomfich
       character*512     vide
       integer        recs(maxrecs)
       integer        nbrecs
-      integer lnkdiun(maxfich)
+      integer, parameter :: maxfich = 1000
+      integer, dimension(maxfich) :: lnkdiun
+      common /firstiun/ lnkdiun
 
       integer nbfich
       integer ipos
@@ -60,46 +61,45 @@
       external longueur
 
       integer indmin, indmax, level
-      
-      character * 8   cle(132)
-      character * 512 def(132), val(132)
-      character * 512 nfich(maxfich)
-      character*128 tmpdir,sortiexrec
-      character*512 temporaire
-      
 
-      character*16 ezopt,ezval
+      character(len=20), dimension(1008) ::   cle
+      character(len=256),dimension(1008) :: def, val
+      character(len=256),dimension(maxfich) :: nfich
+      character(len=256) :: tmpdir,sortiexrec,temporaire
+
+      integer cle_ar, cle_ozsrt, cle_colmin, cle_colmax, cle_v, cle_debug
+      integer cle_nologo, cle_roc
+      integer stack_size
+      character(len=16) :: ezopt,ezval
 
       common /ccardprm/ cle, def, val
       logical flag
 *
       data vide/' '/
-      data cle /124 * 'IMFLDS:', 'AR',     'OZSRT.', 
-     *          'COLMIN', 'COLMAX', 'V', 'DEBUG', 'NOLOGO', 'ROC'/
-      data def /124 * 'SCRAP',  'SQUARE', 'CHAMP_EDITE',
-     *          '64',     '248', 'OUI', 'OUI','OUI','OUI'/
-      data val /124 * 'SCRAP',  'SQUARE', 'CHAMP_EDITE',
-     *          '64',     '248', 'NON', 'NON','NON','NON'/
+      data cle /1000 * 'IMFLDS:', 'AR',     'OZSRT.',
+     *          'COLMIN', 'COLMAX', 'V', 'DEBUG', 'NOLOGO', 'ROC' /
+      data def /1000 * 'SCRAP', 'SQUARE', 'CHAMP_EDITE',
+     *          '64',     '248', 'OUI', 'OUI','OUI','OUI'         /
+      data val /1000 * 'SCRAP', 'SQUARE', 'CHAMP_EDITE',
+     *          '64',     '248', 'NON', 'NON','NON','NON' /
 
 *
 
-      data lnkdiun / 1,   2,  3,  4,          7,  8,  9, 10,
-     $               11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-     $               21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-     $               31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-     $               41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
-     $               51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
-     $               61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
-     $               71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
-     $               81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
-     $              101,102,103,104,105,106,107,108,109,110,
-     $              111,112,113,114,115,116,117,118,119,120,
-     $              121,122,123,124,125,126,127,128,129,130,
-     $              131,132,133,134,135,136 /
+      lnkdiun = 0
+      cle_ar     = 1001
+      cle_ozsrt  = 1002
+      cle_colmin = 1003
+      cle_colmax = 1004
+      cle_v      = 1005
+      cle_debug  = 1006
+      cle_nologo = 1007
+      cle_roc    = 1008
 
 
       call qqqnocore
       call wglscon('x')
+      stack_size=128
+      call setstacksize(stack_size)
       ezopt = 'EXTRAP_DEGREE'
       ezval = 'MAXIMUM'
       ier = ezsetopt(ezopt,ezval)
@@ -107,19 +107,24 @@
       lnguser = getulng()
       if (lnguser.eq.0) then
          nomfich = 'Selecteur d''enregistrements'
-         def(126) = 'champ_edite'
-         val(126) = 'champ_edite'
+         def(cle_ozsrt) = 'champ_edite'
+         val(cle_ozsrt) = 'champ_edite'
       else
          nomfich = 'Record Selector'
-         def(126) = 'modified_field'
-         val(126) = 'modified_field'
+         def(cle_ozsrt) = 'modified_field'
+         val(cle_ozsrt) = 'modified_field'
       endif
 
-      call ccard(cle,def,val, 132, ipos)
+      call ccard(cle,def,val, 1008, ipos)
+!       do i=1,1000
+!          def(i) = trim(def(i))
+!          val(i) = trim(val(i))
+!          print *, i, len(def(i)),len(val(i))
+!       enddo
 
       nf = 1
       if (val(1).eq.def(1)) then
-         call selfic(val, 124, 512, nf)
+         call selfic(val, 1000, 512, nf)
       endif
 
       if (nf.eq.0.or.val(1).eq.vide) then
@@ -127,18 +132,23 @@
          print *, 'Bonne chance - Good Luck'
          stop
       endif
-      
+
       ier = fstopl('REDUCTION32',.true.,.false.)
       call recopnf(nbrecs, val, def, lnkdiun, nf)
 
-      if (val(129).eq.'NON') then
+      if (val(cle_v).eq.'NON') then
          call getenv('TMPDIR',tmpdir)
+         if (len(tmpdir) == 0) then
+            tmpdir='/tmp'
+         endif
          sortiexrec = '/sortie-xrec.txt'
          temporaire = tmpdir(1:longueur(tmpdir)) // sortiexrec
-         ier = fnom(6, temporaire,'SEQ+FTN+FMT',0)
-         if (ier.ne.0) then
-            print *, 'Cannot write into temporary file : ', temporaire
-         endif
+         call rec_redirect(temporaire)
+!        temporaire = '/dev/null'
+!         ier = fnom(6, temporaire,'SEQ+FTN+FMT',0)
+!         if (ier.ne.0) then
+!            print *, 'Cannot write into temporary file : ', temporaire
+!         endif
          level = 10
          flag = .false.
          ier = fstopi('MSGLVL', level, flag)
@@ -146,20 +156,20 @@
          ier = ezsetopt('VERBOSE', 'YES')
       endif
 
-      if (val(130).eq.'OUI') then
+      if (val(cle_debug).eq.'OUI') then
          call wgldbg
       endif
 
-      if (val(131).eq.'OUI') then
+      if (val(cle_nologo).eq.'OUI') then
          call recnologo
       endif
 
-      if (val(132).eq.'OUI') then
+      if (val(cle_roc).eq.'OUI') then
          call wglroc
       endif
 
-      read(val(127),*) indmin
-      read(val(128),*) indmax
+      read(val(cle_colmin),*) indmin
+      read(val(cle_colmax),*) indmax
 
 *     call rgopti('INTERP', 1, .true.)
       ezopt = 'INTERP_DEGREE'
@@ -167,8 +177,8 @@
       ier = ezsetopt(ezopt, ezval)
       call setcolors(indmin,indmax)
 
-      call recckar(lnkdiun(1), val(125))
-      
+      call recckar(lnkdiun(1), val(1))
+
       inf = xconouv(lnkdiun(1))
       typesel = 2
       ier = xfslouv97(nomfich, lnkdiun(1), nbrecs, 1, typesel)
@@ -179,7 +189,7 @@
       if (inf.eq.ouvrir) then
          oldnf = nf
          call allpdown
-         call selfic(val(oldnf+1), 124-oldnf, 512, nf)
+         call selfic(val(oldnf+1), 1000-oldnf, 512, nf)
          call allpup
          if (nf.eq.0)  then
             nf=oldnf
@@ -190,15 +200,15 @@
                print *, 'Trop de fichiers ouverts'
                stop
             endif
-            call recopnf(nbrecs, val, def, lnkdiun, nf)
+            call recopnf(nbrecs, val(1), def, lnkdiun, nf)
             call xfslupd97(val(1), lnkdiun(1), nbrecs, 1, typesel)
          endif
       endif
-      
+
       if (inf.eq.fermer) then
          oldnf = nf
          call allpdown
-         call xfcl(val, nf)
+         call xfcl(val(1), nf)
          call allpup
          if (nf.ne.oldnf) then
             call recclsf(lnkdiun, oldnf)
@@ -208,7 +218,7 @@
 
          call recopnf(nbrecs, val, def, lnkdiun, nf)
          call xfslupd97(val(1), lnkdiun(1), nbrecs, 1, typesel)
-         endif   
+         endif
       endif
 
       if (inf.eq.quitter) goto 3000
@@ -246,7 +256,8 @@ c     ****************************************************************
       subroutine recopnf(nbrecs, val, def, lnkdiun, nf)
       implicit none
       integer nbrecs
-      character*512 val(*), def(*)
+      character(len=256),dimension(nf) :: val, def
+      character(len=256) :: str
       integer tol
       integer lnkdiun(*)
       integer nf
@@ -257,7 +268,7 @@ c     ****************************************************************
       integer ni, nj, nk, fstopi
       external fnom, fstouv, fstinl, fstopi, fstnbr
       logical flag
-       
+
 
       if (nf.eq.0) then
          nbrecs = 0
@@ -269,10 +280,12 @@ c     ****************************************************************
          nf = nf +1
          goto 33
       endif
-         
+
       nf = nf -1
       do 34 i=1, nf
-         ier = fnom(lnkdiun(i),val(i),'STD+RND+OLD+R/O+REMOTE',0)
+         str = trim(val(i))
+!         print *, len(str),len_trim(str)
+         ier = fnom(lnkdiun(i),str,'STD+RND+OLD+R/O+REMOTE',0)
          if (ier.lt. 0) then
             call messerr(val(i))
             print *, '***********************************************'
@@ -296,17 +309,17 @@ c     ****************************************************************
          if (nrecs.lt.0) then
             call messerr(val(i))
             print *, '**********************************************'
-            print *, '* le fichier #',val(i), 
+            print *, '* le fichier #',val(i),
      *               'n''est pas standard random'
             print *, '**********************************************'
             stop
          endif
       nbrecs = nbrecs + nrecs2
       enddo
-         
+
       tol = 6
       ier = fstopi('TOLRNC', tol, flag)
-      call fstlnk(lnkdiun, nf)   
+      call fstlnk(lnkdiun, nf)
       allocate (liste(nrecs))
       ier = fstinl(lnkdiun(1), ni, nj, nk, -1, ' ',-1,-1,-1,' ',' ',
      *             liste, nrecs, nrecs)
@@ -350,7 +363,7 @@ c     ****************************************************************
          if (nj.eq.1) then
             call wglkas(ni, nk)
          endif
-         
+
          if (nk.eq.1) then
             call wglkas(ni, nj)
          endif
@@ -390,7 +403,7 @@ c     ****************************************************************
       return
       end
 
-      
+
 c     ****************************************************************
 
 
@@ -406,7 +419,7 @@ c     ****************************************************************
       return
       end
 
-      
+
 c     ****************************************************************
 
       subroutine allpup
@@ -417,7 +430,7 @@ c     ****************************************************************
       return
       end
 
-      
+
 c     ****************************************************************
 
 
@@ -426,27 +439,39 @@ c     ****************************************************************
       call xcondown
       call xseldim(1)
 
-      return 
+      return
       end
 
 c     ****************************************************************
-      
+
       subroutine get_nbrecs_actifs(nbrecs, iun)
       implicit none
       integer nbrecs, iun, key, fstinf, fstsui, ni,nj,nk
-      
-      nbrecs = 0 
+
+      nbrecs = 0
       key = fstinf(iun, ni, nj, nk,  -1, ' ', -1, -1, -1, ' ', ' ')
       do while (key >= 0)
         nbrecs = nbrecs+1
         key = fstsui(iun,ni,nj,nk)
       end do
 
-      
+
       return
       end subroutine get_nbrecs_actifs
-      
+
       character *128 function product_id_tag()
       product_id_tag='$Id$'
+      return
+      end
+
+      subroutine get_firstiun(first_iun)
+      implicit none
+      integer :: first_iun
+      integer, parameter :: maxfich = 1000
+      integer, dimension(maxfich) :: lnkdiun
+      common /firstiun/ lnkdiun
+      print *, 'lnkdiun(1)', lnkdiun(1)
+      first_iun = lnkdiun(1)
+      print *, 'first_iun', first_iun
       return
       end

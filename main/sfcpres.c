@@ -131,7 +131,7 @@ int GetSurfacePressure(_Champ *champ)
          }
       else
          {
-         gdin = c_ezqkdef(champ->src.ni, champ->src.nj, champ->src.grtyp, champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4, 1);
+         gdin = c_ezqkdef(champ->src.ni, champ->src.nj, champ->src.grtyp, champ->src.ig1, champ->src.ig2, champ->src.ig3, champ->src.ig4, champ->iun);
          gdout = c_ezgetgdout();
          c_ezdefset(gdout,gdin);
 
@@ -336,13 +336,14 @@ int GetSurfacePressure(_Champ *champ)
       break;
       
 /*      case PRESSION:
-      cleP0 = NULL;
+      cleP0 = 0;
       champ->coupe.montagnes = NULL;
       return -1;
       break;*/
       
       default:
-      cleP0 = NULL;
+//      cleP0 = NULL;
+      cleP0 = 0;
       champ->coupe.montagnes = NULL;
       return -1;
       break;

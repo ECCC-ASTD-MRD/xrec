@@ -1,0 +1,4 @@
+#if defined (UNIX) 
+      INTEGER         RESULT,      PTR
+      COMMON / PACT / RESULT(140), PTR
+#endif

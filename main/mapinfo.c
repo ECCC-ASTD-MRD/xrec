@@ -34,10 +34,10 @@ extern GeoMapFlagsStruct    mapFlags;
 
 extern _Viewport    viewp;
 
-static char *lblAvrtRecordsManquants[]={"\nLes descripteurs '^^' et '>>'\nsont manquants. Le champ sera affiche\nsans geographie\n", 
+static char *lblAvrtRecordsManquants[]={"\nLes descripteurs '^^' et '>>'\nsont manquants. Le champ sera affiche\nsans geographie\n",
                                "\nThe records '^^' and '>>' are missing.\nThe field will be displayed without geography\n"};
 
-static char *lblAvrtRecordsBizarres[]={"\nLes descripteurs '^^' et '>>'\nfont reference a un type de grille non supporte.\nLe champ sera affiche\nsans geographie\n", 
+static char *lblAvrtRecordsBizarres[]={"\nLes descripteurs '^^' et '>>'\nfont reference a un type de grille non supporte.\nLe champ sera affiche\nsans geographie\n",
                                "\nThe records '^^' and '>>' refer to an unsupported grid type.\nThe field will be displayed without geography\n"};
 
 
@@ -93,7 +93,7 @@ void InitMapInfo(char type, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
 
    lng = c_getulng();
 
-   mapInfo.type = type;   
+   mapInfo.type = type;
    mapInfo.ni  = ni;
    mapInfo.nj  = nj;
    mapInfo.ig1 = ig1;
@@ -104,10 +104,10 @@ void InitMapInfo(char type, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
 
    if (mapInfo.type != 'X')
      {
-       mapId = c_ezgdefrec(mapInfo.ni, mapInfo.nj, &mapInfo.type, 
+       mapId = c_ezgdefrec(mapInfo.ni, mapInfo.nj, &mapInfo.type,
 			   mapInfo.ig1, mapInfo.ig2, mapInfo.ig3, mapInfo.ig4);
        mapIdOut = c_ezgetgdout();
-       
+
        c_ezgxprm(mapId, &ni1, &nj1, &grtyp, &iig1, &iig2, &iig3, &iig4,
 		 &grref, &ig1ref, &ig2ref, &ig3ref, &ig4ref);
        mapInfo.gdid = mapId;
@@ -119,7 +119,7 @@ void InitMapInfo(char type, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
       case 'Z':
         if (mapId < 0)
            {
-           type = 'U';
+           type = 'W';
            MessageAvertissement(lblAvrtRecordsManquants[lng], AVERTISSEMENT);
            c_xsetxy(0, axeX, mapInfo.ni, axeY, mapInfo.nj);
            c_gmpset(type, ni, nj, ig1, ig2, ig3, ig4);
@@ -128,7 +128,7 @@ void InitMapInfo(char type, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
            {
            if (grref[0] != 'N' && grref[0] != 'S' &&  grref[0] != 'L' && grref[0] != 'E')
               {
-              type = 'U';
+              type = 'W';
               MessageAvertissement(lblAvrtRecordsBizarres[lng], AVERTISSEMENT);
               c_xsetxy(0, axeX, mapInfo.ni, axeY, mapInfo.nj);
               c_gmpset(type, ni, nj, ig1, ig2, ig3, ig4);
@@ -140,17 +140,17 @@ void InitMapInfo(char type, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
                  free(axeX);
                  axeX = NULL;
                  }
-              
+
               if (axeY != NULL)
                  {
                  free(axeY);
                  axeY = NULL;
                  }
-              
+
               axeX = (float *) calloc(ni1, sizeof(float));
               axeY = (float *) calloc(nj1, sizeof(float));
               c_gdgaxes(mapId, axeX, axeY);
-              
+
 	      /*              if (grref[0] == 'E')
 			      {
 			      for (i=0; i < nj1; i++)
@@ -159,14 +159,14 @@ void InitMapInfo(char type, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
 			      }
 			      }
 	      */
-              
-              
+
+
               c_xsetxy(3, axeX, mapInfo.ni, axeY, mapInfo.nj);
               c_gmpzset('Z', ni, nj, ig1, ig2, ig3, ig4, grref[0], ig1ref, ig2ref, ig3ref, ig4ref);
               mapInfo.typeref = grref[0];
-              mapInfo.ig1ref = ig1ref;      
-              mapInfo.ig2ref = ig2ref;      
-              mapInfo.ig3ref = ig3ref;      
+              mapInfo.ig1ref = ig1ref;
+              mapInfo.ig2ref = ig2ref;
+              mapInfo.ig3ref = ig3ref;
               mapInfo.ig4ref = ig4ref;
               }
            }
@@ -180,27 +180,30 @@ void InitMapInfo(char type, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
         c_xy2fxfy(&rx2, &ry2, fx2, fy2);
         c_wglssp(rx1, ry1, rx2, ry2, viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, 1);
         break;
-        
+
       case 'Y':
         break;
-	
-      default:
+
+      case 'U':
+        break;
+
+		default:
 	c_xsetxy(0, axeX, mapInfo.ni, axeY, mapInfo.nj);
 	AjusterViewport(&viewp);
 	c_wglssp(1.0, 1.0, (float)mapInfo.ni, (float)mapInfo.nj, viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, 1);
 	c_gmpset(type, ni, nj, ig1, ig2, ig3, ig4);
 	break;
       }
-   
+
 }
 
 
-void GeoMgrGetMapInfo(char *grtyp, char *grref, int *ni, int *nj, int *ig1, int *ig2, int *ig3, int *ig4, 
+void GeoMgrGetMapInfo(char *grtyp, char *grref, int *ni, int *nj, int *ig1, int *ig2, int *ig3, int *ig4,
                  float **lat, float **lon)
 {
    int gdid ;
    int ig1ref, ig2ref, ig3ref, ig4ref;
-   
+
    if (mapInfo.type == ' ')
       {
       gdid  = c_ezgetgdout();
@@ -247,10 +250,13 @@ void GeoMgrSetLatLon(float *lat, float *lon)
    mapInfo.lon = lon;
 }
 
+int f77name(get_firstiun)(int *first_iun);
+
 int c_ezgdefrec(int ni, int nj, char *grtyp, int ig1, int ig2, int ig3, int ig4)
 {
    int iig4;
-   float *bidon = NULL;   
+   int first_iun;
+   float *bidon = NULL;
    float un;
    char lgrtyp[2];
    un = 1.0 * 1.0;
@@ -258,7 +264,8 @@ int c_ezgdefrec(int ni, int nj, char *grtyp, int ig1, int ig2, int ig3, int ig4)
    lgrtyp[0] = grtyp[0];
    lgrtyp[1] = NULL;
 
-   return c_ezqkdef(ni, nj, lgrtyp, ig1, ig2, ig3, ig4, 1);
-   
+   f77name(get_firstiun)(&first_iun);
+   return c_ezqkdef(ni, nj, lgrtyp, ig1, ig2, ig3, ig4, first_iun);
+
 }
 

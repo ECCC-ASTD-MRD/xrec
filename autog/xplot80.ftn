@@ -602,7 +602,7 @@ C     DATA LNDASH / 26*177777B /
       IF (IXGRD.LT.-1 .AND. JX.GT.1) IXDM = 3
 **---------------------------------------------------------------------
 *
-      iblank = 1H 
+      iblank = 1H   + 0
       IF (SSYM .EQ. 0 .OR. SSYM.EQ.iblank .AND. ERRBAR.GT.0) THEN
         PSYM = '@A$'
       ELSE

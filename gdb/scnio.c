@@ -50,40 +50,40 @@
  *  struct of things to remember 
  */
 
- typedef struct  { int   comm;
-                   int   fref;
-                   void *mm;
+ typedef struct  { int        comm;
+                   fileref_t  fref;
+                   void      *mm;
                  } Clt_file;
 
 /*
  *  dispatch module pointers and defaults
  */
 
- typedef void * (*MOD_BOX)  ( int   fref, int w, int h, int s,
+ typedef void * (*MOD_BOX)  ( fileref_t fref, int w, int h, int s,
                                           int x, int y, int wx, int hy );
- typedef void   (*MOD_CLOSE)( int   fref );
- typedef int    (*MOD_FGETS)( void *addr, int  nbyte, int  fref   );
- typedef int    (*MOD_OPEN) ( char *path, char *mode, int *nbyte  );
- typedef int    (*MOD_READ) ( void *addr, int  nbyte, int  fref   );
- typedef void   (*MOD_SEEK) ( int   fref, int offset, int  whence );
- typedef int    (*MOD_SKRD) ( int   fref, int d, int n, int *offs, void *addr );
+ typedef void      (*MOD_CLOSE)( fileref_t fref );
+ typedef int       (*MOD_FGETS)( void *addr, int  nbyte, fileref_t fref   );
+ typedef fileref_t (*MOD_OPEN) ( void *input, char *mode, int *nbyte  );
+ typedef int       (*MOD_READ) ( void *addr, int  nbyte, fileref_t  fref   );
+ typedef void      (*MOD_SEEK) ( fileref_t fref, int offset, int  whence );
+ typedef int       (*MOD_SKRD) ( fileref_t fref, int d, int n, long *offs, void *addr );
 
- extern  void * scn_ntvbox  ( int   fref, int w, int h, int s,
+ extern  void * scn_ntvbox  ( fileref_t fref, int w, int h, int s,
                                           int x, int y, int wx, int hy );
- extern  void   scn_ntvclose( int   fref );
- extern  int    scn_ntvfgets( void *addr, int  nbyte, int  fref   );
- extern  int    scn_ntvopen ( char *path, char *mode, int *nbyte  );
- extern  int    scn_ntvread ( void *addr, int  nbyte, int  fref   );
- extern  void   scn_ntvseek ( int   fref, int offset, int  whence );
- extern  int    scn_ntvskrd ( int   fref, int d, int n, int *offs, void *addr );
+ extern  void        scn_ntvclose( fileref_t fref );
+ extern  int         scn_ntvfgets( void *addr, int  nbyte, fileref_t  fref   );
+ extern  fileref_t   scn_ntvopen ( void *input, char *mode, int *nbyte  );
+ extern  int         scn_ntvread ( void *addr, int  nbyte, fileref_t  fref   );
+ extern  void        scn_ntvseek ( fileref_t fref, int offset, int  whence );
+ extern  int         scn_ntvskrd ( fileref_t fref, int d, int n, long *offs, void *addr );
 
- static  MOD_BOX   mod_box   = scn_ntvbox;
- static  MOD_CLOSE mod_close = scn_ntvclose;
- static  MOD_FGETS mod_fgets = scn_ntvfgets;
- static  MOD_OPEN  mod_open  = scn_ntvopen;
- static  MOD_READ  mod_read  = scn_ntvread;
- static  MOD_SEEK  mod_seek  = scn_ntvseek;
- static  MOD_SKRD  mod_skrd  = scn_ntvskrd;
+ static  MOD_BOX     mod_box   = scn_ntvbox;
+ static  MOD_CLOSE   mod_close = scn_ntvclose;
+ static  MOD_FGETS   mod_fgets = scn_ntvfgets;
+ static  MOD_OPEN    mod_open  = scn_ntvopen;
+ static  MOD_READ    mod_read  = scn_ntvread;
+ static  MOD_SEEK    mod_seek  = scn_ntvseek;
+ static  MOD_SKRD    mod_skrd  = scn_ntvskrd;
 
 
 /*
@@ -101,26 +101,26 @@
  *  object    :  THESE MODULES ARE DISPATCH FOR OVERALL PORTABILITY
  */
 
- extern void * scn_box   ( int fref, int w, int h, int s,
+ extern void * scn_box   ( fileref_t fref, int w, int h, int s,
                                      int x, int y, int wx, int hy )
                          { return( (*mod_box)(fref,w,h,s,x,y,wx,hy) ); }
 
- extern void   scn_close ( int fref ) 
+ extern void   scn_close ( fileref_t fref ) 
                          { (*mod_close)(fref); }
 
- extern int    scn_fgets ( void *addr, int nbyte, int fref )
+ extern int    scn_fgets ( void * addr, int nbyte, fileref_t fref )
                          { return( (*mod_fgets)( addr, nbyte, fref ) ); }
 
- extern int    scn_open  ( char *path, char *mode, int *nbyte )
-                         { return( (*mod_open)( path, mode, nbyte ) ); }
+ extern fileref_t scn_open ( void *addr, char *mode, int *nbyte )
+                         { return( (*mod_open)( addr, mode, nbyte ) ); }
 
- extern int    scn_read  ( void *addr, int nbyte, int fref )
+ extern int    scn_read  ( void *addr, int nbyte, fileref_t fref )
                          { return( (*mod_read)( addr, nbyte, fref ) ); }
 
- extern void   scn_seek  ( int fref, int offset, int  whence )
+ extern void   scn_seek  ( fileref_t fref, int offset, int  whence )
                          { (*mod_seek)( fref, offset, whence ); }
 
- extern int    scn_skrd  ( int   fref, int d, int n, int *offs, void *addr )
+ extern int    scn_skrd  ( fileref_t   fref, int d, int n, int64_t *offs, void *addr )
                          { return( (*mod_skrd)( fref, d, n, offs, addr ) ); }
 
 
@@ -140,14 +140,14 @@
  */
 
  extern void *
- scn_cltbox  ( int fref, int w, int h, int s,
+ scn_cltbox  ( fileref_t fref, int w, int h, int s,
                          int x, int y, int wx, int hy )
     {
     char     *buf;
     int       comm;
     int       nbyte;
     int       tot;
-    int       v[9];
+    int64_t   v[9];
     Clt_file *cf;
 
     tot = wx * hy *s;
@@ -177,11 +177,11 @@
     }
 
  extern void
- scn_cltclose( int fref ) 
+ scn_cltclose( fileref_t fref ) 
     {
     int       comm;
     void     *mm;
-    int       v[3];
+    int64_t   v[3];
     Clt_file *cf;
 
     cf   = (Clt_file *)fref;
@@ -194,16 +194,16 @@
     v[1] = fref;
     v[2] = SCN_EXIT;
 
-    (void) swrite( comm, (char *)v, 12 );
+    (void) swrite( comm, (char *)v, 24 );
 
     sclose( comm );
     }
 
  extern int
- scn_cltfgets ( void *addr, int nbyte, int fref )
+ scn_cltfgets ( void *addr, int nbyte, fileref_t fref )
     {
     int       comm;
-    int       v[3];
+    int64_t   v[3];
     Clt_file *cf;
 
     cf   = (Clt_file *)fref;
@@ -216,7 +216,7 @@
 
     if( nbyte > 1024 ) printf(" Error scn_cltfgets : nbyte > 1024\n");
 
-    if( swrite( comm, (char *)v,      12 ) < 0 ) return(0);
+    if( swrite( comm, (char *)v,      24 ) < 0 ) return(0);
 
     if( sread ( comm, (char *)&nbyte,  4 ) < 0 ) return(0);
 
@@ -248,16 +248,17 @@
     return(0);
     }
 
- extern int
- scn_cltopen ( char *path, char *mode, int *sz )
+ extern fileref_t 
+ scn_cltopen ( void *input, char *mode, int *sz )
     {
     char      trsmit[1024];
     int       comm;
-    int       fref;
+    fileref_t fref;
     int       siz;
     int       siz1;
     int       siz2;
     Clt_file *cf;
+    char      *path = (char *)input;
 
     cf = (Clt_file *) malloc ( sizeof(Clt_file) );
     if( cf == NULL ) return(0);
@@ -281,7 +282,7 @@
     strncpy(&trsmit[4],mode,siz2);
     if( swrite( comm, trsmit,    siz2+4 ) < 0){sclose(comm);free(cf);return(0);}
 
-    if( sread ( comm, (char *)&fref,  4 ) < 0){sclose(comm);free(cf);return(0);}
+    if( sread ( comm, (char *)&fref,  8 ) < 0){sclose(comm);free(cf);return(0);}
 
 /*
  *  file could not be open...
@@ -303,14 +304,14 @@
 /*
  *  everything all right
  */
-    return((int)cf);
+    return( (fileref_t)cf );
     }
 
  extern int
- scn_cltread ( void *addr, int nbyte, int fref )
+ scn_cltread ( void *addr, int nbyte, fileref_t fref )
     {
     int       comm;
-    int       v[3];
+    int64_t   v[3];
     Clt_file *cf;
 
     cf   = (Clt_file *)fref;
@@ -321,7 +322,7 @@
     v[1] = nbyte;
     v[2] = fref;
 
-    if( swrite( comm, (char *)v,      12 ) < 0 ) return(0);
+    if( swrite( comm, (char *)v,      24 ) < 0 ) return(0);
 
     if( sread ( comm, (char *)addr, nbyte) < 0 ) return(0);
     if( sread ( comm, (char *)&nbyte,  4 ) < 0 ) return(0);
@@ -330,10 +331,10 @@
     }
 
  extern void
- scn_cltseek ( int fref, int offset, int  whence )
+ scn_cltseek ( fileref_t fref, int offset, int  whence )
     {
     int       comm;
-    int       v[4];
+    int64_t   v[4];
     Clt_file *cf;
 
     cf   = (Clt_file *)fref;
@@ -344,14 +345,14 @@
     v[2] = offset;
     v[3] = whence;
 
-    if( swrite( comm, (char *)v, 16 ) < 0 ) return;
+    if( swrite( comm, (char *)v, 32 ) < 0 ) return;
     }
 
  extern int
- scn_cltskrd ( int fref, int d, int n, int *offset, void *addr )
+ scn_cltskrd ( fileref_t fref, int d, int n, int *offset, void *addr )
     {
     int       comm;
-    int       v[4];
+    int64_t   v[4];
     Clt_file *cf;
 
     cf   = (Clt_file *)fref;
@@ -362,7 +363,7 @@
     v[2] = d;
     v[3] = n;
 
-    if( swrite( comm, (char *)v,       16 ) < 0 ) return(0);
+    if( swrite( comm, (char *)v,       32 ) < 0 ) return(0);
     if( swrite( comm, (char *)offset, n*4 ) < 0 ) return(0);
 
     if( sread ( comm, (char *)addr,   n*d ) < 0 ) return(0);
@@ -388,7 +389,7 @@
  */
 
  extern void *
- scn_ntvbox( int fref, int w, int h, int s, int x, int y, int wx, int hy )
+ scn_ntvbox( fileref_t fref, int w, int h, int s, int x, int y, int wx, int hy )
     {
     char *b, *buf;
     int   incr,j;
@@ -417,40 +418,43 @@
     }
 
  extern void
- scn_ntvclose( int fref ) 
+ scn_ntvclose( fileref_t fref ) 
     { FILE *fp = (FILE *)fref; fclose(fp);  }
 
  extern int
- scn_ntvfgets( void *addr, int nbyte, int fref  )
+ scn_ntvfgets( void *addr, int nbyte, fileref_t fref  )
     { char *t; t=fgets((char *)addr,nbyte,(FILE *)fref); return(t==NULL ?0:nbyte); }
 
- extern int
- scn_ntvopen ( char *path, char *mode, int *sz )
+ extern fileref_t
+ scn_ntvopen ( void *input, char *mode, int *sz )
     {
     FILE *fp;
     struct stat buf;
+    char *path = (char *)input;
+    
     if( stat(path,&buf) != 0 ) return(0);
     *sz = (int) buf.st_size;
     fp = fopen(path,mode);
-    return( (int)fp );
+    return( (fileref_t)fp );
     }
 
  extern int
- scn_ntvread ( void *addr, int nbyte, int fref  )
+ scn_ntvread ( void *addr, int nbyte, fileref_t fref  )
     { return( fread( addr, 1, nbyte, (FILE *)fref ) ); }
 
  extern void
- scn_ntvseek ( int fref, int offset, int  whence )
+ scn_ntvseek ( fileref_t fref, int offset, int  whence )
     { fseek( (FILE *)fref, offset, whence ); }
 
  extern int
- scn_ntvskrd ( int fref, int d, int n, int *offset, void *addr )
+ scn_ntvskrd ( fileref_t fref, int d, int n, long *offset, void *addr )
     { int i,k;
+      FILE *fp = (FILE *)fref;
       char *p = (char *)addr;
       for( i=0; i<n; ++i)
          {
-         fseek( (FILE *)fref, offset[i], SEEK_SET );
-         k = fread( &p[i*d], 1, d, (FILE *)fref );
+         fseek( fp, offset[i], SEEK_SET );
+         k = fread( &p[i*d], 1, d, fp );
          if( k != d ) return(0);
          }
      return(n);
@@ -473,18 +477,18 @@
  */
 
  extern void *
- scn_srvbox  ( int fref, int w, int h, int s,
+ scn_srvbox  ( fileref_t fref, int w, int h, int s,
                          int x, int y, int wx, int hy )
     {
     char     *buf;
     int       comm;
     int       nbyte;
     int       tot;
-    int       v[8];
+    int64_t   v[8];
 
     comm = fref;
 
-    if( sread ( comm, (char *) v,     32 ) < 0 ) return(0);
+    if( sread ( comm, (char *) v,     64 ) < 0 ) return(0);
 
     if( scn_srvswap )
       {
@@ -523,28 +527,28 @@
     }
 
  extern void
- scn_srvclose( int fref ) 
+ scn_srvclose( fileref_t vcomm ) 
     {
-    int    comm;
+    fileref_t    fref;
+    int          comm = (int)vcomm;
 
-    comm = fref;
-
-    if( sread ( comm, (char *)&fref, 4 ) < 0 ) return; 
-    if( scn_srvswap )   swap_4(fref);
+    if( sread ( comm, (char *)&fref, 8 ) < 0 ) return; 
+    if( scn_srvswap )   swap_8x(fref);
 
     scn_ntvclose( fref );
     }
 
  extern int
- scn_srvfgets ( void *addr, int nbyte, int fref )
+ scn_srvfgets ( void *addr, int nbyte, fileref_t fref )
     {
-    char  buf[1024];
-    int   comm;
-    int   v[2];
+    char     buf[1024];
+    int      comm;
+    int64_t  v[2], i64;
 
-    comm = (int)addr;
+    i64 = (int64_t)addr;
+    comm = i64 & 0xffffffff;
 
-    if( sread ( comm, (char *)v, 8 ) < 0 ) return(0); 
+    if( sread ( comm, (char *)v, 16 ) < 0 ) return(0); 
     if( scn_srvswap )
       {
       swap_4(v[0]);
@@ -564,14 +568,14 @@
     return(nbyte);
     }
 
- extern int
- scn_srvopen ( char *path, char *mode, int *sz )
+ extern fileref_t
+ scn_srvopen ( void *input, char *mode, int *sz )
     {
-    char   pth[256];
-    char   mde[256];
-    int    v[2];
-    int    comm;
-    int    fref;
+    char       pth[256];
+    char       mde[256];
+    int64_t    v[2], v64;
+    int        comm;
+    fileref_t  fref;
     int    siz;
 
 #ifdef HP
@@ -579,7 +583,8 @@
     *sz  = 0;   /* useless compiler warning shut up */
 #endif
 
-    comm = (int)path;
+    v64 = (int64_t)input;
+    comm = (int)v64 & 0xffffffff;
 
     if( sread ( comm, (char *)&siz,  4 ) < 0 ) return(0);
     if( scn_srvswap )   swap_4(siz);
@@ -606,7 +611,7 @@
     }
 
  extern int
- scn_srvread ( void *addr, int nbyte, int fref )
+ scn_srvread ( void *addr, int nbyte, fileref_t fref )
     {
     char buf[1024];
     int  comm;
@@ -614,11 +619,12 @@
     int  remain;
     int  ret;
     int  size;
-    int  v[2];
+    int64_t  v[2], i64;
 
-    comm = (int)addr;
+    i64 = (int64_t)addr;
+    comm = (int)i64 & 0xffffffff;
 
-    if( sread ( comm, (char *)v, 8 ) < 0 ) return(0); 
+    if( sread ( comm, (char *)v, 16 ) < 0 ) return(0); 
 
     if( scn_srvswap )
       {
@@ -650,14 +656,14 @@
     }
 
  extern void
- scn_srvseek ( int fref, int offset, int  whence )
+ scn_srvseek ( fileref_t fref, int offset, int  whence )
     {
-    int comm;
-    int v[3];
+    int64_t comm;
+    int64_t v[3];
 
     comm = fref;
 
-    if( sread( comm, (char *)v, 12 ) < 0 ) return;
+    if( sread( comm, (char *)v, 24 ) < 0 ) return;
 
     if( scn_srvswap )
       {
@@ -674,28 +680,28 @@
     }
 
  extern int
- scn_srvskrd ( int fref, int d, int n, int *offset, void *addr )
+ scn_srvskrd ( fileref_t fref, int d, int n, long *offset, void *addr )
     {
     int       i;
-    int       comm;
-    int       v[4];
+    int64_t   comm;
+    int64_t   v[4];
 
     comm = fref;
 
-    if( sread( comm, (char *)v, 12 ) < 0 ) return(0);
+    if( sread( comm, (char *)v, 24 ) < 0 ) return(0);
 
     if( scn_srvswap )
       {
-      swap_4(v[0]);
-      swap_4(v[1]);
-      swap_4(v[2]);
+      swap_8x(v[0]);
+      swap_8x(v[1]);
+      swap_8x(v[2]);
       }
 
     fref   = v[0];
     d      = v[1];
     n      = v[2];
 
-    offset = (int *)  malloc ( n * sizeof(int) );
+    offset = (long *)  malloc ( n * sizeof(long) );
     addr   = (void *) malloc ( n * d );
 
     if( sread( comm, (char *)offset, n*4 ) < 0 )
@@ -704,7 +710,7 @@
     if( scn_srvswap )
       {
       for( i=0; i<n; ++i )
-         { swap_4(offset[i]); }
+         { swap_8(offset[i]); }
       }
 
     i = scn_ntvskrd( fref, d, n, offset, addr );
@@ -851,19 +857,19 @@
             case SCN_CLOSE : scn_close( comm );
                              break;
 
-            case SCN_FGETS : scn_fgets((char *)comm, 0, 0 );
+            case SCN_FGETS : scn_fgets( (void *)((int64_t)comm), 0, 0 );
                              break;
 
-            case SCN_OPEN  : scn_open((char *)comm, (char *)NULL, (int *)NULL);
+            case SCN_OPEN  : scn_open( (void *)((int64_t)comm), (char *)NULL, (int *)NULL);
                              break;
 
-            case SCN_READ  : scn_read((char *)comm, 0, 0 );
+            case SCN_READ  : scn_read( (void *)((int64_t)comm), 0, 0 );
                              break;
 
             case SCN_SEEK  : scn_seek( comm, 0, 0 );
                              break;
 
-            case SCN_SKRD  : scn_skrd( comm, 0, 0, (int *)NULL, (char *)NULL );
+            case SCN_SKRD  : scn_skrd( comm, 0, 0, (int64_t *)NULL, (char *)NULL );
                              break;
 
             case SCN_EXIT  : fin = 1;

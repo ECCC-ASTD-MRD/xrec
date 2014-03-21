@@ -19,6 +19,7 @@
 #define include_SCNIO
 
 #include "declare.h"
+#include <sys/types.h>
 
  __BEGIN_DECLS
 
@@ -26,15 +27,17 @@
 #define SCN_CLIENT 1
 #define SCN_SERVER 2
 
- extern void * scn_box  ( int   fref, int w, int h, int s,
+typedef  int64_t  fileref_t ;
+
+ extern void *     scn_box  ( fileref_t fref, int w, int h, int s,
                                       int x, int y, int wx, int hy );
- extern void   scn_close( int   fref  );
- extern int    scn_fgets( void *addr, int  nbyte, int  fref   );
- extern int    scn_open ( char *path, char *mode, int *sz     );
- extern int    scn_read ( void *addr, int  nbyte, int  fref   );
- extern void   scn_seek ( int   fref, int offset, int  whence );
- extern int    scn_skrd ( int   fref, int  n, int sz, int *offs, void *buf );
- extern void   scn_type ( int   type, char *str );
+ extern void       scn_close( fileref_t fref  );
+ extern int        scn_fgets( void *addr, int  nbyte, fileref_t  fref   );
+ extern fileref_t  scn_open ( void *addr, char *mode, int *sz     );
+ extern int        scn_read ( void *addr, int  nbyte, fileref_t  fref   );
+ extern void       scn_seek ( fileref_t fref, int offset, int  whence );
+ extern int        scn_skrd ( fileref_t fref, int  n, int sz, int64_t *offs, void *buf );
+ extern void       scn_type ( int   type, char *str );
 
  __END_DECLS
 

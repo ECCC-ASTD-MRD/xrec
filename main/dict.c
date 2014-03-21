@@ -312,10 +312,10 @@ void f77name(initvar)(char nomVar[], char idVar[], char unitesVar[], char palett
 
    char tmp_nomvar[16], tmp_idvar[96], tmp_unitesvar[64], tmp_palettevar[64];
    
-   memset(tmp_nomvar, (int)NULL, 16);
-   memset(tmp_idvar, (int)NULL, 96);
-   memset(tmp_unitesvar, (int)NULL, 64);
-   memset(tmp_palettevar, (int)NULL, 64);
+   memset(tmp_nomvar, '\000', 16);
+   memset(tmp_idvar, '\000', 96);
+   memset(tmp_unitesvar, '\000', 64);
+   memset(tmp_palettevar, '\000', 64);
    
    strncpy(tmp_nomvar, nomVar, nomVarLen);
    strncpy(tmp_idvar, idVar, idVarLen);

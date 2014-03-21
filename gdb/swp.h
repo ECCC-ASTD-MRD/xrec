@@ -20,7 +20,7 @@
 
 #ifndef include_MSWAP
 #define include_MSWAP
-     
+ 
  static unsigned long  mswap_ul  = 1;
  static unsigned char *mswap_uc  = (unsigned char *)&mswap_ul;
  static unsigned long *mswap_ptr = &mswap_ul;
@@ -30,21 +30,18 @@
 
 #define SWAP_IS      mswap_uc[0]
 
-#define swap_2(x)    x = (x & 0xff) <<  8 \
-                         | (x >>  8  & 0xff ) 
 
-#define swap_4(x)    x = (x & 0xff)     << 24 \
-                         | (x & 0xff00)   <<  8 \
-                         | (x & 0xff0000) >>  8 \
-                         | (x >> 24 & 0xff ) 
 
-#define swap_4x(x)   { mswap_ptr = (unsigned long *)&x; swap_4(*mswap_ptr);}
+#define swap_8(x)    swp_swap8(&(x))
+#define swap_8x(x)   swp_swap8(&(x))
+#define swap_2(x)    swp_swap2(&(x))
+#define swap_4(x)    swp_swap4(&(x))
+#define swap_4x(x)   swp_swap4(&(x))
 
-#define swap_8x(x)   { mswap_ptr = (unsigned long *)&x; \
-                         swap_4(mswap_ptr[0]);          \
-                         swap_4(mswap_ptr[1]);          \
-                         mswap_ptr[0]^=mswap_ptr[1];      \
-                         mswap_ptr[1]^=mswap_ptr[0];      \
-                         mswap_ptr[0]^=mswap_ptr[1]; }
+extern void swp_swap8   ( void *ptr );
+extern void swp_swap4   ( void *ptr );
+extern void swp_swap2   ( void *ptr );
 
+
+ 
 #endif /* include_MSWAP */

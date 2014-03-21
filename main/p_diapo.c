@@ -635,6 +635,7 @@ void PdAllouerRessourcesImage()
 void PdDesallouerRessourcesImage()
 {
   XFreePixmap(wglDisp, bgPix);
-  bgPix = (int) NULL;
+//  bgPix = (int) NULL;
+  bgPix = (int) None;
 
 }

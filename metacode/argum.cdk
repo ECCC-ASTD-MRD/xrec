@@ -1,0 +1,5 @@
+      INTEGER        X1, Y1, LARG, WRAST, BASE, UMIN, UMAX, VMIN,
+     +               X2, Y2, VMAX, MODE
+      COMMON /ARGUM/ X1, Y1, LARG, WRAST, BASE, UMIN, UMAX, VMIN,
+     +               X2, Y2, VMAX, MODE
+

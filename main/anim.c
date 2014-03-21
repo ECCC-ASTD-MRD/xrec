@@ -585,10 +585,12 @@ void LibererImages()
   for (i=0; i < animInfo.nbImages; i++)
       {
       animInfo.flagsImagesChargees[i] = FALSE;
-      if (animInfo.pixmaps[i] != NULL)
+//      if (animInfo.pixmaps[i] != NULL)
+      if (animInfo.pixmaps[i] != None)
   {
   XFreePixmap(wglDisp, animInfo.pixmaps[i]);
-  animInfo.pixmaps[i] = NULL;
+//  animInfo.pixmaps[i] = NULL;
+  animInfo.pixmaps[i] = None;
   }
       }
 
@@ -623,8 +625,10 @@ int AllouerImages()
   for (j=0; j <= i; j++)
       {
       XFreePixmap(wglDisp, animInfo.pixmaps[j]);
-      animInfo.pixmaps[j] = NULL;
-      animInfo.flagsImagesChargees[j] = NULL;
+//      animInfo.pixmaps[j] = NULL;
+//      animInfo.flagsImagesChargees[j] = NULL;
+      animInfo.pixmaps[j] = None;
+      animInfo.flagsImagesChargees[j] = None;
       }
   wglWin = c_wglgacw();
   XResizeWindow(wglDisp,wglWin,nouvelleLargeur,nouvelleHauteur);

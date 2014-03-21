@@ -1,0 +1,2 @@
+#!/bin/bash
+for i in *  ; do cmp $i /users/dor/armn/lib/utils/graph/trames/trunk/$i >/dev/null 2>/dev/null || echo $i different ; done | grep -v 'DIFF diff'

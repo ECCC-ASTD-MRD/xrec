@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglgetcmap(int *colormap)
+int x_wglgetcmap(unsigned int *colormap)
 {
 
   if (8 < x_wglgpl())

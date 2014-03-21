@@ -146,7 +146,8 @@ typedef struct
   int (*wglgci)(void);
   int (*wglgco)(int indCol, int *red, int *green, int *blue);
   int (*wglgdbg)(void);
-  int (*wglgetcmap)(unsigned long *colormap);
+//  int (*wglgetcmap)(unsigned long *colormap);
+  int (*wglgetcmap)(int *colormap);
   int (*wglgld)(void);
   int (*wglglpti)(int *ix, int *iy);
   int (*wglglw)(void);
