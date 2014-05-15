@@ -173,13 +173,13 @@ void hl_print (Hilo hilo[], int hlcount, float scale, int fore, int back)
    icent = 31;
    sprintf(str,"%c",hilo[i].symbol);
    len = strlen(str);
-   f77name(xpwrit)(&isym,&jsym,str,&len,&fontSize,&anott,&icent,len);
+   f77name(xpwrit)(&isym,&jsym,str,&len,&fontSize,&anott,&icent,(F2Cl) len);
 
    size=ROUND(0.6*fontSize);
    icent = 1;
    sprintf(str,"%s","*");
    len = strlen(str);
-   f77name(xpwrit)(&icen,&jcen,str,&len,&size,&anott,&icent,len);
+   f77name(xpwrit)(&icen,&jcen,str,&len,&size,&anott,&icent,(F2Cl) len);
 
    size=ROUND(0.6*fontSize);
    inum = ii+ROUND(0.5*size);
@@ -200,7 +200,7 @@ void hl_print (Hilo hilo[], int hlcount, float scale, int fore, int back)
       {
       inum=ii;
       }
-   f77name(xpwrit)(&inum,&jnum,str,&len,&size,&anott,&icent,len);
+   f77name(xpwrit)(&inum,&jnum,str,&len,&size,&anott,&icent,(F2Cl) len);
    }
       }
    set_vcar( bidon, FONTE, 0, 0);

@@ -456,7 +456,7 @@ void AnimerFramesAvecInterpolation(int nbFrames)
 
 /* -------------------------------------------------------------------------------------------------- */
 
-void f77name(messinf)(char *message, int lenMessage)
+void f77name(messinf)(char *message, F2Cl lenMessage)
 {
   message[lenMessage] = '\0';
   strclean(message);

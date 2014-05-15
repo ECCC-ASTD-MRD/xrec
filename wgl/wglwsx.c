@@ -22,7 +22,7 @@
 #include <wgl.h>
 #include <rpnmacros.h>
 
-float f77name(wglwsx)(char *string, int *stringLength, int ftnStringLength)
+float f77name(wglwsx)(char *string, int *stringLength, F2Cl ftnStringLength)
 {
    return c_wglwsx(string, *stringLength);
    }

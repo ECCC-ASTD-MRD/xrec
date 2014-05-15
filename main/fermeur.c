@@ -126,9 +126,10 @@ void XFileFermeur(char **listeFich, int *nbFich)
    
    }
 
-void f77name(xfcl)(char *listeFich, int *nfich, int lenFich)
+void f77name(xfcl)(char *listeFich, int *nfich, F2Cl flenFich)
 {
    int i;
+   int lenFich=flenFich;
 
    clsNbFich = *nfich;
    clsListeFich = (char **) calloc(*nfich, sizeof(char *));

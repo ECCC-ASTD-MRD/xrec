@@ -85,7 +85,7 @@ int  LireDictionnaireRMNLIB(_InfoChamps infoChamps[])
    
    fclose(fichierEntree);
 
-   f77name(rlx)(nomFichierDictionnaire, strlen(nomFichierDictionnaire));
+   f77name(rlx)(nomFichierDictionnaire, (F2Cl) strlen(nomFichierDictionnaire));
    
    return nbChampsDict;
    }
@@ -163,7 +163,7 @@ int  LireDictionnaireUsager(_InfoChamps infoChamps[])
       {
       fclose(fichierEntree);
       printf(messageDictPersonnel[lng], (char *)getenv("USER"));
-      f77name(rlx)(nomFichierDictionnaire, strlen(nomFichierDictionnaire));
+      f77name(rlx)(nomFichierDictionnaire, (F2Cl) strlen(nomFichierDictionnaire));
       }
 
    return nbChampsDict;
@@ -194,7 +194,7 @@ int LireStartRec()
       {
       fclose(fichierEntree);
       printf(messageDictPersonnel[lng], (char *)getenv("USER"));
-      f77name(rlx)(nomFichierDictionnaire, strlen(nomFichierDictionnaire));
+      f77name(rlx)(nomFichierDictionnaire, (F2Cl) strlen(nomFichierDictionnaire));
       }
 
    return nbChampsDict;
@@ -267,7 +267,7 @@ int AjouterNomVar(char *nomVar)
 **/
 
 
-void f77name(initvar)(char nomVar[], char idVar[], char unitesVar[], char paletteVar[], float *echelleVar,int *indDef,float  intVar[][24],int  *nbIntVar,int  nomVarLen, int idVarLen, int unitesVarLen, int paletteVarLen)
+void f77name(initvar)(char nomVar[], char idVar[], char unitesVar[], char paletteVar[], float *echelleVar,int *indDef,float  intVar[][24],int  *nbIntVar,F2Cl  nomVarLen, F2Cl idVarLen, F2Cl unitesVarLen, F2Cl paletteVarLen)
 {
    int i,j, indDict;
    int nbMenuItems;

@@ -262,11 +262,11 @@ void AfficherProfilCoupe(float xx, float yy)
    sprintf(titrey, "$");
    if ((champ->coordonneeVerticale == SIGMA || champ->coordonneeVerticale == HYBRIDE) && selectedVertCoord == PRES_VCOORD)
     {
-    f77name(setprof1)(&champ->coupe.niveauPresMin, &champ->coupe.niveauPresMax,&echelle,titrex,titrey, 0, 0);
+    f77name(setprof1)(&champ->coupe.niveauPresMin, &champ->coupe.niveauPresMax,&echelle,titrex,titrey, (F2Cl) 0,(F2Cl) 0);
     }
    else
     {
-    f77name(setprof1)(&champ->coupe.niveauMin, &champ->coupe.niveauMax,&echelle,titrex,titrey, 0, 0);
+    f77name(setprof1)(&champ->coupe.niveauMin, &champ->coupe.niveauMax,&echelle,titrex,titrey, (F2Cl) 0, (F2Cl) 0);
     }
 
    c_wglcol(NOIR);
@@ -287,7 +287,7 @@ void AfficherProfilCoupe(float xx, float yy)
     }
    else
     {*/
-     f77name(xezxy)(champ->coupe.fld2d, champ->coupe.niveauxCoupe, &zero, titre, 0);
+     f77name(xezxy)(champ->coupe.fld2d, champ->coupe.niveauxCoupe, &zero, titre, (F2Cl) 0);
 /*     } */
 
    c_wgllwi(1);

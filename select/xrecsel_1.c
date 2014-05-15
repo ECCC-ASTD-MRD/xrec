@@ -2792,17 +2792,18 @@ wordint table[][3];
  ************************************************************
  **/
 
-f77name(xseloup)(titre, nbrecs, idents, nbdes, indSel, typeSel, lenNomFich, lenIdents)
+f77name(xseloup)(titre, nbrecs, idents, nbdes, indSel, typeSel, flenNomFich, flenIdents)
 char *titre;     /* Le titre de la fenetre. */
 wordint  *nbrecs;
 char  idents[];
 wordint  *nbdes;
 wordint  *indSel;    /* no du window: wi */
 wordint  *typeSel;
-wordint   lenNomFich;
-wordint   lenIdents; /* longueur du titre et de la table  */
+F2Cl   flenNomFich;
+F2Cl   flenIdents; /* longueur du titre et de la table  */
 {
    
+   int lenNomFich=flenNomFich, lenIdents=flenIdents;
    wordint  i,j,k;
    char tmp;
    char **identsMenus;
@@ -2886,7 +2887,7 @@ VALEUR RETOURNEE:      0
 
 ------------------------------------------------------------------------------*/
 
-wordint f77name(xselfer)(sel, nbsel, idents, table, m, n, indsel, len)
+wordint f77name(xselfer)(sel, nbsel, idents, table, m, n, indsel, flen)
 
 wordint     sel[];
 wordint     *nbsel;
@@ -2894,8 +2895,9 @@ char    idents[];
 wordint     table[][3];
 wordint     *m, *n;
 wordint     *indsel;
-wordint     len;
+F2Cl        flen;
 {
+   int len=flen;
    wordint  i, j, k;
    char **identsMenus;
 
@@ -2943,7 +2945,7 @@ wordint f77name(xselupd)()
    }
 
 
-wordint f77name(xselouv)(titre, sel, nbsel, idents, table, m, n, indsel, lenTitre, lenIdents)
+wordint f77name(xselouv)(titre, sel, nbsel, idents, table, m, n, indsel, flenTitre, flenIdents)
 
 char *titre;     /* Le titre de la fenetre. */
 wordint  sel[];
@@ -2952,9 +2954,10 @@ char idents[];
 wordint  table[][3]; /* tableau contenant les noms des fichiers resources. */
 wordint  *m, *n;
 wordint  *indsel;    /* no du window: wi */
-wordint  lenTitre;
-wordint  lenIdents; /* longueur du titre et de la table  */
+F2Cl     flenTitre;
+F2Cl     flenIdents; /* longueur du titre et de la table  */
 {
+   int   lenTitre=flenTitre, lenIdents=flenIdents;
    wordint  i,j,k;
    char tmp;
    char **identsMenus;
@@ -3185,11 +3188,13 @@ caddr_t unused1, unused2;
 *************************
 ***/
 
-f77name(xselopt)(indSelecteur, option, valeur, lenOption, lenValeur)
+f77name(xselopt)(indSelecteur, option, valeur, flenOption, flenValeur)
 wordint *indSelecteur;
 char option[], valeur[];
-wordint lenOption, lenValeur;
+F2Cl flenOption, flenValeur;
 {
+   int lenOption=flenOption, lenValeur=flenValeur;
+   
    option[lenOption-1] = '\0';
    valeur[lenValeur-1] = '\0';
    NettoyerString(option);

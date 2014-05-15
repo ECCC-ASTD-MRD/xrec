@@ -24,7 +24,8 @@
 
 float f77name(wglasx)(string, stringLength, ftnStringLength)
 char *string;
-int *stringLength, ftnStringLength;
+int *stringLength;
+F2Cl ftnStringLength;
 {
    return c_wglasx(string, *stringLength);
    }

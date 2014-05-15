@@ -437,8 +437,10 @@ void DesactiverPanneauMinMax()
    }
 
 
-void f77name(c_sminmaxatr)(char item[],char valeur[], int lenItem, int lenValeur) 
+void f77name(c_sminmaxatr)(char item[],char valeur[], F2Cl flenItem, F2Cl flenValeur) 
 {
+   int lenItem=flenItem, lenValeur=flenValeur;
+   
    item[lenItem-1] = '\0';
    valeur[lenValeur-1] = '\0';
    nettoyer(item);

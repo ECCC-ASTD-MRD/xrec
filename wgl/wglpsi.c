@@ -23,13 +23,13 @@
 #include <rpnmacros.h>
 
 void f77name(wglpsi)(int *i, int *j, char *string, int *stringLength, int *size, 
-		     int *orient, int *codeCentrage, int ftnStringLength);
+		     int *orient, int *codeCentrage, F2Cl ftnStringLength);
 int c_wglpsi(int i, int j, char *string, int stringLength, int size, int orient, int codeCentrage);
 
 /* ----------------------------------------------------------------------------------------- */
 
 void f77name(wglpsi)(int *i, int *j, char *string, int *stringLength, 
-		     int *size, int *orient, int *codeCentrage, int ftnStringLength)
+		     int *size, int *orient, int *codeCentrage, F2Cl ftnStringLength)
 {
   c_wglpsi(*i, *j, string, *stringLength, *size, *orient, *codeCentrage);
 }

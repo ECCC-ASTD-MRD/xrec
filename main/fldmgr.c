@@ -62,7 +62,7 @@ static char *lectureVents3D[] = {"Lecture: UU-VV-WW-%s-%4d-%3d-%s-%s",
           "Reading: UU-VV-WW-%s-%4d-%3d-%s-%s" };
 /* -------------------------------------------------------------------------------------------------- */
 
-int f77name(read_decode_hyb)(int *iun,char nom[],int *ip2,int *ip3, char etik[],int *date, float *ptop,float *pref,float *rcoef, int len_nom, int len_etiket);
+int f77name(read_decode_hyb)(int *iun,char nom[],int *ip2,int *ip3, char etik[],int *date, float *ptop,float *pref,float *rcoef, F2Cl len_nom, F2Cl len_etiket);
 
 int  c_fstinlo(int iun, int *ni, int *nj, int *nk, int date, char etiket[], int ip1, int ip2, int ip3, char typvar[], char nomvar[], int listeCles[], int *nbCles, int nbMaxCles)
 {
@@ -929,7 +929,7 @@ int FldMgrLoadVerticalXSection()
           tmpchamp.iun = fmflds[n].iun;
           tmpchamp.travailEnCours = COUPE;
           FldMgrGetFstPrm(&tmpchamp);
-          f77name(convip)(&tmpchamp.ip1, &fmflds[n].coupe.niveauxCoupe[i], &kind, &versPression, NULL, &faux);
+          f77name(convip)(&tmpchamp.ip1, &fmflds[n].coupe.niveauxCoupe[i], &kind, &versPression, NULL, &faux,(F2Cl) 0);
           }
         }
       }
@@ -1970,7 +1970,7 @@ int *nbCles;
       {
       tmp[i].cle = listeCles[i];
       FldMgrGetFstPrm(&tmp[i]);
-      f77name(convip) (&(tmp[i].ip1), &(tmp[i].niveau), &kind, &versPression, NULL, &faux);
+      f77name(convip) (&(tmp[i].ip1), &(tmp[i].niveau), &kind, &versPression, NULL, &faux,(F2Cl) 0);
       }
 
   for (i=0; i < *nbCles; i++)
@@ -2080,7 +2080,7 @@ _Champ *champ;
     {
     stringNiveau[i] = '\0';
     }
-  f77name(f_convip)(&champ->ip1, &champ->niveau, &kind, &versPression, stringNiveau, &vrai, 15);
+  f77name(f_convip)(&champ->ip1, &champ->niveau, &kind, &versPression, stringNiveau, &vrai, (F2Cl) 15);
   champ->coordonneeVerticale = kind;
   nettoyer(stringNiveau);
 
@@ -2246,7 +2246,7 @@ void FldMgrUpdateGridParams(_Champ *champ)
    switch(champ->domaine)
       {
       case XY:
-      f77name(chkgrid)(champ->fld, &champ->src.ni, &champ->src.nj, &champ->src.grtyp[0], &champ->src.ig2, 1);
+      f77name(chkgrid)(champ->fld, &champ->src.ni, &champ->src.nj, &champ->src.grtyp[0], &champ->src.ig2, (F2Cl) 1);
       if (GetGrilleSelectionnee() == 0)
          {
          if (HasGridChanged(champ->src.grtyp[0],champ->src.ni,champ->src.nj,champ->src.nk,
@@ -2427,7 +2427,7 @@ void FldMgrVerConsistanceNiveaux(_Champ champ, int listeCles[], int *nbCles)
   _Champ bidon;
 
   ivalide = 0;
-  f77name(convip)(&champ.ip1, &niveau, &kindref, &versPression, NULL, &faux);
+  f77name(convip)(&champ.ip1, &niveau, &kindref, &versPression, NULL, &faux, (F2Cl) 0);
 
   for (i=0; i < *nbCles; i++)
     {
@@ -2435,7 +2435,7 @@ void FldMgrVerConsistanceNiveaux(_Champ champ, int listeCles[], int *nbCles)
     FldMgrGetFstPrm(&bidon);
     if (champ.deet*champ.npas == bidon.deet*bidon.npas)
       {
-      f77name(convip)(&bidon.ip1, &niveau, &kind, &versPression, NULL, &faux);
+      f77name(convip)(&bidon.ip1, &niveau, &kind, &versPression, NULL, &faux, (F2Cl) 0);
       if (kindref == kind)
         {
         listeCles[ivalide] = listeCles[i];
@@ -3224,10 +3224,10 @@ void FldMgrLoad_HY(int indChamp)
   int moins1 = -1;
 
   FldMgrGetChamp(&champ, indChamp);
-  ier = f77name(read_decode_hyb)(&(champ->iun), nomvar, &(champ->ip2),&(champ->ip3) ,champ->etiket, &(champ->datev), &(champ->coupe.ptop), &(champ->coupe.pref), &(champ->coupe.rcoef), 8, 16);
+  ier = f77name(read_decode_hyb)(&(champ->iun), nomvar, &(champ->ip2),&(champ->ip3) ,champ->etiket, &(champ->datev), &(champ->coupe.ptop), &(champ->coupe.pref), &(champ->coupe.rcoef), (F2Cl) 8, (F2Cl) 16);
   if (ier < 0)
     {
-    ier2 = f77name(read_decode_hyb)(&(champ->iun), nomvar, &moins1,&moins1 ,champ->etiket, &(champ->datev), &(champ->coupe.ptop), &(champ->coupe.pref), &(champ->coupe.rcoef), 8, 16);
+    ier2 = f77name(read_decode_hyb)(&(champ->iun), nomvar, &moins1,&moins1 ,champ->etiket, &(champ->datev), &(champ->coupe.ptop), &(champ->coupe.pref), &(champ->coupe.rcoef), (F2Cl) 8, (F2Cl) 16);
     if (ier2 < 0)
       {
       champ->coupe.ptop = 0.;

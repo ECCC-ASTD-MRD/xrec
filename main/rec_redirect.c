@@ -9,9 +9,10 @@
 // Redirige stdio dans le fichier "nom_fichier"
 // Yves Chartier, mars 2014
 
-f77name(rec_redirect)(char *nom_fichier, int len)
+f77name(rec_redirect)(char *nom_fichier, F2Cl flen)
 {
 int i,bak, new;
+int len=flen;
 char nomfich[256];
 strcpy(nomfich, nom_fichier);
 i = len - 1;

@@ -282,7 +282,7 @@ XtCallbackProc PVentStart(Widget w, caddr_t unused1, caddr_t unused2)
   mapscl = (float *) malloc(sizeof(float)*ni * nj);
   uu = (float *) malloc(sizeof(float)*ni * nj);
   vv = (float *) malloc(sizeof(float)*ni * nj);
-  f77name(cigaxg)(grtyp, &pi, &pj, &d60, &dgrw, &ig1, &ig2, &ig3, &ig4,1);
+  f77name(cigaxg)(grtyp, &pi, &pj, &d60, &dgrw, &ig1, &ig2, &ig3, &ig4,(F2Cl) 1);
   f77name(mscale)(mapscl,&d60,&pi,&pj,&ni,&nj);
 
   for (i=0; i < ni*nj; i++)
@@ -1066,9 +1066,10 @@ int WindMgrGetEchelleWW()
   return echelleWW;
 }
 
-void f77name(c_swndatr)( char item[], char valeur[], int lenItem, int lenValeur)
+void f77name(c_swndatr)( char item[], char valeur[], F2Cl flenItem, F2Cl flenValeur)
 {
-
+  int lenItem=flenItem, lenValeur=flenValeur;
+  
   item[lenItem-1] = '\0';
   valeur[lenValeur-1] = '\0';
   nettoyer(item);

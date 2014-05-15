@@ -22,10 +22,10 @@
 #include <wgl.h>
 #include <rpnmacros.h>
 
-int f77name(wglasi)(char *string, int *stringLength,  int ftnStringLength);
+int f77name(wglasi)(char *string, int *stringLength,  F2Cl ftnStringLength);
 int  c_wglasi(char *string,int stringLength);
 
-int f77name(wglasi)(char *string, int *stringLength, int ftnStringLength)
+int f77name(wglasi)(char *string, int *stringLength, F2Cl ftnStringLength)
 {
    return c_wglasi(string, *stringLength);
    }

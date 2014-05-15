@@ -186,7 +186,7 @@ int fore;
 	 icent = 1;
 	 sprintf(str,"%s","^");
 	 len = strlen(str);
-	 f77name(xpwrit)(&icen,&jcen,str,&len,&size,&anott,&icent,len);
+	 f77name(xpwrit)(&icen,&jcen,str,&len,&size,&anott,&icent,(F2Cl) len);
 	 
 	 size=ROUND(0.6*fontSize);
 	 inum = ii+ROUND(0.5*size);
@@ -208,7 +208,7 @@ int fore;
 	    {
 	    inum=ii;
 	    }
-	 f77name(xpwrit)(&inum,&jnum,str,&len,&size,&anott,&icent,len);
+	 f77name(xpwrit)(&inum,&jnum,str,&len,&size,&anott,&icent,(F2Cl) len);
 	 }
       }
    set_vcar( FONTE, 3, 0);

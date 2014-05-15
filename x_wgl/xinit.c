@@ -46,11 +46,12 @@ static char *defaultResourceDir = NULL;
 ************************************************************
 **/
 
-int f77name(xinit)(nomApplication, lenNomApplication)
+int f77name(xinit)(nomApplication, flen)
 char nomApplication[];
-int  lenNomApplication;
+F2Cl flen;
 {
    char copieNomApplication[256];
+   int  lenNomApplicationi=flen;
    
    strncpy(copieNomApplication, nomApplication, lenNomApplication);
    copieNomApplication[lenNomApplication] = '\0';

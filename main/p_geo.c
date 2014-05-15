@@ -638,7 +638,7 @@ XtCallbackProc PgEpaisseur(Widget w, caddr_t unused1, caddr_t unused2)
    }
 
 
-void f77name(c_sgeoatr)(char item[],char valeur[], int lenItem, int lenValeur)
+void f77name(c_sgeoatr)(char item[],char valeur[], F2Cl lenItem, F2Cl lenValeur)
 {
 
    }

@@ -82,15 +82,16 @@ char *bidon = NULL;
  *
  */
 
- int f77name(xbndlset) ( xoptn, iopval, n, nbdl, len )
+ int f77name(xbndlset) ( xoptn, iopval, n, nbdl, flen )
  char *xoptn;
  int  *iopval;
  int  *n;
  int  *nbdl;
- int  len;
+ F2Cl flen;
      {
      char *ptr = xoptn;
      int i;
+     int len=flen;
 
      nvals[*nbdl] = *n;
 
@@ -125,7 +126,7 @@ char *bidon = NULL;
      int i;
 
      for( i = 0 ; i < nvals[*nbdl] ; i ++ )
-        f77name(xop1set)( bdoptn[*nbdl][i], &bdvals[*nbdl][i], 9 );
+        f77name(xop1set)( bdoptn[*nbdl][i], &bdvals[*nbdl][i], (F2Cl) 9 );
 
      }
 
@@ -266,14 +267,15 @@ int  *i,  *j;
  *
  */
 
- f77name(xop1get)( xoptn, iopval, len )
+ f77name(xop1get)( xoptn, iopval, flen )
  char *xoptn;
  int  *iopval;
- int  len;
+ F2Cl flen;
      {
      char  dup[3];
      char  *ptr;
      int   ipos;
+     int   len=flen;
 
 /*
  *  l'option est dupliquee parce que en fortan il n'y a pas de \0 a la fin
@@ -346,14 +348,15 @@ int  *i,  *j;
  *
  */
 
- f77name(xop1set)( xoptn, iopval, len )
+ f77name(xop1set)( xoptn, iopval, flen )
  char *xoptn;
  int  *iopval;
- int  len;
+ F2Cl flen;
      {
      char  dup[3];
      char  *ptr;
      int   ipos;
+     int   len=flen;
 
 /*
  *  l'option est dupliquee parce que en fortan il n'y a pas de \0 a la fin
@@ -426,17 +429,18 @@ int  *i,  *j;
  *
  */
 
- f77name(xopnget)( xoptn, iopval, n, len )
+ f77name(xopnget)( xoptn, iopval, n, flen )
  char *xoptn;
  int  *iopval;
  int  *n;
- int  len;
+ F2Cl flen;
      {
      char *ptr = xoptn;
      int i;
+     int len=flen;
 
      for( i=0; i<*n; ptr+=len, i++ )
-        f77name(xop1get)( ptr, &iopval[i], len );
+        f77name(xop1get)( ptr, &iopval[i], flen );
 
      }
 
@@ -457,17 +461,18 @@ int  *i,  *j;
  *
  */
 
- f77name(xopnset)( xoptn, iopval, n, len )
+ f77name(xopnset)( xoptn, iopval, n, flen )
  char *xoptn;
  int  *iopval;
  int  *n;
- int  len;
+ F2Cl flen;
      {
      char *ptr = xoptn;
      int i;
+     int len=flen;
 
      for( i=0; i<*n; ptr+=len, i++ )
-        f77name(xop1set)( ptr, &iopval[i], len );
+        f77name(xop1set)( ptr, &iopval[i], flen );
 
      }
 
@@ -538,14 +543,14 @@ int *i, *j, *flag;
  *
  */
 
- int f77name(xpwrs)( chr, nchr, icoded, len )
+ int f77name(xpwrs)( chr, nchr, icoded, flen )
  char *chr;
  int  *nchr;
  int  *icoded;
- int  len;
+ F2Cl flen;
      {
      float    delta;
-     int      angle, centre, haut, i, j;
+     int      angle, centre, haut, i, j, len;
      int      larg, nxt_x, nxt_y, ymiroir;
      PointP2 *mvec;
      Vcar    *mvcar;
@@ -693,11 +698,12 @@ int *i, *j, *flag;
 
 
 
-f77name(xpwrit)(ix, iy, chr, nchr, size, anott, icent, len)
+f77name(xpwrit)(ix, iy, chr, nchr, size, anott, icent, flen)
 int *ix, *iy;
 char chr[];
 int *nchr;
 int *size, *anott, *icent;
+F2Cl flen;
 {
    float *x, *y;
    int i,i1, j1;
@@ -705,6 +711,7 @@ int *size, *anott, *icent;
    int verite = 0;
    int longueur;
    int car, dimensionFonte;
+   int len=flen;
 
    int anot = 45;
 
@@ -746,5 +753,5 @@ int *size, *anott, *icent;
       }
 
    f77name(xplotit)(&i1, &j1, &verite);
-   f77name(xpwrs)(chr, nchr, &verite, 4);
+   f77name(xpwrs)(chr, nchr, &verite, (F2Cl) 4);
    }

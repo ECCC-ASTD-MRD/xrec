@@ -251,11 +251,11 @@ extern SuperWidgetStruct SuperWidget;           /* Le toplevel de l'application.
 /* Fonctions appeles de l'exterieur de xselectstd. */
 
 wordint f77name(xselact)(wordint sel[], wordint *nbsel, wordint *indsel);
-wordint f77name(xselfer)(wordint sel[], wordint *nbsel, char idents[], wordint table[][3], wordint *m, wordint *n, wordint     *indsel, wordint len);
-wordint f77name(xselins)(char *tableau, wordint table[][3], wordint *nbrecs); 
-wordint f77name(xselopt)(wordint *indSelecteur, char option[], char valeur[], wordint lenOption, wordint lenValeur);
+wordint f77name(xselfer)(wordint sel[], wordint *nbsel, char idents[], wordint table[][3], wordint *m, wordint *n, wordint     *indsel, F2Cl len);
+wordint f77name(xselins)(char *tableau, wordint table[][3], wordint *nbrecs, F2Cl lentableau); 
+wordint f77name(xselopt)(wordint *indSelecteur, char option[], char valeur[], F2Cl lenOption, F2Cl lenValeur);
 wordint f77name(xselouf)(wordint table[][3], wordint *nbrecs);
-wordint f77name(xseloup)(char *titre, wordint  *nbrecs, char idents[], wordint *nbdes, wordint *indSel, wordint *typeSel, wordint lenNomFich, wordint lenIdents);
+wordint f77name(xseloup)(char *titre, wordint  *nbrecs, char idents[], wordint *nbdes, wordint *indSel, wordint *typeSel, F2Cl lenNomFich, F2Cl lenIdents);
 wordint f77name(xselupd)();
 wordint f77name(xseldim)();
 wordint f77name(xselundim)();
@@ -2640,10 +2640,11 @@ CalculerLargeurMenus(wordint largeurMenus[], wordint table[][3])
  ************************************************************
  **/
 
-f77name(xseloup)(char *titre, wordint  *nbrecs, char idents[], wordint *nbdes, wordint *indSel, wordint *typeSel, wordint lenNomFich, wordint lenIdents)
+f77name(xseloup)(char *titre, wordint  *nbrecs, char idents[], wordint *nbdes, wordint *indSel, wordint *typeSel, F2Cl flenNomFich, F2Cl flenIdents)
 {
    
    wordint  i,j,k;
+   int lenNomFich=flenNomFich, lenIdents=flenIdents;
    char tmp;
    char **identsMenus;
    
@@ -2721,9 +2722,10 @@ VALEUR RETOURNEE:      0
 
 ------------------------------------------------------------------------------*/
 
-wordint f77name(xselfer)(wordint sel[], wordint *nbsel, char idents[], wordint table[][3], wordint *m, wordint *n, wordint     *indsel, wordint len)
+wordint f77name(xselfer)(wordint sel[], wordint *nbsel, char idents[], wordint table[][3], wordint *m, wordint *n, wordint     *indsel, F2Cl flen)
 {
    wordint  i, j, k;
+   int len=flen;
    char **identsMenus;
 
    identsMenus = (char **) calloc(*n, sizeof(char *));
@@ -2962,8 +2964,10 @@ static XtCallbackProc FermerSelecteur(Widget w, caddr_t unused1, caddr_t unused2
 *************************
 ***/
 
-f77name(xselopt)(wordint *indSelecteur, char option[], char valeur[], wordint lenOption, wordint lenValeur)
+f77name(xselopt)(wordint *indSelecteur, char option[], char valeur[], F2Cl flenOption, F2Cl flenValeur)
 {
+   int lenOption=flenOption, lenValeur=flenValeur;
+   
    option[lenOption-1] = '\0';
    valeur[lenValeur-1] = '\0';
    NettoyerString(option);

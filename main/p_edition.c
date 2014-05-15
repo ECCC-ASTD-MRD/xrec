@@ -441,7 +441,7 @@ XtCallbackProc PeEditerValeurs(Widget w, caddr_t clientData, caddr_t  callData)
       {
       f77name(souris)(&bouton, &event, 
 	      &x0, &y0, &xsize, &ysize, 
-	      &x1, &y1, &x2, &y2, TitreMenu, &nbMenus, 80);
+	      &x1, &y1, &x2, &y2, TitreMenu, &nbMenus, (F2Cl) 80);
       
       if (x2 < x1)
 	 {
@@ -737,7 +737,7 @@ XtCallbackProc PeEnregistrer(Widget w, caddr_t clientData, caddr_t  callData)
    FldMgrGetChamp(&champ, 0);
    
    lng = c_getulng();
-   f77name(rtnozsrt)(nomFich, 1024);
+   f77name(rtnozsrt)(nomFich, (F2Cl) 1024);
 
    i = 0;
    while (!(isspace((int)nomFich[i])))

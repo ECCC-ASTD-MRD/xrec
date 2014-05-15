@@ -41,9 +41,9 @@ int LireDictionnaireUsager(_InfoChamps infoChamps[]);
 int LireStartRec();
 int ChercherNomVar(char *nomVar);
 int AjouterNomVar(char *nomVar);
-void f77name(initvar)(char nomVar[], char idVar[], char unitesVar[], char paletteVar[], float *echelleVar,int *indDef,float  intVar[][24],int   *nbIntVar,int   nomVarLen, int idVarLen, int unitesVarLen, int paletteVarLen);
+void f77name(initvar)(char nomVar[], char idVar[], char unitesVar[], char paletteVar[], float *echelleVar,int *indDef,float  intVar[][24],int   *nbIntVar,F2Cl nomVarLen, F2Cl idVarLen, F2Cl unitesVarLen, F2Cl paletteVarLen);
 void nettoyer(char chaine[]);
-void f77name(rlx)(char nomFichierDictionnaire[], int longueur);
+void f77name(rlx)(char nomFichierDictionnaire[], F2Cl longueur);
 void DictMgrGetIdentifVar(char identifVar[], int indDict);
 void DictMgrGetUnitesVar(char unitesVar[], int indDict);
 void DictMgrGetPaletteVar(char paletteVar[], int indDict);
@@ -114,7 +114,7 @@ int LireDictionnaireRMNLIB(_InfoChamps infoChamps[])
    fclose(fichierEntree);
    len = strlen(nomFichierDictionnaire);
 
-   f77name(rlx)(nomFichierDictionnaire, len);
+   f77name(rlx)(nomFichierDictionnaire, (F2Cl) len);
    
    return nbChampsDict;
    }
@@ -196,7 +196,7 @@ int LireDictionnaireUsager(_InfoChamps infoChamps[])
       {
       fclose(fichierEntree);
       printf(messageDictPersonnel[lng], (char *)getenv("USER"));
-      f77name(rlx)(nomFichierDictionnaire, strlen(nomFichierDictionnaire));
+      f77name(rlx)(nomFichierDictionnaire, (F2Cl) strlen(nomFichierDictionnaire));
       }
 
    return nbChampsDict;
@@ -305,7 +305,7 @@ int AjouterNomVar(char *nomVar)
 **/
 
 
-void f77name(initvar)(char nomVar[], char idVar[], char unitesVar[], char paletteVar[], float *echelleVar,int *indDef,float  intVar[][24],int   *nbIntVar,int   nomVarLen, int idVarLen, int unitesVarLen, int paletteVarLen)
+void f77name(initvar)(char nomVar[], char idVar[], char unitesVar[], char paletteVar[], float *echelleVar,int *indDef,float  intVar[][24],int   *nbIntVar, F2Cl nomVarLen, F2Cl idVarLen, F2Cl unitesVarLen, F2Cl paletteVarLen)
 {
    int i,j, indDict;
    int nbMenuItems;

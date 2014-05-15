@@ -622,7 +622,7 @@ void AfficherLegendeSup2()
         sprintf(dateMess, "V%s", pdfdatev);
         
         rip1 = champ->ip1;
-              f77name(f_convip)(&rip1, &rniveau, &kind, &mode, kindstring, &un, 15);
+              f77name(f_convip)(&rip1, &rniveau, &kind, &mode, kindstring, &un, (F2Cl) 15);
               kindstring[15] = '\0';
         nettoyer(kindstring);
         if (champ->cle >= 0)

@@ -94,7 +94,7 @@ lire_geo(ListePointsStruct *(*liste), int *nbItems, char *nomFichier[], int nbFi
           strcpy(nomFichierGeographie, tmp);
           strcat(nomFichierGeographie, nomFichier[n]);
           centCinquanteHuit = 158;
-          f77name(opllfl)(&centCinquanteHuit, nomFichierGeographie, &code, strlen((char *)nomFichier));
+          f77name(opllfl)(&centCinquanteHuit, nomFichierGeographie, &code,(F2Cl) strlen((char *)nomFichier));
 
           npts = -1;
           while (npts != 0)

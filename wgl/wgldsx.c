@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 /* ----------------------------------------------------------------------------------------- */
-float f77name(wgldsx)(char *string, int *stringLength, int ftnStringLength)
+float f77name(wgldsx)(char *string, int *stringLength, F2Cl ftnStringLength)
 {
    return c_wgldsx(string, *stringLength);
    }

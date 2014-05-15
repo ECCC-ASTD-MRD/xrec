@@ -362,7 +362,7 @@ int nbFrames;
 
 f77name(messinf)(message, lenMessage)
 char *message;
-int lenMessage;
+F2Cl lenMessage;
 {
    message[lenMessage] = '\0';
    strclean(message);

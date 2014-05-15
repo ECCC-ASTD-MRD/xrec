@@ -97,7 +97,7 @@ int GetSurfacePressure(_Champ *champ)
    dateo = champ->dateo;
 
   ivalide = 0;
-  f77name(convip)(&(champ->ip1), &niveau, &coordonnee, &versPression, NULL, &faux);
+  f77name(convip)(&(champ->ip1), &niveau, &coordonnee, &versPression, NULL, &faux, (F2Cl) 0);
 
      
    deltaT = (champ->deet*champ->npas)/3600.0;

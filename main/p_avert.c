@@ -80,10 +80,11 @@ void InitPanneauxInfo()
 
 /** ---------------------------------------------------------------------------------------- **/
 
-int f77name(messerr)(char message[], int len)
+int f77name(messerr)(char message[], F2Cl flen)
 {
    char longMessage[256];
    int lng;
+   int len=flen;
 
    message[len-1] = '\0';
    lng = c_getulng();

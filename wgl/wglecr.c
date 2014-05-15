@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglecr)(char *nomFenetre, int lenNomFenetre)
+f77name(wglecr)(char *nomFenetre, F2Cl lenNomFenetre)
 {
    c_wglecr(nomFenetre);
    }

@@ -30,9 +30,10 @@ static int nbChampsDict = 0;
 _InfoChamps *infoChamps = NULL;
 FILE *fdict;
 
-void f77name(initxmldict)(char nomfich[], int lennomfich)
+void f77name(initxmldict)(char nomfich[], F2Cl flennomfich)
 {
   char nomDict[128];
+  int lennomfich=flennomfich;
 
   nomfich[lennomfich] = '\0';
   nettoyer(nomfich);

@@ -32,42 +32,42 @@ void f77name(wglfsz)(int *fontSize);
 int c_wglfsz(int fontSize);
 
 void f77name(wglpsi)(int *i, int *j, char *string, int *stringLength, int *size, 
-		     int *orient, int *codeCentrage, int ftnStringLength);
+		     int *orient, int *codeCentrage, F2Cl ftnStringLength);
 int c_wglpsi(int i, int j, char *string, int stringLength, int size, int orient, int codeCentrage);
 
 /* ----------------------------------------------------------------------------------------- */
 
 void f77name(wglpsx)(float *x, float *y, char *string, int *stringLength, int *size, 
-		     int *orient, int *codeCentrage, int ftnStringLength);
+		     int *orient, int *codeCentrage, F2Cl ftnStringLength);
 int  c_wglpsx(float x, float y, char *string, int stringLength, int size, 
 	      int orient, int codeCentrage);
 /* ----------------------------------------------------------------------------------------- */
 
 
-int f77name(wglwsi)(char string[], int *stringLength, int ftnStringLength);
+int f77name(wglwsi)(char string[], int *stringLength, F2Cl ftnStringLength);
 int  c_wglwsi(char string[], int stringLength);
 
 /* ----------------------------------------------------------------------------------------- */
 
-int f77name(wglhsi)(char string[], int *stringLength, int ftnStringLength);
+int f77name(wglhsi)(char string[], int *stringLength, F2Cl ftnStringLength);
 int  c_wglhsi(char string[], int stringLength);
 
-float f77name(wglwsx)(char string[], int *stringLength, int ftnStringLength);
+float f77name(wglwsx)(char string[], int *stringLength, F2Cl ftnStringLength);
 float c_wglwsx(char *string, int stringLength);
 
-float f77name(wglhsx)(char *string,int *stringLength, int ftnStringLength);
+float f77name(wglhsx)(char *string,int *stringLength, F2Cl ftnStringLength);
 float c_wglhsx(char *string, int stringLength);
 
-int f77name(wglasi)(char *string, int *stringLength,  int ftnStringLength);
+int f77name(wglasi)(char *string, int *stringLength,  F2Cl ftnStringLength);
 int  c_wglasi(char *string,int stringLength);
 
-int f77name(wgldsi)(char *string, int *stringLength,  int ftnStringLength);
+int f77name(wgldsi)(char *string, int *stringLength,  F2Cl ftnStringLength);
 int  c_wgldsi(char *string, int stringLength);
 
 float wglasx_(char *string, int *stringLength, int ftnStringLength);
 float c_wglasx(char *string, int stringLength);
 
-float f77name(wgldsx)(char *string, int *stringLength, int ftnStringLength);
+float f77name(wgldsx)(char *string, int *stringLength, F2Cl ftnStringLength);
 float c_wgldsx(char *string, int stringLength);
 /* ----------------------------------------------------------------------------------------- */
 
@@ -89,7 +89,7 @@ int c_wglfsz(int fontSize)
 /* ----------------------------------------------------------------------------------------- */
 
 void f77name(wglpsi)(int *i, int *j, char *string, int *stringLength, 
-		     int *size, int *orient, int *codeCentrage, int ftnStringLength)
+		     int *size, int *orient, int *codeCentrage, F2Cl ftnStringLength)
 {
   c_wglpsi(*i, *j, string, *stringLength, *size, *orient, *codeCentrage);
 }
@@ -108,7 +108,7 @@ int c_wglpsi(int i, int j, char *string, int stringLength, int size, int orient,
 /* ----------------------------------------------------------------------------------------- */
 
 void f77name(wglpsx)(float *x, float *y, char *string, int *stringLength, int *size, 
-		     int *orient, int *codeCentrage, int ftnStringLength)
+		     int *orient, int *codeCentrage, F2Cl ftnStringLength)
 {
   string[ftnStringLength] = '\0';
   c_wglpsx(*x, *y, string, *stringLength, *size, *orient, *codeCentrage);
@@ -130,7 +130,7 @@ int  c_wglpsx(float px, float py, char *string, int stringLength, int size,
 /* ----------------------------------------------------------------------------------------- */
 
 
-int f77name(wglwsi)(char *string, int *stringLength, int ftnStringLength)
+int f77name(wglwsi)(char *string, int *stringLength, F2Cl ftnStringLength)
 {
    return c_wglwsi(string, *stringLength);
    }
@@ -150,7 +150,8 @@ int  c_wglwsi(char *string, int stringLength)
 
 int f77name(wglhsi)(string, stringLength, ftnStringLength)
 char *string;
-int *stringLength,  ftnStringLength;
+int *stringLength
+F2Cl ftnStringLength;
 {
    return c_wglhsi(string, *stringLength);
    }
@@ -201,7 +202,8 @@ int stringLength;
 
 float f77name(wglhsx)(string, stringLength, ftnStringLength)
 char *string;
-int *stringLength, ftnStringLength;
+int *stringLength
+F2Cl ftnStringLength;
 {
    return c_wglhsx(string, *stringLength);
    }
@@ -229,7 +231,8 @@ int stringLength;
 
 int f77name(wglasi)(string, stringLength, ftnStringLength)
 char *string;
-int *stringLength,  ftnStringLength;
+int *stringLength
+F2Cl  ftnStringLength;
 {
    return c_wglasi(string, *stringLength);
    }
@@ -249,7 +252,8 @@ int stringLength;
 
 int f77name(wgldsi)(string, stringLength, ftnStringLength)
 char *string;
-int *stringLength,  ftnStringLength;
+int *stringLength
+F2Cl  ftnStringLength;
 {
    return c_wgldsi(string, *stringLength);
    }
@@ -292,7 +296,8 @@ int stringLength;
 
 float f77name(wgldsx)(string, stringLength, ftnStringLength)
 char *string;
-int *stringLength, ftnStringLength;
+int *stringLength
+F2Cl ftnStringLength;
 {
    return c_wgldsx(string, *stringLength);
    }

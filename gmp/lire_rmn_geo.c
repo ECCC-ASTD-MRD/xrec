@@ -79,7 +79,7 @@ lire_rmn_geo()
     strcat(nomFichierGeographie, mapOptions.fichierGeographie[n]);
 
     centCinquanteHuit = 0;
-    f77name(opllfl)(&centCinquanteHuit, nomFichierGeographie, &code, strlen((char *)nomFichierGeographie));
+    f77name(opllfl)(&centCinquanteHuit, nomFichierGeographie, &code, (F2Cl) strlen((char *)nomFichierGeographie));
     
     npts = -1;
     while (npts != 0)

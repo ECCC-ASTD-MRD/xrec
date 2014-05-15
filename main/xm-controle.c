@@ -243,7 +243,7 @@ extern SuperWidgetStruct SuperWidget;
 
 
 extern Widget TrouverWidgetParent();
-int f77name(souris)(int *bouton, int *event, int *x0, int *y0, int *xsize, int *ysize, int *x1, int *y1, int *x2, int *y2, char *menuTable, int *nbmenus, int menulength);
+int f77name(souris)(int *bouton, int *event, int *x0, int *y0, int *xsize, int *ysize, int *x1, int *y1, int *x2, int *y2, char *menuTable, int *nbmenus, F2Cl menulength);
 
 
 /*  Fonctions locales */
@@ -2843,7 +2843,7 @@ int f77name(xconouv)(int *iun)
    ni = 71;
    nj = 51;
    strcpy(grtyp, "N");
-   f77name(cxgaig)(&grtyp, &ig1, &ig2, &ig3, &ig4, &xg1, &xg2, &xg3, &xg4);
+   f77name(cxgaig)(&grtyp, &ig1, &ig2, &ig3, &ig4, &xg1, &xg2, &xg3, &xg4,(F2Cl) strlen(grtyp));
    grille_bidon = c_ezqkdef(ni, nj, grtyp, ig1, ig2, ig3, ig4, 0);
 
    SetGeometrieFenetreAffichage(nomShell);
@@ -3004,7 +3004,7 @@ XtCallbackProc Zoom(Widget w, caddr_t client_data, caddr_t call_data)
    nbMenus = 0;
    f77name(souris)(&bouton, &event,
        &x0, &y0, &xsize, &ysize,
-       &x1, &y1, &x2, &y2, (char *)TitreMenu, &nbMenus, 4);
+       &x1, &y1, &x2, &y2, (char *)TitreMenu, &nbMenus, (F2Cl) 4);
 
    fni = (float) mapInfo.ni;
    fnj = (float) mapInfo.nj;
@@ -3650,8 +3650,9 @@ void GetFenetreAffichageID(int *indFenetre)
 
 /* ****************************************************************************** */
 
-void f77name(c_sctlatr)(char item[],char valeur[],int lenItem,int lenValeur)
+void f77name(c_sctlatr)(char item[],char valeur[],F2Cl flenItem,F2Cl flenValeur)
 {
+   int lenItem=flenItem, lenValeur=flenValeur;
    int indItem = -1;
 
 

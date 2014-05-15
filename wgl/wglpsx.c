@@ -23,7 +23,7 @@
 /* ----------------------------------------------------------------------------------------- */
 
 void f77name(wglpsx)(float *x, float *y, char *string, int *stringLength, int *size, 
-		     int *orient, int *codeCentrage, int ftnStringLength)
+		     int *orient, int *codeCentrage, F2Cl ftnStringLength)
 {
   string[ftnStringLength] = '\0';
   c_wglpsx(*x, *y, string, *stringLength, *size, *orient, *codeCentrage);

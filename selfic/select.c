@@ -255,7 +255,7 @@ void XSelectChangerRepertoire();
 /* Initialisation des widgets. */
 
 void c_selfic (char *liste, int maximum, int longueur, int *nombre);
-void f77name(selfic) (char *liste, int  *maximum, int  *longueur, int  *nombre, int  len);
+void f77name(selfic) (char *liste, int  *maximum, int  *longueur, int  *nombre, F2Cl  len);
 
 static void InitWidgetsActions();
 static void InitWidgetsAll();
@@ -1740,7 +1740,7 @@ VALEURE RETOURNEE:      NONE
 
 LIBRAIRIES :            Motif
 ------------------------------------------------------------------------------*/
-void f77name(selfic) (char *liste, int  *maximum, int  *longueur, int  *nombre, int  len)
+void f77name(selfic) (char *liste, int  *maximum, int  *longueur, int  *nombre, F2Cl  len)
 {
   c_selfic ( liste, *maximum, *longueur, nombre);
 }

@@ -530,14 +530,15 @@ caddr_t unused1, unused2;
    }
 
 
-f77name(c_sgeoatr)(item,valeur,lenItem,lenValeur)
+f77name(c_sgeoatr)(item,valeur,flenItem,flenValeur)
 char item[],valeur[];
-int lenItem,lenValeur;
+F2Cl flenItem,flenValeur;
 {
    Arg args[10];
    int i,j;
    int indItem;
    int found;
+   int lenItem=flenItem, lenValeur=flenValeur;
    float res;
    char tmpItem1[32],tmpItem2[32];
 

@@ -205,7 +205,7 @@ void AfficherProfilSerie(float xx, float yy)
    sprintf(titrex, "$");
    sprintf(titrey, "$");
    f77name(setprof1)(&valMin, &valMax,&echelleSerie,titrex,titrey,
-         0, 0);
+         (F2Cl) 0, (F2Cl) 0);
 
    c_wglcol(NOIR);
    c_wgllwi(1);
@@ -219,7 +219,7 @@ void AfficherProfilSerie(float xx, float yy)
 
    mx1 =24; mx2 = 3; my1=10; my2 = 1;
       
-   f77name(xezxy)(champ0->seqanim.fdt, champ->seqanim.valeursSeries, &zero, titre, 0);
+   f77name(xezxy)(champ0->seqanim.fdt, champ->seqanim.valeursSeries, &zero, titre, (F2Cl) 0);
    
    c_wgllwi(1);
    f77name(setprof2)();

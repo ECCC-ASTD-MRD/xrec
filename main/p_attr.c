@@ -562,9 +562,11 @@ int AttrMgrGetInterpolationLevel()
    return interpolationLevel;
 }
 
-void f77name(c_satratr)(char item[], char valeur[], int lenItem, int lenValeur)
+void f77name(c_satratr)(char item[], char valeur[], F2Cl flenItem, F2Cl flenValeur)
 {
 
+   int lenItem=flenItem, lenValeur=flenValeur;
+   
    item[lenItem-1] = '\0';
    valeur[lenValeur-1] = '\0';
    nettoyer(item);
@@ -610,12 +612,12 @@ void f77name(c_satratr)(char item[], char valeur[], int lenItem, int lenValeur)
       }
 }
 
-void f77name(c_sanmatr)(char item[], char valeur[], int lenItem, int lenValeur)
+void f77name(c_sanmatr)(char item[], char valeur[], F2Cl lenItem, F2Cl lenValeur)
 {
 }
 
 
-void f77name(c_scpeatr)(char item[], char valeur[], int lenItem, int lenValeur)
+void f77name(c_scpeatr)(char item[], char valeur[], F2Cl lenItem, F2Cl lenValeur)
 {
 }
 

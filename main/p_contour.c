@@ -975,7 +975,7 @@ void DesactiverPanneauContour()
 ***********************************************************************
 ****/
 
-void f77name(c_sconatr)(char item[],char valeur[], int lenItem, int lenValeur)
+void f77name(c_sconatr)(char item[],char valeur[], F2Cl flenItem, F2Cl flenValeur)
 {
    Arg args[10];
    int i,j,r,g,b;
@@ -983,6 +983,7 @@ void f77name(c_sconatr)(char item[],char valeur[], int lenItem, int lenValeur)
    int found;
    char tmpItem1[32],tmpItem2[32];
    int attribut ,ind;
+   int lenItem=flenItem, lenValeur=flenValeur;
    
    item[lenItem-1] = '\0';
    valeur[lenValeur-1] = '\0';

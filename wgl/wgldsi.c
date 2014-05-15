@@ -22,10 +22,10 @@
 #include <wgl.h>
 #include <rpnmacros.h>
 
-int f77name(wgldsi)(char *string, int *stringLength,  int ftnStringLength);
+int f77name(wgldsi)(char *string, int *stringLength,  F2Cl ftnStringLength);
 int  c_wgldsi(char *string, int stringLength);
 
-int f77name(wgldsi)(char *string, int *stringLength, int ftnStringLength)
+int f77name(wgldsi)(char *string, int *stringLength, F2Cl ftnStringLength)
 {
    return c_wgldsi(string, *stringLength);
    }

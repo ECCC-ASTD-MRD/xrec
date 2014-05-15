@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wgldpt)(int *indpat, int *ipatsz, char iptrn[])
+f77name(wgldpt)(int *indpat, int *ipatsz, char iptrn[], F2Cl len)
 {
    c_wgldpt(*indpat, *ipatsz, iptrn);
             

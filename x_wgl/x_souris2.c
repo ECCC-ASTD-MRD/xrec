@@ -439,12 +439,13 @@ int  *backupx1, *backupy1, *backupx2, *backupy2, *x1, *y1, *x2, *y2;
 **/
 
 int f77name(souris)(bouton, event, x0, y0, xsize, ysize, x1, y1, x2, y2, 
-		    menuTable, nbmenus, menulength)
+		    menuTable, nbmenus, flen)
 int *bouton, *event;
 int *x0, *y0, *xsize, *ysize;
 int *x1, *y1, *x2, *y2;
 char menuTable[];
-int *nbmenus, menulength;
+int *nbmenus;
+F2Cl flen; 
 {
    float AspectRatio;
    int   Deplacement, Confirmation;
@@ -452,6 +453,7 @@ int *nbmenus, menulength;
    char  *menustr;
    int   item, relx1, rely1;
    int menu;
+   int menulength=flen;
    
    *event = NIL;
    Confirmation = CONFIRMATION_NON_RECUE;

@@ -26,11 +26,13 @@
 
 extern FILE *fdict;
 
-f77name(c_xrecgrille)(gridname,gridtype,ni,nj,ig1,ig2,ig3,ig4,lennomgrille)
+f77name(c_xrecgrille)(gridname,gridtype,ni,nj,ig1,ig2,ig3,ig4,flennomgrille)
 char gridname[];
-int *gridtype, *ni, *nj, *ig1, *ig2, *ig3, *ig4, lennomgrille;
+int *gridtype, *ni, *nj, *ig1, *ig2, *ig3, *ig4;
+F2Cl flennomgrille;
 {
   char nomgrille[64];
+  int lennomgrille=flennomgrille;
   int un = 1;
   int i, dimnomgrille;
   int *itemp;

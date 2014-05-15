@@ -25,9 +25,10 @@
 
 _wglContexte wglc_x, wglc_gd, wglc_gl, wglc_ps, *wglc_wgl;
 
-f77name(wglscon)(char *contexte, int len_contexte)
+f77name(wglscon)(char *contexte, F2Cl flen)
 {
   char lcl_contexte[8], lcl_len_contexte;
+  int len_contexte=flen;
 
   lcl_len_contexte = len_contexte > 8 ? 8 : len_contexte;
   strncpy(lcl_contexte, contexte, lcl_len_contexte);

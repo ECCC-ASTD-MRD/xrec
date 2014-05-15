@@ -22,10 +22,11 @@
 
 #include <wgl.h>
 
-int f77name(wglopmw)(char nomFenetre[], int *wglWinID, int lenNomFenetre)
+int f77name(wglopmw)(char nomFenetre[], int *wglWinID, F2Cl flenNomFenetre)
 {
    char nomTemp[256];
    int  winid;
+   int lenNomFenetre=flenNomFenetre;
 
    strncpy(nomTemp, nomFenetre, lenNomFenetre);
    nomTemp[lenNomFenetre] = '\0';

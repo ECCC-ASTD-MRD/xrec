@@ -32,8 +32,8 @@ static int once = 1;
 static int vectable_pleine = 0;
 
 
-void f77name(vecteur)(char nom_uu[], char nom_vv[], char nom_ww[], int len_nom_uu, 
-  int len_nom_vv, int len_nom_ww)
+void f77name(vecteur)(char nom_uu[], char nom_vv[], char nom_ww[], F2Cl len_nom_uu, 
+  F2Cl len_nom_vv, F2Cl len_nom_ww)
 {
    char lcl_uu[5], lcl_vv[5], lcl_ww[5];
    wordint current_vec;

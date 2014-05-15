@@ -39,5 +39,5 @@ x_wgllpt()
    strcpy(nomFichierPatrons, tmp);
    strcat(nomFichierPatrons, "/data/patrns");
 
-   f77name(x_wwwlpt)(nomFichierPatrons, strlen(nomFichierPatrons)); 
+   f77name(x_wwwlpt)(nomFichierPatrons, (F2Cl) strlen(nomFichierPatrons)); 
    }
