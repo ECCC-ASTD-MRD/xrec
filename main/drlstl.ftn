@@ -505,6 +505,7 @@
       end
       
       subroutine drl_set_spval(newspval)
+      implicit none
       
       real newspval
             common /conis1/ ioffp,spval
@@ -520,6 +521,7 @@
       end 
       
       subroutine drl_get_spval(curspval)
+      implicit none
       
       real curspval
             common /conis1/ ioffp,spval

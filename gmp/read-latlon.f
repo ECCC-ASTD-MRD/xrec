@@ -18,6 +18,7 @@
 * * Boston, MA 02111-1307, USA.
 * */
       subroutine opllfl(unite, nomfich, code)
+      implicit none
       integer unite, code
       character*128 nomfich
       OPEN(UNIT=unite,FILE=nomfich,
@@ -28,6 +29,7 @@
       end
       subroutine rdllfl(unite, npts, maxlat, minlat, maxlon,
      %                  minlon, pts, nptsmx)
+      implicit none
       integer unite, npts, nptsmx
       real maxlat, minlat, maxlon, minlon, pts(nptsmx)
       READ(unite,end=999) NPTS,MAXLAT,MINLAT,MAXLON,MINLON,
@@ -39,6 +41,7 @@
       return
       end
       subroutine clllfl(unite)
+      implicit none
       integer unite
  100  CLOSE(unite,IOSTAT=IER)
       return

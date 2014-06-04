@@ -18,6 +18,7 @@
 * * Boston, MA 02111-1307, USA.
 * */
       SUBROUTINE XDASHD (IPAT,NNC,JCRT,JSIZE)
+      implicit none
       CHARACTER *(*) IPAT
 *
 * **********************************************************************

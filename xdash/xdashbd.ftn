@@ -36,6 +36,7 @@
 *APPEL    CALL DASHBD
 *
 *-----------------------------------------------------------------------
+      implicit none
 *
 *
 *  DICTIONNAIRE POUR AJUSTER CERTAINS PARAMETRES

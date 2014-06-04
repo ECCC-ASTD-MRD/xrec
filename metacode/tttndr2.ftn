@@ -3,6 +3,7 @@
 ***S/P TTTNDR2   FERMER FICHIER RASTER, FLUSH RASTER
 *
 SUBROUTINE TTTNDR2
+implicit none
 INTEGER EGAL,BLANK
 #include "cpress.cdk"
 *

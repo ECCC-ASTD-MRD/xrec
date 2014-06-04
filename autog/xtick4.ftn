@@ -59,6 +59,7 @@
 *
 *----------------------------------------------------------------------
 *
+      implicit none
 
       INTEGER SAVUNIT,SEGUNIT,SEGSAVU,PIPEFLG
       LOGICAL MTCLOS,FLCLOS,SAVCLOS,SEGCLOS,SSCLOS,PASDEF

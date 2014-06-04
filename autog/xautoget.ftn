@@ -37,6 +37,7 @@
 * * Boston, MA 02111-1307, USA.
 * */
       SUBROUTINE XAUTOSEC(CREF,CVAL)
+      implicit none
       CHARACTER *(*) CREF, CVAL
       INTEGER IREF,IVAL
       READ(CREF,'(A4)') IREF
@@ -46,6 +47,7 @@
       END
 
       SUBROUTINE XAUTOSEI(CREF,IVAL)
+      implicit none
       CHARACTER *(*) CREF
       INTEGER IREF,IVAL
       READ(CREF,'(A4)') IREF
@@ -54,6 +56,7 @@
       END
 
       SUBROUTINE XAUTOSEL(CREF,LVAL)
+      implicit none
       CHARACTER *(*) CREF
       INTEGER IREF
       LOGICAL LVAL
@@ -63,6 +66,7 @@
       END
 
       SUBROUTINE XAUTOGEC(CREF,CVAL)
+      implicit none
       CHARACTER *(*) CREF, CVAL
       INTEGER IREF,IVAL
       READ(CREF,'(A4)') IREF
@@ -72,6 +76,7 @@
       END
 
       SUBROUTINE XAUTOGEI(CREF,IVAL)
+      implicit none
       CHARACTER *(*) CREF
       INTEGER IREF,IVAL
       READ(CREF,'(A4)') IREF

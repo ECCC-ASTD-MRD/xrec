@@ -62,6 +62,7 @@
 *         ET LY        ( 5 <= LX,LY   <= 15 )
 *
 *
+      implicit none
 
       INTEGER SAVUNIT,SEGUNIT,SEGSAVU,PIPEFLG
       LOGICAL MTCLOS,FLCLOS,SAVCLOS,SEGCLOS,SSCLOS,PASDEF

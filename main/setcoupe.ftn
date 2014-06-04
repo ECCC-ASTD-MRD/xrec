@@ -18,6 +18,7 @@
 * * Boston, MA 02111-1307, USA.
 * */
       subroutine setprof1(nivmin,nivmax,echelle,titrex,titrey)
+      implicit none
 
       real nivmin, nivmax
       integer echelle
@@ -42,6 +43,7 @@
       end
 
       subroutine setprof2()
+      implicit none
 
       CALL XDISPLA(0,2,0)
       CALL XANOTAT(' ',' ',4,0,0,0,' ')

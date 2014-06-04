@@ -123,6 +123,7 @@
 *
 *
 *
+      implicit none
 *
       INTEGER         N
       REAL            T          ,XS         ,YS         ,X(N)       ,

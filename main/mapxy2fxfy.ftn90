@@ -1,4 +1,5 @@
    subroutine mapxy2fxfy(fx,fy,x,y,px,py,n,ni,nj)
+   implicit none
    integer n,ni,nj
    real fx(n),fy(n),x(n),y(n)
    real px(ni,nj),py(ni,nj)

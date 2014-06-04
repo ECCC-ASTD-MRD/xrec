@@ -3,6 +3,7 @@
 ***S/P TTTPRE2   REMETTRE INDICE A 1, OUVRIR FICHIER RAZZ2 OU RAZZ3
 *
 SUBROUTINE TTTPRE2
+implicit none
 #include "cpress.cdk"
 DATA IDFLAG /.FALSE./
 *

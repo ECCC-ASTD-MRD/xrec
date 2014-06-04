@@ -224,6 +224,7 @@ c     ****************************************************************
 c     **                                                            **
 c     ****************************************************************
       subroutine initid97(idents)
+      implicit none
       character*12 idents(*)
       integer i, j, ulng
       integer  getulng
@@ -250,6 +251,7 @@ c     ****************************************************************
       end
 *****************************************************************
       subroutine inittab97(tableau, table, len)
+      implicit none
       character*64 tableau(*)
       integer table(3, *)
       integer len
