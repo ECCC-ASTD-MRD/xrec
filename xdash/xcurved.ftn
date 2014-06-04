@@ -20,7 +20,8 @@
       SUBROUTINE XCURVED (X,Y,N)
       implicit none
 *
-      DIMENSION X(N),Y(N)
+      integer i,n
+      real X(N),Y(N)
 *
       CALL XFRSTD (X(1),Y(1))
       DO 10 I=2,N

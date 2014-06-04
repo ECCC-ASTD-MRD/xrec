@@ -19,7 +19,7 @@
 * */
       subroutine opllfl(unite, nomfich, code)
       implicit none
-      integer unite, code
+      integer unite, code,ier
       character*128 nomfich
       OPEN(UNIT=unite,FILE=nomfich,
      %     FORM='UNFORMATTED',IOSTAT=IER,STATUS='OLD')
@@ -30,7 +30,7 @@
       subroutine rdllfl(unite, npts, maxlat, minlat, maxlon,
      %                  minlon, pts, nptsmx)
       implicit none
-      integer unite, npts, nptsmx
+      integer unite, npts, nptsmx, i
       real maxlat, minlat, maxlon, minlon, pts(nptsmx)
       READ(unite,end=999) NPTS,MAXLAT,MINLAT,MAXLON,MINLON,
      $     (PTS(I),I=1,NPTS)
@@ -42,7 +42,7 @@
       end
       subroutine clllfl(unite)
       implicit none
-      integer unite
+      integer unite, ier
  100  CLOSE(unite,IOSTAT=IER)
       return
       END

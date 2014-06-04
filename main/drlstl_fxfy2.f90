@@ -56,12 +56,13 @@
    real        spval
 !
 !
+   integer, parameter :: irbase=1
+      common /conis2/ ixa , iya  , ixb  , iyb  , idir , iss  , np  , cv  , inx(8), iny(8), nr
 !
-   common /conis2/ ixa, iya, ixb,  iyb, idir, iss, np, cv, inx(8), iny(8), nr, irbase
-!
-   integer     ixa, iya, ixb, iyb, idir, iss, np, nr, inx, iny, ir, irbase
-   common /wglxmem/ ir(1)
-   real        cv
+      integer     ixa, iya, ixb, iyb, idir, iss, np, nr, inx, iny
+      integer, pointer, dimension(:) :: ir
+      common /wglxmem/ ir
+      real        cv
 !
 !
 !modules
@@ -341,7 +342,7 @@
       subroutine wglstl_fxfy2 (z,px,py,l,m,n,mdeb,ndeb,mfin,nfin,conv,lf)
 !
       implicit none
-      integer   l, m, n, mdeb, ndeb, mfin, nfin
+      integer   l, m, n, mdeb, ndeb, mfin, nfin,lf
       real      z(l,n), px(l,n),py(l,n),conv
 !
 !auteur   systeme ncar
@@ -378,16 +379,18 @@
 !implicites
 !
 !
-   common /conis2/ ixa, iya, ixb,  iyb, idir, iss, np,  cv, inx(8), iny(8), nr, irbase
+   integer, parameter :: irbase=1
+      common /conis2/ ixa   , iya   , ixb   ,  iyb   ,  idir  , iss   , np    ,  cv    ,  inx(8), iny(8), nr
 !
-   integer     ixa, iya, ixb, iyb, idir, iss, np, nr, inx, iny, ir, irbase, lf
-   common /wglxmem/ ir(1)
-   real        cv
+      integer     ixa, iya, ixb, iyb, idir, iss, np, nr, inx, iny
+      integer, pointer, dimension(:) :: ir
+      common /wglxmem/ ir
+      real        cv
 !
 !
 !modules
 !
-      external    wgldrl, memoirh
+      external    wgldrl
 !
 !*
       real      a, b, c
@@ -406,7 +409,7 @@
 !
 !
 !
-!     allocation de 500 mots de memoirhe ( tableau "ir" ). ce tableau
+!     allocation de memoire ( tableau "ir" ). ce tableau
 !     contient des valeurs qui indiquent le chemin de chacune des
 !     lignes de contour et sert a memoriser ce chemin afin d'eviter
 !     les croisements de lignes de contour .
@@ -414,7 +417,7 @@
 !      print *, 'drlstl_fxfy2',conv
       lf2 = lf
       nr =(m*n / 32)*2 + 2
-      call memoirh ( ir, irbase, nr )
+      allocate(ir(nr))
 !
       cv = conv
       do 5 i = 1, nr
@@ -483,7 +486,7 @@
 !     reserve est maintenant inutile a la poursuite du tracage des
 !     lignes de contour ( sous-routine "conisp" ).
 !
-      call memoirh ( ir, irbase, 0 )
+      deallocate(ir)
 !
       return
       end

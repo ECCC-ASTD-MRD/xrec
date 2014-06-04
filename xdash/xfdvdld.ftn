@@ -320,7 +320,7 @@
 * END OF IMPLEMENTATION INTRUCTIONS
 ************************************************************************
 *
-      implicit none
+*     implicit none
 *
       DIMENSION       XSAVE(70)  ,YSAVE(70)  ,XP(70)     ,YP(70)     ,
      1                TEMP(70)

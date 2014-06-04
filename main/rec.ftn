@@ -411,12 +411,12 @@ c     ****************************************************************
       implicit none
       character *(*) filename
 
-      character * 8   cle(132)
-      character * 512 def(132), val(132)
+      character * 8   cle(1008)
+      character * 256 def(1008), val(1008)
 
       common /ccardprm/ cle, def, val
 !      print *, val(126)
-      filename = val(126)
+      filename = val(1002)
       return
       end
 

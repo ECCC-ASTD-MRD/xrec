@@ -18,7 +18,7 @@
 * * Boston, MA 02111-1307, USA.
 * */
       SUBROUTINE XVECTD (X,Y)
-      implicit none
+*     implicit none
       CALL XFL2INT (X,Y,IIX,IIY)
       CALL XFDVDLD (2,IIX,IIY)
       RETURN

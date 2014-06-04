@@ -121,7 +121,8 @@
 *     version decomprimee de gridal
 *
 
-      implicit none
+*     implicit none
+*     implicit none laisse a off volontairement
 
       integer savunit,segunit,segsavu,pipeflg
       logical mtclos,flclos,savclos,segclos,ssclos,pasdef

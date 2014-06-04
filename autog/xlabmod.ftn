@@ -134,7 +134,8 @@
 *
 *----------------------------------------------------------------------
 *
-      implicit none
+*     implicit none
+*     implicit none laisse a off volontairement
 
       INTEGER SAVUNIT,SEGUNIT,SEGSAVU,PIPEFLG
       LOGICAL MTCLOS,FLCLOS,SAVCLOS,SEGCLOS,SSCLOS,PASDEF
@@ -234,7 +235,7 @@
 *     OUT   NEWLEN     ENTIER CONTENANT LES CAR JUSTIFIES A GAUCHE
 *
 **
-      implicit none
+*      implicit none
 
       CHARACTER   *(*)  ICHARR
       CHARACTER *1,CCC
