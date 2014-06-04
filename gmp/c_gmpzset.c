@@ -27,11 +27,15 @@ extern GeoMapInfoStruct     oldMapInfo;
 
 extern GeoMapFlagsStruct    mapFlags;
 
-int c_gmpzset(char grtyp, int ni, int nj,  int ig1, int ig2, int ig3, int ig4, char typeref, int ig1ref, int ig2ref, int ig3ref, int ig4ref)
+int c_gmpzset(char grtyp, int ni, int nj,  int ig1, int ig2, int ig3, int ig4, char grtyp_ref, int ig1ref, int ig2ref, int ig3ref, int ig4ref)
 {
    
    int iig1, iig2, iig3, iig4;
    int res;
+   char typeref[2];
+
+   typeref[0] = grtyp_ref;
+   typeref[1] = '\0';
 
    gdxmin = 1.0;
    gdxmax = (float) (ni);
@@ -46,14 +50,14 @@ int c_gmpzset(char grtyp, int ni, int nj,  int ig1, int ig2, int ig3, int ig4, c
    mapInfo.ig3 = ig3;
    mapInfo.ig4 = ig4;
 
-   mapInfo.typeref  = typeref;
+   mapInfo.typeref  = typeref[0];
    mapInfo.ig1ref = ig1ref;
    mapInfo.ig2ref = ig2ref;
    mapInfo.ig3ref = ig3ref;
    mapInfo.ig4ref = ig4ref;
 
    iig1 = ig1ref; iig2 = ig2ref; iig3 = ig3ref; iig4 = ig4ref;
-   switch(typeref)
+   switch(typeref[0])
       {
       case 'L':
       mapInfo.xOrigine = 0.0;

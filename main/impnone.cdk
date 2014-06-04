@@ -1,19 +1,2 @@
-#if defined (C910)
       IMPLICIT NONE
-#endif
-#if defined (C4680)
-      IMPLICIT NONE
-#endif
-#if defined (HP)
-      IMPLICIT NONE
-#endif
-#if defined (SUN)
-      IMPLICIT UNDEFINED(A-Z)
-#endif
-#if defined (NEC)
-      IMPLICIT NONE
-#endif
-#if defined (CRAY)
-      IMPLICIT NONE
-#endif
 

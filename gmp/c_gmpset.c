@@ -89,7 +89,7 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
       {
       case 'A':
       case 'G':
-		case 'U':
+      case 'U':
       mapInfo.type = grtyp;
       mapInfo.xOrigine = 1.0;
       mapInfo.yOrigine = 1.0;
@@ -172,8 +172,8 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
       mapInfo.indOrientation = NORD;
       mapInfo.ni = ni;
       mapInfo.nj = nj;
-      f77name(cigaxg)(&grtyp,&mapInfo.elat1,&mapInfo.elon1,&mapInfo.elat2,&mapInfo.elon2,
-                      &iig1, &iig2, &iig3, &iig4,(F2Cl) strlen(grtyp));
+      f77name(cigaxg)(lgrtyp,&mapInfo.elat1,&mapInfo.elon1,&mapInfo.elat2,&mapInfo.elon2,
+                      &iig1, &iig2, &iig3, &iig4,(F2Cl) strlen(lgrtyp));
       mapFlags.typeValide = OUI;
       break;
 
@@ -185,8 +185,8 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
       mapInfo.yOrigine = 1.0;
       mapInfo.ni = ni;
       mapInfo.nj = nj;
-      f77name(cigaxg)(&grtyp,  &mapInfo.latOrigine, &mapInfo.lonOrigine, &mapInfo.deltaLat, &mapInfo.deltaLon,
-                      &iig1, &iig2, &iig3, &iig4,(F2Cl) strlen(grtyp));
+      f77name(cigaxg)(lgrtyp,  &mapInfo.latOrigine, &mapInfo.lonOrigine, &mapInfo.deltaLat, &mapInfo.deltaLon,
+                      &iig1, &iig2, &iig3, &iig4,(F2Cl) strlen(lgrtyp));
       if (mapInfo.lonOrigine >= 180)
          mapInfo.lonOrigine -= 360.0;
       mapFlags.typeValide = OUI;
@@ -198,9 +198,9 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
       mapInfo.nj = nj;
       mapInfo.hemisphere = NORD;
       mapInfo.indOrientation = NORD;
-      f77name(cigaxg)(&grtyp, &mapInfo.PosXDuPole, &mapInfo.PosYDuPole,
+      f77name(cigaxg)(lgrtyp, &mapInfo.PosXDuPole, &mapInfo.PosYDuPole,
               &mapInfo.PasDeGrille, &mapInfo.AngleGreenwich,
-              &iig1, &iig2, &iig3, &iig4,(F2Cl) strlen(grtyp));
+              &iig1, &iig2, &iig3, &iig4,(F2Cl) strlen(lgrtyp));
       mapFlags.typeValide = OUI;
       break;
 
@@ -210,9 +210,9 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
       mapInfo.nj = nj;
       mapInfo.hemisphere = SUD;
       mapInfo.indOrientation = NORD;
-      f77name(cigaxg)(&grtyp, &mapInfo.PosXDuPole, &mapInfo.PosYDuPole,
+      f77name(cigaxg)(lgrtyp, &mapInfo.PosXDuPole, &mapInfo.PosYDuPole,
               &mapInfo.PasDeGrille, &mapInfo.AngleGreenwich,
-              &iig1, &iig2, &iig3, &iig4,(F2Cl) strlen(grtyp));
+              &iig1, &iig2, &iig3, &iig4,(F2Cl) strlen(lgrtyp));
       mapFlags.typeValide = OUI;
       break;
 
@@ -222,9 +222,9 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
       mapInfo.nj = nj;
       mapInfo.hemisphere = NORD;
       mapInfo.indOrientation = NORD;
-      f77name(cigaxg)(&grtyp, &mapInfo.PasDeGrille, &mapInfo.AngleGreenwich,
+      f77name(cigaxg)(lgrtyp, &mapInfo.PasDeGrille, &mapInfo.AngleGreenwich,
 		      &mapInfo.latOrigine, &mapInfo.lonOrigine,
-              &iig1, &iig2, &iig3, &iig4,(F2Cl) strlen(grtyp));
+              &iig1, &iig2, &iig3, &iig4,(F2Cl) strlen(lgrtyp));
       mapFlags.typeValide = OUI;
       break;
 
@@ -234,9 +234,9 @@ int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
       mapInfo.nj = nj;
       mapInfo.hemisphere = NORD;
       mapInfo.indOrientation = NORD;
-      f77name(cigaxg)(&grtyp, &mapInfo.PasDeGrille, &mapInfo.AngleGreenwich,
+      f77name(cigaxg)(lgrtyp, &mapInfo.PasDeGrille, &mapInfo.AngleGreenwich,
 		      &mapInfo.latOrigine, &mapInfo.lonOrigine,
-              &iig1, &iig2, &iig3, &iig4,(F2Cl) strlen(grtyp));
+              &iig1, &iig2, &iig3, &iig4,(F2Cl) strlen(lgrtyp));
       mapFlags.typeValide = OUI;
       break;
 
