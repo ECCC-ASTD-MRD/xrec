@@ -23,7 +23,7 @@ CPPFLAGS = -I../include -DX_WGL
 
 LIBRMN = rmn_014
 
-VER = 5.100
+VER = 5.10.1
 
 .PRECIOUS: $(RECLIB)
 

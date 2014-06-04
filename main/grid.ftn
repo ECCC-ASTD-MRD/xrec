@@ -56,6 +56,7 @@
       implicit none
       real outfld(ni,nj), infld(ni, nj)
       integer ni, nj
+      integer i,j
 
       do  j=1,nj
          do  i=1, ni
@@ -75,16 +76,14 @@
 ***********************************************************************
       subroutine chkgrid(fld, ni, nj, grtyp, orient)
       implicit none
-      real fld(ni,nj)
+      real fld(ni,nj),fld2(ni,nj)
       integer ni, nj
       character*1 grtyp
       integer orient
       
-      integer buf(1), iptab
-
       if (grtyp.eq.'A'.or.grtyp.eq.'B'.or.grtyp.eq.'G') then
          if (orient.eq.1) then
-             call swpgrid(fld2, fld, ni, nj)
+            call swpgrid(fld2, fld, ni, nj)
             orient = 0
          endif
       endif
@@ -96,7 +95,7 @@
       subroutine aminmax(rmin, rmax, fld, ni, nj)
       implicit none
       real rmin, rmax, fld(ni,nj)
-      integer ni, nj
+      integer i, j, ni, nj
       
       real armin, armax
       
@@ -121,7 +120,7 @@
       SUBROUTINE VMINMAX(aMIN, aMAX, uu,vv, NI, NJ)
       implicit none
       REAL amIN, aMAX, uu(ni,nj),vv(ni,nj)
-      INTEGER NI, NJ
+      INTEGER i,j,NI, NJ
 
       REAL temp
 
@@ -150,7 +149,7 @@
      * JDEBUT, IFIN, JFIN)
       implicit none
       REAL MIN, MAX, FLD(NI,NJ)
-      INTEGER NI, NJ, IDEBUT, JDEBUT, IFIN, JFIN
+      INTEGER I, J, NI, NJ, IDEBUT, JDEBUT, IFIN, JFIN
 
       MIN = FLD(IDEBUT, JDEBUT)
       MAX = FLD(IDEBUT, JDEBUT)
@@ -197,7 +196,7 @@
       subroutine sminmax2(min, max, min2, max2, fld, ni, nj, idebut, jdebut, ifin, jfin)
       implicit none
       real min, max, min2, max2, fld(ni,nj)
-      integer ni, nj, idebut, jdebut, ifin, jfin
+      integer i,j, ni, nj, idebut, jdebut, ifin, jfin
 
       call sminmax(min, max, fld, ni, nj, idebut, jdebut, ifin, jfin)
       min = fld(idebut, jdebut)
@@ -526,6 +525,7 @@
 ***********************************************************************
       subroutine modulus(module,uu,vv,npts)
       implicit none
+      integer npts
       real module(npts),uu(npts),vv(npts)
 
       integer i
@@ -540,6 +540,7 @@
 ***********************************************************************
       subroutine modulus3d(module,uu,vv,ww,npts)
       implicit none
+      integer npts
       real module(npts),uu(npts),vv(npts),ww(npts)
 
       integer i
