@@ -34,10 +34,10 @@
       character*51 tableau
       common /xfscinf/ idents(maxdes), tableau(0:maxrecs)
 
-      integer table, listbuf, nrecs, nbrecs, nbdes
-      integer liste(1)
+      integer, pointer, dimension(:) :: liste
+      integer table, nrecs, nbrecs, nbdes
       common /xfsiinf/ table(3,maxdes),
-     *                 liste, listbuf,nrecs, nbrecs, nbdes
+     *                 liste, nrecs, nbrecs, nbdes
 
       character*2 nomvar
       character*1 typvar, grtyp
@@ -68,10 +68,7 @@
 
       ulng = getulng()
 
-      if (ttlrecs.gt.0) then
-         call memoirh(liste, listbuf, ttlrecs)
-      endif
-      
+     
 *     
 
       nbdes = 7
@@ -86,6 +83,8 @@
       if (ttlrecs.eq.0) then
          res = xselins(table,ttlrecs)
          goto 100
+      else
+         allocate(liste(ttlrecs))
       endif
 
 *     
@@ -123,7 +122,7 @@
      *         etiket, jour, mm, an, heure
       endif
 
-      liste(listbuf+i-1) = key
+      liste(i-1) = key
 
       if (ttlrecs.le.1) then
          res = xselins(table,ttlrecs)
@@ -161,7 +160,7 @@
      *         etiket, jour, mm, an, heure
       endif
 
-      liste(listbuf+i-1) = key
+      liste(i-1) = key
       
       ntmrecs = mod(i,64)
       if (ntmrecs.eq.0) then
@@ -202,22 +201,7 @@ c     ****************************************************************
       implicit none
       integer winind
 
-
-      integer ligne,maxrecs,maxdes
-
-      parameter (ligne  = 51)
-      parameter (maxrecs= 64)
-      parameter (maxdes = 8)
-
-      character*12 idents 
-      character*51 tableau
-      common /xfscinf/ idents(maxdes), tableau(0:maxrecs)
-
-      integer table, listbuf, nrecs, nbrecs, nbdes
-      integer liste(1)
-      common /xfsiinf/ table(3,maxdes),
-     *                 liste, listbuf,nrecs, nbrecs, nbdes
-      
+ 
       integer xselfer
       integer i, inf, res
 
@@ -248,9 +232,9 @@ c     ****************************************************************
       common /xfscinf/ idents(maxdes), tableau(0:maxrecs)
 
       integer table, listbuf, nrecs, nbrecs, nbdes
-      integer liste(1)
+      integer, pointer, dimension(:) :: liste
       common /xfsiinf/ table(3,maxdes),
-     *                 liste, listbuf,nrecs, nbrecs, nbdes
+     *                 liste, nrecs, nbrecs, nbdes
       
       integer xselact
       integer i, inf, res
@@ -260,7 +244,7 @@ c     ****************************************************************
       xfslact = xselact(slkeys, nslkeys, winind)
 
       do 200 i=1, nslkeys
-         slkeys(i) = liste(listbuf+slkeys(i)-1)
+         slkeys(i) = liste(slkeys(i)-1)
  200  continue
       
 
@@ -360,13 +344,12 @@ c     ****************************************************************
       common /xfscinf/ idents(maxdes), tableau(0:maxrecs)
 
       integer table, listbuf, nrecs, nbrecs, nbdes
-      integer liste(1)
+      integer, pointer, dimension(:) :: liste
       common /xfsiinf/ table(3,maxdes),
-     *                 liste, listbuf,nrecs, nbrecs, nbdes
+     *                 liste, nrecs, nbrecs, nbdes
 
-      if (listbuf.gt.0) then
-         call memoirh(liste, listbuf, 0)
-         listbuf = 0
+      if (associated(liste)) then
+         deallocate(liste)
       endif
       call xselupd(winind)
       ier = xfslouv(nomfich, iun, ttlrecs, winind, typesel)

@@ -84,9 +84,7 @@
 
       if (grtyp.eq.'A'.or.grtyp.eq.'B'.or.grtyp.eq.'G') then
          if (orient.eq.1) then
-            call memoirh(buf, iptab, ni * nj)
-            call swpgrid(buf(iptab), fld, ni, nj)
-            call memoirh(buf, iptab, 0)
+             call swpgrid(fld2, fld, ni, nj)
             orient = 0
          endif
       endif
