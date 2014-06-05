@@ -8,7 +8,7 @@ CPP = /lib/cpp
 
 RECLIB = ../lib/$(EC_ARCH)$(ABI)/librec.a
 
-#FFLAGS = -I$(ARMNLIB)/include -I../include -DX_WGL -O0 -g
+#FFLAGS =  -I../include -DX_WGL -O0 -g
 FFLAGS = -I../include -DX_WGL -O2
 
 #CFLAGS = -I/usr/X11R6/include -I/usr/include/Motif1.2R6 -I$(ARMNLIB)/include -I../include -I$(ARMNLIB)/xml/include/libxml2 -I/usr/include/libxml2 -I$(HOME)/src/images/gd2/ -DX_WGL
@@ -23,7 +23,7 @@ CPPFLAGS = -I../include -DX_WGL
 
 LIBRMN = rmn_014
 
-VER = 5.10.1
+VER = 5.10.2
 
 .PRECIOUS: $(RECLIB)
 

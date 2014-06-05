@@ -83,7 +83,7 @@
       data val /1000 * 'SCRAP', 'SQUARE', 'CHAMP_EDITE',
      *          '64',     '248', 'NON', 'NON','NON','NON' /
 
-*
+
 
       lnkdiun = 0
       cle_ar     = 1001
@@ -411,8 +411,8 @@ c     ****************************************************************
       implicit none
       character *(*) filename
 
-      character * 8   cle(1008)
-      character * 256 def(1008), val(1008)
+      character(len=20), dimension(1008) ::   cle
+      character(len=256),dimension(1008) :: def, val
 
       common /ccardprm/ cle, def, val
 !      print *, val(126)
