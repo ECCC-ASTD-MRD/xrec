@@ -717,7 +717,7 @@ XtCallbackProc PeEnregistrer(Widget w, caddr_t clientData, caddr_t  callData)
    static char *problemeFnom[] = {"\nProbleme avec l'ouverture du fichier\nOperation annulee\n", 
 				     "\nCan't open file.\nOperation cancelled\n"};
 
-   int iunSortie = 132;
+   int iunSortie = 0;
    char succesStr[256];
    Arg args[2];
    int i;
