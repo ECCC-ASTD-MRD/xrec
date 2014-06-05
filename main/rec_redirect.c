@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -14,7 +15,9 @@ f77name(rec_redirect)(char *nom_fichier, F2Cl flen)
 int i,bak, new;
 int len=flen;
 char nomfich[256];
-strcpy(nomfich, nom_fichier);
+
+memset(nomfich, '\000', 256);
+strncpy(nomfich, nom_fichier, len);
 i = len - 1;
 while(isspace(nomfich[i]) && i > 0)
    {
