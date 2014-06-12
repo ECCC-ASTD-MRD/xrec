@@ -6,7 +6,7 @@ SHELL = /bin/bash
 
 CPP = /lib/cpp
 
-RMNLIB = rmn_014
+LIBRMN = rmn_014
 
 FFLAGS = -I../include -DX_WGL
 
@@ -41,7 +41,7 @@ CDECKS= \
 COMDECKS= \
 
 cvtdictrec: dict.o grille.o
-	s.compile -o cvtdictrec -src $(FTNDECKS) -obj dict.o grille.o  -libpath ../lib/$(EC_ARCH) -libsys m -librmn  $(RMNLIB) 
+	s.compile -o cvtdictrec -src $(FTNDECKS) -obj dict.o grille.o  -libpath ../lib/$(EC_ARCH) -libsys m -librmn  $(LIBRMN) 
 	mkdir -p ../bin/$(BASE_ARCH)
 	mv cvtdictrec ../bin/$(BASE_ARCH)
 clean:
