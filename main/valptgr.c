@@ -129,8 +129,11 @@ XtCallbackProc AfficherValeursAuxPtsDeGrille(Widget w, caddr_t unused1, caddr_t 
                           f77name(grdval)(&uu[i], champs[i]->uu, &ix1, &iy1, &mapInfo.ni, &mapInfo.nj);
                           f77name(grdval)(&vv[i], champs[i]->vv, &ix1, &iy1, &mapInfo.ni, &mapInfo.nj);
                           gdid = c_ezgetgdout();
-        ier = c_gdllfxy(gdid, &tmplat, &tmplon, &xgrid, &ygrid, 1);
-        ier = c_gdwdfuv(gdid, &vits[i], &dirs[i], &uu[i], &vv[i], &tmplat, &tmplon, 1);
+			   ier = c_gdxywdval(gdid, &vits[i], &dirs[i], champs[i]->uu, champs[i]->vv, &xgrid, &ygrid, 1);
+			   /*
+			   ier = c_gdllfxy(gdid, &tmplat, &tmplon, &xgrid, &ygrid, 1);
+			   ier = c_gdwdfuv(gdid, &vits[i], &dirs[i], &uu[i], &vv[i], &tmplat, &tmplon, 1);
+			   */
                           break;
                           }
                      }
