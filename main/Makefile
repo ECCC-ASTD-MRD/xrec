@@ -21,9 +21,9 @@ OPTIMIZ = -O 2
 
 CPPFLAGS = -I../include -DX_WGL
 
-LIBRMN = rmn_014
+LIBRMN = rmn_015.1
 
-VER = 5.102
+VER = 5.103
 
 .PRECIOUS: $(RECLIB)
 

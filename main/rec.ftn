@@ -20,6 +20,9 @@
       program xrec
       implicit none
 
+!
+! Revision 5.103 - Dec 2014 - Reload avec librmn_015.1
+!
       integer maxrecs,newfld,ouvrir,fermer,quitter
       parameter (maxrecs= 128)
 
