@@ -12,7 +12,7 @@ CPPFLAGS = -I$(ARMNLIB)/include
 
 DEFINE =
 
-LIBRMN = rmn_015.1
+LIBRMN = rmn_015.2
 
 PROGRAM = trames
 
@@ -27,8 +27,8 @@ all:
 	make clean_obj
 	make metaview
 	make clean_obj
-VERT = 3.10
-VERX = 3.10
+VERT = 3.11
+VERX = 3.11
 
 #define pour trames
 #DEFINE =  -DUNIX -DRASTER -DC910

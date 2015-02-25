@@ -100,6 +100,7 @@
 *    - V3.08 - Y. Chartier  Nov 2007 - Reload xmetaview, motif
 *    -         M. Valin     Jul 2013 - Get rid of memoirh
 *    - V3.10 - M. Lepine    Dec 2014 - Reload avec librmn_015.1
+*    - V3.11 - M. Lepine    Fev 2015 - Reload avec librmn_015.2
 
 *
 *LANGUAGE   - FTN77
@@ -568,7 +569,7 @@
      +       F8.3, ' S.')
  605  FORMAT(/T30, "--- NOMBRE D'INSTRUCTIONS DE 4 BYTES: ", I8,
      +       /T30, "--- NOMBRE D'INSTRUCTIONS MULTIBYTES: ", I8)
- 610  FORMAT('1', T10, 'TRAMES - V3.10 -',
+ 610  FORMAT('1', T10, 'TRAMES - V3.11 -',
      +       '  ', ' TRADUCTION',
      +       ' POUR UNITE ', A8/T10, 71('=')//)
  620  FORMAT(//T10, 'SIZE = ', F6.2, T35, 'SPACE = ', F6.2,T55,

@@ -38,6 +38,7 @@
 *    - V3.07 - M. Lepine    Jan 2005 - Reload plus recent pour Debian
 *    - V3.08 - Y. Chartier  Nov 2007 - Reload xmetaview, motif
 *    - V3.10 - M. Lepine    Dec 2014 - Reload avec librmn_015.1
+*    - V3.11 - M. Lepine    Fev 2015 - Reload avec librmn_015.2
 *
 *LANGUAGE   - FTN77
 *
@@ -288,12 +289,12 @@
       IF(SIZEX .EQ. -1) THEN
          CALL WGLSCON('x')
          CALL KEEPAS(1,1)
-         III = WINOPE('?Metaview V3.10')
+         III = WINOPE('?Metaview V3.11')
          CALL GETSIZ(ISZX,ISZY)
          SIZEX = MIN(ISZX,ISZY)
       ELSE
          CALL WGLSCON('x')
-         III = WINOPE('?Metaview V3.10')
+         III = WINOPE('?Metaview V3.11')
          CALL GETSIZ(ISZX,ISZY)
          HX = ISZX
          HY = ISZY
@@ -587,7 +588,7 @@
      +       ' S.')
  605  FORMAT(/T30,"--- NOMBRE D'INSTRUCTIONS DE 4 BYTES: ",I8,
      +       /T30,"--- NOMBRE D'INSTRUCTIONS MULTIBYTES: ",I8)
- 610  FORMAT(/T10,'METAVIEW - V3.10 -', '  2002/02/07',
+ 610  FORMAT(/T10,'METAVIEW - V3.11 -', '  2002/02/07',
      +       ' TRADUCTEUR POUR ',A8/T10,71('=')//)
  620  FORMAT(//T10,'SIZE = ',F6.2,T35,'SPACE = ',F6.2,T55,'VSPACE = ',
      +        F6.2//T10,'OFFSET = ',F6.2,T35,'SIZEY = ',F6.2,
