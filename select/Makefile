@@ -64,4 +64,4 @@ rec_utillib:	\
 	$(REC_UTILLIB)(new-xfsl97.o) 
 
 clean:
-	rm -f *.o
+	rm -f *.o *.mod
