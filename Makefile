@@ -1,4 +1,5 @@
-DIRS = autog png gd2 xplot88 xdash wgl x_wgl gd_wgl gmp gdb lic select selfic main convert-dict xinit
+#DIRS = autog png gd2 xplot88 xdash wgl x_wgl gd_wgl gmp gdb lic select selfic main convert-dict xinit
+DIRS = autog png gd2 xplot88 xdash wgl x_wgl gd_wgl gmp gdb lic select selfic main xinit x_wgl
 
 default:	libs 
 
@@ -8,8 +9,8 @@ libs:
 clean:
 	for target in $(DIRS) metacode ; do ( cd $$target ; make clean; ) ; done
 
-xrec:
-	cd main ; make xrec
+xrec:   libs
+	cd main ; make LIBRMN=rmn_Alpha_016 xrec
 
 trames:
 	cd metacode ; make clean_obj ; make raster ; make clean_obj
@@ -17,7 +18,7 @@ trames:
 
 raster: trames
 
-xmetaview:
+xmetaview: libs
 	cd metacode ; make clean_obj ; make metaview ; make clean_obj
 	mv metacode/xmetaview_$(BASE_ARCH) bin/$(BASE_ARCH)/xmetaview
 
