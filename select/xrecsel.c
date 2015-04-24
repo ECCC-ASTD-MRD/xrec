@@ -2665,7 +2665,7 @@ f77name(xseloup)(char *titre, wordint  *nbrecs, char idents[], wordint *nbdes, w
    return 0;
    }
 
-f77name(xselins)(char *tableau, wordint table[][3], wordint *nbrecs)
+f77name(xselins)(char *tableau, wordint table[][3], wordint *nbrecs, F2Cl lentableau)
 {
    XSelectstdInserer(tableau, table, *nbrecs);
    }
