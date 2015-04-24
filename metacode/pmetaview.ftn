@@ -39,6 +39,7 @@
 *    - V3.08 - Y. Chartier  Nov 2007 - Reload xmetaview, motif
 *    - V3.10 - M. Lepine    Dec 2014 - Reload avec librmn_015.1
 *    - V3.11 - M. Lepine    Fev 2015 - Reload avec librmn_015.2
+*    - V3.12 - M. Valin     Avr 2015 - version.inc pour les versions
 *
 *LANGUAGE   - FTN77
 *
@@ -55,6 +56,7 @@
 *    77        STCKOOO    -->   FICHIER INTERNE (STOCKAGE DES OPTIONS)
 *    88        STCKPPP    -->   FICHIER INTERNE (STOCKAGE DES OPTIONS)
 *
+      character(len=8) :: TRAMES_VERSION, XMETAVIEW_VERSION
 #include "params.cdk"
 #include "docpar.cdk"
 #include "mapvar.cdk"
@@ -234,6 +236,7 @@
       DATA MENU(2) /'Revoir le frame courant'/
       DATA MENU(3) /'Frame #  1'/
 #include "mapping.cdk"
+#include "version.inc"
       CALL CCARD(CLE, DEF1, VAL, 64, -1)
       ERRCODE = FNOM(MCUNIT, VAL(12), 'RND,OLD' ,0)
       IF(ERRCODE .NE. 0) GOTO 160
@@ -289,12 +292,12 @@
       IF(SIZEX .EQ. -1) THEN
          CALL WGLSCON('x')
          CALL KEEPAS(1,1)
-         III = WINOPE('?Metaview V3.11')
+         III = WINOPE('?Metaview '//trim(XMETAVIEW_VERSION))
          CALL GETSIZ(ISZX,ISZY)
          SIZEX = MIN(ISZX,ISZY)
       ELSE
          CALL WGLSCON('x')
-         III = WINOPE('?Metaview V3.11')
+         III = WINOPE('?Metaview '//trim(XMETAVIEW_VERSION))
          CALL GETSIZ(ISZX,ISZY)
          HX = ISZX
          HY = ISZY
@@ -371,7 +374,7 @@
       VERTOFF = .TRUE.
       OFFSET  = NINT(OFFSET * TAJUSTX(DEVICE))
       INITOFF = OFFSET
-      WRITE(IPUNIT,610) 'Linux'
+      WRITE(IPUNIT,610) trim(XMETAVIEW_VERSION),'Linux'
       CALL TTTPATI
       CALL TTTCARI
       WRITE(IPUNIT,620) REAL(SIZEX)/100.,   REAL(INITSPA)/100., 
@@ -588,7 +591,7 @@
      +       ' S.')
  605  FORMAT(/T30,"--- NOMBRE D'INSTRUCTIONS DE 4 BYTES: ",I8,
      +       /T30,"--- NOMBRE D'INSTRUCTIONS MULTIBYTES: ",I8)
- 610  FORMAT(/T10,'METAVIEW - V3.11 -', '  2002/02/07',
+ 610  FORMAT(/T10,'METAVIEW - ',A,' -', '  2002/02/07',
      +       ' TRADUCTEUR POUR ',A8/T10,71('=')//)
  620  FORMAT(//T10,'SIZE = ',F6.2,T35,'SPACE = ',F6.2,T55,'VSPACE = ',
      +        F6.2//T10,'OFFSET = ',F6.2,T35,'SIZEY = ',F6.2,

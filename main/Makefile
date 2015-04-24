@@ -23,7 +23,7 @@ CPPFLAGS = -I../include -DX_WGL
 
 LIBRMN = rmn_015.2
 
-VER = 5.104
+include version.inc
 
 .PRECIOUS: $(RECLIB)
 
@@ -208,12 +208,12 @@ clean:
 	done \
 	fi
 
-	rm -f *.o xrec_$(VER)-$(BASE_ARCH)
+	rm -f *.o xrec_$(XREC_VERSION)-$(BASE_ARCH)
 
 xrec:
 	s.compile -src rec.ftn
-	s.f90 -o xrec_$(VER)-$(BASE_ARCH) rec.o  -L../libStatic/$(EC_ARCH) -L../lib/$(EC_ARCH) -lrec -lrec_util -lwgl -lgd_wgl -lx_wgl -lgdb -l$(LIBRMN) -lXm -lXt -lSM -lICE -lXext -lXmu -lXp -lX11 -lgd -lz -lpng -lm -ldl -ljpeg
-	mv xrec_$(VER)-$(BASE_ARCH) ..
+	s.f90 -o xrec_$(subst ",,$(XREC_VERSION))_$(BASE_ARCH) rec.o  -L../libStatic/$(EC_ARCH) -L../lib/$(EC_ARCH) -lrec -lrec_util -lwgl -lgd_wgl -lx_wgl -lgdb -l$(LIBRMN) -lXm -lXt -lSM -lICE -lXext -lXmu -lXp -lX11 -lgd -lz -lpng -lm -ldl -ljpeg
+#	mv xrec_$(XREC_VERSION)_$(BASE_ARCH) ..
 
 xrec-dyn:
 	s.compile -src rec.ftn
