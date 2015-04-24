@@ -51,7 +51,7 @@ char nomApplication[];
 F2Cl flen;
 {
    char copieNomApplication[256];
-   int  lenNomApplicationi=flen;
+   int  lenNomApplication=flen;
    
    strncpy(copieNomApplication, nomApplication, lenNomApplication);
    copieNomApplication[lenNomApplication] = '\0';
