@@ -193,7 +193,7 @@ $(PROGRAM): $(OBJETS) praster.o
 	s.compile -o $(PROGRAM)_$(subst ",,$(TRAMES_VERSION))_$(BASE_ARCH) -obj $(OBJETS) praster.o -librmn $(LIBRMN)
 
 $(PROGRAM2): $(OBJETS) pmetaview.o
-	s.f90 -o $(PROGRAM2)_$(subst ",,$(XMETAVIEW_VERSION))_$(BASE_ARCH) $(OBJETS) pmetaview.o -L../libStatic/$(EC_ARCH) -L../lib/$(EC_ARCH) -lwgl -lgd_wgl -lx_wgl -lwgl -l$(LIBRMN) -lXm -lXt -lSM -lICE -lXext -lXmu -lXp -lX11 -lgd -lz -lpng -lm -ldl 
+	s.f90 -o $(PROGRAM2)_$(subst ",,$(XMETAVIEW_VERSION))_$(BASE_ARCH) $(OBJETS) pmetaview.o -L../libStatic/$(EC_ARCH) -L../lib/$(EC_ARCH) -lwgl -lgd_wgl -lx_wgl -lwgl -l$(LIBRMN) -lXm -lXt -lSM -lICE -lXext -lXp -lX11 -lgd -lz -lpng -lm -ldl 
 
 clean_obj:
 	-if [ "*.ftn" != "`echo *.ftn`" ] ; \
