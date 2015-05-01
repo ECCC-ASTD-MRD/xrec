@@ -85,14 +85,21 @@ void c_wglssp(float xdebut, float ydebut, float xfin, float yfin, int idebut, in
   if (usSpace.xfin == usSpace.xdebut)
     {
     usSpace.densiteX = 1.0*(usSpace.ifin);
-    usSpace.densiteY = 1.0*(usSpace.jfin);
     }
   else
     {
     usSpace.densiteX = (float)(usSpace.ifin - usSpace.idebut) / (usSpace.xfin - usSpace.xdebut);
+    }
+
+  if (usSpace.yfin == usSpace.ydebut)
+    {
+    usSpace.densiteY = 1.0*(usSpace.jfin);
+    }
+  else
+    {
     usSpace.densiteY = (float)(usSpace.jfin - usSpace.jdebut) / (usSpace.yfin - usSpace.ydebut);
     }
-  
+
   if (wglForceAspect)
     {
     if (usSpace.densiteX < usSpace.densiteY)
