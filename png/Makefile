@@ -3,7 +3,7 @@
 # Copyright (C) 1996, 1997 Andreas Dilger
 # For conditions of distribution and use, see copyright notice in png.h
 
-CC=cc
+CC=s.cc
 
 # where "make install" puts libpng.a, libpng.so*, png.h and pngconf.h
 #prefix=/usr/local
