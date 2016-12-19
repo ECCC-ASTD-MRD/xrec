@@ -323,9 +323,9 @@ c     ****************************************************************
       tol = 6
       ier = fstopi('TOLRNC', tol, flag)
       call fstlnk(lnkdiun, nf)
-      allocate (liste(nrecs))
+      allocate (liste(nbrecs))
       ier = fstinl(lnkdiun(1), ni, nj, nk, -1, ' ',-1,-1,-1,' ',' ',
-     *             liste, nrecs, nrecs)
+     *             liste, nrecs, nbrecs)
 
       return
       end
