@@ -103,9 +103,9 @@
       mode = -1
       if (nomvar(1:2).ne.'^^'.and.nomvar(1:2).ne.'>>'.and.nomvar(1:2).ne
      %.'HY'.and.nomvar(1:4).ne.'####') then
-        call convip(ip1, niveau, kind, mode, cniveau, .true.)
+        call convip_plus(ip1, niveau, kind, mode, cniveau, .true.)
         cniveau = adjustl(cniveau)
-        call convip(ip3, f_ip3, kind, mode, c_ip3, .true.)
+        call convip_plus(ip3, f_ip3, kind, mode, c_ip3, .true.)
         c_ip3 = adjustl(c_ip3)
       else
         write(cniveau, '(i10)') ip1
@@ -148,9 +148,9 @@
       mode = -1
       if (nomvar(1:2).ne.'^^'.and.nomvar(1:2).ne.'>>'.and.nomvar(1:2).ne
      %.'HY'.and.nomvar(1:4).ne.'####') then
-        call convip(ip1, niveau, kind, mode, cniveau, .true.)
+        call convip_plus(ip1, niveau, kind, mode, cniveau, .true.)
         cniveau = adjustl(cniveau)
-        call convip(ip3, f_ip3, kind, mode, c_ip3, .true.)
+        call convip_plus(ip3, f_ip3, kind, mode, c_ip3, .true.)
         c_ip3 = adjustl(c_ip3)
       else
         write(cniveau, '(i10)') ip1

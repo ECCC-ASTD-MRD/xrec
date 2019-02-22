@@ -929,7 +929,7 @@ int FldMgrLoadVerticalXSection()
           tmpchamp.iun = fmflds[n].iun;
           tmpchamp.travailEnCours = COUPE;
           FldMgrGetFstPrm(&tmpchamp);
-          f77name(convip)(&tmpchamp.ip1, &fmflds[n].coupe.niveauxCoupe[i], &kind, &versPression, NULL, &faux,(F2Cl) 0);
+          f77name(convip_plus)(&tmpchamp.ip1, &fmflds[n].coupe.niveauxCoupe[i], &kind, &versPression, NULL, &faux,(F2Cl) 0);
           }
         }
       }
@@ -1970,7 +1970,7 @@ int *nbCles;
       {
       tmp[i].cle = listeCles[i];
       FldMgrGetFstPrm(&tmp[i]);
-      f77name(convip) (&(tmp[i].ip1), &(tmp[i].niveau), &kind, &versPression, NULL, &faux,(F2Cl) 0);
+      f77name(convip_plus) (&(tmp[i].ip1), &(tmp[i].niveau), &kind, &versPression, NULL, &faux,(F2Cl) 0);
       }
 
   for (i=0; i < *nbCles; i++)
@@ -2080,7 +2080,7 @@ _Champ *champ;
     {
     stringNiveau[i] = '\0';
     }
-  f77name(f_convip)(&champ->ip1, &champ->niveau, &kind, &versPression, stringNiveau, &vrai, (F2Cl) 15);
+  f77name(f_convip_plus)(&champ->ip1, &champ->niveau, &kind, &versPression, stringNiveau, &vrai, (F2Cl) 15);
   champ->coordonneeVerticale = kind;
   nettoyer(stringNiveau);
 
@@ -2427,7 +2427,7 @@ void FldMgrVerConsistanceNiveaux(_Champ champ, int listeCles[], int *nbCles)
   _Champ bidon;
 
   ivalide = 0;
-  f77name(convip)(&champ.ip1, &niveau, &kindref, &versPression, NULL, &faux, (F2Cl) 0);
+  f77name(convip_plus)(&champ.ip1, &niveau, &kindref, &versPression, NULL, &faux, (F2Cl) 0);
 
   for (i=0; i < *nbCles; i++)
     {
@@ -2435,7 +2435,7 @@ void FldMgrVerConsistanceNiveaux(_Champ champ, int listeCles[], int *nbCles)
     FldMgrGetFstPrm(&bidon);
     if (champ.deet*champ.npas == bidon.deet*bidon.npas)
       {
-      f77name(convip)(&bidon.ip1, &niveau, &kind, &versPression, NULL, &faux, (F2Cl) 0);
+      f77name(convip_plus)(&bidon.ip1, &niveau, &kind, &versPression, NULL, &faux, (F2Cl) 0);
       if (kindref == kind)
         {
         listeCles[ivalide] = listeCles[i];

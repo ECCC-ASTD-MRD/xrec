@@ -9,7 +9,7 @@
   do i=1,16
      chaine = '                '
   enddo
-  call convip(ip, p, sorte, mode, local_string, flag)
+  call convip_plus(ip, p, sorte, mode, local_string, flag)
   if (flag) then
     chaine(1:16) = local_string(1:16)
   endif
