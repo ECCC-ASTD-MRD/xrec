@@ -178,7 +178,7 @@ libgd.a: ${LIBOBJS}
 	rm -f libgd.a
 	$(AR) rc libgd.a ${LIBOBJS}
 	sh ./install-item 644 libgd.a $(INSTALL_LIB)/libgd.a
-	rm libgd.a *.o
+# 	rm libgd.a *.o
 
 clean:
 	rm -f *.o *.a *.so ${PROGRAMS} test/gdtest.jpg test/gdtest.wbmp libgd.so.${VERSION} libgd.a

@@ -14,7 +14,7 @@ CPPFLAGS = -I$(ARMNLIB)/include
 
 DEFINE =
 
-LIBRMN = rmn_015.2
+LIBRMN = rmn
 
 PROGRAM = trames
 

@@ -61,10 +61,9 @@ all: libpng.a libpng.so pngtest
 
 libpng.a: $(OBJS)
 	ar rcv $@ $(OBJS)
-	$(RANLIB) $@
 	mkdir -p ../lib/$(EC_ARCH)
 	rsync -aruvxlH $@ ../lib/$(EC_ARCH)
-	rm $@ *.o
+# 	rm $@ *.o
 
 libpng.so: libpng.so.$(PNGMAJ)
 	ln -sf libpng.so.$(PNGMAJ) libpng.so

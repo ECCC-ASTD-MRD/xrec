@@ -19,6 +19,7 @@
  */
 
 #include <wgl_x.h>
+#include <math.h>
 
 extern unsigned int colorbitrange[3][3];
 unsigned int x_wglcolf(float couleur);
@@ -109,7 +110,7 @@ unsigned int x_wglcolfs(float *cols, unsigned int *pixels, int n)
 
 unsigned int x_wglcolfs_fst(float *cols, unsigned int *pixels, int n)
 {
-#define MISSING HUGE
+#define MISSING HUGE_VAL
   int r,g,b;
   int r1,g1,b1;
   int r2,g2,b2;

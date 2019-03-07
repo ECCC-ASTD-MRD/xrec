@@ -26,7 +26,7 @@ default: gd_wgllib
 
 .c.a:
 	s.cc -c $(OPTIMIZ) $(CFLAGS) -src $<
-	ar rv $@ $*.o
+	ar $(AROPT) $@ $*.o
 	rm -f $*.o
 
 CDECKS= \

@@ -21,7 +21,7 @@
       implicit none
 
 !
-! Revision 5.104 - Fev. 2015 - Reload avec librmn_015.2
+! Revisions: see Changelog
 !
       integer maxrecs,newfld,ouvrir,fermer,quitter
       parameter (maxrecs= 128)

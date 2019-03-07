@@ -6,7 +6,7 @@
 
 #define  RADIAN_A_DEGRE    57.29577951
 #define  DEGRE_A_RADIAN    0.01745329252
-#define  MISSING           HUGE
+#define  MISSING           HUGE_VAL
 
 #define  GLOBAL                  0
 #define  NORD                    1

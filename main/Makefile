@@ -21,7 +21,7 @@ OPTIMIZ = -O 2
 
 CPPFLAGS = -I../include -DX_WGL
 
-LIBRMN = rmn_015.2
+LIBRMN = rmn
 
 include version.inc
 
@@ -44,18 +44,18 @@ default: reclib
 
 .c.a:
 	s.cc -c $(OPTIMIZ) $(CFLAGS) $<
-	ar rv $@ $*.o
+	ar $(AROPT) $@ $*.o
 	rm -f $*.o
 
 .ftn.a:
 	s.compile $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
-	ar rv $@ $*.o
+	ar $(AROPT) $@ $*.o
 #	rm -f $*.f $*.o
 	rm -f $*.o
 
 .ftn90.a:
 	s.compile $(OPTIMIZ) -opt "=$(FFLAGS)" -src $<
-	ar rv $@ $*.o
+	ar $(AROPT) $@ $*.o
 	rm -f $*.f $*.o
 
 FTNDECKS= \
@@ -212,7 +212,8 @@ clean:
 
 xrec:
 	s.compile -src rec.ftn
-	s.f90 -o xrec_$(subst ",,$(XREC_VERSION))_$(BASE_ARCH) rec.o  -L../libStatic/$(EC_ARCH) -L../lib/$(EC_ARCH) -lrec -lrec_util -lwgl -lgd_wgl -lx_wgl -lgdb -l$(LIBRMN) -lXm -lXt -lSM -lICE -lXext -lXp -lX11 -lgd -lz -lpng -lm -ldl -ljpeg
+	s.f90 -o xrec_$(subst ",,$(XREC_VERSION))_$(BASE_ARCH) rec.o  -L../libStatic/$(EC_ARCH) -L../lib/$(EC_ARCH) -lrec -lrec_util -lwgl -lgd_wgl -lx_wgl -lgdb -l$(LIBRMN) -lXm -lXt -lSM -lICE -lXext -lX11 -lgd -lz -lpng -lm -ldl -ljpeg -lz
+#	s.f90 -o xrec_$(subst ",,$(XREC_VERSION))_$(BASE_ARCH) rec.o  -L../libStatic/$(EC_ARCH) -L../lib/$(EC_ARCH) -lrec -lrec_util -lwgl -lgd_wgl -lx_wgl -lgdb -l$(LIBRMN) -lXm -lXt -lSM -lICE -lXext -lXp -lX11 -lgd -lz -lpng -lm -ldl -ljpeg -lz
 #	mv xrec_$(XREC_VERSION)_$(BASE_ARCH) ..
 
 xrec-dyn:

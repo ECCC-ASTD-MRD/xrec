@@ -30,12 +30,12 @@ default: wgllib
 
 .c.a:
 	s.cc $(OPTIMIZ) $(CFLAGS) -c $<
-	ar rv $@ $*.o
+	ar $(AROPT) $@ $*.o
 	rm -f $*.o
 
 .ftn.a:
 	s.compile $(OPTIMIZ) -src $<
-	ar rv $@ $*.o
+	ar $(AROPT) $@ $*.o
 	rm -f $*.o
 
 FTNDECKS= \

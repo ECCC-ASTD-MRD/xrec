@@ -31,12 +31,12 @@ default: recutil_lib
 
 .c.a:
 	s.compile $(OPTIMIZ) -opt "=$(CFLAGS)" -src $<
-	ar rv $@ $*.o
+	ar $(AROPT) $@ $*.o
 	rm -f $*.o
 
 .ftn.a:
 	s.compile $(OPTIMIZ)  -src $<
-	ar rv $@ $*.o
+	ar $(AROPT) $@ $*.o
 	rm -f $*.o
 
 FTNDECKS= \

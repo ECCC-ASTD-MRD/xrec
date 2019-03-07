@@ -2080,7 +2080,7 @@ _Champ *champ;
     {
     stringNiveau[i] = '\0';
     }
-  f77name(f_convip_plus)(&champ->ip1, &champ->niveau, &kind, &versPression, stringNiveau, &vrai, (F2Cl) 15);
+  f77name(f_convip)(&champ->ip1, &champ->niveau, &kind, &versPression, stringNiveau, &vrai, (F2Cl) 15);
   champ->coordonneeVerticale = kind;
   nettoyer(stringNiveau);
 
@@ -3075,7 +3075,7 @@ int FldMgrFlagMissingValues(_Champ *champ)
   int dateo, deet, npas, ni,nj,nk,nbits,datyp,ip1,ip2,ip3,ig1,ig2,ig3,ig4,swa,lng,dltf,ubc,extra1,extra2,extra3;
   char nomvar[8],etiket[16],typvar[4],grtyp[2];
 
-  huge = HUGE;
+  huge = HUGE_VAL;
 
   /*
   if (champ->src.grtyp[0] == 'X' || champ->src.grtyp[0] == 'Y')

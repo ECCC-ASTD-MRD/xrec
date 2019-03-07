@@ -30,12 +30,12 @@ default: rec_utillib
 
 .c.a:
 	s.cc -c $(OPTIMIZ) $(CFLAGS) $<
-	ar rv $@ $*.o
+	ar $(AROPT) $@ $*.o
 	rm -f $*.o
 
 .ftn.a:
 	s.compile $(OPTIMIZ) -src $*.ftn
-	ar rv $@ $*.o
+	ar $(AROPT) $@ $*.o
 	rm -f $*.o
 
 FTNDECKS= \

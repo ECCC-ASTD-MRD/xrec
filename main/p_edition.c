@@ -714,7 +714,9 @@ XtCallbackProc PeEnregistrer(Widget w, caddr_t clientData, caddr_t  callData)
    static char *nombidon[] = {"champ_edite", "modified_field"};
    static char *succes[] = {"\nOperation completee.\n Le champ a ete ecrit dans le fichier:\n", 
 			       "\nOperation successfull.\n The field has been saved in the file:\n"};
-   static char *problemeFnom[] = {"\nProbleme avec l'ouverture du fichier\nOperation annulee\n", 
+   static char *problemeFnom[] = {"\nProbleme avec l'ouverture du fichier(fnom)\nOperation annulee\n", 
+				     "\nCan't open file.\nOperation cancelled\n"};
+   static char *problemeFstouv[] = {"\nProbleme avec l'ouverture du fichier(fstouv)\nOperation annulee\n", 
 				     "\nCan't open file.\nOperation cancelled\n"};
 
    int iunSortie = 0;
@@ -776,7 +778,7 @@ XtCallbackProc PeEnregistrer(Widget w, caddr_t clientData, caddr_t  callData)
    if (ier < 0)
       {
       DesactiverTousPeWidgets();
-      MessageAvertissementAux(problemeFnom[lng], AVERTISSEMENT, peWarning, peTopLevel);
+      MessageAvertissementAux(problemeFstouv[lng], AVERTISSEMENT, peWarning, peTopLevel);
       ActiverTousPeWidgets();
       return 0;
       }

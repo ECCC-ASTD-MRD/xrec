@@ -67,10 +67,12 @@ void f77name(vecteur)(char nom_uu[], char nom_vv[], char nom_ww[], F2Cl len_nom_
    
 }
 
-int c_checkIfVectorVar(char nomvar[])
+int c_checkIfVectorVar(char lnomvar[])
   {
   int i, found;
+  char nomvar[5];
   
+  snprintf(nomvar,5,"%-4s",lnomvar);  nomvar[4] = '\0' ;
   found = -1;
   
    if (once == 1)
@@ -79,20 +81,21 @@ int c_checkIfVectorVar(char nomvar[])
     strcpy(vecteurs[0][1], "VV  ");
     strcpy(vecteurs[0][2], "WW  ");
     once = 0;
+    nbVecteurs++;
     }
   
   i = 0;
   while (i < nbVecteurs && found == -1)
     {
-    if (0 == strncmp(nomvar, vecteurs[i][0], strlen(nomvar)))
+    if (0 == strncmp(nomvar, vecteurs[i][0], 4))
       {
       return 0;
       }
-    if (0 == strncmp(nomvar, vecteurs[i][1], strlen(nomvar)))
+    if (0 == strncmp(nomvar, vecteurs[i][1], 4))
       {
       return 1;
       }
-/*    if (0 == strncmp(nomvar, vecteurs[i][2], strlen(nomvar)))
+/*    if (0 == strncmp(nomvar, vecteurs[i][2], 4))
       {
       return 2;
       }*/
@@ -104,23 +107,25 @@ int c_checkIfVectorVar(char nomvar[])
     }
   }
   
-int c_getVectorVars(char nomvar[], char uu[], char vv[], char ww[])
+int c_getVectorVars(char lnomvar[], char uu[], char vv[], char ww[])
   {
   int i, found;
+  char nomvar[5];
   found = -1;
   
+  snprintf(nomvar,5,"%-4s",lnomvar);  nomvar[4] = '\0' ;
   i = 0;
   while (i < nbVecteurs && found == -1)
     {
-    if (0 == strncmp(nomvar, vecteurs[i][0], strlen(nomvar)))
+    if (0 == strncmp(nomvar, vecteurs[i][0], 4))
       {
       found = 1;
       }
-    if (0 == strncmp(nomvar, vecteurs[i][1], strlen(nomvar)))
+    if (0 == strncmp(nomvar, vecteurs[i][1], 4))
       {
       found = 1;
       }
-/*    if (0 == strncmp(nomvar, vecteurs[i][2], strlen(nomvar)))
+/*    if (0 == strncmp(nomvar, vecteurs[i][2], 4))
       {
       found = 1;
       }*/

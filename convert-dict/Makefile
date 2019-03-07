@@ -29,7 +29,7 @@ default: cvtdictrec
 
 .ftn.a:
 	r.compile $(OPTIMIZ) -src $<
-	ar rv $@ $*.o
+	ar $(AROPT) $@ $*.o
 	rm -f $*.f $*.o
 
 FTNDECKS= \
