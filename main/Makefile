@@ -213,7 +213,7 @@ clean:
 xrec:
 	s.compile -src rec.ftn
 	s.f90 -o xrec_$(subst ",,$(XREC_VERSION))_$(BASE_ARCH) rec.o  -L../libStatic/$(EC_ARCH) -L../lib/$(EC_ARCH) -lrec -lrec_util -lwgl -lgd_wgl -lx_wgl -lgdb -l$(LIBRMN) -lXm -lXt -lSM -lICE -lXext -lX11 -lgd -lz -lpng -lm -ldl -ljpeg -lz
-#	s.f90 -o xrec_$(subst ",,$(XREC_VERSION))_$(BASE_ARCH) rec.o  -L../libStatic/$(EC_ARCH) -L../lib/$(EC_ARCH) -lrec -lrec_util -lwgl -lgd_wgl -lx_wgl -lgdb -l$(LIBRMN) -lXm -lXt -lSM -lICE -lXext -lXp -lX11 -lgd -lz -lpng -lm -ldl -ljpeg -lz
+#	s.f90 -o xrec_$(subst ",,$(XREC_VERSION))_$(BASE_ARCH) rec.o  -L../libStatic/$(EC_ARCH) -L../lib/$(EC_ARCH) -lrec -lrec_util -lwgl -lgd_wgl -lx_wgl -lgdb -l$(LIBRMN) -lXm -lXt -lSM -lICE -lXext -lX11 -lgd -lz -lpng -lm -ldl -ljpeg -lz
 #	mv xrec_$(XREC_VERSION)_$(BASE_ARCH) ..
 
 xrec-dyn:
@@ -222,7 +222,7 @@ xrec-dyn:
 	mv xrec ..
 
 xrec-AIX:
-	s.compile -debug -O  0 -src rec.ftn -o $(TMPDIR)/xrec -obj $(HOME)/src/isi4/lib/ibm/*.o -libpath /opt/xm/lib/ $(PWD)/../lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl Xm Mrm Xp Xt Xext X11 $(EC_ARCH)$(ABI)_gd z $(EC_ARCH)$(ABI)_png m dl jpeg -librmn rmnbeta
+	s.compile -debug -O  0 -src rec.ftn -o $(TMPDIR)/xrec -obj $(HOME)/src/isi4/lib/ibm/*.o -libpath /opt/xm/lib/ $(PWD)/../lib $(ARMNLIB)/lib/$(EC_ARCH) /usr/X11R6/lib -libappl $(EC_ARCH)$(ABI)_rec $(EC_ARCH)$(ABI)_rec_util $(EC_ARCH)$(ABI)_wgl $(EC_ARCH)$(ABI)_gd_wgl $(EC_ARCH)$(ABI)_x_wgl Xm Mrm Xt Xext X11 $(EC_ARCH)$(ABI)_gd z $(EC_ARCH)$(ABI)_png m dl jpeg -librmn rmnbeta
 
 dictxml: dictxml.o test-dictxml.o
 	r.build -conly -o dictxml -obj test-dictxml.o dictxml.o -librmn rmn_006 -libappl xml2 m z
