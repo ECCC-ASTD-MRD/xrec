@@ -1,0 +1,96 @@
+*/* RMNLIB - Library of useful routines for C and FORTRAN programming
+* * Copyright (C) 1975-2001  Division de Recherche en Prevision Numerique
+* *                          Environnement Canada
+* *
+* * This library is free software; you can redistribute it and/or
+* * modify it under the terms of the GNU Lesser General Public
+* * License as published by the Free Software Foundation,
+* * version 2.1 of the License.
+* *
+* * This library is distributed in the hope that it will be useful,
+* * but WITHOUT ANY WARRANTY; without even the implied warranty of
+* * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* * Lesser General Public License for more details.
+* *
+* * You should have received a copy of the GNU Lesser General Public
+* * License along with this library; if not, write to the
+* * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+* * Boston, MA 02111-1307, USA.
+* */
+*
+***S/P  XDISPLA    CETTE ROUTINE DONNE A L'USAGER UN CONTROLE SUR L'IMAG
+*
+      SUBROUTINE XDISPLA (LFRAMEE,IROWW,LTYPEE)
+#include "impnone.cdk"
+*
+*AUTEUR   SYSTEME NCAR
+*
+*REVISION 001  RPN  M.VALIN / C.THIBEAULT  1-7-78  REFAIT DOCUMENTATION
+*
+*LANGAGE  FORTRAN
+*
+*OBJET(DISPLA)
+*                 DISPLA CONTROLE L'AVANCE DE L'IMAGE (LFRAMEE), LA
+*                 PRESENTATION DES COURBES (LTYPEE) ET LA MANIERE DONT
+*                 LE DATA EST ENREGISTRE QUAND IL Y A PLUSIEURS
+*                 COURBES (IROWW)
+*
+*DIRECTIVES(DISPLA)
+*
+*LIBRAIRIES
+*         SOURCE  NEWAUTOGRAPHPL,ID=CMCULIB      DECK=DISPLA
+*
+*         OBJET   NCARSYSOB,ID=CMCULIB
+*
+*ARGUMENTS
+*
+*         LFRAMEE CONTROLE L'AVANCE DE L'IMAGE
+*                   = 0 GARDE LA MEME VALEUR QUE DANS LE DERNIER APPEL
+*                   = 1 L'IMAGE AVANCE APRES AVOIR TRACE
+*                   = 2 L'IMAGE N'AVANCE PAS
+*                   = 3 L'IMAGE AVANCE AVANT DE TRACER
+*                   DEFAUT:  LFRAMEE=1
+*
+*         IROWW   DECRIT DE QUELLE MANIERE FLDX ET FLDY SONT ENREGISTRE
+*                 .EQ.0  GARDE LA MEME VALEUR QUE DANS LE DERNIER APPEL
+*                 .GT.0  LE DATA EST ENREGISTRE DE LA MANIERE SUIVANTE:
+*                        FLDY(I,J),I=1,2,....NPTS  ET
+*                                  J=1,2,...MANY COURBES
+*                 .LT.0  LE DATA EST ENREGISTRE DE LA MANIERE SUIVANTE:
+*                        FLDY(I,J),J=1,2....NPTS ET
+*                                  I=1,2....MANY COURBES
+*         IABS(IROWW)
+*                 .EQ.1  LE CHAMP X A UNE DIMENSION POUR PLUSIEURS
+*                        COURBES,  I.E. UNE DIMENSION DE X POUR
+*                        PLUSIEURS Y
+*                 .GT.1  POUR PLUSIEURS COURBES, X A LA MEME DIMENSION
+*                        QUE Y
+*                 DEFAUT:  IROWW=1
+*
+*         LTYPEE  CONTROLE LA PRESENTATION DES COURBES
+*                   = 0 GARDE LA MEME VALEUR QUE DANS LE DERNIER APPEL
+*                   = 1 AXE-X  LINEAIRE, AXE-Y  LINEAIRE
+*                   = 2 AXE-X  LINEAIRE, AXE-Y  LOGARITHMIQUE
+*                   = 3 AXE-X  LOGARITHMIQUE,  AXE-Y  LINEAIRE
+*                   = 4 AXE-X  LOGARITHMIQUE,  AXE-Y  LOGARITHMIQUE
+*                   DEFAUT:  LTYPEE=1
+*
+*
+*IMPLICITES
+#include "xautog1.cdk"
+#include "xautog3.cdk"
+*
+*NOTE     POUR PLUS DE DETAIL SUR LE BLOC /AUTOG1/ VOIR PLOT80
+*
+*----------------------------------------------------------------------
+*
+      INTEGER IROWW,LFRAMEE,LTYPEE
+*
+*----------------------------------------------------------------------
+*
+      IF (LFRAMEE .NE. 0) LFRAME = LFRAMEE
+      IF (IROWW .NE. 0) IROW = IROWW
+      IF (LTYPEE .NE. 0) LTYPE = LTYPEE
+*
+      RETURN
+      END

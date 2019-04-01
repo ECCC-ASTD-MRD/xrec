@@ -1,0 +1,11 @@
+include_directories(${ROOT}/src/xrec/include)
+# Build the following components
+add_subdirectory(gd2 gd2)
+add_subdirectory(gd_wgl gd_wgl)
+add_subdirectory(gdb gdb)
+add_subdirectory(png png)
+add_subdirectory(wgl wgl)
+add_subdirectory(x_wgl x_wgl)
+add_subdirectory(rec rec)
+add_subdirectory(rec_util rec_util)
+add_subdirectory(main main)

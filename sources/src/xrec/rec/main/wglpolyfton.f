@@ -1,0 +1,155 @@
+*/* RMNLIB - Library of useful routines for C and FORTRAN programming
+* * Copyright (C) 1975-2001  Division de Recherche en Prevision Numerique
+* *                          Environnement Canada
+* *
+* * This library is free software; you can redistribute it and/or
+* * modify it under the terms of the GNU Lesser General Public
+* * License as published by the Free Software Foundation,
+* * version 2.1 of the License.
+* *
+* * This library is distributed in the hope that it will be useful,
+* * but WITHOUT ANY WARRANTY; without even the implied warranty of
+* * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* * Lesser General Public License for more details.
+* *
+* * You should have received a copy of the GNU Lesser General Public
+* * License axg with this library; if not, write to the
+* * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+* * Boston, MA 02111-1307, USA.
+* */
+***********************************************************************
+*
+*  objet:    c_wglpfton
+*  fonction: Affichage en couleurs d'un champ par lignes de pixels
+*  auteur:   Yves Chartier, fevrier 1992
+*  Arguments:
+*    fld:            champ bi-dimensionnel contenant les valeurs a contourer
+*    ni, nj:         dimensions du champ
+*    mdeb,ndeb:      coordonnees (gauche,bas)  de la sous-fenetre a afficher
+*    mfin,nfin:      coordonnees (droite,haut) de la sous-fenetre a afficher
+*    interv:         liste d'intervalles de contours
+*    nbInterv:       nombre d'intervalles dans la liste
+*    facteur:        ordre de grandeur du champ
+*    rmin,rmax:      valeurs min et max du champ
+*    ctable:         table d'indices de couleurs
+*    ncol:           nombre de couleurs dans la table
+*    flagint:        drapeau indiquant si la routine devra s'informer
+*                    d'une demande eventuelle d'annuyion
+*    lissfac:        niveau de lissage demande
+*
+***********************************************************************
+      subroutine wglpolyfton(z,x,y,ni,nj,interv,nbinterv, facteur,rmin,r
+     %max,ctable,ncol,contour, gdout)
+      implicit none
+      integer, parameter :: noir = 1
+      integer ni,nj,mdeb,ndeb,mfin,nfin
+      real z(ni,nj),y(ni,nj),x(ni,nj)
+      integer ncol, nbinterv
+      real interv(nbinterv), facteur, rmin, rmax
+      integer ctable(0:ncol-1)
+      integer flagint, contour, gdout
+      integer i,j,n
+       real cmin, cmax, delta
+      real x1,y1,x2,y2, dx, dy
+      real, dimension(8) :: lcl_ys, lcl_xs
+      real poly(2,9)
+      real xlimite,xmin,xmax
+      integer ix1, iy1
+      real xdebut, ydebut, xfin, yfin, ymin, ymax
+      integer oldindc, indc, rowl
+      integer ideb, jdeb, ifin, jfin
+      integer iptp, iptr
+      integer ier, gdxyfll
+      integer, dimension(:) :: tmppos(ni), tmpind(ni)
+      real, dimension(:) :: tmpvals(ni)
+      integer wglanul
+      external wglanul
+      real zlin
+      zlin(x1,x2,dx) = x1 + (x2 - x1)* dx
+      if (rmin.eq.rmax)  then
+         return
+      endif
+      cmin = rmin
+      cmax = rmax
+      if (interv(1).ne.0.0) then
+         call ajusminmax(cmin,cmax,facteur,interv)
+      endif
+      delta = cmax - cmin
+      call wglgsx(xdebut, ydebut, xfin, yfin)
+      do j=nj-1,2,-1
+         tmpvals = z(:,j)
+!         print *, minval(tmpvals),minloc(tmpvals),maxval(tmpvals), maxloc(tmpvals)
+         call wglcalcols(tmpind, tmpvals, ni, cmin, delta, interv, nbint
+     %erv, facteur,ncol)
+         xlimite = 10.0
+         do i=2, ni-1
+            if (i == 2) then
+               lcl_xs(1) = 0.5*(x(i,j)+x(i-1,j-1))
+               lcl_xs(2) = 0.5*(x(i,j)+x(i  ,j-1))
+               lcl_xs(3) = 0.5*(x(i,j)+x(i+1,j-1))
+               lcl_xs(4) = 0.5*(x(i,j)+x(i+1,j))
+               lcl_xs(5) = 0.5*(x(i,j)+x(i+1,j+1))
+               lcl_xs(6) = 0.5*(x(i,j)+x(i,  j+1))
+               lcl_xs(7) = 0.5*(x(i,j)+x(i-1,j+1))
+               lcl_xs(8) = 0.5*(x(i,j)+x(i-1,j))
+               lcl_ys(1) = 0.5*(y(i,j) + y(i-1,j-1))
+               lcl_ys(2) = 0.5*(y(i,j) + y(i  ,j-1))
+               lcl_ys(3) = 0.5*(y(i,j) + y(i+1,j-1))
+               lcl_ys(4) = 0.5*(y(i,j) + y(i+1,j))
+               lcl_ys(5) = 0.5*(y(i,j) + y(i+1,j+1))
+               lcl_ys(6) = 0.5*(y(i,j) + y(i  ,j+1))
+               lcl_ys(7) = 0.5*(y(i,j) + y(i-1,j+1))
+               lcl_ys(8) = 0.5*(y(i,j) + y(i-1,j))
+            else
+               lcl_xs(1) = lcl_xs(3)
+               lcl_xs(8) = lcl_xs(4)
+               lcl_xs(7) = lcl_xs(5)
+               lcl_xs(2) = 0.5*(x(i,j)+x(i  ,j-1))
+               lcl_xs(3) = 0.5*(x(i,j)+x(i+1,j-1))
+               lcl_xs(4) = 0.5*(x(i,j)+x(i+1,j))
+               lcl_xs(5) = 0.5*(x(i,j)+x(i+1,j+1))
+               lcl_xs(6) = 0.5*(x(i,j)+x(i,  j+1))
+               lcl_ys(1) = lcl_ys(3)
+               lcl_ys(8) = lcl_ys(4)
+               lcl_ys(7) = lcl_ys(5)
+               lcl_ys(2) = 0.5*(y(i,j) + y(i  ,j-1))
+               lcl_ys(3) = 0.5*(y(i,j) + y(i+1,j-1))
+               lcl_ys(4) = 0.5*(y(i,j) + y(i+1,j))
+               lcl_ys(5) = 0.5*(y(i,j) + y(i+1,j+1))
+               lcl_ys(6) = 0.5*(y(i,j) + y(i  ,j+1))
+            endif
+!             else
+!                lcl_ys(1) = lcl_ys(7)
+!                lcl_ys(2) = lcl_ys(6)
+!                lcl_ys(3) = lcl_ys(5)
+!                lcl_ys(4) = 0.5*(y(i,j) + y(i+1,j))
+!                lcl_ys(5) = 0.5*(y(i,j) + y(i+1,j+1))
+!                lcl_ys(6) = 0.5*(y(i,j) + y(i  ,j+1))
+!                lcl_ys(7) = 0.5*(y(i,j) + y(i-1,j+1))
+!                lcl_ys(8) = 0.5*(y(i,j) + y(i-1,j))
+!             endif
+            call wglcol(ctable(tmpind(i)))
+            do n=1,8
+               poly(1,n) = lcl_xs(n)
+               poly(2,n) = lcl_ys(n)
+            enddo
+            poly(:,9) = poly(:,1)
+            xmin = minval(poly(1,:))
+            xmax = maxval(poly(1,:))
+            ymin = minval(poly(2,:))
+            ymax = maxval(poly(2,:))
+            if (xmin > xdebut .and. xmax < xfin .and. ymin > ydebut .and
+     %. ymax < yfin) then
+               if ((xmax - xmin) < xlimite) then
+                  call wglpfx(9,poly)
+                  if (contour == 1) then
+                     call wglcol(noir)
+                     call wglplx(9,poly)
+                  endif
+               endif
+            endif
+!             endif
+         enddo
+      enddo
+      return
+      end

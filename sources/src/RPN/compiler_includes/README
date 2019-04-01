@@ -1,0 +1,17 @@
+Uptodate INCLUDES are found in rpncomm, rmn/PUBLIC_INCLUDES
+
+Rest are found in compiler_includes_4.11_all
+and eliminated redundancy found in the above INCLUDES, 
+and includes unused by model
+
+Following decks are only needed by GEM from compiler_includes_4.11_all:
+
+arc4.h
+cgossip.h
+ftn2c_helper.h
+ftnmacros.hf
+gossip.h
+md5.h
+rmnlib.h
+rpnmacros.h
+rpnmacros_global.h

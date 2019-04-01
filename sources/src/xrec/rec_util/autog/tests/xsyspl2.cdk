@@ -1,0 +1,2 @@
+      COMMON /XSYSPL2/ MFMT(2)
+      CHARACTER *(20) MFMT

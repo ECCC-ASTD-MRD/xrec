@@ -1,0 +1,331 @@
+.\" Copyright (c) 1993 The Regents of the University of California.
+.\" All rights reserved.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions
+.\" are met:
+.\" 1. Redistributions of source code must retain the above copyright
+.\"    notice, this list of conditions and the following disclaimer.
+.\" 2. Redistributions in binary form must reproduce the above copyright
+.\"    notice, this list of conditions and the following disclaimer in the
+.\"    documentation and/or other materials provided with the distribution.
+.\" 3. All advertising materials mentioning features or use of this software
+.\"    must display the following acknowledgement:
+.\"	This product includes software developed by the University of
+.\"	California, Lawrence Livermore National Laboratory and its
+.\"	contributors.
+.\" 4. Neither the name of the University nor the names of its contributors
+.\"    may be used to endorse or promote products derived from this software
+.\"    without specific prior written permission.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+.\" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+.\" FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+.\" DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+.\" OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+.\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+.\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+.\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+.\" SUCH DAMAGE.
+.\"
+.de Hd
+.ds Dt \\$4
+..
+.Hd $Header: /usr/local/src/lic/liblic/RCS/LIC.3,v 1.7 1993/11/03 20:15:36 casey Exp $
+.TH LIC 3 \*(Dt
+.SH NAME
+lic \- Line Integral Convolution library
+.SH SYNOPSIS
+.nf
+#include <lic.h>
+
+.ta \w'LIC *\fBLIC_Create\fP('u +\w'unsigned charXXX('u
+LIC *\fBLIC_Create\fP(unsigned char	*\fIInputImage\fP,
+.ta \w'LIC *\fBLIC_Create\fP('u +\w'unsigned charXXX(*'u
+	int		\fIiiXres\fP,
+	int		\fIiiYres\fP,
+	int		\fIiiZres\fP,
+.ta \w'LIC *\fBLIC_Create\fP('u +\w'unsigned charXXX('u
+	float	*\fIInputField\fP,
+.ta \w'LIC *\fBLIC_Create\fP('u +\w'unsigned charXXX(*'u
+	int		\fIifXres\fP,
+	int		\fIifYres\fP,
+	int		\fIifZres\fP,
+.ta \w'LIC *\fBLIC_Create\fP('u +\w'unsigned charXXX('u
+	unsigned char	*\fIOutputImage\fP,
+.ta \w'LIC *\fBLIC_Create\fP('u +\w'unsigned charXXX(*'u
+	LIC_Filter	\fIFilter\fP,
+	int		\fINormalizationType\fP,
+	int		\fINormalized\fP,
+	double	\fILength\fP,
+	double	\fIFrequency\fP,
+	int		\fIVariableLength\fP,
+	int		\fIVariableSpeed\fP,
+	int	\fIDefaultRed\fP,
+	int	\fIDefaultGreen\fP,
+	int	\fIDefaultBlue\fP,
+	int	\fIDefaultAlpha\fP,
+.ta \w'LIC *\fBLIC_Create\fP('u +\w'unsigned charXXX'u
+	void		(*\fIUpdateUser\fP)(double),
+	void		(*\fIReportError\fP)(const char *))
+.DT
+
+void \fBLIC_Destroy\fP(LIC *\fIThis\fP)
+
+unsigned char *\fBLIC_InputImage\fP(LIC *\fIThis\fP)
+float *\fBLIC_InputField\fP(LIC *\fIThis\fP)
+unsigned char *\fBLIC_OutputImage\fP(LIC *\fIThis\fP)
+
+double \fBLIC_Length\fP(LIC *\fIThis\fP)
+double \fBLIC_Phase\fP(LIC *\fIThis\fP)
+double \fBLIC_Frequency\fP(LIC *\fIThis\fP)
+
+void \fBLIC_ChangeLength\fP(LIC *\fIThis\fP, double \fIlength\fP)
+void \fBLIC_ChangeFrequency\fP(LIC *\fIThis\fP, double \fIfrequency\fP);
+void \fBLIC_ChangePhase\fP(LIC *\fIThis\fP, double \fIphase\fP)
+void \fBLIC_ChangeFilter\fP(LIC *\fIThis\fP, LIC_Filter \fIfilter\fP)
+
+double \fBLIC_Box\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+double \fBLIC_Ripple\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+double \fBLIC_Ramp\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+double \fBLIC_Select\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+
+void \fBLIC_BuildIntegralTables\fP(LIC *\fIThis\fP)
+
+void \fBLIC_ComputeImage\fP(LIC *\fIThis\fP)
+int \fBLIC_NumThreads\fP(LIC *\fIThis\fP)
+void \fBLIC_ChangeNumThreads\fP(LIC *\fIThis\fP, int \fIthreads\fP)
+
+.ta \w'LIC *\fBLIC_Convolve2D\fP('u +\w'doubleXXX'u
+void \fBLIC_Convolve2D\fP(LIC	*\fIThis\fP,
+.ta \w'LIC *\fBLIC_Convolve2D\fP('u +\w'doubleXXX*'u
+	int	\fIi\fP,
+	int	\fIj\fP,
+	int	\fIdirection\fP,
+.ta \w'LIC *\fBLIC_Convolve2D\fP('u +\w'doubleXXX'u
+	double	*\fIrIntegral\fP,
+	double	*\fIgIntegral\fP,
+	double	*\fIbIntegral\fP,
+	double	*\fIaIntegral\fP,
+	double	*\fIKernelArea\fP)
+.DT
+
+.ta \w'LIC *\fBLIC_Convolve3D\fP('u +\w'doubleXXX'u
+void \fBLIC_Convolve3D\fP(LIC	*\fIThis\fP,
+.ta \w'LIC *\fBLIC_Convolve3D\fP('u +\w'doubleXXX*'u
+	int	\fIi\fP,
+	int	\fIj\fP,
+	int	\fIk\fP,
+	int	\fIdirection\fP,
+.ta \w'LIC *\fBLIC_Convolve3D\fP('u +\w'doubleXXX'u
+	double	*\fIrIntegral\fP,
+	double	*\fIgIntegral\fP,
+	double	*\fIbIntegral\fP,
+	double	*\fIaIntegral\fP,
+	double	*\fIKernelArea\fP)
+.DT
+
+char *\fBLIC_ConfiguredPixelType\fP(void)
+int \fBLIC_ConfiguredPixelSize\fP(void)
+
+$ cc \-o ... \-l\fBlic\fP ... [\fIparallel processing libraries\fP] ...
+.fi
+.SH DESCRIPTION
+.B LIC
+is the
+.I "Line Integral Convolution"
+library.  Line Integral Convolution is designed for vector field
+visualization but has applications in a number of other domains including
+image processing and special effects.
+.PP
+Vectors are visualized by convolving an input image along vector
+stream lines in an input vector field.  The result is an output image that
+looks like the input image, but blurred in the directions of the
+vector field.
+.PP
+The convolution is performed for each vector field element as
+follows: a parametric curve in the vector field is created by
+locally following the vector field forward and backward for some
+distance,
+.IR L .
+The parametric curve is laid over the corresponding
+input image pixels.  This yields a pixel value function, \fIF\fP(\fIs\fP),
+on the parametric curve.  \fIF\fP(\fIs\fP) is convolved with a filter kernel,
+\fIk\fP(\fIs\fP), to produce the Line Integral Convolution output:
+.PP
+.RS
+integral { \fIF\fP(\fIs\fP) * \fIk\fP(\fIs\fP) \fIds\fP }
+.RE
+.PP
+The convolution sum is usually normalized by the area of the convolution
+filter in order to maintain the average brightness levels of the input
+image:
+.PP
+.RS
+integral { \fIF\fP(\fIs\fP) * \fIk\fP(\fIs\fP) \fIds\fP }
+/ integral { \fIk\fP(\fIs\fP) \fIds\fP }
+.RE
+.PP
+Depending on the shape of the filter kernel, the input image, the
+input vector field and several control parameters, a wide variety of
+results can be obtained.  These can range from the look of hair
+following vector field lines to melting surfaces to artificial motion
+blur to periodic motion animations.
+.PP
+For an in depth description of Line Integral Convolution see the paper
+.I "Imaging vector Fields Using Line Integral Convolution"
+by Brian Cabral and Casey Leedom in the 1993 SIGGRAPH proceedings.
+.PP
+All following information refers to the implementation of
+Line Integral Convolution in this software package.  This manual page
+corresponds to version 1.3 of the
+.B LIC
+library.
+.PP
+The library software is object oriented in flavor (but is implemented
+in ANSI C).  The general pattern of usage is to create a LIC object instance
+via
+.BR LIC_Create (3),
+to modify various features of the instance via methods described in
+.BR LIC_Modify (3)
+and then to call
+.BR LIC_ComputeImage (3)
+to have the Line Integral Convolution performed.  When all is said and
+done, a call to
+.BR LIC_Destroy (3)
+will free up any resources used by the LIC instance.
+.PP
+For more detailed information, see the manual pages for the individual
+methods.
+.SH COMPATIBILITY
+This is experimental software.  In general, it is not compatible with
+any other software system.  However, there is an AVS coroutine module
+available which is compatible with other AVS modules.
+.PP
+Since the software is not part of the stock system software, some
+effort will probably be necessary to use it.  Typically this will
+entail compiling your source with flags something like
+.RI -I/ usr / local / include
+and linking your program with flags
+.RI -L/ usr / local / lib
+and
+.RI -l lic .
+Installations will differ from machine to machine and some installations
+may not require anything special to access the 
+.B LIC
+software.
+.PP
+Some versions of the
+.B LIC
+library offer parallel processing support (see
+.BR LIC_ComputeImage (3)).
+For these versions of the
+.B LIC
+library it will probably be necessary to reference a parallel
+processing support library to link your program.
+.PP
+.TP 5
+SGI IRIX
+Add
+.B \-lmpc
+on the link command line after the
+.B \-llic
+library.
+.SH PORTABILITY
+This software has been written to conform to ANSI C as
+defined in
+.I "ANSI X3.159-1989"
+and
+POSIX 1003.1 as defined in
+.IR "IEEE Std 1003.1-1990" .
+Every effort has been made to make the software portable under those
+guidelines.  There has been no effort whatsoever to make the software
+usable under the obsolete K&R C definition.  C++ compatibility is
+believed to be working, but has not been tested.
+.PP
+As of this writing, the
+.B LIC
+software has been ported to DEC Alphas running OSF1, HP Snakes running
+HP-UX 8.07, IBM RS/6000s running AIX 3.2, SGI R3000/R4000s running
+IRIX 4.0.5 and Sun Sparcs running SunOS 4.1.1.
+.SH "RETURN VALUES"
+See manual pages for individual functions and commands for details on
+return values.
+.SH ERRORS
+See manual pages for individual methods and commands for details on
+error handling.
+.SH "SEE ALSO"
+.BR lic (1),
+.BR LIC_ComputeImage (3),
+.BR LIC_Convolve (3),
+.BR LIC_Create (3),
+.BR LIC_Destroy (3),
+.BR LIC_Filters (3),
+.BR LIC_Modify (3),
+.BR LIC_Query (3),
+AVS coroutine module
+.B LIC
+.PP
+.I "Imaging Vector Fields Using Line Integral Convolution"
+by Brian Cabral and Casey Leedom in the SIGGRAPH '93 proceedings.
+.SH BUGS
+Pixel types and sizes are configured into the LIC software at compile time.
+Only single precision vector field ordinate values are supported.  These should
+both be handled dynamically at run time.
+.PP
+There are too many parameters to
+.BR LIC_Create .
+There are also simultaneously too few and too many \fBLIC_Change\fP\fIFoo\fP
+routines.  There are too few because we really want to expose all the LIC
+knobs to the user, but there are too many because they're proliferating like
+rabbits.  Probably something more along the lines of
+.B XtVaSetArgs
+is what we really want.
+.SH STANDARDS
+This is unsupported, non-standard software.  It is not the subject of any
+standards effort.
+.SH COPYRIGHT
+Copyright (c) 1993 The Regents of the University of California.
+All rights reserved.
+.PP
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+.TP 4
+1.
+Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+.TP 4
+2.
+Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+.TP 4
+3.
+All advertising materials mentioning features or use of this software
+must display the following acknowledgement:
+.PP
+.RS 8
+This product includes software developed by the University of
+California, Lawrence Livermore National Laboratory and its
+contributors.
+.RE
+.TP 4
+4.
+Neither the name of the University nor the names of its contributors
+may be used to endorse or promote products derived from this software
+without specific prior written permission.
+.PP
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.

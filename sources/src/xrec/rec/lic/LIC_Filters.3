@@ -1,0 +1,230 @@
+.\" Copyright (c) 1993 The Regents of the University of California.
+.\" All rights reserved.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions
+.\" are met:
+.\" 1. Redistributions of source code must retain the above copyright
+.\"    notice, this list of conditions and the following disclaimer.
+.\" 2. Redistributions in binary form must reproduce the above copyright
+.\"    notice, this list of conditions and the following disclaimer in the
+.\"    documentation and/or other materials provided with the distribution.
+.\" 3. All advertising materials mentioning features or use of this software
+.\"    must display the following acknowledgement:
+.\"	This product includes software developed by the University of
+.\"	California, Lawrence Livermore National Laboratory and its
+.\"	contributors.
+.\" 4. Neither the name of the University nor the names of its contributors
+.\"    may be used to endorse or promote products derived from this software
+.\"    without specific prior written permission.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+.\" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+.\" FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+.\" DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+.\" OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+.\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+.\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+.\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+.\" SUCH DAMAGE.
+.\"
+.de Hd
+.ds Dt \\$4
+..
+.Hd $Header: /usr/local/src/lic/liblic/RCS/LIC_Filters.3,v 1.7 1993/08/10 23:35:32 casey Exp $
+.TH LIC_FILTERS 3 \*(Dt
+.SH NAME
+LIC_BuildIntegralTables, LIC_Box, LIC_Ripple, LIC_Ramp, LIC_Select \- Line Integral Convolution filter support
+.SH SYNOPSIS
+.nf
+#include <lic.h>
+
+void \fBLIC_BuildIntegralTables\fP(LIC *\fIThis\fP)
+double \fBLIC_Box\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+double \fBLIC_Ripple\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+double \fBLIC_Ramp\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+double \fBLIC_Select\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+.fi
+.SH DESCRIPTION
+.if t .ds pi \(*p
+.if n .ds pi Pi
+.B LIC_BuildIntegralTables
+builds tables of filter integral values for use in the LIC convolution
+methods.
+.B LIC_BuildIntegralTables
+is automatically called by the convolution methods whenever any parameters
+have changed that will affect the filter integrals.
+.PP
+The tables are discrete samples of the filter function integral for a
+variety of points along the filter kernel and for a variety of
+.IR speeds .
+.PP
+The
+.I speed
+variations are used to implement the variable speed option of
+.BR LIC_Create .
+With the variable speed option, high magnitude regions of the field will
+use higher
+.I speed
+versions of the filter kernel.  These higher speeds variations are typically
+frequency scaled versions of the base frequency and are used in periodic
+motion animations to give the appearance of higher speed in higher magnitude
+regions of the vector field.
+However, it is up to each filter integral function to implement its own
+interpretation of
+.I speed
+(see
+.B LIC_Ripple
+below).
+.PP
+The tables are broken up into integral values for the
+positive and negative halves of the filter integral as follows:
+.PP
+.RS
+.nf
+pos[\fIspeed\fP][\fIsi\fP] = \fIFilter\fP(\fIThis\fP, 0.0, \fIs\fP, \fIspeed\fP)
+neg[\fIspeed\fP][\fIsi\fP] = \fIFilter\fP(\fIThis\fP, -\fIs\fP, 0.0, \fIspeed\fP)
+
+where
+
+0 <= \fIsi\fP < \fBLIC_INTEGRAL_LEN\fP
+0 <= \fIspeed\fP < \fBLIC_INTEGRAL_SPEEDS\fP
+
+\fIs\fP = \fILength\fP * ((double)\fIsi\fP / \fBLIC_INTEGRAL_LEN\fP)
+.fi
+.RE
+.PP
+Currently
+.B LIC_INTEGRAL_LEN
+is 2048 and
+.B LIC_INTEGRAL_SPEEDS
+is 20.
+.PP
+The tables are built up by calling a user specified filter integration
+function for each of the above discrete sample points.  A simple example
+is a ramp filter:
+.PP
+.RS
+.nf
+\fIk\fP(\fIs\fP) = (\fIs\fP + \fIL\fP) / 2\fIL\fP
+
+integral { \fIk\fP(\fIs\fP) \fIds\fP } = \c
+.if t (\fIs\fP\u\s-22\s+2\d + 2\fIL\fP\|\fIs\fP)/4\fIL\fP
+.if n (\fIs\fP^2 + 2\fIL\fP*\fIs\fP)/4\fIL\fP
+.fi
+.RE
+.PP
+Which yields the following LIC filter integral function (with some algebraic
+simplifications):
+.PP
+.RS
+.nf
+double
+LIC_Ramp(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+{
+.RS
+if (\fBLIC_Length\fP(\fIThis\fP) == 0)
+.RS
+return(0.0);
+.RE
+else
+.RS
+return((\fIa\fP*\fIa\fP - \fIb\fP*\fIb\fP)/(4*\fBLIC_Length\fP(\fIThis\fP)) + (\fIa\fP - \fIb\fP)/2);
+.RE
+.RE
+}
+.fi
+.RE
+.PP
+Filters supplied with
+the LIC library include:
+.PP
+.RS
+.nf
+double \fBLIC_Box\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+double \fBLIC_Ripple\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+double \fBLIC_Ramp\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+double \fBLIC_Select\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+.fi
+.RE
+.PP
+.B LIC_Box
+implements a constant box shape filter: \fIk\fP(\fIs\fP) =  1.
+.PP
+.B LIC_Ripple
+implements a phase shifted Hanning ripple function, windowed by a Hanning
+function: \fIk\fP(\fIs\fP) = (cos(\fId\fP*\fIs\fP + \fIphase\fP) + 1)/2
+* (cos(\fIc\fP*\fIs\fP) + 1)/2.
+Where
+.I d
+and
+.I c
+are the dilation constants for the ripple and window functions,
+respectively, and
+.I phase
+is the phase shift of the ripple function.
+.I d
+and
+.I c
+control the number of cycles of the Hanning functions over the filter kernel
+from
+.RI - Length
+to
+.RI + Length .
+.I d
+is equal to \fIfrequency\fP * \*(pi / \fILength\fP and
+.I c
+is always equal to \*(pi / \fILength\fP.
+.I frequency
+is computed as follows:
+.PP
+.RS
+.nf
+/*
+ * Implement ``speed'' variations by scaling the frequency inversely
+ * to speed.  This causes low magnitude vectors to be convolved using
+ * a higher frequency filter which will yield less distinct output
+ * features.  As the frequency increases the filter begins to approximate
+ * the Hanning window filter.
+ */
+\fIm\fP = 6.0 - 5.0*(double)\fIspeed\fP/(\fBLIC_INTEGRAL_SPEEDS\fP - 1);
+
+\fIfrequency\fP = \fBLIC_Frequency\fP(\fIThis\fP) * \fIm\fP;
+.fi
+.RE
+.PP
+This causes high magnitude regions to have fast moving, long
+blurred looking features and low magnitude regions to have
+slow moving, small sharp features over a blurred base.
+.PP
+.B LIC_Ramp
+implements  a ramp shape filter whose value is
+.B 0
+at
+.RI - Length
+and
+.B 1
+at
+.RI + Length :
+\fIk\fP(\fIs\fP) = (\fIs\fP + \fIL\fP) / 2\fIL\fP.
+.PP
+.B LIC_Select
+implements a pixel selection filter which uses a narrow Gaussian
+filter positioned
+.IR L -2
+distance along the local streamline. It is called a selection filter
+because its effect is to select an approximately one pixel wide
+section of the input image near the end of the local streamline
+underneath the Gaussian and place it at the origin of the local
+streamline.  A narrow Gaussian was chosen for its low-pass filter
+qualities and simple analytical form, and is given by:
+\fIk\fP(\fIs\fP) = 1 / 2 * exp(-(\fIs\fP + \fIL\fP - 2)^2).
+.SH "SEE ALSO"
+.BR LIC (3),
+.BR LIC_Convolve (3),
+.BR LIC_Create (3)
+.SH STANDARDS
+This is unsupported, non-standard software.  It is not the subject of any
+standards effort.

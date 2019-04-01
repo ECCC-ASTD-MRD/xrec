@@ -1,0 +1,162 @@
+.\" Copyright (c) 1993 The Regents of the University of California.
+.\" All rights reserved.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions
+.\" are met:
+.\" 1. Redistributions of source code must retain the above copyright
+.\"    notice, this list of conditions and the following disclaimer.
+.\" 2. Redistributions in binary form must reproduce the above copyright
+.\"    notice, this list of conditions and the following disclaimer in the
+.\"    documentation and/or other materials provided with the distribution.
+.\" 3. All advertising materials mentioning features or use of this software
+.\"    must display the following acknowledgement:
+.\"	This product includes software developed by the University of
+.\"	California, Lawrence Livermore National Laboratory and its
+.\"	contributors.
+.\" 4. Neither the name of the University nor the names of its contributors
+.\"    may be used to endorse or promote products derived from this software
+.\"    without specific prior written permission.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+.\" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+.\" FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+.\" DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+.\" OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+.\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+.\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+.\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+.\" SUCH DAMAGE.
+.\"
+.de Hd
+.ds Dt \\$4
+..
+.Hd $Header: /usr/local/src/lic/liblic/RCS/LIC_Modify.3,v 1.4 1993/11/02 18:32:26 casey Exp $
+.TH LIC_MODIFY 3 \*(Dt
+.SH NAME
+LIC_Modify \- change features of LIC object instances
+.SH SYNOPSIS
+.nf
+#include <lic.h>
+
+void \fBLIC_ChangeLength\fP(LIC *\fIThis\fP, double \fIlength\fP)
+void \fBLIC_ChangeFrequency\fP(LIC *\fIThis\fP, double \fIfrequency\fP);
+void \fBLIC_ChangePhase\fP(LIC *\fIThis\fP, double \fIphase\fP)
+void \fBLIC_ChangeFilter\fP(LIC *\fIThis\fP, LIC_Filter \fIfilter\fP)
+.fi
+.SH DESCRIPTION
+.if t .ds pi \(*p
+.if n .ds pi Pi
+.B LIC_ChangeLength
+will change the length of the filter kernel support for
+.I This
+to
+.IR length .
+The length of the filter kernel will actually be
+.RI 2* length ,
+extending from
+.RI - length
+to
+.RI + length .
+If a negative
+.I length
+is specified, a length of 0.0 will be used instead and an error
+message will be delivered via the user error reporting function
+.I ReportError
+(see
+.BR LIC_Create ).
+.PP
+.B LIC_ChangeFrequency
+will change the filter frequency for
+.I This
+to
+.IR frequency .
+.B LIC_ChangePhase
+will change the filter phase to
+.IR phase .
+.I frequency
+is interpreted as the number of cycles of the filter kernel over the domain
+.RB - \*(pi
+to
+.BR \*(pi .
+.I phase
+is interpreted as the phase offset of the filter kernel in the same domain.
+Both
+.I frequency
+and
+.I phase
+are scaled to the length of the filter kernel.  Thus, a
+.I frequency
+of 2 will cause two repetitions of the filter kernel across the domain
+.RI - length
+to
+.RI + length .
+If a 
+.I frequency
+less than or equal to 0.0 is specified, a frequency of 1e-6 will be
+used instead and an error message will be delivered via
+.IR ReportError .
+Currently, the only filter supplied with the LIC library that uses these
+options is
+.BR LIC_Ripple .
+.PP
+.B LIC_ChangeFilter
+will change the filter kernel integral function for
+.I This
+to
+.IR filter .
+.I filter
+must be a pointer to a LIC_Filter type function:
+.PP
+.RS
+.nf
+double \fIfilter\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, double \fIfrequency\fP)
+.fi
+.RE
+.PP
+.I filter
+should return the integral of the filter kernel between
+.I a
+and
+.IR b .
+.I frequency
+specifies the frequency that
+.I filter
+should use for its filter kernel.
+.I frequency
+is used to implement the variable speed option specified to
+.B LIC_Create
+(though many filters ignore this parameter).
+.PP
+The following filters are supplied with the LIC library:
+.PP
+.RS
+.nf
+double \fBLIC_Box\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+double \fBLIC_Ripple\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+double \fBLIC_Ramp\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+double \fBLIC_Select\fP(LIC *\fIThis\fP, double \fIa\fP, double \fIb\fP, int \fIspeed\fP)
+.fi
+.RE
+.PP
+Calling any of the functions above will make it necessary to rebuild
+the integral tables for the filter function.  This can be done by
+either explicitly calling
+.B LIC_BuildIntegralTables
+or implicitly via lazy evaluation when the convolution routines are
+first invoked.  The later is transparent to the user but will affect
+timing results if it is desired to time convolution progress alone.
+See
+.BR LIC_Filters (3)
+for more information on LIC filters and the integration process.
+.SH "SEE ALSO"
+.BR LIC (3),
+.BR LIC_Create (3),
+.BR LIC_Destroy (3),
+.BR LIC_Filters (3),
+.BR LIC_Query (3)
+.SH STANDARDS
+This is unsupported, non-standard software.  It is not the subject of any
+standards effort.

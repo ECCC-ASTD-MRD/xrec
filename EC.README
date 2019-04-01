@@ -1,0 +1,84 @@
+# VERSION xrec 5.11.0
+
+Installing and running xrec on a stick - Version 5.11.0
+Environment and Climate Change Canada
+
+1) load compiler
+
+#G COMPILER 5.1.0
+. r.load.dot /ssm/net/hpcs/compilers/gcc-5.1.0/gcc_5.1.0_ubuntu-14.04-amd64-64
+. ssmuse-sh -p /ssm/net/hpcs/201402/master/openmpi_1.6.5_ubuntu-12.04-amd64-64
+
+#INTEL COMPILER 
+- by default, a configuration for Intel 19 is used for ifort compiler.
+  You can use a configuration for Intel 16 by changing the symbolic link:
+  - cd xrec_on_a_stick_5.11.0/sources
+  - rm Linux-x86_64-ifort.cmake
+  - ln -s Linux-x86_64-ifort.cmake.16 Linux-x86_64-ifort.cmake
+- changes to the C and Fortran flags can be done in the
+  Linux-x86_64-ifort.cmake file
+# Load INTEL compiler and libraries
+. r.module.dot
+. r.load.dot /ssm/net/hpcs/201402/04/base /ssm/net/hpcs/exp/intel2016/01
+
+#PGI COMPILER 17.10 on lorentz
+# Load PGI compiler and libraries
+PGI=/local/raid/armn/CUDA/PGI/pgi; export PGI
+MANPATH=$MANPATH:$PGI/linux86-64/17.10/man; export MANPATH
+LM_LICENSE_FILE=$PGI/license.dat; export LM_LICENSE_FILE
+PATH=$PGI/linux86-64/17.10/bin:$PATH; export PATH
+export LD_LIBRARY_PATH=$PGI/linux86-64/17.10/lib:$LD_LIBRARY_PATH
+export PATH=$PGI/linux86-64/17.10/mpi/openmpi/bin:$PATH
+export MANPATH=$MANPATH:$PGI/linux86-64/17.10/mpi/openmpi/man
+
+#PGI COMPILER 18.4 on einstein
+export MODULEPATH=$MODULEPATH:/opt/pgi/modulefiles
+module load PrgEnv-pgi/18.4
+cd xrec_on_a_stick_5.11.0/sources
+rm Linux-x86_64-pgi.cmake
+ln -s Linux-x86_64-pgi.cmake_18.4 Linux-x86_64-pgi.cmake
+
+2) build XREC
+
+#default compiler: gfortran
+cd xrec_on_a_stick_5.11.0/work
+mkdir -p build
+cd build
+cmake ..
+
+#if you want to compile with another compiler than gfortran:
+cmake -DCOMPILER=ifort ..
+or
+cmake -DCOMPILER=pgfortran ..
+or
+edit the sources/CMakeLists.txt to change the default compiler (line 9)
+
+# if you get error messages or if compiler or compile options are not right:
+\rm -rf build/*
+- make appropriate changes to the cmake file named according to the
+  Fortran compiler you are using, in the sources directory:
+  Linux-x86_64-gfortran.cmake if you compile with gfortran or
+  Linux-x86_64-ifort.cmake if you compile with ifort
+cmake ..
+  or
+cmake -DCOMPILER=ifort ..
+  or
+cmake -DCOMPILER=pgfortran ..
+
+make -j
+make install
+
+#binaries built are: xrec 
+a directory named after the EC environment variable $BASE_ARCH (for example
+Linux_x86-64), and the Fortran compiler you used (for example:
+ifort-16.0.1.150) is created in the work directory of xrec, and a binary
+named xrec is installed in it.
+
+3) run xrec
+cd xrec_on_a_stick_5.11.0/work/bin-[BASE_ARCH-COMPILER-NAME]
+#ARMNLIB variable is usually defined under ECCC environment
+#you shouldn't have to export it
+export ARMNLIB=$PWD/../armnlib
+./xrec -imflds [rpn_std_file]
+
+User guide in pdf format describes how to use XREC in more details.

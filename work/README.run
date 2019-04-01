@@ -1,0 +1,11 @@
+#Window for running binaries must have the compiler environment that
+#goes with the binaries created.
+#To run XREC
+cd xrec_on_a_stick_5.11.0/work/
+export ARMNLIB=$PWD/armnlib
+cd bin-[os..]
+./xrec -imflds [rpn_std_file]
+
+or put a link to point to this binary 
+
+#PDF file describes how to use XREC in more detail
