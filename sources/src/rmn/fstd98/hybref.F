@@ -841,7 +841,7 @@
 *
 *object
 *     To derive pressure fields from SEF model levels (value from
-*     IP1 using convip), the ptop (PT), the etatop (E1) and p0
+*     IP1 using convip_plus), the ptop (PT), the etatop (E1) and p0
 *
 *arguments
 * ________________________________________________________________

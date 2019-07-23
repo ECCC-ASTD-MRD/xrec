@@ -8,4 +8,3 @@ file(GLOB FTNSRC  */*.F90 */*.F */*.f */*.f90 template_utils/gmm/gmm.f90 templat
 include_directories(AFTER base template_utils INTRALIB_INCLUDES)
 
 add_library (rmn STATIC ${FTNSRC} ${CSRC})
-#add_library (rmn STATIC ${OUTPUT})

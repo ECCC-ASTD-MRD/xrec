@@ -1640,7 +1640,7 @@ ftnword f77name(fstweo)(ftnword *f_iun, ftnword *f_level)
  *Arguments                                                                  * 
  *                                                                           * 
  *  IN  level          ip1 level (float value)                               * 
- *  IN  kind           level kind as defined in convip                       * 
+ *  IN  kind           level kind as defined in convip_plus                  * 
  *                                                                           * 
  *****************************************************************************/
 

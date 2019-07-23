@@ -4,6 +4,25 @@ This file gives basic instructions on how to install and run xrec.
 Installing and running xrec on a stick - Version 5.11.0
 Environment and Climate Change Canada
 
+Instructions in a nutshell (see below for extended instructions)
+
+git clone http://gitlab.com/gem-ec/xoas
+cd xoas
+
+cd sources
+mkdir -p build
+cd build
+cmake ..
+make -j
+make install
+
+cd ../../work/bin-[OS_NAME-COMPILER_NAME]
+export ARMNLIB=$PWD/../armnlib
+./xrec -imflds [rpn_std_file]
+
+-----------------------------------------------------------------
+Extended instructions:
+
 To compile and run xrec on a stick (xoas), you will need:
 - Fortran and C compilers,
 - BLAS library (with development package),
@@ -15,8 +34,9 @@ To compile and run xrec on a stick (xoas), you will need:
 * Installing xoas
 - Clone or download the git tar file of xrec at GitLab: http://gitlab.com/gem-ec/xoas
 - cd xoas
-- Execute the script named download-xrec-utilities.sh or download directly the
-  file at the following address, and untar it:
+- Execute the script named download-xrec-utilities.sh:
+./download-xrec-utilities.sh 
+  or download directly the file at the following address, and untar it:
   http://collaboration.cmc.ec.gc.ca/science/outgoing/goas/xrec-utilities.tar.gz
   It contains data files, and a manual in pdf format.
 
@@ -28,13 +48,12 @@ To compile and run xrec on a stick (xoas), you will need:
   Linux-x86_64-gfortran.cmake file
 
 #INTEL COMPILER
-- by default, a configuration for Intel 19 is used for ifort compiler.
+- by default, a configuration for Intel 19 is used.
   You can use a configuration for Intel 16 by changing the symbolic link:
   - cd xoas/sources
-  - rm Linux-x86_64-ifort.cmake
-  - ln -s Linux-x86_64-ifort.cmake.16 Linux-x86_64-ifort.cmake
-- changes to the C and Fortran flags can be done in the
-  Linux-x86_64-ifort.cmake file
+  - rm Linux-x86_64-intel.cmake
+  - ln -s Linux-x86_64-intel.cmake.16 Linux-x86_64-intel.cmake
+- changes to the C and Fortran flags can be done in Linux-x86_64-intel.cmake
 - make sure the compilers and libraries are in the appropriate
   PATHS: you may have to initialize ${PATH} and ${LD_LIBRARY_PATH}.
 
@@ -42,30 +61,35 @@ To compile and run xrec on a stick (xoas), you will need:
 - cd xoas/sources
 - mkdir -p build
 - cd build
+
+- gcc and gfortran compilers are set by default
+- if you want to compile with another compiler, modify the file
+  goas/sources/CmakeLists.txt by uncommenting one of the lines 
+  to use the compiler desired:
+  (for example: set(COMPILER intel CACHE INTERNAL compiler)
 - cmake ..
-- if you want to compile with another compiler than gfortran:
-  cmake -DCOMPILER=ifort ..
+- instead, you could also use the following option to select the compiler you wish to use:
+  cmake -DCOMPILER=intel ..
   or
-  cmake -DCOMPILER=pgfortran ..
-  or
-  edit the sources/CMakeLists.txt to change the default compiler (line 9)
+  cmake -DCOMPILER=pgi ..
+
 - if you get error messages or if compiler or compile options are not right:
   . remove the content of the build directory
   . make appropriate changes to the cmake file named according to the
     Fortran compiler you are using, in the sources directory:
     Linux-x86_64-gfortran.cmake if you compile with gfortran or
-    Linux-x86_64-ifort.cmake if you compile with ifort
+    Linux-x86_64-intel.cmake if you compile with Intel
   . cmake ..
-    or
+    or, if you used that command:
     cmake -DCOMPILER=ifort ..
     or
     cmake -DCOMPILER=pgfortran ..
 - make -j
 - make install
 
-- a directory named after the compiler you used and the operating system you
-  compiled on (bin-OS_NAME-COMPILER_NAME: for example
-  bin-Fedora-29_x86-64-gfortran-8.3.1) is created in the work directory of
+- a directory named after the operating system you compiled on, and the
+  compiler you used (bin-OS_NAME-COMPILER_NAME: for example
+  bin-Fedora-29-x86_64-gfortran-8.2.1) is created in the work directory of
   xoas, and a binary named xrec is installed in it.
 
 * Running xrec
