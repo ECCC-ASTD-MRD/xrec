@@ -102,7 +102,7 @@ void InitMapInfo(char type, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
    mapInfo.ig4 = ig4;
    mapFlags.verifStatutNecessaire = OUI;
 
-   if (mapInfo.type != 'X')
+   if (mapInfo.type != 'X' && mapInfo.type != 'O')
      {
        mapId = c_ezgdefrec(mapInfo.ni, mapInfo.nj, &mapInfo.type,
 			   mapInfo.ig1, mapInfo.ig2, mapInfo.ig3, mapInfo.ig4);
