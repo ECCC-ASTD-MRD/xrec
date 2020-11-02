@@ -181,6 +181,9 @@ void InitMapInfo(char type, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
         c_wglssp(rx1, ry1, rx2, ry2, viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, 1);
         break;
 
+      case 'O':
+        break;
+
       case 'Y':
         break;
 
