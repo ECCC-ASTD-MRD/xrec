@@ -1,1 +1,1 @@
-      XREC_VERSION = "5.110"
+      XREC_VERSION = "5.12.0"
