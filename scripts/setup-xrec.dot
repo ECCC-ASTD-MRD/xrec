@@ -1,9 +1,9 @@
 #!/bin/sh
 
 if [[ $# -eq 0 ]] ; then
-    echo "Usage:   setup.sh [language]"
-    echo "Example: ./setup.sh en for English interface"
-    echo "Example: ./setup.sh fr for French interface"
+    echo "Usage:   . ./setup-xrec.dot [language]"
+    echo "Example: . ./setup-xrec.dot english for English interface"
+    echo "Example: . ./setup-xrec.dot francais pour l'interface en français"
 else
     export ARMNLIB=$PWD/../work/armnlib
     export TMPDIR=${TMPDIR-$(mktemp -d /tmp/$USER-XXXX)}

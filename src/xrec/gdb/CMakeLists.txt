@@ -1,9 +1,8 @@
-message(STATUS "Starting generation of gdb Makefile")
+message(STATUS "(EC) Generating gdb Makefile")
 
-project(GDB C)
 add_definitions(-DX_WGL -DLinux -DSOCKADDR)
 
-file(GLOB CSRC  *.c)
+file(GLOB C_FILES  *.c)
 
-add_library (gdb STATIC ${CSRC})
+add_library (gdb STATIC ${C_FILES})
 

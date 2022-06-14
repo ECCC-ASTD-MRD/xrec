@@ -18,7 +18,6 @@
  * Boston, MA 02111-1307, USA.
  */
 
-/* #include <rpnmacros.h> */
 #include <wgl.h>
 
 int f77name(getulng)()
@@ -26,32 +25,31 @@ int f77name(getulng)()
    return c_getulng();
    }
 
+
 int c_getulng()
 {
-   // char *langue;
-   // static int langueInitialisee = 0;
-   static int langueUsager = 1;
+   char *langue;
+   static int langueInitialisee = 0;
+   static int langueUsager;
 
-   // Pour GoaS, on utilise uniquement l'anglais pour l'instant
-   // À voir si on utiliserait cclargs pour passer la langue
-   //
-   // if (langueInitialisee == 0)
-   //    {
-   //    langue = (char *) getenv("CMCLNG");
-   //    if (langue != NULL)
-   //       {
-   //       if (0 == strcmp(langue, "english"))
-   //          langueUsager = 1;
-   //       else
-   //          langueUsager = 0;
-   //       langueUsager = 1;
-   //       }
-   //    else
-   //       {
-   //       langueUsager = 0;
-   //       }
-   //    langueInitialisee = 1;
-   //    }
+
+   if (langueInitialisee == 0)
+      {
+      langue = (char *)getenv("CMCLNG");
+      if (langue != NULL)
+	 {
+	 if (0 == strcmp(langue, "english"))
+	    langueUsager = 1;
+	 else
+	    langueUsager = 0;
+	 }
+      else
+	 {
+	 langueUsager = 0;
+	 }
+      
+      langueInitialisee = 1;
+      }
    
    return langueUsager;
    

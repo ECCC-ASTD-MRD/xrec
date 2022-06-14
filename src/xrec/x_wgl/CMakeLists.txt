@@ -1,10 +1,9 @@
-message(STATUS "Starting generation of x_wgl Makefile")
+message(STATUS "(EC) Generating x_wgl Makefile")
 
-project(X_WGL C)
 add_definitions(-DX_WGL)
 
-file(GLOB CSRC  *.c)
-file(GLOB FTNSRC  *.f)
+file(GLOB C_FILES  *.c)
+file(GLOB F_FILES  *.f)
 
-add_library (x_wgl STATIC ${FTNSRC} ${CSRC})
+add_library (x_wgl STATIC ${F_FILES} ${C_FILES})
 

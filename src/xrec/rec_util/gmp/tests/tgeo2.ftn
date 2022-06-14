@@ -1,6 +1,0 @@
-	program tgeo2
-
-	call tgeo
-	stop
-	end
-

@@ -7,7 +7,7 @@
   logical flag
   integer i
   do i=1,15
-     chaine = '               '
+     chaine(i:i) = ' '
   enddo
   call convip_plus(ip, p, sorte, mode, local_string, flag)
   if (flag) then

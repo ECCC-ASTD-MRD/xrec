@@ -1,8 +1,8 @@
 # Instructions in a nutshell
 
-See below for extended instructions
+(See below for extended instructions)
 
-Installing and running xrec on a stick - Version 5.12.0
+Installing and running xrec on a stick (xoas) - Version 5.12.0
 Environment and Climate Change Canada
 
 ```
@@ -32,24 +32,31 @@ To compile and run xrec on a stick (xoas), you will need:
 
 ## Installing xoas
 
-- clone or download the git tar file of xrec at GitLab: https://github.com/ECCC-ASTD-MRD/xoas
+- clone or download the git tar file of xrec at GitLab:  https://github.com/ECCC-ASTD-MRD/xoas
+  
+  ```git clone https://github.com/ECCC-ASTD-MRD/xoas```
 - cd xoas
 - execute the script named download-xrec-utilities.sh:
-./download-xrec-utilities.sh  .
+
+  ```./download-xrec-utilities.sh  .```
+  
   or download directly the file at the following address, and untar it:
+  
   http://collaboration.cmc.ec.gc.ca/science/outgoing/goas/xrec-utilities.tar.gz
+  
   It contains data files, and a manual in pdf format.
 
 ## GNU compilers
 
 - xoas is configured to use GNU compilers
 - make sure the compilers and libraries paths are set in the appropriate
-  environment variables (PATH and LD_LIBRARY_PATH).
+  environment variables (PATH and LD_LIBRARY_PATH)
 - changes to the C and Fortran flags can be done in **cmake_rpn/ec_compiler_presets/default/Linux-x86_64/gnu.cmake**
 
 ## Intel COMPILER
 - make sure the compilers and libraries paths are set in the appropriate
-  environment variables (PATH and LD_LIBRARY_PATH).
+  environment variables (PATH and LD_LIBRARY_PATH)
+- add ```-DCOMPILER_SUITE=intel``` to the CMake command line
 - changes to the C and Fortran flags can be done in the  **cmake_rpn/ec_compiler_presets/default/Linux-x86_64/intel.cmake**
 
 ## Compiling and installing xrec
@@ -60,12 +67,10 @@ cd build
 cmake ..
 make -j
 make install
-cd ../work-[OS_NAME-COMPILER_NAME]
-. ./setup-xrec.dot [language_of_your_choice: fr or en]
-./xrec -imflds [rpn_std_file]
 ```
 
-You can add extra CMake arguments such as```-DCMAKE_VERBOSE_MAKEFILE=ON```.
+You can add extra CMake arguments such as```-DCMAKE_VERBOSE_MAKEFILE=ON``` to your **cmake** command
+line to generate verbose makefiles which will print the exact compiler command lines issued.
 
 You can also add ```-j``` to **make** to launch multiple compile tasks in
 parallel.
@@ -81,11 +86,9 @@ in the **cmake_rpn/ec_compiler_presets/default/** folder.
 
 If you get error messages, make sure that the ```PATH``` and
 ```LD_LIBRARY_PATH``` environment variables contain the appropriate paths.
-You can also add ```-DCMAKE_VERBOSE_MAKEFILE=ON``` to you **cmake** command
-line to generate verbose makefiles which will print the exact compiler
-command lines issued.
 
 If the compiler or compile options are not right:
+
 - Remove the content of the build directory
 - Make appropriate changes to the cmake files corresponding to the
   compilers you are using
@@ -97,15 +100,18 @@ on which the compilation was executed, and the compiler you used
 ```work-Fedora-34-x86_64-gnu-11.3.1``` would be created in the main directory,
 and the following files installed in it: 
 
-- binary named xrec,
+- binary named xrec
 - setup file named setup-xrec.dot
+- XOAS-config file. It displays a summary of the compiler and flags used
 
 ## Running xrec
 
 xrec interface and error messages are available in English and French.
 Choose your language of choice with the setup file.
+This setup file also sets TMPDIR and ARMNLIB variables.
 
-```cd work-[OS_NAME-COMPILER_NAME]
+```
+cd work-[OS_NAME-COMPILER_NAME]
 . ./setup-xrec.dot [language_of_your_choice: fr or en]
 ./xrec -imflds [rpn_std_file]
 ```

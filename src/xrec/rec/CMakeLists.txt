@@ -1,10 +1,8 @@
-message(STATUS "Starting generation of rec Makefile")
+message(STATUS "(EC) Generating rec Makefile")
 
-project(REC C)
 add_definitions(-DX_WGL -DMONOCHROME)
 
-file(GLOB CSRC  */*.c)
-file(GLOB FTN_SOURCES  */*.f */*.f90)
+file(GLOB C_FILES  */*.c)
+file(GLOB F_FILES  */*.f */*.f90)
 
-add_library (rec STATIC ${FTN_SOURCES} ${CSRC})
-
+add_library (rec STATIC ${F_FILES} ${C_FILES})

@@ -24,19 +24,12 @@ if (NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Release")
   message(STATUS "(EC) No build type selected, default to ${CMAKE_BUILD_TYPE}")
 endif()
-message(STATUS "(EC) Configuring for ${CMAKE_BUILD_TYPE} build type")
 
 # Figure out the correct arch-dependent include path
 set(BUILD_ARCH "${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
 message(STATUS "(EC) Build architecture: ${BUILD_ARCH}")
 message(STATUS "(EC) Sources directory is: ${CMAKE_SOURCE_DIR}")
 message(STATUS "(EC) Build directory is: ${CMAKE_BINARY_DIR}")
-
-# Instead of adding -I. to the FLAGS, we can let cmake add the current folder automatically
-#set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-# To see the make commands
-#set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # get name and version of operating system
 execute_process(COMMAND sh "-c" "${CMAKE_SOURCE_DIR}/scripts/os.sh" OUTPUT_VARIABLE OS)
@@ -67,3 +60,4 @@ endif()
 add_subdirectory(src src)
 
 install(FILES ${CMAKE_SOURCE_DIR}/scripts/setup-xrec.dot DESTINATION ${CMAKE_INSTALL_PREFIX})
+ec_build_config()      # Create build configuration script

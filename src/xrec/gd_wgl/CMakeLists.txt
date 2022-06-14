@@ -1,9 +1,8 @@
-message(STATUS "Starting generation of gd_wgl Makefile")
+message(STATUS "(EC) Generating gd_wgl Makefile")
 
-project(GD_WGL C)
 add_definitions(-DX_WGL)
 
-file(GLOB CSRC  *.c)
+file(GLOB C_FILES  *.c)
 
-add_library (gd_wgl STATIC ${CSRC})
+add_library (gd_wgl STATIC ${C_FILES})
 

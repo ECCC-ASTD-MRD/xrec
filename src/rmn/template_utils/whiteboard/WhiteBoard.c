@@ -18,7 +18,6 @@
  */
 #include <stdlib.h>
 #include <unistd.h>
-#include <malloc.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
@@ -55,7 +54,7 @@ wordint f77_name(f_wb_verbosity)(wordint *level)
 static char *linebuffer=NULL;              /* line buffer used to process directive files */
 static char *current_char=NULL;            /* pointer to current character in directive file */
 
-static DEFTBL *definition_table=NULL;      /* pointer to defionition table */
+static DEFTBL *definition_table=NULL;      /* pointer to definition table */
 static int definition_table_entries=0;     /* number of valid entries in definition table */
 static int max_definition_table_entries=0;
 
@@ -407,7 +406,7 @@ static int wb_init(){
    return(0);
 }
 int c_wb_checkpoint_name(char *filename){
-   extra_error_message="Setting chekpoint file name";
+   extra_error_message="Setting checkpoint file name";
    WhiteBoardCheckpointFile=(char *)malloc(strlen(filename));
    if(WhiteBoardCheckpointFile==NULL) WB_ERR_EXIT(WB_MSG_FATAL,WB_ERR_ALLOC);
    strncpy(WhiteBoardCheckpointFile,filename,strlen(filename));
@@ -415,14 +414,14 @@ int c_wb_checkpoint_name(char *filename){
 }
 wordint f77_name(f_wb_checkpoint_name)(char *filename, F2Cl lfilename){
    int Lfilename=lfilename;
-   extra_error_message="Setting chekpoint file name";
+   extra_error_message="Setting checkpoint file name";
    WhiteBoardCheckpointFile=(char *)malloc(Lfilename+1);
    if(WhiteBoardCheckpointFile==NULL) WB_ERR_EXIT(WB_MSG_FATAL,WB_ERR_ALLOC);
    c_fortran_string_copy(filename,WhiteBoardCheckpointFile,Lfilename,Lfilename,'\0');
    return(wb_init());
 }
 int c_wb_checkpoint_get_name(char *filename,int Lfilename){
-   extra_error_message="NO checkpoint file found while getting chekpoint file name";
+   extra_error_message="NO checkpoint file found while getting checkpoint file name";
    if(WhiteBoardCheckpointFile==NULL) WB_ERR_EXIT(WB_MSG_FATAL,WB_ERR_ALLOC);
    strncpy(filename,WhiteBoardCheckpointFile,Lfilename);
    return(wb_init());
@@ -430,7 +429,7 @@ int c_wb_checkpoint_get_name(char *filename,int Lfilename){
 
 wordint f77_name(f_wb_checkpoint_get_name)(char *filename, F2Cl lfilename){
    int Lfilename=lfilename;
-   extra_error_message="NO checkpoint file found while getting chekpoint file name";
+   extra_error_message="NO checkpoint file found while getting checkpoint file name";
    if(WhiteBoardCheckpointFile==NULL) WB_ERR_EXIT(WB_MSG_FATAL,WB_ERR_ALLOC);
    c_fortran_string_copy(WhiteBoardCheckpointFile,filename,Lfilename,Lfilename,' ');
    return(wb_init());
@@ -561,7 +560,7 @@ void f77_name(f_int2logical)(void *,void *,wordint *);
 /*
   get the data associated with a whiteboard entry 
   name   : pointer to character string containing name of key (length MUST be supplied in Lname)
-  Type   : character value R/I/L/C , key type  real/inetger/logical/character
+  Type   : character value R/I/L/C , key type  real/integer/logical/character
   Ltype  : length in bytes of each key element 4/8 for R/I/L, 1->WB_MAXSTRINGLENGTH for character strings
   value  : pointer to where data is to be returned (everything considered as unsigned bytes)
   Nval   : number of elements that can be stored into value
@@ -643,9 +642,9 @@ static LINE *LastPutLine=NULL;  /* address of the line that was the target of th
 /*
   put entry into whiteboard
   name   : pointer to character string containing name of key (length MUST be supplied in Lname)
-  Type   : character value R/I/L/C , key type  real/inetger/logical/character
+  Type   : character value R/I/L/C , key type  real/integer/logical/character
   Ltype  : length in bytes of each key element 4/8 for R/I/L, 1->WB_MAXSTRINGLENGTH for character strings
-  value  : pointer to data asssociated with key (everything considered as unsigned bytes)
+  value  : pointer to data associated with key (everything considered as unsigned bytes)
   Nval   : number of elements (0 means a scalar) (1 or more means an array)
   Options: options associated with name
   Lname  : length of key pointed to by name (FORTRAN style)
@@ -719,7 +718,7 @@ int c_wb_put(WhiteBoard *WB, unsigned char *name,char Type,int Ltype,unsigned ch
       line->m.flags.fromrestart = 0 ;     /* not created by a restart */
       line->m.flags.noresetafterrestart = (Options & WB_READ_ONLY_ON_RESTART) ? 1 : 0 ;
       line->m.flags.array = array ;
-      if(array) {                 /* arrays are not explicitely initialized for the time being */
+      if(array) {                 /* arrays are not explicitly initialized for the time being */
          line->m.data.a.UsedElements = Nval;
          line->m.data.a.MaxElements = Nval;
          }
@@ -769,7 +768,7 @@ int c_wb_put(WhiteBoard *WB, unsigned char *name,char Type,int Ltype,unsigned ch
       line->m.flags.badval = 0;        /* and good */
       }
    /* return <0 error code if there was an error during the copy of value(s) into whiteboard */
-   /* return 0 for non character scalars, whiteboard strring length if character scalar, max size of array if array */
+   /* return 0 for non character scalars, whiteboard string length if character scalar, max size of array if array */
    return (Result);
 }
 /* FORTRAN version of c_wb_put */
@@ -1033,7 +1032,7 @@ int c_wb_reload(){
    close(fd);
 /* if variable is WB_REWRITE_AT_RESTART, erase the read-only flag */
    status=c_wb_check(BaseWhiteboardPtr, (unsigned char*)"", WB_REWRITE_AT_RESTART, 0, 0, MakeNotReadOnly, NULL);
-/* if variable is WB_READ_ONLY_ON_RESTART, make sure it is now marked as reasd-only */
+/* if variable is WB_READ_ONLY_ON_RESTART, make sure it is now marked as read-only */
    status=c_wb_check(BaseWhiteboardPtr, (unsigned char*)"", WB_READ_ONLY_ON_RESTART, 0, 0, MakeReadOnly, NULL);
 /* if variable is local (not the same on ALL MPI whiteboards, mark it as not initialized */
    status=c_wb_check(BaseWhiteboardPtr, (unsigned char*)"", WB_IS_LOCAL, 0, 0, MakeUndefined, NULL);
@@ -1155,7 +1154,7 @@ static int wb_get_token(unsigned char *token,FILE *infile,int maxtoken, int nosk
    else if( c=='\'' || c=='"' ) {         /* collect ' or " delimited string */
       int quote=c;
       c=wb_getc(infile);
-      while( c!=quote && c!='\n' && c!=EOF) {   /* look for matching quote , error end if newline/EOF  ecountered */
+      while( c!=quote && c!='\n' && c!=EOF) {   /* look for matching quote , error end if newline/EOF encountered */
          if(c==EOF || c=='\n') break;
          maxtoken--; if(maxtoken<0) goto error_big;
          token[ntoken++]=c;
@@ -1400,7 +1399,7 @@ static int wb_key(WhiteBoard *WB, FILE *infile,unsigned char *Token, char *packa
             else
                goto error_syntax;
             break;
-         case(WB_FORTRAN_CHAR): /* copy string in buffer into target, mit firs and last character, the quotes */
+         case(WB_FORTRAN_CHAR): /* copy string in buffer into target, omit first and last character, the quotes */
             nread = c_fortran_string_copy(buffer+1, dataptr, strlen((char *)buffer)-2, elementsize, ' ');
             if(nread < 0) goto error_string;
             break;
@@ -1484,39 +1483,6 @@ int c_wb_read(WhiteBoard *WB, char *filename, char *package, char *section, int 
    infile=fopen(localfname,"r");      /* try to open file */
    if(infile==NULL) WB_ERR_EXIT(WB_MSG_ERROR,WB_ERR_READ);  /* OOPS, cannot open/read file */
 
-   ntoken = wb_get_token(Token,infile,MISC_BUFSZ-1,0);  /* get version keyword */
-   if( strncmp((char *)Token,"VERSION",7) !=0 ) {
-      if( message_level<=WB_MSG_ERROR )
-         fprintf(stderr,"proper version marker not found in directive file\n");
-      fclose(infile) ;
-      WB_ERR_EXIT(WB_MSG_ERROR,WB_ERR_READ);
-      }
-
-   ntoken = wb_get_token(Token,infile,MISC_BUFSZ-1,0);  /* get = sign */
-   if( strncmp((char *)Token,"=",1) !=0 ) {
-      if( message_level<=WB_MSG_ERROR )
-         fprintf(stderr,"proper version marker not found in directive file\n");
-      fclose(infile) ;
-      WB_ERR_EXIT(WB_MSG_ERROR,WB_ERR_READ);
-      }
-
-   ntoken = wb_get_token(Token,infile,MISC_BUFSZ-1,0);  /* get version */
-   items = sscanf((char *)Token,"%d%n",&version,&nread);        /* translate to integer */
-
-   if( nread!= ntoken || items != 1) {                          /* sscanf error */
-      if( message_level<=WB_MSG_ERROR )
-         fprintf(stderr,"proper version marker not found in directive file\n");
-      fclose(infile) ;
-      WB_ERR_EXIT(WB_MSG_ERROR,WB_ERR_READ);
-      }
-   if( version > 100 ) {
-      if( message_level<=WB_MSG_ERROR )
-         fprintf(stderr,"directive file is version %d, this is a version 100 directive reader\n",version);
-      fclose(infile) ;
-      extra_error_message = "Bad directive file version";
-      WB_ERR_EXIT(WB_MSG_ERROR,WB_ERR_READ);
-      }
-   wb_flush_line(infile);
    extra_error_message = NULL;
 
    while(1){   /* loop until desired section "@xxxx" is found or end of directive file */

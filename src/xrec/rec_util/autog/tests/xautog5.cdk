@@ -1,2 +1,0 @@
-      INTEGER DICBA
-      COMMON /XAUTOG5/ DICBA(7)

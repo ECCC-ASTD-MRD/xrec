@@ -1,10 +1,9 @@
-message(STATUS "Starting generation of rec_util Makefile")
+message(STATUS "(EC) Generating rec_util Makefile")
 
-project(REC_UTIL C)
 add_definitions(-DX_WGL -DX_REC_UTIL)
 
-file(GLOB CSRC  */*.c)
-file(GLOB FTNSRC */*.f)
+file(GLOB C_FILES  */*.c)
+file(GLOB F_FILES */*.f)
 
-add_library (rec_util STATIC ${FTNSRC} ${CSRC})
+add_library (rec_util STATIC ${F_FILES} ${C_FILES})
 

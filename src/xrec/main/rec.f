@@ -20,7 +20,7 @@
       program xrec
       implicit none
 !
-! Revision 5.104 - Fev. 2015 - Reload avec librmn_015.2
+! Revisions: see Changelog
 !
       integer maxrecs,newfld,ouvrir,fermer,quitter
       parameter (maxrecs= 128)
@@ -91,7 +91,6 @@
       ier = ezsetopt(ezopt,ezval)
       ier = xinit('xrec')
       lnguser = getulng()
-      lnguser=1
       if (lnguser.eq.0) then
          nomfich = 'Selecteur d''enregistrements'
          def(cle_ozsrt) = 'champ_edite'

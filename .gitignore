@@ -1,6 +1,5 @@
 /build*
-/work/armnlib
-/work/bin*
+/work
 /work-*
 Revisions
 Xrec5-9.pdf
