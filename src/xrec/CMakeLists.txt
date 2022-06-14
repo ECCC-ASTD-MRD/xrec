@@ -1,4 +1,4 @@
-include_directories(${ROOT}/src/xrec/include)
+include_directories(${CMAKE_SOURCE_DIR}/src/xrec/include)
 # Build the following components
 add_subdirectory(gd2 gd2)
 add_subdirectory(gd_wgl gd_wgl)

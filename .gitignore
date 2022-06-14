@@ -1,6 +1,7 @@
-build*
-work/armnlib
-work/bin*
+/build*
+/work/armnlib
+/work/bin*
+/work-*
 Revisions
 Xrec5-9.pdf
 xrec-utilities.tar.gz
