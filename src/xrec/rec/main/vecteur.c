@@ -36,7 +36,7 @@ void f77name(vecteur)(char nom_uu[], char nom_vv[], char nom_ww[], F2Cl len_nom_
   F2Cl len_nom_vv, F2Cl len_nom_ww)
 {
    char lcl_uu[5], lcl_vv[5], lcl_ww[5];
-   wordint current_vec;
+   int32_t current_vec;
    
    if (vectable_pleine == 1)
     {

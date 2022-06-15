@@ -51,8 +51,6 @@
       integer nbfich
       integer ipos
       integer typesel
-      integer longueur
-      external longueur
       integer indmin, indmax, level
       character(len=20), dimension(1008) ::   cle
       character(len=256),dimension(1008) :: def, val
@@ -123,7 +121,7 @@
             tmpdir='/tmp'
          endif
          sortiexrec = '/sortie-xrec.txt'
-         temporaire = tmpdir(1:longueur(tmpdir)) // sortiexrec
+         temporaire = tmpdir(1:len_trim(tmpdir)) // sortiexrec
          call rec_redirect(temporaire)
 !        temporaire = '/dev/null'
 !         ier = fnom(6, temporaire,'SEQ+FTN+FMT',0)

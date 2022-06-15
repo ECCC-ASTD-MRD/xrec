@@ -197,14 +197,14 @@
 #define BITPOS(i) (i - ((i >> 5) << 5))
 #define GETMSK(fld,i) ((fld[i >> 5]  & (1 << BITPOS(i))) >> BITPOS(i))
 #define SETMSK(fld,i) (fld[i >> 5] | (fld[i] << BITPOS(i)))
-#if defined  (hp720) || defined (i386) || defined (Darwin) || defined (AIX)
+#if defined  (i386) || defined (__APPLE__) || defined (_AIX)
 #define ffloor floor
 #define fceil ceil
 #define flog10 log10
 #define rint(x)  (int)(x + 0.5)
 #endif
 
-#if defined (Amd64)
+#if defined(__amd64__) || defined(__amd64) || defined(__x86_64) || defined(__x86_64__)
 #define ffloor floorf
 #define fceil ceilf
 #define flog10 log10

@@ -170,7 +170,7 @@ int c_gmpopts(char *option, char *valeur)
 }
 
 
-int c_gmpopti(char *option, wordint valeur)
+int c_gmpopti(char *option, int32_t valeur)
 {
   int valeurInt;
   float valeurFloat;

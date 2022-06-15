@@ -35,7 +35,7 @@ extern int gmp_nbVecs[];
 extern int gmp_nbCities;
 extern GeoMapInfoStruct     mapInfo;
 extern GeoMapFlagsStruct   mapFlags;
-wordint c_gdllfxyz(wordint gdid, ftnfloat *lat, ftnfloat *lon, ftnfloat *x, ftnfloat *y, wordint n);
+int32_t c_gdllfxyz(int32_t gdid, float *lat, float *lon, float *x, float *y, int32_t n);
 void
 gmp_gvlatlon(float *vlatmin, float *vlonmin, float *vlatmax, float *vlonmax, int coord)
 {

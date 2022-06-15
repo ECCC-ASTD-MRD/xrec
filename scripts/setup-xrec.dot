@@ -6,6 +6,7 @@ if [[ $# -eq 0 ]] ; then
     echo "Example: . ./setup-xrec.dot francais pour l'interface en français"
 else
     export ARMNLIB=$PWD/../work/armnlib
+    export XUSERFILESEARCHPATH=$ARMNLIB/data/%N:$XUSERFILESEARCHPATH
     export TMPDIR=${TMPDIR-$(mktemp -d /tmp/$USER-XXXX)}
     export CMCLNG=${1}
     echo "To use xrec: ./xrec -imflds [rpn_fst_file]"

@@ -3411,12 +3411,12 @@ void AfficherGrille()
 
    }
 
-wordint c_ezqkdef(wordint ni, wordint nj, char *grtyp,
-             wordint ig1, wordint ig2, wordint ig3, wordint ig4, wordint iunit);
-wordint c_ezgetgdout();
+int32_t c_ezqkdef(int32_t ni, int32_t nj, char *grtyp,
+             int32_t ig1, int32_t ig2, int32_t ig3, int32_t ig4, int32_t iunit);
+int32_t c_ezgetgdout();
 
-wordint c_gdllfxy(wordint gdid, ftnfloat *lat, ftnfloat *lon, ftnfloat *x, ftnfloat *y, wordint n);
-wordint c_gdxyfll(wordint gdid, ftnfloat *x, ftnfloat *y, ftnfloat *lat, ftnfloat *lon, wordint n);
+int32_t c_gdllfxy(int32_t gdid, float *lat, float *lon, float *x, float *y, int32_t n);
+int32_t c_gdxyfll(int32_t gdid, float *x, float *y, float *lat, float *lon, int32_t n);
 
 
 void AfficherGrilleSource(int indchamp)

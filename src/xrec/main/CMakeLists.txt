@@ -8,4 +8,4 @@ add_dependencies(xrec rec rec_util wgl gd_wgl x_wgl gdb gd png rmn)
 target_link_libraries(xrec rec rec_util wgl gd_wgl x_wgl gdb gd png rmn
                       ${EXTRA_LIBRARIES} )
 
-install(TARGETS xrec RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(TARGETS xrec RUNTIME DESTINATION ${WORK_PREFIX})

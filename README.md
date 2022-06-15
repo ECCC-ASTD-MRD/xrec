@@ -6,15 +6,15 @@ Installing and running xrec on a stick (xoas) - Version 5.12.0
 Environment and Climate Change Canada
 
 ```
-git clone https://github.com/ECCC-ASTD-MRD/xoas
+git clone --branch dev_rmn20 https://github.com/ECCC-ASTD-MRD/xoas
 cd xoas
+git -c submodule."ci-env".update=none submodule update --init --recursive
+./download-xrec-utilities.sh .
 mkdir -p build
 cd build
 cmake ..
 make -j
-make install
-cd ..
-./download-xrec-utilities.sh
+make work
 cd ../work-[OS_NAME-COMPILER_NAME]
 . ./setup-xrec.dot [language_of_your_choice: fr or en]
 ./xrec -imflds [rpn_std_file]
@@ -34,8 +34,12 @@ To compile and run xrec on a stick (xoas), you will need:
 
 - clone or download the git tar file of xrec at GitLab:  https://github.com/ECCC-ASTD-MRD/xoas
   
-  ```git clone https://github.com/ECCC-ASTD-MRD/xoas```
-- cd xoas
+```
+git clone --branch dev_rmn20 https://github.com/ECCC-ASTD-MRD/xoas
+cd xoas
+git -c submodule."ci-env".update=none submodule update --init --recursive
+```
+
 - execute the script named download-xrec-utilities.sh:
 
   ```./download-xrec-utilities.sh  .```
@@ -56,7 +60,7 @@ To compile and run xrec on a stick (xoas), you will need:
 ## Intel COMPILER
 - make sure the compilers and libraries paths are set in the appropriate
   environment variables (PATH and LD_LIBRARY_PATH)
-- add ```-DCOMPILER_SUITE=intel``` to the CMake command line
+- you may have to add ```-DCOMPILER_SUITE=intel``` to the CMake command line
 - changes to the C and Fortran flags can be done in the  **cmake_rpn/ec_compiler_presets/default/Linux-x86_64/intel.cmake**
 
 ## Compiling and installing xrec
@@ -66,7 +70,7 @@ mkdir -p build
 cd build
 cmake ..
 make -j
-make install
+make work
 ```
 
 You can add extra CMake arguments such as```-DCMAKE_VERBOSE_MAKEFILE=ON``` to your **cmake** command
@@ -76,7 +80,7 @@ You can also add ```-j``` to **make** to launch multiple compile tasks in
 parallel.
 
 The default compiler suite is GNU.  If you want to compile with other compilers,
-add ```-DCOMPILER_SUITE=<compiler suite name (gnu|intel|...)>``` to the CMake
+you may have to add ```-DCOMPILER_SUITE=<compiler suite name (gnu|intel|...)>``` to the CMake
 command line.
 
 This release has been tested with GNU and Intel compilers on Linux x86_64.
@@ -111,7 +115,7 @@ Choose your language of choice with the setup file.
 This setup file also sets TMPDIR and ARMNLIB variables.
 
 ```
-cd work-[OS_NAME-COMPILER_NAME]
+cd ../work-[OS_NAME-COMPILER_NAME]
 . ./setup-xrec.dot [language_of_your_choice: fr or en]
 ./xrec -imflds [rpn_std_file]
 ```

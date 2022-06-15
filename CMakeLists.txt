@@ -16,6 +16,7 @@ enable_language(Fortran C)
 ec_build_info()            # Generate build include file
 include(ec_compiler_presets)
 
+set(WITH_OPENMP FALSE CACHE BOOL "Control whether to use OpenMP")
 add_compile_definitions(WITHOUT_OpenMP)
 
 # CMAKE_BUILD_TYPE can be one of Debug, Release, RelWithDebInfo, MinSizeRel
@@ -43,21 +44,25 @@ else()
 endif()
 message(STATUS "(EC) Compiler version: ${COMPILER_VERSION}")
 
-# Include an architecture dependent file that contains include files for a
-# particular architecture and compiler, using the default value of the
-# compiler or the argument given to cmake command.
-message(STATUS "(EC) arch-dependent include directory: ${CMAKE_SOURCE_DIR}/src/archdep/include/${BUILD_ARCH}-${COMPILER_SUITE}")
 include_directories(
-   ${CMAKE_SOURCE_DIR}/src/archdep/include/${BUILD_ARCH}-${COMPILER_SUITE}
-   ${CMAKE_SOURCE_DIR}/src/rmn/PUBLIC_INCLUDES
-   ${CMAKE_SOURCE_DIR}/src/RPN/compiler_includes
+   ${CMAKE_SOURCE_DIR}/src/rmn/include
+   ${CMAKE_SOURCE_DIR}/src/rmn/include/${BUILD_ARCH}-${COMPILER_SUITE}
    )
 
+set(WORK_PREFIX "${CMAKE_SOURCE_DIR}/work-${OS}-${COMPILER_SUITE}-${COMPILER_VERSION}" CACHE FILEPATH "Working directory prefix" FORCE)
+message(STATUS "(EC) Setting working directory prefix to ${WORK_PREFIX}")
+
 if("${CMAKE_INSTALL_PREFIX}" STREQUAL "/usr/local")
-  set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/work-${OS}-${COMPILER_SUITE}-${COMPILER_VERSION}" CACHE FILEPATH "CMake Installation prefix" FORCE)
+  set(CMAKE_INSTALL_PREFIX "${WORK_PREFIX}" CACHE FILEPATH "CMake Installation prefix" FORCE)
 endif()
 
 add_subdirectory(src src)
 
-install(FILES ${CMAKE_SOURCE_DIR}/scripts/setup-xrec.dot DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(FILES ${CMAKE_SOURCE_DIR}/scripts/setup-xrec.dot DESTINATION ${WORK_PREFIX})
 ec_build_config()      # Create build configuration script
+
+add_custom_target(work
+    COMMAND /bin/mkdir -p ${WORK_PREFIX}
+    COMMAND cd ${CMAKE_BINARY_DIR} && make install/local
+    COMMAND cd ${CMAKE_BINARY_DIR}/src/xrec/main && make install/local
+)

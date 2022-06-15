@@ -83,36 +83,36 @@
 
 
 /** langue utilisee **/
-wordint langue;
+int32_t langue;
 
 /*======================================================================================================*/
 typedef struct
 {
    char *val;                   /* pointeur sur une cle */
    XmString xmVal;                /* nom d'une cle de type "compound string" (voir manuel sur motif) */
-   wordint nbOccur;                 /* nb. occurences de la cle dans une colonne du tableau  */
-   wordint *ind;                    /* tableau d'indices montrant les occur. de la cle dans une colonne
+   int32_t nbOccur;                 /* nb. occurences de la cle dans une colonne du tableau  */
+   int32_t *ind;                    /* tableau d'indices montrant les occur. de la cle dans une colonne
                                    du tableau des records. */
    } cleInfoStruct;
 
 typedef struct
 {
-   wordint nbCles;                  /* nb de cles distinctes dans une colonne du tableau */
+   int32_t nbCles;                  /* nb de cles distinctes dans une colonne du tableau */
    cleInfoStruct *cleInfo;      /* infos associees a cette cle */
    } cleStruct;
 
 typedef struct
 {
-   wordint indDes;                  /* indice du descripteur */
-   wordint indCle;                  /* indice de la cle      */
+   int32_t indDes;                  /* indice du descripteur */
+   int32_t indCle;                  /* indice de la cle      */
    }  filtresStruct;
 
 typedef struct
 {
-   wordint indDes;                  /* indice du descripteur */
-   wordint nbFiltresListe;          /* nb de cles utilisees pour la filtration de records, pour un 
+   int32_t indDes;                  /* indice du descripteur */
+   int32_t nbFiltresListe;          /* nb de cles utilisees pour la filtration de records, pour un 
                                    descripteur donne */
-   wordint *liste;                  /* liste des indices de cles utilises pour la filtration de records */ 
+   int32_t *liste;                  /* liste des indices de cles utilises pour la filtration de records */ 
    }  filtresInfoStruct;
 
 /*======================================================================================================*/
@@ -136,21 +136,21 @@ typedef struct
                                                    le tableau original */
    XmString      *recsAffiches;                 /* Le tableau de records affiches. */
    XmString      *recsFiltresAffiches;          /* tableau des records deja filtres qui est affiche. */
-   wordint           nbDes;                         /* nb total de descripteurs (de colonnes) dans le tableau */
-   wordint           lastNbRecs;
-   wordint           nbRecs;                        /* nb total de records dans le tableau */
-   wordint           nbRecsFiltres;                 /* nb total de records repondant aux criteres de selection */
-   wordint           nbCles;                        /* nb total de cles (dans toutes les colonnes du tableau) */
-   wordint           nbFiltres;                     /* nb total de filtres en vigueur */
-   wordint           nbRecsSelect;                  /* nb total de recordss selectionnes par l'usager. Cette
+   int32_t           nbDes;                         /* nb total de descripteurs (de colonnes) dans le tableau */
+   int32_t           lastNbRecs;
+   int32_t           nbRecs;                        /* nb total de records dans le tableau */
+   int32_t           nbRecsFiltres;                 /* nb total de records repondant aux criteres de selection */
+   int32_t           nbCles;                        /* nb total de cles (dans toutes les colonnes du tableau) */
+   int32_t           nbFiltres;                     /* nb total de filtres en vigueur */
+   int32_t           nbRecsSelect;                  /* nb total de recordss selectionnes par l'usager. Cette
                                                   operation se fait par un click de la souris. */
-   wordint           *indRecsFiltres;               /* tableau contenant les indices des records repondant aux
+   int32_t           *indRecsFiltres;               /* tableau contenant les indices des records repondant aux
                                                    criteres de selection */
-   wordint           *indRecsSelect;                /* tableau contenant les indices des records selectionnes par 
+   int32_t           *indRecsSelect;                /* tableau contenant les indices des records selectionnes par 
                                                    l'usager */
-   wordint           typeSelection;
-   wordint           statutBoutonFermer;
-   wordint           StatutSelection;               /* = SELECTION_TERMINEE quand on choisis Apply */
+   int32_t           typeSelection;
+   int32_t           statutBoutonFermer;
+   int32_t           StatutSelection;               /* = SELECTION_TERMINEE quand on choisis Apply */
                                                 /* = SELECTION_FINIE quand on choisis Close */
                                                 /* = SELECTION_EN_COURS autrement. */
    XEvent        theEvent;                      /* Evenement X */
@@ -238,8 +238,8 @@ typedef struct
 
    } XSelectStdStruct;
 
-wordint largeurMenus[NB_MAX_DESCRIPTEURS];
-static wordint               wi;                    /* L'indice de la fenetre dans laquelle on travaille.   */
+int32_t largeurMenus[NB_MAX_DESCRIPTEURS];
+static int32_t               wi;                    /* L'indice de la fenetre dans laquelle on travaille.   */
 static XSelectStdStruct  xs[NB_MAX_FENETRES];   /* La structure qui contient tout.                      */
 extern SuperWidgetStruct SuperWidget;           /* Le toplevel de l'application.                        */
 /*======================================================================================================*/
@@ -250,20 +250,20 @@ extern SuperWidgetStruct SuperWidget;           /* Le toplevel de l'application.
 
 /* Fonctions appeles de l'exterieur de xselectstd. */
 
-wordint f77name(xselact)(wordint sel[], wordint *nbsel, wordint *indsel);
-wordint f77name(xselfer)(wordint sel[], wordint *nbsel, char idents[], wordint table[][3], wordint *m, wordint *n, wordint     *indsel, F2Cl len);
-wordint f77name(xselins)(char *tableau, wordint table[][3], wordint *nbrecs, F2Cl lentableau); 
-wordint f77name(xselopt)(wordint *indSelecteur, char option[], char valeur[], F2Cl lenOption, F2Cl lenValeur);
-wordint f77name(xselouf)(wordint table[][3], wordint *nbrecs);
-wordint f77name(xseloup)(char *titre, wordint  *nbrecs, char idents[], wordint *nbdes, wordint *indSel, wordint *typeSel, F2Cl lenNomFich, F2Cl lenIdents);
-wordint f77name(xselupd)();
-wordint f77name(xseldim)();
-wordint f77name(xselundim)();
-wordint f77name(xselup)(wordint *indSelecteur);
-wordint f77name(xseldown)(wordint *indSelecteur);
-wordint c_xselup(wordint indSelecteur);
-wordint c_xselopt(wordint indSelecteur, char *option, char *valeur);
-wordint c_xseldown(wordint indSelecteur);
+int32_t f77name(xselact)(int32_t sel[], int32_t *nbsel, int32_t *indsel);
+int32_t f77name(xselfer)(int32_t sel[], int32_t *nbsel, char idents[], int32_t table[][3], int32_t *m, int32_t *n, int32_t     *indsel, F2Cl len);
+int32_t f77name(xselins)(char *tableau, int32_t table[][3], int32_t *nbrecs, F2Cl lentableau); 
+int32_t f77name(xselopt)(int32_t *indSelecteur, char option[], char valeur[], F2Cl lenOption, F2Cl lenValeur);
+int32_t f77name(xselouf)(int32_t table[][3], int32_t *nbrecs);
+int32_t f77name(xseloup)(char *titre, int32_t  *nbrecs, char idents[], int32_t *nbdes, int32_t *indSel, int32_t *typeSel, F2Cl lenNomFich, F2Cl lenIdents);
+int32_t f77name(xselupd)();
+int32_t f77name(xseldim)();
+int32_t f77name(xselundim)();
+int32_t f77name(xselup)(int32_t *indSelecteur);
+int32_t f77name(xseldown)(int32_t *indSelecteur);
+int32_t c_xselup(int32_t indSelecteur);
+int32_t c_xselopt(int32_t indSelecteur, char *option, char *valeur);
+int32_t c_xseldown(int32_t indSelecteur);
 
 /* Callbacks. */
 
@@ -281,57 +281,57 @@ static XtCallbackProc SelectionListeTerminee(Widget w, caddr_t u1, caddr_t u2);
 /* Autres fonctions. */
 
 static void AfficherInfoFiltres(Widget w, caddr_t unused1, caddr_t unused2);
-wordint     ActiverSelWidgets();
-void        AfficherListe(Widget w, XmStringTable items, wordint nbItems);
-void        AfficherNbSelect(wordint nb);
-wordint     AjouterCle(cleStruct cles[], wordint pos, wordint indDes, wordint indCle);
-wordint     AjouterFiltre(wordint indDes, wordint indCle);
-wordint     AjouterNouvelleCle(char *val, wordint len, cleStruct cles[], wordint indDes, wordint indCle);
+int32_t     ActiverSelWidgets();
+void        AfficherListe(Widget w, XmStringTable items, int32_t nbItems);
+void        AfficherNbSelect(int32_t nb);
+int32_t     AjouterCle(cleStruct cles[], int32_t pos, int32_t indDes, int32_t indCle);
+int32_t     AjouterFiltre(int32_t indDes, int32_t indCle);
+int32_t     AjouterNouvelleCle(char *val, int32_t len, cleStruct cles[], int32_t indDes, int32_t indCle);
 static void AjusterSensibiliteBoutons();
-            CalculerLargeurMenus(wordint largeurMenus[], wordint table[][3]);
-wordint     ChangerWidgets();
-wordint     ChercherCle(char *val, wordint len, cleStruct cles[], wordint indDes);
-wordint     ComparerCles(cleInfoStruct *cleInfo1, cleInfoStruct *cleInfo2);
-wordint     ComparerFiltres(filtresStruct *filtre1,  filtresStruct *filtre2);
-wordint     DesactiverSelWidgets();
-wordint     EnleverFiltre(wordint indDes, wordint indCle);
-wordint     FiltrerRecords(wordint sel[], wordint *nbsel, XmString **recs, cleStruct cles[], filtresStruct *filtres, wordint nbRecs, wordint nbDes, wordint  nbFiltres);
-wordint     FreeCles(cleStruct cles[], wordint n);
-wordint     Freerecs(XmString *(**recs), wordint nbDes);
-void        FreerecsAffiches(XmString **recsAffiches, wordint nbDes);
-wordint     InitCles(char *tableau, wordint  table[][3], cleStruct cles[], wordint nbRecs, wordint nbDes);
-wordint     InitFiltresInfo(filtresInfoStruct filtresInfo[], filtresStruct *filtres, wordint nbFiltres);
-wordint     InitRecs(XmString *(**recs), cleStruct cles[], wordint nbRecs, wordint nbDes);
-void        InitRecsAffiches(XmString **recsAffiches, char *tableau, wordint table[][3], wordint nbRecs);
-void        InitRecsFiltresAffiches(XmString **recsFiltresAffiches, XmString *recsAffiches, wordint nbRecs);
-wordint     InitTitresMenus(char *idents[], wordint nbDes);
-wordint     InitWidgetsAll1(XmString TitresMenus[], wordint nbRecsFiltres, wordint nbDes);
-wordint     InitWidgetsAll2(XmString TitresMenus[], wordint nbRecsFiltres, wordint nbDes);
-wordint     InitWidgetsBasic();
+            CalculerLargeurMenus(int32_t largeurMenus[], int32_t table[][3]);
+int32_t     ChangerWidgets();
+int32_t     ChercherCle(char *val, int32_t len, cleStruct cles[], int32_t indDes);
+int32_t     ComparerCles(cleInfoStruct *cleInfo1, cleInfoStruct *cleInfo2);
+int32_t     ComparerFiltres(filtresStruct *filtre1,  filtresStruct *filtre2);
+int32_t     DesactiverSelWidgets();
+int32_t     EnleverFiltre(int32_t indDes, int32_t indCle);
+int32_t     FiltrerRecords(int32_t sel[], int32_t *nbsel, XmString **recs, cleStruct cles[], filtresStruct *filtres, int32_t nbRecs, int32_t nbDes, int32_t  nbFiltres);
+int32_t     FreeCles(cleStruct cles[], int32_t n);
+int32_t     Freerecs(XmString *(**recs), int32_t nbDes);
+void        FreerecsAffiches(XmString **recsAffiches, int32_t nbDes);
+int32_t     InitCles(char *tableau, int32_t  table[][3], cleStruct cles[], int32_t nbRecs, int32_t nbDes);
+int32_t     InitFiltresInfo(filtresInfoStruct filtresInfo[], filtresStruct *filtres, int32_t nbFiltres);
+int32_t     InitRecs(XmString *(**recs), cleStruct cles[], int32_t nbRecs, int32_t nbDes);
+void        InitRecsAffiches(XmString **recsAffiches, char *tableau, int32_t table[][3], int32_t nbRecs);
+void        InitRecsFiltresAffiches(XmString **recsFiltresAffiches, XmString *recsAffiches, int32_t nbRecs);
+int32_t     InitTitresMenus(char *idents[], int32_t nbDes);
+int32_t     InitWidgetsAll1(XmString TitresMenus[], int32_t nbRecsFiltres, int32_t nbDes);
+int32_t     InitWidgetsAll2(XmString TitresMenus[], int32_t nbRecsFiltres, int32_t nbDes);
+int32_t     InitWidgetsBasic();
 void        InitWidgetsBouton();
-wordint     InitWidgetsCallback(wordint nbDes);
-wordint     InitWidgetsFiltre();
+int32_t     InitWidgetsCallback(int32_t nbDes);
+int32_t     InitWidgetsFiltre();
 void        InitWidgetsForm();
-void        InitWidgetsMenu(XmString TitresMenus[], wordint nbDes);
-wordint     InitWidgetsRec(wordint nbRecsFiltres,  wordint nbDes);
-wordint     LibererPointeurs();
-wordint     LibererPanneauListe();
-wordint     MessageChargement(wordint nbRecs1, wordint nbRecs2);
-wordint     NettoyerString(char str[]);
+void        InitWidgetsMenu(XmString TitresMenus[], int32_t nbDes);
+int32_t     InitWidgetsRec(int32_t nbRecsFiltres,  int32_t nbDes);
+int32_t     LibererPointeurs();
+int32_t     LibererPanneauListe();
+int32_t     MessageChargement(int32_t nbRecs1, int32_t nbRecs2);
+int32_t     NettoyerString(char str[]);
 static void PositionnerMenubar();
-static void TrouverLongueurMot(wordint *longueur, XmString mot);
+static void TrouverLongueurMot(int32_t *longueur, XmString mot);
 Widget      TrouverWidgetParent();
-wordint     UpdateFiltres();
-void        UpdateRecsFiltresAffiches(XmString **recsFiltresAffiches, XmString *recsAffiches, wordint nbDes, wordint sel[], wordint nbSel);
-wordint     XSelectstdActiver();
-wordint     SelectstdFermer();
+int32_t     UpdateFiltres();
+void        UpdateRecsFiltresAffiches(XmString **recsFiltresAffiches, XmString *recsAffiches, int32_t nbDes, int32_t sel[], int32_t nbSel);
+int32_t     XSelectstdActiver();
+int32_t     SelectstdFermer();
 Widget      XSelectstdOuvrir();
 
-wordint XSelectstdActiver(wordint  sel[], wordint  *nbsel, wordint  *indSelecteur);
-wordint XSelectstdCommencerInit(char *titre, wordint nbrecs, char **idents, wordint nbdes, wordint indSel, wordint typeSel);
-wordint XSelectstdFermer(wordint  sel[], wordint  *nbsel, char **idents, wordint  table[][3], wordint  *m, wordint  *n, wordint  *indSelecteur);
-void XSelectstdInserer(char *tableau, wordint table[][3], wordint nbrecs);
-void XSelectstdTerminerInit(wordint table[][3], wordint nbrecs);
+int32_t XSelectstdActiver(int32_t  sel[], int32_t  *nbsel, int32_t  *indSelecteur);
+int32_t XSelectstdCommencerInit(char *titre, int32_t nbrecs, char **idents, int32_t nbdes, int32_t indSel, int32_t typeSel);
+int32_t XSelectstdFermer(int32_t  sel[], int32_t  *nbsel, char **idents, int32_t  table[][3], int32_t  *m, int32_t  *n, int32_t  *indSelecteur);
+void XSelectstdInserer(char *tableau, int32_t table[][3], int32_t nbrecs);
+void XSelectstdTerminerInit(int32_t table[][3], int32_t nbrecs);
 /*===============================================================================
 
                         FONCTIONS APPELES DE L'EXTERIEUR
@@ -368,7 +368,7 @@ static void AfficherInfoFiltres(Widget w, caddr_t unused1, caddr_t unused2)
    Position     x, y;           /* La position sur l'ecran ou le popup va apparaitre.   */
    Dimension    height;         /* La hauteure du widget infoFiltres.                   */
    Arg          args[5];        /* Resources des widgets qui sont utilisees.            */
-   wordint          i;              /* Nombre de resources utilisees.                       */
+   int32_t          i;              /* Nombre de resources utilisees.                       */
 
 /**
    i = 0;
@@ -417,11 +417,11 @@ VALEUR RETOURNEE:      Aucune.
 
 static XtCallbackProc DeselectionnerRecords(Widget w, caddr_t unused1, caddr_t unused2)
 {
-   wordint i; /* Compteur. */
+   int32_t i; /* Compteur. */
 
    XmListDeselectAllItems(xs[wi].liste);
    xs[wi].nbRecsSelect          = 0;
-   AfficherNbSelect((wordint)0);
+   AfficherNbSelect((int32_t)0);
 }
 /*======================================================================================================*/
 /**
@@ -457,11 +457,11 @@ VALEUR RETOURNEE:      Aucune.
 
 static XtCallbackProc EffacerFiltres(Widget w, caddr_t unused1, caddr_t unused2)
 {
-   wordint  j;       /* Compteur.                                   */
-   wordint  nb;      /* Nombre de records affiches.                 */
-   wordint  i;       /* Nombre de resources utilisees; compteur.    */
+   int32_t  j;       /* Compteur.                                   */
+   int32_t  nb;      /* Nombre de records affiches.                 */
+   int32_t  i;       /* Nombre de resources utilisees; compteur.    */
    Arg  args[5]; /* Resources des widgets qui sont utilisees.   */
-   wordint zero = 0;
+   int32_t zero = 0;
 
    InvertWidget(w);
    for (j = 0; j < xs[wi].nbRecs; j++)
@@ -509,9 +509,9 @@ VALEUR RETOURNEE:      Aucune.
 
 static XtCallbackProc HighlightFields(Widget  w, caddr_t unused1, caddr_t call_data)
 {
-   wordint                  i, j;                                      /* Compteurs.                                */
-   wordint                  numItem;                                   /* La position de l'item (de)selectionne.    */
-   wordint                  *itemPos;
+   int32_t                  i, j;                                      /* Compteurs.                                */
+   int32_t                  numItem;                                   /* La position de l'item (de)selectionne.    */
+   int32_t                  *itemPos;
    unsigned char selectionPolicy;
    XmListCallbackStruct *item = (XmListCallbackStruct *)call_data; /* Pointeur a la structure envoyee
                                                                       par le widget w.                          */
@@ -566,11 +566,11 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-wordint ActiverSelWidgets()
+int32_t ActiverSelWidgets()
 {
-   wordint j;       /* Compteur.                                    */
+   int32_t j;       /* Compteur.                                    */
    Arg args[5]; /* Resources des widgets qui sont utilisees.    */
-   wordint i;       /* Nombre de resources utilisees.               */
+   int32_t i;       /* Nombre de resources utilisees.               */
 
    i = 0;
    XtSetArg(args[i], XmNsensitive, True); i++;
@@ -605,10 +605,10 @@ VALEUR RETOUNEE:       Aucune.
 
 ------------------------------------------------------------------------------*/
 
-void AfficherListe(Widget w, XmStringTable items, wordint nbItems)
+void AfficherListe(Widget w, XmStringTable items, int32_t nbItems)
 {
-   wordint nb, cnt; /* Nombre d'items visibles.                     */
-   wordint i;       /* Nombre de resources utilisees.               */
+   int32_t nb, cnt; /* Nombre d'items visibles.                     */
+   int32_t i;       /* Nombre de resources utilisees.               */
    Arg args[5]; /* Resources des widgets qui sont utilisees.    */
 
    if (nbItems <= 0)
@@ -642,14 +642,14 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-void AfficherNbSelect(wordint nb)
+void AfficherNbSelect(int32_t nb)
 {
    Cardinal i;       /* Le nombre de resources changees.                            */
    Arg          args[5]; /* Les resources changees.                                     */
    char         str[32];  /* Chaine qui represente le nombre de records selectionnes.    */
    XmString     label;   /* XmString qui represente le nombre de records selectionnes.  */
    char         message[64];
-   wordint lng;
+   int32_t lng;
 
    lng = c_getulng();
 
@@ -686,12 +686,12 @@ VALEUR RETOUNEE:       Aucune.
 
 ------------------------------------------------------------------------------*/
 
-wordint AjouterCle(cleStruct cles[], wordint pos, wordint indDes, wordint indCle)
+int32_t AjouterCle(cleStruct cles[], int32_t pos, int32_t indDes, int32_t indCle)
 {
-   wordint nbElem; /* Nombre d'elements dans la liste des indices ou la cle se trouve dans tableau[]. */
+   int32_t nbElem; /* Nombre d'elements dans la liste des indices ou la cle se trouve dans tableau[]. */
 
    nbElem                                       = ++cles[indDes].cleInfo[pos].nbOccur;
-   cles[indDes].cleInfo[pos].ind                = (wordint *)realloc(cles[indDes].cleInfo[pos].ind, nbElem*sizeof(int));
+   cles[indDes].cleInfo[pos].ind                = (int32_t *)realloc(cles[indDes].cleInfo[pos].ind, nbElem*sizeof(int));
    cles[indDes].cleInfo[pos].ind[nbElem - 1]    = indCle;
    }
 /*======================================================================================================*/
@@ -717,7 +717,7 @@ VALEUR RETOUNEE:       Aucune.
 
 /*indDes Indice indiquant dans quel tableau de descripteur la cle se trouve.      */
 /* indCle; /* Indice indicant la position de la cle dans le tableau du descripteur.    */
-wordint AjouterFiltre(wordint indDes, wordint indCle)
+int32_t AjouterFiltre(int32_t indDes, int32_t indCle)
 {
    xs[wi].filtres[xs[wi].nbFiltres].indDes = indDes;
    xs[wi].filtres[xs[wi].nbFiltres].indCle = indCle;
@@ -749,9 +749,9 @@ VALEUR RETOUNEE:       Aucune.
 
 ------------------------------------------------------------------------------*/
 
-wordint AjouterNouvelleCle(char *val, wordint len, cleStruct cles[], wordint indDes, wordint indCle)
+int32_t AjouterNouvelleCle(char *val, int32_t len, cleStruct cles[], int32_t indDes, int32_t indCle)
 {
-   wordint ClesInd; /* Le nombres de cles dans le tableau de descripteur. */
+   int32_t ClesInd; /* Le nombres de cles dans le tableau de descripteur. */
 
    ClesInd = cles[indDes].nbCles;
    cles[indDes].nbCles++;
@@ -763,7 +763,7 @@ wordint AjouterNouvelleCle(char *val, wordint len, cleStruct cles[], wordint ind
       cles[indDes].cleInfo = (cleInfoStruct *)realloc(cles[indDes].cleInfo, 
                                                        ((ClesInd + 1)*sizeof(cleInfoStruct)));
    
-   cles[indDes].cleInfo[ClesInd].ind            = (wordint *)calloc(1, sizeof(int));
+   cles[indDes].cleInfo[ClesInd].ind            = (int32_t *)calloc(1, sizeof(int));
    cles[indDes].cleInfo[ClesInd].ind[0]         = indCle;
    cles[indDes].cleInfo[ClesInd].nbOccur        = 1;
    cles[indDes].cleInfo[ClesInd].val            = (char *)calloc(len + 1, sizeof(char));
@@ -799,10 +799,10 @@ VALEUR RETOURNEE:      Si la cle est trouvee, ChercherCle retourne la position
 
 ------------------------------------------------------------------------------*/
 
-wordint ChercherCle(char *val, wordint len, cleStruct cles[], wordint indDes)
+int32_t ChercherCle(char *val, int32_t len, cleStruct cles[], int32_t indDes)
 {
-   wordint i;       /* Position dans le tableau du descripteur.        */
-   wordint nbCles;  /* Nombres de cles dans le tableau du descripteur. */
+   int32_t i;       /* Position dans le tableau du descripteur.        */
+   int32_t nbCles;  /* Nombres de cles dans le tableau du descripteur. */
    
    if ((nbCles = cles[indDes].nbCles) == 0)
       return -1;
@@ -838,7 +838,7 @@ VALEUR RETOURNEE:      Il est theoriquement impossible que deux cles soient
 
 ------------------------------------------------------------------------------*/
 
-wordint ComparerCles(cleInfoStruct *cleInfo1, cleInfoStruct *cleInfo2)
+int32_t ComparerCles(cleInfoStruct *cleInfo1, cleInfoStruct *cleInfo2)
 {
    return (strcmp(cleInfo1->val, cleInfo2->val));
    }
@@ -864,7 +864,7 @@ VALEUR RETOURNEE:      Il est theoriquement impossible que deux filtres soient
 
 ------------------------------------------------------------------------------*/
 
-wordint ComparerFiltres(filtresStruct *filtre1,  filtresStruct *filtre2)
+int32_t ComparerFiltres(filtresStruct *filtre1,  filtresStruct *filtre2)
 {
    if (filtre1->indDes < filtre2->indDes)
       return -1;
@@ -893,11 +893,11 @@ VALEUR RETOURNEE:      Acune.
 
 ------------------------------------------------------------------------------*/
 
-wordint DesactiverSelWidgets()
+int32_t DesactiverSelWidgets()
 {
-   wordint j;       /* Compteur.                                    */
+   int32_t j;       /* Compteur.                                    */
    Arg args[5]; /* Resources des widgets qui sont utilisees.    */
-   wordint i;       /* Nombre de resources utilisees.               */
+   int32_t i;       /* Nombre de resources utilisees.               */
    
    i = 0;
    XtSetArg(args[i], XmNsensitive, False); i++;
@@ -933,7 +933,7 @@ VALEUR RETOURNEE:      Aucune.
 
 static XtCallbackProc EffacerFiltresSeulement(Widget w, caddr_t u1, caddr_t u2)
 {
-   wordint i;
+   int32_t i;
    
    for (i = 0; i < xs[wi].nbDes; i++)
       {
@@ -967,10 +967,10 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-wordint EnleverFiltre(wordint indDes, wordint indCle)
+int32_t EnleverFiltre(int32_t indDes, int32_t indCle)
 {
-   wordint i;         /* Compteur.                                          */
-   wordint indFiltre; /* La position du filtre dans la liste des filtres.   */
+   int32_t i;         /* Compteur.                                          */
+   int32_t indFiltre; /* La position du filtre dans la liste des filtres.   */
    
    indFiltre = 0;
    while (indDes != xs[wi].filtres[indFiltre].indDes || indCle != xs[wi].filtres[indFiltre].indCle)
@@ -1002,11 +1002,11 @@ VALEUR RETOURNEE:      Le nombre de records apres la filtration.
 
 ------------------------------------------------------------------------------*/
 
-wordint FiltrerRecords(wordint sel[], wordint *nbsel, XmString **recs, cleStruct cles[], filtresStruct *filtres, wordint nbRecs, wordint nbDes, wordint  nbFiltres)
+int32_t FiltrerRecords(int32_t sel[], int32_t *nbsel, XmString **recs, cleStruct cles[], filtresStruct *filtres, int32_t nbRecs, int32_t nbDes, int32_t  nbFiltres)
 {
-   wordint                  i, j, k;                          /* Compteurs. */
-   wordint                  clePasTrouvee;                    /* Vrai quand on trouve la cle. */
-   wordint                  nbFiltresDistincts;               /*  */
+   int32_t                  i, j, k;                          /* Compteurs. */
+   int32_t                  clePasTrouvee;                    /* Vrai quand on trouve la cle. */
+   int32_t                  nbFiltresDistincts;               /*  */
    filtresInfoStruct    filtresInfo[NB_MAX_DESCRIPTEURS]; /*  */
    
    *nbsel = 0;
@@ -1060,9 +1060,9 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
         
-wordint FreeCles(cleStruct cles[], wordint n)
+int32_t FreeCles(cleStruct cles[], int32_t n)
 {
-   wordint i, j; /* Compteurs. */
+   int32_t i, j; /* Compteurs. */
    
    for (i = 0; i < n; i++)
       {
@@ -1108,9 +1108,9 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
         
-wordint LibererPointeurs()
+int32_t LibererPointeurs()
 {
-   wordint i;
+   int32_t i;
    
    LibererPanneauListe();
    FreeCles(xs[wi].cles, xs[wi].nbDes);
@@ -1150,7 +1150,7 @@ wordint LibererPointeurs()
 
 LibererPanneauListe()
 {
-   wordint i, j;
+   int32_t i, j;
 
    for (i = 0; i < xs[wi].nbDes; i++)
       {
@@ -1191,9 +1191,9 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
    
-wordint Freerecs(XmString *(**recs), wordint nbDes)
+int32_t Freerecs(XmString *(**recs), int32_t nbDes)
 {
-   wordint i; /* Compteur. */
+   int32_t i; /* Compteur. */
    
    if (*recs)
       {
@@ -1223,9 +1223,9 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
    
-void FreerecsAffiches(XmString **recsAffiches, wordint nbDes)
+void FreerecsAffiches(XmString **recsAffiches, int32_t nbDes)
 {
-   wordint i; /* Compteur. */
+   int32_t i; /* Compteur. */
    
    if (*recsAffiches)
       {
@@ -1264,12 +1264,12 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-wordint InitCles(char *tableau, wordint  table[][3], cleStruct cles[], wordint nbRecs, wordint nbDes)
+int32_t InitCles(char *tableau, int32_t  table[][3], cleStruct cles[], int32_t nbRecs, int32_t nbDes)
 {
-   wordint  i, j;    
-   wordint  offset;  
-   wordint  len;     
-   wordint  pos;     
+   int32_t  i, j;    
+   int32_t  offset;  
+   int32_t  len;     
+   int32_t  pos;     
    unsigned char *tempAdr;
 
    char tmpStr[16];
@@ -1323,11 +1323,11 @@ VALEUR RETOURNEE:
 
 ------------------------------------------------------------------------------*/
 
-wordint InitFiltresInfo(filtresInfoStruct filtresInfo[], filtresStruct *filtres, wordint nbFiltres)
+int32_t InitFiltresInfo(filtresInfoStruct filtresInfo[], filtresStruct *filtres, int32_t nbFiltres)
 {
-   wordint i, j;            /* Compteurs.                                                   */
-   wordint indDesCourant;   /* L'indice du descripteur qui est courament en consideration.  */
-   wordint indListe;        /*  */
+   int32_t i, j;            /* Compteurs.                                                   */
+   int32_t indDesCourant;   /* L'indice du descripteur qui est courament en consideration.  */
+   int32_t indListe;        /*  */
 
    if (nbFiltres == 0)
       return 0;
@@ -1341,7 +1341,7 @@ wordint InitFiltresInfo(filtresInfoStruct filtresInfo[], filtresStruct *filtres,
         
    qsort((char *)filtres, nbFiltres, sizeof(filtresStruct), ComparerFiltres);
    indDesCourant = 0;
-   filtresInfo[indDesCourant].liste = (wordint *)calloc(xs[wi].cles[filtres[0].indDes].nbCles, sizeof(int));
+   filtresInfo[indDesCourant].liste = (int32_t *)calloc(xs[wi].cles[filtres[0].indDes].nbCles, sizeof(int));
 
    for (i = 0; i < xs[wi].cles[filtres[0].indDes].nbCles; i++)
       filtresInfo[0].liste[i] = -1;
@@ -1356,7 +1356,7 @@ wordint InitFiltresInfo(filtresInfoStruct filtresInfo[], filtresStruct *filtres,
       if (filtresInfo[indDesCourant].indDes != filtres[i].indDes)
          {
          indDesCourant++;
-         filtresInfo[indDesCourant].liste = (wordint *)calloc(xs[wi].cles[filtres[i].indDes].nbCles, sizeof(int));
+         filtresInfo[indDesCourant].liste = (int32_t *)calloc(xs[wi].cles[filtres[i].indDes].nbCles, sizeof(int));
 
 
          for (j = 0; j < xs[wi].cles[filtres[i].indDes].nbCles; j++)
@@ -1397,9 +1397,9 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-wordint InitRecs(XmString *(**recs), cleStruct cles[], wordint nbRecs, wordint nbDes)
+int32_t InitRecs(XmString *(**recs), cleStruct cles[], int32_t nbRecs, int32_t nbDes)
 {
-   wordint i, j, k; /* Compteurs. */
+   int32_t i, j, k; /* Compteurs. */
    
    char *text;
    
@@ -1430,11 +1430,11 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-void InitRecsAffiches(XmString **recsAffiches, char *tableau, wordint table[][3], wordint nbRecs)
+void InitRecsAffiches(XmString **recsAffiches, char *tableau, int32_t table[][3], int32_t nbRecs)
 {
-   wordint  i;       /* Compteur.                            */
+   int32_t  i;       /* Compteur.                            */
    char *tmpAdr; /* La cle de table courrament examinee. */
-   wordint  offset, longueur, ioffset;
+   int32_t  offset, longueur, ioffset;
 
    ioffset = xs[wi].lastNbRecs;
    tmpAdr = (char *)tableau;
@@ -1468,9 +1468,9 @@ VALEURE RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-void InitRecsFiltresAffiches(XmString **recsFiltresAffiches, XmString *recsAffiches, wordint nbRecs)
+void InitRecsFiltresAffiches(XmString **recsFiltresAffiches, XmString *recsAffiches, int32_t nbRecs)
 {
-   wordint  i;       /* Compteur.                            */
+   int32_t  i;       /* Compteur.                            */
 
    if (*recsFiltresAffiches != NULL)
       free(*recsFiltresAffiches);
@@ -1500,8 +1500,8 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-static void TrouverLongueurMot(wordint *longueur, XmString mot)
-{ wordint i;
+static void TrouverLongueurMot(int32_t *longueur, XmString mot)
+{ int32_t i;
   char *text;
 
   /** transformer le XmString en string **/
@@ -1530,9 +1530,9 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-wordint  InitTitresMenus(char *idents[], wordint nbDes)
+int32_t  InitTitresMenus(char *idents[], int32_t nbDes)
 {
-   wordint i; /* Compteur. */
+   int32_t i; /* Compteur. */
 
    for (i = 0; i < nbDes; i++)
     {
@@ -1557,7 +1557,7 @@ wordint  InitTitresMenus(char *idents[], wordint nbDes)
  VALEUR RETOURNEE:      Aucune.
  **/
 
-wordint InitWidgetsAll1(XmString TitresMenus[], wordint nbRecsFiltres, wordint nbDes)
+int32_t InitWidgetsAll1(XmString TitresMenus[], int32_t nbRecsFiltres, int32_t nbDes)
 {
    InitWidgetsBasic();
    InitWidgetsForm();
@@ -1567,7 +1567,7 @@ wordint InitWidgetsAll1(XmString TitresMenus[], wordint nbRecsFiltres, wordint n
 /*======================================================================================================*/
 
 
-wordint InitWidgetsAll2(XmString TitresMenus[], wordint nbRecsFiltres, wordint nbDes)
+int32_t InitWidgetsAll2(XmString TitresMenus[], int32_t nbRecsFiltres, int32_t nbDes)
 {
    InitWidgetsMenu(TitresMenus, nbDes);
    InitWidgetsRec(nbRecsFiltres, nbDes);
@@ -1591,12 +1591,12 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-wordint InitWidgetsBasic()
+int32_t InitWidgetsBasic()
 {
    Arg args[5]; /* Resources des widgets qui sont utilisees.    */
-   wordint i;       /* Nombre de resources utilisees.               */
+   int32_t i;       /* Nombre de resources utilisees.               */
 
-   wordint lng;
+   int32_t lng;
    char nomShell[128];
 
 /*..........................topLevel..............................................*/
@@ -1646,12 +1646,12 @@ void InitWidgetsBouton()
 {
    Arg          args[10];/* Resources des widgets qui sont utilisees.   */
    Cardinal i;       /* Nombre de resources utilisees.              */
-   wordint          h;       /* La hauteur de boutonform.                  */
+   int32_t          h;       /* La hauteur de boutonform.                  */
    XmString     label;   /* Le nom de chaque bouton.                    */
    unsigned char         str[32];
    XmFontList fontListe;
    XmString infoLabelWidth;
-   wordint largeurTexte;
+   int32_t largeurTexte;
    
 /*   Arg args[10];
    char bidon[32];
@@ -1770,7 +1770,7 @@ static XtCallbackProc MontrerDescripteurs(Widget w, caddr_t u1, caddr_t u2)
 
 static XtCallbackProc SelectionListeTerminee(Widget w, caddr_t u1, caddr_t u2)
 {
-   wordint zero = 0;
+   int32_t zero = 0;
    UpdateFiltres();
    AfficherNbSelect(zero);
    XtUnmanageChild(xs[wi].panListe);
@@ -1805,10 +1805,10 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-wordint InitWidgetsCallback(wordint nbDes)
+int32_t InitWidgetsCallback(int32_t nbDes)
 {
-   wordint i, j;  /* Compteurs.                                             */
-   wordint index; /* Utilise pour encoder les indices de menuItems[][].     */
+   int32_t i, j;  /* Compteurs.                                             */
+   int32_t index; /* Utilise pour encoder les indices de menuItems[][].     */
    
    if (xs[wi].typeSelection != SELECTION_SIMPLE)
       {
@@ -1870,7 +1870,7 @@ Widget ScrolledWin, hsb;
 void InitWidgetsForm()
 {
    Arg args[10];        /* Resources des widgets qui sont utilisees.    */
-   wordint i;       /* Nombre de resources utilisees.               */
+   int32_t i;       /* Nombre de resources utilisees.               */
    XmString label;
 
 /*............................pan................................*/
@@ -1977,13 +1977,13 @@ VALEUR RETOURNEE:      Aucune.
 void InitWidgetsListe()
 {
    Arg args[16]; /* Resources des widgets qui sont utilisees.    */
-   wordint i;       /* Nombre de resources utilisees.               */
-   wordint j, k;    /* Compteurs.                                   */
-   wordint h;       /* La hauteur de menuform.                      */
+   int32_t i;       /* Nombre de resources utilisees.               */
+   int32_t j, k;    /* Compteurs.                                   */
+   int32_t h;       /* La hauteur de menuform.                      */
    char *text;
    XmString label;
    Position positionCourante;
-   wordint width;
+   int32_t width;
    XmStringTable tableItems;
    XmFontList fontListe;
 
@@ -2079,16 +2079,16 @@ void InitWidgetsListe()
    }
 
 
-void InitWidgetsMenu(XmString TitresMenus[], wordint nbDes)
+void InitWidgetsMenu(XmString TitresMenus[], int32_t nbDes)
 {
    Arg args[10]; /* Resources des widgets qui sont utilisees.    */
-   wordint i;       /* Nombre de resources utilisees.               */
-   wordint j, k;    /* Compteurs.                                   */
-   wordint h;       /* La hauteur de menuform.                      */
+   int32_t i;       /* Nombre de resources utilisees.               */
+   int32_t j, k;    /* Compteurs.                                   */
+   int32_t h;       /* La hauteur de menuform.                      */
    char *text;
    XmString label;
    Position positionCourante;
-   wordint width;
+   int32_t width;
 
    positionCourante = 0;
    for (j = 0; j < nbDes; j++)
@@ -2132,14 +2132,14 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-wordint InitWidgetsRec(wordint nbRecsFiltres,  wordint nbDes)
+int32_t InitWidgetsRec(int32_t nbRecsFiltres,  int32_t nbDes)
 {
    Arg  args[15];       /* Resources des widgets qui sont utilisees.    */
-   wordint  i;              /* Nombre de resources utilisees.               */
-   wordint  j;              /* Compteurs.                                   */
+   int32_t  i;              /* Nombre de resources utilisees.               */
+   int32_t  j;              /* Compteurs.                                   */
    char nomListe[16];  /* Le nom d'un widget dans liste.               */
-   wordint  nb, cnt;        /* Le nombre de records visibles.               */
-   wordint lng;
+   int32_t  nb, cnt;        /* Le nombre de records visibles.               */
+   int32_t lng;
 
 /*.............................liste.....................................*/
 
@@ -2187,10 +2187,10 @@ wordint InitWidgetsRec(wordint nbRecsFiltres,  wordint nbDes)
 
 
 
-MessageChargement(wordint nbRecs1, wordint nbRecs2)
+MessageChargement(int32_t nbRecs1, int32_t nbRecs2)
 {
    Arg args[10];
-   wordint i;
+   int32_t i;
    Position x, y;
    XmString xmMessage, xmnull;
    char message[32], infoMessage[32];
@@ -2303,7 +2303,7 @@ VALEUR RETOURNEE:      Aucune.
 
 static void PositionnerMenubar()
 {
-   wordint i;
+   int32_t i;
    Arg args[2];
    Position d1, d2;
 
@@ -2317,7 +2317,7 @@ static void PositionnerMenubar()
 
 static void AjusterSensibiliteBoutons()
 {
-   wordint i;
+   int32_t i;
    Arg args[2];
 
    XtSetArg(args[0], XmNsensitive, True);
@@ -2358,9 +2358,9 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-wordint NettoyerString(char str[])
+int32_t NettoyerString(char str[])
 {
-   wordint i, j, jinit;
+   int32_t i, j, jinit;
    
 /**
    i = 0;
@@ -2429,13 +2429,13 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-wordint UpdateFiltres()
+int32_t UpdateFiltres()
 {
-   wordint i,j;   /* Compteur.                        */
-   wordint res; /* Le nombre de records filtres.    */
-   wordint nb;  /* Le nombre de records visibles.   */
+   int32_t i,j;   /* Compteur.                        */
+   int32_t res; /* Le nombre de records filtres.    */
+   int32_t nb;  /* Le nombre de records visibles.   */
    
-   wordint numItems, *selectedItems, nbTotalItems;
+   int32_t numItems, *selectedItems, nbTotalItems;
    
    xs[wi].nbFiltres = 0;
    
@@ -2494,9 +2494,9 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-void UpdateRecsFiltresAffiches(XmString **recsFiltresAffiches, XmString *recsAffiches, wordint nbDes, wordint sel[], wordint nbSel)
+void UpdateRecsFiltresAffiches(XmString **recsFiltresAffiches, XmString *recsAffiches, int32_t nbDes, int32_t sel[], int32_t nbSel)
 {
-   wordint i, j; /* Compteurs. */
+   int32_t i, j; /* Compteurs. */
 
    for (j = 0; j < nbSel; j++)
        (*recsFiltresAffiches)[j] = recsAffiches[sel[j]];
@@ -2523,9 +2523,9 @@ VALEUR RETOURNEE:      0 quand on sort sans avoir appuye sur apply ou apply+clos
 /** si des items ont ete selectionnes, les mettre dans la liste **/
 /** et terminer avec la valeur SELECTION_TERMINEE **/
 
-wordint XSelectstdActiver(wordint  sel[], wordint  *nbsel, wordint  *indSelecteur)
+int32_t XSelectstdActiver(int32_t  sel[], int32_t  *nbsel, int32_t  *indSelecteur)
 {
-   wordint    i, quitter;
+   int32_t    i, quitter;
    Widget widgetParent, bouton;
    
    if (!xs[wi].topLevel)
@@ -2588,7 +2588,7 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-wordint XSelectstdFermer(wordint  sel[], wordint  *nbsel, char **idents, wordint  table[][3], wordint  *m, wordint  *n, wordint  *indSelecteur)
+int32_t XSelectstdFermer(int32_t  sel[], int32_t  *nbsel, char **idents, int32_t  table[][3], int32_t  *m, int32_t  *n, int32_t  *indSelecteur)
 {
    XtUnmapWidget(xs[wi].topLevel);
    XFlush(XtDisplay(xs[wi].topLevel));
@@ -2602,11 +2602,11 @@ wordint XSelectstdFermer(wordint  sel[], wordint  *nbsel, char **idents, wordint
  **                                                                                                      **
  **======================================================================================================*/
 
-CalculerLargeurMenus(wordint largeurMenus[], wordint table[][3])
+CalculerLargeurMenus(int32_t largeurMenus[], int32_t table[][3])
 {
-   wordint i,j;
+   int32_t i,j;
    XmFontList fontListe;
-   wordint largeurTexte;
+   int32_t largeurTexte;
    
    Arg args[10];
    char bidon[48];
@@ -2640,10 +2640,10 @@ CalculerLargeurMenus(wordint largeurMenus[], wordint table[][3])
  ************************************************************
  **/
 
-f77name(xseloup)(char *titre, wordint  *nbrecs, char idents[], wordint *nbdes, wordint *indSel, wordint *typeSel, F2Cl flenNomFich, F2Cl flenIdents)
+f77name(xseloup)(char *titre, int32_t  *nbrecs, char idents[], int32_t *nbdes, int32_t *indSel, int32_t *typeSel, F2Cl flenNomFich, F2Cl flenIdents)
 {
    
-   wordint  i,j,k;
+   int32_t  i,j,k;
    int lenNomFich=flenNomFich, lenIdents=flenIdents;
    char tmp;
    char **identsMenus;
@@ -2665,12 +2665,12 @@ f77name(xseloup)(char *titre, wordint  *nbrecs, char idents[], wordint *nbdes, w
    return 0;
    }
 
-f77name(xselins)(char *tableau, wordint table[][3], wordint *nbrecs, F2Cl lentableau)
+f77name(xselins)(char *tableau, int32_t table[][3], int32_t *nbrecs, F2Cl lentableau)
 {
    XSelectstdInserer(tableau, table, *nbrecs);
    }
 
-f77name(xselouf)(wordint table[][3], wordint *nbrecs)
+f77name(xselouf)(int32_t table[][3], int32_t *nbrecs)
 {
    XSelectstdTerminerInit(table, *nbrecs);
    }
@@ -2693,9 +2693,9 @@ VALEUR RETOURNEE:      0
 
 ------------------------------------------------------------------------------*/
 
-wordint f77name(xselact)(wordint sel[], wordint *nbsel, wordint *indsel)
+int32_t f77name(xselact)(int32_t sel[], int32_t *nbsel, int32_t *indsel)
 {
-   wordint  i, j, k;
+   int32_t  i, j, k;
 
    XSelectstdActiver(sel, nbsel, indsel);
 
@@ -2722,9 +2722,9 @@ VALEUR RETOURNEE:      0
 
 ------------------------------------------------------------------------------*/
 
-wordint f77name(xselfer)(wordint sel[], wordint *nbsel, char idents[], wordint table[][3], wordint *m, wordint *n, wordint     *indsel, F2Cl flen)
+int32_t f77name(xselfer)(int32_t sel[], int32_t *nbsel, char idents[], int32_t table[][3], int32_t *m, int32_t *n, int32_t     *indsel, F2Cl flen)
 {
-   wordint  i, j, k;
+   int32_t  i, j, k;
    int len=flen;
    char **identsMenus;
 
@@ -2766,7 +2766,7 @@ VALEUR  RETOURNEE:      0
 
 ------------------------------------------------------------------------------*/
 
-wordint f77name(xselupd)()
+int32_t f77name(xselupd)()
 {
    LibererPointeurs();
    }
@@ -2774,9 +2774,9 @@ wordint f77name(xselupd)()
 
 
 /*======================================================================================================*/
-XSelectstdCommencerInit(char *titre, wordint nbrecs, char **idents, wordint nbdes, wordint indSel, wordint typeSel)
+XSelectstdCommencerInit(char *titre, int32_t nbrecs, char **idents, int32_t nbdes, int32_t indSel, int32_t typeSel)
 {
-   wordint i;
+   int32_t i;
 
    langue = c_getulng();
 
@@ -2792,8 +2792,8 @@ XSelectstdCommencerInit(char *titre, wordint nbrecs, char **idents, wordint nbde
 
    if (nbrecs > 0)
       {
-      xs[wi].indRecsFiltres        = (wordint *)calloc(xs[wi].nbRecs, sizeof(int));
-      xs[wi].indRecsSelect         = (wordint *)calloc(xs[wi].nbRecs, sizeof(int));
+      xs[wi].indRecsFiltres        = (int32_t *)calloc(xs[wi].nbRecs, sizeof(int));
+      xs[wi].indRecsSelect         = (int32_t *)calloc(xs[wi].nbRecs, sizeof(int));
       xs[wi].recsAffiches          = (XmString *)calloc(nbrecs, sizeof(XmString));
       xs[wi].recs                  = (XmString **)calloc(nbdes, sizeof(XmString *)); 
       
@@ -2809,11 +2809,11 @@ XSelectstdCommencerInit(char *titre, wordint nbrecs, char **idents, wordint nbde
       }
    }
 
-void XSelectstdInserer(char *tableau, wordint table[][3], wordint nbrecs)
+void XSelectstdInserer(char *tableau, int32_t table[][3], int32_t nbrecs)
 {
-   wordint lng;
+   int32_t lng;
    char message[256];
-   wordint i;
+   int32_t i;
    Arg args[2];
    Colormap cmap;
 
@@ -2847,9 +2847,9 @@ void XSelectstdInserer(char *tableau, wordint table[][3], wordint nbrecs)
    MessageChargement(xs[wi].lastNbRecs, xs[wi].nbRecs);
    }
 
-void XSelectstdTerminerInit(wordint table[][3], wordint nbrecs)
+void XSelectstdTerminerInit(int32_t table[][3], int32_t nbrecs)
 {
-   wordint i;
+   int32_t i;
    Arg args[2];
    Colormap cmap;
 
@@ -2904,7 +2904,7 @@ f77name(xseldim)()
 *************************
 ***/
 
-wordint f77name(xselundim)()
+int32_t f77name(xselundim)()
 {
    ActiverSelWidgets();
    }
@@ -2914,7 +2914,7 @@ wordint f77name(xselundim)()
 *************************
 ***/
 
-f77name(xselup)(wordint *indSelecteur)
+f77name(xselup)(int32_t *indSelecteur)
 {
    XtRealizeWidget(xs[*indSelecteur].topLevel);
    }
@@ -2924,7 +2924,7 @@ f77name(xselup)(wordint *indSelecteur)
 ********
 **/
 
-c_xselup(wordint indSelecteur)
+c_xselup(int32_t indSelecteur)
 {
    XtRealizeWidget(xs[indSelecteur].topLevel);
    }
@@ -2934,7 +2934,7 @@ c_xselup(wordint indSelecteur)
 *************************
 ***/
 
-f77name(xseldown)(wordint *indSelecteur)
+f77name(xseldown)(int32_t *indSelecteur)
 {
    XtUnrealizeWidget(xs[*indSelecteur].topLevel);
    }
@@ -2944,7 +2944,7 @@ f77name(xseldown)(wordint *indSelecteur)
 ********
 **/
 
-c_xseldown(wordint indSelecteur)
+c_xseldown(int32_t indSelecteur)
 {
    XtRealizeWidget(xs[indSelecteur].topLevel);
    }
@@ -2964,7 +2964,7 @@ static XtCallbackProc FermerSelecteur(Widget w, caddr_t unused1, caddr_t unused2
 *************************
 ***/
 
-f77name(xselopt)(wordint *indSelecteur, char option[], char valeur[], F2Cl flenOption, F2Cl flenValeur)
+f77name(xselopt)(int32_t *indSelecteur, char option[], char valeur[], F2Cl flenOption, F2Cl flenValeur)
 {
    int lenOption=flenOption, lenValeur=flenValeur;
    
@@ -2975,7 +2975,7 @@ f77name(xselopt)(wordint *indSelecteur, char option[], char valeur[], F2Cl flenO
    c_xselopt(*indSelecteur, option, valeur);
    }
 
-c_xselopt(wordint indSelecteur, char *option, char *valeur)
+c_xselopt(int32_t indSelecteur, char *option, char *valeur)
 {
    if (0 == strcmp(option, "bouton_fermer") || 0 == strcmp(option, "BOUTON_FERMER"))
       {

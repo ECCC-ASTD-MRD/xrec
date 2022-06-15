@@ -28,20 +28,20 @@ extern GeoMapInfoStruct     mapInfo;
 
 int gmp_convert(ListePointsStruct *liste, int *nbItems, float pts[], int nbPoints, float xgdmin, float ygdmin, float xgdmax, float ygdmax, int nbSeg)
 {
-   wordint i, j, n,lastN,base;
-   ftnfloat deltaxmax;
-   wordint un = 1;
-   wordint detected;
+   int32_t i, j, n,lastN,base;
+   float deltaxmax;
+   int32_t un = 1;
+   int32_t detected;
    char type;
 
-   ftnfloat xmin,xmax,ymin,ymax,limite,correction;
-   ftnfloat x[24000];
-   ftnfloat y[24000];
-   ftnfloat lats[24000];
-   ftnfloat lons[24000];
-   wordint npts, nleft, nright;
-   wordint currentItem;
-   wordint gdid;
+   float xmin,xmax,ymin,ymax,limite,correction;
+   float x[24000];
+   float y[24000];
+   float lats[24000];
+   float lons[24000];
+   int32_t npts, nleft, nright;
+   int32_t currentItem;
+   int32_t gdid;
    float ldiff, fni, fmiddle;
 
    npts = nbPoints / 2;
