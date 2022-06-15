@@ -16,7 +16,7 @@ cmake ..
 make -j
 make work
 cd ../work-[OS_NAME-COMPILER_NAME]
-. ./setup-xrec.dot [language_of_your_choice: fr or en]
+. ./setup-xrec.dot [language_of_your_choice: english or francais]
 ./xrec -imflds [rpn_std_file]
 ```
 
@@ -116,7 +116,7 @@ This setup file also sets TMPDIR and ARMNLIB variables.
 
 ```
 cd ../work-[OS_NAME-COMPILER_NAME]
-. ./setup-xrec.dot [language_of_your_choice: fr or en]
+. ./setup-xrec.dot [language_of_your_choice: english or francais]
 ./xrec -imflds [rpn_std_file]
 ```
 
