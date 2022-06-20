@@ -4,3 +4,6 @@
 [submodule "src/rmn"]
 	path = src/rmn
 	url = ../librmn.git
+[submodule "ci-env"]
+	path = ci-env
+	url = ../ci-env.git
