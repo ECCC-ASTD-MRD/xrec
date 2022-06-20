@@ -1,3 +1,9 @@
+External users: please use feat_cmake branch and its README file here:
+https://github.com/ECCC-ASTD-MRD/xrec/tree/feat_cmake
+
+
+------------------------
+
 To compile xrec
 -----------------------------------------------------------------------------
 Basic compilation recipe
@@ -14,16 +20,16 @@ The final load is in main/Makefile
 What you need
 
 A FORTRAN Compiler
-Open Motif or Lesstif (www.openmotif.org)
+libXm library
 rmnlib (most of the modules : FSTD2000, base, primitives, readlx)
 A from-RPN or localized version of r.compile and r.build
 You have to create a directory $REC/lib/$ARCH
 
 Some extra stuff
-libgdb.a is a library developed by Michel Grenier from CMC (michel.grenier@ec.gc.ca)
+libgdb.a is a library developed by Michel Grenier from CMC
 to draw high resolution geography outline. You may ask him to get a compiled
 library for your machine or access to the source code.
-libgd2.a is GD implementation of GD. You can get a copy from http://www.boutell.com
+libgd2.a is GD implementation of GD. 
 -----------------------------------------------------------------------------
 What is in the directories
 
