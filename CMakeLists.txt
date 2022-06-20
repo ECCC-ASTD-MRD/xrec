@@ -8,8 +8,8 @@ ec_parse_manifest()        # Parse MANIFEST file
 
 project(${NAME} DESCRIPTION "${DESCRIPTION}")
 set(PROJECT_VERSION ${VERSION}${STATE})
-set(XOAS_VERSION ${PROJECT_VERSION} CACHE INTERNAL "XOAS version" FORCE)
-message(STATUS "(EC) XOAS VERSION = ${XOAS_VERSION}")
+set(XREC_VERSION ${PROJECT_VERSION} CACHE INTERNAL "XREC version" FORCE)
+message(STATUS "(EC) XREC VERSION = ${XREC_VERSION}")
 
 enable_language(Fortran C)
 

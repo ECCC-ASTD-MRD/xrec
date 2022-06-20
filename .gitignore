@@ -1,9 +1,5 @@
 /build*
-/work
-/work-*
-Revisions
-Xrec5-9.pdf
+/utilities
+/work*
 xrec-utilities.tar.gz
-Makefile*
-makefile*
 *~

@@ -3,11 +3,20 @@
 if [[ $# -eq 0 ]] ; then
     echo "Usage:   . ./setup-xrec.dot [language]"
     echo "Example: . ./setup-xrec.dot english for English interface"
-    echo "Example: . ./setup-xrec.dot francais pour l'interface en français"
+    echo "Exemple: . ./setup-xrec.dot francais pour l'interface en français"
 else
-    export ARMNLIB=$PWD/../work/armnlib
-    export XUSERFILESEARCHPATH=$ARMNLIB/data/%N:$XUSERFILESEARCHPATH
+    export ARMNLIB=$PWD/../utilities
     export TMPDIR=${TMPDIR-$(mktemp -d /tmp/$USER-XXXX)}
     export CMCLNG=${1}
-    echo "To use xrec: ./xrec -imflds [rpn_fst_file]"
+    if [[ ${CMCLNG} = "francais" ]] ; then
+        echo "Pour utiliser xrec: ./xrec -imflds [fichier_fst_rpn]"
+    elif [[ ${CMCLNG} = "english" ]] ; then
+        echo "To use xrec: ./xrec -imflds [rpn_fst_file]"
+    else
+        echo "Please use english or francais to choose the language of the interface"
+        echo "Example: . ./setup-xrec.dot english for English interface"
+        echo "Veuillez utiliser english ou francais pour choisir la langue de l'interface"
+        echo "Exemple: . ./setup-xrec.dot francais pour l'interface en français"
+
+    fi
 fi

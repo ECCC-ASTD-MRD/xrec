@@ -2,12 +2,11 @@
 
 (See below for extended instructions)
 
-Installing and running xrec on a stick (xoas) - Version 5.12.0
-Environment and Climate Change Canada
+Installing and running xrec
 
 ```
-git clone --branch dev_rmn20 https://github.com/ECCC-ASTD-MRD/xoas
-cd xoas
+git clone --branch dev_rmn20 https://github.com/ECCC-ASTD-MRD/xrec
+cd xrec
 git -c submodule."ci-env".update=none submodule update --init --recursive
 ./download-xrec-utilities.sh .
 mkdir -p build
@@ -24,19 +23,19 @@ cd ../work-[OS_NAME-COMPILER_NAME]
 
 ## Requirements
 
-To compile and run xrec on a stick (xoas), you will need:
+To compile and run xrec, you will need:
 
 - Fortran and C compilers,
 - libXm (motif), libXt, expat libraries (with development package),
 - basic Unix utilities such as cmake (version 3.10 minimum), bash, etc.
 
-## Installing xoas
+## Installing xrec
 
-- clone or download the git tar file of xrec at GitLab:  https://github.com/ECCC-ASTD-MRD/xoas
+- clone or download the git tar file of xrec at GitLab:  https://github.com/ECCC-ASTD-MRD/xrec
   
 ```
-git clone --branch dev_rmn20 https://github.com/ECCC-ASTD-MRD/xoas
-cd xoas
+git clone --branch dev_rmn20 https://github.com/ECCC-ASTD-MRD/xrec
+cd xrec
 git -c submodule."ci-env".update=none submodule update --init --recursive
 ```
 
@@ -52,7 +51,7 @@ git -c submodule."ci-env".update=none submodule update --init --recursive
 
 ## GNU compilers
 
-- xoas is configured to use GNU compilers
+- xrec is configured to use GNU compilers
 - make sure the compilers and libraries paths are set in the appropriate
   environment variables (PATH and LD_LIBRARY_PATH)
 - changes to the C and Fortran flags can be done in **cmake_rpn/ec_compiler_presets/default/Linux-x86_64/gnu.cmake**
@@ -106,7 +105,7 @@ and the following files installed in it:
 
 - binary named xrec
 - setup file named setup-xrec.dot
-- XOAS-config file. It displays a summary of the compiler and flags used
+- XREC-config file. It displays a summary of the compiler and flags used
 
 ## Running xrec
 

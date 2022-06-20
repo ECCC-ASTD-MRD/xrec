@@ -2,15 +2,15 @@
 
 set -e
 
-XOAS_FILES="xrec-utilities.tar.gz"
-XOAS_FILES_URL="https://collaboration.cmc.ec.gc.ca/science/outgoing/goas/xrec-utilities.tar.gz"
-XOAS_FILES_MD5SUM="7dfcc58e18f423ecb203a9995ece5b16"
+XREC_FILES="xrec-utilities.tar.gz"
+XREC_FILES_URL="https://collaboration.cmc.ec.gc.ca/science/outgoing/goas/xrec-utilities.tar.gz"
+XREC_FILES_MD5SUM="7b4e9b9bfa33652ed715cb44a141ba7c"
 
 printUsage() {
-    echo -e "Download xrec utilities needed to run xoas"
+    echo -e "Download xrec utilities needed to run xrec"
     echo -e "Usage:"
-    echo -e "./$(basename $0) <XOAS-GIT-DIR>\n"
-    echo -e "Usually, XOAS-GIT-DIR is the current directory, so use:"
+    echo -e "./$(basename $0) <XREC-GIT-DIR>\n"
+    echo -e "Usually, XREC-GIT-DIR is the current directory, so use:"
     echo -e "./$(basename $0) ."
 }
 
@@ -35,22 +35,22 @@ if [[ $# -eq 2 ]]; then
         tarballPath="$2"
     fi
 else
-    tarballPath="${1}/${XOAS_FILES}"
+    tarballPath="${1}/${XREC_FILES}"
     if [[ -x $(which wget) ]]; then
-        wget ${XOAS_FILES_URL} -O "${tarballPath}";
+        wget ${XREC_FILES_URL} -O "${tarballPath}";
     elif [[ -x $(which curl) ]]; then
-        curl -o "${tarballPath}" ${XOAS_FILES_URL}
+        curl -o "${tarballPath}" ${XREC_FILES_URL}
     else
         echo "Error: cannot download using wget or curl."
-        echo "Please download database at: ${XOAS_FILES_URL}" 
+        echo "Please download database at: ${XREC_FILES_URL}" 
         exit 1
     fi
 fi
 
-if checkMd5 "$tarballPath" "$XOAS_FILES_MD5SUM"; then
+if checkMd5 "$tarballPath" "$XREC_FILES_MD5SUM"; then
     echo "MD5 check OK"
 else
-    echo "The MD5 of $XOAS_FILES does not match what was expected.  The file might be corrupted."
+    echo "The MD5 of $XREC_FILES does not match what was expected.  The file might be corrupted."
     exit 1
 fi
 tar -xzvf ${tarballPath} -C "$1"
