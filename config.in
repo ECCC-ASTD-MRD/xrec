@@ -16,7 +16,7 @@ version=@PROJECT_VERSION@
 env=@EC_CI_ENV@
 arch=@EC_ARCH@
 
-has_rmn=@RMN_VERSION@@RMN_STATE@
+has_rmn=@rmn_VERSION@@rmn_STATE@
 
 usage()
 {
