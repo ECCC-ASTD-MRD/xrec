@@ -1,8 +1,32 @@
 # Instructions in a nutshell
 
+# At CMC only
+
+```
+git clone --branch dev_rmn20 git@gitlab.science.gc.ca:RPN-SI/xrec.git
+cd xrec
+# to use installed librmn, don't update rmn submodule
+git -c submodule."src/rmn".update=none submodule update --init --recursive
+# to use librmn sources, update all submodules
+git submodule update --init --recursive
+mkdir -p build
+cd build
+cmake ..
+make -j
+# to install and use xrec, use make work
+make work
+# to prepare a ssm package, use make package
+make package
+# to use xrec
+cd ../work-[OS_NAME-COMPILER_NAME]
+./xrec -imflds [rpn_std_file]
+```
+
+# Outside CMC (external users)
+
 (See below for extended instructions)
 
-Installing and running xrec
+## Installing and running xrec
 
 ```
 git clone --branch dev_rmn20 https://github.com/ECCC-ASTD-MRD/xrec

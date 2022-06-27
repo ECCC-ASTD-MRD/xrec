@@ -1,4 +1,4 @@
-NAME       : XREC
+NAME       : xrec
 VERSION    : 5.12.0
 BUILD      : Release
 DESCRIPTION: X-Rever En Couleurs - Visualisation program
@@ -13,4 +13,4 @@ URL        : https://github.com/ECCC-ASTD-MRD/xrec
 #    =,<,<=,>,>= : Version rules
 #    ~           : Optional
 
-RMN  >= 19.7.0
+RMN  >= 20.0.0

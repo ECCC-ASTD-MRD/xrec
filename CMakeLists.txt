@@ -8,8 +8,8 @@ ec_parse_manifest()        # Parse MANIFEST file
 
 project(${NAME} DESCRIPTION "${DESCRIPTION}")
 set(PROJECT_VERSION ${VERSION}${STATE})
-set(XREC_VERSION ${PROJECT_VERSION} CACHE INTERNAL "XREC version" FORCE)
-message(STATUS "(EC) XREC VERSION = ${XREC_VERSION}")
+set(xrec_VERSION ${PROJECT_VERSION} CACHE INTERNAL "xrec version" FORCE)
+message(STATUS "(EC) xrec VERSION = ${xrec_VERSION}")
 
 enable_language(Fortran C)
 
@@ -44,11 +44,6 @@ else()
 endif()
 message(STATUS "(EC) Compiler version: ${COMPILER_VERSION}")
 
-include_directories(
-   ${CMAKE_SOURCE_DIR}/src/rmn/include
-   ${CMAKE_SOURCE_DIR}/src/rmn/include/${BUILD_ARCH}-${COMPILER_SUITE}
-   )
-
 set(WORK_PREFIX "${CMAKE_SOURCE_DIR}/work-${OS}-${COMPILER_SUITE}-${COMPILER_VERSION}" CACHE FILEPATH "Working directory prefix" FORCE)
 message(STATUS "(EC) Setting working directory prefix to ${WORK_PREFIX}")
 
@@ -56,13 +51,40 @@ if("${CMAKE_INSTALL_PREFIX}" STREQUAL "/usr/local")
   set(CMAKE_INSTALL_PREFIX "${WORK_PREFIX}" CACHE FILEPATH "CMake Installation prefix" FORCE)
 endif()
 
-add_subdirectory(src src)
-
-install(FILES ${CMAKE_SOURCE_DIR}/scripts/setup-xrec.dot DESTINATION ${WORK_PREFIX})
-ec_build_config()      # Create build configuration script
+if (EXISTS ${CMAKE_SOURCE_DIR}/src/rmn/CMakeLists.txt)
+  message(STATUS "(EC) Using librmn sources")
+  set(rmn_SRC "rmn" CACHE STRING "rmn sources")
+  set(rmn_FOUND TRUE CACHE BOOL "Control whether rmn library was found")
+  set(rmn_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/rmn/include" CACHE PATH "RMN include directory" FORCE)
+  set(rmn_ARCHDEP_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/rmn/include/${BUILD_ARCH}-${COMPILER_SUITE}" CACHE PATH "RMN archdep include directory" FORCE)
+  include_directories(${rmn_INCLUDE_DIR} ${rmn_ARCHDEP_INCLUDE_DIR})
+  add_subdirectory(src/rmn rmn)
+else()
+  find_package(rmn ${rmn_REQ_VERSION} CONFIG)
+endif()
+  
+add_subdirectory(src/xrec xrec)
 
 add_custom_target(work
-    COMMAND /bin/mkdir -p ${WORK_PREFIX}
-    COMMAND cd ${CMAKE_BINARY_DIR} && make install/local
-    COMMAND cd ${CMAKE_BINARY_DIR}/src/xrec/main && make install/local
+  COMMAND /bin/mkdir -p ${WORK_PREFIX}
+  COMMAND /bin/mkdir -p ${WORK_PREFIX}/bin
+  COMMAND /bin/cp ${CMAKE_BINARY_DIR}/xrec-config ${WORK_PREFIX}/bin
+  COMMAND cd ${CMAKE_BINARY_DIR}/xrec/main && make install/local
+  COMMAND cp -p ${CMAKE_SOURCE_DIR}/scripts/setup-xrec.dot ${WORK_PREFIX}
 )
+
+#----- Packaging
+ec_package_name()    # Define package prefix
+ec_build_config()    # Create build configuration script
+ec_prepare_ssm()     # Prepare ssm packaging files
+
+set(CPACK_GENERATOR "TGZ")
+set(CPACK_PACKAGE_VENDOR "ECCC")
+set(CPACK_PACKAGE_CONTACT "${MAINTAINER}")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
+set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
+set(CPACK_OUTPUT_FILE_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/package")
+set(CPACK_PACKAGE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+set(CPACK_PACKAGE_FILE_NAME "${PACKAGE_NAME}")
+set(CPACK_SOURCE_PACKAGE_FILE_NAME "${NAME}_${PROJECT_VERSION}")
+include(CPack)
