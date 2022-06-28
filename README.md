@@ -15,11 +15,10 @@ cmake ..
 make -j
 # to install and use xrec, use make work
 make work
+cd ../work-[OS_NAME-COMPILER_NAME]
+./bin/xrec -imflds [rpn_std_file]
 # to prepare a ssm package, use make package
 make package
-# to use xrec
-cd ../work-[OS_NAME-COMPILER_NAME]
-./xrec -imflds [rpn_std_file]
 ```
 
 # Outside CMC (external users)
@@ -40,7 +39,7 @@ make -j
 make work
 cd ../work-[OS_NAME-COMPILER_NAME]
 . ./setup-xrec.dot [language_of_your_choice: english or francais]
-./xrec -imflds [rpn_std_file]
+./bin/xrec -imflds [rpn_std_file]
 ```
 
 # Extended instructions:
@@ -140,7 +139,7 @@ This setup file also sets TMPDIR and ARMNLIB variables.
 ```
 cd ../work-[OS_NAME-COMPILER_NAME]
 . ./setup-xrec.dot [language_of_your_choice: english or francais]
-./xrec -imflds [rpn_std_file]
+./bin/xrec -imflds [rpn_std_file]
 ```
 
-User guide in pdf format describes in more details how to use XREC.
+User guide in pdf format describes in more details how to use xrec.
