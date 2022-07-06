@@ -1,0 +1,136 @@
+variables:
+   GIT_SUBMODULE_STRATEGY: recursive
+   ORD_SOUMET_W: "10"
+   ORD_SOUMET_C: "4"
+   ORD_SOUMET_M: "8G"
+   ORD_SOUMET_TMPFS: "1G"
+stages:
+   - build
+   - test
+   - package
+   - deploy
+
+before_script:
+   - export CLICOLOR_FORCE=true
+   - if [[ ${CI_COMMIT_REF_NAME} == "dev" && ${ECCI_PROCESS:0:3} != "dev" && ${ECCI_PROCESS} != "nightly" ]]; then ECCI_PROCESS="dev_${CI_PIPELINE_ID}"; fi
+   - SSM=${ECCI_SSM}/`[[ ${ECCI_PROCESS:0:3} != "dev" ]] && echo ${ECCI_PROCESS} || echo staging`
+
+build:icelake-inteloneapi-2022.1.2:
+   stage: build
+   only:
+      - master
+      - dev
+      - tags
+   script:
+      - set +e
+      - source ci-env/latest/rhel-8-icelake-64/inteloneapi-2022.1.2.sh
+      - . r.load.dot ${SSM}/libs
+      - set -e
+      - mkdir build_icelake-inteloneapi-2022.1.2
+      - cd build_icelake-inteloneapi-2022.1.2
+      - cmake ../ 
+      - time make -j $NCPUS
+   artifacts:
+      expire_in: 2 hrs
+      paths:
+         - build_icelake-inteloneapi-2022.1.2
+
+build:amd64-inteloneapi-2022.1.2:
+   stage: build
+   only:
+      - master
+      - dev
+      - tags
+   script:
+      - set +e
+      - source ci-env/latest/rhel-8-amd-64/inteloneapi-2022.1.2.sh
+      - . r.load.dot ${SSM}/libs
+      - set -e
+      - mkdir build_amd64-inteloneapi-2022.1.2
+      - cd build_amd64-inteloneapi-2022.1.2
+      - cmake ../ 
+      - time make -j $NCPUS
+   artifacts:
+      expire_in: 2 hrs
+      paths:
+         - build_amd64-inteloneapi-2022.1.2
+
+build:amd64-gnu-9.3.0:
+   stage: build
+   only:
+      - master
+      - dev
+      - tags
+   script:
+      - set +e
+      - source ci-env/latest/rhel-8-amd-64/gnu-9.3.0.sh 
+      - . r.load.dot ${SSM}/libs
+      - set -e
+      - mkdir build_amd64-gnu-9.3.0
+      - cd build_amd64-gnu-9.3.0
+      - cmake ../ 
+      - time make -j $NCPUS
+   artifacts:
+      expire_in: 2 hrs
+      paths:
+         - build_amd64-gnu-9.3.0
+
+package:icelake-inteloneapi-2022.1.2:
+   stage: package
+   only:
+      - tags
+      - schedules
+   dependencies:
+      - build:icelake-inteloneapi-2022.1.2
+   environment:
+      name: testing
+   script:
+      - set +e
+      - source ci-env/latest/rhel-8-icelake-64/inteloneapi-2022.1.2.sh
+      - set -e
+      - cd build_icelake-inteloneapi-2022.1.2
+      - make package
+      - ~/ci-admin-bundle/bin/ci-package-ssm.sh package ${ECCI_PROCESS}
+
+package:amd64-inteloneapi-2022.1.2:
+   stage: package
+   only:
+      - tags
+      - schedules
+   dependencies:
+      - build:amd64-inteloneapi-2022.1.2
+   environment:
+      name: testing
+   script:
+      - set +e
+      - source ci-env/latest/rhel-8-amd-64/inteloneapi-2022.1.2.sh
+      - set -e
+      - cd build_amd64-inteloneapi-2022.1.2
+      - make package
+      - ~/ci-admin-bundle/bin/ci-package-ssm.sh package ${ECCI_PROCESS}
+
+package:amd64-gnu-9.3.0:
+   stage: package
+   only:
+      - tags
+      - schedules
+   dependencies:
+      - build:amd64-gnu-9.3.0
+   environment:
+      name: testing
+   script:
+      - set +e
+      - source ci-env/latest/rhel-8-amd-64/gnu-9.3.0.sh 
+      - set -e
+      - cd build_amd64-gnu-9.3.0
+      - make package
+      - ~/ci-admin-bundle/bin/ci-package-ssm.sh package ${ECCI_PROCESS}
+      
+deploy:staging:
+   stage: deploy
+   only:
+      - tags
+      - schedules
+   script:
+      - ~/ci-admin-bundle/bin/ci-stage-ssm.sh libs $CI_PROJECT_NAME "${CI_COMMIT_TAG}" "${ECCI_PROCESS}"
+
