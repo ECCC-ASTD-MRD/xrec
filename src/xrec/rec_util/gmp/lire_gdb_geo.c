@@ -18,13 +18,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <gmp.h>
-#include <rpnmacros.h>
 #include <stdio.h>
-#include <gdb.h>
-#include <wgl.h>
 #include <string.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <rpnmacros.h>
+#include "gmp.h"
+#include "gdb.h"
+#include "wgl.h"
 
 extern GeoMapOptionsStruct mapOptions;
 static ListePointsStruct *gdb_liste;

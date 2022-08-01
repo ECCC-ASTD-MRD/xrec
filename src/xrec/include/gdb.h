@@ -112,7 +112,6 @@
 
  extern int  gdb_init ( );
  extern int  gdb_limit( float bottom, float left, float top, float right );
- extern void gdb_log  ( );
 
 /*
  *  selecting data 
@@ -137,10 +136,10 @@
  *  specific map stuff 
  */
 
- extern void   gdb_mapclose( int imfp );
- extern char * gdb_mapget  ( int imfp, float lat, float lon, char *buf );
- extern char * gdb_mapgetv ( int imfp, int n, float *ll, char *buf );
- extern int    gdb_mapopen ( int reso, int type, int *d );
+ extern void     gdb_mapclose( caddr_t imfp );
+ extern char *   gdb_mapget  ( caddr_t imfp, float lat, float lon, char *buf );
+ extern char *   gdb_mapgetv ( caddr_t imfp, int n, float *ll, char *buf );
+ extern caddr_t  gdb_mapopen ( int reso, int type, int *d );
 
  __END_DECLS
 

@@ -18,13 +18,13 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <gmp.h>
-#include <rpnmacros.h>
 #include <stdio.h>
-#include <gdb.h>
 #include <string.h>
 #include <stdlib.h>
-
+#include <sys/types.h>
+#include <rpnmacros.h>
+#include "gmp.h"
+#include "gdb.h"
 
 static ListePointsStruct *gdb_liste;
 static int gdb_nbItems;
