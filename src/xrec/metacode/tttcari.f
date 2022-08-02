@@ -35,8 +35,7 @@
 #if defined (C910)
 *
 *MODULES
-      EXTERNAL LONGUEUR, GETENVC
-      INTEGER  LONGUEUR
+      EXTERNAL GETENVC
 *
 **
       INTEGER  L
@@ -45,7 +44,7 @@
       DATA IVP /1280*0/   ! PAS DE DESCRIPTION PAR DEFAUT
 
       CALL GETENVC('ARMNLIB', DATAREP)
-      L = LONGUEUR( DATAREP )
+      L = len_trim( DATAREP )
       OPEN(55,FILE=DATAREP(1:L)//'/data/carfntu',FORM='UNFORMATTED')
       READ(55) IVP, ICHAR, IVL
       READ(55) IVH

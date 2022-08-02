@@ -25,8 +25,8 @@
       INTEGER  IPATT(32), IPATN(32)
 #endif
 #if defined (C910)
-      EXTERNAL LONGUEUR, GETENVC
-      INTEGER  LONGUEUR, L
+      EXTERNAL GETENVC
+      INTEGER  L
       CHARACTER * 128 DATAREP
 #endif
 #if defined (CRAY) 
@@ -63,7 +63,7 @@
       DATA NTP /MAXPATS * 0/
 
       CALL GETENVC('ARMNLIB',DATAREP)
-      L = LONGUEUR(DATAREP)
+      L = len_trim(DATAREP)
       OPEN(66,FILE=DATAREP(1:L)//'/data/patrns',FORM='UNFORMATTED')
       DO 40 I =1,MAXPATS
          IF(MODEP .LT. 200) THEN
