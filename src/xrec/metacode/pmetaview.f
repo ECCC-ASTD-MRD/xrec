@@ -75,7 +75,7 @@
 *MODULES
       EXTERNAL TTTVOPN, TTTZOPN, ACCOUNT, TTTRIN, FRONTB, CLEAR, LOC,
      +         TTTPATI, TTTSKFR, ASC2DSC, TTTBAN, GETSIZ, CCARD, FNOM,
-     +         TTTCARI, TTTFINI, TTTLKID, SECOND, SETPAT, FCLOS, EOF,
+     +         TTTCARI, TTTFINI, TTTLKID, SETPAT, FCLOS, EOF,
      +         TTTINIT, TTTPRE3, FRETOUR, SOURIS, GETBUT, 
      +         TTTPRCS, TTTNDR3, DFLERMS, RECTFI, KEEPAS, COLOR, 
      +         TTTCOMP, WRITRAW, WGLDBF, BACKBU,  
@@ -98,7 +98,7 @@
      +         NBFRAME,  FRSTOFF, SIZEX0, ICONT, SGX1, FNB, ADRDEB, 
      +         NBENTRY,  MAXSGY,  STATUS, SGX2,  FNOM, SGY2, ICGR,   
      +         ERRCODE,  FRAMES,  DIST,   SGY1,  SGLY, POSFRM(999)  
-      REAL     TA1, RATIOX, UUNIT, TAJUSTX(24), CC1, SECOND,
+      REAL     TA1, RATIOX, UUNIT, TAJUSTX(24), CC1, 
      +         TA2, RATIOY, VUNIT, TDIST(24)
       LOGICAL  TOPCLIP, SOURIS, TSEPARE(24), VERTOFF, ANIM, FOUND,
      +         NOROUTE, GETBUT, BLACKLST
@@ -449,9 +449,9 @@
             CALL TTTINIT
             COMPT4B = 0
             COMPTMB = 0
-            TA1     = SECOND()
+            CALL CPU_TIME(TA1)
             CALL TTTPRCS( STATUS )
-            TA2     = SECOND()
+            CALL CPU_TIME(TA2)
             IF(STATUS .EQ. MARKEOI) GOTO 90
             ICGR    = ICGR + 1
             WRITE(IPUNIT,600) ICGR, TA2-TA1
@@ -602,8 +602,3 @@
  670  FORMAT(/T35,'C O M P R E S S I O N    ',F8.3,'  SECONDE(S)')
 
       END
-      
-      character *128 function product_id_tag()
-      product_id_tag='$Id: praster.ftn 27 2007-05-15 20:36:47Z armnlib $'
-      return
-      end

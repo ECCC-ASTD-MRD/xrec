@@ -129,7 +129,7 @@
      +         TTTZOPN, TTTCADR, TTPUTID, TTTCOMP, TTTRIN, FCLOS,
      +         TTTFINI, TTTNDR3, TTTLKID, TTTMAPC, WAOPEN, QQEXIT,
      +         WRITRAW, ACCOUNT, FRETOUR, TTTSKFR, TTTBAN, FNOM,
-     +         TTRRINI, TTTPRCS, SECOND,  EOF
+     +         TTRRINI, TTTPRCS, EOF
 *
 **
       character(len=8) :: TRAMES_VERSION, XMETAVIEW_VERSION
@@ -150,7 +150,7 @@
      +        MSGID(8), ERRCODE,   NFRAMES,  I, FRAMES, ICONT, FNOM,
      +        BUFID(7), VOFFSET,   INITSPA, GR, STATUS, EOF,
      +        FRSTOFF,  INITVSP
-      REAL    TDIST(24), CC1, T1, T2, TA1, TA2, UUNIT, VUNIT, SECOND,
+      REAL    TDIST(24), CC1, T1, T2, TA1, TA2, UUNIT, VUNIT, 
      +        TAJUSTX(24)
       integer hpier, hpabt
       CHARACTER * 128 CLE(64) , DEF1(64), VAL(64), DN
@@ -288,7 +288,7 @@
       DATA MESSAGE /' '/
 #include "mapping.cdk"
 #include "version.inc"
-      T1 = SECOND()
+      CALL CPU_TIME(T1)
       CALL CCARD(CLE, DEF1, VAL, 64, -1)
       ERRCODE = FNOM(MCUNIT, VAL(12), 'RND,OLD', 0)
       IF(ERRCODE .NE. 0) STOP
@@ -503,9 +503,9 @@
             GOTO 110
  100        I   = EOF(5)
 
- 110        TA1 = SECOND()
+ 110        CALL CPU_TIME(TA1)
             CALL TTTPRCS(STATUS)
-            TA2 = SECOND()
+            CALL CPU_TIME(TA2)
             IF(STATUS .EQ. MARKEOI) GOTO 120
             OFFSET = OFFSET + SPACE
             ICGR   = ICGR + 1
@@ -515,7 +515,7 @@
             GOTO 90
          ENDIF
  120     IF((STATUS.NE.MARKEOI) .OR. (ICONT.GT.1)) THEN
-            TA1 = SECOND()
+            CALL CPU_TIME(TA1)
             IF(TSEPARE(DEVICE) .AND. (PROTOCL .EQ. 'KMW'))
      +         CALL TTTPRE3
             IF((DEVICE.EQ.LINK) .OR. (DEVICE.EQ.TANDEM) .OR.
@@ -533,7 +533,7 @@
                CALL TTTZOPN(LCP, NCP, VSPACE, TABCOL(FOND), IVAR(PTIV))
                CALL TTTCOMP(IVAR(PTIV), VSPACE, TABCOL(FOND).EQ.0, 
      +                      TOPCLIP, VAL(44).EQ.'OUI')
-               TA2 = SECOND()
+               CALL CPU_TIME(TA2)
                WRITE(IPUNIT, 670) TA2-TA1
                IF(TSEPARE(DEVICE) .AND. (PROTOCL.EQ.'KMW')) THEN
                   CALL TTTNDR3
@@ -554,7 +554,7 @@
       IF(UN .EQ. 'USER')   UN = USAGER
       MF = VAL(23)
       CALL TTTFINI(FC, UN, MF, NOROUTE, JOBN, PROTOCL)
-      T2 = SECOND()
+      CALL CPU_TIME(T2)
       COMPTAB(2) = ICGR
       COMPTAB(3) = ((ICGR + GR-1) / GR*(HV + VSPACE)) / MODEP
       IF(DEVICE .EQ. V100) COMPTAB(3) = COMPTAB(3)*2
@@ -583,8 +583,3 @@
  660  FORMAT(//T40, 'FIN D''INFORMATION APRES ', I3, ' GRAPHE(S)')
  670  FORMAT(/T35, 'C O M P R E S S I O N    ', F8.3, '  SECONDE(S)')
       END
-      
-      character *128 function product_id_tag()
-      product_id_tag='$Id: praster.ftn 27 2007-05-15 20:36:47Z armnlib $'
-      return
-      end
