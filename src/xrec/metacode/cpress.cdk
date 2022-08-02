@@ -1,0 +1,5 @@
+#if defined (RASTER) 
+      INTEGER         CBUF,     MOT, NBT
+      LOGICAL                             ASKI, IDFLAG
+      COMMON /CPRESS/ CBUF(16), MOT, NBT, ASKI, IDFLAG
+#endif

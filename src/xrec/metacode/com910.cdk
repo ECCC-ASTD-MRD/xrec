@@ -1,0 +1,6 @@
+#if defined (NATIF) 
+#if defined (UNIX) 
+      INTEGER          LASTCOL, LASTTIK
+      COMMON /COMUNIX/ LASTCOL, LASTTIK
+#endif
+#endif

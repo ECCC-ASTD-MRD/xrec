@@ -1,0 +1,72 @@
+#define MARKEOS 3
+#define MARKEOI 2
+#define MARKEOF 1
+#define MARKFRM 21845  
+#define MAXPILE 6
+#define MAXBUF 100
+#if defined (UNIX)
+#define MAXWR 130
+#define MBUFSZ 90
+#define BITMOT 32
+#define NBITCAR 8
+#define BYT1920 480
+#define BITUSED 32
+#define STDOUT 'STDOUT'
+#define REAL64 DOUBLE PRECISION
+#define ERRMESG(Mot1,Mot2) WRITE( 6,'(1X, A,1X,A)') Mot1, Mot2)
+#define MASK(Mnb) ishft(-1,32-(Mnb))
+#define RMASK(Mnb) ishft(-1,-(32-(Mnb)))
+#define MAXPATS 128
+#endif
+#define YES 1
+#define NO  0
+#define OK  -3
+#define ENDOFCHR 4095  
+#define THKFCTOR .5
+#define INRANGE 0
+#define OUTRANGE -1
+#define V80     1
+#define V100    2
+#define V200    3
+#define DFI     4
+#define LINK    5
+#define V80T    6
+#define P3102   7
+#define CGP220  8
+#define IBMEGA  9
+#define IBM2    10
+#define IBM4    11
+#define IBMK    12
+#define TEKJET  13
+#define P3100   14
+#define TAPE    15
+#define SUN6    16
+#define SUN12   17
+#define SUN24   18
+#define TANDEM  19
+#define DIFAX   20
+#define CALCOMP 21
+#define IBMVGA  22
+#define LASER   23
+#if defined (NATIF)
+#define KEEPAS wglkas
+#define WINOPE wglopw
+#define GETSIZ wglgwz
+#define BACKBU wglbbf
+#define FRONTB wglfbf
+#define COLOR  wglcol
+#define SETPAT wglspt
+#define RECTFI wglrfi
+#define GETBUT wglbtp
+#define SWAPBU wglswb
+#define CLEAR  wglclr
+#define LINEWI wgllwi
+#define MOVE2I wglmvi
+#define DRAW2I wgldri
+#define MAPCOL wglmco
+#define DEFPAT wgldpt
+#define POLF2I wglpfi
+#define SCRMAS wglmas
+#endif
+
+

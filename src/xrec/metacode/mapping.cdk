@@ -1,0 +1,4 @@
+      MAPU(XX,YY)    = A1 * XX   +  B1 * YY   +  C1
+      MAPV(XX,YY)    = A2 * XX   +  B2 * YY   +  C2
+      RMAPU(RRX,RRY) = A1 * RRX  +  B1 * RRY  +  C1
+      RMAPV(RRX,RRY) = A2 * RRX  +  B2 * RRY  +  C2

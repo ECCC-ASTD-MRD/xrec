@@ -1,0 +1,33 @@
+#if defined (RASTER) 
+*** S/P TTTRIN - INITIALISER LE FICHIER COMPRIME
+#include "aaaamac.cdk"
+*
+      SUBROUTINE TTTRIN
+#include "impnone.cdk"
+*
+*AUTEUR       M. VALIN
+*
+*REVISION 001 Y. BOURASSA - MAI 94 RATFOR @ FTN77
+*
+*LANGUAGE   - FTN77
+*
+*OBJET(TTTRIN)
+*     INITILISER ET OUVRIR LE FICHIER COMPRESSE
+*
+*MODULES
+      EXTERNAL TTTPRE3,WAOPEN
+*
+**
+
+#include "params.cdk"
+
+      IF ((DEVICE.NE.LINK)   .AND. (DEVICE.NE.DFI)   .AND. 
+     +    (DEVICE.NE.TANDEM) .AND. (DEVICE.NE.DIFAX)) THEN
+         CALL TTTPRE3
+      ELSE
+         CALL WAOPEN( 22 )
+      ENDIF
+
+      RETURN
+      END
+#endif

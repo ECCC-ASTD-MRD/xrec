@@ -1,0 +1,3 @@
+      INTEGER         LAST, CURADR, BUF,       PKBF,          UPK
+      COMMON /LNKPAK/ LAST, CURADR, BUF(2300), PKBF(BYT1920), UPK(264)
+
