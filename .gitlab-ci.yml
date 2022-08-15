@@ -68,6 +68,7 @@ package:rhel-8-icelake-64_inteloneapi-2022.1.2:
    script:
       - set +e
       - source ci-env/latest/rhel-8-icelake-64/inteloneapi-2022.1.2.sh
+      - . r.load.dot ${SSM}/libs
       - set -e
       - cd build_rhel-8-icelake-64_inteloneapi-2022.1.2
       - make package
@@ -125,6 +126,7 @@ package:rhel-8-amd64_inteloneapi-2022.1.2:
    script:
       - set +e
       - source ci-env/latest/rhel-8-amd-64/inteloneapi-2022.1.2.sh
+      - . r.load.dot ${SSM}/libs
       - set -e
       - cd build_rhel-8-amd64_inteloneapi-2022.1.2
       - make package
@@ -182,6 +184,7 @@ package:rhel-8-amd64_gnu-9.3.0:
    script:
       - set +e
       - source ci-env/latest/rhel-8-amd-64/gnu-9.3.0.sh 
+      - . r.load.dot ${SSM}/libs
       - set -e
       - cd build_rhel-8-amd64_gnu-9.3.0
       - make package
@@ -251,6 +254,7 @@ package:ubuntu-18.04-amd64_inteloneapi-2022.1.2:
    script:
       - set +e
       - source ci-env/latest/ubuntu-18.04-amd-64/inteloneapi-2022.1.2.sh
+      - . r.load.dot ${SSM}/libs
       - set -e
       - cd build_ubuntu-18.04-amd64_inteloneapi-2022.1.2
       - make package
@@ -320,6 +324,7 @@ package:ubuntu-20.04-amd64_inteloneapi-2022.1.2:
    script:
       - set +e
       - source ci-env/latest/ubuntu-20.04-amd-64/inteloneapi-2022.1.2.sh
+      - . r.load.dot ${SSM}/libs
       - set -e
       - cd build_ubuntu-20.04-amd64_inteloneapi-2022.1.2
       - make package
