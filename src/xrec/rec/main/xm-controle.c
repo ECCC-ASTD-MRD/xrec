@@ -22,15 +22,15 @@
 #include <string.h>
 #include <fcntl.h>
 #include <rpnmacros.h>
-#include <rec.h>
-#include <rec_functions.h>
+#include "rec.h"
+#include "rec_functions.h"
 #include <memory.h>
-#include <rpnmacros.h>
-#include <xinit.h>
+#include "xinit.h"
 #include <math.h>
-#include <wgl.h>
-#include <souris.h>
-#include <rec_version.h>
+#include "wgl.h"
+#include "souris.h"
+#include "rec_version.h"
+#include "xrec_build_info.h"
 
 #include <Xm/CascadeB.h>
 #include <Xm/Form.h>
@@ -2303,7 +2303,7 @@ XtCallbackProc MenuFichierSelect(Widget w, XtPointer client_data, XtPointer call
    }
 
 
-      strcpy(inforec, recVersion[lng]);
+      strcpy(inforec, PROJECT_VERSION_STRING);
       strcat(inforec, copyright[lng]);
       strcat(inforec, auteurs[lng]);
       strcat(inforec, contrib[lng]);

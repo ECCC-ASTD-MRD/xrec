@@ -18,15 +18,16 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <wgl.h>
-#include <rpn_f.xbm>
-#include <rpn_e.xbm>
-#include <service_f.xbm>
-#include <service_e.xbm>
+#include "wgl.h"
+#include "rpn_f.xbm"
+#include "rpn_e.xbm"
+#include "service_f.xbm"
+#include "service_e.xbm"
 #include <stdio.h>
-#include <rec_version.h>
-#include <rec.h>
-#include <rec_functions.h>
+#include "xrec_build_info.h"
+#include "rec_version.h"
+#include "rec.h"
+#include "rec_functions.h"
 
 int logo_width, logo_height;
 char *logo_bits;
@@ -61,15 +62,7 @@ void draw_rec_version()
    
    langue = c_getulng();
    
-   if (langue == 0)
-      {
-      strcpy(tmpStr, recVersion[langue]);
-      }
-   else
-      {
-      strcpy(tmpStr, recVersion[langue]);
-      }
-
+   strcpy(tmpStr, PROJECT_VERSION_STRING);
    largeurVersion = c_wglwsi(tmpStr, strlen(tmpStr));
    c_wglcol(BLANC);
    c_wglpsi((largeurFenetre-largeurVersion)/2,hauteurFenetre-5*descent,

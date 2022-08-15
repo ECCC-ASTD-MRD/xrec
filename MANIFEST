@@ -1,6 +1,6 @@
 NAME       : xrec
-VERSION    : 5.12.0
-BUILD      : Release
+VERSION    : 
+BUILD      : 
 DESCRIPTION: X-Rever En Couleurs - Visualisation program
 SUMMARY    : xrec is a visualization program which can be used to display 2D
 meteorological fields stored in the FST files. It is developed by the

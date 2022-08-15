@@ -8,7 +8,7 @@ ec_parse_manifest()        # Parse MANIFEST file
 
 project(${NAME} DESCRIPTION "${DESCRIPTION}")
 set(PROJECT_VERSION ${VERSION}${STATE})
-set(xrec_VERSION ${PROJECT_VERSION} CACHE INTERNAL "xrec version" FORCE)
+set(${NAME}_VERSION ${PROJECT_VERSION} CACHE INTERNAL "xrec version" FORCE)
 message(STATUS "(EC) xrec VERSION = ${xrec_VERSION}")
 
 enable_language(Fortran C)
