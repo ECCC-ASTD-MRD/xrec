@@ -19,13 +19,6 @@ include(ec_compiler_presets)
 set(WITH_OPENMP FALSE CACHE BOOL "Control whether to use OpenMP")
 add_compile_definitions(WITHOUT_OpenMP)
 
-# CMAKE_BUILD_TYPE can be one of Debug, Release, RelWithDebInfo, MinSizeRel
-if (NOT CMAKE_BUILD_TYPE)
-  message(STATUS "(EC) CMAKE_BUILD_TYPE can be one of Debug, Release, RelWithDebInfo, MinSizeRel")
-  set(CMAKE_BUILD_TYPE "Release")
-  message(STATUS "(EC) No build type selected, default to ${CMAKE_BUILD_TYPE}")
-endif()
-
 # Figure out the correct arch-dependent include path
 set(BUILD_ARCH "${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
 message(STATUS "(EC) Build architecture: ${BUILD_ARCH}")
