@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 #include <vcar.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <stdlib.h>
 #include <string.h>
 

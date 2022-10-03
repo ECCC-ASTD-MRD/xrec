@@ -27,7 +27,7 @@
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
 
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <xinit.h>
 #include <wgl.h>
 #include <stdlib.h>

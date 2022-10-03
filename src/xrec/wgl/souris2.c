@@ -30,7 +30,7 @@
 ** Env. graphiques: X11, GL
 **
 **/
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 
 #ifdef X_WGL
 #include <X11/Xlib.h>

@@ -18,10 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <rec.h>
 #include <rec_functions.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 
 #define MODULE2D(a,b)   (sqrt(a*a+b*b))
 #define MODULE3D(a,b,c) (sqrt(a*a+b*b+c*c))

@@ -21,7 +21,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <stdio.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <gmp.h>
 #include <math.h>
 #include <wgl.h>

@@ -19,7 +19,7 @@
  */
 
 #include <stdio.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 
 #include <wgl_x.h>
 

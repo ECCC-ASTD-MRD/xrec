@@ -66,7 +66,7 @@
 
 #include <xinit.h>
 #include <xm-xselectstd.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 
 #define NB_MAX_DESCRIPTEURS     24              /* nb max. de descripteurs permis dans un tableau               */
 #define NB_MAX_FENETRES         4               /* nb max. de fenetres permises                                 */

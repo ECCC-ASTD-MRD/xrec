@@ -26,11 +26,11 @@
 #include <Xm/TextF.h>
 #include <Xm/RowColumn.h>
 
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <xinit.h>
 #include <wgl.h>
 #include <souris.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <rec.h>
 #include <rec_functions.h>
 #include <math.h>

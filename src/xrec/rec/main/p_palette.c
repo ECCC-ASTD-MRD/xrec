@@ -39,7 +39,7 @@
 #include <rec.h>
 #include <xinit.h>
 #include <wgl.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <rec_functions.h>
 
 extern SuperWidgetStruct SuperWidget;

@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <math.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <rec.h>
 #include <rec_functions.h>
 #include <lic.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <wgl_x.h>
 
 #define C_TO_FTN(i,j,ni)  (int)((ni) * (j) + i)

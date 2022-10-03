@@ -40,7 +40,7 @@
 ******************************************************************************/
 
 #include <xinit.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>

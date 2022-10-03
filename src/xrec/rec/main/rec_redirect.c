@@ -5,7 +5,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 
 // Redirige stdio dans le fichier "nom_fichier"
 // Yves Chartier, mars 2014

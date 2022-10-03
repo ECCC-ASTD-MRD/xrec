@@ -1,6 +1,6 @@
 #include <sys/resource.h>
 #include <stdio.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 
 int f77name(setstacksize) (int *stacksizeinmb)
 {

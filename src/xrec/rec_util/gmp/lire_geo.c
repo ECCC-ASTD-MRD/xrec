@@ -22,7 +22,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include "gmp.h"
 #include "gdb.h"
 

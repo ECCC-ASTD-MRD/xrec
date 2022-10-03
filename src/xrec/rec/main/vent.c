@@ -21,10 +21,10 @@
 #include <stdio.h>
 #include <math.h>
 #include <wgl.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <rec.h>
 #include <rec_functions.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 
 extern _XContour    xc;
 

@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 #include <wgl.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 
 int f77name(wgldsi)(char *string, int *stringLength,  F2Cl ftnStringLength);
 int  c_wgldsi(char *string, int stringLength);

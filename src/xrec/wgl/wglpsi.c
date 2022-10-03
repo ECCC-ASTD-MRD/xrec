@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 #include <wgl.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 
 void f77name(wglpsi)(int *i, int *j, char *string, int *stringLength, int *size, 
 		     int *orient, int *codeCentrage, F2Cl ftnStringLength);

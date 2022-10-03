@@ -24,11 +24,11 @@
 #include <Xm/RowColumn.h>
 
 #include <xinit.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <rec.h>
 #include <rec_functions.h>
 #include <wgl.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <souris.h>
 #include <math.h>
 

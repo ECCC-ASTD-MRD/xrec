@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 #include <gmp.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 
 extern float gdxmin, gdymin, gdxmax, gdymax;
 extern GeoMapInfoStruct     mapInfo;

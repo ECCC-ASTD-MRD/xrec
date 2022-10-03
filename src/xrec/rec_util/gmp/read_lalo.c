@@ -22,7 +22,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <gmp.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <math.h>
 #include <memory.h>
 #include <stdlib.h>

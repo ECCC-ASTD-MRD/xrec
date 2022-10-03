@@ -19,11 +19,11 @@
  */
 
 #include <math.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <rec.h>
 #include <rec_functions.h>
 #include <wgl.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 
 #define C2FTN(i,j,ni)  (int)((ni) * (j-1) + (i-1))
 #define BTN(a,b,c) ((((a < c) ? a : c) < b) && (((a > c) ? a : c) >= b))

@@ -23,11 +23,11 @@
 #include <fcntl.h>
 #include <ctype.h>
 #include <stdlib.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <rec.h>
 #include <rec_functions.h>
 #include <xinit.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <expat.h>
    
 int nbChampsDict = 0;

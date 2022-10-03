@@ -1,7 +1,7 @@
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <rec.h>
 #include <rec_functions.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <wgl.h>
 
 void c_wglrfton_m(float *fld, unsigned int *mask, int ni, int nj,

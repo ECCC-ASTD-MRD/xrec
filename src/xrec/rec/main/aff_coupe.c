@@ -25,7 +25,7 @@
 #include <math.h>
 #include <wgl.h>
 #include <souris.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <rec.h>
 #include <rec_functions.h>
 

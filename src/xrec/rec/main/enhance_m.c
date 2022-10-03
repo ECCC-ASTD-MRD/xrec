@@ -19,7 +19,7 @@
  */
 
 #include <math.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <rec.h>
 #include <rec_functions.h>
 

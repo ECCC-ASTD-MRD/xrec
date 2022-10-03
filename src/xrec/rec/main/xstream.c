@@ -1,11 +1,11 @@
 #include <string.h>
 #include <fcntl.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <rec.h>
 #include <rec_functions.h>
 #include <xinit.h>
 #include <wgl.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <limits.h>
 
 #include <sys/types.h>

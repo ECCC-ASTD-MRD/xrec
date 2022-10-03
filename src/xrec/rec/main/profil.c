@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 #include <wgl.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
    
 void courbe(float x[], float y[], int npts, float xmin, float xmax, float ymin, float ymax, float *intX, float *intY, int nbIntX, int nbIntY, int axeXRenverse, int axeYRenverse, int i1, int j1, int i2, int j2)
 {

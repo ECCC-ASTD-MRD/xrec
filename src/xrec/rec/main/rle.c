@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 
 void EncodeRLEData(unsigned char *out, int  *nptsout, char *in, int  nptsin)
 {

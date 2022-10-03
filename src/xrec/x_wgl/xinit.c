@@ -29,7 +29,7 @@
 
 #include <xinit.h>
 #include <ctype.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 
 #include <stdlib.h>
 #include <stdio.h>

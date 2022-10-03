@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 #include <wgl.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 
 float f77name(wglasx)(string, stringLength, ftnStringLength)
 char *string;

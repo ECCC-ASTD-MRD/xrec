@@ -38,7 +38,7 @@
 #include <Xm/ToggleBG.h>
 
 
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <rec.h>
 #include <rec_functions.h>
 #include <wgl.h>

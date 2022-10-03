@@ -8,7 +8,7 @@
 #include <gdfonts.h>
 #include <gdfontt.h>
 
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <stdlib.h>
 #include <math.h>
 #include <wgl.h>

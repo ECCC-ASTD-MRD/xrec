@@ -25,8 +25,8 @@
 #include <Xm/PushB.h>
 #include <Xm/RowColumn.h>
 
-#include <rpnmacros.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
+#include <rmn/rpnmacros.h>
 #include <rec.h>
 #include <rec_functions.h>
 #include <wgl.h>

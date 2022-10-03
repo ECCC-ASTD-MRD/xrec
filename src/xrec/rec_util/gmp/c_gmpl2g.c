@@ -19,7 +19,7 @@
  */
 
 #include <gmp.h>
-#include <rpnmacros.h>
+#include <rmn/rpnmacros.h>
 
 
 extern GeoMapInfoStruct     mapInfo;
