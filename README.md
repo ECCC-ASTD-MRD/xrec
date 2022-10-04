@@ -3,12 +3,14 @@
 # At CMC only
 
 ```
-git clone --branch dev_rmn20 git@gitlab.science.gc.ca:RPN-SI/xrec.git
+git clone --branch dev git@gitlab.science.gc.ca:RPN-SI/xrec.git
 cd xrec
 # to use installed librmn, don't update rmn submodule
 git -c submodule."src/rmn".update=none submodule update --init --recursive
 # to use librmn sources, update all submodules
 git submodule update --init --recursive
+# use the appropriate setup file found in ci-env directory, for example:
+. ./ci-env/latest/ubuntu-18.04-amd-64/gnu-9.3.0.sh
 mkdir -p build
 cd build
 cmake ..
@@ -28,8 +30,10 @@ make package
 ## Installing and running xrec
 
 ```
-git clone --branch dev_rmn20 https://github.com/ECCC-ASTD-MRD/xrec
+# clone xrec repository:
+git clone --branch dev https://github.com/ECCC-ASTD-MRD/xrec
 cd xrec
+# ci-env submodules is not available outside CMC and has to be excluded
 git -c submodule."ci-env".update=none submodule update --init --recursive
 ./download-xrec-utilities.sh .
 mkdir -p build
@@ -57,7 +61,7 @@ To compile and run xrec, you will need:
 - clone or download the git tar file of xrec at GitLab:  https://github.com/ECCC-ASTD-MRD/xrec
   
 ```
-git clone --branch dev_rmn20 https://github.com/ECCC-ASTD-MRD/xrec
+git clone --branch dev https://github.com/ECCC-ASTD-MRD/xrec
 cd xrec
 git -c submodule."ci-env".update=none submodule update --init --recursive
 ```
