@@ -9,8 +9,8 @@ cd xrec
 git -c submodule."src/rmn".update=none submodule update --init --recursive
 # to use librmn sources, update all submodules
 git submodule update --init --recursive
-# use the appropriate setup file found in ci-env directory, for example:
-. ./ci-env/latest/ubuntu-18.04-amd-64/gnu-9.3.0.sh
+# use the appropriate setup file, for example:
+. $ECCI_ENV/latest/ubuntu-18.04-amd-64/gnu-9.3.0.sh
 mkdir -p build
 cd build
 cmake ..
@@ -33,8 +33,7 @@ make package
 # clone xrec repository:
 git clone --branch dev https://github.com/ECCC-ASTD-MRD/xrec
 cd xrec
-# ci-env submodules is not available outside CMC and has to be excluded
-git -c submodule."ci-env".update=none submodule update --init --recursive
+git submodule update --init --recursive
 ./download-xrec-utilities.sh .
 mkdir -p build
 cd build
@@ -63,7 +62,7 @@ To compile and run xrec, you will need:
 ```
 git clone --branch dev https://github.com/ECCC-ASTD-MRD/xrec
 cd xrec
-git -c submodule."ci-env".update=none submodule update --init --recursive
+git submodule update --init --recursive
 ```
 
 - execute the script named download-xrec-utilities.sh:

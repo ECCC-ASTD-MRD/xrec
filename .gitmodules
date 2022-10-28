@@ -6,7 +6,3 @@
 	path = src/rmn
 	url = ../librmn.git
 	branch = dev
-[submodule "ci-env"]
-	path = ci-env
-	url = ../ci-env.git
-	branch = dev

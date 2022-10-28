@@ -12,7 +12,7 @@ stages:
 
 before_script:
    - export CLICOLOR_FORCE=true
-   - git submodule update --init ci-env cmake_rpn
+   - git submodule update --init cmake_rpn
    - source ~/ci-admin/env/stage.sh
 
 #----- rhel-8-icelake-64_inteloneapi-2022.1.2
@@ -25,7 +25,7 @@ build:rhel-8-icelake-64_inteloneapi-2022.1.2:
       - tags
    script:
       - set +e
-      - source ci-env/latest/rhel-8-icelake-64/inteloneapi-2022.1.2.sh
+      - source ~/ci-env/latest/rhel-8-icelake-64/inteloneapi-2022.1.2.sh
       - . r.load.dot ${ECCI_PROCESS_SSM}/libs
       - set -e
       - mkdir build_rhel-8-icelake-64_inteloneapi-2022.1.2
@@ -47,7 +47,7 @@ build:rhel-8-icelake-64_inteloneapi-2022.1.2:
 #       - build:rhel-8-icelake-64_inteloneapi-2022.1.2
 #    script:
 #       - set +e
-#       - source ci-env/latest/rhel-8-icelake-64/inteloneapi-2022.1.2.sh
+#       - source ~/ci-env/latest/rhel-8-icelake-64/inteloneapi-2022.1.2.sh
 #       - . r.load.dot ${ECCI_PROCESS_SSM}/libs
 #       - set -e
 #       - cd build_rhel-8-icelake-64_inteloneapi-2022.1.2
@@ -66,7 +66,7 @@ package:rhel-8-icelake-64_inteloneapi-2022.1.2:
       name: testing
    script:
       - set +e
-      - source ci-env/latest/rhel-8-icelake-64/inteloneapi-2022.1.2.sh
+      - source ~/ci-env/latest/rhel-8-icelake-64/inteloneapi-2022.1.2.sh
       - . r.load.dot ${ECCI_PROCESS_SSM}/libs
       - set -e
       - cd build_rhel-8-icelake-64_inteloneapi-2022.1.2
@@ -83,7 +83,7 @@ build:rhel-8-amd64_inteloneapi-2022.1.2:
       - tags
    script:
       - set +e
-      - source ci-env/latest/rhel-8-amd-64/inteloneapi-2022.1.2.sh
+      - source ~/ci-env/latest/rhel-8-amd-64/inteloneapi-2022.1.2.sh
       - . r.load.dot ${ECCI_PROCESS_SSM}/libs
       - set -e
       - mkdir build_rhel-8-amd64_inteloneapi-2022.1.2
@@ -105,7 +105,7 @@ build:rhel-8-amd64_inteloneapi-2022.1.2:
 #       - build:rhel-8-amd64_inteloneapi-2022.1.2
 #    script:
 #       - set +e
-#       - source ci-env/latest/rhel-8-amd-64/inteloneapi-2022.1.2.sh
+#       - source ~/ci-env/latest/rhel-8-amd-64/inteloneapi-2022.1.2.sh
 #       - . r.load.dot ${ECCI_PROCESS_SSM}/libs
 #       - set -e
 #       - cd build_rhel-8-amd64_inteloneapi-2022.1.2
@@ -124,7 +124,7 @@ package:rhel-8-amd64_inteloneapi-2022.1.2:
       name: testing
    script:
       - set +e
-      - source ci-env/latest/rhel-8-amd-64/inteloneapi-2022.1.2.sh
+      - source ~/ci-env/latest/rhel-8-amd-64/inteloneapi-2022.1.2.sh
       - . r.load.dot ${ECCI_PROCESS_SSM}/libs
       - set -e
       - cd build_rhel-8-amd64_inteloneapi-2022.1.2
@@ -141,7 +141,7 @@ build:rhel-8-amd64_gnu-9.3.0:
       - tags
    script:
       - set +e
-      - source ci-env/latest/rhel-8-amd-64/gnu-9.3.0.sh 
+      - source ~/ci-env/latest/rhel-8-amd-64/gnu-9.3.0.sh 
       - . r.load.dot ${ECCI_PROCESS_SSM}/libs
       - set -e
       - mkdir build_rhel-8-amd64_gnu-9.3.0
@@ -163,7 +163,7 @@ build:rhel-8-amd64_gnu-9.3.0:
 #       - build:rhel-8-amd64_gnu-9.3.0
 #    script:
 #       - set +e
-#       - source ci-env/latest/rhel-8-amd-64/gnu-9.3.0.sh 
+#       - source ~/ci-env/latest/rhel-8-amd-64/gnu-9.3.0.sh 
 #       - . r.load.dot ${ECCI_PROCESS_SSM}/libs
 #       - set -e
 #       - cd build_rhel-8-amd64_gnu-9.3.0
@@ -182,7 +182,7 @@ package:rhel-8-amd64_gnu-9.3.0:
       name: testing
    script:
       - set +e
-      - source ci-env/latest/rhel-8-amd-64/gnu-9.3.0.sh 
+      - source ~/ci-env/latest/rhel-8-amd-64/gnu-9.3.0.sh 
       - . r.load.dot ${ECCI_PROCESS_SSM}/libs
       - set -e
       - cd build_rhel-8-amd64_gnu-9.3.0
@@ -203,7 +203,7 @@ build:ubuntu-18.04-amd64_inteloneapi-2022.1.2:
      - tags
    script:
       - set +e
-      - source ci-env/latest/ubuntu-18.04-amd-64/inteloneapi-2022.1.2.sh
+      - source ~/ci-env/latest/ubuntu-18.04-amd-64/inteloneapi-2022.1.2.sh
       - . r.load.dot ${ECCI_PROCESS_SSM}/libs
       - set -e
       - mkdir build_ubuntu-18.04-amd64_inteloneapi-2022.1.2
@@ -252,7 +252,7 @@ package:ubuntu-18.04-amd64_inteloneapi-2022.1.2:
       name: testing
    script:
       - set +e
-      - source ci-env/latest/ubuntu-18.04-amd-64/inteloneapi-2022.1.2.sh
+      - source ~/ci-env/latest/ubuntu-18.04-amd-64/inteloneapi-2022.1.2.sh
       - . r.load.dot ${ECCI_PROCESS_SSM}/libs
       - set -e
       - cd build_ubuntu-18.04-amd64_inteloneapi-2022.1.2
@@ -273,7 +273,7 @@ build:ubuntu-20.04-amd64_inteloneapi-2022.1.2:
      - tags
    script:
       - set +e
-      - source ci-env/latest/ubuntu-20.04-amd-64/inteloneapi-2022.1.2.sh
+      - source ~/ci-env/latest/ubuntu-20.04-amd-64/inteloneapi-2022.1.2.sh
       - export ORDENV_PLAT=ubuntu-20.04-amd64-64
       - . r.load.dot ${ECCI_PROCESS_SSM}/libs
       - set -e
@@ -324,7 +324,7 @@ package:ubuntu-20.04-amd64_inteloneapi-2022.1.2:
       name: testing
    script:
       - set +e
-      - source ci-env/latest/ubuntu-20.04-amd-64/inteloneapi-2022.1.2.sh
+      - source ~/ci-env/latest/ubuntu-20.04-amd-64/inteloneapi-2022.1.2.sh
       - export ORDENV_PLAT=ubuntu-20.04-amd64-64
       - . r.load.dot ${ECCI_PROCESS_SSM}/libs
       - set -e
