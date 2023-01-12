@@ -34,7 +34,6 @@
  int  lsdir    ();
  void pathinfo ();
  int  scan_dir ();
- int  strmatch ();
  int  strsplit ();
 
  static char   *match;
@@ -460,128 +459,15 @@
 return d->d_name != NULL;
 //return((int)d->d_name);
 /*
-    if( rejet != NULL && strmatch(d->d_name,rejet)==1 ) return(0);
-    if( match != NULL && strmatch(d->d_name,match)==1 ) return((int)d->d_name);
+    if( rejet != NULL && strmatch(d->d_name,rejet)==0 ) return(0);
+    if( match != NULL && strmatch(d->d_name,match)==0 ) return((int)d->d_name);
     if( match == NULL ) return((int)d->d_name);
 */
 
     return(0);
     }
 
-/*
- *
- *  module    :  STRMATCH
- *
- *  auteur    :  MICHEL GRENIER
- *
- *  revision  :  V0.0                 
- *
- *  status    :  DEVELOPPEMENT        
- *
- *  langage   :  C
- *
- *  call      :  ierr = strmatch ( str, wild )
- *
- *  arguments :  int  ierr;     * ierr !=0 str corresponds a wild *
- *               char *str;     * la chaine a comparer            *
- *               char *wild;    * la chaine contenant des wild car*
- *
- *  objet     :  CE MODULE FAIT LA COMPARAISON D'UNE CHAINE AVEC UNE 
- *               EXPRESSION CONTENANT DES CARACTERES DE REMPLACEMENT.
- *               LES WILD CHAR SONT * POUR N'IMPORTE QUELLE CARACTERES
- *               OU ? POUR EXACTEMENT UN CARACTERE
- *
- *  note      :  DANS UN PREMIER TEMPS IN SEPARE LA CHAINE WILD EN SES 
- *               CARACTERES SIGNIFICATIFS. ON CHERCHERA A SAVOIR SI LA
- *               CHAINE POSSEDENT TOUS CES ELEMENTS. PUIS ON VERIFIRA
- *               S'IL CORRESPONDS EXACTEMENT A LA DEFINITION DEMANDEE.
- *
- */
 
- int strmatch ( str, wild )
- char *str;
- char *wild;
-      {
-      int  i=0,ierr=0,nb;
-      char *pstr  = str;
-      char *pwil  = wild;
-      char *last  = wild;
-      char **list = NULL;
-
-/*
- *  verifie la validite des 2 chaines
- */
-      if( str  == NULL || strlen(str)  == 0 ||
-          wild == NULL || strlen(wild) == 0  ) return(ierr);
-
-/*
- *  verifie si les deux chaines sont identiques
- */
-      if( strcmp(str,wild) == 0 ) return(1);
-
-/*
- *  extraction des sous chaines significatives de wild
- */
-      nb = strsplit( wild, "*?", &list );
-
-/*
- *  pas de sous chaine a verifier 
- *  alors * match n'importe quoi
- *  alors ? match une longueur exacte
- */
-      if( nb == 0 )
-        {
-        if( strchr(wild,'*') != NULL ) return(1);
-        if( strlen(str) == strlen(wild)) return(1);
-        goto exit;
-        }
-
-/*
- *  boucle sur la chaine: wild
- */
-      while( pwil < &wild[strlen(wild)] )
-        {
-        switch( *pwil )
-          {
-/*
- *  le caractere de wild est ? on saute le caractere dans str et wild
- */
-          case '?' : last = pwil; pstr++; pwil++; break;
-/*
- *  le caractere de wild est * on le saute
- */
-          case '*' : for(;*pwil=='*' || *pwil=='?';pwil++); 
-                     if( (pstr = strstr(pstr,list[i])) == NULL ) goto exit;
-                     last = pwil-1;
-                     break;
-/*
- *  tente de trouver une chaine significatif de wild dans str
- */
-          default  : if( strncmp(pstr,list[i],strlen(list[i])) != 0  ||
-                         *last == '*' && strstr(pstr,list[i]) == NULL )
-                         goto exit;
-                     last = pwil;
-                     pstr += strlen(list[i]);
-                     pwil += strlen(list[i++]);
-                     break;
-           };
-        };
-
-/*
- *  jusqu'ici tout est correcte et on verifie si on en est a la fin de str
- */
-        if( pstr != &str[strlen(str)] && *last!='*' ) goto exit;
-        ierr = 1;
-/*
- *  ici on a le resultat du test
- */
-      exit:
-
-      if( list != NULL ) freelist( &list );
-      return(ierr);
-      }
-
-
 /*
  *
  *  module    :  STRSPLIT
