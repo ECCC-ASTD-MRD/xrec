@@ -292,6 +292,7 @@ static void AjusterSensibiliteBoutons();
 int32_t     ChangerWidgets();
 int32_t     ChercherCle(char *val, int32_t len, cleStruct cles[], int32_t indDes);
 int32_t     ComparerCles(cleInfoStruct *cleInfo1, cleInfoStruct *cleInfo2);
+int32_t     ComparerClesNumeriques(cleInfoStruct *cleInfo1, cleInfoStruct *cleInfo2);
 int32_t     ComparerFiltres(filtresStruct *filtre1,  filtresStruct *filtre2);
 int32_t     DesactiverSelWidgets();
 int32_t     EnleverFiltre(int32_t indDes, int32_t indCle);
@@ -636,7 +637,7 @@ APPELE PAR:             HighlightFields()
                         EffacerFiltres()
 METHODE:
 
-GLOBALES AFFECTES:      Aucunes.
+GLOBALES AFFECTES:      Aucune.
 
 VALEUR RETOURNEE:      Aucune.
 
@@ -791,7 +792,7 @@ METHODE:                On compare le nom de la cle en question avec les noms de
                         Dans le cas ou la cle n'a pas ete trouvee dans le tableau,
 
 
-GLOBALES AFFECTES:      Aucunes.
+GLOBALES AFFECTES:      Aucune.
 
 VALEUR RETOURNEE:      Si la cle est trouvee, ChercherCle retourne la position
                         dans cles[indes].cleinfo ou la cle se trouve.  Retourne
@@ -829,9 +830,9 @@ APPELE PAR:             qsort() de InitCles() quand on a fini de lire toutes les
 
 METHODE:                On fait un strcmp des deux noms.
 
-GLOBALES AFFECTES:      Aucunes.
+GLOBALES AFFECTES:      Aucune.
 
-VALEUR RETOURNEE:      Il est theoriquement impossible que deux cles soient
+VALEUR RETOURNEE:       Il est theoriquement impossible que deux cles soient
                         repetees dans la liste.  On retourne un entier negatif si
                         le premier nom precede le second, autrement on retourne un
                         entier positif.
@@ -841,7 +842,43 @@ VALEUR RETOURNEE:      Il est theoriquement impossible que deux cles soient
 int32_t ComparerCles(cleInfoStruct *cleInfo1, cleInfoStruct *cleInfo2)
 {
    return (strcmp(cleInfo1->val, cleInfo2->val));
+}
+/*======================================================================================================*/
+/**
+******************************************************************************
+
+NOM:                    ComparerClesNumeriques()
+
+FONCTION:               Determiner lequel de deux noms de cles precede l'autre
+                        dans l'ordre du dictionnaire, numériquement, puis alphabétiquement.
+
+APPELE PAR:             qsort() de InitCles() quand on a fini de lire toutes les cles.
+
+METHODE:                Si on compare deux nombres, on utilise une comparaison numérique,
+                        sinon on fait un strcmp des deux noms  
+
+GLOBALES AFFECTES:      Aucune.
+
+VALEUR RETOURNEE:       Il est theoriquement impossible que deux cles soient
+                        repetees dans la liste.  On retourne un entier negatif si
+                        le premier nom precede le second, autrement on retourne un
+                        entier positif.
+
+------------------------------------------------------------------------------*/
+
+int32_t ComparerClesNumeriques(cleInfoStruct *cleInfo1, cleInfoStruct *cleInfo2)
+{
+   if ( isdigit(cleInfo1->val[0]) && isdigit(cleInfo2->val[0]) )
+   {
+      double v1 = atof( cleInfo1->val );
+      double v2 = atof( cleInfo2->val );
+      if ( v1 < v2 )      return -1;
+      else if ( v1 > v2 ) return +1;
+      else                return 0;
    }
+   else
+      return (strcmp(cleInfo1->val, cleInfo2->val));
+}
 /*======================================================================================================*/
 /**
 ******************************************************************************
@@ -856,7 +893,7 @@ APPELE PAR:             qsort() de InitFiltresInfo()
 METHODE:                On commence par comparer les descripteurs.  Si les
                         descripteurs sont egals, on compare alors les cles.
 
-GLOBALES AFFECTES:      Aucunes.
+GLOBALES AFFECTES:      Aucune.
 
 VALEUR RETOURNEE:      Il est theoriquement impossible que deux filtres soient
                         repetees dans la liste.  On retourne -1 si le premier
@@ -1326,7 +1363,7 @@ VALEUR RETOURNEE:
 int32_t InitFiltresInfo(filtresInfoStruct filtresInfo[], filtresStruct *filtres, int32_t nbFiltres)
 {
    int32_t i, j;            /* Compteurs.                                                   */
-   int32_t indDesCourant;   /* L'indice du descripteur qui est courament en consideration.  */
+   int32_t indDesCourant;   /* L'indice du descripteur qui est couramment en consideration.  */
    int32_t indListe;        /*  */
 
    if (nbFiltres == 0)
@@ -2295,7 +2332,7 @@ APPELE PAR:             XSelectstdOuvrir().
 
 METHODE:
 
-GLOBALES AFFECTES:      Aucunes.
+GLOBALES AFFECTES:      Aucune.
 
 VALEUR RETOURNEE:      Aucune.
 
@@ -2352,7 +2389,7 @@ APPELE PAR:             xselact_()
 
 METHODE:
 
-GLOBALES AFFECTES:      Aucunes.
+GLOBALES AFFECTES:      Aucune.
 
 VALEUR RETOURNEE:      Aucune.
 
@@ -2859,7 +2896,10 @@ void XSelectstdTerminerInit(int32_t table[][3], int32_t nbrecs)
       }
 
    for (i = 0; i < xs[wi].nbDes; i++)
-      qsort((char *)xs[wi].cles[i].cleInfo, xs[wi].cles[i].nbCles, sizeof(cleInfoStruct), ComparerCles);
+      if ( i == 2 ) // seule la colonne "Niveau" est triée numériquement
+        qsort((char *)xs[wi].cles[i].cleInfo, xs[wi].cles[i].nbCles, sizeof(cleInfoStruct), ComparerClesNumeriques);
+      else
+        qsort((char *)xs[wi].cles[i].cleInfo, xs[wi].cles[i].nbCles, sizeof(cleInfoStruct), ComparerCles);
 
    xs[wi].nbRecsFiltres = xs[wi].nbRecs;
    InitRecs(&(xs[wi].recs), xs[wi].cles, xs[wi].nbRecs, xs[wi].nbDes);
