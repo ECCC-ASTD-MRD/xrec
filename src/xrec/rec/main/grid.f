@@ -248,22 +248,29 @@
       integer i,j,npts,ni, nj, idebut, jdebut, ifin, jfin, imin, jmin, i
      %max, jmax
       real mean, stddev, fld(ni,nj)
-      mean = 0.0
+* Utiliser une variable 'sum' en real*8 afin d'avoir une meilleure
+* précision (mantisse plus grande) lors de l'addition de toutes les
+* valeurs du champ. Ceci évite que les valeurs additionnées ne soient
+* plus significatives lorsque la somme devient grande.
+      real*8 sum
+* Calculer la moyenne
+      sum = 0.0d0
       npts = 0
       do  j=max(1,jdebut),min(nj,jfin)
          do  i=max(1,idebut), min(ni,ifin)
-            mean = mean + fld(i,j)
+            sum = sum + fld(i,j)
             npts = npts + 1
          enddo
       enddo
-      mean = mean / float(npts)
-      stddev = 0.0
+      mean = sum / float(npts)
+* Calculer l'écart-type
+      sum = 0.0d0
       do  j=max(1,jdebut),min(nj,jfin)
          do  i=max(1,idebut), min(ni,ifin)
-            stddev = stddev + (fld(i,j)-mean)*(fld(i,j)-mean)
+            sum = sum + (fld(i,j)-mean)*(fld(i,j)-mean)
          enddo
       enddo
-      stddev = sqrt(stddev / float(npts))
+      stddev = dsqrt(sum / float(npts))
       return
       end
 *     
@@ -310,24 +317,31 @@
       implicit none
       integer i,j,npts,ni, nj, idebut, jdebut, ifin, jfin
       real mean, stddev, uu(ni,nj),vv(ni,nj),rmodule
-      mean = 0.0
+* Utiliser une variable 'sum' en real*8 afin d'avoir une meilleure
+* précision (mantisse plus grande) lors de l'addition de toutes les
+* valeurs du champ. Ceci évite que les valeurs additionnées ne soient
+* plus significatives lorsque la somme devient grande.
+      real*8 sum
+* Calculer la moyenne
+      sum = 0.0d0
       npts = 0
       do  j=max(1,jdebut),min(nj,jfin)
          do  i=max(1,idebut), min(ni,ifin)
             rmodule = uu(i,j)*uu(i,j)+vv(i,j)*vv(i,j)
-            mean = mean + rmodule
+            sum = sum + rmodule
             npts = npts + 1
          enddo
       enddo
-      mean = mean / float(npts)
-      stddev = 0.0
+      mean = sum / float(npts)
+* Calculer l'écart-type
+      sum = 0.0d0
       do  j=max(1,jdebut),min(nj,jfin)
          do  i=max(1,idebut), min(ni,ifin)
             rmodule = uu(i,j)*uu(i,j)+vv(i,j)*vv(i,j)
-            stddev = stddev + (rmodule-mean)*(rmodule-mean)
+            sum = sum + (rmodule-mean)*(rmodule-mean)
          enddo
       enddo
-      stddev = sqrt(stddev / float(npts))
+      stddev = dsqrt(sum / float(npts))
       return
       end
 *     
