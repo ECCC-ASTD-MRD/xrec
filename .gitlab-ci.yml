@@ -259,12 +259,12 @@ package:ubuntu-18.04-amd64_inteloneapi-2022.1.2:
       - make package
       - ~/ci-admin-bundle/bin/ci-package-ssm.sh package ${ECCI_PROCESS}
 
-#----- ubuntu-20.04-amd64_inteloneapi-2022.1.2
+#----- ubuntu-22.04-amd64_inteloneapi-2022.1.2
 
-build:ubuntu-20.04-amd64_inteloneapi-2022.1.2:
+build:ubuntu-22.04-amd64_inteloneapi-2022.1.2:
    variables:
       ORD_SOUMET_MACH    : gpsc5
-      ORD_SOUMET_IMAGE   : eccc/eccc_all_default_ubuntu-20.04-amd64_latest
+      ORD_SOUMET_IMAGE   : eccc/eccc_all_default_ubuntu-22.04-amd64_latest
       ORD_SOUMET_PROJECT : eccc_mrd
    stage: build
    only:
@@ -273,23 +273,23 @@ build:ubuntu-20.04-amd64_inteloneapi-2022.1.2:
      - tags
    script:
       - set +e
-      - source ~/ci-env/latest/ubuntu-20.04-amd-64/inteloneapi-2022.1.2.sh
-      - export ORDENV_PLAT=ubuntu-20.04-amd64-64
+      - source ~/ci-env/latest/ubuntu-22.04-amd-64/inteloneapi-2022.1.2.sh
+      - export ORDENV_PLAT=ubuntu-22.04-amd64-64
       - . r.load.dot ${ECCI_PROCESS_SSM}/libs
       - set -e
-      - mkdir build_ubuntu-20.04-amd64_inteloneapi-2022.1.2
-      - cd build_ubuntu-20.04-amd64_inteloneapi-2022.1.2
+      - mkdir build_ubuntu-22.04-amd64_inteloneapi-2022.1.2
+      - cd build_ubuntu-22.04-amd64_inteloneapi-2022.1.2
       - cmake ../
       - time make -j $NCPUS
    artifacts:
       expire_in: 2 hrs
       paths:
-         - build_ubuntu-20.04-amd64_inteloneapi-2022.1.2
+         - build_ubuntu-22.04-amd64_inteloneapi-2022.1.2
 
-# test:ubuntu-20.04-amd64_inteloneapi-2022.1.2:
+# test:ubuntu-22.04-amd64_inteloneapi-2022.1.2:
 #    variables:
 #       ORD_SOUMET_MACH    : gpsc5
-#       ORD_SOUMET_IMAGE   : eccc/eccc_all_default_ubuntu-20.04-amd64_latest
+#       ORD_SOUMET_IMAGE   : eccc/eccc_all_default_ubuntu-22.04-amd64_latest
 #       ORD_SOUMET_PROJECT : eccc_mrd
 #    stage: test
 #    only:
@@ -297,20 +297,20 @@ build:ubuntu-20.04-amd64_inteloneapi-2022.1.2:
 #       - dev
 #       - tags
 #    dependencies:
-#       - build:ubuntu-20.04-amd64_inteloneapi-2022.1.2
+#       - build:ubuntu-22.04-amd64_inteloneapi-2022.1.2
 #    script:
 #       - set +e
-#       - build:ubuntu-20.04-amd64_inteloneapi-2022.1.2
-#      - export ORDENV_PLAT=ubuntu-20.04-amd64-64
+#       - build:ubuntu-22.04-amd64_inteloneapi-2022.1.2
+#      - export ORDENV_PLAT=ubuntu-22.04-amd64-64
 #       - . r.load.dot ${ECCI_PROCESS_SSM}/libs
 #       - set -e
-#       - cd build_ubuntu-20.04-amd64_inteloneapi-2022.1.2
+#       - cd build_ubuntu-22.04-amd64_inteloneapi-2022.1.2
 #       - make check
       
-package:ubuntu-20.04-amd64_inteloneapi-2022.1.2:
+package:ubuntu-22.04-amd64_inteloneapi-2022.1.2:
    variables:
       ORD_SOUMET_MACH    : gpsc5
-      ORD_SOUMET_IMAGE   : eccc/eccc_all_default_ubuntu-20.04-amd64_latest
+      ORD_SOUMET_IMAGE   : eccc/eccc_all_default_ubuntu-22.04-amd64_latest
       ORD_SOUMET_PROJECT : eccc_mrd
    stage: package
    only:
@@ -319,16 +319,16 @@ package:ubuntu-20.04-amd64_inteloneapi-2022.1.2:
       - tags
       - schedules
    dependencies:
-      - build:ubuntu-20.04-amd64_inteloneapi-2022.1.2
+      - build:ubuntu-22.04-amd64_inteloneapi-2022.1.2
    environment:
       name: testing
    script:
       - set +e
-      - source ~/ci-env/latest/ubuntu-20.04-amd-64/inteloneapi-2022.1.2.sh
-      - export ORDENV_PLAT=ubuntu-20.04-amd64-64
+      - source ~/ci-env/latest/ubuntu-22.04-amd-64/inteloneapi-2022.1.2.sh
+      - export ORDENV_PLAT=ubuntu-22.04-amd64-64
       - . r.load.dot ${ECCI_PROCESS_SSM}/libs
       - set -e
-      - cd build_ubuntu-20.04-amd64_inteloneapi-2022.1.2
+      - cd build_ubuntu-22.04-amd64_inteloneapi-2022.1.2
       - make package
       - ~/ci-admin-bundle/bin/ci-package-ssm.sh package ${ECCI_PROCESS}
 
