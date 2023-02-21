@@ -167,11 +167,11 @@
 *
       DATA CLE/
      % 'DX',       'DY',     'HX',      'HY',       'SIZE',   'SPACE',
-     % 'VSPACE',   'OFFSET', 'DEVICE',  'FRAMES',   'GR',     'MC',
-     % 'ORN',      'CADRE',  'NCP',     'DIST',     'FOND',   'DN',
+     % 'VSPACE',   'OFFSET', 'DEVICE',  'FRAMES',   'GR',     'MC.',
+     % 'ORN',      'CADRE',  'NCP',     'DIST',     'FOND',   'DN.',
      % 'I',        'SIZEY',  'FC',      'UN',       'MF',     'TOPCLIP',
      % 'TNAME',    'NOROUTE', 17*'COLORS','REVERSE', 10*'FONTES',
-     % 5*'TABPEN', 'VOFFSET','FORMAT', 'SEGF',     'PALETTE', 'ANIM'/
+     % 5*'TABPEN', 'VOFFSET','FORMAT', 'SEGF.',     'PALETTE', 'ANIM'/
 *
       DATA DEF1/
      % '0',        '0',      '0',       '0',        '-1',     '-1',

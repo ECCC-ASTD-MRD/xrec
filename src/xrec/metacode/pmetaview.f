@@ -111,7 +111,7 @@
       DATA CLE/
      % 'DX',       'DY',     'HX',      'HY',       'SIZE',   'SPACE',
      % 'VSPACE',   'OFFSET', 'DEVICE',  'FRAMES',   'GR',     'MC.',
-     % 'ORN',      'CADRE',  'NCP',     'DIST',     'FOND',   'DN',
+     % 'ORN',      'CADRE',  'NCP',     'DIST',     'FOND',   'DN.',
      % 'I',        'SIZEY',  'FC',      'UN',       'MF',     'TOPCLIP',
      % 'TNAME',    'NOROUTE',
      % 17*'COLORS',
