@@ -1,2 +1,0 @@
-      TRAMES_VERSION = "3.13.0"
-      XMETAVIEW_VERSION = "3.13.0"

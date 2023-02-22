@@ -132,7 +132,6 @@
      +         TTRRINI, TTTPRCS, EOF
 *
 **
-      character(len=8) :: TRAMES_VERSION, XMETAVIEW_VERSION
 #include "params.cdk"
 #include "docpar.cdk"
 #include "mapvar.cdk"
@@ -287,7 +286,6 @@
 *
       DATA MESSAGE /' '/
 #include "mapping.cdk"
-#include "version.inc"
       CALL CPU_TIME(T1)
       CALL CCARD(CLE, DEF1, VAL, 64, -1)
       ERRCODE = FNOM(MCUNIT, VAL(12), 'RND,OLD', 0)

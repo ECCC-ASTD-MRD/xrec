@@ -56,7 +56,6 @@
 *    77        STCKOOO    -->   FICHIER INTERNE (STOCKAGE DES OPTIONS)
 *    88        STCKPPP    -->   FICHIER INTERNE (STOCKAGE DES OPTIONS)
 *
-      character(len=8) :: TRAMES_VERSION, XMETAVIEW_VERSION
 #include "params.cdk"
 #include "docpar.cdk"
 #include "mapvar.cdk"
@@ -236,7 +235,6 @@
       DATA MENU(2) /'Revoir le frame courant'/
       DATA MENU(3) /'Frame #  1'/
 #include "mapping.cdk"
-#include "version.inc"
       CALL CCARD(CLE, DEF1, VAL, 64, -1)
       ERRCODE = FNOM(MCUNIT, VAL(12), 'RND,OLD' ,0)
       IF(ERRCODE .NE. 0) GOTO 160
