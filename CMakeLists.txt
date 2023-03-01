@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 
 #----- Append EC specific module path
 list(APPEND CMAKE_MODULE_PATH $ENV{EC_CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake_rpn/modules)
@@ -12,13 +12,14 @@ set(PROJECT_VERSION ${VERSION}${STATE})
 set(${NAME}_VERSION ${PROJECT_VERSION} CACHE INTERNAL "xrec version" FORCE)
 message(STATUS "(EC) xrec VERSION = ${xrec_VERSION}")
 
+ec_build_info()            # Generate build include file
+
 enable_language(Fortran C)
 
-ec_build_info()            # Generate build include file
 include(ec_compiler_presets)
 
 set(WITH_OPENMP FALSE CACHE BOOL "Control whether to use OpenMP")
-add_compile_definitions(WITHOUT_OpenMP)
+include(ec_openmp)
 
 # Figure out the correct arch-dependent include path
 set(BUILD_ARCH "${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
