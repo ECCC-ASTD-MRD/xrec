@@ -1,13 +1,12 @@
 # Instructions in a nutshell
 
-# At CMC only
+# At CMC only (external users: see below)
 
 ```
-git clone --branch dev git@gitlab.science.gc.ca:RPN-SI/xrec.git
+git clone git@gitlab.science.gc.ca:RPN-SI/xrec.git
 cd xrec
-# to use installed librmn, don't update rmn submodule
-git -c submodule."src/rmn".update=none submodule update --init --recursive
 # to use librmn sources, update all submodules
+# don't update submodules when preparing a package
 git submodule update --init --recursive
 # use the appropriate setup file, for example:
 . $ECCI_ENV/latest/ubuntu-18.04-amd-64/gnu-9.3.0.sh
@@ -31,7 +30,7 @@ make package
 
 ```
 # clone xrec repository:
-git clone --branch dev https://github.com/ECCC-ASTD-MRD/xrec
+git clone https://github.com/ECCC-ASTD-MRD/xrec
 cd xrec
 git submodule update --init --recursive
 ./download-xrec-utilities.sh .
@@ -57,10 +56,10 @@ To compile and run xrec, you will need:
 
 ## Installing xrec
 
-- clone or download the git tar file of xrec at GitLab:  https://github.com/ECCC-ASTD-MRD/xrec
+- clone or download the git tar file of xrec at github:  https://github.com/ECCC-ASTD-MRD/xrec
   
 ```
-git clone --branch dev https://github.com/ECCC-ASTD-MRD/xrec
+git clone https://github.com/ECCC-ASTD-MRD/xrec
 cd xrec
 git submodule update --init --recursive
 ```
@@ -94,14 +93,14 @@ git submodule update --init --recursive
 mkdir -p build
 cd build
 cmake ..
-make -j
+make
 make work
 ```
 
 You can add extra CMake arguments such as```-DCMAKE_VERBOSE_MAKEFILE=ON``` to your **cmake** command
 line to generate verbose makefiles which will print the exact compiler command lines issued.
 
-You can also add ```-j``` to **make** to launch multiple compile tasks in
+You can also add ```-j``` to **make** commands to launch multiple compile tasks in
 parallel.
 
 The default compiler suite is GNU.  If you want to compile with other compilers,
@@ -131,12 +130,12 @@ and the following files installed in it:
 
 - binary named xrec
 - setup file named setup-xrec.dot
-- XREC-config file. It displays a summary of the compiler and flags used
+- xrec-config file. It displays a summary of the compiler and flags used
 
 ## Running xrec
 
 xrec interface and error messages are available in English and French.
-Choose your language of choice with the setup file.
+Set your language of choice with the setup file.
 This setup file also sets TMPDIR and ARMNLIB variables.
 
 ```
@@ -145,4 +144,4 @@ cd ../work-[OS_NAME-COMPILER_NAME]
 ./bin/xrec -imflds [rpn_std_file]
 ```
 
-User guide in pdf format describes in more details how to use xrec.
+User guide in pdf format in utilities directory describes in more details how to use xrec.
