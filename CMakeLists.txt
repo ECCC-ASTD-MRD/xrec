@@ -65,7 +65,6 @@ add_custom_target(work
   COMMAND /bin/mkdir -p ${WORK_PREFIX}/bin
   COMMAND /bin/cp ${CMAKE_BINARY_DIR}/xrec-config ${WORK_PREFIX}/bin
   COMMAND cd ${CMAKE_BINARY_DIR}/xrec/main && make install/local
-  COMMAND cd ${CMAKE_BINARY_DIR}/xrec/metacode && make install/local
   COMMAND cp -p ${CMAKE_SOURCE_DIR}/scripts/setup-xrec.dot ${WORK_PREFIX}
 )
 
