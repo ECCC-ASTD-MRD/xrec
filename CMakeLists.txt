@@ -55,7 +55,7 @@ if (EXISTS ${CMAKE_SOURCE_DIR}/src/rmn/CMakeLists.txt)
   include_directories(${rmn_INCLUDE_DIR} ${rmn_PUBLIC_INCLUDES_DIR})
   add_subdirectory(src/rmn rmn)
 else()
-  find_package(rmn ${rmn_REQ_VERSION} CONFIG)
+  find_package(rmn ${rmn_REQ_VERSION} COMPONENTS static REQUIRED)
 endif()
   
 add_subdirectory(src/xrec xrec)
