@@ -485,6 +485,32 @@ package:ubuntu-22.04-amd64_gnu-11.4.0:
       - make package
       - ~/ci-admin-bundle/bin/ci-package-ssm.sh package ${ECCI_PROCESS}
 
+#----- ubuntu-22.04-amd64_gnu-11.4.0-with-sources
+
+build:ubuntu-22.04-amd64_gnu-11.4.0-with-sources:
+   variables:
+      ORD_SOUMET_MACH    : gpsc7
+      ORD_SOUMET_IMAGE   : registry.maze.science.gc.ca/ssc-hpcs/generic-job:ubuntu22.04
+      ORD_SOUMET_PROJECT : eccc_mrd
+   stage: build
+   tags:
+      - concurrent
+   only:
+     - master
+     - dev
+     - tags
+   script:
+      - set +e
+      - source ${ECCI_ENV}/latest/ubuntu-22.04-amd-64/gnu.sh
+      - export ORDENV_PLAT=ubuntu-22.04-amd64-64
+      - set -e
+      - git submodule update --recursive --init
+      - mkdir -pv ${PIPELINE_SUBDIR}/build_ubuntu-22.04-amd64_gnu-11.4.0-with-sources
+      - SRC_DIR=$(pwd)
+      - cd ${PIPELINE_SUBDIR}/build_ubuntu-22.04-amd64_gnu-11.4.0-with-sources
+      - cmake -DBUILD_TESTING=true ${SRC_DIR}
+      - time make -j $NCPUS
+
 deploy:staging:
    stage: deploy
    tags:
