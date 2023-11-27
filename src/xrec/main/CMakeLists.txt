@@ -7,7 +7,7 @@ add_executable(${PROJECT_NAME} rec.f)
 set(FULL_PROJECT_NAME ${PROJECT_NAME}_${PROJECT_VERSION})
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${FULL_PROJECT_NAME})
 
-add_dependencies(${PROJECT_NAME} rec rec_util wgl gd_wgl x_wgl gdb gd png ${rmn_SRC})
+add_dependencies(${PROJECT_NAME} rec rec_util wgl gd_wgl x_wgl gdb gd png)
 target_link_libraries(${PROJECT_NAME} rec rec_util wgl gd_wgl x_wgl gdb gd png rmn::rmn
                       ${EXTRA_LIBRARIES} )
 
