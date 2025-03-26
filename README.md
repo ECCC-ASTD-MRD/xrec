@@ -5,11 +5,15 @@
 ```
 git clone git@gitlab.science.gc.ca:RPN-SI/xrec.git
 cd xrec
-# to use librmn sources, update all submodules
-# don't update submodules when preparing a package
-git submodule update --init --recursive
 # use the appropriate setup file, for example:
-. $ECCI_ENV/latest/ubuntu-18.04-amd-64/gnu-9.3.0.sh
+. $ECCI_ENV/latest/ppp5/inteloneapi-2022.1.2.sh
+```
+
+You will also need a version of librmn: either load it from ssm
+(. r.load.dot rpn/libs/...) or provide the path to cmake install directories
+if you compiled them.
+
+```
 mkdir -p build
 cd build
 cmake ..
