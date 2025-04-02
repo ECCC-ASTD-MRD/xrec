@@ -1,3 +1,6 @@
+#ifndef _GD_WGL_H_
+#define _GD_WGL_H_
+
 #include <stdio.h>
 
 #include <gd.h>
@@ -218,3 +221,5 @@ extern int wgl_gdstu(int istep, int jstep);
 extern int wgl_gdswb();
 extern int wgl_gdxai(int *i, int *j, float x, float y);
 /* ---------------------------------------------------------------------------------------------------------- */
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef _DECLARE_H_
+#define _DECLARE_H_
+
 /* -------------------------------------------- *
  *                                              *
  *  file      :  DECLARE.H                      *
@@ -18,9 +21,6 @@
  *                                              *
  * -------------------------------------------- */
 
-#ifndef   include_DECLARE
-#define   include_DECLARE
-
 #ifndef   __BEGIN_DECLS
 
 #    ifdef    __cplusplus
@@ -33,4 +33,4 @@
 
 #endif /* __BEGIN_DECLS */
 
-#endif /* include_DECLARE */
+#endif

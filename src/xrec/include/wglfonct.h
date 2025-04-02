@@ -1,3 +1,6 @@
+#ifndef _WGLFONCT_H_
+#define _WGLFONCT_H_
+
 #ifdef __CPLUSPLUS
 extern "C"
 {
@@ -131,4 +134,6 @@ void f77name(xsetxy)(int *mode, float *tx, int *nx, float *ty, int *ny);
 void f77name(xy2fxfy)(float *fx, float *fy, float *x, float *y);
 #ifdef __CPLUSPLUS
 }
+#endif
+
 #endif

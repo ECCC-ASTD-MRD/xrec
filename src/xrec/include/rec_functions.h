@@ -1,3 +1,6 @@
+#ifndef _REC_FUNCTIONS_H_
+#define _REC_FUNCTIONS_H_
+
 #include <gmp.h>
 
 int  AllouerImages();
@@ -690,3 +693,5 @@ int  uncompact_mask(int *dest, unsigned int *src, int npts);
 void unpack(unsigned short shortvec[], float floatvec[], int npts, float min, float max);
 void xrecGetCurrentMinMax(float *min, float *max, int mode);
 unsigned int x_wglcolfs_fst(float *cols, unsigned int *pixels, int n);
+
+#endif

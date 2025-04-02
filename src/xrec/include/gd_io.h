@@ -1,5 +1,5 @@
-#ifndef GD_IO_H
-#define GD_IO_H 1
+#ifndef _GD_IO_H_
+#define _GD_IO_H_
 
 #include <stdio.h>
  

@@ -1,3 +1,6 @@
+#ifndef _F77NAME_H_
+#define _F77NAME_H_
+
 #if defined BOZOLECLOWN
 #if defined (mips) || defined (__mips)
 #    define C910
@@ -38,4 +41,6 @@
 #    define wordint int
 #    define bytesperword 4
 #endif
+#endif
+
 #endif

@@ -1,3 +1,6 @@
+#ifndef _GMP_H_
+#define _GMP_H_
+
 #define  RAYON_DE_LA_TERRE	6371000.0
 #define  RADIAN_A_DEGRE		57.29577951
 #define  DEGRE_A_RADIAN		0.01745329252
@@ -155,3 +158,5 @@ void c_gmpg2l(float *lat,float *lon,float x,float y);
 void c_gmpdrw();
 void AfficherVecteurs(ListePointsStruct *liste, int nbItems, int style, int couleur, int epaisseur);
 void c_gmpDrawCityName(float x, float y, char *text);
+
+#endif

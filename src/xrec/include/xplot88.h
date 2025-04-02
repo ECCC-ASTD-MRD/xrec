@@ -1,3 +1,6 @@
+#ifndef _XPLOT88_H_
+#define _XPLOT88_H_
+
 /*
  *
  *  file      :  XPLOT88.H
@@ -15,9 +18,6 @@
  *
  */
 
-#ifndef  xplot88_DEFINED
-#define  xplot88_DEFINED
-
 #define  BNDLSET  xbndlset
 #define  BUNDLE   xbundle
 #define  FL2INT   xfl2int
@@ -31,4 +31,4 @@
 #define  PLOTIT   xplotit
 #define  PWRS     xpwrs
 
-#endif   xplot88_DEFINED
+#endif

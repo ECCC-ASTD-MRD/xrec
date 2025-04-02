@@ -1,3 +1,6 @@
+#ifndef _REC_H_
+#define _REC_H_
+
 #include <Xm/Xm.h>
 
 #include <stdio.h>
@@ -495,3 +498,5 @@ typedef struct
    float valeur, ancienneValeur;
    PointEditionStruct *anciennesValeurs;
    } EditionStruct;
+
+#endif

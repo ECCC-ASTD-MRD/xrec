@@ -1,5 +1,5 @@
-#ifndef GD_H
-#define GD_H 1
+#ifndef _GD_H_
+#define _GD_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -493,4 +493,4 @@ int gdImageCompare(gdImagePtr im1, gdImagePtr im2);
 }
 #endif
 
-#endif /* GD_H */
+#endif

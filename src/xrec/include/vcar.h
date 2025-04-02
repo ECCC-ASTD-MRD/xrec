@@ -1,3 +1,6 @@
+#ifndef _VCAR_H_
+#define _VCAR_H_
+
 /*
  *
  *  file      :  VCAR.H
@@ -15,9 +18,6 @@
  *               L'UTILISATION DE vcar.o
  *
  */
-
-#ifndef  vcar_DEFINED
-#define  vcar_DEFINED
 
  enum    VCAR_OPTIONS
                 { ANGLE = 1,

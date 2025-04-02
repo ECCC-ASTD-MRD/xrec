@@ -1,3 +1,6 @@
+#ifndef _MACROS_H_
+#define _MACROS_H_
+
 #if defined (mips) || defined (__mips)
 #    define C910
 #if defined (sgi) &&  (defined (__STDC__))
@@ -36,4 +39,6 @@
 #    define wordfloat float
 #    define wordint int
 #    define bytesperword 4
+#endif
+
 #endif

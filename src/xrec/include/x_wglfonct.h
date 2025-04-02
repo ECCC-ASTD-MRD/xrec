@@ -1,3 +1,6 @@
+#ifndef _X_WGLFONCT_H_
+#define _X_WGLFONCT_H_
+
 /* RMNLIB - Library of useful routines for C and FORTRAN programming
  * Copyright (C) 1975-2001  Division de Recherche en Prevision Numerique
  *                          Environnement Canada
@@ -126,3 +129,5 @@ int x_wglswb();
 int  x_wglwsi(char *string, int stringLength);
 int x_wglwtwrsz();
 int x_wglxai(int *i, int *j, float x, float y);
+
+#endif

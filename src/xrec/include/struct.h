@@ -1,3 +1,6 @@
+#ifndef _STRUCT_H_
+#define _STRUCT_H_
+
 #include <Xm/Xm.h>
 #include <string.h>
 
@@ -28,3 +31,5 @@ typedef struct
    XEvent theEvent;
    } XSelecteurFichierStruct;
 
+
+#endif

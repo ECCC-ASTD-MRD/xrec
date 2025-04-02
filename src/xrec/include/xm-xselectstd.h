@@ -1,3 +1,6 @@
+#ifndef _XM_XSELECTSTD_H_
+#define _XM_XSELECTSTD_H_
+
 
 #define LIGNE   86  /* nb de car entrant ds une ligne de texte */
 #define NB_MAX_RECS 4000    /* nb max. de records permis. */
@@ -23,3 +26,5 @@ static char
  *label_nb[] = {"n: ", "n: "},
  *label_retour[] = {"Retour\n", "Return\n"};
 
+
+#endif

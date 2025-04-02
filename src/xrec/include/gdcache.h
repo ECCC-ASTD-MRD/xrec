@@ -1,3 +1,6 @@
+#ifndef _GDCACHE_H_
+#define _GDCACHE_H_
+
 /* 
  * gdcache.h
  *
@@ -81,3 +84,5 @@ gdCacheDelete( gdCache_head_t *head );
 
 void *
 gdCacheGet( gdCache_head_t *head, void *keydata );
+
+#endif

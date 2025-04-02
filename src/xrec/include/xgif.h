@@ -1,3 +1,6 @@
+#ifndef _XGIF_H_
+#define _XGIF_H_
+
 /*
  *  xgif.h  -  header file for xgif, but you probably already knew as much
  */
@@ -48,3 +51,5 @@ WHERE int	    pausetime;
 WHERE unsigned long  cols[256];
 WHERE XColor         defs[256];
 WHERE char          *cmd;
+
+#endif

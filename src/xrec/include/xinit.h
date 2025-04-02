@@ -1,3 +1,6 @@
+#ifndef _XINIT_H_
+#define _XINIT_H_
+
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
@@ -14,3 +17,5 @@ typedef struct
    Widget topLevel;
    } SuperWidgetStruct;
 
+
+#endif

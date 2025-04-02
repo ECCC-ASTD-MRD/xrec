@@ -1,3 +1,6 @@
+#ifndef _LIC_H_
+#define _LIC_H_
+
 /*
  * $Header: /data/cvs/RMNLIB/utils/xrec/include/lic.h,v 1.1 2003/12/08 19:51:24 chartier Exp $
  */
@@ -35,9 +38,6 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-
-#ifndef _LIC_H_
-#define	_LIC_H_
 
 
 /*
@@ -271,5 +271,4 @@ const char *LIC_ConfiguredPixelType(void);
 }
 #endif
 
-
-#endif /* _LIC_H_ */
+#endif

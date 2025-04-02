@@ -1,3 +1,6 @@
+#ifndef _WGL_H_
+#define _WGL_H_
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -218,3 +221,5 @@ typedef struct
 
 extern _wglContexte wglc_x, wglc_gd, wglc_gl, wglc_ps, *wglc_wgl;
 
+
+#endif

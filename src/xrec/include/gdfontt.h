@@ -1,6 +1,5 @@
-
 #ifndef _GDFONTT_H_
-#define _GDFONTT_H_ 1
+#define _GDFONTT_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -26,4 +25,3 @@ extern gdFontPtr gdFontTiny;
 #endif
 
 #endif
-

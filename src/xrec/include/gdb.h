@@ -1,3 +1,6 @@
+#ifndef _GDB_H_
+#define _GDB_H_
+
 /*
  *
  *  file      :  GDB.H
@@ -15,9 +18,6 @@
  *
  *
  */
-
-#ifndef include_GDB
-#define include_GDB
 
 #include "declare.h"
 
@@ -143,4 +143,4 @@
 
  __END_DECLS
 
-#endif /* include_GDB */
+#endif

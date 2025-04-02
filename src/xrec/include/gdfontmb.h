@@ -1,6 +1,5 @@
-
 #ifndef _GDFONTMB_H_
-#define _GDFONTMB_H_ 1
+#define _GDFONTMB_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -25,4 +24,3 @@ extern gdFontPtr gdFontMediumBold;
 #endif
 
 #endif
-

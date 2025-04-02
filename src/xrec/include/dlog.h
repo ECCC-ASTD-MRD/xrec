@@ -1,3 +1,6 @@
+#ifndef _DLOG_H_
+#define _DLOG_H_
+
 
 static char 
  *msg_non_select[] = {"Attention: vous n'avez selectionne aucun item!",
@@ -22,3 +25,5 @@ static char
  *label_recommencer[] = { "RECOMMENCER", "REDO"},
  *label_warning[] = { "Warning", "Avertissement"};
 
+
+#endif
