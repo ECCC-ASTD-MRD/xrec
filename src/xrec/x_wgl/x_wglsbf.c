@@ -20,12 +20,12 @@
 
 #include <wgl_x.h>
 
-x_wglsbf()
+void x_wglsbf()
 {
    c_wglfbf();
    if (bgPix)
       XFreePixmap(wglDisp, bgPix);
-   bgPix = NULL;
+   bgPix = 0;
    doubleBufferMode = False;
 
    }

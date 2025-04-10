@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-wglsavpfc()
+void wglsavpfc()
 {
   wglc_wgl->wglsavpfc();
    }

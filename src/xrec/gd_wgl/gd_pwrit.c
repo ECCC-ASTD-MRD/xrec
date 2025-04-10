@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <rmn/rpnmacros.h>
 #include <wgl.h>
+#include <gd_wglfonct.h>
 
 
 int gd_currentFontSize = 12;

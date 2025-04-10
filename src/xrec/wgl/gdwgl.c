@@ -60,7 +60,7 @@ extern int c_wgl_gddri(int i, int j);
 extern int c_wgl_gderb();
 extern int c_wgl_gdfbf();
 extern int c_wgl_gdfsc();
-extern int wglfshlb();
+extern void wglfshlb();
 extern int c_wgl_gdfsh();
 extern int c_wgl_gdgacw();
 extern int c_wgl_gdgaf();

@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglfbf()
+void x_wglfbf()
 {
    wglDrawable = wglWin;
    

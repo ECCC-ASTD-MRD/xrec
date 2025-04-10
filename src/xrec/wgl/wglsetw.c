@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglsetw)(int *winid)
+void f77name(wglsetw)(int *winid)
 {
    c_wglsetw(*winid);
    }
@@ -30,7 +30,7 @@ f77name(wglsetw)(int *winid)
  ******************************************************************************
  **/
 
-c_wglsetw(int winid)
+void c_wglsetw(int winid)
 {
    wglc_wgl->wglsetw(winid);
 

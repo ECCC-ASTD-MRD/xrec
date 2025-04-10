@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wgllwi)(int *lineWidth)
+void f77name(wgllwi)(int *lineWidth)
 {
    c_wgllwi(*lineWidth);
    }
@@ -29,7 +29,7 @@ f77name(wgllwi)(int *lineWidth)
 ******
 **/
 
-c_wgllwi(int lineWidth)
+void c_wgllwi(int lineWidth)
 {
   wglc_wgl->wgllwi(lineWidth);
    

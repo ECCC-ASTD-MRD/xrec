@@ -1,3 +1,3 @@
-gd_wglrwc()
+void gd_wglrwc()
 {
 }

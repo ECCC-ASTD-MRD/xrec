@@ -23,7 +23,7 @@
 
 extern SuperWidgetStruct SuperWidget;
 
-FlusherTousLesEvenements()
+void FlusherTousLesEvenements()
 {
    XEvent theEvent;
    

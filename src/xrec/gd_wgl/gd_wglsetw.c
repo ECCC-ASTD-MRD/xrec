@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglsetw(winid)
+void gd_wglsetw(winid)
 int winid;
 {
    gd_wglfshlb();
@@ -29,10 +29,10 @@ int winid;
    gd_wgldefncw(winid);
    }
 
-gd_wglsavpfc()
+void gd_wglsavpfc()
 {
 }
 
-gd_wgldefncw(int winid)
+void gd_wgldefncw(int winid)
 {
 }

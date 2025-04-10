@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglbrb)()
+void f77name(wglbrb)()
 {
    c_wglbrb();
    }
@@ -29,7 +29,7 @@ f77name(wglbrb)()
  ******
  **/
 
-c_wglbrb()
+void c_wglbrb()
 {
    }
 

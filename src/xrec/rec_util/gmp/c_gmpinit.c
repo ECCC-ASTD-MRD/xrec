@@ -48,7 +48,7 @@ int nbVecsMeridiens = 0;
 int gmpFlagInterrupt = TRUE;
 
 
-int c_gmpinit()
+void c_gmpinit()
 {
 
   int i;

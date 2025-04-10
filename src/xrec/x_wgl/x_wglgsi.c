@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglgsi(int *idebut, int *jdebut, int *ifin, int *jfin)
+void x_wglgsi(int *idebut, int *jdebut, int *ifin, int *jfin)
 {
   *idebut = usSpace.idebut;
   *jdebut = usSpace.jdebut;

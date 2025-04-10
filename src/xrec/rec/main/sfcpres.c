@@ -42,9 +42,6 @@
     = 6: P is in theta [th] 
 */
 
-int c_fstinf(int iun, int *ni, int *nj, int *nk, int datev,char etiket[],
-  int ip1, int ip2,int ip3, char typvar[], char nomvar[] );
-
 int GetSurfacePressure(_Champ *champ)
 {
    _Champ bidon;

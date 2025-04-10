@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wgldld)(int *indDash, int *dashPattern)
+void f77name(wgldld)(int *indDash, int *dashPattern)
 {
    c_wgldld(*indDash, *dashPattern);
    }
@@ -29,7 +29,7 @@ f77name(wgldld)(int *indDash, int *dashPattern)
 ******
 **/
 
-c_wgldld(int indDash, int dashPattern)
+void c_wgldld(int indDash, int dashPattern)
 {
   wglc_wgl->wgldld(indDash, dashPattern);
    }

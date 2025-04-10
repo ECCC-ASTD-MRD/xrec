@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-wglinids(char *nomFenetre)
+void wglinids(char *nomFenetre)
 {
   wglc_wgl->wglinids(nomFenetre);
 

@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglgco)(int *indCol, int *red, int *green, int *blue)
+void f77name(wglgco)(int *indCol, int *red, int *green, int *blue)
 {
    c_wglgco(*indCol, red, green, blue);
    }
@@ -29,7 +29,7 @@ f77name(wglgco)(int *indCol, int *red, int *green, int *blue)
 ******
 **/
 
-c_wglgco(int indCol, int *red, int *green, int *blue)
+void c_wglgco(int indCol, int *red, int *green, int *blue)
 {
   wglc_wgl->wglgco(indCol, red, green, blue);
 }

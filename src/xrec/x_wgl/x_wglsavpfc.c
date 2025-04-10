@@ -21,7 +21,7 @@
 
 #include <wgl_x.h>
 
-x_wglsavpfc()
+void x_wglsavpfc()
 {
    if (fenetreCourante < 0)
       return;

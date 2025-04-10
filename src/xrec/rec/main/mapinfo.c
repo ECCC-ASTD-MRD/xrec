@@ -265,7 +265,7 @@ int c_ezgdefrec(int ni, int nj, char *grtyp, int ig1, int ig2, int ig3, int ig4)
    un = 1.0 * 1.0;
 
    lgrtyp[0] = grtyp[0];
-   lgrtyp[1] = NULL;
+   lgrtyp[1] = '\0';
 
    f77name(get_firstiun)(&first_iun);
    return c_ezqkdef(ni, nj, lgrtyp, ig1, ig2, ig3, ig4, first_iun);

@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglcol(couleur)
+void gd_wglcol(couleur)
 int couleur;
 {
    int nplanes;

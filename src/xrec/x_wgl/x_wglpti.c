@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglpti(int i, int j)
+void x_wglpti(int i, int j)
 {
    XDrawPoint(wglDisp, wglDrawable, wglLineGC, i, h - j);
    }

@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglrli)(int *ia, int *ja, int *ib, int *jb)
+void f77name(wglrli)(int *ia, int *ja, int *ib, int *jb)
 {
    c_wglrli(*ia, *ja, *ib, *jb);
    }
@@ -30,7 +30,7 @@ f77name(wglrli)(int *ia, int *ja, int *ib, int *jb)
 **/
 
 
-c_wglrli(int ia, int ja, int ib, int jb)
+void c_wglrli(int ia, int ja, int ib, int jb)
 {
    c_wglmvi(ia, ja);
    c_wgldri(ib, ja);

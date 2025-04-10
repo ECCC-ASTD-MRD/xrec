@@ -22,7 +22,7 @@
 
 extern int w, h;
 
-gd_wglpsz(int isize, int jsize)
+void gd_wglpsz(int isize, int jsize)
 
 {
   w = isize;

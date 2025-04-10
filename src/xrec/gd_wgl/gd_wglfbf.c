@@ -20,6 +20,6 @@
 
 #include <gd_wgl.h>
 
-gd_wglfbf(void)
+void gd_wglfbf(void)
 {
    }

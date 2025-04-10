@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglrfi(int ia, int ja, int ib, int jb)
+void x_wglrfi(int ia, int ja, int ib, int jb)
 {
    wgl_point p[5];
 

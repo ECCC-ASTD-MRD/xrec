@@ -21,7 +21,7 @@
 #include <wgl.h>
 #include <gmp.h>
 
-TracerVecteursModeTurbo(ListePointsStruct *itemListe)
+void TracerVecteursModeTurbo(ListePointsStruct *itemListe)
 {
   int n;
    
@@ -32,7 +32,7 @@ TracerVecteursModeTurbo(ListePointsStruct *itemListe)
         {
         if (itemListe->full_line == 1)
           {
-          c_wglplx(itemListe->npts, itemListe->pointsGeo);
+             c_wglplx(itemListe->npts, (float (*)[2]) itemListe->pointsGeo);
           }
         else
           {

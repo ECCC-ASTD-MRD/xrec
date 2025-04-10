@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wgllpt()
+void x_wgllpt()
 {
    char nomFichierPatrons[128];
    char *tmp;

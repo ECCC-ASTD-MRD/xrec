@@ -47,6 +47,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -67,6 +68,8 @@
 #include <xinit.h>
 #include <xm-xselectstd.h>
 #include <rmn/rpnmacros.h>
+
+#include "rec_functions.h"
 
 #define NB_MAX_DESCRIPTEURS     24              /* nb max. de descripteurs permis dans un tableau               */
 #define NB_MAX_FENETRES         4               /* nb max. de fenetres permises                                 */
@@ -252,18 +255,18 @@ extern SuperWidgetStruct SuperWidget;           /* Le toplevel de l'application.
 
 int32_t f77name(xselact)(int32_t sel[], int32_t *nbsel, int32_t *indsel);
 int32_t f77name(xselfer)(int32_t sel[], int32_t *nbsel, char idents[], int32_t table[][3], int32_t *m, int32_t *n, int32_t     *indsel, F2Cl len);
-int32_t f77name(xselins)(char *tableau, int32_t table[][3], int32_t *nbrecs, F2Cl lentableau); 
-int32_t f77name(xselopt)(int32_t *indSelecteur, char option[], char valeur[], F2Cl lenOption, F2Cl lenValeur);
-int32_t f77name(xselouf)(int32_t table[][3], int32_t *nbrecs);
+void f77name(xselins)(char *tableau, int32_t table[][3], int32_t *nbrecs, F2Cl lentableau); 
+void f77name(xselopt)(int32_t *indSelecteur, char option[], char valeur[], F2Cl lenOption, F2Cl lenValeur);
+void f77name(xselouf)(int32_t table[][3], int32_t *nbrecs);
 int32_t f77name(xseloup)(char *titre, int32_t  *nbrecs, char idents[], int32_t *nbdes, int32_t *indSel, int32_t *typeSel, F2Cl lenNomFich, F2Cl lenIdents);
-int32_t f77name(xselupd)();
-int32_t f77name(xseldim)();
-int32_t f77name(xselundim)();
-int32_t f77name(xselup)(int32_t *indSelecteur);
-int32_t f77name(xseldown)(int32_t *indSelecteur);
-int32_t c_xselup(int32_t indSelecteur);
-int32_t c_xselopt(int32_t indSelecteur, char *option, char *valeur);
-int32_t c_xseldown(int32_t indSelecteur);
+void f77name(xselupd)();
+void f77name(xseldim)();
+void f77name(xselundim)();
+void f77name(xselup)(int32_t *indSelecteur);
+void f77name(xseldown)(int32_t *indSelecteur);
+void c_xselup(int32_t indSelecteur);
+void c_xselopt(int32_t indSelecteur, char *option, char *valeur);
+void c_xseldown(int32_t indSelecteur);
 
 /* Callbacks. */
 
@@ -288,7 +291,7 @@ int32_t     AjouterCle(cleStruct cles[], int32_t pos, int32_t indDes, int32_t in
 int32_t     AjouterFiltre(int32_t indDes, int32_t indCle);
 int32_t     AjouterNouvelleCle(char *val, int32_t len, cleStruct cles[], int32_t indDes, int32_t indCle);
 static void AjusterSensibiliteBoutons();
-            CalculerLargeurMenus(int32_t largeurMenus[], int32_t table[][3]);
+void        CalculerLargeurMenus(int32_t largeurMenus[], int32_t table[][3]);
 int32_t     ChangerWidgets();
 int32_t     ChercherCle(char *val, int32_t len, cleStruct cles[], int32_t indDes);
 int32_t     ComparerCles(cleInfoStruct *cleInfo1, cleInfoStruct *cleInfo2);
@@ -316,20 +319,18 @@ void        InitWidgetsForm();
 void        InitWidgetsMenu(XmString TitresMenus[], int32_t nbDes);
 int32_t     InitWidgetsRec(int32_t nbRecsFiltres,  int32_t nbDes);
 int32_t     LibererPointeurs();
-int32_t     LibererPanneauListe();
-int32_t     MessageChargement(int32_t nbRecs1, int32_t nbRecs2);
-int32_t     NettoyerString(char str[]);
+void        LibererPanneauListe();
+void        MessageChargement(int32_t nbRecs1, int32_t nbRecs2);
+void        NettoyerString(char str[]);
 static void PositionnerMenubar();
 static void TrouverLongueurMot(int32_t *longueur, XmString mot);
 Widget      TrouverWidgetParent();
-int32_t     UpdateFiltres();
+void        UpdateFiltres();
 void        UpdateRecsFiltresAffiches(XmString **recsFiltresAffiches, XmString *recsAffiches, int32_t nbDes, int32_t sel[], int32_t nbSel);
-int32_t     XSelectstdActiver();
-int32_t     SelectstdFermer();
 Widget      XSelectstdOuvrir();
 
 int32_t XSelectstdActiver(int32_t  sel[], int32_t  *nbsel, int32_t  *indSelecteur);
-int32_t XSelectstdCommencerInit(char *titre, int32_t nbrecs, char **idents, int32_t nbdes, int32_t indSel, int32_t typeSel);
+void XSelectstdCommencerInit(char *titre, int32_t nbrecs, char **idents, int32_t nbdes, int32_t indSel, int32_t typeSel);
 int32_t XSelectstdFermer(int32_t  sel[], int32_t  *nbsel, char **idents, int32_t  table[][3], int32_t  *m, int32_t  *n, int32_t  *indSelecteur);
 void XSelectstdInserer(char *tableau, int32_t table[][3], int32_t nbrecs);
 void XSelectstdTerminerInit(int32_t table[][3], int32_t nbrecs);
@@ -1185,7 +1186,7 @@ int32_t LibererPointeurs()
 
 /*======================================================================================================*/
 
-LibererPanneauListe()
+void LibererPanneauListe()
 {
    int32_t i, j;
 
@@ -2224,7 +2225,7 @@ int32_t InitWidgetsRec(int32_t nbRecsFiltres,  int32_t nbDes)
 
 
 
-MessageChargement(int32_t nbRecs1, int32_t nbRecs2)
+void MessageChargement(int32_t nbRecs1, int32_t nbRecs2)
 {
    Arg args[10];
    int32_t i;
@@ -2395,7 +2396,7 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-int32_t NettoyerString(char str[])
+void NettoyerString(char str[])
 {
    int32_t i, j, jinit;
    
@@ -2466,7 +2467,7 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-int32_t UpdateFiltres()
+void UpdateFiltres()
 {
    int32_t i,j;   /* Compteur.                        */
    int32_t res; /* Le nombre de records filtres.    */
@@ -2566,7 +2567,7 @@ int32_t XSelectstdActiver(int32_t  sel[], int32_t  *nbsel, int32_t  *indSelecteu
    Widget widgetParent, bouton;
    
    if (!xs[wi].topLevel)
-      return;
+      return 0;
    
    xs[wi].StatutSelection = SELECTION_EN_COURS;
    while (xs[wi].StatutSelection == SELECTION_EN_COURS && XtIsRealized(xs[wi].topLevel))
@@ -2639,7 +2640,7 @@ int32_t XSelectstdFermer(int32_t  sel[], int32_t  *nbsel, char **idents, int32_t
  **                                                                                                      **
  **======================================================================================================*/
 
-CalculerLargeurMenus(int32_t largeurMenus[], int32_t table[][3])
+void CalculerLargeurMenus(int32_t largeurMenus[], int32_t table[][3])
 {
    int32_t i,j;
    XmFontList fontListe;
@@ -2677,11 +2678,11 @@ CalculerLargeurMenus(int32_t largeurMenus[], int32_t table[][3])
  ************************************************************
  **/
 
-f77name(xseloup)(char *titre, int32_t  *nbrecs, char idents[], int32_t *nbdes, int32_t *indSel, int32_t *typeSel, F2Cl flenNomFich, F2Cl flenIdents)
+int f77name(xseloup)(char *titre, int32_t  *nbrecs, char idents[], int32_t *nbdes, int32_t *indSel, int32_t *typeSel, F2Cl lenNomFich, F2Cl lenIdents)
 {
    
    int32_t  i,j,k;
-   int lenNomFich=flenNomFich, lenIdents=flenIdents;
+   //int lenNomFich=flenNomFich, lenIdents=flenIdents;
    char tmp;
    char **identsMenus;
    
@@ -2702,12 +2703,12 @@ f77name(xseloup)(char *titre, int32_t  *nbrecs, char idents[], int32_t *nbdes, i
    return 0;
    }
 
-f77name(xselins)(char *tableau, int32_t table[][3], int32_t *nbrecs, F2Cl lentableau)
+void f77name(xselins)(char *tableau, int32_t table[][3], int32_t *nbrecs, F2Cl lentableau)
 {
    XSelectstdInserer(tableau, table, *nbrecs);
    }
 
-f77name(xselouf)(int32_t table[][3], int32_t *nbrecs)
+void f77name(xselouf)(int32_t table[][3], int32_t *nbrecs)
 {
    XSelectstdTerminerInit(table, *nbrecs);
    }
@@ -2803,7 +2804,7 @@ VALEUR  RETOURNEE:      0
 
 ------------------------------------------------------------------------------*/
 
-int32_t f77name(xselupd)()
+void f77name(xselupd)()
 {
    LibererPointeurs();
    }
@@ -2811,7 +2812,7 @@ int32_t f77name(xselupd)()
 
 
 /*======================================================================================================*/
-XSelectstdCommencerInit(char *titre, int32_t nbrecs, char **idents, int32_t nbdes, int32_t indSel, int32_t typeSel)
+void XSelectstdCommencerInit(char *titre, int32_t nbrecs, char **idents, int32_t nbdes, int32_t indSel, int32_t typeSel)
 {
    int32_t i;
 
@@ -2934,7 +2935,7 @@ void XSelectstdTerminerInit(int32_t table[][3], int32_t nbrecs)
 *************************
 ***/
 
-f77name(xseldim)()
+void f77name(xseldim)()
 {
    DesactiverSelWidgets();
    }
@@ -2944,7 +2945,7 @@ f77name(xseldim)()
 *************************
 ***/
 
-int32_t f77name(xselundim)()
+void f77name(xselundim)()
 {
    ActiverSelWidgets();
    }
@@ -2954,7 +2955,7 @@ int32_t f77name(xselundim)()
 *************************
 ***/
 
-f77name(xselup)(int32_t *indSelecteur)
+void f77name(xselup)(int32_t *indSelecteur)
 {
    XtRealizeWidget(xs[*indSelecteur].topLevel);
    }
@@ -2964,7 +2965,7 @@ f77name(xselup)(int32_t *indSelecteur)
 ********
 **/
 
-c_xselup(int32_t indSelecteur)
+void c_xselup(int32_t indSelecteur)
 {
    XtRealizeWidget(xs[indSelecteur].topLevel);
    }
@@ -2974,7 +2975,7 @@ c_xselup(int32_t indSelecteur)
 *************************
 ***/
 
-f77name(xseldown)(int32_t *indSelecteur)
+void f77name(xseldown)(int32_t *indSelecteur)
 {
    XtUnrealizeWidget(xs[*indSelecteur].topLevel);
    }
@@ -2984,7 +2985,7 @@ f77name(xseldown)(int32_t *indSelecteur)
 ********
 **/
 
-c_xseldown(int32_t indSelecteur)
+void c_xseldown(int32_t indSelecteur)
 {
    XtRealizeWidget(xs[indSelecteur].topLevel);
    }
@@ -3004,7 +3005,7 @@ static void FermerSelecteur(Widget w, XtPointer unused1, XtPointer unused2)
 *************************
 ***/
 
-f77name(xselopt)(int32_t *indSelecteur, char option[], char valeur[], F2Cl flenOption, F2Cl flenValeur)
+void f77name(xselopt)(int32_t *indSelecteur, char option[], char valeur[], F2Cl flenOption, F2Cl flenValeur)
 {
    int lenOption=flenOption, lenValeur=flenValeur;
    
@@ -3015,7 +3016,7 @@ f77name(xselopt)(int32_t *indSelecteur, char option[], char valeur[], F2Cl flenO
    c_xselopt(*indSelecteur, option, valeur);
    }
 
-c_xselopt(int32_t indSelecteur, char *option, char *valeur)
+void c_xselopt(int32_t indSelecteur, char *option, char *valeur)
 {
    if (0 == strcmp(option, "bouton_fermer") || 0 == strcmp(option, "BOUTON_FERMER"))
       {

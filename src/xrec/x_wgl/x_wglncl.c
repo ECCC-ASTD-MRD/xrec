@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglncl(int *ncolRead, int *ncolWrite, int *ncolAnim)
+void x_wglncl(int *ncolRead, int *ncolWrite, int *ncolAnim)
 {
       *ncolRead  = 255;
       *ncolWrite = 255;

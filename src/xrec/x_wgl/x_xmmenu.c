@@ -78,6 +78,9 @@ static char **menuItemsStr = NULL;
 static char *menuInfoStr = NULL;
 static int   nbMenuItems = 0;
 
+void NettoyerVieuxStrings(void);
+void InitialiserMenusStr(char *menuStr);
+
 /**
  ** Declaration des items contenus dans les menus
  **/
@@ -234,7 +237,7 @@ String avertissement;
    printf("Voici le message recu: %s\n\n\n", avertissement); 
    }
 
-NettoyerVieuxStrings()
+void NettoyerVieuxStrings()
    {
    int i;
    if (menuTitreStr != NULL)
@@ -262,7 +265,7 @@ NettoyerVieuxStrings()
    }
    
 
-InitialiserMenusStr(menuStr)
+void InitialiserMenusStr(menuStr)
 char *menuStr;
 {
    int i;

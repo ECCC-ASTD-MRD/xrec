@@ -23,7 +23,7 @@
 
 extern gdImagePtr gdwin;
 
-gd_wglmapc(int colorIndex, int r, int g, int b)
+void gd_wglmapc(int colorIndex, int r, int g, int b)
 {
   int indcol;
 

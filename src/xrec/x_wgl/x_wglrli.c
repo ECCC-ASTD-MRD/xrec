@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglrli(int ia, int ja, int ib, int jb)
+void x_wglrli(int ia, int ja, int ib, int jb)
 {
   c_wglmvi(ia, ja);
   c_wgldri(ib, ja);

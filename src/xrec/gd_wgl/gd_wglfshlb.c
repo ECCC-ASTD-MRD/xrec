@@ -23,7 +23,7 @@
 
 extern gdImagePtr gdwin;
 
-gd_wglfshlb()
+void gd_wglfshlb()
 {
    int i;
 

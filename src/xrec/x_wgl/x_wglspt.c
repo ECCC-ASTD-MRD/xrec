@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglspt(int indpat)
+void x_wglspt(int indpat)
 {
    x_wglfshlb();
    XSetStipple(wglDisp, wglFillGC, wglPatterns[indpat+128]);

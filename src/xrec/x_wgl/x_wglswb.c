@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglswb()
+void x_wglswb()
 {
    XSetFunction(wglDisp, wglLineGC, GXcopy);
 

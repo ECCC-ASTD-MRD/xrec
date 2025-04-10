@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglwtwrsz()
+void x_wglwtwrsz()
 {
    Dimension largeurMax, hauteurMax;
    Dimension largeurCourante, hauteurCourante;

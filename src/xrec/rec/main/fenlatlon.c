@@ -19,6 +19,7 @@
  */
 
 #include <wgl.h>
+#include "rec_functions.h"
 
 void AfficherFenetreLatLon(float latmin, float lonmin, float latmax, float lonmax, int couleurFore, int couleurBack)
 {

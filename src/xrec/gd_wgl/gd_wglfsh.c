@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglfsh()
+void gd_wglfsh()
 {
    wglfshlb();
    /*    XFlush(wglDisp); */

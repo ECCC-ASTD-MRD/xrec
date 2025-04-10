@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglglpti(int *ix, int *iy)
+void x_wglglpti(int *ix, int *iy)
 {
    *ix = wglPts[NbPoints-1].x;
    *iy = wglPts[NbPoints-1].y;

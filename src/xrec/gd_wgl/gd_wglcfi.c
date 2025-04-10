@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglcfi(i, j, rayon)
+void gd_wglcfi(i, j, rayon)
 int i, j, rayon;
 {
    int idebut, jdebut, ifin, jfin;

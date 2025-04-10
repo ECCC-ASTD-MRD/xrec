@@ -21,7 +21,7 @@
 #include <wgl_x.h>
 
 
-x_wglafi(int i, int j, int rayon, float angleDebut, float angleFin)
+void x_wglafi(int i, int j, int rayon, float angleDebut, float angleFin)
 {
    int idebut, jdebut, ifin, jfin;
    int istartAngle, iendAngle;

@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-f77name(initdev)() 
+void f77name(initdev)() 
 {
    XSelectInput(wglDisp, wglWin, EVENT_MASK);
    }

@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglptis(pts, npts)
+void gd_wglptis(pts, npts)
 wgl_point pts[];
 int npts;
 {

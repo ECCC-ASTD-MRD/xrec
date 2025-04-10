@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglfsc()
+void x_wglfsc()
 {
    x_wglinids("");
    x_wglpsz(DisplayWidth(wglDisp, wglScrNum), DisplayHeight(wglDisp, wglScrNum));

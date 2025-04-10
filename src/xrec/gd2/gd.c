@@ -59,6 +59,7 @@ extern int gdSinT[];
 
 static void gdImageBrushApply (gdImagePtr im, int x, int y);
 static void gdImageTileApply (gdImagePtr im, int x, int y);
+int gdImageGetTrueColorPixel (gdImagePtr im, int x, int y);
 
 gdImagePtr
 gdImageCreate (int sx, int sy)

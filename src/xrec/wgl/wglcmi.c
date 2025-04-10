@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglcmi)(int *left, int *bottom, int *right, int *top)
+void f77name(wglcmi)(int *left, int *bottom, int *right, int *top)
 {
    c_wglcmi(*left, *bottom, *right, *top);
    }
@@ -29,7 +29,7 @@ f77name(wglcmi)(int *left, int *bottom, int *right, int *top)
 ******
 **/
 
-c_wglcmi(int left, int bottom, int right, int top)
+void c_wglcmi(int left, int bottom, int right, int top)
 {
   wglc_wgl->wglcmi(left, bottom, right, top);
 

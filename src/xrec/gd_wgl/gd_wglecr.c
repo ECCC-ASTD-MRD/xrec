@@ -24,7 +24,7 @@
 
 extern gdImagePtr gdwin;
 
-gd_wglecr(char *nomFichier)
+void gd_wglecr(char *nomFichier)
 {
   
   FILE *sortie;

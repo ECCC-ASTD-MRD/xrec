@@ -22,10 +22,11 @@
 #include <wgl.h>
 #include <x_wglfonct.h>
 #include <gd_wglfonct.h>
+int wglscon_gd();
 
 _wglContexte wglc_x, wglc_gd, wglc_gl, wglc_ps, *wglc_wgl;
 
-f77name(wglscon)(char *contexte, F2Cl flen)
+void f77name(wglscon)(char *contexte, F2Cl flen)
 {
   char lcl_contexte[8], lcl_len_contexte;
   int len_contexte=flen;
@@ -36,7 +37,7 @@ f77name(wglscon)(char *contexte, F2Cl flen)
   c_wglscon(lcl_contexte);
 }
 
-c_wglscon(char *contexte)
+int c_wglscon(char *contexte)
 {
   if (0 == strcmp(contexte, "x"))
     {
@@ -64,10 +65,10 @@ c_wglscon(char *contexte)
     }
   */
   fprintf(stderr, "Contexte non supporte : %s\n",contexte);
-
+  return 0;
 }
 
-c_wglscon_x()
+void c_wglscon_x()
 {
   wglc_x.graphics_library = 0;
   wglc_x.wglafi = x_wglafi;

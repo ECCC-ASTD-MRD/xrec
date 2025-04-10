@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglmvi(int i, int j)
+void x_wglmvi(int i, int j)
 {
    wglfshlb();
    wglPts[NbPoints].x = i;

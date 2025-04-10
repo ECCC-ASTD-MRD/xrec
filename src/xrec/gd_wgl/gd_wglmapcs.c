@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglmapcs(colorIndexs, nbCols, rgbDefs)
+void gd_wglmapcs(colorIndexs, nbCols, rgbDefs)
 int colorIndexs[]; 
 int nbCols;
 int rgbDefs[][3];

@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-wglinipat()
+void wglinipat()
 {
   wglc_wgl->wglinipat();
    }

@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglpfx)(int *nbPoints, float polygone[][2])
+int f77name(wglpfx)(int *nbPoints, float polygone[][2])
 {
    return c_wglpfx(*nbPoints, polygone);
    }
@@ -30,7 +30,7 @@ f77name(wglpfx)(int *nbPoints, float polygone[][2])
  **/
 
 
-c_wglpfx(int nbPoints, float polygone[][2])
+int c_wglpfx(int nbPoints, float polygone[][2])
 {
   int *ipoly;
   int i, i1, j1;
@@ -43,7 +43,7 @@ c_wglpfx(int nbPoints, float polygone[][2])
       c_wglxai(&(ipoly[2*i]), &(ipoly[2*i+1]), polygone[i][X], polygone[i][Y]);
     }
   
-  c_wglpfi(nbPoints, ipoly);
+  c_wglpfi(nbPoints, (int (*)[2]) ipoly);
   
   free(ipoly);
 

@@ -19,8 +19,9 @@
  */
 
 #include <gd_wgl.h>
+#include <gd_wglfonct.h>
 
-gd_wglafx(x, y, rayon, angleDebut, angleFin)
+void gd_wglafx(x, y, rayon, angleDebut, angleFin)
 float x, y, rayon, angleDebut, angleFin;
 {
    int idebut, jdebut, ifin, jfin;

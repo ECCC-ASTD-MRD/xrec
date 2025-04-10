@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wgllwi(int lineWidth)
+void x_wgllwi(int lineWidth)
 {
    wglfshlb();
    if (lineWidth == 1)

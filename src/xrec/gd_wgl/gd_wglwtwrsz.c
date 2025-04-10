@@ -20,6 +20,6 @@
 
 #include <gd_wgl.h>
 
-gd_wglwtwrsz()
+void gd_wglwtwrsz()
 {
 }

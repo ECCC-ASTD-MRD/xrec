@@ -23,7 +23,7 @@
 
 extern gdImagePtr gdwin;
 
-gd_wglplx(nbPoints, polygone)
+void gd_wglplx(nbPoints, polygone)
 int nbPoints;
 float polygone[][2];
 {

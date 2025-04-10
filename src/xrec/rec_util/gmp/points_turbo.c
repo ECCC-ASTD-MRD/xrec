@@ -21,7 +21,7 @@
 #include <wgl.h>
 #include <gmp.h>
 
-TracerPointsModeTurbo(ListePointsStruct *itemListe)
+void TracerPointsModeTurbo(ListePointsStruct *itemListe)
 {
    register int n;
    

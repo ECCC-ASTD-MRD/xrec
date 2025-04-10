@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglgzp)(float *xsize, float *ysize, int *isize, int *jsize)
+void f77name(wglgzp)(float *xsize, float *ysize, int *isize, int *jsize)
 {
    c_wglgzp(xsize, ysize, isize, jsize);
    }
@@ -31,7 +31,7 @@ f77name(wglgzp)(float *xsize, float *ysize, int *isize, int *jsize)
 **/
 
 
-c_wglgzp(float *xsize, float *ysize, int *isize, int *jsize)
+void c_wglgzp(float *xsize, float *ysize, int *isize, int *jsize)
 {
    c_wglgzx(xsize, ysize);
    c_wglgzi(isize, jsize);

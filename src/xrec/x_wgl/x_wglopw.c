@@ -18,6 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include "rec_functions.h"
 #include <wgl_x.h> 
 
 void c_wglssp(float xdebut, float ydebut, float xfin, float yfin, int idebut, int jdebut, int ifin, int jfin, int mode);
@@ -62,7 +63,7 @@ void c_wglssp(float xdebut, float ydebut, float xfin, float yfin, int idebut, in
    usSpace.axey = NULL;
    usSpace.ni   = 0;
    usSpace.nj   = 0;
-   bgPix = NULL;
+   bgPix = 0;
    XGetWindowAttributes(wglDisp, wglWin, &wglWinAttr);
 
 /*    if (!customWinSize)

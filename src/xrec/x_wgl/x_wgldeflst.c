@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wgldeflst(int dashIndex, int linestyle)
+void x_wgldeflst(int dashIndex, int linestyle)
 {
 
    int i;

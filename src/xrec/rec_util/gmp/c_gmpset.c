@@ -22,8 +22,11 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <rmn/rpnmacros.h>
+#include <rmn/base.h>
+#include <rmn/ezscint.h>
 #include <gmp.h>
 #include <math.h>
+#include "rec_util.h"
 
 extern GeoMapInfoStruct     mapInfo;
 extern GeoMapInfoStruct  oldMapInfo;
@@ -45,11 +48,9 @@ float gmp_xmin, gmp_ymin, gmp_xmax, gmp_ymax;
 float old_gmp_xmin, old_gmp_ymin, old_gmp_xmax, old_gmp_ymax;
 int   geography_source = -1;
 
-int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4);
-
 int f77name(gmpset)(char *grtyp, int *ni, int *nj, int *ig1, int *ig2, int *ig3, int *ig4, F2Cl lengrtyp)
 {
-  c_gmpset(*grtyp, *ni, *nj, *ig1, *ig2, *ig3, *ig4);
+  return c_gmpset(*grtyp, *ni, *nj, *ig1, *ig2, *ig3, *ig4);
    }
 
 

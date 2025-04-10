@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglmcw)(int *couleur, int *r, int *g, int *b)
+void f77name(wglmcw)(int *couleur, int *r, int *g, int *b)
 {
    c_wglmcw(*couleur, *r, *g, *b);
    }
@@ -30,7 +30,7 @@ f77name(wglmcw)(int *couleur, int *r, int *g, int *b)
 **/
 
 
-c_wglmcw(int couleur, int r, int g, int b)
+void c_wglmcw(int couleur, int r, int g, int b)
 {
    wglc_wgl->wglmapc(couleur, r, g, b);
    }

@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wgliax)(float *x, float *y, int *i, int *j)
+void f77name(wgliax)(float *x, float *y, int *i, int *j)
 {
    c_wgliax(x, y, *i, *j);
    }
@@ -30,7 +30,7 @@ f77name(wgliax)(float *x, float *y, int *i, int *j)
 **/
 
 
-c_wgliax(float *x, float *y, int i, int j)
+void c_wgliax(float *x, float *y, int i, int j)
 {
    *x = ((float)(i - usSpace.idebut) / usSpace.densiteX) + usSpace.xdebut;
    *y = ((float)(j - usSpace.jdebut) / usSpace.densiteY) + usSpace.ydebut;

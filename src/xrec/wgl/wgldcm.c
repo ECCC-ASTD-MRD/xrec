@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wgldcm)()
+void f77name(wgldcm)()
 {
    c_wgldcm();
 
@@ -30,7 +30,7 @@ f77name(wgldcm)()
 ******
 **/
 
-c_wgldcm()
+void c_wgldcm()
 {
   wglc_wgl->wgldcm();
    }

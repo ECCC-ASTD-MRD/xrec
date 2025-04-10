@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglpsz(int isize, int jsize)
+void x_wglpsz(int isize, int jsize)
 {
    wglHints.width  = isize;
    wglHints.height = jsize;

@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglkas)(int *xAspect, int *yAspect)
+void f77name(wglkas)(int *xAspect, int *yAspect)
 {
    c_wglkas(*xAspect, *yAspect);
    }
@@ -29,7 +29,7 @@ f77name(wglkas)(int *xAspect, int *yAspect)
 ******
 **/
 
-c_wglkas(int xAspect, int yAspect)
+void c_wglkas(int xAspect, int yAspect)
 {
   wglc_wgl->wglkas(xAspect, yAspect);
 }

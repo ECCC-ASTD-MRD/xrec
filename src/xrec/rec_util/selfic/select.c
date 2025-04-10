@@ -39,6 +39,7 @@
 **
 ******************************************************************************/
 
+#include <ctype.h>
 #include <xinit.h>
 #include <rmn/rpnmacros.h>
 #include <stdio.h>
@@ -61,6 +62,11 @@
 #include <Xm/RowColumn.h>
 #include <Xm/Text.h>
 #include <Xm/TextF.h>
+
+#include "wgl.h"
+#include "x_wglfonct.h"
+#include "rec_util.h"
+#include "rec_functions.h"
 
 
 /*

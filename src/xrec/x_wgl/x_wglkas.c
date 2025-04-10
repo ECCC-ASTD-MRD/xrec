@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglkas(int xAspect, int yAspect)
+void x_wglkas(int xAspect, int yAspect)
 {
    aspectRatio = (float)(xAspect) / (float)(yAspect);
    wglHints.min_aspect.x = xAspect;

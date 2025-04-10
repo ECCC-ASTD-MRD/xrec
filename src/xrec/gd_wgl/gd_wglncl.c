@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglncl(ncolRead, ncolWrite, ncolAnim)
+void gd_wglncl(ncolRead, ncolWrite, ncolAnim)
 int *ncolRead, *ncolWrite, *ncolAnim;
 {
       *ncolRead  = 255;

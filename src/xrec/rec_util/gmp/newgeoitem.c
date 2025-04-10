@@ -22,7 +22,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-NewGeoItem(ListePointsStruct *(*liste), int *nbItems)
+void NewGeoItem(ListePointsStruct *(*liste), int *nbItems)
 {
   int nbytes;
   
@@ -45,7 +45,7 @@ NewGeoItem(ListePointsStruct *(*liste), int *nbItems)
 }
 
 
-NewTextItem(ListeTextStruct *(*liste), int *nbItems)
+void NewTextItem(ListeTextStruct *(*liste), int *nbItems)
 {
   int nbytes;
   

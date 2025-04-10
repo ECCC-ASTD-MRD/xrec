@@ -24,6 +24,7 @@
 #include <wgl.h>
 #include <limits.h>
 #include <rmn/rpnmacros.h>
+#include <rmn/base.h>
 #include <rec.h>
 #include <rec_functions.h>
 
@@ -44,8 +45,6 @@ extern int  wglScrNum;
 extern Window  wglWin, wglDrawable;
 extern GC wglLineGC;
 extern int interpolationTemporelle;
-
-extern void EffacerFenetreAffichage();
 
 static char *pasAssezDeMemoire[] = {"Quantite de memoire insuffisante.\nSeulement %4d images sur %4d peuvent etre chargees.\n\
 L'animation serait possible si les dimensions de la fenetre\netaient reduites a %4d x %4d",

@@ -21,7 +21,7 @@
 #include <wgl.h>
 #include <gmp.h>
 
-ActiverParamsLigne(int style, int couleur, int epaisseur)
+void ActiverParamsLigne(int style, int couleur, int epaisseur)
 {
    switch(style)
       {

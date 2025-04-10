@@ -23,6 +23,7 @@
 #include <rmn/rpnmacros.h>
 #include <rec.h>
 #include <rec_functions.h>
+#include <wgl.h>
 
 #define LIRE   0
 #define ECRIRE 1

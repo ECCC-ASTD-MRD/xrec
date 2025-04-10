@@ -1,6 +1,7 @@
 #include <rmn/rpnmacros.h>
 #include <rec.h>
 #include <rec_functions.h>
+#include "rmn/ezscint.h"
 
 int c_rec_ezsint_mask(unsigned int *maskout, unsigned int *maskin, int gdin, int gdout)
   {

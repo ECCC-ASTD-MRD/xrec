@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wgllpt)()
+void f77name(wgllpt)()
 {
    c_wgllpt();
    }
@@ -29,7 +29,7 @@ f77name(wgllpt)()
 ******
 **/
 
-c_wgllpt()
+void c_wgllpt()
 {
    char nomFichierPatrons[128];
    char *tmp;

@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglroc()
+void x_wglroc()
 {
    cmap_strategy = READ_ONLY_COLORMAP;
    }

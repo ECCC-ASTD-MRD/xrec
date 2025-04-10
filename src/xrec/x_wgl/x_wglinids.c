@@ -19,8 +19,9 @@
  */
 
 #include <wgl_x.h>
+#include "rec_functions.h"
 
-x_wglinids(char *nomFenetre)
+void x_wglinids(char *nomFenetre)
 {
    if (wglDisp == NULL)
       {

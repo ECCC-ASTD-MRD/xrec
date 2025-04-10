@@ -43,6 +43,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <unistd.h>
 
 #include <X11/Shell.h>
 #include <Xm/Xm.h>
@@ -65,6 +67,8 @@
 #include "repertoire.h"
 #include "select.h"
 #include "errno.h"
+
+#include "rec_util.h"
 
 /*
 #include <Xm/AccTextT.h>
@@ -499,7 +503,7 @@ static void XRepertoireUpdateListe()
        XmStringFree ( liste_repertoires[i] );
        liste_repertoires[i] = NULL;
    }
-   XtFree( liste_repertoires );
+   XtFree( (char*) liste_repertoires );
 }
 
 /******************************************************************************
@@ -787,7 +791,7 @@ XtPointer client, data;
    if ( nb_delete != 0 )
       {
 /*     XtFree ( liste ); */
-       XtFree ( tmp );
+         XtFree ( (char*) tmp );
       }
 
    XmListDeselectAllItems ( Repertoire.liste );
@@ -857,7 +861,7 @@ XmString label;
        else
          {
           nombre_dir += 5;
-          liste_repertoires = (XmString *) XtRealloc ( liste_repertoires,
+          liste_repertoires = (XmString *) XtRealloc ( (char*) liste_repertoires,
                                            nombre_dir * sizeof(XmString) );
           liste_repertoires[nb_repertoire ++] =
                         XmStringCreateLtoR (directory,XmSTRING_DEFAULT_CHARSET);

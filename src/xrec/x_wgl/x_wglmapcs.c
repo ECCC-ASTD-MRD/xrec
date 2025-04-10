@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglmapcs(int colorIndexs[], int nbCols, int rgbDefs[][3])
+void x_wglmapcs(int colorIndexs[], int nbCols, int rgbDefs[][3])
 {
    int i, increment;
    XColor cols[256];

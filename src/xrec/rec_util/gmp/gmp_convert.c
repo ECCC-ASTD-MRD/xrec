@@ -20,13 +20,15 @@
 
 #include <gmp.h>
 #include <rmn/rpnmacros.h>
+#include <rmn/ezscint.h>
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include "rec_functions.h"
 
 extern GeoMapInfoStruct     mapInfo;
 
-int gmp_convert(ListePointsStruct *liste, int *nbItems, float pts[], int nbPoints, float xgdmin, float ygdmin, float xgdmax, float ygdmax, int nbSeg)
+void gmp_convert(ListePointsStruct *liste, int *nbItems, float pts[], int nbPoints, float xgdmin, float ygdmin, float xgdmax, float ygdmax, int nbSeg)
 {
    int32_t i, j, n,lastN,base;
    float deltaxmax;

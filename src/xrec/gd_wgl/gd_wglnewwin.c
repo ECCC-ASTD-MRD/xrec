@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglnewwin()
+void gd_wglnewwin()
 {
   /*
    int i = 0;

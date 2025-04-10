@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <sys/resource.h>
 
-f77name(qqqnocore)()
+void f77name(qqqnocore)(void)
 {
    struct rlimit r1;
 

@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglmcw(couleur, r, g, b)
+void gd_wglmcw(couleur, r, g, b)
 int couleur, r, g, b;
 {
    wglmapc(couleur, r, g, b);

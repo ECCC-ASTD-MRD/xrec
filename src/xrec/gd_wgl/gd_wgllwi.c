@@ -24,7 +24,7 @@
 
 extern gdImagePtr gdwin;
 
-gd_wgllwi(lineWidth)
+void gd_wgllwi(lineWidth)
 int lineWidth;
 {
    currentLineWidth = lineWidth;

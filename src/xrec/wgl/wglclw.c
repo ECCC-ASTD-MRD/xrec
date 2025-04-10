@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglclw)(int *indFenetre)
+void f77name(wglclw)(int *indFenetre)
 {
    c_wglclw(*indFenetre);
    }
@@ -30,7 +30,7 @@ f77name(wglclw)(int *indFenetre)
 **/
 
 
-c_wglclw(int indFenetre)
+void c_wglclw(int indFenetre)
 {
    wglc_wgl->wglclw(indFenetre);
    }

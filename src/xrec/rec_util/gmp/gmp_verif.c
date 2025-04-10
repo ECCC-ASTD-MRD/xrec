@@ -23,7 +23,7 @@
 
 extern GeoMapInfoStruct mapInfo;
 
-VerifierSegmentLatlon(float lonMin, float lonMax)
+int VerifierSegmentLatlon(float lonMin, float lonMax)
 {
    float ybidon;
    float x1, x2, delx;

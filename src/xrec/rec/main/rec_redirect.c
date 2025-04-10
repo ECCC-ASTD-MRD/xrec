@@ -5,12 +5,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <ctype.h>
 #include <rmn/rpnmacros.h>
 
 // Redirige stdio dans le fichier "nom_fichier"
 // Yves Chartier, mars 2014
 
-f77name(rec_redirect)(char *nom_fichier, F2Cl flen)
+void f77name(rec_redirect)(char *nom_fichier, F2Cl flen)
 {
 int i,bak, new;
 int len=flen;

@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglgsi)(int *idebut, int *jdebut, int *ifin, int *jfin)
+void f77name(wglgsi)(int *idebut, int *jdebut, int *ifin, int *jfin)
 
 {
    c_wglgsi(idebut, jdebut, ifin, jfin);
@@ -30,7 +30,7 @@ f77name(wglgsi)(int *idebut, int *jdebut, int *ifin, int *jfin)
 ******
 **/
 
-c_wglgsi(int *idebut, int *jdebut, int *ifin, int *jfin)
+void c_wglgsi(int *idebut, int *jdebut, int *ifin, int *jfin)
 {
   *idebut = usSpace.idebut;
   *jdebut = usSpace.jdebut;

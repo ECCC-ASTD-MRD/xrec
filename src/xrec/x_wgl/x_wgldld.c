@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wgldld(int indDash, int dashPattern)
+void x_wgldld(int indDash, int dashPattern)
 {
    x_wgldeflst(indDash, dashPattern);
    }

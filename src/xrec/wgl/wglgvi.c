@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglgvi)(int *idebut, int *jdebut, int *ifin, int *jfin)
+void f77name(wglgvi)(int *idebut, int *jdebut, int *ifin, int *jfin)
 {
    c_wglgvi(idebut, jdebut, ifin, jfin);
    }
@@ -30,7 +30,7 @@ f77name(wglgvi)(int *idebut, int *jdebut, int *ifin, int *jfin)
 **/
 
 
-c_wglgvi(int *idebut, int *jdebut, int *ifin, int *jfin)
+void c_wglgvi(int *idebut, int *jdebut, int *ifin, int *jfin)
 {
    c_wglgwz(&w,&h);
 

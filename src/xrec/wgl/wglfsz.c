@@ -26,13 +26,9 @@ int currentFontSize = 12;
  ******
  **/
 
-void f77name(wglfsz)(int *fontSize);
-int c_wglfsz(int fontSize);
-
-
-void f77name(wglfsz)(int *fontSize)
+int f77name(wglfsz)(int *fontSize)
 {
-  c_wglfsz(*fontSize);
+  return c_wglfsz(*fontSize);
 }
 
 

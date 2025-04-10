@@ -19,6 +19,7 @@
  */
 
 #include <rec.h>
+#include <rec_functions.h>
 #include <wgl.h>
 #include <gmp.h>
 #include <gdb.h>
@@ -47,7 +48,7 @@ extern _XContour xc;
 
 void c_gmpdrw();
 
-f77name(gmpdrw)()
+void f77name(gmpdrw)()
 {
    c_gmpdrw();
 }

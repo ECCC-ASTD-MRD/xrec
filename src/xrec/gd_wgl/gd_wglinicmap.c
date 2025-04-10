@@ -27,7 +27,7 @@ unsigned int gd_colorbitrange[3][3];
 
 static char *les_couleurs[] = {"white", "black", "red", "cyan", "yellow", "magenta", "green2", "blue", "gray"};
 
-gd_wglinicmap()
+void gd_wglinicmap()
 {
    int i,plane_masks;
    int ncmaps;

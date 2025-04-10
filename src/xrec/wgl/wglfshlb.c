@@ -20,12 +20,12 @@
 
 #include <wgl.h>
 
-wglfshlb()
+void wglfshlb()
 {
   c_wglfshlb();
 }
 
-c_wglfshlb()
+void c_wglfshlb()
 {
   wglc_wgl->wglfshlb();
    }

@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglsld(int indDash)
+void x_wglsld(int indDash)
 {
    int ind;
 

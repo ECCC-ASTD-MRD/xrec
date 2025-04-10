@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglclw(int indFenetre)
+void x_wglclw(int indFenetre)
 {
    int i;
 

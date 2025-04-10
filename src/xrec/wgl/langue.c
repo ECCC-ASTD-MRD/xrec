@@ -19,6 +19,7 @@
  */
 
 #include <wgl.h>
+#include "rec_functions.h"
 
 int f77name(getulng)()
 {

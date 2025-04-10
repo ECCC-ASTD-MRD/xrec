@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglcfx(x, y, rayon)
+void gd_wglcfx(x, y, rayon)
 float x, y, rayon;
 {
    int idebut, jdebut, ifin, jfin;

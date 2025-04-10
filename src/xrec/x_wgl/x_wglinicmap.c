@@ -19,6 +19,7 @@
  */
 
 #include <wgl_x.h>
+int MatchColorIndexX(int r, int g, int b, XColor colorTable[], int colDebut, int colFin);
 
 #define DIST(a,b,c) a*a + b*b + c*c
 
@@ -27,7 +28,7 @@ unsigned int colorbitrange[3][3];
 
 static char *les_couleurs[] = {"white", "black", "red", "cyan", "yellow", "magenta", "green2", "blue", "gray"};
 
-x_wglinicmap()
+void x_wglinicmap()
 {
    int i,plane_masks;
    XColor exact[16],col;

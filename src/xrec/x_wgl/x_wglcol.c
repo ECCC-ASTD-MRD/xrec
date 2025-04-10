@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglcol(int couleur)
+void x_wglcol(int couleur)
 {
    int nplanes;
    wglfshlb();

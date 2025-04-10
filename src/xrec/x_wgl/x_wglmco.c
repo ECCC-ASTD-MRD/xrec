@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglmco(int couleur, int r, int g , int b)
+void x_wglmco(int couleur, int r, int g , int b)
 {
    if (8 <= x_wglgpl())
       {

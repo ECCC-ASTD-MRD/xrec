@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-wglinvpat(char Pattern[])
+void wglinvpat(char Pattern[])
 {
   wglc_wgl->wglinvpat(Pattern);
    

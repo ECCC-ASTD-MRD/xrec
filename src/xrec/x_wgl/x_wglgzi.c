@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglgzi(int *isize, int *jsize)
+void x_wglgzi(int *isize, int *jsize)
 {
    *isize = usSpace.ifin - usSpace.idebut + 1;
    *jsize = usSpace.jfin - usSpace.jdebut + 1;

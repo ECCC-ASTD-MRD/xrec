@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglclr()
+void x_wglclr()
 {
   x_wglfshlb();
   x_wglcmi( -10, -10, w+10, h+10);

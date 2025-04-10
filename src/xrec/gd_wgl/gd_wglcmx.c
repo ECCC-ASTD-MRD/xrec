@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglcmx(left, bottom, right, top)
+void gd_wglcmx(left, bottom, right, top)
 float left, bottom, right, top;
 {
 

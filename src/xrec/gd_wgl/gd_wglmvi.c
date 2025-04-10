@@ -23,7 +23,7 @@
 
 
 
-gd_wglmvi(int i, int j)
+void gd_wglmvi(int i, int j)
 {
   wglfshlb();
   wglPts[NbPoints].x = i;

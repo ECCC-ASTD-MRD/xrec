@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglgwz(isize, jsize)
+void gd_wglgwz(isize, jsize)
 int *isize, *jsize;
 {
    int x, y;

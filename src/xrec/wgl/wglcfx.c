@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglcfx)(float *x, float *y, float *rayon)
+void f77name(wglcfx)(float *x, float *y, float *rayon)
 {
    c_wglcfx(*x, *y, *rayon);
    }
@@ -29,7 +29,7 @@ f77name(wglcfx)(float *x, float *y, float *rayon)
  ******
  **/
 
-c_wglcfx(float x, float y, float rayon)
+void c_wglcfx(float x, float y, float rayon)
 {
 
    int idebut, jdebut, ifin, jfin;

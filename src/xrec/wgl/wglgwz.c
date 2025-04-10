@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglgwz)(int *isize, int *jsize)
+void f77name(wglgwz)(int *isize, int *jsize)
 {
    c_wglgwz(isize, jsize);
    }
@@ -29,7 +29,7 @@ f77name(wglgwz)(int *isize, int *jsize)
 ******
 **/
 
-c_wglgwz(int *isize, int *jsize)
+void c_wglgwz(int *isize, int *jsize)
 {
   wglc_wgl->wglgwz(isize, jsize);
 

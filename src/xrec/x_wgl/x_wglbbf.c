@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglbbf()
+void x_wglbbf()
 {
    int x, y;
    Window root;

@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-wglinicmap()
+void wglinicmap()
 {
   wglc_wgl->wglinicmap();
 }

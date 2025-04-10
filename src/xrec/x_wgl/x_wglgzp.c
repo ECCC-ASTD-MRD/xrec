@@ -19,8 +19,9 @@
  */
 
 #include <wgl_x.h>
+#include "wglfonct.h"
 
-x_wglgzp(float *xsize, float *ysize, int *isize, int *jsize)
+void x_wglgzp(float *xsize, float *ysize, int *isize, int *jsize)
 {
    x_wglgzx(xsize, ysize);
    x_wglgzi(isize, jsize);

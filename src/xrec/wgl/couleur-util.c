@@ -18,7 +18,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <stdlib.h>
 #include <stdio.h>
+#include "wgl.h"
+
+int dist(int dr, int dg, int db)
+{
+   return dr*dr + db*db + dg*dg;
+   }
 
 #define LIRE   0
 #define ECRIRE 1
@@ -56,11 +63,6 @@ int MatchColorIndex(int r, int g, int b, int colorTable[][3], int colDebut, int 
    }
 
 
-int dist(int dr, int dg, int db)
-{
-   return dr*dr + db*db + dg*dg;
-   }
-
 float maximum(float a, float b, float c)
 {
    float max;
@@ -89,39 +91,7 @@ float minimum(float a, float b, float c)
    return min;
    }
 
-void rgbahsv_(int *h,int *s,int *v,int *r,int *g,int *b)
-{
-   int r1,g1,b1,h1,s1,v1;
-
-   r1 = (int)*r;
-   g1 = (int)*g;
-   b1 = (int)*b;
-
-   RGBaHSV(r1,g1,b1,&h1,&s1,&v1);
-
-   *h = (int) h1;
-   *s = (int) s1;
-   *v = (int) v1;
-     
-   }
-
-void hsvargb_(int *h,int *s,int *v,int *r,int *g,int *b)
-{
-   int r1,g1,b1,h1,s1,v1;
-
-   h1 = (int)*h;
-   s1 = (int)*s;
-   v1 = (int)*v;
-
-   HSVaRGB(h1,s1,v1,&r1,&g1,&b1);
-
-   *r = (int) r1;
-   *g = (int) g1;
-   *b = (int) b1;
-     
-   }
-
-int RGBaHSV(int r,int g,int b,int *h,int *s, int *v)
+void RGBaHSV(int r,int g,int b,int *h,int *s, int *v)
 {
    float cmin, cmax;
    float fh, fs, fv;
@@ -173,7 +143,7 @@ int RGBaHSV(int r,int g,int b,int *h,int *s, int *v)
    }
 
 
-int HSVaRGB(int h,int s,int v, int *r, int *g, int *b)
+void HSVaRGB(int h,int s,int v, int *r, int *g, int *b)
 {
    float fh, fs, fv;
    float fr,fg,fb;
@@ -249,7 +219,39 @@ int HSVaRGB(int h,int s,int v, int *r, int *g, int *b)
 
    }
 
-InitHSVTable()
+void rgbahsv_(int *h,int *s,int *v,int *r,int *g,int *b)
+{
+   int r1,g1,b1,h1,s1,v1;
+
+   r1 = (int)*r;
+   g1 = (int)*g;
+   b1 = (int)*b;
+
+   RGBaHSV(r1,g1,b1,&h1,&s1,&v1);
+
+   *h = (int) h1;
+   *s = (int) s1;
+   *v = (int) v1;
+     
+   }
+
+void hsvargb_(int *h,int *s,int *v,int *r,int *g,int *b)
+{
+   int r1,g1,b1,h1,s1,v1;
+
+   h1 = (int)*h;
+   s1 = (int)*s;
+   v1 = (int)*v;
+
+   HSVaRGB(h1,s1,v1,&r1,&g1,&b1);
+
+   *r = (int) r1;
+   *g = (int) g1;
+   *b = (int) b1;
+     
+   }
+
+void InitHSVTable()
 {
    int i, j;
    float h, s, v;
@@ -286,7 +288,7 @@ InitHSVTable()
    
    }
 
-BuildColIndexTable(int indTable[], int hsvTable[][3], int nbCol, int colDebut, int colFin, int mode)
+void BuildColIndexTable(int indTable[], int hsvTable[][3], int nbCol, int colDebut, int colFin, int mode)
 {
    int i, j, indcol;
    float delcol;

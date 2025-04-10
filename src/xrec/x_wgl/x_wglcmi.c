@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglcmi(int left, int bottom, int right, int top)
+void x_wglcmi(int left, int bottom, int right, int top)
 {
   XRectangle rect;
   int w,h;

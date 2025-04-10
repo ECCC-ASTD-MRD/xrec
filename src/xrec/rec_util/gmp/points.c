@@ -21,7 +21,7 @@
 #include <wgl.h>
 #include <gmp.h>
 
-TracerPoints(ListePointsStruct *itemListe)
+void TracerPoints(ListePointsStruct *itemListe)
 {
    int n, i, res;
 

@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglbbf()
+void gd_wglbbf()
 {
    }
 

@@ -41,13 +41,14 @@
 #include <sys/types.h>
 #include <vcar.h>
 #include <wgl.h>
+#include "rec_util.h"
 
  static int  lst_x;
  static int  lst_y;
  static int  pos_x;
  static int  pos_y;
 
-char *bidon = NULL;
+int *bidon = NULL;
 
  static char optn[28][3] =
           { "AN ","BC ","BO ","CA ","CF ",
@@ -82,7 +83,7 @@ char *bidon = NULL;
  *
  */
 
- int f77name(xbndlset) ( xoptn, iopval, n, nbdl, flen )
+void f77name(xbndlset) ( xoptn, iopval, n, nbdl, flen )
  char *xoptn;
  int  *iopval;
  int  *n;
@@ -120,7 +121,7 @@ char *bidon = NULL;
  *
  */
 
- int f77name(xbundle) ( nbdl )
+void f77name(xbundle) ( nbdl )
  int  *nbdl;
      {
      int i;
@@ -148,7 +149,7 @@ char *bidon = NULL;
  *
  */
 
-int f77name(xfl2int)(x, y, i, j)
+void f77name(xfl2int)(x, y, i, j)
 int  *x,  *y;
 int  *i,  *j;
 {
@@ -184,7 +185,7 @@ int  *i,  *j;
  *
  */
 
- int f77name(xgetset)( ixmin, ixmax, iymin, iymax, x1, x2, y1, y2, ltype )
+void f77name(xgetset)( ixmin, ixmax, iymin, iymax, x1, x2, y1, y2, ltype )
  int   *ixmin, *ixmax, *iymin, *iymax, *ltype ;
  float *x1,    *x2,    *y1,    *y2;
      {
@@ -242,7 +243,7 @@ int  *i,  *j;
  *
  */
 
- int f77name(xmxmy)( x, y )
+void f77name(xmxmy)( x, y )
  int *x, *y;
      {
      *x = lst_x;
@@ -267,7 +268,7 @@ int  *i,  *j;
  *
  */
 
- f77name(xop1get)( xoptn, iopval, flen )
+void f77name(xop1get)( xoptn, iopval, flen )
  char *xoptn;
  int  *iopval;
  F2Cl flen;
@@ -348,7 +349,7 @@ int  *i,  *j;
  *
  */
 
- f77name(xop1set)( xoptn, iopval, flen )
+void f77name(xop1set)( xoptn, iopval, flen )
  char *xoptn;
  int  *iopval;
  F2Cl flen;
@@ -429,7 +430,7 @@ int  *i,  *j;
  *
  */
 
- f77name(xopnget)( xoptn, iopval, n, flen )
+void f77name(xopnget)( xoptn, iopval, n, flen )
  char *xoptn;
  int  *iopval;
  int  *n;
@@ -461,7 +462,7 @@ int  *i,  *j;
  *
  */
 
- f77name(xopnset)( xoptn, iopval, n, flen )
+void f77name(xopnset)( xoptn, iopval, n, flen )
  char *xoptn;
  int  *iopval;
  int  *n;
@@ -494,7 +495,7 @@ int  *i,  *j;
  *
  */
 
-f77name(xplotit)(i, j, flag)
+void f77name(xplotit)(i, j, flag)
 int *i, *j, *flag;
 {
    float *x, *y;
@@ -516,7 +517,7 @@ int *i, *j, *flag;
 
    }
 
- int f77name(xplotit2)( x, y, down )
+ void f77name(xplotit2)( x, y, down )
  int *x, *y, *down;
      {
      lst_x = *x;
@@ -693,12 +694,12 @@ int *i, *j, *flag;
 
 /**     set_vcar(bidon,  FONTE, 0, 0 ); **/
 
-     return;
+     return 0;
      }
 
 
 
-f77name(xpwrit)(ix, iy, chr, nchr, size, anott, icent, flen)
+int f77name(xpwrit)(ix, iy, chr, nchr, size, anott, icent, flen)
 int *ix, *iy;
 char chr[];
 int *nchr;
@@ -727,7 +728,7 @@ F2Cl flen;
       }
 
    if (!caractereTrouve)
-      return;
+      return 0;
 
    dimensionFonte = (int)(*size * 0.667);
    dimensionFonte = (int)(*size);
@@ -754,4 +755,5 @@ F2Cl flen;
 
    f77name(xplotit)(&i1, &j1, &verite);
    f77name(xpwrs)(chr, nchr, &verite, (F2Cl) 4);
-   }
+   return 0;
+ }

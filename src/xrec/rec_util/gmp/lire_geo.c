@@ -25,6 +25,7 @@
 #include <rmn/rpnmacros.h>
 #include "gmp.h"
 #include "gdb.h"
+#include "rec_util.h"
 
 extern GeoMapOptionsStruct mapOptions;
 static ListePointsStruct **gdb_liste;
@@ -32,7 +33,7 @@ static int *gdb_nbItems;
 extern int geography_source;
 char *rmn_geo = NULL;
 
-lire_geo()
+void lire_geo()
 {
   char *gdb_path;
   float pts[200];

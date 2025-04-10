@@ -211,7 +211,7 @@ void hl_setFontSize(int size)
    fontSize = size;
    }
 
-hl_getFontSize()
+int hl_getFontSize()
 {
    return fontSize;
    }

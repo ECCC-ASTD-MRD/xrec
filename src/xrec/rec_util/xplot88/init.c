@@ -23,15 +23,16 @@
 #include <rmn/rpnmacros.h>
 #include <stdlib.h>
 #include <string.h>
+#include "rec_util.h"
 
-f77name(initplot88)()
+void f77name(initplot88)()
 {
    init_plot88();
 
    }
 
 
-init_plot88()
+void init_plot88()
 {
    char fichierFontes[132];
    char *armnlib;

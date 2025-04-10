@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-wglmapcs(int colorIndexs[], int nbCols, int rgbDefs[][3])
+void wglmapcs(int colorIndexs[], int nbCols, int rgbDefs[][3])
 {
   wglc_wgl->wglmapcs(colorIndexs, nbCols, rgbDefs);
 }

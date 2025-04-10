@@ -25,7 +25,7 @@
 ------------------------------------------
 **/
 
-gd_wglalx(x, y, rayon, angleDebut, angleFin)
+void gd_wglalx(x, y, rayon, angleDebut, angleFin)
 float x, y, rayon, angleDebut, angleFin;
 {
    int idebut, jdebut, ifin, jfin;

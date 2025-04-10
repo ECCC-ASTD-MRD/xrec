@@ -20,8 +20,9 @@
 
 #include <wgl.h>
 #include <vcar.h>
+#include "rec_util.h"
    
-f77name(xfrstpt)(x, y)		
+void f77name(xfrstpt)(x, y)		
 int *x, *y;
 {
 int flag = 0;
@@ -30,28 +31,28 @@ int flag = 0;
 
  
 
-f77name(xvector)(x, y)		
+void f77name(xvector)(x, y)		
 float *x, *y;
 {
    c_wgldrx(*x, *y);
    }
 
-f77name(xgetsi)(i, j)	
+void f77name(xgetsi)(i, j)	
 int *i, *j;
 {
    *i = 8;
    *j = 8;
    }
 
-f77name(xpolygon)()	
+void f77name(xpolygon)()	
 {
    }
 
-f77name(xframe)()	
+void f77name(xframe)()	
 {
    }
 
-f77name(xset)(ixmin, ixmax, iymin, iymax, xmin, xmax, ymin, ymax, ltype)	
+void f77name(xset)(ixmin, ixmax, iymin, iymax, xmin, xmax, ymin, ymax, ltype)	
 int *ixmin, *ixmax, *iymin, *iymax;
 float *xmin, *xmax, *ymin, *ymax;
 int *ltype;
@@ -78,17 +79,17 @@ int *ltype;
       }
    }
 
-f77name(xqqqa16)()
+void f77name(xqqqa16)()
 {
    }
 
-f77name(xwindow)(x1, y1, x2, y2)
+void f77name(xwindow)(x1, y1, x2, y2)
 float *x1, *y1, *x2, *y2;
 {
    c_wglcmx(*x1, *y1, *x2, *y2);
    }
 
-f77name(xoptn)(optn, val)
+void f77name(xoptn)(optn, val)
 int *optn;
 int *val;
 {

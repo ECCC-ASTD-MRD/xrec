@@ -48,7 +48,7 @@
 */
 
 
-LoadDefPal(int colorTable[])
+void LoadDefPal(int colorTable[])
 {         
   int availPlanes;
   int i, j, k, indCol;

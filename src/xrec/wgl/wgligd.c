@@ -18,6 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include "rec_functions.h"
 #include <wgl.h>
 
 static int   ii;

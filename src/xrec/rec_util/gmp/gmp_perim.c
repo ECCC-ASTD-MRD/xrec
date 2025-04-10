@@ -20,6 +20,8 @@
 
 #include <wgl.h>
 #include <gmp.h>
+#include "rmn/ezscint.h"
+#include "rec_functions.h"
 
 extern GeoMapInfoStruct     mapInfo;
 

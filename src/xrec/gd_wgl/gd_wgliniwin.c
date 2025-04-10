@@ -23,7 +23,7 @@
 
 extern gdImagePtr gdwin;
 
-gd_wgliniwin(nomFenetre)
+void gd_wgliniwin(nomFenetre)
 char *nomFenetre;
 {
 }

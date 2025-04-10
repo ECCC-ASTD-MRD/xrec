@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglnewwin()
+void x_wglnewwin()
 {
    int i = 0;
    int fenetreExistanteTrouvee = False;

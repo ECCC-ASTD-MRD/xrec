@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-wglrstdpar()
+void wglrstdpar()
 {
   wglc_wgl->wglrstdpar();
 }

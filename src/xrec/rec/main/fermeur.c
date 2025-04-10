@@ -42,6 +42,7 @@
 #include <xinit.h>
 #include <rec.h>
 #include <rec_functions.h>
+#include <wgl.h>
 
 extern SuperWidgetStruct SuperWidget;
 

@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglsmk(masque)
+void gd_wglsmk(masque)
 int masque;
 {
    currentPlaneMask = masque;

@@ -19,9 +19,10 @@
  */
 
 #include <stdio.h>
+#include "rec_functions.h"
    
    
-NoRMNLIB()
+void NoRMNLIB()
 {
   int lng;
   

@@ -30,7 +30,7 @@ void f77name(wglroc)()
 **/
 
 
-c_wglroc()
+void c_wglroc()
 {
   wglc_wgl->wglroc();
    }

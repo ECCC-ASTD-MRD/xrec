@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglpfi(nbPoints, polygone)
+void gd_wglpfi(nbPoints, polygone)
 int nbPoints;
 int polygone[][2];
 {

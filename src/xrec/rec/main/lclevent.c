@@ -26,7 +26,7 @@
 
 extern SuperWidgetStruct SuperWidget;
 
-LocalEventLoop(Widget topLevelWidget)
+int LocalEventLoop(Widget topLevelWidget)
 {
    XEvent localEvent;
    Widget localWidgetParent = topLevelWidget;

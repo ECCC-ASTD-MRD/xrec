@@ -21,7 +21,7 @@
 #include <wgl_x.h>
 #include <gd.h>
 
-x_wglecr(char *nomFichier)
+void x_wglecr(char *nomFichier)
 {
   int rgb[256][3];
   XImage *xi;

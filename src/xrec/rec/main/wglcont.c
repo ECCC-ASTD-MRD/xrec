@@ -23,6 +23,7 @@
 #include <rec.h>
 #include <rec_functions.h>
 #include <rmn/rpnmacros.h>
+#include "wgl.h"
 
 /**
   objet:    c_wglcont

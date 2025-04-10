@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglpfx(nbPoints, polygone)
+void gd_wglpfx(nbPoints, polygone)
 int nbPoints;
 float polygone[][2];
 {

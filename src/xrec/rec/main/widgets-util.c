@@ -21,10 +21,11 @@
 #include <xinit.h>
 #include <wgl.h>
 #include <Xm/Xm.h>
+#include "rec_functions.h"
 
 extern SuperWidgetStruct SuperWidget;
 
-InitPixelsCouleursDeBase(Pixel indCouleurs[])
+void InitPixelsCouleursDeBase(Pixel indCouleurs[])
 {
    Display *disp;
    Colormap cmap;
@@ -61,7 +62,7 @@ InitPixelsCouleursDeBase(Pixel indCouleurs[])
    indCouleurs[GRIS] = exact.pixel;
    }
 
-InvertWidget(Widget w)
+void InvertWidget(Widget w)
 {
    int i;
    Pixel back, fore;
@@ -83,7 +84,7 @@ InvertWidget(Widget w)
 
 
 
-ActiverWidget(Widget w)
+void ActiverWidget(Widget w)
 {
    int i;
    Arg args[1];
@@ -96,7 +97,7 @@ ActiverWidget(Widget w)
    }
 
 
-DesactiverWidget(Widget w)
+void DesactiverWidget(Widget w)
 {
    int i;
    Arg args[1];
@@ -110,7 +111,7 @@ DesactiverWidget(Widget w)
 
 
 
-AjusterPositionForme(Widget w, Widget wp)
+void AjusterPositionForme(Widget w, Widget wp)
 {
    Position i,x,y,wWidth,wHeight, wpWidth, wpHeight;
    Position displayWidth, displayHeight;

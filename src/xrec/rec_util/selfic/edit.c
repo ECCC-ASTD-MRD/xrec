@@ -43,6 +43,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include <X11/Shell.h>
 #include <Xm/Xm.h>
@@ -746,7 +747,7 @@ XtPointer w, client, data;
    if ( nb_delete != 0 )
       {
 /*     XtFree ( liste ); */
-       XtFree ( tmp );
+       XtFree ( (char*) tmp );
       }
 
    XmListDeselectAllItems ( Edit.liste );

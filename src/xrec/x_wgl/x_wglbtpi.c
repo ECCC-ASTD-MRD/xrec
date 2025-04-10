@@ -20,8 +20,6 @@
 
 #include <wgl_x.h>
 
-int x_wglbtpi();
-
 int x_wglbtpi(int bouton, int *i, int *j)
 {
    Window root, child;

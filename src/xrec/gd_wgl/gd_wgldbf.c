@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wgldbf()
+void gd_wgldbf()
 {
    int x, y;
    unsigned int width, height, border_width, depth;

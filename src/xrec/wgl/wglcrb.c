@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglcrb)(int *couleur)
+void f77name(wglcrb)(int *couleur)
 {
    c_wglcrb(*couleur);
    }
@@ -29,7 +29,7 @@ f77name(wglcrb)(int *couleur)
 ******
 **/
 
-c_wglcrb(int couleur)
+void c_wglcrb(int couleur)
 {
    rubberBandColor = couleur;
    }

@@ -21,7 +21,7 @@
 #include <wgl_x.h>
 
 
-x_wglsetwcmap()
+void x_wglsetwcmap()
 {
    int i, res;
    int plane_masks;

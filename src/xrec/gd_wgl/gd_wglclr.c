@@ -23,7 +23,7 @@
 
 extern gdImagePtr gdwin;
 
-gd_wglclr()
+void gd_wglclr()
 {
      wglfshlb();
      gdImageFilledRectangle(gdwin, 0, 0, w, h, currentColor);

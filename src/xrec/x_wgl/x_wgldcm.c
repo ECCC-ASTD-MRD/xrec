@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wgldcm()
+void x_wgldcm()
 {
 /**
    int i;

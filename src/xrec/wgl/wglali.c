@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglali)(int *i, int *j, int *rayon, float *angleDebut, float *angleFin)
+void f77name(wglali)(int *i, int *j, int *rayon, float *angleDebut, float *angleFin)
 {
    c_wglali(*i, *j, *rayon, *angleDebut, *angleFin);
    }
@@ -30,7 +30,7 @@ f77name(wglali)(int *i, int *j, int *rayon, float *angleDebut, float *angleFin)
  **/
 
 
-c_wglali(int i, int j, int rayon, float angleDebut, float angleFin)
+void c_wglali(int i, int j, int rayon, float angleDebut, float angleFin)
 {
   wglc_wgl->wglali(i, j, rayon, angleDebut, angleFin);
    }

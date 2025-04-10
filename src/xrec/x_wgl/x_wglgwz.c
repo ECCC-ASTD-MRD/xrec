@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglgwz(int *isize, int *jsize)
+void x_wglgwz(int *isize, int *jsize)
 {
    Window root;
    int x, y;

@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglgpl(void)
+int gd_wglgpl(void)
 {
   return 16;
    }

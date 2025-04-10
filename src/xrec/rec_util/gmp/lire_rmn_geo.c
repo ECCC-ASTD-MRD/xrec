@@ -25,6 +25,7 @@
 #include <rmn/rpnmacros.h>
 #include "gmp.h"
 #include "gdb.h"
+#include "rec_util.h"
 
 static ListePointsStruct *gdb_liste;
 static int gdb_nbItems;
@@ -37,7 +38,7 @@ extern int gmp_nbVecs[];
 extern int nbVecsContinents;
 extern char *rmn_geo;
 
-lire_rmn_geo()
+void lire_rmn_geo()
 {
   float pts[200];
   int deuxCents = 200;

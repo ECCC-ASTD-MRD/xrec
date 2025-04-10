@@ -31,6 +31,7 @@
 #include <xinit.h>
 #include <wgl.h>
 #include <stdlib.h>
+#include "x_wglfonct.h"
 
 /**
 ** Declaration des constantes globales

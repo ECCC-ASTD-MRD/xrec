@@ -1,3 +1,3 @@
-gd_wgldcm()
+void gd_wgldcm()
 {
 }

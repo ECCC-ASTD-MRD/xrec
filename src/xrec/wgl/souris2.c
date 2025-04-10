@@ -36,6 +36,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <wgl.h>
+#include <x_wglfonct.h>
 #endif
 
 #ifdef GL_WGL
@@ -94,20 +95,18 @@ static int   backupobjet = 0;
 ** Routines contenues dans ce fichier
 **/
 
-int  AnalyserDeplacement();
-int  AttendreProchainClic();
-int  ClicDansFenetre();
-void DefCoordsFenetre();
-void EnterOverlayMode();
-void TracerObjet();
-void initMenu();
-int  strclean();
-void RespecterAspectRatio();
-void RestoreBackupPoints();
-void RestoreNormalMode();
-void SetBackupPoints();
-int  f77name(souris)();
-void trackmouse();
+int AnalyserDeplacement(int *x1, int *y1, int *x2, int *y2);
+void DefCoordsFenetre(int *x0, int *y0, int *xsize, int *ysize, float *AspectRatio);
+void EnterOverlayMode(void);
+void TracerObjet(int *x1, int *y1, int *x2, int *y2, float *AspectRatio, int objet);
+void initMenu(char *(*menustr), char menutable[], int menulength, int nmenus);
+int strclean(char str[]);
+void RespecterAspectRatio(int *x1, int *y1, int *x2, int *y2, float *AspectRatio);
+void RestoreBackupPoints(int *x1, int *y1, int *x2, int *y2, int *backupx1, int *backupy1, int *backupx2, int *backupy2);
+void RestoreNormalMode(void);
+void SetBackupPoints(int *backupx1, int *backupy1, int *backupx2, int *backupy2, int *x1, int *y1, int *x2, int *y2);
+int f77name(souris)(int *bouton, int *event, int *x0, int *y0, int *xsize, int *ysize, int *x1, int *y1, int *x2, int *y2, char menuTable[], int *nbmenus, int menulength);
+void trackmouse(int *bouton, int *x1, int *y1, int *x2, int *y2, float *AspectRatio, int objet);
 
 /**
  ******************************************************************************

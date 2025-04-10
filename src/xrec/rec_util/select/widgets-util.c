@@ -20,8 +20,9 @@
 
 #include <wgl_x.h>
 #include <Xm/Xm.h>
+#include "rec_functions.h"
 
-InitPixelsCouleursDeBase(indCouleurs)
+void InitPixelsCouleursDeBase(indCouleurs)
 Pixel indCouleurs[];
 {
    Display *disp;
@@ -59,7 +60,7 @@ Pixel indCouleurs[];
    indCouleurs[8] = exact.pixel;
    }
 
-InvertWidget(w)
+void InvertWidget(w)
 Widget w;
 {
    int i;
@@ -82,7 +83,7 @@ Widget w;
 
 
 
-AjusterPositionForme(w, wp)
+void AjusterPositionForme(w, wp)
 Widget w, wp;
 {
    Position i,x,y,wWidth,wHeight, wpWidth, wpHeight;

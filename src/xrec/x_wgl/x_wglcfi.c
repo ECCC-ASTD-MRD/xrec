@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglcfi(int i, int j, int rayon)
+void x_wglcfi(int i, int j, int rayon)
 {
    int idebut, jdebut, ifin, jfin;
    

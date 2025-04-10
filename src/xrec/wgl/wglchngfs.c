@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-wglchngfs(int NewFillStyle) 
+void wglchngfs(int NewFillStyle) 
 {
   wglc_wgl->wglchngfs(NewFillStyle);
    

@@ -18,7 +18,8 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <gmp.h>
+#include "gmp.h"
+#include <stdlib.h>
 #include <stdio.h>
 
 void LibererCarte(ListePointsStruct *(*liste), int *nbItems)

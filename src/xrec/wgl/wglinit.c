@@ -73,7 +73,7 @@ int        currentDashPattern   = 0;
 int        currentLineWidth     = 0;
 
 
-c_wglinit()
+void c_wglinit()
 {
   static int once = 0;
   once = 1;

@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglpti)(int *i, int *j)
+void f77name(wglpti)(int *i, int *j)
 {
   c_wglpti(*i, *j);
 }
@@ -30,7 +30,7 @@ f77name(wglpti)(int *i, int *j)
 **/
 
 
-c_wglpti(int i, int j)
+void c_wglpti(int i, int j)
 {
   wglc_wgl->wglpti(i,j);
 }

@@ -21,10 +21,12 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <xinit.h>
+#include "rec_functions.h"
+#include "wgl.h"
 
 extern SuperWidgetStruct SuperWidget;
 
-int SetGeometrieFenetreAffichage(char *nomFenetre)
+void SetGeometrieFenetreAffichage(char *nomFenetre)
 {
    int x, y, width, height;
    int xoffset, yoffset;

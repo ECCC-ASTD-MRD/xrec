@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-c_wglgetcmap(int *colormap)
+int c_wglgetcmap(Colormap *colormap)
 {
   wglc_wgl->wglgetcmap(colormap);
    }

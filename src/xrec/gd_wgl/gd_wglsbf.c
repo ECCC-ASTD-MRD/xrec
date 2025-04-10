@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglsbf()
+void gd_wglsbf()
 {
    gd_wglfbf();
    doubleBufferMode = 0;

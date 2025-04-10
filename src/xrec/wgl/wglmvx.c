@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglmvx)(float *x, float *y)
+void f77name(wglmvx)(float *x, float *y)
 {
    c_wglmvx(*x, *y);
    }
@@ -29,7 +29,7 @@ f77name(wglmvx)(float *x, float *y)
 ******
 **/
 
-c_wglmvx(float x, float y)
+void c_wglmvx(float x, float y)
 {
   int i,j;
   c_wglxai(&i, &j, x, y);

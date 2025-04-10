@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglstu(int istep, int jstep)
+void x_wglstu(int istep, int jstep)
 {
    }
 

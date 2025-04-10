@@ -87,7 +87,8 @@ extern char       *messageAgrandir[];
 ******************************************************************************
 ******************************************************************************
 **/
-   
+
+#include "gd_wglfonct.h"
 
 /**
  ** Structure de base pour faire le lien entre l'espace pixel et l'espace reel.

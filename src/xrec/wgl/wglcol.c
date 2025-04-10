@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglcol)(int *couleur)
+void f77name(wglcol)(int *couleur)
 {
    c_wglcol(*couleur);
    }
@@ -29,7 +29,7 @@ f77name(wglcol)(int *couleur)
 ******
 **/
 
-c_wglcol(int couleur)
+void c_wglcol(int couleur)
 {
   wglc_wgl->wglcol(couleur);
 

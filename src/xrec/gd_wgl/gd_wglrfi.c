@@ -23,7 +23,7 @@
 
 extern gdImagePtr gdwin;
 
-gd_wglrfi(int ia, int ja, int ib, int jb)
+void gd_wglrfi(int ia, int ja, int ib, int jb)
 {
    gdImageFilledRectangle(gdwin, ia, h - jb, ib, h - ja, currentColor);
    }

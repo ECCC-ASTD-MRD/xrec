@@ -21,7 +21,7 @@
 #include <wgl_x.h>
 
 
-x_wglbitfinder(unsigned int mask, unsigned int *idebut, unsigned int *ifin)
+void x_wglbitfinder(unsigned int mask, unsigned int *idebut, unsigned int *ifin)
 {
    unsigned int the_mask;
    *idebut = 0;
@@ -46,13 +46,13 @@ x_wglbitfinder(unsigned int mask, unsigned int *idebut, unsigned int *ifin)
 }
 
 
-printbidon(char *string, float xxx1, float yyy1, float xxx2, float yyy2, 
+void printbidon(char *string, float xxx1, float yyy1, float xxx2, float yyy2, 
 	   int iii1, int jjj1, int iii2, int jjj2)   
 {
   printf("%s: %f %f %f %f - %d %d %d %d \n", string, xxx1, yyy1, xxx2, yyy2, iii1, jjj1, iii2, jjj2);
 }
 
-printbidonetoile(char *string, float *xxx1, float *yyy1, float *xxx2, float *yyy2, 
+void printbidonetoile(char *string, float *xxx1, float *yyy1, float *xxx2, float *yyy2, 
 	   int *iii1, int *jjj1, int *iii2, int *jjj2)   
 {
   printf("*** %s: %x %x %x %x - %x %x %x %x \n", string, xxx1, yyy1, xxx2, yyy2, iii1, jjj1, iii2, jjj2);

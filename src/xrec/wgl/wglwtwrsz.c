@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-wglwtwrsz()
+void wglwtwrsz()
 {
   wglc_wgl->wglwtwrsz();
 }

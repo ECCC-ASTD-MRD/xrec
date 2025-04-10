@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglsld(indDash)
+void gd_wglsld(indDash)
 int indDash;
 {
    int ind;

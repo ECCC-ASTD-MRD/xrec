@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglmcos)(int couleurs[], int *nbCols, int rgbDefs[][3])
+void f77name(wglmcos)(int couleurs[], int *nbCols, int rgbDefs[][3])
 {
    c_wglmcos(couleurs, *nbCols, rgbDefs);
    }
@@ -30,7 +30,7 @@ f77name(wglmcos)(int couleurs[], int *nbCols, int rgbDefs[][3])
  **/
 
 
-c_wglmcos(int couleurs[], int nbCols, int rgbDefs[][3])
+void c_wglmcos(int couleurs[], int nbCols, int rgbDefs[][3])
 {
       wglc_wgl->wglmapcs(couleurs, nbCols, rgbDefs);
    

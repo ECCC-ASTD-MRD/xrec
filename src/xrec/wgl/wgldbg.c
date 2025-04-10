@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wgldbg)()
+void f77name(wgldbg)()
 {
    c_wgldbg();
    }
@@ -29,7 +29,7 @@ f77name(wgldbg)()
 ******
 **/
 
-c_wgldbg()
+void c_wgldbg()
 {
    debugMode = 1;
    }

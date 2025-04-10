@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglchngfs(int NewFillStyle) 
+void x_wglchngfs(int NewFillStyle) 
 {
 if (NewFillStyle != currentFillStyle)
    {

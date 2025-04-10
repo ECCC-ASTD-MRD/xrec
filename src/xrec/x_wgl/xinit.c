@@ -33,6 +33,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include "rec_functions.h"
 
 #define INITIALISATION_COMPLETEE 101
 

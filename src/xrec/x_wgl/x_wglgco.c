@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglgco(int indCol, int *red, int *green, int *blue)
+void x_wglgco(int indCol, int *red, int *green, int *blue)
 {
    int nplanes;
 

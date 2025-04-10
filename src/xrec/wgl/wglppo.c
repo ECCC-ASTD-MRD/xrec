@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglppo)(int *ix, int *iy, int *isize, int *jsize)
+void f77name(wglppo)(int *ix, int *iy, int *isize, int *jsize)
 {
    c_wglppo(*ix, *iy, *isize, *jsize);
    }
@@ -29,7 +29,7 @@ f77name(wglppo)(int *ix, int *iy, int *isize, int *jsize)
 ******
 **/
 
-c_wglppo(int ix, int iy, int isize, int jsize)
+void c_wglppo(int ix, int iy, int isize, int jsize)
 {
   wglc_wgl->wglppo(ix, iy, isize, jsize);
    

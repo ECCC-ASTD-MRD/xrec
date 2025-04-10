@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglgvx(xdebut, ydebut, xfin, yfin)
+void gd_wglgvx(xdebut, ydebut, xfin, yfin)
 float *xdebut, *ydebut, *xfin, *yfin;
 {
    gd_wglgwz(&w, &h);

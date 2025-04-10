@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglbrb()
+void x_wglbrb()
 {
    }
 

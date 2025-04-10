@@ -103,7 +103,7 @@ _Fenetre *fenetre = NULL;
 int nbFenetresActives = 0;
 int fenetreCourante = -1;
 
-int x_wglinit()
+void x_wglinit()
 {
   static int once = 0;
 

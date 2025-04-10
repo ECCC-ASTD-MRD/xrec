@@ -20,8 +20,8 @@
 
 #include <wgl.h>
 
-c_wglgacw()
+int c_wglgacw()
 {
-  wglc_wgl->wglgacw();
+  return wglc_wgl->wglgacw();
    }
 

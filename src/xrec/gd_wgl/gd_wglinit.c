@@ -25,7 +25,7 @@
 gdImagePtr gdwin = (gdImagePtr ) NULL;
 char gdNomFenetre[256];
 
-gd_wglinit()
+void gd_wglinit()
 {
   static int once = 0;
 

@@ -18,7 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-gmp_llfgr(float *lat, float *lon, float x, float y, float latOrigine, float lonOrigine, float deltaLat, float deltaLon)     
+void gmp_llfgr(float *lat, float *lon, float x, float y, float latOrigine, float lonOrigine, float deltaLat, float deltaLon)     
 {
    *lon =  lonOrigine + deltaLon * (x-1);
    *lat =  latOrigine + deltaLat * (y-1);

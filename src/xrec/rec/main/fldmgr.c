@@ -21,6 +21,8 @@
 #include <rmn/rpnmacros.h>
 #include <wgl.h>
 #include <rmn/rpnmacros.h>
+#include <rmn/fstd98.h>
+#include <rmn.h>
 #include <rec.h>
 #include <rec_functions.h>
 #include <stdlib.h>
@@ -2989,7 +2991,7 @@ void FldMgrCalcMinMaxUVW(indChamp)
 
 /* -------------------------------------------------------------------------------------------------- */
 
-void FldMgrRescaleUUVV(indChamp)
+void FldMgrRescaleUUVV(int indChamp)
 {
   int i,k;
 

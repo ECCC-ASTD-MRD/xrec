@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglsetw(int winid)
+void x_wglsetw(int winid)
 {
 /**
    if ((Window)winid == fenetre[fenetreCourante].wglWin)

@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglstu)(int *istep, int *jstep)
+void f77name(wglstu)(int *istep, int *jstep)
 {
    c_wglstu(*istep, *jstep);
    }
@@ -29,7 +29,7 @@ f77name(wglstu)(int *istep, int *jstep)
 ******
 **/
 
-c_wglstu(int istep, int jstep)
+void c_wglstu(int istep, int jstep)
 {
    }
 

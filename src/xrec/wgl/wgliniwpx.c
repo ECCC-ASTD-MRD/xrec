@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-wgliniwpx()
+void wgliniwpx()
 {
    wglc_wgl->wgliniwpx();
    }

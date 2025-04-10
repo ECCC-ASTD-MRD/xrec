@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wgldefncw(int winid)
+void x_wgldefncw(int winid)
 {
    int i = 0;
    

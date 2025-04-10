@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglncl)(int *ncolRead, int *ncolWrite, int *ncolAnim)
+void f77name(wglncl)(int *ncolRead, int *ncolWrite, int *ncolAnim)
 {
    c_wglncl(ncolRead, ncolWrite, ncolAnim);
    }
@@ -29,7 +29,7 @@ f77name(wglncl)(int *ncolRead, int *ncolWrite, int *ncolAnim)
 ******
 **/
 
-c_wglncl(int *ncolRead, int *ncolWrite, int *ncolAnim)
+void c_wglncl(int *ncolRead, int *ncolWrite, int *ncolAnim)
 {
   wglc_wgl->wglncl(ncolRead, ncolWrite, ncolAnim);
 

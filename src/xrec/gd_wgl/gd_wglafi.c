@@ -21,7 +21,7 @@
 #include <gd_wgl.h>
 
 
-gd_wglafi(i, j, rayon, angleDebut, angleFin)
+void gd_wglafi(i, j, rayon, angleDebut, angleFin)
 int i, j, rayon;
 float angleDebut, angleFin;
 {

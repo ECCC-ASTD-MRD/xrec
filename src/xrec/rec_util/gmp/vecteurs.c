@@ -21,13 +21,13 @@
 #include <wgl.h>
 #include <gmp.h>
 
-TracerVecteurs(ListePointsStruct *itemListe)
+void TracerVecteurs(ListePointsStruct *itemListe)
 {
    int n, res;
    
    ListePointsStruct item;
 
-   if (itemListe == NULL) return -1;
+   if (itemListe == NULL) return;
 
    itemListe->statutPRGrille= clip(itemListe->xmin, itemListe->ymin, itemListe->xmax, itemListe->ymax);
    
@@ -38,7 +38,7 @@ TracerVecteurs(ListePointsStruct *itemListe)
         {
         if (itemListe->full_line == 1)
           {
-          c_wglplx(itemListe->npts, itemListe->pointsGeo);
+             c_wglplx(itemListe->npts, (float (*)[2]) itemListe->pointsGeo);
           }
         else
           {

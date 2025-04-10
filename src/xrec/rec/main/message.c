@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <wgl.h>
 
-MessageAide(char *str)
+void MessageAide(char *str)
 {
    int i;
    int lenstr;

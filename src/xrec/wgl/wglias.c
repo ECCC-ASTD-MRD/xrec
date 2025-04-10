@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglias)(int *flagAspect)
+void f77name(wglias)(int *flagAspect)
 {
    c_wglias(*flagAspect);
    }
@@ -29,7 +29,7 @@ f77name(wglias)(int *flagAspect)
 ******
 **/
 
-c_wglias(int flagAspect)
+void c_wglias(int flagAspect)
 {
   wglc_wgl->wglias(flagAspect);
    }

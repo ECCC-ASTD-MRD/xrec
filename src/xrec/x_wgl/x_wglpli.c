@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglpli(int nbPoints, int polygone[][2])
+void x_wglpli(int nbPoints, int polygone[][2])
 {
    int i;
    XPoint p[256], *xptr, *largeP;

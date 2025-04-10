@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-f77name(gd_wglptxs)(float *xxx, float *yyy, int *npts)
+void f77name(gd_wglptxs)(float *xxx, float *yyy, int *npts)
 {
 /*  int i,j,k;
   int i1, j1, imax;

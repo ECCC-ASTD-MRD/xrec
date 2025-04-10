@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglias(int flagAspect)
+void x_wglias(int flagAspect)
 {
   if (flagAspect == 1)
     { 

@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-wglnewwin()
+void wglnewwin()
 {
   wglc_wgl->wglnewwin();
    }

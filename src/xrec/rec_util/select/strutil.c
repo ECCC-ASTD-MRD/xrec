@@ -21,10 +21,7 @@
 #include <stdio.h>
 #include <string.h>
 
-int  strfind();
-
-int strfind(SousChaine, Chaine)
-char *SousChaine, *Chaine;
+int strfind(char *SousChaine, char *Chaine)
 {
 int i,j, LongueurChaine, LongueurSousChaine, PositionTrouvee;
 

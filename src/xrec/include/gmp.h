@@ -132,24 +132,24 @@ typedef struct
 
 
  
-int TracerVecteursModeTurbo(ListePointsStruct *itemListe);
-int TracerVecteurs(ListePointsStruct *itemListe);
+void TracerVecteursModeTurbo(ListePointsStruct *itemListe);
+void TracerVecteurs(ListePointsStruct *itemListe);
 int swapFloats(float *a, float *b);
 int LireFichierGeographie(ListePointsStruct *(*liste), int *nbItems, char *nomFichier[], int nbFichiers);
-int LireLatLon(ListePointsStruct *(*liste), int *nbItems);
-int TracerPointsModeTurbo(ListePointsStruct *itemListe);
-int TracerPoints(ListePointsStruct *itemListe);
-int ActiverParamsLigne(int style, int couleur, int epaisseur);
-int NewGeoItem(ListePointsStruct *(*liste), int *nbItems);
+void LireLatLon(ListePointsStruct *(*liste), int *nbItems);
+void TracerPointsModeTurbo(ListePointsStruct *itemListe);
+void TracerPoints(ListePointsStruct *itemListe);
+void ActiverParamsLigne(int style, int couleur, int epaisseur);
+void NewGeoItem(ListePointsStruct *(*liste), int *nbItems);
 int VerifierSegmentLatlon(float lonMin, float lonMax);
-int gmp_trim(float pts[], int *nbpts, float resolution);
+void gmp_trim(float pts[], int *nbpts, float resolution);
 int gmp_perim(float *xgdmin, float *ygdmin,  float *xgdmax,  float *ygdmax, float  *latMin,  float *lonMin, float *latMax, float *lonMax, int *nbSeg);
-int gmp_convert(ListePointsStruct *liste, int *nbItems, float pts[], int nbPoints, float xgdmin, float ygdmin, float xgdmax, float ygdmax, int nbSeg);
+void gmp_convert(ListePointsStruct *liste, int *nbItems, float pts[], int nbPoints, float xgdmin, float ygdmin, float xgdmax, float ygdmax, int nbSeg);
 void LibererCarte(ListePointsStruct *(*liste), int *nbItems);
-int CopierMapInfos(GeoMapInfoStruct *mapInfoSortie, GeoMapInfoStruct *mapInfoEntree);
+void CopierMapInfos(GeoMapInfoStruct *mapInfoSortie, GeoMapInfoStruct *mapInfoEntree);
 int clip(float x1, float y1, float x2, float y2);
-int gmp_llfgr(float *lat, float *lon, float x, float y, float latOrigine, float lonOrigine, float deltaLat, float deltaLon);
-int c_grfll(float *x, float *y, float lat, float lon, float latOrigine, float lonOrigine, float deltaLat, float deltaLon, float xOrigine, float yOrigine, int   orientation);
+void gmp_llfgr(float *lat, float *lon, float x, float y, float latOrigine, float lonOrigine, float deltaLat, float deltaLon);
+void c_grfll(float *x, float *y, float lat, float lon, float latOrigine, float lonOrigine, float deltaLat, float deltaLon, float xOrigine, float yOrigine, int   orientation);
 int c_gmpzset(char grtyp, int ni, int nj,  int ig1, int ig2, int ig3, int ig4, char typeref, int ig1ref, int ig2ref, int ig3ref, int ig4ref);
 int c_gmpset(char grtyp, int ni, int nj, int ig1, int ig2, int ig3, int ig4);
 int c_gmpopts(char *option, char *valeur);

@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglrfx(xa, ya, xb, yb)
+void gd_wglrfx(xa, ya, xb, yb)
 float xa, ya, xb, yb;
 {
    int ia, ja, ib, jb;

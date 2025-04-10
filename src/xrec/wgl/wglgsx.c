@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglgsx)(float *xdebut, float *ydebut, float *xfin, float *yfin)
+void f77name(wglgsx)(float *xdebut, float *ydebut, float *xfin, float *yfin)
 {
    c_wglgsx(xdebut, ydebut, xfin, yfin);
    }
@@ -30,7 +30,7 @@ f77name(wglgsx)(float *xdebut, float *ydebut, float *xfin, float *yfin)
 **/
 
 
-c_wglgsx(float *xdebut, float *ydebut, float *xfin, float *yfin)
+void c_wglgsx(float *xdebut, float *ydebut, float *xfin, float *yfin)
 {
    switch (usSpace.mode)
       {

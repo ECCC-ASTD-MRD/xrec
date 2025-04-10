@@ -2,6 +2,8 @@
 #define _REC_FUNCTIONS_H_
 
 #include <gmp.h>
+#include "rmn.h"
+#include "rec.h"
 
 int  AllouerImages();
 int  FldMgrVerConsistanceNiveauxChamps(int *indiceFautif);
@@ -639,8 +641,8 @@ void f77name(c_sconatr)(char item[], char valeur[], F2Cl lenItem, F2Cl lenValeur
 void f77name(c_scpeatr)(char item[], char valeur[], F2Cl lenItem,F2Cl lenValeur);
 void f77name(c_sctlatr)(char item[],char valeur[],F2Cl lenItem,F2Cl lenValeur);
 void f77name(c_sgeoatr)(char item[], char valeur[], F2Cl lenItem,F2Cl lenValeur);
-void f77name(c_sminmaxatr)(char item[],char valeur[], F2Cl lenItem, F2Cl lenValeur);  
-void f77name(c_spalatr)(char item[],char valeur[], F2Cl lenItem, F2Cl lenValeur);  
+void f77name(c_sminmaxatr)(char item[],char valeur[], F2Cl lenItem, F2Cl lenValeur);
+void f77name(c_spalatr)(char item[],char valeur[], F2Cl lenItem, F2Cl lenValeur);
 void f77name(c_swndatr)( char item[], char valeur[], F2Cl lenItem, F2Cl lenValeur);
 void f77name(c_xrecgrille)(char gridname[], int *gridtype, int *ni, int *nj, int *ig1, int *ig2, int *ig3, int *ig4, F2Cl lennomgrille);
 void f77name(decrle)(float *fld, int *npts);

@@ -196,7 +196,7 @@ int flagsImagesChargees[1024];
 
 /* -------------------------------------------------------------------------------------------------- */
 
-c_wgldeallocf(int nImages)
+int c_wgldeallocf(int nImages)
 {
    int i, j;
 
@@ -208,7 +208,7 @@ c_wgldeallocf(int nImages)
    }
 /* -------------------------------------------------------------------------------------------------- */
 
-c_wglallocf(int nimages)
+int c_wglallocf(int nimages)
 {
    int i, j;
    int x, y;

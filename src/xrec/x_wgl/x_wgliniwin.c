@@ -18,9 +18,11 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <wgl.h>
 #include <wgl_x.h>
+#include <x_wglfonct.h>
 
-x_wgliniwin(char *nomFenetre)
+void x_wgliniwin(char *nomFenetre)
 {
    char *serverID;
 

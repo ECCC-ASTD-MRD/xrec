@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglgvi(int *idebut, int *jdebut, int *ifin, int *jfin)
+void x_wglgvi(int *idebut, int *jdebut, int *ifin, int *jfin)
 {
    x_wglgwz(&w,&h);
 

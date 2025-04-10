@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglmcos(couleurs, nbCols, rgbDefs)
+void gd_wglmcos(couleurs, nbCols, rgbDefs)
 int couleurs[], nbCols, rgbDefs[][3];
 {
    if (8 <= gd_wglgpl())
@@ -30,6 +30,6 @@ int couleurs[], nbCols, rgbDefs[][3];
    
    }
 
-gdwglmapcs(int couleurs[], int nbCols, int rgbDefs[][3])
+void gdwglmapcs(int couleurs[], int nbCols, int rgbDefs[][3])
 {
 }

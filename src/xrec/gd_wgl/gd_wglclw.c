@@ -25,7 +25,7 @@
 extern char gdNomFenetre[];
 extern gdImagePtr gdwin;
 
-gd_wglclw(indFenetre)
+void gd_wglclw(indFenetre)
 int indFenetre;
 {
 

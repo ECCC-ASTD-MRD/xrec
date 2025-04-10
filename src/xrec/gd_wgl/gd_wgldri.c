@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wgldri(i, j)
+void gd_wgldri(i, j)
 int i, j;
 {
    wglPts[NbPoints].x = i;

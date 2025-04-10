@@ -20,13 +20,13 @@
 
 #include <gd_wgl.h>
 
-gd_wgldpt(indpat, ipatsz, iptrn)
+void gd_wgldpt(indpat, ipatsz, iptrn)
 int indpat, ipatsz;
 char iptrn[];
 {
   gd_wglinvpat(iptrn);
    }
 
-gd_wglinvpat(int iptrn)
+void gd_wglinvpat(int iptrn)
 {
 }

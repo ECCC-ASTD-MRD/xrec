@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglcmi(left, bottom, right, top)
+void gd_wglcmi(left, bottom, right, top)
 int left, bottom, right, top;
 {
    }

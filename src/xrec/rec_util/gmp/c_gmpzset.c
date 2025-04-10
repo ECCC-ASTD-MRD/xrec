@@ -19,7 +19,10 @@
  */
 
 #include <gmp.h>
+#include <rmn/base.h>
 #include <rmn/rpnmacros.h>
+#include "wgl.h"
+#include "rec_util.h"
 
 extern float gdxmin, gdymin, gdxmax, gdymax;
 extern GeoMapInfoStruct     mapInfo;

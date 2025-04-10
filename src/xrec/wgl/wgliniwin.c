@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-wgliniwin(char *nomFenetre)
+void wgliniwin(char *nomFenetre)
 {
   wglc_wgl->wgliniwin(nomFenetre);
 }

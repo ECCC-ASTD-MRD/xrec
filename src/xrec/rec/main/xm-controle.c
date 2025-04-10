@@ -30,7 +30,9 @@
 #include "wgl.h"
 #include "souris.h"
 #include "rec_version.h"
+#include "rec_functions.h"
 #include "xrec_build_info.h"
+#include "souris.h"
 
 #include <Xm/CascadeB.h>
 #include <Xm/Form.h>
@@ -242,10 +244,6 @@ extern SuperWidgetStruct SuperWidget;
 /* Fonctions externes */
 
 
-extern Widget TrouverWidgetParent();
-int f77name(souris)(int *bouton, int *event, int *x0, int *y0, int *xsize, int *ysize, int *x1, int *y1, int *x2, int *y2, char *menuTable, int *nbmenus, F2Cl menulength);
-
-
 /*  Fonctions locales */
 
 
@@ -328,7 +326,6 @@ int mathOp = NO_OP;
 static int rpnLogo = 1;
 int itemGrilleSelectionnee = 0;
 
-void FlusherTousLesEvenements();
 void f77name(initrlx)();
 
 

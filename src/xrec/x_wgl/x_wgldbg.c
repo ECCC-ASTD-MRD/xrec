@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wgldbg()
+void x_wgldbg()
 {
    debugMode = True;
    }

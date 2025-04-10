@@ -21,11 +21,15 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <sys/types.h>
 #include <rmn/rpnmacros.h>
+#include <rmn/ezscint.h>
 #include "gmp.h"
 #include "gdb.h"
 #include "wgl.h"
+#include "rec_functions.h"
+#include "rec_util.h"
 
 extern GeoMapOptionsStruct mapOptions;
 static ListePointsStruct *gdb_liste;
@@ -188,7 +192,7 @@ get_coastline(int gr_type, int n, float lat0, float lon0, float lat1, float lon1
 
 
 
-lire_gdb_geo()
+void lire_gdb_geo()
 {
   int res;
   int n,i, j, nbSeg;
@@ -215,7 +219,7 @@ lire_gdb_geo()
 #ifndef Darwin_OSX_PPC
   if (once == 0)
     {
-    memset(&oldMapInfo, NULL, sizeof(GeoMapInfoStruct));
+    memset(&oldMapInfo, '\0', sizeof(GeoMapInfoStruct));
     once = 1;
     }
   ppd_env = (char *) getenv("GDB_RESOLUTION");

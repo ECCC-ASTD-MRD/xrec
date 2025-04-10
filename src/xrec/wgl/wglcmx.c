@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglcmx)(float *left, float *bottom, float *right, float *top)
+void f77name(wglcmx)(float *left, float *bottom, float *right, float *top)
 {
    return c_wglcmx(*left, *bottom, *right, *top);
    }
@@ -29,7 +29,7 @@ f77name(wglcmx)(float *left, float *bottom, float *right, float *top)
 ******
 **/
 
-c_wglcmx(float left, float bottom, float right, float top)
+void c_wglcmx(float left, float bottom, float right, float top)
 {
   int ibottom, ileft, iright, itop;
   

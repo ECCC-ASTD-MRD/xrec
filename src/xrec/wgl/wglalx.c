@@ -25,10 +25,10 @@
 ------------------------------------------
 **/
 
-f77name(wglalx)(float *x, float *y, float *rayon, float *angleDebut, float *angleFin)
+void f77name(wglalx)(float *x, float *y, float *rayon, float *angleDebut, float *angleFin)
 
 {
-   return c_wglalx(*x, *y, *rayon, *angleDebut, *angleFin);
+   c_wglalx(*x, *y, *rayon, *angleDebut, *angleFin);
    }
 
 /**

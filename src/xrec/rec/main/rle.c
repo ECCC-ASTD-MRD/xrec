@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <rmn/rpnmacros.h>
+#include "rec_functions.h"
 
 void EncodeRLEData(unsigned char *out, int  *nptsout, char *in, int  nptsin)
 {
@@ -71,10 +72,7 @@ void EncodeRLEData(unsigned char *out, int  *nptsout, char *in, int  nptsin)
 **********
 */
 
-f77name(decrle)(fld,npts)
-float *fld;
-int *npts;
-
+void f77name(decrle)(float *fld, int *npts)
 {
    char *tmp;
    int i;
@@ -94,10 +92,7 @@ int *npts;
 **********
 */
 
-int DecodeRLEData(out,nptsout,in)
-char *out;
-int  nptsout;
-unsigned char *in;
+int DecodeRLEData(char *out, int  nptsout, unsigned char *in)
 {
    int i,j,pos,repeat;
    unsigned char repeatOffset,valOffset;

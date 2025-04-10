@@ -20,8 +20,6 @@
 
 #include <wgl.h>
 
-int c_wglbtn();
-
 int f77name(wglbtn)(int *bouton)
 {
    int val;

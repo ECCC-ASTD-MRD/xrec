@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglpli)(int *nbPoints, int polygone[][2])
+void f77name(wglpli)(int *nbPoints, int polygone[][2])
 {
    c_wglpli(*nbPoints, polygone);
    }
@@ -30,7 +30,7 @@ f77name(wglpli)(int *nbPoints, int polygone[][2])
 **/
 
 
-c_wglpli (int nbPoints, int polygone[][2])
+void c_wglpli (int nbPoints, int polygone[][2])
 {
   wglc_wgl->wglpli(nbPoints, polygone);
 }

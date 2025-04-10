@@ -38,6 +38,7 @@ extern int currentFontSize;
  ******
  **/
 
+int InitFonte(int fontSize);
 int x_wglfsz(int fontSize)
 {
    if (fontSize != currentFontSize) 

@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglspt)(int *indpat)
+void f77name(wglspt)(int *indpat)
 {
    c_wglspt(*indpat);
    }
@@ -29,7 +29,7 @@ f77name(wglspt)(int *indpat)
 ******
 **/
 
-c_wglspt(int indpat)
+void c_wglspt(int indpat)
 {
   wglc_wgl->wglspt(indpat);
 }

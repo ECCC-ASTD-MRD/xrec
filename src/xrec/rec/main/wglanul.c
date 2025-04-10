@@ -28,7 +28,7 @@
 Cursor curseur[6];
 Boolean ignoreMode;
 
-testc()
+void testc()
 {
    XColor exactn,exactb,b,n;
 

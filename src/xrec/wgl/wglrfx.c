@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglrfx)(float *xa, float *ya, float *xb, float *yb)
+void f77name(wglrfx)(float *xa, float *ya, float *xb, float *yb)
 
 {
    c_wglrfx(*xa, *ya, *xb, *yb);
@@ -30,7 +30,7 @@ f77name(wglrfx)(float *xa, float *ya, float *xb, float *yb)
 ******
 **/
 
-c_wglrfx(float xa, float ya, float xb, float yb)
+void c_wglrfx(float xa, float ya, float xb, float yb)
 {
    int ia, ja, ib, jb;
 

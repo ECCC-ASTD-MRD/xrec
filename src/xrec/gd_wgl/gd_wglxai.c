@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglxai(i, j, x, y)
+void gd_wglxai(i, j, x, y)
 int *i, *j;
 float x, y;
 {

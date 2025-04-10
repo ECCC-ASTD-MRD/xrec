@@ -23,7 +23,7 @@
 
 extern gdImagePtr gdwin;
 
-gd_wglpti(i, j)
+void gd_wglpti(i, j)
 int i, j;
 {
   gdImageSetPixel(gdwin, i, h - j, currentColor);

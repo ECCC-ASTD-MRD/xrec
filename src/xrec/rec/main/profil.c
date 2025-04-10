@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <wgl.h>
 #include <rmn/rpnmacros.h>
+#include "rec_functions.h"
    
 void courbe(float x[], float y[], int npts, float xmin, float xmax, float ymin, float ymax, float *intX, float *intY, int nbIntX, int nbIntY, int axeXRenverse, int axeYRenverse, int i1, int j1, int i2, int j2)
 {
@@ -62,9 +63,7 @@ void courbe(float x[], float y[], int npts, float xmin, float xmax, float ymin, 
    
    }
 
-ProfilCalculerMinMax(xmin, ymin, xmax, ymax, x, y, npts)
-float *xmin, *ymin, *xmax, *ymax, *x, *y;
-int npts;
+void ProfilCalculerMinMax(float *xmin, float *ymin, float *xmax, float *ymax, float *x, float *y, int npts)
 {
    int i;
    *xmin = x[0]; *ymin = y[0]; *xmax = x[0], *ymax = y[0];
@@ -77,9 +76,7 @@ int npts;
       }
    }
 
-ProfilCalculerCoordsFenetre(wini1, winj1, wini2, winj2, i1, j1, i2, j2)
-int *wini1, *winj1, *wini2, *winj2;
-int i1, j1, i2, j2;
+void ProfilCalculerCoordsFenetre(int *wini1, int *winj1, int *wini2, int *winj2, int i1, int j1, int i2, int j2)
 {
    int largeurNombres, hauteurNombres;
    char bidon[16];
@@ -94,13 +91,7 @@ int i1, j1, i2, j2;
    *winj2 = j2 - 10;
    }
 
-ProfilAfficherAxe(axe, npts, inter, nbInter, axemin, axemax, xorig, yorig, direction)
-float axe[];
-int npts;
-float inter[];
-int nbInter;
-float axemin, axemax, xorig, yorig;
-int direction;
+void ProfilAfficherAxe(float axe[], int npts, float inter[], int nbInter, float axemin, float axemax, float xorig, float yorig, int direction)
 {
    float val, x, y;
    int i, j;
@@ -179,13 +170,7 @@ int direction;
       }
    }
 
-ProfilAfficherTicks(axe, npts, inter, nbInter, axemin, axemax, xorig, yorig, ymax, direction)
-float axe[];
-int npts;
-float inter[];
-int nbInter;
-float axemin, axemax, xorig, yorig, ymax;
-int direction;
+void ProfilAfficherTicks(float axe[], int npts, float inter[], int nbInter, float axemin, float axemax, float xorig, float yorig, float ymax, int direction)
 {
    float val, x, y;
    int i, j;

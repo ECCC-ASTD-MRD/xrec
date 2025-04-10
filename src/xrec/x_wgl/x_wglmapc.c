@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglmapc(int colorIndex, int r, int g, int b)
+void x_wglmapc(int colorIndex, int r, int g, int b)
 {
    int res;
    XColor xcol;

@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglspt(indpat)
+void gd_wglspt(indpat)
 int indpat;
 {
   /*

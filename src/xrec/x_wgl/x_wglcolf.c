@@ -106,6 +106,7 @@ unsigned int x_wglcolfs(float *cols, unsigned int *pixels, int n)
     pixels[i] += ((g*colorbitrange[1][2])>>16) << colorbitrange[1][0];
     pixels[i] += ((b*colorbitrange[2][2])>>16) << colorbitrange[2][0];
     }
+  return 0;
 }
 
 unsigned int x_wglcolfs_fst(float *cols, unsigned int *pixels, int n)
@@ -140,4 +141,5 @@ unsigned int x_wglcolfs_fst(float *cols, unsigned int *pixels, int n)
     if (cols[i]< 0.0) icol = 0;
     pixels[i] =  (((xcouleurs[icol].red * ir2) >>16) << ir0) + (((xcouleurs[icol].green * ig2) >>16) << ig0) + (((xcouleurs[icol].blue*ib2) >>16) << ib0);
     }
+  return 0;
 }

@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglgsp)(float *xdebut, float *ydebut, float *xfin, float *yfin, int   *idebut, int *jdebut, int *ifin, int *jfin)
+void f77name(wglgsp)(float *xdebut, float *ydebut, float *xfin, float *yfin, int   *idebut, int *jdebut, int *ifin, int *jfin)
 {
    c_wglgsp(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin);
    }
@@ -30,7 +30,7 @@ f77name(wglgsp)(float *xdebut, float *ydebut, float *xfin, float *yfin, int   *i
 **/
 
 
-c_wglgsp(float *xdebut, float *ydebut, float *xfin, float *yfin, int   *idebut, int *jdebut, int *ifin, int *jfin)
+void c_wglgsp(float *xdebut, float *ydebut, float *xfin, float *yfin, int   *idebut, int *jdebut, int *ifin, int *jfin)
 {
    c_wglgsx(xdebut, ydebut, xfin, yfin);
    wglc_wgl->wglgsi(idebut, jdebut, ifin, jfin);

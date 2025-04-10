@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-wglmapc(int colorIndex, int r, int g, int b)
+void wglmapc(int colorIndex, int r, int g, int b)
 {
   wglc_wgl->wglmapc(colorIndex, r, g, b);
 }

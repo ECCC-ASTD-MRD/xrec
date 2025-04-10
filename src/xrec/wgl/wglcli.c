@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglcli)(int *i, int *j, int *rayon)
+void f77name(wglcli)(int *i, int *j, int *rayon)
 {
    c_wglcli(*i, *j, *rayon);
    }
@@ -29,7 +29,7 @@ f77name(wglcli)(int *i, int *j, int *rayon)
  ******
  **/
 
-c_wglcli(int i, int j, int rayon)
+void c_wglcli(int i, int j, int rayon)
 {
   wglc_wgl->wglcli(i,j,rayon);
    }

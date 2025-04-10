@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglssp(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin, mode)
+void gd_wglssp(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin, mode)
 float xdebut, ydebut, xfin, yfin;
 int idebut, jdebut, ifin, jfin, mode;
 {

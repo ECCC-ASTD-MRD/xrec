@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglafx)(float *x, float *y, float *rayon, float *angleDebut, float *angleFin)
+void f77name(wglafx)(float *x, float *y, float *rayon, float *angleDebut, float *angleFin)
 {
    c_wglafx(*x, *y, *rayon, *angleDebut, *angleFin);
    }
@@ -29,7 +29,7 @@ f77name(wglafx)(float *x, float *y, float *rayon, float *angleDebut, float *angl
  ******
  **/
 
-c_wglafx(float x, float y, float rayon, float angleDebut, float angleFin)
+void c_wglafx(float x, float y, float rayon, float angleDebut, float angleFin)
 {
    int i, j, idebut, jdebut, ifin, jfin;
    int istartAngle, iendAngle;

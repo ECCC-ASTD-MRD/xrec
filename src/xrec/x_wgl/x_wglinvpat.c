@@ -19,8 +19,9 @@
  */
 
 #include <wgl_x.h>
+#include "x_wglfonct.h"
 
-x_wglinvpat(char Pattern[])
+void x_wglinvpat(char Pattern[])
 {
    int i;
    char swapPat[128];

@@ -26,6 +26,7 @@
 
 #include <Xm/Xm.h>
 #include <xinit.h>
+#include "wgl.h"
 
 extern SuperWidgetStruct SuperWidget;
 

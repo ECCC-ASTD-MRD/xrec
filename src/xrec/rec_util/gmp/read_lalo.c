@@ -26,6 +26,7 @@
 #include <math.h>
 #include <memory.h>
 #include <stdlib.h>
+#include "rec_util.h"
 
 
 extern GeoMapInfoStruct     mapInfo;
@@ -35,7 +36,7 @@ extern GeoMapFlagsStruct    mapFlags;
 extern GeoMapOptionsStruct mapOptions;
 
 
-LireLatLon(ListePointsStruct *(*liste), int *nbItems)
+void LireLatLon(ListePointsStruct *(*liste), int *nbItems)
 {
    FILE *FichierEntree;
    float pts[20480];

@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-x_wglgzx(float *xsize, float *ysize)
+void x_wglgzx(float *xsize, float *ysize)
 {
    switch (usSpace.mode)
       {

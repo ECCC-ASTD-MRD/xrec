@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-f77name(wglsmk)(int *masque)
+void f77name(wglsmk)(int *masque)
 {
    c_wglsmk(*masque);
    }
@@ -29,7 +29,7 @@ f77name(wglsmk)(int *masque)
  ******
  **/
 
-c_wglsmk(int masque)
+void c_wglsmk(int masque)
 {
    wglc_wgl->wglsmk(masque);
    }

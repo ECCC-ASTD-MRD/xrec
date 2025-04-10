@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglcrb(int couleur)
+void x_wglcrb(int couleur)
 {
    rubberBandColor = couleur;
    }

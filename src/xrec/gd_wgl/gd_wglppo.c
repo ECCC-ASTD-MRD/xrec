@@ -20,7 +20,7 @@
 
 #include <gd_wgl.h>
 
-gd_wglppo(ix, iy, isize, jsize)
+void gd_wglppo(ix, iy, isize, jsize)
 int ix, iy, isize, jsize;
 {
    wglinids("");

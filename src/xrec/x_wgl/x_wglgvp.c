@@ -20,7 +20,7 @@
 
 #include <wgl_x.h>
 
-x_wglgvp(float *xdebut, float *ydebut, float *xfin, float *yfin, int *idebut, int *jdebut, int *ifin, int *jfin)
+void x_wglgvp(float *xdebut, float *ydebut, float *xfin, float *yfin, int *idebut, int *jdebut, int *ifin, int *jfin)
 {
   c_wglgvx(xdebut, ydebut, xfin, yfin);
   x_wglgvi(idebut, jdebut, ifin, jfin);
