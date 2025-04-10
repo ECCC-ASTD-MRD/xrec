@@ -293,7 +293,7 @@ int pcSelectionTerminee;
 char panneauContoursGeometrie[32];
 static int nbItemsListe = 35;
 
-void CheckToggles (Widget w, caddr_t client_data, caddr_t call_data)
+void CheckToggles (Widget w, XtPointer client_data, XtPointer call_data)
 {
    int lng;
    Arg args[3];
@@ -383,7 +383,7 @@ void CheckToggles (Widget w, caddr_t client_data, caddr_t call_data)
 ***********************************************************************
 ****/
 
-void SetColorToggle (Widget w, caddr_t client_data, caddr_t call_data) 
+void SetColorToggle (Widget w, XtPointer client_data, XtPointer call_data) 
 {
    int r, g, b;
    Arg args[2];
@@ -448,7 +448,7 @@ void SetColorToggle (Widget w, caddr_t client_data, caddr_t call_data)
 ***********************************************************************
 ****/
 
-void SetThicknessToggle (Widget w, caddr_t client_data, caddr_t call_data) 
+void SetThicknessToggle (Widget w, XtPointer client_data, XtPointer call_data) 
 {
    xc.attributs[currentToggle].epaisseur = atoi(XtName(w));
    }
@@ -458,7 +458,7 @@ void SetThicknessToggle (Widget w, caddr_t client_data, caddr_t call_data)
 ***********************************************************************
 ****/
 
-void SetLabelSizeToggle (Widget w, caddr_t client_data, caddr_t call_data)
+void SetLabelSizeToggle (Widget w, XtPointer client_data, XtPointer call_data)
 {
    xc.attributs[currentToggle].labelSize = atoi(XtName(w));
    }
@@ -468,7 +468,7 @@ void SetLabelSizeToggle (Widget w, caddr_t client_data, caddr_t call_data)
 ***********************************************************************
 ****/
 
-void SetCentralValueSizeToggle (Widget w, caddr_t client_data, caddr_t call_data)
+void SetCentralValueSizeToggle (Widget w, XtPointer client_data, XtPointer call_data)
 {
    xc.attributs[currentToggle].centralValSize = atoi(XtName(w));
    }
@@ -478,7 +478,7 @@ void SetCentralValueSizeToggle (Widget w, caddr_t client_data, caddr_t call_data
 ***********************************************************************
 ****/
 
-void SetStyleToggle (Widget w, caddr_t client_data, caddr_t call_data) 
+void SetStyleToggle (Widget w, XtPointer client_data, XtPointer call_data) 
 {
    xc.attributs[currentToggle].style = (int)client_data;
 
@@ -510,7 +510,7 @@ void SetStyleToggle (Widget w, caddr_t client_data, caddr_t call_data)
 ***********************************************************************
 ****/
 
-void SetContoursToggle (Widget w, caddr_t client_data, caddr_t call_data) 
+void SetContoursToggle (Widget w, XtPointer client_data, XtPointer call_data) 
 {
    xc.attributs[currentToggle].displayContours = (int)client_data;
    }
@@ -520,7 +520,7 @@ void SetContoursToggle (Widget w, caddr_t client_data, caddr_t call_data)
 ***********************************************************************
 ****/
 
-void SetLabelsToggle (Widget w, caddr_t client_data, caddr_t call_data) 
+void SetLabelsToggle (Widget w, XtPointer client_data, XtPointer call_data) 
 {
    xc.attributs[currentToggle].displayLabels = (int)client_data;
    }
@@ -530,7 +530,7 @@ void SetLabelsToggle (Widget w, caddr_t client_data, caddr_t call_data)
 ***********************************************************************
 ****/
 
-void SetCentralValuesToggle (Widget w, caddr_t client_data, caddr_t call_data) 
+void SetCentralValuesToggle (Widget w, XtPointer client_data, XtPointer call_data) 
 {
    xc.attributs[currentToggle].displayValCentrales = (int)client_data;
    }
@@ -540,7 +540,7 @@ void SetCentralValuesToggle (Widget w, caddr_t client_data, caddr_t call_data)
 ***********************************************************************
 ****/
 
-XtCallbackProc PcOk(Widget w, caddr_t client_data, caddr_t call_data)
+void PcOk(Widget w, XtPointer client_data, XtPointer call_data)
 {
    pcSelectionTerminee = TRUE;
    DesactiverPanneauContour();
@@ -551,7 +551,7 @@ XtCallbackProc PcOk(Widget w, caddr_t client_data, caddr_t call_data)
 ***********************************************************************
 ****/
 
-XtCallbackProc PcAfficher(Widget w, caddr_t client_data, caddr_t call_data)
+void PcAfficher(Widget w, XtPointer client_data, XtPointer call_data)
 {
    int i;
 
@@ -594,7 +594,7 @@ void InitPanneauContour()
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
    pcOk = (Widget)XmCreatePushButton(pcForme, labelOk[lng], args, i);
-   XtAddCallback(pcOk, XmNactivateCallback, (XtCallbackProc)  PcOk, NULL);
+   XtAddCallback(pcOk, XmNactivateCallback, PcOk, NULL);
    XtManageChild(pcOk);
 
    i = 0;
@@ -602,7 +602,7 @@ void InitPanneauContour()
    XtSetArg(args[i], XmNrightWidget, pcOk); i++;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    pcAfficher = (Widget)XmCreatePushButton(pcForme, labelAfficher[lng], args, i);
-   XtAddCallback(pcAfficher, XmNactivateCallback, (XtCallbackProc)  PcAfficher, NULL);
+   XtAddCallback(pcAfficher, XmNactivateCallback, PcAfficher, NULL);
    XtManageChild(pcAfficher);
 
    i=0;
@@ -630,7 +630,7 @@ void InitPanneauContour()
    pcListeItems = (Widget) XmCreateScrolledList(pcFormeChamps, "option_menu1", args, i);
 
    XmListSelectPos(pcListeItems, 34, True);
-   XtAddCallback(pcListeItems, XmNsingleSelectionCallback, (XtCallbackProc)  CheckToggles, NULL);
+   XtAddCallback(pcListeItems, XmNsingleSelectionCallback, CheckToggles, NULL);
    XtManageChild(pcListeItems);
 
    i = 0;
@@ -678,7 +678,7 @@ void InitPanneauContour()
       }
       
     pcOptionsCouleurItems[n] = (Widget) XmCreatePushButton(pcOptionsCouleur, pcLabelOptionsCouleur[lng][n], args, i);
-    XtAddCallback(pcOptionsCouleurItems[n], XmNactivateCallback, (XtCallbackProc)  SetColorToggle, (XtPointer) n);
+    XtAddCallback(pcOptionsCouleurItems[n], XmNactivateCallback, SetColorToggle, (XtPointer) n);
     }
 
    XtManageChildren(pcOptionsCouleurItems, XtNumber(pcLabelOptionsCouleur[lng]));
@@ -709,7 +709,7 @@ void InitPanneauContour()
     {
     i = 0;
     pcOptionsEpaisseurItems[n] = XmCreatePushButton(pcOptionsEpaisseur, pcLabelOptionsEpaisseur[lng][n], args, i);
-    XtAddCallback(pcOptionsEpaisseurItems[n], XmNactivateCallback, (XtCallbackProc)  SetThicknessToggle, (XtPointer) n);
+    XtAddCallback(pcOptionsEpaisseurItems[n], XmNactivateCallback, SetThicknessToggle, (XtPointer) n);
     }
 
    XtManageChildren(pcOptionsEpaisseurItems, XtNumber(pcLabelOptionsEpaisseur[lng]));
@@ -738,7 +738,7 @@ void InitPanneauContour()
     XtSetArg(args[i], XmNlabelString, string); i++;
     pcOptionsStyleItems[n] = XmCreatePushButton(pcOptionsStyle, pcLabelOptionsStyle[lng][n], args, i);
     XmStringFree(string);   
-    XtAddCallback(pcOptionsStyleItems[n], XmNactivateCallback, (XtCallbackProc)  SetStyleToggle, (XtPointer) n);
+    XtAddCallback(pcOptionsStyleItems[n], XmNactivateCallback, SetStyleToggle, (XtPointer) n);
     }
 
    XtManageChildren(pcOptionsStyleItems, XtNumber(pcLabelOptionsStyle[lng]));
@@ -774,7 +774,7 @@ void InitPanneauContour()
     string = XmStringCreateLtoR(activationSelect[lng][n], XmSTRING_DEFAULT_CHARSET); 
     XtSetArg(args[i], XmNlabelString, string); i++;
     pcContourItems[n] = XmCreatePushButton(pcOptionsContours, activationSelect[lng][n], args, i);
-    XtAddCallback(pcContourItems[n], XmNactivateCallback, (XtCallbackProc)  SetContoursToggle, (XtPointer) n);
+    XtAddCallback(pcContourItems[n], XmNactivateCallback, SetContoursToggle, (XtPointer) n);
     XmStringFree(string);   
     }
 
@@ -804,7 +804,7 @@ void InitPanneauContour()
     string = XmStringCreateLtoR(activationSelect[lng][n], XmSTRING_DEFAULT_CHARSET); 
     XtSetArg(args[i], XmNlabelString, string); i++;
     pcLabelItems[n] = XmCreatePushButton(pcOptionsLabels, activationSelect[lng][n], args, i);
-    XtAddCallback(pcLabelItems[n], XmNactivateCallback, (XtCallbackProc)  SetLabelsToggle, (XtPointer) n);
+    XtAddCallback(pcLabelItems[n], XmNactivateCallback, SetLabelsToggle, (XtPointer) n);
     XmStringFree(string);   
     }
 
@@ -833,7 +833,7 @@ void InitPanneauContour()
     string = XmStringCreateLtoR(pcLabelFontSize[lng][n], XmSTRING_DEFAULT_CHARSET); 
     XtSetArg(args[i], XmNlabelString, string); i++;
     pcTailleLabelItems[n] = XmCreatePushButton(pcOptionsTailleLabels, pcLabelFontSize[lng][n], args, i);
-    XtAddCallback(pcTailleLabelItems[n], XmNactivateCallback, (XtCallbackProc)  SetLabelSizeToggle, (XtPointer) n);
+    XtAddCallback(pcTailleLabelItems[n], XmNactivateCallback, SetLabelSizeToggle, (XtPointer) n);
     XmStringFree(string);   
     }
 
@@ -870,7 +870,7 @@ void InitPanneauContour()
     string = XmStringCreateLtoR(activationSelect[lng][n], XmSTRING_DEFAULT_CHARSET); 
     XtSetArg(args[i], XmNlabelString, string); i++;
     pcValeurItems[n] = XmCreatePushButton(pcOptionsValeursCentrales, activationSelect[lng][n], args, i);
-    XtAddCallback(pcValeurItems[n], XmNactivateCallback, (XtCallbackProc)  SetCentralValuesToggle, (XtPointer) n);
+    XtAddCallback(pcValeurItems[n], XmNactivateCallback, SetCentralValuesToggle, (XtPointer) n);
     XmStringFree(string);   
     }
 
@@ -899,7 +899,7 @@ void InitPanneauContour()
     string = XmStringCreateLtoR(pcValCentraleFontSize[lng][n], XmSTRING_DEFAULT_CHARSET); 
     XtSetArg(args[i], XmNlabelString, string); i++;
     pcTailleValeurItems[n] = XmCreatePushButton(pcOptionsTailleValeursCentrales, pcValCentraleFontSize[lng][n], args, i);
-    XtAddCallback(pcTailleValeurItems[n], XmNactivateCallback, (XtCallbackProc)  SetCentralValueSizeToggle, (XtPointer) (XtPointer) n);
+    XtAddCallback(pcTailleValeurItems[n], XmNactivateCallback, SetCentralValueSizeToggle, (XtPointer) (XtPointer) n);
     XmStringFree(string);   
     }
 

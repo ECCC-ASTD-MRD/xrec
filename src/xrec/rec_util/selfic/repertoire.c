@@ -738,7 +738,7 @@ LIBRAIRIES :            Motif
 ------------------------------------------------------------------------------*/
 static void XRepertoireEnleveListe (w, client, data )
 Widget w;
-caddr_t client, data;
+XtPointer client, data;
 {
  int i, nb_delete;
  Arg args[1];
@@ -891,7 +891,7 @@ LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
 static void XRepertoireInserer ( w, client, data )
-caddr_t w, client, data;
+XtPointer w, client, data;
 {
     char *tmp;
     XmString str;
@@ -928,7 +928,7 @@ LIBRAIRIES :            Motif
 ------------------------------------------------------------------------------*/
 static void XRepertoireSauver ( w, client, data )
 Widget w;
-caddr_t client, data;
+XtPointer client, data;
 {
  Arg arg[2];
  char *text;
@@ -990,7 +990,7 @@ LIBRAIRIES :            Motif
 ------------------------------------------------------------------------------*/
 static void XRepertoireInit ( w, client, data )
 Widget w;
-caddr_t client, data;
+XtPointer client, data;
 {
  Arg args[2];
  char *text;

@@ -85,7 +85,7 @@ extern int recColorTable[];
 static int npalettes = 0;
 extern int sizeRecColorTable;
 
-void SetPaletteToggle(Widget  w, caddr_t client_data, caddr_t call_data)
+void SetPaletteToggle(Widget  w, XtPointer client_data, XtPointer call_data)
 {
    int i;
    XmListCallbackStruct *info = (XmListCallbackStruct *) call_data;
@@ -100,7 +100,7 @@ void SetPaletteToggle(Widget  w, caddr_t client_data, caddr_t call_data)
 
    }
 
-void SetMinToggle(Widget  w, caddr_t client_data, caddr_t call_data)
+void SetMinToggle(Widget  w, XtPointer client_data, XtPointer call_data)
 {
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
 
@@ -110,7 +110,7 @@ void SetMinToggle(Widget  w, caddr_t client_data, caddr_t call_data)
 
    }
 
-void SetMaxToggle(Widget  w, caddr_t client_data, caddr_t call_data)
+void SetMaxToggle(Widget  w, XtPointer client_data, XtPointer call_data)
 {
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
 
@@ -120,21 +120,21 @@ void SetMaxToggle(Widget  w, caddr_t client_data, caddr_t call_data)
 
    }
 
-XtCallbackProc PpOk(Widget  w, caddr_t client_data, caddr_t call_data)
+void PpOk(Widget  w, XtPointer client_data, XtPointer call_data)
 {
    ppSelectionTerminee = TRUE;
    DesactiverPanneauPalette();
-   return 0;
+   return ;
    }
 
-XtCallbackProc PpAfficher(Widget  w, caddr_t client_data, caddr_t call_data)
+void PpAfficher(Widget  w, XtPointer client_data, XtPointer call_data)
 {
    RedessinerFenetres();
-   return 0;
+   return ;
    }
 
 
-void PpInfoColorBar(Widget w, caddr_t client_data, caddr_t call_data)
+void PpInfoColorBar(Widget w, XtPointer client_data, XtPointer call_data)
 {
    char tableau[9600];
    int lngMaxTableau = 9600;
@@ -249,7 +249,7 @@ void InitPanneauPalette()
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
    ppOk = (Widget)XmCreatePushButton(ppForme, labelOk[lng], args, i);
-   XtAddCallback(ppOk, XmNactivateCallback, (XtCallbackProc)  PpOk, NULL);
+   XtAddCallback(ppOk, XmNactivateCallback,  PpOk, NULL);
    XtManageChild(ppOk);
 
    i = 0;
@@ -257,7 +257,7 @@ void InitPanneauPalette()
    XtSetArg(args[i], XmNrightWidget, ppOk); i++;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    ppAfficher = (Widget)XmCreatePushButton(ppForme, labelAfficher[lng], args, i);
-   XtAddCallback(ppAfficher, XmNactivateCallback, (XtCallbackProc)  PpAfficher, NULL);
+   XtAddCallback(ppAfficher, XmNactivateCallback,  PpAfficher, NULL);
    XtManageChild(ppAfficher);
 
    i = 0;
@@ -266,7 +266,7 @@ void InitPanneauPalette()
    XtSetArg(args[i], XmNrightWidget, ppAfficher); i++;
 /*   XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++;*/
    ppInfoColorBar = (Widget)XmCreatePushButton(ppForme, labelInfoColorBar[lng], args, i);
-   XtAddCallback(ppInfoColorBar, XmNactivateCallback, (XtCallbackProc)  PpInfoColorBar, NULL);
+   XtAddCallback(ppInfoColorBar, XmNactivateCallback,  PpInfoColorBar, NULL);
    XtManageChild(ppInfoColorBar);
 
    ppOptionsVariation = (Widget)XmCreatePulldownMenu(ppForme, labelVariation[lng], NULL, 0);
@@ -278,7 +278,7 @@ void InitPanneauPalette()
     XtSetArg(args[i], XmNlabelString, string); i++;
     ppOptionsVariationItems[n] = (Widget) XmCreatePushButtonGadget(ppOptionsVariation, ppLabelOptionsVariation[lng][n], args, i);
     XmStringFree(string);
-    XtAddCallback((Widget) ppOptionsVariationItems[n], (String) XmNactivateCallback, (XtCallbackProc)  SetVariationToggle, (XtPointer) n);
+    XtAddCallback((Widget) ppOptionsVariationItems[n], (String) XmNactivateCallback,  SetVariationToggle, (XtPointer) n);
     }
 
    XtManageChildren(ppOptionsVariationItems, XtNumber(ppLabelOptionsVariation[lng]));
@@ -340,7 +340,7 @@ void InitPanneauPalette()
    ppPanneauPalette = (Widget) XmCreateScrolledList(ppFormePal, "option_menu1", args, i);
 
    XmListSelectPos(ppPanneauPalette, recCmap.noPalette+1, True);
-   XtAddCallback(ppPanneauPalette, XmNsingleSelectionCallback, (XtCallbackProc)  SetPaletteToggle, NULL);
+   XtAddCallback(ppPanneauPalette, XmNsingleSelectionCallback,  SetPaletteToggle, NULL);
    XtManageChild(ppPanneauPalette);
 
    i = 0;
@@ -363,8 +363,8 @@ void InitPanneauPalette()
    XtSetArg(args[i], XmNvalue, (int)(recCmap.amplificationMin*100.0)); i++;
    ppPanneauMin = (Widget) XmCreateScale(ppFormeMin, "option_menu1", args, i);
 
-   XtAddCallback(ppPanneauMin, XmNdragCallback, (XtCallbackProc)  SetMinToggle, NULL);
-   XtAddCallback(ppPanneauMin, XmNvalueChangedCallback, (XtCallbackProc)  SetMinToggle, NULL);
+   XtAddCallback(ppPanneauMin, XmNdragCallback,  SetMinToggle, NULL);
+   XtAddCallback(ppPanneauMin, XmNvalueChangedCallback,  SetMinToggle, NULL);
    XtManageChild(ppPanneauMin);
 
 /**
@@ -385,8 +385,8 @@ void InitPanneauPalette()
    XtSetArg(args[i], XmNscaleHeight, height); i++;
    ppPanneauMax = (Widget) XmCreateScale(ppFormeMax, "option_menu1", args, i);
 
-   XtAddCallback(ppPanneauMax, XmNdragCallback, (XtCallbackProc)  SetMaxToggle, NULL);
-   XtAddCallback(ppPanneauMax, XmNvalueChangedCallback, (XtCallbackProc)  SetMaxToggle, NULL);
+   XtAddCallback(ppPanneauMax, XmNdragCallback,  SetMaxToggle, NULL);
+   XtAddCallback(ppPanneauMax, XmNvalueChangedCallback,  SetMaxToggle, NULL);
    XtManageChild(ppPanneauMax);
 
    }
@@ -517,7 +517,7 @@ int PaletteMgrGetVariation()
    return variation;
    }
 
-XtCallbackProc SetVariationToggle (Widget w, caddr_t client_data, caddr_t call_data)
+void SetVariationToggle (Widget w, XtPointer client_data, XtPointer call_data)
 {
    long lcl_client_data;
 

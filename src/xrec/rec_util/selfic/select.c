@@ -248,7 +248,6 @@ extern void XEditEnleveTout();
 extern void XRepertoireOuvrir();
 extern void XRepertoireActiver();
 
-void XSelectDeselectItem();
 void XSelectChangerRepertoire();
 
 
@@ -263,24 +262,24 @@ static void InitWidgetsBasic();
 static void InitWidgetsCurrentPath();
 static void InitWidgetsPulldown();
 static void XSelectActiver();
-static void XSelectAddToList ( Widget w, caddr_t client, caddr_t data );
+static void XSelectAddToList ( Widget w, XtPointer client, XtPointer data );
 static void XSelectCallbacks();
 static void XSelectDirectory();
-static void XSelectFermer(Widget w, caddr_t unused1, caddr_t unused2);
+static void XSelectFermer(Widget w, XtPointer unused1, XtPointer unused2);
 static void XSelectGetFichiers (char *liste, int   maximum, int   len, int  *nombre);
-static void XSelectItemListeFichier();
-static void XSelectMenuListeItem ( );
-static void XSelectOk ( Widget w, caddr_t client, caddr_t data );
+static void XSelectItemListeFichier ( Widget w, XtPointer client, XtPointer data );
+static void XSelectMenuListeItem ( Widget w, XtPointer client, XtPointer data );
+static void XSelectOk ( Widget w, XtPointer client, XtPointer data );
 static void XSelectOuvrir();
-static void XSelectTextCallback(Widget w, caddr_t unused1, caddr_t unused2);
+static void XSelectTextCallback(Widget w, XtPointer unused1, XtPointer unused2);
 static void XSelectUpdateDirectoryCourant();
 static void XSelectUpdateListe();
 static void XSelectUpdatePath();
-void XSelectDeselectItem (Widget w, caddr_t client, caddr_t data);
+void XSelectDeselectItem (Widget w, XtPointer client, XtPointer data);
 
 /* Fonctions appeles de l'exterieur de select.c */
 
-static Widget TrouverWidgetParent(Window eventWindow);
+static Widget TrouverWidgetParentLocal(Window eventWindow);
 
 /*
  * variable globales
@@ -512,7 +511,7 @@ static void InitWidgetsCurrentPath()
    Select.current_path = (Widget) XmCreateTextField(Select.form, (String)str, args, (Cardinal)i);
 /*    Select.current_path = XtCreateWidget(str, xmTextFieldWidgetClass, Select.form, args, i);*/
     XtAddCallback(Select.current_path, XmNactivateCallback,
-                                      (XtCallbackProc) XSelectTextCallback, (XtPointer)(long)0);
+                                       XSelectTextCallback, (XtPointer)(long)0);
    XtManageChild(Select.current_path);
 }
 
@@ -595,7 +594,7 @@ char str[128];
       Select.dir[i] = (Widget) XmCreatePushButtonGadget(Select.pulldown,
                                                         "dir_list", 
                                                         args, 1);
-      XtAddCallback(Select.dir[i], XmNactivateCallback, (XtCallbackProc) XSelectMenuListeItem, (XtPointer) (long)i);
+      XtAddCallback(Select.dir[i], XmNactivateCallback, XSelectMenuListeItem, (XtPointer) (long)i);
       XmStringFree ( tmp );
       }
 
@@ -819,7 +818,7 @@ static void InitWidgetsBasic()
 /*    XtUnmanageChild(tmp); */
 
    tmp = (Widget)XmMessageBoxGetChild(Select.message, XmDIALOG_OK_BUTTON);
-   XtAddCallback ( tmp,  XmNactivateCallback, (XtCallbackProc)XSelectOk , NULL );
+   XtAddCallback ( tmp,  XmNactivateCallback, XSelectOk , NULL );
 
 /*.................................form....................................*/
 
@@ -874,7 +873,7 @@ Widget widgetParent;
                {
                case ButtonPress:
                     widgetParent =
-                    (Widget)TrouverWidgetParent(Select.theEvent.xbutton.window);
+                    (Widget)TrouverWidgetParentLocal(Select.theEvent.xbutton.window);
                     if (widgetParent == Select.toplevel)
                        {
                        XtAppNextEvent(SuperWidget.contexte,&(Select.theEvent));
@@ -926,7 +925,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void  XSelectFermer(Widget w, caddr_t unused1, caddr_t unused2)
+static void  XSelectFermer(Widget w, XtPointer unused1, XtPointer unused2)
 {
    XSelectAddToList ( NULL, NULL, NULL );
    XtUnmapWidget(Repertoire.toplevel);
@@ -1057,11 +1056,11 @@ static void XSelectCallbacks()
 
 {
  XtAddCallback ( Select.ok,        XmNactivateCallback,
-                                   (XtCallbackProc) XSelectFermer ,          NULL );
+                                   XSelectFermer ,          NULL );
  XtAddCallback ( Select.clear,     XmNactivateCallback,
-                                    (XtCallbackProc) XSelectDeselectItem ,    Select.liste );
+                                   XSelectDeselectItem ,    Select.liste );
  XtAddCallback ( Select.add_list,  XmNactivateCallback,
-                                    (XtCallbackProc) XSelectAddToList ,       NULL );
+                                   XSelectAddToList ,       NULL );
  XtAddCallback ( Select.edit_list, XmNactivateCallback,
                                     (XtCallbackProc)XEditActiver ,           NULL );
  XtAddCallback ( Select.path_list, XmNactivateCallback,
@@ -1071,9 +1070,9 @@ static void XSelectCallbacks()
                                    XSelectItemListeFichier, NULL );
 */
  XtAddCallback ( Select.liste,     XmNextendedSelectionCallback,
-                                    (XtCallbackProc)XSelectItemListeFichier, NULL );
+                                    XSelectItemListeFichier, NULL );
  XtAddCallback ( Select.liste,     XmNdefaultActionCallback,
-                                    (XtCallbackProc)XSelectAddToList,        NULL );
+                                   XSelectAddToList,        NULL );
 }
 
 /******************************************************************************
@@ -1100,7 +1099,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XSelectTextCallback(Widget w, caddr_t unused1, caddr_t unused2)
+static void XSelectTextCallback(Widget w, XtPointer unused1, XtPointer unused2)
 {
    char *pos;
    int i, nombre, turn_on;
@@ -1217,7 +1216,7 @@ void XSelectChangerRepertoire(char *path)
         Select.dir[i] = (Widget) XmCreatePushButtonGadget(Select.pulldown, 
                                                           "directory_list",
                                                           args , 1);
-        XtAddCallback(Select.dir[i],XmNactivateCallback,(XtCallbackProc) XSelectMenuListeItem,(XtPointer)(long)i);
+        XtAddCallback(Select.dir[i],XmNactivateCallback, XSelectMenuListeItem,(XtPointer)(long)i);
         XmStringFree ( tmp ); 
         }
      mx_dir = nb_dir;
@@ -1338,7 +1337,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XSelectMenuListeItem ( Widget w, caddr_t client, caddr_t data )
+static void XSelectMenuListeItem ( Widget w, XtPointer client, XtPointer data )
 {
  char nouveau_dir[256];
  int i;
@@ -1383,7 +1382,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XSelectItemListeFichier ( Widget w, caddr_t client, caddr_t data )
+static void XSelectItemListeFichier ( Widget w, XtPointer client, XtPointer data )
 {
  char *last_dir;
  char nouveau_dir[256], nom[128];
@@ -1455,7 +1454,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-void XSelectDeselectItem (Widget w, caddr_t client, caddr_t data)
+void XSelectDeselectItem (Widget w, XtPointer client, XtPointer data)
 {
   XmListDeselectAllItems ( (Widget) w );
 }
@@ -1485,7 +1484,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XSelectAddToList ( Widget w, caddr_t client, caddr_t data )
+static void XSelectAddToList ( Widget w, XtPointer client, XtPointer data )
 {
    int i, nombre;
    Arg args[1];
@@ -1769,7 +1768,7 @@ VALEURE RETOURNEE:      NONE
 
 LIBRAIRIES :            Motif
 ------------------------------------------------------------------------------*/
-static void XSelectOk ( Widget w, caddr_t client, caddr_t data )
+static void XSelectOk ( Widget w, XtPointer client, XtPointer data )
 {
    Select.etat = SELECT_FINIE;
 }

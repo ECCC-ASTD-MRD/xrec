@@ -76,7 +76,7 @@ int pattSelectionTerminee;
 static int interpolationLevel = 1;
 
 
-void SetLissageToggle(Widget w, caddr_t client_data, caddr_t call_data)
+void SetLissageToggle(Widget w, XtPointer client_data, XtPointer call_data)
 {
    char *str;
    int lng;
@@ -101,7 +101,7 @@ void SetLissageToggle(Widget w, caddr_t client_data, caddr_t call_data)
       }
    }
 
-void SetInterpolationToggle(Widget w, caddr_t client_data, caddr_t call_data)
+void SetInterpolationToggle(Widget w, XtPointer client_data, XtPointer call_data)
 {
    char *str;
    int lng,i,nbChampsActifs;
@@ -145,33 +145,33 @@ void SetInterpolationToggle(Widget w, caddr_t client_data, caddr_t call_data)
    RedessinerFenetres();
    }
 
-void SetFontSizeLegendToggle(Widget w, caddr_t client_data, caddr_t call_data)
+void SetFontSizeLegendToggle(Widget w, XtPointer client_data, XtPointer call_data)
 {
    fontSizeLegend = atoi(XtName(w));
    }
 
-void SetFontSizeColorLegendToggle(Widget w, caddr_t client_data, caddr_t call_data)
+void SetFontSizeColorLegendToggle(Widget w, XtPointer client_data, XtPointer call_data)
 {
    fontSizeColorLegend = atoi(XtName(w));
    }
 
-void SetFontSizeLabelToggle(Widget w, caddr_t client_data, caddr_t call_data)
+void SetFontSizeLabelToggle(Widget w, XtPointer client_data, XtPointer call_data)
 {
    fontSizeLabels = atoi(XtName(w));
    }
 
-XtCallbackProc PattOk(Widget w, caddr_t client_data, caddr_t call_data)
+void PattOk(Widget w, XtPointer client_data, XtPointer call_data)
 {
    pattSelectionTerminee = TRUE;
    DesactiverPanneauAttributs();
-   return 0;
+   return;
    }
 
-XtCallbackProc PattAfficher(Widget w, caddr_t client_data, caddr_t call_data)
+void PattAfficher(Widget w, XtPointer client_data, XtPointer call_data)
 {
 
    RedessinerFenetres();
-   return 0;
+   return;
    }
 
 
@@ -210,7 +210,7 @@ void InitPanneauAttributs()
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
    pattOk = (Widget)XmCreatePushButton(pattForme, labelOk[lng], args, i);
-   XtAddCallback(pattOk, XmNactivateCallback, (XtCallbackProc) PattOk, NULL);
+   XtAddCallback(pattOk, XmNactivateCallback, PattOk, NULL);
    XtManageChild(pattOk);
 
    i = 0;
@@ -218,7 +218,7 @@ void InitPanneauAttributs()
    XtSetArg(args[i], XmNrightWidget, pattOk); i++;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    pattAfficher = (Widget)XmCreatePushButton(pattForme, labelAfficher[lng], args, i);
-   XtAddCallback(pattAfficher, XmNactivateCallback, (XtCallbackProc)  PattAfficher, NULL);
+   XtAddCallback(pattAfficher, XmNactivateCallback,  PattAfficher, NULL);
    XtManageChild(pattAfficher);
 
    i = 0;
@@ -256,7 +256,7 @@ void InitPanneauAttributs()
 	XtSetArg(args[i], XmNlabelString, string); i++;
 	pattOptionsLissageItems[n] = XmCreatePushButtonGadget(pattOptionsLissage, pattLabelOptionsLissage[lng][n], args, i);
 	XmStringFree(string);
-	XtAddCallback(pattOptionsLissageItems[n], XmNactivateCallback, (XtCallbackProc)  SetLissageToggle, (XtPointer) n);
+	XtAddCallback(pattOptionsLissageItems[n], XmNactivateCallback,  SetLissageToggle, (XtPointer) n);
 	}
 
    XtManageChildren(pattOptionsLissageItems, XtNumber(pattLabelOptionsLissage[lng]));
@@ -323,7 +323,7 @@ void InitPanneauAttributs()
 	XtSetArg(args[i], XmNlabelString, string); i++;
 	pattOptionsInterpItems[n] = XmCreatePushButton(pattOptionsInterp, pattLabelOptionsInterp[lng][n], args, i);
 	XmStringFree(string);
-	XtAddCallback(pattOptionsInterpItems[n], XmNactivateCallback, (XtCallbackProc)  SetInterpolationToggle, (XtPointer) n);
+	XtAddCallback(pattOptionsInterpItems[n], XmNactivateCallback,  SetInterpolationToggle, (XtPointer) n);
 	}
 
    XtManageChildren(pattOptionsInterpItems, 3);
@@ -368,7 +368,7 @@ void InitPanneauAttributs()
 	XtSetArg(args[i], XmNlabelString, string); i++;
 	pattOptionsFontSizeLabelItems[n] = XmCreatePushButtonGadget(pattOptionsFontSizeLabels, pattLabelOptionsFontSize[lng][n], args, i);
 	XmStringFree(string);
-	XtAddCallback(pattOptionsFontSizeLabelItems[n], XmNactivateCallback, (XtCallbackProc)  SetFontSizeLabelToggle, (XtPointer) n);
+	XtAddCallback(pattOptionsFontSizeLabelItems[n], XmNactivateCallback,  SetFontSizeLabelToggle, (XtPointer) n);
 	}
 
    XtManageChildren(pattOptionsFontSizeLabelItems, XtNumber(pattLabelOptionsFontSize[lng]));
@@ -420,7 +420,7 @@ void InitPanneauAttributs()
 	XtSetArg(args[i], XmNlabelString, string); i++;
 	pattOptionsFontSizeColorLegendItems[n] = XmCreatePushButtonGadget(pattOptionsFontSizeColorLegend, pattLabelOptionsFontSize[lng][n], args, i);
 	XmStringFree(string);
-	XtAddCallback(pattOptionsFontSizeColorLegendItems[n], XmNactivateCallback, (XtCallbackProc)  SetFontSizeColorLegendToggle, (XtPointer) n);
+	XtAddCallback(pattOptionsFontSizeColorLegendItems[n], XmNactivateCallback,  SetFontSizeColorLegendToggle, (XtPointer) n);
 	}
 
    XtManageChildren(pattOptionsFontSizeColorLegendItems, XtNumber(pattLabelOptionsFontSize[lng]));
@@ -472,7 +472,7 @@ void InitPanneauAttributs()
 	XtSetArg(args[i], XmNlabelString, string); i++;
 	pattOptionsFontSizeLegendItems[n] = XmCreatePushButtonGadget(pattOptionsFontSizeLegend, pattLabelOptionsFontSize[lng][n], args, i);
 	XmStringFree(string);
-	XtAddCallback(pattOptionsFontSizeLegendItems[n], XmNactivateCallback, (XtCallbackProc)  SetFontSizeLegendToggle, (XtPointer) n);
+	XtAddCallback(pattOptionsFontSizeLegendItems[n], XmNactivateCallback,  SetFontSizeLegendToggle, (XtPointer) n);
 	}
 
    XtManageChildren(pattOptionsFontSizeLegendItems, XtNumber(pattLabelOptionsFontSize[lng]));

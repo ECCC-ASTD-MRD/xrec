@@ -110,11 +110,11 @@ int interpolationTemporelle = FALSE;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-XtCallbackProc PaFermer(Widget w, caddr_t unused1, caddr_t unused2)
+void PaFermer(Widget w, XtPointer unused1, XtPointer unused2)
 {
    paSelectionTerminee = TRUE;
    DesactiverPanneauAnim();
-   return 0;
+   return;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
@@ -148,7 +148,7 @@ void InitPanneauAnim()
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
    paFermer = (Widget)XmCreatePushButton(paFormeAnimPanel, labelOk[lng], args, i);
    XtManageChild(paFermer);
-   XtAddCallback(paFermer, XmNactivateCallback, (XtCallbackProc) PaFermer, NULL);
+   XtAddCallback(paFermer, XmNactivateCallback, PaFermer, NULL);
 
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
@@ -188,7 +188,7 @@ void InitPanneauAnim()
    XtSetArg(args[i], XmNindicatorType, XmONE_OF_MANY); i++;
    paToggleAnimationRapide = (Widget) XmCreateToggleButton(paRadioBoxAnimation, labelAnimationRapide[lng], args, i);
    XtManageChild(paToggleAnimationRapide);
-   XtAddCallback(paToggleAnimationRapide, XmNdisarmCallback, (XtCallbackProc) PaToggleAnimationRapide, NULL);
+   XtAddCallback(paToggleAnimationRapide, XmNdisarmCallback, PaToggleAnimationRapide, NULL);
 
 /* -------------------------------------------------------------------------------------------------- */
 
@@ -211,7 +211,7 @@ void InitPanneauAnim()
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    paToggleDefilementRegulier = (Widget) XmCreateToggleButton(paRadioBoxTypeDeDefilement, labelDefilementRegulier[lng], args, i);
    XtManageChild(paToggleDefilementRegulier);
-   XtAddCallback(paToggleDefilementRegulier, XmNvalueChangedCallback, (XtCallbackProc) PaToggleDefilementRegulier, NULL);
+   XtAddCallback(paToggleDefilementRegulier, XmNvalueChangedCallback, PaToggleDefilementRegulier, NULL);
    
    i = 0;
    XtSetArg(args[i], XmNvisibleWhenOff, True); i++;
@@ -220,7 +220,7 @@ void InitPanneauAnim()
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    paToggleDefilementAvantArriere = (Widget)XmCreateToggleButton(paRadioBoxTypeDeDefilement, labelDefilementAvantArriere[lng], args, i);
    XtManageChild(paToggleDefilementAvantArriere);
-   XtAddCallback(paToggleDefilementAvantArriere, XmNvalueChangedCallback, (XtCallbackProc) PaToggleDefilementAvantArriere, NULL);
+   XtAddCallback(paToggleDefilementAvantArriere, XmNvalueChangedCallback, PaToggleDefilementAvantArriere, NULL);
 
 /* -------------------------------------------------------------------------------------------------- */
    
@@ -250,7 +250,7 @@ void InitPanneauAnim()
    XtSetArg(args[i], XmNindicatorType, XmONE_OF_MANY); i++;
    paToggleInterpolation = (Widget) XmCreateToggleButton(paRadioBoxInterpolation, labelInterpolation[lng], args, i);
    XtManageChild(paToggleInterpolation);
-   XtAddCallback(paToggleInterpolation, XmNdisarmCallback, (XtCallbackProc) PaToggleInterpolation, NULL);
+   XtAddCallback(paToggleInterpolation, XmNdisarmCallback, PaToggleInterpolation, NULL);
 
    i = 0;
    label = XmStringCreateLtoR(labelScaleIntervalle[lng], XmSTRING_DEFAULT_CHARSET);
@@ -266,8 +266,8 @@ void InitPanneauAnim()
    XtManageChild(paScaleIntervalle);
    XmStringFree(label);
 
-   XtAddCallback(paScaleIntervalle, XmNdragCallback, (XtCallbackProc) PaSetIntervalle, NULL);
-   XtAddCallback(paScaleIntervalle, XmNvalueChangedCallback, (XtCallbackProc) PaSetIntervalle, NULL);
+   XtAddCallback(paScaleIntervalle, XmNdragCallback, PaSetIntervalle, NULL);
+   XtAddCallback(paScaleIntervalle, XmNvalueChangedCallback, PaSetIntervalle, NULL);
 
    i = 0;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
@@ -293,8 +293,8 @@ void InitPanneauAnim()
    XtManageChild(paScaleDelai);
    XmStringFree(label);
 
-   XtAddCallback(paScaleDelai, XmNdragCallback, (XtCallbackProc) PaSetDelai, NULL);
-   XtAddCallback(paScaleDelai, XmNvalueChangedCallback, (XtCallbackProc) PaSetDelai, NULL);
+   XtAddCallback(paScaleDelai, XmNdragCallback, PaSetDelai, NULL);
+   XtAddCallback(paScaleDelai, XmNvalueChangedCallback, PaSetDelai, NULL);
 
 
 
@@ -316,27 +316,27 @@ void InitPanneauAnim()
    
    i = 0;
    paLastFrames = (Widget) XmCreatePushButton(paFormeBoutons, " << ", args, i);
-   XtAddCallback(paLastFrames, XmNactivateCallback, (XtCallbackProc) PaLastFrames, NULL);
+   XtAddCallback(paLastFrames, XmNactivateCallback, PaLastFrames, NULL);
    XtManageChild(paLastFrames);
 
    i = 0;
    paLastFrame = (Widget) XmCreatePushButton(paFormeBoutons, " <  ", args, i);
-   XtAddCallback(paLastFrame, XmNactivateCallback, (XtCallbackProc) PaLastFrame, NULL);
+   XtAddCallback(paLastFrame, XmNactivateCallback, PaLastFrame, NULL);
    XtManageChild(paLastFrame);
 
    i = 0;
    paStop = (Widget) XmCreatePushButton(paFormeBoutons, "Stop", args, i);
-   XtAddCallback(paStop, XmNactivateCallback, (XtCallbackProc) PaStop, NULL);
+   XtAddCallback(paStop, XmNactivateCallback, PaStop, NULL);
    XtManageChild(paStop);
 
    i = 0;
    paNextFrame = (Widget) XmCreatePushButton(paFormeBoutons, "  > ", args, i);
-   XtAddCallback(paNextFrame, XmNactivateCallback, (XtCallbackProc) PaNextFrame, NULL);
+   XtAddCallback(paNextFrame, XmNactivateCallback, PaNextFrame, NULL);
    XtManageChild(paNextFrame);
 
    i = 0;
    paNextFrames = (Widget) XmCreatePushButton(paFormeBoutons, " >> ", args, i);
-   XtAddCallback(paNextFrames, XmNactivateCallback, (XtCallbackProc) PaNextFrames, NULL);
+   XtAddCallback(paNextFrames, XmNactivateCallback, PaNextFrames, NULL);
    XtManageChild(paNextFrames);
 
    animInfo.animationRapide = FALSE;
@@ -357,7 +357,6 @@ void ActiverPanneauAnimation()
       }
    
    f77name(xpanpaact)();
-   
    }
 
 /* -------------------------------------------------------------------------------------------------- */
@@ -376,35 +375,35 @@ void DesactiverPanneauAnim()
 
 /* -------------------------------------------------------------------------------------------------- */
 
-XtCallbackProc PaSetIntervalle(Widget w, caddr_t client_data, caddr_t call_data)
+void PaSetIntervalle(Widget w, XtPointer client_data, XtPointer call_data)
 {
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
    animInfo.intervalle = (float)(donnees->value);
    
-  return 0;
+  return;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
-XtCallbackProc PaSetDelai(Widget w, caddr_t client_data, caddr_t call_data)
+void PaSetDelai(Widget w, XtPointer client_data, XtPointer call_data)
 {
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
    animInfo.delai = 0.01 * (float)(donnees->value);
    
-  return 0;
+  return;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
-XtCallbackProc PaNextFrames(Widget w, caddr_t unused1, caddr_t unused2)
+void PaNextFrames(Widget w, XtPointer unused1, XtPointer unused2)
 {
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return 0;
+      return;
       }
 
    xc.flagInterrupt = FALSE;
@@ -422,27 +421,27 @@ XtCallbackProc PaNextFrames(Widget w, caddr_t unused1, caddr_t unused2)
 
    xc.flagInterrupt = TRUE;
    c_gmpopti("ACCEPT_INTERRUPTS", TRUE);
-  return 0;
+  return;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
-XtCallbackProc PaStop(Widget w, caddr_t unused1, caddr_t unused2)
+void PaStop(Widget w, XtPointer unused1, XtPointer unused2)
 {
    xc.annulationDemandee = TRUE;
-  return 0;
+  return;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
-XtCallbackProc PaLastFrames(Widget w, caddr_t unused1, caddr_t unused2)
+void PaLastFrames(Widget w, XtPointer unused1, XtPointer unused2)
 {
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return 0;
+      return;
       }
 
    xc.flagInterrupt = FALSE;
@@ -460,18 +459,18 @@ XtCallbackProc PaLastFrames(Widget w, caddr_t unused1, caddr_t unused2)
 
    xc.flagInterrupt = TRUE;
    c_gmpopti("ACCEPT_INTERRUPTS", TRUE);
-  return 0;
+  return;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
-XtCallbackProc PaLastFrame(Widget w, caddr_t unused1, caddr_t unused2)
+void PaLastFrame(Widget w, XtPointer unused1, XtPointer unused2)
 {
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return 0;
+      return;
       }
 
    InvertWidget(w);
@@ -479,18 +478,18 @@ XtCallbackProc PaLastFrame(Widget w, caddr_t unused1, caddr_t unused2)
    AnimerFrames(-1);
    EnleverBoutonAnnulation();
    InvertWidget(w);
-   return 0;
+   return;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
 /** ARGSUSED **/
-XtCallbackProc PaNextFrame(Widget w, caddr_t unused1, caddr_t unused2)
+void PaNextFrame(Widget w, XtPointer unused1, XtPointer unused2)
 {
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return 0;
+      return;
       }
 
    InvertWidget(w);
@@ -500,26 +499,26 @@ XtCallbackProc PaNextFrame(Widget w, caddr_t unused1, caddr_t unused2)
 
    EnleverBoutonAnnulation();
    InvertWidget(w);
-   return 0;
+   return;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
 
-XtCallbackProc PaToggleDefilementRegulier(Widget w, caddr_t unused1, caddr_t unused2)
+void PaToggleDefilementRegulier(Widget w, XtPointer unused1, XtPointer unused2)
 {
    animInfo.typeDefilement = DEFILEMENT_REGULIER;
-  return 0;
+  return;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
-XtCallbackProc PaToggleDefilementAvantArriere(Widget w, caddr_t unused1, caddr_t unused2)
+void PaToggleDefilementAvantArriere(Widget w, XtPointer unused1, XtPointer unused2)
 {
    animInfo.typeDefilement = DEFILEMENT_AVANT_ARRIERE;
-  return 0;
+  return;
    }
 
 /* -------------------------------------------------------------------------------------------------- */
-XtCallbackProc PaToggleAnimationRapide(Widget w, caddr_t u1, caddr_t u2)
+void PaToggleAnimationRapide(Widget w, XtPointer u1, XtPointer u2)
 {
   Arg args[2];
   int i;
@@ -545,14 +544,12 @@ XtCallbackProc PaToggleAnimationRapide(Widget w, caddr_t u1, caddr_t u2)
     interpolationTemporelle = False;
     }
 
-  return 0;
-  
-  
+  return;
 }
 
 /* -------------------------------------------------------------------------------------------------- */
 
-XtCallbackProc PaToggleInterpolation(Widget w, caddr_t unused1, caddr_t unused2)
+void PaToggleInterpolation(Widget w, XtPointer unused1, XtPointer unused2)
 {
   Arg args[8];
   int i;
@@ -577,6 +574,6 @@ XtCallbackProc PaToggleInterpolation(Widget w, caddr_t unused1, caddr_t unused2)
     XtSetValues(paToggleAnimationRapide, args, i);
     animInfo.animationRapide = False;
     }
-  return 0;
+  return;
 }
 

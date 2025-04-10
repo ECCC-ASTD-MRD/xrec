@@ -133,7 +133,7 @@ void InitPanneauEdition()
    XtSetArg(args[n], XmNtopAttachment, XmATTACH_FORM); n++;
    XtSetArg(args[n], XmNrightAttachment, XmATTACH_FORM); n++;
    peFermer = (Widget)XmCreatePushButton(peForme, labelFermer[lng], args, n);
-   XtAddCallback(peFermer, XmNactivateCallback, (XtCallbackProc)  PeFermer, NULL);
+   XtAddCallback(peFermer, XmNactivateCallback, PeFermer, NULL);
    XtManageChild(peFermer);
 
    n = 0;
@@ -141,7 +141,7 @@ void InitPanneauEdition()
    XtSetArg(args[n], XmNrightAttachment, XmATTACH_WIDGET); n++;
    XtSetArg(args[n], XmNrightWidget, peFermer); n++;
    peAfficher = (Widget)XmCreatePushButton(peForme, labelAfficher[lng], args, n);
-   XtAddCallback(peAfficher, XmNactivateCallback, (XtCallbackProc)  PeAfficher, NULL);
+   XtAddCallback(peAfficher, XmNactivateCallback, PeAfficher, NULL);
    XtManageChild(peAfficher);
 
    n = 0;
@@ -169,7 +169,7 @@ void InitPanneauEdition()
    XtSetArg(args[n], XmNlabelString, label); n++;
    XtSetArg (args[n], XmNsensitive, False);  n++;
    peEditerValeurs = (Widget) XmCreatePushButton(peRCBoutons, EditerValeurs[lng], args, n);
-   XtAddCallback(peEditerValeurs, XmNactivateCallback, (XtCallbackProc)  PeEditerValeurs, MODIFIER);
+   XtAddCallback(peEditerValeurs, XmNactivateCallback, PeEditerValeurs, MODIFIER);
    XtManageChild(peEditerValeurs);
    XmStringFree(label);
    
@@ -178,7 +178,7 @@ void InitPanneauEdition()
    XtSetArg(args[n], XmNlabelString, label); n++;
    XtSetArg (args[n], XmNsensitive, False);  n++;
    peAnnulerEdition = (Widget) XmCreatePushButton(peRCBoutons, AnnulerEdition[lng], args, n);
-   XtAddCallback(peAnnulerEdition, XmNactivateCallback, (XtCallbackProc)  PeAnnulerEdition, NULL);
+   XtAddCallback(peAnnulerEdition, XmNactivateCallback, PeAnnulerEdition, NULL);
    XtManageChild(peAnnulerEdition);
    XmStringFree(label);
    
@@ -187,7 +187,7 @@ void InitPanneauEdition()
    XtSetArg(args[n], XmNlabelString, label); n++;
    XtSetArg (args[n], XmNsensitive, False);  n++;
    peEnregistrer = (Widget) XmCreatePushButton(peRCBoutons, Enregistrer[lng], args, n);
-   XtAddCallback(peEnregistrer, XmNactivateCallback, (XtCallbackProc)  PeEnregistrer, NULL);
+   XtAddCallback(peEnregistrer, XmNactivateCallback, PeEnregistrer, NULL);
    XtManageChild(peEnregistrer);
    XmStringFree(label);
    
@@ -196,7 +196,7 @@ void InitPanneauEdition()
    XtSetArg(args[n], XmNlabelString, label); n++;
    XtSetArg(args[n], XmNsensitive, False); n++;
    peRemettreValeurs = (Widget) XmCreatePushButton(peRCBoutons, RemettreValeurs[lng], args, n);
-   XtAddCallback(peRemettreValeurs, XmNactivateCallback, (XtCallbackProc)  PeEditerValeurs, (XtPointer) REMETTRE);
+   XtAddCallback(peRemettreValeurs, XmNactivateCallback, PeEditerValeurs, (XtPointer) REMETTRE);
    XtManageChild(peRemettreValeurs);
    XmStringFree(label);
    
@@ -205,7 +205,7 @@ void InitPanneauEdition()
    XtSetArg(args[n], XmNlabelString, label); n++;
    XtSetArg (args[n], XmNsensitive, False);  n++;
    peRefaireEdition = (Widget) XmCreatePushButton(peRCBoutons, RefaireEdition[lng], args, n);
-   XtAddCallback(peRefaireEdition, XmNactivateCallback, (XtCallbackProc)  PeRefaireEdition, NULL);
+   XtAddCallback(peRefaireEdition, XmNactivateCallback, PeRefaireEdition, NULL);
    XtManageChild(peRefaireEdition);
    XmStringFree(label);
    
@@ -214,7 +214,7 @@ void InitPanneauEdition()
    XtSetArg(args[n], XmNlabelString, label); n++;
    XtSetArg (args[n], XmNsensitive, False);  n++;
    peAnnulerToutesModifs = (Widget) XmCreatePushButton(peRCBoutons, AnnulerToutesModifs[lng], args, n);
-   XtAddCallback(peAnnulerToutesModifs, XmNactivateCallback, (XtCallbackProc)  PeAnnulerToutesModifs, NULL);
+   XtAddCallback(peAnnulerToutesModifs, XmNactivateCallback, PeAnnulerToutesModifs, NULL);
    XtManageChild(peAnnulerToutesModifs);
    XmStringFree(label);
    
@@ -349,14 +349,14 @@ void DesactiverPanneauEdition()
    }
 
 /*<----------------------------------------------------------------------------------------->*/
-XtCallbackProc PeFermer()
+void PeFermer()
 {
    DesactiverPanneauEdition();
-   return 0;
+   return;
    }
 
 /*<----------------------------------------------------------------------------------------->*/
-XtCallbackProc PeAfficher(Widget w, caddr_t unused1, caddr_t unused2)
+void PeAfficher(Widget w, XtPointer unused1, XtPointer unused2)
 {
    int i;
    
@@ -375,13 +375,13 @@ XtCallbackProc PeAfficher(Widget w, caddr_t unused1, caddr_t unused2)
       }
    c_wglfsh();
    FlusherTousLesEvenements();
-   return 0;
+   return ;
    }
 
 /*<----------------------------------------------------------------------------------------->*/
 
 /** ARGSUSED **/
-XtCallbackProc PeEditerValeurs(Widget w, caddr_t clientData, caddr_t  callData)
+void PeEditerValeurs(Widget w, XtPointer clientData, XtPointer  callData)
 {
    int lng;
    static char *pasAvecDesChampsVectoriels[] = {"\nCette fonction ne s'applique pas\naux champs vectoriels\n", 
@@ -410,7 +410,7 @@ XtCallbackProc PeEditerValeurs(Widget w, caddr_t clientData, caddr_t  callData)
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return 0;
+      return ;
       }
    
    if (champ->natureTensorielle == VECTEUR)
@@ -419,7 +419,7 @@ XtCallbackProc PeEditerValeurs(Widget w, caddr_t clientData, caddr_t  callData)
       DesactiverTousPeWidgets();
       MessageAvertissementAux(pasAvecDesChampsVectoriels[lng], AVERTISSEMENT, peWarning, peTopLevel);
       ActiverTousPeWidgets();
-      return 0;
+      return ;
       }
 
    oldIndCourantPile = indCourantPile;
@@ -441,7 +441,7 @@ XtCallbackProc PeEditerValeurs(Widget w, caddr_t clientData, caddr_t  callData)
       {
       f77name(souris)(&bouton, &event, 
 	      &x0, &y0, &xsize, &ysize, 
-	      &x1, &y1, &x2, &y2, TitreMenu, &nbMenus, (F2Cl) 80);
+	      &x1, &y1, &x2, &y2, (char*) TitreMenu, &nbMenus, (F2Cl) 80);
       
       if (x2 < x1)
 	 {
@@ -565,13 +565,13 @@ XtCallbackProc PeEditerValeurs(Widget w, caddr_t clientData, caddr_t  callData)
       }
    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
    InvertWidget(w);
-   return 0;
+   return ;
 
    }
 
 /*<----------------------------------------------------------------------------------------->*/
 
-XtCallbackProc PeAnnulerToutesModifs(Widget w, caddr_t unused1, caddr_t unused2)
+void PeAnnulerToutesModifs(Widget w, XtPointer unused1, XtPointer unused2)
 {
    static char *annulModif[] = {"Annuler toutes\nles modifications ?", "Cancel all\nmodifications ?"};
    int lng;
@@ -597,12 +597,12 @@ XtCallbackProc PeAnnulerToutesModifs(Widget w, caddr_t unused1, caddr_t unused2)
       DesactiverAuxPeWidgets();
       PeAfficher(NULL, NULL, NULL);
       }
-   return 0;
+   return ;
 
    }
 
 /*<----------------------------------------------------------------------------------------->*/
-XtCallbackProc PeAnnulerEdition()
+void PeAnnulerEdition()
 {
    int i,j, k, n;
    _Champ *champ;
@@ -610,7 +610,7 @@ XtCallbackProc PeAnnulerEdition()
    FldMgrGetChamp(&champ, 0);
 
    if (indCourantPile < 0)
-      return 0;
+      return ;
 
    switch(pileEd[indCourantPile].type)
       {
@@ -652,12 +652,12 @@ XtCallbackProc PeAnnulerEdition()
 
    ActiverWidget(peRefaireEdition);
    PeAfficher(NULL, NULL, NULL);
-   return 0;
+   return ;
 
    }
    
 /*<----------------------------------------------------------------------------------------->*/
-XtCallbackProc PeRefaireEdition()
+void PeRefaireEdition()
 {
    int i,j, k;
    _Champ *champ;
@@ -701,11 +701,11 @@ XtCallbackProc PeRefaireEdition()
    
    PeAfficher(NULL, NULL, NULL);
 
-   return 0;
+   return ;
    }
 
 /*<----------------------------------------------------------------------------------------->*/
-XtCallbackProc PeEnregistrer(Widget w, caddr_t clientData, caddr_t  callData)
+void PeEnregistrer(Widget w, XtPointer clientData, XtPointer  callData)
 {
    char nomFich[1024];
    char *nouvelleEtiquette;
@@ -780,7 +780,7 @@ XtCallbackProc PeEnregistrer(Widget w, caddr_t clientData, caddr_t  callData)
       DesactiverTousPeWidgets();
       MessageAvertissementAux(problemeFstouv[lng], AVERTISSEMENT, peWarning, peTopLevel);
       ActiverTousPeWidgets();
-      return 0;
+      return ;
       }
 
    ier = c_fstprm(champ->cle, &dateo, &deet, &npas, &ni, &nj, &nk, &nbits,
@@ -852,7 +852,7 @@ XtCallbackProc PeEnregistrer(Widget w, caddr_t clientData, caddr_t  callData)
    MAJLabelsPile(nbTotalPile, nbTotalPile);
    DesactiverAuxPeWidgets();
    champ->champModifie = False;
-   return 0; 
+   return ; 
    }
 
 /*<----------------------------------------------------------------------------------------->*/

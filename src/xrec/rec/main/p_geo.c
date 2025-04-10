@@ -104,7 +104,7 @@ static char *pgLabelOptionsEpaisseur[]= {"1                   ", "2", "3", "4", 
 int currentGeoToggle = CONTINENTS;
 int pgSelectionTerminee;
 
-void CheckGeoToggles (Widget w, caddr_t client_data, caddr_t call_data) 
+void CheckGeoToggles (Widget w, XtPointer client_data, XtPointer call_data) 
 {
   Arg args[3];
   int i, pos, toggleChanged;
@@ -211,7 +211,7 @@ void CheckGeoToggles (Widget w, caddr_t client_data, caddr_t call_data)
 ***********************************************************************
 ****/
 
-void SetGeoColorToggle (Widget w, caddr_t client_data, caddr_t call_data) 
+void SetGeoColorToggle (Widget w, XtPointer client_data, XtPointer call_data) 
 {
   Arg args[2];
   Pixel back, fore;
@@ -234,7 +234,7 @@ void SetGeoColorToggle (Widget w, caddr_t client_data, caddr_t call_data)
 ***********************************************************************
 ****/
 
-void SetGeoThicknessToggle (Widget w, caddr_t client_data, caddr_t call_data)
+void SetGeoThicknessToggle (Widget w, XtPointer client_data, XtPointer call_data)
 {
   mapFlags.epaisseur[currentGeoToggle] = atoi(XtName(w));
 }
@@ -244,7 +244,7 @@ void SetGeoThicknessToggle (Widget w, caddr_t client_data, caddr_t call_data)
 ***********************************************************************
 ****/
 
-void SetGeoStyleToggle (Widget w, caddr_t client_data, caddr_t call_data)
+void SetGeoStyleToggle (Widget w, XtPointer client_data, XtPointer call_data)
 {
    mapFlags.style[currentGeoToggle] = (int)client_data;
 
@@ -267,11 +267,11 @@ void SetGeoStyleToggle (Widget w, caddr_t client_data, caddr_t call_data)
 ***********************************************************************
 ****/
  
-XtCallbackProc PgOk(Widget w, caddr_t client_data, caddr_t call_data)
+void PgOk(Widget w, XtPointer client_data, XtPointer call_data)
 {
    pgSelectionTerminee = TRUE;
    DesactiverPanneauGeo();
-   return 0;
+   return ;
    }
 
 /****
@@ -279,10 +279,10 @@ XtCallbackProc PgOk(Widget w, caddr_t client_data, caddr_t call_data)
 ***********************************************************************
 ****/
 
-XtCallbackProc PgAfficher(Widget w, caddr_t client_data, caddr_t call_data)
+void PgAfficher(Widget w, XtPointer client_data, XtPointer call_data)
 {
    RedessinerFenetres();
-   return 0;
+   return ;
    }
 
 /***
@@ -319,7 +319,7 @@ void InitPanneauGeo()
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
    pgOk = (Widget)XmCreatePushButton(pgForme, labelOk[lng], args, i);
-   XtAddCallback(pgOk, XmNactivateCallback, (XtCallbackProc)  PgOk, NULL);
+   XtAddCallback(pgOk, XmNactivateCallback,  PgOk, NULL);
    XtManageChild(pgOk);
 
    i = 0;
@@ -327,7 +327,7 @@ void InitPanneauGeo()
    XtSetArg(args[i], XmNrightWidget, pgOk); i++;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    pgAfficher = (Widget)XmCreatePushButton(pgForme, labelAfficher[lng], args, i);
-   XtAddCallback(pgAfficher, XmNactivateCallback, (XtCallbackProc)  PgAfficher, NULL);
+   XtAddCallback(pgAfficher, XmNactivateCallback,  PgAfficher, NULL);
    XtManageChild(pgAfficher);
 
    i=0;
@@ -358,7 +358,7 @@ void InitPanneauGeo()
      */
      XtSetArg (args[0], XmNvisibleWhenOff, False);
      pgToggleItems[i] = (Widget) XmCreateToggleButton(pgToggleBox, labelChamps[lng][i], args, 1); 
-     XtAddCallback (pgToggleItems[i], XmNvalueChangedCallback, (XtCallbackProc) CheckGeoToggles, (XtPointer) i); 
+     XtAddCallback (pgToggleItems[i], XmNvalueChangedCallback, CheckGeoToggles, (XtPointer) i); 
      XtManageChild (pgToggleItems[i]); 
      }
    XtManageChild(pgToggleBox);
@@ -426,7 +426,7 @@ void InitPanneauGeo()
 	   }
 	   
 	pgOptionsCouleurItems[n] = (Widget) XmCreatePushButton(pgOptionsCouleur, pgLabelOptionsCouleur[lng][n], args, i);
-	XtAddCallback(pgOptionsCouleurItems[n], XmNactivateCallback, (XtCallbackProc)  SetGeoColorToggle, (XtPointer) n);
+	XtAddCallback(pgOptionsCouleurItems[n], XmNactivateCallback,  SetGeoColorToggle, (XtPointer) n);
 	}
 
    XtManageChildren(pgOptionsCouleurItems, XtNumber(pgLabelOptionsCouleur[lng]));
@@ -457,7 +457,7 @@ void InitPanneauGeo()
 	{
 	i = 0;
 	pgOptionsEpaisseurItems[n] = XmCreatePushButtonGadget(pgOptionsEpaisseur, pgLabelOptionsEpaisseur[n], args, i);
-	XtAddCallback(pgOptionsEpaisseurItems[n], XmNactivateCallback, (XtCallbackProc)  SetGeoThicknessToggle, (XtPointer) n);
+	XtAddCallback(pgOptionsEpaisseurItems[n], XmNactivateCallback,  SetGeoThicknessToggle, (XtPointer) n);
 	}
 
    XtManageChildren(pgOptionsEpaisseurItems, 5);
@@ -486,7 +486,7 @@ void InitPanneauGeo()
      XtSetArg(args[i], XmNlabelString, string); i++;
      pgOptionsStyleItems[n] = XmCreatePushButtonGadget(pgOptionsStyle, pgLabelOptionsStyle[n], args, i);
      XmStringFree(string);   
-     XtAddCallback(pgOptionsStyleItems[n], XmNactivateCallback, (XtCallbackProc)  SetGeoStyleToggle, (XtPointer) n);
+     XtAddCallback(pgOptionsStyleItems[n], XmNactivateCallback,  SetGeoStyleToggle, (XtPointer) n);
      }
    
    XtManageChildren(pgOptionsStyleItems, 4);
@@ -572,7 +572,7 @@ void DesactiverPanneauGeo()
 
 
 
-XtCallbackProc PgResolution(Widget w, caddr_t unused1, caddr_t unused2)
+void PgResolution(Widget w, XtPointer unused1, XtPointer unused2)
 {
    float res;
    
@@ -585,10 +585,10 @@ XtCallbackProc PgResolution(Widget w, caddr_t unused1, caddr_t unused2)
       sscanf(XtName(w), "%f", &res);
       }
    PgSetResolution((int)(100.0*res+0.5));   
-   return 0;
+   return ;
    }
 
-XtCallbackProc PgMeridiens(Widget w, caddr_t unused1, caddr_t unused2)
+void PgMeridiens(Widget w, XtPointer unused1, XtPointer unused2)
 {
    switch ((int)unused1)
       {
@@ -600,10 +600,10 @@ XtCallbackProc PgMeridiens(Widget w, caddr_t unused1, caddr_t unused2)
       PgSetMeridiens(NON);
       break;
       }
-   return 0;
+   return ;
    }
 
-XtCallbackProc PgActive(Widget w, caddr_t unused1, caddr_t unused2)
+void PgActive(Widget w, XtPointer unused1, XtPointer unused2)
 {
    
    switch ((int)unused1)
@@ -616,25 +616,25 @@ XtCallbackProc PgActive(Widget w, caddr_t unused1, caddr_t unused2)
       PgSetFrontieresActives(NON);
       break;
       }
-   return 0;
+   return ;
    }
 
-XtCallbackProc PgEspaceMeridiens(Widget w, caddr_t unused1, caddr_t unused2)
+void PgEspaceMeridiens(Widget w, XtPointer unused1, XtPointer unused2)
 {
    float grid;
 
    sscanf(XtName(w), "%f", &grid);
    PgSetEspacementMeridiens((int)grid);
-   return 0;
+   return ;
    }
 
-XtCallbackProc PgEpaisseur(Widget w, caddr_t unused1, caddr_t unused2)
+void PgEpaisseur(Widget w, XtPointer unused1, XtPointer unused2)
 {
    int epaisseur;
 
    sscanf(XtName(w), "%d", &epaisseur);
    PgSetEpaisseur(epaisseur);
-   return 0;
+   return ;
    }
 
 

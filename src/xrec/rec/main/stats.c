@@ -53,19 +53,17 @@ char panneaustatsGeometrie[32];
 
 int pstatSelectionTerminee;
 
-XtCallbackProc PStatOk(w, unused1, unused2)
-Widget w;
-caddr_t unused1, unused2;
+void PStatOk(Widget w, XtPointer unused1, XtPointer unused2)
 {
    pstatSelectionTerminee = TRUE;
    DesactiverPanneauStats();
-   return 0;
+   return ;
    }
  
-XtCallbackProc PStatAfficher(Widget w, caddr_t unused1, caddr_t unused2)
+void PStatAfficher(Widget w, XtPointer unused1, XtPointer unused2)
 {
    RafraichirStats();
-   return 0;
+   return ;
    }
 
 
@@ -108,7 +106,7 @@ void InitPanneauStats()
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
    pstatOk = (Widget)XmCreatePushButton(pstatForme, labelOk[lng], args, i);
-   XtAddCallback(pstatOk, XmNactivateCallback, (XtCallbackProc) PStatOk, NULL);
+   XtAddCallback(pstatOk, XmNactivateCallback, PStatOk, NULL);
    XtManageChild(pstatOk);
 
    i = 0;
@@ -116,7 +114,7 @@ void InitPanneauStats()
    XtSetArg(args[i], XmNrightWidget, pstatOk); i++;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    pstatAfficher = (Widget)XmCreatePushButton(pstatForme, labelAfficher[lng], args, i);
-   XtAddCallback(pstatAfficher, XmNactivateCallback, (XtCallbackProc) PStatAfficher, NULL);
+   XtAddCallback(pstatAfficher, XmNactivateCallback, PStatAfficher, NULL);
    XtManageChild(pstatAfficher);
 
    i=0;
@@ -191,7 +189,7 @@ void DesactiverPanneauStats()
    }
 
 
-XtCallbackProc AfficherStats(Widget w, caddr_t client_data, caddr_t call_data)
+void AfficherStats(Widget w, XtPointer client_data, XtPointer call_data)
 {
    ActiverPanneauStats();
    AfficherMessageInfoStandard();

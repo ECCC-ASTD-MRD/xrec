@@ -107,7 +107,7 @@ void DesactiverPanneauDiapo()
 ******************
 ***/
 
-void PdAdjustLargeur(Widget w, caddr_t client_data, caddr_t call_data)
+void PdAdjustLargeur(Widget w, XtPointer client_data, XtPointer call_data)
 {
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
 
@@ -138,7 +138,7 @@ void AjusterLabelsTaille()
 
 extern unsigned int colorbitrange[3][3];
 
-void ChoixFenetre(Widget w, caddr_t client_data, caddr_t call_data)
+void ChoixFenetre(Widget w, XtPointer client_data, XtPointer call_data)
 {
   
   int win;
@@ -288,29 +288,19 @@ void ExportMovie()
 
 
 
-void PdReadDiapo(Widget w, caddr_t client_data, caddr_t call_data) 
+void PdReadDiapo(Widget w, XtPointer client_data, XtPointer call_data) 
 {
 
    }
 
 
-void PdSelectNomvar(Widget w, caddr_t client_data, caddr_t call_data) 
+void PdSelectNomvar(Widget w, XtPointer client_data, XtPointer call_data) 
 {
 
    }
 
 
-void PdSetDiapoAuto(Widget w, caddr_t client_data, caddr_t call_data)
-{
-
-   }
-
-/**
-*************
-*************
-**/
-
-void PdSetDiapoFixe(Widget w, caddr_t client_data, caddr_t call_data) 
+void PdSetDiapoAuto(Widget w, XtPointer client_data, XtPointer call_data)
 {
 
    }
@@ -320,12 +310,22 @@ void PdSetDiapoFixe(Widget w, caddr_t client_data, caddr_t call_data)
 *************
 **/
 
-XtCallbackProc PdOk(Widget w, caddr_t client_data, caddr_t call_data)
+void PdSetDiapoFixe(Widget w, XtPointer client_data, XtPointer call_data) 
 {
-   return 0;
+
    }
 
-XtCallbackProc PdAfficher(Widget w, caddr_t client_data, caddr_t call_data)
+/**
+*************
+*************
+**/
+
+void PdOk(Widget w, XtPointer client_data, XtPointer call_data)
+{
+   return;
+   }
+
+void PdAfficher(Widget w, XtPointer client_data, XtPointer call_data)
 {
    int taille;
 
@@ -333,7 +333,7 @@ XtCallbackProc PdAfficher(Widget w, caddr_t client_data, caddr_t call_data)
    c_wglgwz(&largeurFenetre,&hauteurFenetre);
    XmScaleGetValue(pdTaille,&taille);
    AjusterLargeur(taille);
-   return 0;
+   return;
    }
 
 
@@ -379,7 +379,7 @@ void InitPanneauDiapo()
    XtSetArg(args[i], XmNrightWidget, pdOk); i++;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    pdAfficher = (Widget)XmCreatePushButton(pdForme, labelAfficher[lng], args, i);
-   XtAddCallback(pdAfficher, XmNactivateCallback, (XtCallbackProc) PdAfficher, NULL);
+   XtAddCallback(pdAfficher, XmNactivateCallback, PdAfficher, NULL);
    XtManageChild(pdAfficher);
 
    /*--------------------------------------------------------------------------------*/
@@ -413,7 +413,7 @@ void InitPanneauDiapo()
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pdChamp2D = (Widget) XmCreateToggleButton(pdChoixFenetre, labelChamp2D[lng], args, i);
-   XtAddCallback(pdChamp2D, XmNvalueChangedCallback,(XtCallbackProc) ChoixFenetre, 0);
+   XtAddCallback(pdChamp2D, XmNvalueChangedCallback,ChoixFenetre, 0);
    XtManageChild(pdChamp2D);
    
    i = 0;
@@ -423,7 +423,7 @@ void InitPanneauDiapo()
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pdCoupe = (Widget) XmCreateToggleButton(pdChoixFenetre, labelCoupe[lng], args, i);
-   XtAddCallback(pdCoupe, XmNvalueChangedCallback, (XtCallbackProc) ChoixFenetre,  (XtPointer)1);
+   XtAddCallback(pdCoupe, XmNvalueChangedCallback, ChoixFenetre,  (XtPointer)1);
    XtManageChild(pdCoupe);
    
    i=0;
@@ -461,8 +461,8 @@ void InitPanneauDiapo()
    XtSetArg(args[i], XmNmaximum, 10); i++;
    XtSetArg(args[i], XmNvalue, 1); i++;
    pdTaille = (Widget)XmCreateScale(pdRCcontrole, labelTaille[lng], args, i);
-   XtAddCallback(pdTaille, XmNdragCallback, (XtCallbackProc) PdAdjustLargeur, NULL);
-   XtAddCallback(pdTaille, XmNvalueChangedCallback, (XtCallbackProc) PdAdjustLargeur, NULL);
+   XtAddCallback(pdTaille, XmNdragCallback, PdAdjustLargeur, NULL);
+   XtAddCallback(pdTaille, XmNvalueChangedCallback, PdAdjustLargeur, NULL);
    XtManageChild(pdTaille);
    XmStringFree(label);
 
@@ -508,7 +508,7 @@ void InitPanneauDiapo()
 
    i = 0;
    pdProduire = (Widget)XmCreatePushButton(pdFrameProduire, labelProduire[lng], args, i);
-   XtAddCallback(pdProduire, XmNactivateCallback, (XtCallbackProc) ExportImage, NULL);
+   XtAddCallback(pdProduire, XmNactivateCallback, ExportImage, NULL);
    XtManageChild(pdProduire);
   }
 

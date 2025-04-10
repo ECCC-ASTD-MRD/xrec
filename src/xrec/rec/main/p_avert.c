@@ -56,16 +56,16 @@ static char *finiRaide[]    = {"Impossible d'ouvrir le fichier suivant:\n",
 int avrtSelectionTerminee;
 int okCancel = 0;
 
-XtCallbackProc AvrtOk(Widget w, caddr_t client_data, caddr_t call_data) 
+void AvrtOk(Widget w, XtPointer client_data, XtPointer call_data) 
 {
    avrtSelectionTerminee = TRUE;
    DesactiverPanneauAvertissement();
 
    okCancel = (int)client_data;
-   return 0;
+   return;
    }
 
-XtCallbackProc ErrorQuit(Widget w, caddr_t client_data, caddr_t call_data) 
+void ErrorQuit(Widget w, XtPointer client_data, XtPointer call_data) 
 {
    exit(13);
    }
@@ -282,8 +282,8 @@ Widget CreateWarningDialogWithCancelBox(Widget widgetParent)
    bouton = (Widget)XmMessageBoxGetChild(warning, XmDIALOG_HELP_BUTTON);
    XtUnmanageChild(bouton);
 
-   XtAddCallback(warning, XmNcancelCallback, (XtCallbackProc) AvrtOk, BTN_CANCEL);
-   XtAddCallback(warning, XmNokCallback, (XtCallbackProc) AvrtOk, (XtPointer) BTN_OK);
+   XtAddCallback(warning, XmNcancelCallback, AvrtOk, BTN_CANCEL);
+   XtAddCallback(warning, XmNokCallback, AvrtOk, (XtPointer) BTN_OK);
 
    return warning;
    }
@@ -308,7 +308,7 @@ Widget CreateInfoDialog(Widget widgetParent)
    bouton = (Widget)XmMessageBoxGetChild(info, XmDIALOG_HELP_BUTTON);
    XtUnmanageChild(bouton);
 
-   XtAddCallback(info, XmNokCallback, (XtCallbackProc) AvrtOk, NULL);
+   XtAddCallback(info, XmNokCallback, AvrtOk, NULL);
 
    return info;
 
@@ -334,7 +334,7 @@ Widget CreateWarningDialog(Widget widgetParent)
    bouton = (Widget)XmMessageBoxGetChild(warning, XmDIALOG_HELP_BUTTON);
    XtUnmanageChild(bouton);
 
-   XtAddCallback(warning, XmNokCallback, (XtCallbackProc) AvrtOk, NULL);
+   XtAddCallback(warning, XmNokCallback, AvrtOk, NULL);
 
    return warning;
 
@@ -363,7 +363,7 @@ Widget CreateErrorDialog(Widget widgetParent)
    bouton = (Widget)XmMessageBoxGetChild(error, XmDIALOG_HELP_BUTTON);
    XtUnmanageChild(bouton);
 
-   XtAddCallback(error, XmNokCallback, (XtCallbackProc) ErrorQuit, NULL);
+   XtAddCallback(error, XmNokCallback, ErrorQuit, NULL);
 
    return error;
 

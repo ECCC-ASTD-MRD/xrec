@@ -37,7 +37,7 @@ extern int fenetreAffichage;
 
 
 /** ARGSUSED **/
-XtCallbackProc AfficherValeursAuxPtsDeGrille(Widget w, caddr_t unused1, caddr_t unused2)
+void AfficherValeursAuxPtsDeGrille(Widget w, XtPointer unused1, XtPointer unused2)
 {
    int event;
    float vals[4],diffs[4],uudiffs[4],vvdiffs[4],uu[4],vv[4],dirs[4],vits[4];
@@ -54,7 +54,7 @@ XtCallbackProc AfficherValeursAuxPtsDeGrille(Widget w, caddr_t unused1, caddr_t 
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return 0;
+      return ;
       }
    
    c_wglsetw(fenetreAffichage);
@@ -357,7 +357,7 @@ XtCallbackProc AfficherValeursAuxPtsDeGrille(Widget w, caddr_t unused1, caddr_t 
    
    InvertWidget(w);
    xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-   return 0;
+   return ;
 }
 
 

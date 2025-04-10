@@ -64,7 +64,7 @@
 int StatutSelection, itemSelectionne;
 extern SuperWidgetStruct SuperWidget;
 
-static XtCallbackProc  SelectItem();
+void SelectItem(Widget w, XtPointer client_data, XtPointer call_data);
 static XtErrorHandler  HandlerBidon();
 
 static Widget  menuTitre[2] = {NULL,NULL};
@@ -161,7 +161,7 @@ int posX, posY;
 	 XtSetArg(args[i], XmNlabelString, string); i++;
 	 
 	 menuItems[n] = (Widget)XmCreatePushButton(forme, "menuItem", args, i);
-	 XtAddCallback(menuItems[n], XmNactivateCallback, (XtCallbackProc) SelectItem, NULL);
+	 XtAddCallback(menuItems[n], XmNactivateCallback, SelectItem, NULL);
 	 
 	 XmStringFree(string);
 	 }
@@ -216,9 +216,7 @@ int posX, posY;
 ******************************************************************************
 **/
 
-static XtCallbackProc SelectItem(w, client_data, call_data)
-Widget w;
-caddr_t client_data, call_data;
+void SelectItem(Widget w, XtPointer client_data, XtPointer call_data)
 {
    int i;
 

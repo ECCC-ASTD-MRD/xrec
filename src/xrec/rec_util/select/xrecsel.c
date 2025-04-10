@@ -267,20 +267,20 @@ int32_t c_xseldown(int32_t indSelecteur);
 
 /* Callbacks. */
 
-static XtCallbackProc Ok(Widget W, caddr_t unused1, caddr_t unused2);
-static XtCallbackProc FermerSelecteur(Widget w, caddr_t unused1, caddr_t unused2);
-static XtCallbackProc DeselectionnerRecords(Widget w, caddr_t unused1, caddr_t unused2);
-static XtCallbackProc EffacerFiltres(Widget w, caddr_t unused1, caddr_t unused2);
-static XtCallbackProc EffacerFiltresSeulement(Widget w, caddr_t u1, caddr_t u2);
-static XtCallbackProc FermerSelecteur(Widget w, caddr_t unused1, caddr_t unused2);
-static XtCallbackProc HighlightFields(Widget  w, caddr_t unused1, caddr_t call_data);
-static XtCallbackProc MontrerDescripteurs(Widget w, caddr_t u1, caddr_t u2);
-static XtCallbackProc SelectionListeTerminee(Widget w, caddr_t u1, caddr_t u2);
+static void Ok(Widget W, XtPointer unused1, XtPointer unused2);
+static void FermerSelecteur(Widget w, XtPointer unused1, XtPointer unused2);
+static void DeselectionnerRecords(Widget w, XtPointer unused1, XtPointer unused2);
+static void EffacerFiltres(Widget w, XtPointer unused1, XtPointer unused2);
+static void EffacerFiltresSeulement(Widget w, XtPointer u1, XtPointer u2);
+static void FermerSelecteur(Widget w, XtPointer unused1, XtPointer unused2);
+static void HighlightFields(Widget  w, XtPointer unused1, XtPointer call_data);
+static void MontrerDescripteurs(Widget w, XtPointer u1, XtPointer u2);
+static void SelectionListeTerminee(Widget w, XtPointer u1, XtPointer u2);
 
 
 /* Autres fonctions. */
 
-static void AfficherInfoFiltres(Widget w, caddr_t unused1, caddr_t unused2);
+static void AfficherInfoFiltres(Widget w, XtPointer unused1, XtPointer unused2);
 int32_t     ActiverSelWidgets();
 void        AfficherListe(Widget w, XmStringTable items, int32_t nbItems);
 void        AfficherNbSelect(int32_t nb);
@@ -364,7 +364,7 @@ VALEUR RETOUNEE:       Aucune.
 
 ------------------------------------------------------------------------------*/
 
-static void AfficherInfoFiltres(Widget w, caddr_t unused1, caddr_t unused2)
+static void AfficherInfoFiltres(Widget w, XtPointer unused1, XtPointer unused2)
 {
    Position     x, y;           /* La position sur l'ecran ou le popup va apparaitre.   */
    Dimension    height;         /* La hauteure du widget infoFiltres.                   */
@@ -416,7 +416,7 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-static XtCallbackProc DeselectionnerRecords(Widget w, caddr_t unused1, caddr_t unused2)
+static void DeselectionnerRecords(Widget w, XtPointer unused1, XtPointer unused2)
 {
    int32_t i; /* Compteur. */
 
@@ -456,7 +456,7 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-static XtCallbackProc EffacerFiltres(Widget w, caddr_t unused1, caddr_t unused2)
+static void EffacerFiltres(Widget w, XtPointer unused1, XtPointer unused2)
 {
    int32_t  j;       /* Compteur.                                   */
    int32_t  nb;      /* Nombre de records affiches.                 */
@@ -508,7 +508,7 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-static XtCallbackProc HighlightFields(Widget  w, caddr_t unused1, caddr_t call_data)
+static void HighlightFields(Widget  w, XtPointer unused1, XtPointer call_data)
 {
    int32_t                  i, j;                                      /* Compteurs.                                */
    int32_t                  numItem;                                   /* La position de l'item (de)selectionne.    */
@@ -968,13 +968,13 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-static XtCallbackProc EffacerFiltresSeulement(Widget w, caddr_t u1, caddr_t u2)
+static void EffacerFiltresSeulement(Widget w, XtPointer u1, XtPointer u2)
 {
    int32_t i;
    
    for (i = 0; i < xs[wi].nbDes; i++)
       {
-      if (xs[wi].cles[i].nbCles > 1)
+         if (xs[wi].cles[i].nbCles > 1)
          {
          XmListDeselectAllItems(xs[wi].panListeItems[i]);
          XmListSetPos(xs[wi].panListeItems[i], 1);
@@ -1793,7 +1793,7 @@ void InitWidgetsBouton()
 
 /*======================================================================================================*/
 
-static XtCallbackProc MontrerDescripteurs(Widget w, caddr_t u1, caddr_t u2)
+static void MontrerDescripteurs(Widget w, XtPointer u1, XtPointer u2)
 {
    
    AjusterPositionForme(xs[wi].panListe, xs[wi].topLevel);
@@ -1805,7 +1805,7 @@ static XtCallbackProc MontrerDescripteurs(Widget w, caddr_t u1, caddr_t u2)
    }
 
 
-static XtCallbackProc SelectionListeTerminee(Widget w, caddr_t u1, caddr_t u2)
+static void SelectionListeTerminee(Widget w, XtPointer u1, XtPointer u2)
 {
    int32_t zero = 0;
    UpdateFiltres();
@@ -1849,17 +1849,17 @@ int32_t InitWidgetsCallback(int32_t nbDes)
    
    if (xs[wi].typeSelection != SELECTION_SIMPLE)
       {
-      XtAddCallback(xs[wi].deselectionnerRecs, XmNactivateCallback, (XtCallbackProc) DeselectionnerRecords,     NULL);
+      XtAddCallback(xs[wi].deselectionnerRecs, XmNactivateCallback, DeselectionnerRecords,     NULL);
       }
 
-   XtAddCallback(xs[wi].effacerFiltres,  XmNactivateCallback, (XtCallbackProc)EffacerFiltres,            NULL);
-   XtAddCallback(xs[wi].liste, XmNdefaultActionCallback, (XtCallbackProc)Ok,  NULL); 
-   XtAddCallback(xs[wi].liste,   XmNbrowseSelectionCallback, (XtCallbackProc) HighlightFields,  NULL); 
-   XtAddCallback(xs[wi].liste, XmNmultipleSelectionCallback,  (XtCallbackProc)HighlightFields,  NULL); 
-   XtAddCallback(xs[wi].liste, XmNextendedSelectionCallback,  (XtCallbackProc)HighlightFields,  NULL); 
-   XtAddCallback(xs[wi].ok, XmNactivateCallback, (XtCallbackProc) Ok, NULL);
-   XtAddCallback(xs[wi].panRetour, XmNactivateCallback, (XtCallbackProc) SelectionListeTerminee, NULL);
-   XtAddCallback(xs[wi].panEffacerFiltres, XmNactivateCallback, (XtCallbackProc) EffacerFiltresSeulement, NULL);
+   XtAddCallback(xs[wi].effacerFiltres,  XmNactivateCallback, EffacerFiltres,            NULL);
+   XtAddCallback(xs[wi].liste, XmNdefaultActionCallback,Ok,  NULL); 
+   XtAddCallback(xs[wi].liste,   XmNbrowseSelectionCallback, HighlightFields,  NULL); 
+   XtAddCallback(xs[wi].liste, XmNmultipleSelectionCallback, HighlightFields,  NULL); 
+   XtAddCallback(xs[wi].liste, XmNextendedSelectionCallback, HighlightFields,  NULL); 
+   XtAddCallback(xs[wi].ok, XmNactivateCallback, Ok, NULL);
+   XtAddCallback(xs[wi].panRetour, XmNactivateCallback, SelectionListeTerminee, NULL);
+   XtAddCallback(xs[wi].panEffacerFiltres, XmNactivateCallback, EffacerFiltresSeulement, NULL);
    
    }
 /*======================================================================================================*/
@@ -1935,7 +1935,7 @@ void InitWidgetsForm()
       xs[wi].fermer = (Widget)XmCreatePushButton(xs[wi].pan, "Fermer", args, i);
       XtManageChild(xs[wi].fermer);
       XmStringFree(label);
-      XtAddCallback(xs[wi].fermer, XmNactivateCallback, (XtCallbackProc) FermerSelecteur, NULL);
+      XtAddCallback(xs[wi].fermer, XmNactivateCallback, FermerSelecteur, NULL);
 
       XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++;
       XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++;
@@ -2439,7 +2439,7 @@ VALEUR RETOURNEE:      Aucune.
 
 ------------------------------------------------------------------------------*/
 
-static XtCallbackProc Ok(Widget W, caddr_t unused1, caddr_t unused2)
+static void Ok(Widget W, XtPointer unused1, XtPointer unused2)
 {
    xs[wi].StatutSelection       = SELECTION_TERMINEE;
    }
@@ -2994,7 +2994,7 @@ c_xseldown(int32_t indSelecteur)
 *************************
 ***/
 
-static XtCallbackProc FermerSelecteur(Widget w, caddr_t unused1, caddr_t unused2)
+static void FermerSelecteur(Widget w, XtPointer unused1, XtPointer unused2)
 {
    XtUnrealizeWidget(xs[wi].topLevel);
    }

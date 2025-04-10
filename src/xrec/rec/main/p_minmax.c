@@ -79,7 +79,7 @@ static int nMinMaxs = 0;
 static int itemDict = 0;
 
 
-void PmReadMinMax(Widget w, caddr_t client_data, caddr_t call_data) 
+void PmReadMinMax(Widget w, XtPointer client_data, XtPointer call_data) 
 {
    if (minStr != NULL)
       {
@@ -92,7 +92,7 @@ void PmReadMinMax(Widget w, caddr_t client_data, caddr_t call_data)
    }
 
 
-void PmSelectNomvar(Widget w, caddr_t client_data, caddr_t call_data)
+void PmSelectNomvar(Widget w, XtPointer client_data, XtPointer call_data)
 {
    int i;
    char tempStr[16];
@@ -143,7 +143,7 @@ void PmSelectNomvar(Widget w, caddr_t client_data, caddr_t call_data)
    }
 
 
-void PmSetMinMaxAuto(Widget w, caddr_t client_data, caddr_t call_data)
+void PmSetMinMaxAuto(Widget w, XtPointer client_data, XtPointer call_data)
 {
    char tempStr[16];
 
@@ -160,7 +160,7 @@ void PmSetMinMaxAuto(Widget w, caddr_t client_data, caddr_t call_data)
 *************
 **/
 
-void PmSetMinMaxFixe(Widget w, caddr_t client_data, caddr_t call_data)
+void PmSetMinMaxFixe(Widget w, XtPointer client_data, XtPointer call_data)
 {
    char tempStr[16],*returnedStr;
    float min,max;
@@ -189,11 +189,11 @@ void PmSetMinMaxFixe(Widget w, caddr_t client_data, caddr_t call_data)
 *************
 **/
 
-XtCallbackProc PmOk(Widget w, caddr_t client_data, caddr_t call_data)
+void PmOk(Widget w, XtPointer client_data, XtPointer call_data)
 {
    pmSelectionTerminee = TRUE;
    DesactiverPanneauMinMax();
-   return 0;
+   return ;
    }
 
 /**
@@ -201,10 +201,10 @@ XtCallbackProc PmOk(Widget w, caddr_t client_data, caddr_t call_data)
 *************
 **/
 
-XtCallbackProc PmAfficher(Widget w, caddr_t client_data, caddr_t call_data)
+void PmAfficher(Widget w, XtPointer client_data, XtPointer call_data)
 {
    RedessinerFenetres();
-   return 0;
+   return ;
    }
 
 /**
@@ -248,7 +248,7 @@ void InitPanneauMinMax()
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
    pmOk = (Widget)XmCreatePushButton(pmForme, labelOk[lng], args, i);
-   XtAddCallback(pmOk, XmNactivateCallback, (XtCallbackProc) PmOk, NULL);
+   XtAddCallback(pmOk, XmNactivateCallback, PmOk, NULL);
    XtManageChild(pmOk);
 
    i = 0;
@@ -256,7 +256,7 @@ void InitPanneauMinMax()
    XtSetArg(args[i], XmNrightWidget, pmOk); i++;
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    pmAfficher = (Widget)XmCreatePushButton(pmForme, labelAfficher[lng], args, i);
-   XtAddCallback(pmAfficher, XmNactivateCallback, (XtCallbackProc) PmAfficher, NULL);
+   XtAddCallback(pmAfficher, XmNactivateCallback, PmAfficher, NULL);
    XtManageChild(pmAfficher);
 
    i=0;
@@ -299,7 +299,7 @@ void InitPanneauMinMax()
    XtSetArg(args[i], XmNselectionPolicy, XmSINGLE_SELECT); i++;
    pmPanneauMinMax = (Widget) XmCreateScrolledList(pmFormePal, "option_menu1", args, i);
 
-   XtAddCallback(pmPanneauMinMax, XmNsingleSelectionCallback, (XtCallbackProc) PmSelectNomvar, NULL);
+   XtAddCallback(pmPanneauMinMax, XmNsingleSelectionCallback, PmSelectNomvar, NULL);
    XtManageChild(pmPanneauMinMax);
 
    i = 0;
@@ -331,7 +331,7 @@ void InitPanneauMinMax()
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pmAuto = (Widget) XmCreateToggleButton(pmChoixMinMax, labelAuto[lng], args, i);
-   XtAddCallback(pmAuto, XmNarmCallback, (XtCallbackProc) PmSetMinMaxAuto, NULL);
+   XtAddCallback(pmAuto, XmNarmCallback, PmSetMinMaxAuto, NULL);
    XtManageChild(pmAuto);
    
    i = 0;
@@ -340,7 +340,7 @@ void InitPanneauMinMax()
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pmFixe = (Widget)XmCreateToggleButton(pmChoixMinMax, labelFixe[lng], args, i);
-   XtAddCallback(pmFixe, XmNarmCallback, (XtCallbackProc) PmSetMinMaxFixe, NULL);
+   XtAddCallback(pmFixe, XmNarmCallback, PmSetMinMaxFixe, NULL);
    XtManageChild(pmFixe);
    
 /**

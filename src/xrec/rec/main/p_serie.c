@@ -114,10 +114,6 @@ static char  *labelAxeXMax[] = {"X max:", "X max:"};
 static char  *labelAxeYMin[] = {"Y min:", "Y min:"};
 static char  *labelAxeYMax[] = {"Y max:", "Y max:"};
 
-void FlusherTousLesEvenements();
-void EnterOverlayMode();
-void RestoreNormalMode();
-
 /**
  ******************************************************************************
  ******************************************************************************
@@ -164,7 +160,7 @@ void InitPanneauSerie()
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
    pcsOk = (Widget)XmCreatePushButton(pcsForme, labelOk[lng], args, i);
-   XtAddCallback(pcsOk, XmNactivateCallback, (XtCallbackProc) PcsOk, NULL);
+   XtAddCallback(pcsOk, XmNactivateCallback, PcsOk, NULL);
    XtManageChild(pcsOk);
 
    i = 0;
@@ -172,7 +168,7 @@ void InitPanneauSerie()
    XtSetArg(args[i], XmNrightAttachment, XmATTACH_WIDGET); i++;
    XtSetArg(args[i], XmNrightWidget, pcsOk); i++;
    pcsAfficher = (Widget)XmCreatePushButton(pcsForme, labelAfficher[lng], args, i);
-   XtAddCallback(pcsAfficher, XmNactivateCallback, (XtCallbackProc) PcsAfficher, NULL);
+   XtAddCallback(pcsAfficher, XmNactivateCallback, PcsAfficher, NULL);
    XtManageChild(pcsAfficher);
 
 /**
@@ -222,7 +218,7 @@ void InitPanneauSerie()
    string = XmStringCreateLtoR(labelNouvelleSerie[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, string); i++;
    pcsNouvelleSerie = (Widget)XmCreatePushButton(pcsRC, labelNouvelleSerie[lng], args, i);
-   XtAddCallback(pcsNouvelleSerie, XmNactivateCallback, (XtCallbackProc) PcsNouvelleSerie, NULL);
+   XtAddCallback(pcsNouvelleSerie, XmNactivateCallback, PcsNouvelleSerie, NULL);
    XtManageChild(pcsNouvelleSerie);
 
 /**
@@ -233,14 +229,14 @@ void InitPanneauSerie()
    string = XmStringCreateLtoR(labelScanProfilSerie[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, string); i++;
    pcsScanProfilSerie = (Widget)XmCreatePushButton(pcsRC, labelScanProfilSerie[lng], args, i);
-   XtAddCallback(pcsScanProfilSerie, XmNactivateCallback, (XtCallbackProc) PcsScanProfilSerie, NULL);
+   XtAddCallback(pcsScanProfilSerie, XmNactivateCallback, PcsScanProfilSerie, NULL);
    XtManageChild(pcsScanProfilSerie);
 
    i = 0;
    string = XmStringCreateLtoR(labelScanSerie[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, string); i++;
    pcsScanSerie = (Widget)XmCreatePushButton(pcsRC, labelScanSerie[lng], args,i);
-   XtAddCallback(pcsScanSerie, XmNactivateCallback, (XtCallbackProc) PcsScanSerie, NULL);
+   XtAddCallback(pcsScanSerie, XmNactivateCallback, PcsScanSerie, NULL);
    XtManageChild(pcsScanSerie);
 
 
@@ -270,7 +266,7 @@ void InitPanneauSerie()
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pcsLimiteSerie = (Widget) XmCreateToggleButton(pcsFormeTypeLimite, labelAutoRegion[lng], args, i);
-   XtAddCallback(pcsLimiteSerie, XmNvalueChangedCallback, (XtCallbackProc) PcsSetMinMaxProfilSerie, NULL);
+   XtAddCallback(pcsLimiteSerie, XmNvalueChangedCallback, PcsSetMinMaxProfilSerie, NULL);
    XtManageChild(pcsLimiteSerie);
 
    i = 0;
@@ -279,7 +275,7 @@ void InitPanneauSerie()
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pcsLimiteDimensionSerie = (Widget) XmCreateToggleButton(pcsFormeTypeLimite, labelAutoGrilles[lng], args, i);
-   XtAddCallback(pcsLimiteDimensionSerie, XmNvalueChangedCallback, (XtCallbackProc) PcsSetMinMaxGrilles, NULL);
+   XtAddCallback(pcsLimiteDimensionSerie, XmNvalueChangedCallback, PcsSetMinMaxGrilles, NULL);
    XtManageChild(pcsLimiteDimensionSerie);
 
    i = 0;
@@ -288,7 +284,7 @@ void InitPanneauSerie()
    XtSetArg(args[i], XmNmarginBottom, 0); i++;
    XtSetArg(args[i], XmNmarginTop, 0); i++;
    pcsLimiteUsager = (Widget) XmCreateToggleButton(pcsFormeTypeLimite, labelFixes[lng], args, i);
-   XtAddCallback(pcsLimiteUsager, XmNvalueChangedCallback, (XtCallbackProc) PcsSetMinMaxUsager, NULL);
+   XtAddCallback(pcsLimiteUsager, XmNvalueChangedCallback, PcsSetMinMaxUsager, NULL);
    XtManageChild(pcsLimiteUsager);
 
 
@@ -418,20 +414,20 @@ void InitPanneauSerie()
    string = XmStringCreateLtoR(labelScanHoriz[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, string); i++;
    pcsScanHoriz = (Widget)XmCreatePushButton(pcsRC2, labelScanHoriz[lng], args, i);
-   XtAddCallback(pcsScanHoriz, XmNactivateCallback, (XtCallbackProc) PcsScanSerieHoriz, NULL);
+   XtAddCallback(pcsScanHoriz, XmNactivateCallback, PcsScanSerieHoriz, NULL);
    XtManageChild(pcsScanHoriz);
 
    i = 0;
    string = XmStringCreateLtoR(labelScanVert[lng], XmSTRING_DEFAULT_CHARSET);
    pcsScanVert = (Widget)XmCreatePushButton(pcsRC2, labelScanVert[lng], args, i);
-   XtAddCallback(pcsScanVert, XmNactivateCallback, (XtCallbackProc) PcsScanSerieVert, NULL);
+   XtAddCallback(pcsScanVert, XmNactivateCallback, PcsScanSerieVert, NULL);
    XtManageChild(pcsScanVert);
 
    i = 0;
    string = XmStringCreateLtoR(labelStop[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, string); i++;
    pcsStop = (Widget)XmCreatePushButton(pcsRC2, labelStop[lng], args,i);
-   XtAddCallback(pcsStop, XmNactivateCallback, (XtCallbackProc) PcsStop, NULL);
+   XtAddCallback(pcsStop, XmNactivateCallback, PcsStop, NULL);
    XtManageChild(pcsStop);
 
    label = XmStringCreateLtoR(labelScanIncrement[lng], XmSTRING_DEFAULT_CHARSET);
@@ -450,8 +446,8 @@ void InitPanneauSerie()
    XtManageChild(pcsScanIncrement);
    XmStringFree(label);
    
-   XtAddCallback(pcsScanIncrement, XmNdragCallback, (XtCallbackProc) PcsSetIncrement, NULL);
-   XtAddCallback(pcsScanIncrement, XmNvalueChangedCallback, (XtCallbackProc) PcsSetIncrement, NULL);
+   XtAddCallback(pcsScanIncrement, XmNdragCallback, PcsSetIncrement, NULL);
+   XtAddCallback(pcsScanIncrement, XmNvalueChangedCallback, PcsSetIncrement, NULL);
 
    dimensionCoupe = T;
    dimensionSerie = T;
@@ -516,7 +512,7 @@ void DesactiverPanneauSerie()
 
 
 
-XtCallbackProc PcsOk(Widget w, caddr_t unused1, caddr_t unused2)
+void PcsOk(Widget w, XtPointer unused1, XtPointer unused2)
 {
    int fenetreAffichage;
 
@@ -536,7 +532,7 @@ XtCallbackProc PcsOk(Widget w, caddr_t unused1, caddr_t unused2)
    fenetreSerie = 0;
    DesactiverPanneauSerie();
 /**   ReAfficherBoutonsAnimation(); **/
-   return 0;
+   return ;
    }
 
 /**
@@ -545,10 +541,10 @@ XtCallbackProc PcsOk(Widget w, caddr_t unused1, caddr_t unused2)
  **/
 
 
-XtCallbackProc PcsAfficher(Widget w, caddr_t unused1, caddr_t unused2)
+void PcsAfficher(Widget w, XtPointer unused1, XtPointer unused2)
 {
    RedessinerFenetreSerie();
-   return 0;
+   return ;
 }
 
 /**
@@ -557,7 +553,7 @@ XtCallbackProc PcsAfficher(Widget w, caddr_t unused1, caddr_t unused2)
  **/
 
 
-XtCallbackProc PcsNouvelleSerie(Widget w, caddr_t unused1, caddr_t unused2)
+void PcsNouvelleSerie(Widget w, XtPointer unused1, XtPointer unused2)
 {
    int ier, ok;
    int fenetreAffichage;
@@ -609,7 +605,7 @@ XtCallbackProc PcsNouvelleSerie(Widget w, caddr_t unused1, caddr_t unused2)
    if (ier > 0)
       {
       InvertWidget(w);
-      return 0;
+      return ;
       }
 
    SerieValideTrouvee = VerifierExistenceSerieValide();
@@ -620,7 +616,7 @@ XtCallbackProc PcsNouvelleSerie(Widget w, caddr_t unused1, caddr_t unused2)
       c_wglcol(NOIR);
       c_wglclr();
       c_wglsetw(fenetreAffichage);
-      return 0;
+      return ;
       }
 
    FlusherTousLesEvenements();
@@ -707,7 +703,7 @@ XtCallbackProc PcsNouvelleSerie(Widget w, caddr_t unused1, caddr_t unused2)
    
    c_wglsetw(fenetreAffichage);
    InvertWidget(w);
-   return 0;
+   return ;
    }
 
 
@@ -717,7 +713,7 @@ XtCallbackProc PcsNouvelleSerie(Widget w, caddr_t unused1, caddr_t unused2)
  **/
 
 
-XtCallbackProc PcsScanSerie(Widget w, caddr_t unused1, caddr_t unused2)
+void PcsScanSerie(Widget w, XtPointer unused1, XtPointer unused2)
 {
    int ier;
    int fenetreAffichage;
@@ -759,7 +755,7 @@ XtCallbackProc PcsScanSerie(Widget w, caddr_t unused1, caddr_t unused2)
       {
       InvertWidget(w);
       UnsetIgnoreMode();
-      return 0;
+      return ;
       }
 
    statutSerie = TRUE;
@@ -798,7 +794,7 @@ XtCallbackProc PcsScanSerie(Widget w, caddr_t unused1, caddr_t unused2)
    c_wglsbf();
    InvertWidget(w);
    UnsetIgnoreMode();
-   return 0;
+   return ;
    }
 
 
@@ -806,7 +802,7 @@ XtCallbackProc PcsScanSerie(Widget w, caddr_t unused1, caddr_t unused2)
  ******************************************************************************
  ******************************************************************************
  **/
-XtCallbackProc PcsScanSerieVert(Widget w, caddr_t unused1, caddr_t unused2)
+void PcsScanSerieVert(Widget w, XtPointer unused1, XtPointer unused2)
 {
    int ier;
    int fenetreAffichage;
@@ -872,7 +868,7 @@ XtCallbackProc PcsScanSerieVert(Widget w, caddr_t unused1, caddr_t unused2)
      if (ier < 0)
        {
        InvertWidget(w);
-       return 0;
+       return ;
        }
      
      yinit = ydeb;
@@ -929,7 +925,7 @@ XtCallbackProc PcsScanSerieVert(Widget w, caddr_t unused1, caddr_t unused2)
    RedessinerFenetreAffichage();
    status=0;
    InvertWidget(w);
-   return 0;
+   return ;
    }
 
 /**
@@ -937,7 +933,7 @@ XtCallbackProc PcsScanSerieVert(Widget w, caddr_t unused1, caddr_t unused2)
  ******************************************************************************
  **/
 
-XtCallbackProc PcsScanSerieHoriz(Widget w, caddr_t unused1, caddr_t unused2)
+void PcsScanSerieHoriz(Widget w, XtPointer unused1, XtPointer unused2)
 {
    int ier;
    int fenetreAffichage;
@@ -1004,7 +1000,7 @@ XtCallbackProc PcsScanSerieHoriz(Widget w, caddr_t unused1, caddr_t unused2)
      if (ier < 0)
        {
        InvertWidget(w);
-       return 0;
+       return ;
        }
      
      xinit = xdeb;
@@ -1062,12 +1058,12 @@ XtCallbackProc PcsScanSerieHoriz(Widget w, caddr_t unused1, caddr_t unused2)
    
    status=0;
    InvertWidget(w);
-   return 0;
+   return ;
    }
 
 
 
-XtCallbackProc PcsScanProfilSerie(Widget w, caddr_t unused1, caddr_t unused2)
+void PcsScanProfilSerie(Widget w, XtPointer unused1, XtPointer unused2)
 {
    int ier;
    int fenetreAffichage;
@@ -1098,7 +1094,7 @@ XtCallbackProc PcsScanProfilSerie(Widget w, caddr_t unused1, caddr_t unused2)
       {
       InvertWidget(w);
       UnsetIgnoreMode();
-      return 0;
+      return ;
       }
 
    statutSerie = TRUE;
@@ -1136,66 +1132,66 @@ XtCallbackProc PcsScanProfilSerie(Widget w, caddr_t unused1, caddr_t unused2)
    EnleverLigneSerie(cx1, cy1, cx2, cy2);
    InvertWidget(w);
    UnsetIgnoreMode();
-return 0;  
+return ;  
    }
 
 
-XtCallbackProc PcsStop(Widget w, caddr_t unused1, caddr_t unused2)
+void PcsStop(Widget w, XtPointer unused1, XtPointer unused2)
 {
   xc.annulationDemandee = TRUE;
-return 0;  
+return ;  
    }
 
-XtCallbackProc PcsSetDimensionSerieZP(Widget w, caddr_t unused1, caddr_t unused2)
+void PcsSetDimensionSerieZP(Widget w, XtPointer unused1, XtPointer unused2)
 {
    dimensionSerie = ZP;
-return 0;  
+return ;  
    }
 
-XtCallbackProc PcsSetDimensionSerieT(Widget w, caddr_t unused1, caddr_t unused2)
+void PcsSetDimensionSerieT(Widget w, XtPointer unused1, XtPointer unused2)
 {
-return 0;  
+return ;  
    }
 
-XtCallbackProc PcsSetEchelleLineaire(Widget w, caddr_t unused1, caddr_t unused2)
+void PcsSetEchelleLineaire(Widget w, XtPointer unused1, XtPointer unused2)
 {
    echelle = LINEAIRE;
    if (XmToggleButtonGetState(w))
       RedessinerFenetreSerie();
-return 0;  
+return ;  
    }
 
-XtCallbackProc PcsSetEchelleLog(Widget w, caddr_t unused1, caddr_t unused2)
+void PcsSetEchelleLog(Widget w, XtPointer unused1, XtPointer unused2)
 {
    echelle = LOG;
    if (XmToggleButtonGetState(w))
    RedessinerFenetreSerie();
-return 0;  
+return ;  
    }
 
-XtCallbackProc PcsSetMinMaxProfilSerie(Widget w, caddr_t unused1, caddr_t unused2)
+void PcsSetMinMaxProfilSerie(Widget w, XtPointer unused1, XtPointer unused2)
 {
    calculMinMaxSerie = AUTO_PROFIL;
    PcsDesactiverTextWidgets();
    if (XmToggleButtonGetState(w))
       RedessinerFenetreSerie();
-return 0;  
+return ;  
    }
 
-XtCallbackProc PcsSetMinMaxGrilles(Widget w, caddr_t unused1, caddr_t unused2)
+void PcsSetMinMaxGrilles(Widget w, XtPointer unused1, XtPointer unused2)
 {
    calculMinMaxSerie = AUTO_GRILLES;
    PcsDesactiverTextWidgets();
    if (XmToggleButtonGetState(w))
       RedessinerFenetreSerie();
-return 0;  
+return ;  
    }
 
-XtCallbackProc PcsSetMinMaxUsager(Widget w, caddr_t unused1, caddr_t unused2)
+void PcsSetMinMaxUsager(Widget w, XtPointer unused1, XtPointer unused2)
 {
    calculMinMaxSerie = FIXES;
    PcsActiverTextWidgets();
-return 0;  
+return ;  
    }
 
 void PcsActiverTextWidgets()
@@ -1228,7 +1224,7 @@ void PcsDesactiverTextWidgets()
    XtSetValues(pcsTextMaxY, args, i);
    }
 
-XtCallbackProc PcsSetIncrement(Widget w, caddr_t client_data, caddr_t call_data)
+void PcsSetIncrement(Widget w, XtPointer client_data, XtPointer call_data)
 {
   XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
   
@@ -1240,7 +1236,7 @@ XtCallbackProc PcsSetIncrement(Widget w, caddr_t client_data, caddr_t call_data)
     { 
     scanIncrement = 0.0001 * (float)(donnees->value);
     }
-return 0;  
+return ;  
 }
 
 void SerieMgrSetMinMax()

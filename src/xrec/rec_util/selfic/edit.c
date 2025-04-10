@@ -604,7 +604,7 @@ LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
 static void XEditFermer(w, client, data)
-caddr_t w, client, data;
+XtPointer w, client, data;
 {
    XtUnmapWidget(Edit.toplevel);
    XFlush(XtDisplay(Edit.toplevel));
@@ -702,7 +702,7 @@ LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
 static void XEditEnleveListe (w, client, data )
-caddr_t w, client, data;
+XtPointer w, client, data;
 {
  int i, nb_delete;
  Arg args[1];
@@ -776,7 +776,7 @@ LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
 void XEditEnleveTout ( w, client, data)
-caddr_t w, client, data;
+XtPointer w, client, data;
 {
  Arg arg[1];
  int i, nombre;

@@ -808,7 +808,7 @@ int CalculerFacteurLissage(int ni, int nj)
 /* ****************************************************************************** */
 
 /** ARGSUSED **/
-XtCallbackProc ChangerMenuIntervalles(int indMenu)
+void ChangerMenuIntervalles(int indMenu)
 {
    int i, j, n, nbInt;
    static char menuCourant[24][128];
@@ -862,7 +862,7 @@ XtCallbackProc ChangerMenuIntervalles(int indMenu)
    }
 
       xc.menuIntervalleItems[i] = (Widget)XmCreateToggleButton(xc.menuIntervalleDeContour, menuCourant[i], args, j);
-      XtAddCallback(xc.menuIntervalleItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuIntervalleSelect, (XtPointer) (long)i);
+      XtAddCallback(xc.menuIntervalleItems[i], XmNvalueChangedCallback, MenuIntervalleSelect, (XtPointer) (long)i);
       }
 
    XtManageChildren(xc.menuIntervalleItems, xc.NbMenusIntervalles);
@@ -876,14 +876,14 @@ XtCallbackProc ChangerMenuIntervalles(int indMenu)
 
    XtSetArg(args[0], XmNset, True);
    XtSetValues(xc.menuIntervalleItems[indMenu], args, 1);
-   return 0;
+   return ;
    }
 
 
 /* ****************************************************************************** */
 
 /** ARGSUSED **/
-XtCallbackProc ChangerStatutSuperposition(Widget w,  caddr_t unused1, caddr_t unused2)
+void ChangerStatutSuperposition(Widget w,  XtPointer unused1, XtPointer unused2)
 {
    _Champ *champ;
 
@@ -897,7 +897,7 @@ XtCallbackProc ChangerStatutSuperposition(Widget w,  caddr_t unused1, caddr_t un
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return 0;
+      return ;
       }
 
    GetFenetreAffichageID(&fenetreAffichage);
@@ -992,7 +992,7 @@ XtCallbackProc ChangerStatutSuperposition(Widget w,  caddr_t unused1, caddr_t un
    XmStringFree(label);
    RedessinerFenetreCoupe();
    RedessinerFenetreSerie();
-   return 0;
+   return ;
 }
 
 /* ****************************************************************************** */
@@ -1045,7 +1045,7 @@ void DesactiverWidgetsControle()
 /* ****************************************************************************** */
 
 /** ARGSUSED **/
-XtCallbackProc Effacer(Widget w, XtPointer unused1, XtPointer unused2)
+void Effacer(Widget w, XtPointer unused1, XtPointer unused2)
 {
    int i;
    _Champ *champ;
@@ -1055,7 +1055,7 @@ XtCallbackProc Effacer(Widget w, XtPointer unused1, XtPointer unused2)
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return 0;
+      return ;
       }
 
    if (champ->champModifie)
@@ -1077,7 +1077,7 @@ XtCallbackProc Effacer(Widget w, XtPointer unused1, XtPointer unused2)
    LibererImages();
    /*   GeoMgrClearMapInfo(); */
    xc.ChampAContourer = FALSE;
-   return 0;
+   return ;
    }
 
 /* ****************************************************************************** */
@@ -1306,7 +1306,7 @@ void InitFormeZoom()
    XtSetArg(args[i], XmNleftPosition, 0); i++;
    XtSetArg(args[i], XmNrightPosition, 33); i++;
    xc.zoom = (Widget)XmCreatePushButton(xc.formeZoom, labelZoom[lng], args, i);
-   XtAddCallback(xc.zoom, XmNactivateCallback, (XtCallbackProc) Zoom, NULL);
+   XtAddCallback(xc.zoom, XmNactivateCallback, Zoom, NULL);
    XtManageChild(xc.zoom);
 
    i = 0;
@@ -1318,7 +1318,7 @@ void InitFormeZoom()
    XtSetArg(args[i], XmNleftPosition, 33); i++;
    XtSetArg(args[i], XmNrightPosition, 67); i++;
    xc.valeursPonctuelles = (Widget)XmCreatePushButton(xc.formeZoom, "pushbutton", args, i);
-   XtAddCallback(xc.valeursPonctuelles, XmNactivateCallback, (XtCallbackProc) AfficherValeursAuxPtsDeGrille, NULL);
+   XtAddCallback(xc.valeursPonctuelles, XmNactivateCallback, AfficherValeursAuxPtsDeGrille, NULL);
    XtManageChild(xc.valeursPonctuelles);
    XmStringFree(label);
 
@@ -1331,7 +1331,7 @@ void InitFormeZoom()
    XtSetArg(args[i], XmNleftPosition, 67); i++;
    XtSetArg(args[i], XmNrightPosition, 100); i++;
    xc.stats = (Widget)XmCreatePushButton(xc.formeZoom, "pushbutton", args, i);
-   XtAddCallback(xc.stats, XmNactivateCallback, (XtCallbackProc) AfficherStats, NULL);
+   XtAddCallback(xc.stats, XmNactivateCallback, AfficherStats, NULL);
    XtManageChild(xc.stats);
    XmStringFree(label);
 
@@ -1369,7 +1369,7 @@ void InitFormeAnimation()
    XtSetArg(args[i], XmNrightPosition, 67); i++;
    xc.stop = (Widget)XmCreatePushButton(xc.formeAnim, "STOP", args, i);
    XmStringFree(label);
-   XtAddCallback(xc.stop, XmNactivateCallback, (XtCallbackProc) PaStop, NULL);
+   XtAddCallback(xc.stop, XmNactivateCallback, PaStop, NULL);
    XtManageChild(xc.stop);
 
    }
@@ -1406,7 +1406,7 @@ void InitFormeSuperposition()
    XtSetArg(args[i], XmNleftPosition, 0); i++;
    XtSetArg(args[i], XmNrightPosition, 33); i++;
    xc.superposition = (Widget)XmCreatePushButton(xc.formeSup, "pushbutton", args, i);
-   XtAddCallback(xc.superposition, XmNactivateCallback, (XtCallbackProc) ChangerStatutSuperposition, NULL);
+   XtAddCallback(xc.superposition, XmNactivateCallback, ChangerStatutSuperposition, NULL);
    XtManageChild(xc.superposition);
 
    XmStringFree(label);
@@ -1420,7 +1420,7 @@ void InitFormeSuperposition()
    XtSetArg(args[i], XmNleftPosition, 33); i++;
    XtSetArg(args[i], XmNrightPosition, 67); i++;
    xc.rafraichir = (Widget)XmCreatePushButton(xc.formeSup, "pushbutton", args, i);
-   XtAddCallback(xc.rafraichir, XmNactivateCallback, (XtCallbackProc)RafraichirFenetre, NULL);
+   XtAddCallback(xc.rafraichir, XmNactivateCallback, RafraichirFenetre, NULL);
    XtManageChild(xc.rafraichir);
 
 
@@ -1434,7 +1434,7 @@ void InitFormeSuperposition()
    XtSetArg(args[i], XmNleftPosition, 67); i++;
    XtSetArg(args[i], XmNrightPosition, 100); i++;
    xc.effacer = (Widget)XmCreatePushButton(xc.formeSup, "pushbutton", args, i);
-   XtAddCallback(xc.effacer, XmNactivateCallback, (XtCallbackProc) Effacer, NULL);
+   XtAddCallback(xc.effacer, XmNactivateCallback, Effacer, NULL);
    XtManageChild(xc.effacer);
 
    XmStringFree(label);
@@ -1475,7 +1475,7 @@ void InitMenuAffichage()
       XtSetArg(args[j], XmNindicatorType, XmONE_OF_MANY); j++;
 
       xc.menuAffichageItems[i] = (Widget)XmCreateToggleButton(xc.menuAffichage, "item", args, j);
-      XtAddCallback(xc.menuAffichageItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuAffichageSelect, NULL);
+      XtAddCallback(xc.menuAffichageItems[i], XmNvalueChangedCallback, MenuAffichageSelect, NULL);
       XmStringFree(label);
       }
 
@@ -1528,7 +1528,7 @@ void InitMenuGrille()
    XtSetArg(args[j], XmNlabelString, label); j++;
    XtSetArg(args[j], XmNset, True); j++;
    xc.menuGrItems[i] = (Widget)XmCreateToggleButton(xc.menuGrille, "item", args, j);
-   XtAddCallback(xc.menuGrItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuGrilleSelect, (XtPointer) (long)i);
+   XtAddCallback(xc.menuGrItems[i], XmNvalueChangedCallback, MenuGrilleSelect, (XtPointer) (long)i);
    XmStringFree(label);
 
 
@@ -1541,7 +1541,7 @@ void InitMenuGrille()
       XtSetArg(args[j], XmNlabelString, label); j++;
       XtSetArg(args[j], XmNindicatorType, XmONE_OF_MANY); j++;
       xc.menuGrItems[i] = (Widget)XmCreateToggleButton(xc.menuGrille, "item", args, j);
-      XtAddCallback(xc.menuGrItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuGrilleSelect, (XtPointer)(long) i);
+      XtAddCallback(xc.menuGrItems[i], XmNvalueChangedCallback, MenuGrilleSelect, (XtPointer)(long) i);
       XmStringFree(label);
       }
 
@@ -1578,7 +1578,7 @@ void InitMenuVecteurs()
      XtSetArg(args[j], XmNlabelString, label); j++;
      XtSetArg(args[j], XmNindicatorType, XmONE_OF_MANY); j++;
      xc.menuVecItems[i] = (Widget)XmCreateToggleButton(xc.menuVecteurs, "item", args, j);
-     XtAddCallback(xc.menuVecItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuVecteurSelect, (XtPointer)(long) i);
+     XtAddCallback(xc.menuVecItems[i], XmNvalueChangedCallback, MenuVecteurSelect, (XtPointer)(long) i);
      XmStringFree(label);
      }
 
@@ -1610,7 +1610,7 @@ void InitMenuFichier()
    i = 0;
    j = 0;
    xc.menuFichierItems[i] = (Widget)XmCreatePushButton(xc.menuFichier, labelRecAPropos[lng], args, j);
-   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer)(long) INFO_REC);
+   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, MenuFichierSelect, (XtPointer)(long) INFO_REC);
    i++;
 
    j = 0;
@@ -1619,12 +1619,12 @@ void InitMenuFichier()
 
    j = 0;
    xc.menuFichierItems[i] = (Widget)XmCreatePushButton(xc.menuFichier, labelOuvrir[lng], args, j);
-   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) OUVRIR);
+   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, MenuFichierSelect, (XtPointer) OUVRIR);
    i++;
 
    j = 0;
    xc.menuFichierItems[i] = (Widget)XmCreatePushButton(xc.menuFichier, labelFermer[lng], args, j);
-   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) FERMER);
+   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, MenuFichierSelect, (XtPointer) FERMER);
    i++;
 
    j = 0;
@@ -1633,12 +1633,12 @@ void InitMenuFichier()
 
    j = 0;
    xc.menuFichierItems[i] = (Widget)XmCreatePushButton(xc.menuFichier, labelDiapos[lng], args, j);
-   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) DIAPOS);
+   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, MenuFichierSelect, (XtPointer) DIAPOS);
    i++;
 
    j = 0;
    xc.menuFichierItems[i] = (Widget)XmCreatePushButton(xc.menuFichier, labelFilms[lng], args, j);
-   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) FILMS);
+   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, MenuFichierSelect, (XtPointer) FILMS);
    i++;
 
    j = 0;
@@ -1647,12 +1647,12 @@ void InitMenuFichier()
 
    j = 0;
    xc.menuFichierItems[i] = (Widget)XmCreatePushButton(xc.menuFichier, labelQuitter[lng], args, j);
-   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) QUITTER);
+   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, MenuFichierSelect, (XtPointer) QUITTER);
    i++;
 
    j = 0;
    xc.menuFichierItems[i] = (Widget)XmCreatePushButton(xc.menuFichier, labelQuitterEtSauver[lng], args, j);
-   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, (XtCallbackProc) MenuFichierSelect, (XtPointer) QUITTER_ET_SAUVER);
+   XtAddCallback(xc.menuFichierItems[i], XmNactivateCallback, MenuFichierSelect, (XtPointer) QUITTER_ET_SAUVER);
    i++;
 
    XtManageChildren(xc.menuFichierItems, i);
@@ -1690,7 +1690,7 @@ void InitMenuIntervalles()
       label = XmStringCreate(item, XmSTRING_DEFAULT_CHARSET);
       XtSetArg(args[0], XmNlabelString, label);
       xc.menuIntervalleItems[i] = (Widget)XmCreatePushButton(xc.menuIntervalleDeContour, "menu", args,1);
-      XtAddCallback(xc.menuIntervalleItems[i], XmNactivateCallback, (XtCallbackProc) MenuIntervalleSelect, (XtPointer)(long) i);
+      XtAddCallback(xc.menuIntervalleItems[i], XmNactivateCallback, MenuIntervalleSelect, (XtPointer)(long) i);
       XmStringFree(label);
       }
 
@@ -1725,7 +1725,7 @@ void InitMenuCalculs()
    XtSetArg(args[j], XmNindicatorType, XmONE_OF_MANY); j++;
    XtSetArg(args[j], XmNset, True); j++;
    xc.menuCalculItems[i] = (Widget)XmCreateToggleButton(xc.menuCalculs, labelMenuCalculsNoOp[lng], args, j);
-   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 0);
+   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, MenuCalculSelect, (XtPointer) 0);
 
    /*   i++;
   xc.menuCalculItems[i] = (Widget)XmCreateSeparator(xc.menuCalculs, "ligne", args, 0);
@@ -1734,11 +1734,11 @@ void InitMenuCalculs()
    i++;
    XtSetArg(args[j], XmNset, False);j++;
    xc.menuCalculItems[i] = (Widget)XmCreateToggleButton(xc.menuCalculs, labelMenuCalculsSubtract[lng], args, j);
-   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 1);
+   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, MenuCalculSelect, (XtPointer) 1);
 
    i++;
    xc.menuCalculItems[i] = (Widget)XmCreateToggleButton(xc.menuCalculs, labelMenuCalculsAdd[lng], args, j);
-   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 2);
+   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, MenuCalculSelect, (XtPointer) 2);
 
    /*
      i++;
@@ -1747,11 +1747,11 @@ void InitMenuCalculs()
 
    i++;
    xc.menuCalculItems[i] = (Widget)XmCreateToggleButton(xc.menuCalculs, labelMenuCalculsAbsSubtract[lng], args, j);
-   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 3);
+   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, MenuCalculSelect, (XtPointer) 3);
 
    i++;
    xc.menuCalculItems[i] = (Widget)XmCreateToggleButton(xc.menuCalculs, labelMenuCalculsAbsAdd[lng], args, j);
-   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 4);
+   XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, MenuCalculSelect, (XtPointer) 4);
 
    /*
   i++;
@@ -1759,15 +1759,15 @@ void InitMenuCalculs()
 
   i++;
   xc.menuCalculItems[i] = (Widget)XmCreateToggleButton(xc.menuCalculs, labelMenuCalculModule[lng], args, j);
-  XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 5);
+  XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, MenuCalculSelect, (XtPointer) 5);
 
   i++;
   xc.menuCalculItems[i] = (Widget)XmCreateToggleButton(xc.menuCalculs, labelMenuCalculsSubModule[lng], args, j);
-  XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 6);
+  XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, MenuCalculSelect, (XtPointer) 6);
 
   i++;
   xc.menuCalculItems[i] = (Widget)XmCreateToggleButton(xc.menuCalculs, labelMenuCalculsAddModule[lng], args, j);
-  XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, (XtCallbackProc) MenuCalculSelect, (XtPointer) 7);
+  XtAddCallback(xc.menuCalculItems[i], XmNvalueChangedCallback, MenuCalculSelect, (XtPointer) 7);
    */
 
    i++;
@@ -1801,23 +1801,23 @@ void InitMenuOptions()
    i = 0;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelAttributs[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelContours[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelGeographie[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, MenuOptionSelect, (XtPointer)(long) i);
 
 
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelPalette[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc)  MenuOptionSelect, (XtPointer)(long) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback,  MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    xc.menuOptionItems[i] = (Widget)XmCreateSeparator(xc.menuOptions, "ligne", args, 0);
@@ -1825,17 +1825,17 @@ void InitMenuOptions()
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelMinMax[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelVent[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelValeursPonctuelles[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    xc.menuOptionItems[i] = (Widget)XmCreateSeparator(xc.menuOptions, "ligne", args, 0);
@@ -1843,7 +1843,7 @@ void InitMenuOptions()
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelEdition[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    xc.menuOptionItems[i] = (Widget)XmCreateSeparator(xc.menuOptions, "ligne", args, 0);
@@ -1851,12 +1851,12 @@ void InitMenuOptions()
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelAnimation[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelSerie[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, MenuOptionSelect, (XtPointer)(long) i);
 
    i++;
    xc.menuOptionItems[i] = (Widget)XmCreateSeparator(xc.menuOptions, "ligne", args, 0);
@@ -1864,11 +1864,11 @@ void InitMenuOptions()
    i++;
    j = 0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelCoupe[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, MenuOptionSelect, (XtPointer)(long) i);
    i++;
    j=0;
    xc.menuOptionItems[i] = (Widget)XmCreatePushButton(xc.menuOptions, labelAnimationVerticale[lng], args, j);
-   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, (XtCallbackProc) MenuOptionSelect, (XtPointer)(long) i);
+   XtAddCallback(xc.menuOptionItems[i], XmNactivateCallback, MenuOptionSelect, (XtPointer)(long) i);
 
 
 
@@ -1895,7 +1895,7 @@ void InitOldMapInfo()
 
 
 /** ARGSUSED **/
-XtCallbackProc MenuOptionSelect(Widget w, XtPointer unused1, XtPointer unused2)
+void MenuOptionSelect(Widget w, XtPointer unused1, XtPointer unused2)
 {
 
    switch((long)unused1)
@@ -1951,7 +1951,7 @@ XtCallbackProc MenuOptionSelect(Widget w, XtPointer unused1, XtPointer unused2)
       default:
   break;
       }
-   return 0;
+   return ;
    }
 
 /* ****************************************************************************** */
@@ -1959,7 +1959,7 @@ XtCallbackProc MenuOptionSelect(Widget w, XtPointer unused1, XtPointer unused2)
 void c_ezdefset(int gdidout, int gdidin);
 
 /** ARGSUSED **/
-XtCallbackProc MenuGrilleSelect(Widget w, XtPointer unused1, XtPointer unused2)
+void MenuGrilleSelect(Widget w, XtPointer unused1, XtPointer unused2)
 {
    int i, gdin, gdout;
    Arg args[10];
@@ -1976,7 +1976,7 @@ XtCallbackProc MenuGrilleSelect(Widget w, XtPointer unused1, XtPointer unused2)
    if (champ->domaine == XZ || champ->domaine == YZ)
      {
        Beeper();
-       return 0;
+       return ;
      }
 
    drawcode = (long) unused2;
@@ -2048,12 +2048,12 @@ XtCallbackProc MenuGrilleSelect(Widget w, XtPointer unused1, XtPointer unused2)
        RedessinerFenetres();
      }
    MettreAJourStats();
-   return 0;
+   return ;
 }
 
 /* ****************************************************************************** */
 /** ARGSUSED **/
-XtCallbackProc MenuVecteurSelect(Widget w, XtPointer unused1, XtPointer unused2)
+void MenuVecteurSelect(Widget w, XtPointer unused1, XtPointer unused2)
 {
   int i;
   Arg args[10];
@@ -2145,17 +2145,17 @@ XtCallbackProc MenuVecteurSelect(Widget w, XtPointer unused1, XtPointer unused2)
   if (xc.statuts[EN_TRAIN_DE_DESSINER])
     {
     Beeper();
-    return 0;
+    return ;
     }
 MettreAJourStats();
-return 0;
+return ;
 }
 
 /* ****************************************************************************** */
 
 
 /** ARGSUSED **/
-XtCallbackProc MenuCalculSelect(Widget w, XtPointer unused1, XtPointer unused2)
+void MenuCalculSelect(Widget w, XtPointer unused1, XtPointer unused2)
 {
   int i;
   Arg args[10];
@@ -2172,13 +2172,13 @@ XtCallbackProc MenuCalculSelect(Widget w, XtPointer unused1, XtPointer unused2)
    CtrlMgrSetMathOp((long)unused1);
    LibererImages();
    RedessinerFenetres();
-   return 0;
+   return ;
    }
 
 void wglmapc(int colorIndex, int r, int g, int b);
 
 /** ARGSUSED **/
-XtCallbackProc MenuAffichageSelect(Widget w, XtPointer unused1, XtPointer unused2)
+void MenuAffichageSelect(Widget w, XtPointer unused1, XtPointer unused2)
 {
    int i;
    char *text;
@@ -2265,13 +2265,13 @@ XtCallbackProc MenuAffichageSelect(Widget w, XtPointer unused1, XtPointer unused
 
    LibererImages();
    ActiverFlagsAffichage();
-   return 0;
+   return ;
    }
 
 /* ****************************************************************************** */
 
 /** ARGSUSED **/
-XtCallbackProc MenuFichierSelect(Widget w, XtPointer client_data, XtPointer call_data)
+void MenuFichierSelect(Widget w, XtPointer client_data, XtPointer call_data)
 {
    int lng;
    int i, largeurFenetre, hauteurFenetre;
@@ -2280,7 +2280,7 @@ XtCallbackProc MenuFichierSelect(Widget w, XtPointer client_data, XtPointer call
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return 0;
+      return ;
       }
 
    lng = c_getulng();
@@ -2343,13 +2343,13 @@ XtCallbackProc MenuFichierSelect(Widget w, XtPointer client_data, XtPointer call
       QuitAndSave(w, client_data, call_data);
       break;
       }
-   return 0;
+   return ;
    }
 
 /* ****************************************************************************** */
 
 /** ARGSUSED **/
-XtCallbackProc MenuIntervalleSelect(Widget w, XtPointer client_data, XtPointer call_data)
+void MenuIntervalleSelect(Widget w, XtPointer client_data, XtPointer call_data)
 {
    float FacteurMultDesire;
    int j,n;
@@ -2394,7 +2394,7 @@ XtCallbackProc MenuIntervalleSelect(Widget w, XtPointer client_data, XtPointer c
    ChangerMenuIntervalles((int)client_data);
    LibererImages();
    RedessinerFenetres();
-   return 0;
+   return ;
    }
 
 
@@ -2402,7 +2402,7 @@ XtCallbackProc MenuIntervalleSelect(Widget w, XtPointer client_data, XtPointer c
 
 
 /** ARGSUSED **/
-XtCallbackProc Quit(Widget w, XtPointer client_data, XtPointer call_data)
+void Quit(Widget w, XtPointer client_data, XtPointer call_data)
 {
 #ifdef GL_WGL
    EnterOverlayMode();
@@ -2419,7 +2419,7 @@ XtCallbackProc Quit(Widget w, XtPointer client_data, XtPointer call_data)
 /* ****************************************************************************** */
 
 /** ARGSUSED **/
-XtCallbackProc QuitAndSave(Widget w, XtPointer client_data, XtPointer call_data)
+void QuitAndSave(Widget w, XtPointer client_data, XtPointer call_data)
 {
    FILE *fichierDemarrage;
    char *tmp;
@@ -2430,7 +2430,7 @@ XtCallbackProc QuitAndSave(Widget w, XtPointer client_data, XtPointer call_data)
    tmp = (char *) getenv("HOME");
    if (tmp == NULL)
       {
-      return 0;
+      return ;
       }
 
    strcpy(nomFichierDemarrage, tmp);
@@ -2443,7 +2443,7 @@ XtCallbackProc QuitAndSave(Widget w, XtPointer client_data, XtPointer call_data)
    fprintf(stderr,"Impossible d'ouvrir le fichier $HOME/.startrec... \n");
       else
    fprintf(stderr,"Can't open file $HOME/.startrec... \n");
-      return 0;
+      return ;
       }
 
    EcrCtlAtr(fichierDemarrage);
@@ -2455,7 +2455,7 @@ XtCallbackProc QuitAndSave(Widget w, XtPointer client_data, XtPointer call_data)
    fclose(fichierDemarrage);
 
    Quit(w, client_data, call_data);
-   return 0;
+   return ;
    }
 
 /* ****************************************************************************** */
@@ -2556,20 +2556,20 @@ void RedessinerFenetreSerie()
 /* ****************************************************************************** */
 
 /** ARGSUSED **/
-XtCallbackProc RafraichirFenetre(Widget w, XtPointer unused1, XtPointer unused2)
+void RafraichirFenetre(Widget w, XtPointer unused1, XtPointer unused2)
 {
 
    if (xc.statuts[EN_TRAIN_DE_DESSINER])
       {
       Beeper();
-      return 0;
+      return ;
       }
 
    InvertWidget(w);
    EffacerFenetres();
    RedessinerFenetres();
    InvertWidget(w);
-   return 0;
+   return ;
    }
 
 /* ****************************************************************************** */
@@ -2969,17 +2969,17 @@ int f77name(xconouv)(int *iun)
 /* ****************************************************************************** */
 
 /** ARGSUSED **/
-XtCallbackProc Annuler(Widget w, caddr_t unused1, caddr_t unused2)
+void Annuler(Widget w, XtPointer unused1, XtPointer unused2)
 {
    xc.annulationDemandee = TRUE;
-   return 0;
+   return ;
    }
 
 /* ****************************************************************************** */
 
 
 /** ARGSUSED **/
-XtCallbackProc Zoom(Widget w, caddr_t client_data, caddr_t call_data)
+void Zoom(Widget w, XtPointer client_data, XtPointer call_data)
 {
    int bouton, event;
    int x0, y0, xsize, ysize, x1, y1, x2, y2;
@@ -3084,7 +3084,7 @@ XtCallbackProc Zoom(Widget w, caddr_t client_data, caddr_t call_data)
       default:
       InvertWidget(w);
       xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
-      return 0;
+      return ;
       break;
       }
 
@@ -3104,7 +3104,7 @@ XtCallbackProc Zoom(Widget w, caddr_t client_data, caddr_t call_data)
    RedessinerFenetreAffichage();
 
    InvertWidget(w);
-   return 0;
+   return ;
    }
 
 void CalculerHauteurMenus()

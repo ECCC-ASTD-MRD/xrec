@@ -159,8 +159,8 @@ int pventSelectionTerminee;
 
 void SetModuleOn (w, client_data, call_data)
      Widget w;    /*  widget id   */
-     caddr_t  client_data;  /*  data from application   */
-     caddr_t  call_data;  /*  data from widget class  */
+     XtPointer  client_data;  /*  data from application   */
+     XtPointer  call_data;  /*  data from widget class  */
 {
   flagModule = MODULUS;
   flagLIC = NO_LIC;
@@ -171,71 +171,71 @@ void SetModuleOn (w, client_data, call_data)
 }
 
 /** ARGSUSED **/
-XtCallbackProc PVentSetNPTS(Widget w, caddr_t client_data, caddr_t call_data)
+void PVentSetNPTS(Widget w, XtPointer client_data, XtPointer call_data)
 {
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
    npts = donnees->value;
-   return 0;
+   return ;
    }
 
 
 /** ARGSUSED **/
-XtCallbackProc PVentSetNPAS(Widget w, caddr_t client_data, caddr_t call_data)
+void PVentSetNPAS(Widget w, XtPointer client_data, XtPointer call_data)
 {
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
    nnpas = donnees->value;
-   return 0;
+   return ;
    }
 
 /** ARGSUSED **/
-XtCallbackProc PVentSetDEET(Widget w, caddr_t client_data, caddr_t call_data)
+void PVentSetDEET(Widget w, XtPointer client_data, XtPointer call_data)
 {
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
    deet = donnees->value;
-   return 0;
+   return ;
    }
 
 /** ARGSUSED **/
-XtCallbackProc PVentSetSEGLEN(Widget w, caddr_t client_data, caddr_t call_data)
+void PVentSetSEGLEN(Widget w, XtPointer client_data, XtPointer call_data)
 {
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
    seglen = donnees->value;
-   return 0;
+   return ;
    }
 
 /** ARGSUSED **/
-XtCallbackProc PVentSetSEGSTEP(Widget w, caddr_t client_data, caddr_t call_data)
+void PVentSetSEGSTEP(Widget w, XtPointer client_data, XtPointer call_data)
 {
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
    segstep = donnees->value;
-   return 0;
+   return ;
    }
 
 /** ARGSUSED **/
-XtCallbackProc PVentSetDELAI(Widget w, caddr_t client_data, caddr_t call_data)
+void PVentSetDELAI(Widget w, XtPointer client_data, XtPointer call_data)
 {
    XmScaleCallbackStruct *donnees = (XmScaleCallbackStruct *) call_data;
    
    delai = 0.01 * (float)(donnees->value);
-   return 0;
+   return ;
    }
 
 /** ARGSUSED **/
-XtCallbackProc PVentStop(Widget w, caddr_t unused1, caddr_t unused2)
+void PVentStop(Widget w, XtPointer unused1, XtPointer unused2)
 {
    xc.annulationDemandee = TRUE;
-   return 0;
+   return ;
    }
 
 void c_animvent(float *uu,float *vv,float *mapscl,int ni,int nj, int seglen, float *uut,float *vvt,int npts,int nnpas,int deet,int segstep,float delai);
 
 /** ARGSUSED **/
-XtCallbackProc PVentStart(Widget w, caddr_t unused1, caddr_t unused2)
+void PVentStart(Widget w, XtPointer unused1, XtPointer unused2)
 {
   _Champ *champ;
   float *mapscl;
@@ -264,12 +264,12 @@ XtCallbackProc PVentStart(Widget w, caddr_t unused1, caddr_t unused2)
       }
     }
 
-  if (found == 0) return 0;
+  if (found == 0) return ;
   grtyp[0] = champ->dst.grtyp[0];
   if (champ->dst.grtyp[0] != 'N' && champ->dst.grtyp[0] != 'S')
     {
     MessageAvertissement(mauvaiseProjection[c_getulng()], 0);
-    return 0;
+    return ;
     }
   ig1 = champ->dst.ig1;
   ig2 = champ->dst.ig2;
@@ -297,10 +297,10 @@ XtCallbackProc PVentStart(Widget w, caddr_t unused1, caddr_t unused2)
   free(vv);
   free(uut);
   free(vvt);
-  return 0;
+  return ;
    }
 
-void SetLICOn(Widget w, caddr_t client_data, caddr_t call_data)
+void SetLICOn(Widget w, XtPointer client_data, XtPointer call_data)
 {
   flagLIC = LIC;
   flagModule=NO_MODULUS;
@@ -310,7 +310,7 @@ void SetLICOn(Widget w, caddr_t client_data, caddr_t call_data)
     }
 }
 
-void SetModuleOff(Widget w, caddr_t client_data, caddr_t call_data)
+void SetModuleOff(Widget w, XtPointer client_data, XtPointer call_data)
 {
   flagModule = NO_MODULUS;
   if (XmToggleButtonGetState(w))
@@ -319,7 +319,7 @@ void SetModuleOff(Widget w, caddr_t client_data, caddr_t call_data)
     }
 }
 
-void SetLICOff (Widget w, caddr_t client_data, caddr_t call_data)
+void SetLICOff (Widget w, XtPointer client_data, XtPointer call_data)
 {
   flagLIC = NO_LIC;
   if (XmToggleButtonGetState(w))
@@ -328,7 +328,7 @@ void SetLICOff (Widget w, caddr_t client_data, caddr_t call_data)
     }
 }
 
-void SetModeNone(Widget w, caddr_t client_data, caddr_t call_data)
+void SetModeNone(Widget w, XtPointer client_data, XtPointer call_data)
 {
   displayMode = NONE;
   if (XmToggleButtonGetState(w))
@@ -337,7 +337,7 @@ void SetModeNone(Widget w, caddr_t client_data, caddr_t call_data)
     }
 }
 
-void SetModeBarbules(Widget w, caddr_t client_data, caddr_t call_data)
+void SetModeBarbules(Widget w, XtPointer client_data, XtPointer call_data)
 {
   displayMode = BARBULE;
   if (XmToggleButtonGetState(w))
@@ -346,7 +346,7 @@ void SetModeBarbules(Widget w, caddr_t client_data, caddr_t call_data)
     }
 }
 
-void SetModeFleches(Widget w, caddr_t client_data, caddr_t call_data)
+void SetModeFleches(Widget w, XtPointer client_data, XtPointer call_data)
 {
   displayMode = FLECHES;
   if (XmToggleButtonGetState(w))
@@ -355,7 +355,7 @@ void SetModeFleches(Widget w, caddr_t client_data, caddr_t call_data)
     }
 }
 
-void SetDensiteToggle (Widget w, caddr_t client_data, caddr_t call_data)
+void SetDensiteToggle (Widget w, XtPointer client_data, XtPointer call_data)
 {
   if (0 == strcmp(XtName(w), pventLabelOptionsDensite[0][0]))
     {
@@ -368,19 +368,19 @@ void SetDensiteToggle (Widget w, caddr_t client_data, caddr_t call_data)
   PventAfficher(NULL,NULL,NULL);
 }
 
-void SetLongueurToggle(Widget w, caddr_t client_data, caddr_t call_data)
+void SetLongueurToggle(Widget w, XtPointer client_data, XtPointer call_data)
 {
   sscanf(XtName(w),"%d",&longueur);
   PventAfficher(NULL,NULL,NULL);
 }
 
-void SetEpaisseurFToggle (Widget w, caddr_t client_data, caddr_t call_data)
+void SetEpaisseurFToggle (Widget w, XtPointer client_data, XtPointer call_data)
 {
   sscanf(XtName(w),"%d",&epaisseurF);
   PventAfficher(NULL,NULL,NULL);
 }
 
-void SetEchelleWWToggle (Widget w, caddr_t client_data, caddr_t call_data)
+void SetEchelleWWToggle (Widget w, XtPointer client_data, XtPointer call_data)
 {
   int i;
   int oldEchelleWW = echelleWW;
@@ -398,7 +398,7 @@ void SetEchelleWWToggle (Widget w, caddr_t client_data, caddr_t call_data)
   RedessinerFenetreCoupe();
 }
 
-void SetEchelleFlechesToggle(Widget w, caddr_t client_data, caddr_t call_data)
+void SetEchelleFlechesToggle(Widget w, XtPointer client_data, XtPointer call_data)
 {
 
   if ((int)client_data == 0)
@@ -413,7 +413,7 @@ void SetEchelleFlechesToggle(Widget w, caddr_t client_data, caddr_t call_data)
   RedessinerFenetres();
 }
 
-void SetCroissanceToggle (Widget w, caddr_t client_data, caddr_t call_data)
+void SetCroissanceToggle (Widget w, XtPointer client_data, XtPointer call_data)
 {
   switch((int)client_data)
     {
@@ -440,18 +440,18 @@ void SetCroissanceToggle (Widget w, caddr_t client_data, caddr_t call_data)
   PventAfficher(NULL,NULL,NULL);
 }
 
-XtCallbackProc PventOk(Widget w, caddr_t client_data, caddr_t call_data)
+void PventOk(Widget w, XtPointer client_data, XtPointer call_data)
 {
   pventSelectionTerminee = TRUE;
   DesactiverPanneauVents();
-  return 0;
+  return ;
 }
 
-XtCallbackProc PventAfficher(Widget w, caddr_t client_data, caddr_t call_data)
+void PventAfficher(Widget w, XtPointer client_data, XtPointer call_data)
 {
   RedessinerFenetres();
   LibererImages();
-  return 0;
+  return ;
 }
 
 
@@ -490,7 +490,7 @@ void InitPanneauVents()
   XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
   XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++;
   pventOk = (Widget)XmCreatePushButton(pventForme, labelOk[lng], args, i);
-  XtAddCallback(pventOk, XmNactivateCallback, (XtCallbackProc) PventOk, NULL);
+  XtAddCallback(pventOk, XmNactivateCallback, PventOk, NULL);
   XtManageChild(pventOk);
 
   i = 0;
@@ -498,7 +498,7 @@ void InitPanneauVents()
   XtSetArg(args[i], XmNrightWidget, pventOk); i++;
   XtSetArg(args[i], XmNtopAttachment, XmATTACH_FORM); i++;
   pventAfficher = (Widget)XmCreatePushButton(pventForme, labelAfficher[lng], args, i);
-  XtAddCallback(pventAfficher, XmNactivateCallback, (XtCallbackProc) PventAfficher, NULL);
+  XtAddCallback(pventAfficher, XmNactivateCallback, PventAfficher, NULL);
   XtManageChild(pventAfficher);
 
   i = 0;
@@ -542,7 +542,7 @@ void InitPanneauVents()
   XtSetArg(args[i], XmNmarginBottom, 0); i++;
   XtSetArg(args[i], XmNmarginTop, 0); i++;
   pventAucun = (Widget) XmCreateToggleButton(pventSelectionBarbules, labelAucun[lng], args, i);
-  XtAddCallback(pventAucun, XmNvalueChangedCallback, (XtCallbackProc) SetModeNone, NULL);
+  XtAddCallback(pventAucun, XmNvalueChangedCallback, SetModeNone, NULL);
   XtManageChild(pventAucun);
 
   i = 0;
@@ -551,7 +551,7 @@ void InitPanneauVents()
   XtSetArg(args[i], XmNmarginBottom, 0); i++;
   XtSetArg(args[i], XmNmarginTop, 0); i++;
   pventBarbules = (Widget) XmCreateToggleButton(pventSelectionBarbules, labelBarbules[lng], args, i);
-  XtAddCallback(pventBarbules, XmNvalueChangedCallback, (XtCallbackProc) SetModeBarbules, NULL);
+  XtAddCallback(pventBarbules, XmNvalueChangedCallback, SetModeBarbules, NULL);
   XtManageChild(pventBarbules);
 
   i = 0;
@@ -561,7 +561,7 @@ void InitPanneauVents()
   XtSetArg(args[i], XmNmarginBottom, 0); i++;
   XtSetArg(args[i], XmNmarginTop, 0); i++;
   pventFleches = (Widget)XmCreateToggleButton(pventSelectionBarbules, labelFleches[lng], args, i);
-  XtAddCallback(pventFleches, XmNvalueChangedCallback, (XtCallbackProc) SetModeFleches, NULL);
+  XtAddCallback(pventFleches, XmNvalueChangedCallback, SetModeFleches, NULL);
   XtManageChild(pventFleches);
 
   i = 0;
@@ -587,7 +587,7 @@ void InitPanneauVents()
   XtSetArg(args[i], XmNmarginBottom, 0); i++;
   XtSetArg(args[i], XmNmarginTop, 0); i++;
   pventModuleOn = (Widget) XmCreateToggleButton(pventSelectionModule, labelOui[lng], args, i);
-  XtAddCallback(pventModuleOn, XmNvalueChangedCallback, (XtCallbackProc) SetModuleOn, NULL);
+  XtAddCallback(pventModuleOn, XmNvalueChangedCallback, SetModuleOn, NULL);
   XtManageChild(pventModuleOn);
 
   i = 0;
@@ -597,7 +597,7 @@ void InitPanneauVents()
   XtSetArg(args[i], XmNmarginBottom, 0); i++;
   XtSetArg(args[i], XmNmarginTop, 0); i++;
   pventModuleOff = (Widget) XmCreateToggleButton(pventSelectionModule, labelNon[lng], args, i);
-  XtAddCallback(pventModuleOff, XmNvalueChangedCallback, (XtCallbackProc) SetModuleOff, NULL);
+  XtAddCallback(pventModuleOff, XmNvalueChangedCallback, SetModuleOff, NULL);
   XtManageChild(pventModuleOff);
 
   i = 0;
@@ -623,7 +623,7 @@ void InitPanneauVents()
   XtSetArg(args[i], XmNmarginBottom, 0); i++;
   XtSetArg(args[i], XmNmarginTop, 0); i++;
   pventLICOn = (Widget) XmCreateToggleButton(pventSelectionLIC, labelOui[lng], args, i);
-  XtAddCallback(pventLICOn, XmNvalueChangedCallback, (XtCallbackProc) SetLICOn, NULL);
+  XtAddCallback(pventLICOn, XmNvalueChangedCallback, SetLICOn, NULL);
   XtManageChild(pventLICOn);
 
   i = 0;
@@ -633,7 +633,7 @@ void InitPanneauVents()
   XtSetArg(args[i], XmNmarginBottom, 0); i++;
   XtSetArg(args[i], XmNmarginTop, 0); i++;
   pventLICOff = (Widget) XmCreateToggleButton(pventSelectionLIC, labelNon[lng], args, i);
-  XtAddCallback(pventLICOff, XmNvalueChangedCallback, (XtCallbackProc) SetLICOff, NULL);
+  XtAddCallback(pventLICOff, XmNvalueChangedCallback, SetLICOff, NULL);
   XtManageChild(pventLICOff);
 
   i = 0;
@@ -668,7 +668,7 @@ void InitPanneauVents()
     XtSetArg(args[i], XmNlabelString, string); i++;
     pventOptionsDensiteItems[n] = XmCreatePushButtonGadget(pventOptionsDensite, pventLabelOptionsDensite[lng][n], args, i);
     XmStringFree(string);
-    XtAddCallback(pventOptionsDensiteItems[n], XmNactivateCallback, (XtCallbackProc) SetDensiteToggle, (XtPointer) n);
+    XtAddCallback(pventOptionsDensiteItems[n], XmNactivateCallback, SetDensiteToggle, (XtPointer) n);
     }
 
   XtManageChildren(pventOptionsDensiteItems, XtNumber(pventLabelOptionsDensite[lng]));
@@ -698,7 +698,7 @@ void InitPanneauVents()
     XtSetArg(args[i], XmNlabelString, string); i++;
     pventOptionsLongueurItems[n] = XmCreatePushButtonGadget(pventOptionsLongueur, pventLabelOptionsLongueur[lng][n], args, i);
     XmStringFree(string);
-    XtAddCallback(pventOptionsLongueurItems[n], XmNactivateCallback, (XtCallbackProc) SetLongueurToggle, (XtPointer) n);
+    XtAddCallback(pventOptionsLongueurItems[n], XmNactivateCallback, SetLongueurToggle, (XtPointer) n);
     }
 
   XtManageChildren(pventOptionsLongueurItems, XtNumber(pventLabelOptionsLongueur[lng]));
@@ -728,7 +728,7 @@ void InitPanneauVents()
     XtSetArg(args[i], XmNlabelString, string); i++;
     pventOptionsEpaisseurFItems[n] = XmCreatePushButtonGadget(pventOptionsEpaisseurF, pventLabelOptionsEpaisseurF[lng][n], args, i);
     XmStringFree(string);
-    XtAddCallback(pventOptionsEpaisseurFItems[n], XmNactivateCallback, (XtCallbackProc) SetEpaisseurFToggle, (XtPointer) n);
+    XtAddCallback(pventOptionsEpaisseurFItems[n], XmNactivateCallback, SetEpaisseurFToggle, (XtPointer) n);
     }
 
   XtManageChildren(pventOptionsEpaisseurFItems, XtNumber(pventLabelOptionsEpaisseurF[lng]));
@@ -758,7 +758,7 @@ void InitPanneauVents()
     XtSetArg(args[i], XmNlabelString, string); i++;
     pventOptionsCroissanceItems[n] = XmCreatePushButtonGadget(pventOptionsCroissance, pventLabelOptionsCroissance[lng][n], args, i);
     XmStringFree(string);
-    XtAddCallback(pventOptionsCroissanceItems[n], XmNactivateCallback, (XtCallbackProc) SetCroissanceToggle, (XtPointer) n);
+    XtAddCallback(pventOptionsCroissanceItems[n], XmNactivateCallback, SetCroissanceToggle, (XtPointer) n);
     }
 
   XtManageChildren(pventOptionsCroissanceItems, XtNumber(pventLabelOptionsCroissance[lng]));
@@ -789,7 +789,7 @@ void InitPanneauVents()
     XtSetArg(args[i], XmNlabelString, string); i++;
     pventOptionsEchelleWWItems[n] = XmCreatePushButtonGadget(pventOptionsEchelleWW, pventLabelOptionsEchelleWW[lng][n], args, i);
     XmStringFree(string);
-    XtAddCallback(pventOptionsEchelleWWItems[n], XmNactivateCallback, (XtCallbackProc) SetEchelleWWToggle, (XtPointer) n);
+    XtAddCallback(pventOptionsEchelleWWItems[n], XmNactivateCallback, SetEchelleWWToggle, (XtPointer) n);
     }
 
   XtManageChildren(pventOptionsEchelleWWItems, XtNumber(pventLabelOptionsEchelleWW[lng]));
@@ -815,7 +815,7 @@ void InitPanneauVents()
     XtSetArg(args[i], XmNlabelString, string); i++;
     pventOptionsEchelleFlechesItems[n] = XmCreatePushButtonGadget(pventOptionsEchelleFleches, pventLabelOptionsEchelleFleches[lng][n], args, i);
     XmStringFree(string);
-    XtAddCallback(pventOptionsEchelleFlechesItems[n], XmNactivateCallback, (XtCallbackProc) SetEchelleFlechesToggle, (XtPointer) n);
+    XtAddCallback(pventOptionsEchelleFlechesItems[n], XmNactivateCallback, SetEchelleFlechesToggle, (XtPointer) n);
     }
 
   XtManageChildren(pventOptionsEchelleFlechesItems, XtNumber(pventLabelOptionsEchelleFleches[lng]));
@@ -971,31 +971,31 @@ void InitPanneauVents()
    
    i = 0;
    pventBoutonXStreamStart = (Widget)XmCreatePushButton(pventXStreamBoutonsRc, "start", args, i);
-   XtAddCallback(pventBoutonXStreamStart, XmNactivateCallback, (XtCallbackProc) PVentStart, NULL);
+   XtAddCallback(pventBoutonXStreamStart, XmNactivateCallback, PVentStart, NULL);
    XtManageChild(pventBoutonXStreamStart);
 
    pventBoutonXStreamStop = (Widget)XmCreatePushButton(pventXStreamBoutonsRc, "stop", args, i);
-   XtAddCallback(pventBoutonXStreamStop, XmNactivateCallback, (XtCallbackProc) PVentStop, NULL);
+   XtAddCallback(pventBoutonXStreamStop, XmNactivateCallback, PVentStop, NULL);
    XtManageChild(pventBoutonXStreamStop);
 
    
-   XtAddCallback(pventScaleNpts, XmNdragCallback, (XtCallbackProc)PVentSetNPTS, NULL);
-   XtAddCallback(pventScaleNpts, XmNvalueChangedCallback, (XtCallbackProc)PVentSetNPTS, NULL);
+   XtAddCallback(pventScaleNpts, XmNdragCallback, PVentSetNPTS, NULL);
+   XtAddCallback(pventScaleNpts, XmNvalueChangedCallback, PVentSetNPTS, NULL);
    
-   XtAddCallback(pventScaleNpas, XmNdragCallback, (XtCallbackProc)PVentSetNPAS, NULL);
-   XtAddCallback(pventScaleNpas, XmNvalueChangedCallback, (XtCallbackProc)PVentSetNPAS, NULL);
+   XtAddCallback(pventScaleNpas, XmNdragCallback, PVentSetNPAS, NULL);
+   XtAddCallback(pventScaleNpas, XmNvalueChangedCallback, PVentSetNPAS, NULL);
 
-   XtAddCallback(pventScaleDeet, XmNdragCallback, (XtCallbackProc)PVentSetDEET, NULL);
-   XtAddCallback(pventScaleDeet, XmNvalueChangedCallback, (XtCallbackProc)PVentSetDEET, NULL);
+   XtAddCallback(pventScaleDeet, XmNdragCallback, PVentSetDEET, NULL);
+   XtAddCallback(pventScaleDeet, XmNvalueChangedCallback, PVentSetDEET, NULL);
 
-   XtAddCallback(pventScaleDelai, XmNdragCallback, (XtCallbackProc)PVentSetDELAI, NULL);
-   XtAddCallback(pventScaleDelai, XmNvalueChangedCallback, (XtCallbackProc)PVentSetDELAI, NULL);
+   XtAddCallback(pventScaleDelai, XmNdragCallback, PVentSetDELAI, NULL);
+   XtAddCallback(pventScaleDelai, XmNvalueChangedCallback, PVentSetDELAI, NULL);
 
-   XtAddCallback(pventScaleSeglen, XmNdragCallback, (XtCallbackProc)PVentSetSEGLEN, NULL);
-   XtAddCallback(pventScaleSeglen, XmNvalueChangedCallback, (XtCallbackProc) PVentSetSEGLEN, NULL);
+   XtAddCallback(pventScaleSeglen, XmNdragCallback, PVentSetSEGLEN, NULL);
+   XtAddCallback(pventScaleSeglen, XmNvalueChangedCallback, PVentSetSEGLEN, NULL);
 
-   XtAddCallback(pventScaleSegstep, XmNdragCallback, (XtCallbackProc) PVentSetSEGSTEP, NULL);
-   XtAddCallback(pventScaleSegstep, XmNvalueChangedCallback, (XtCallbackProc) PVentSetSEGSTEP, NULL);
+   XtAddCallback(pventScaleSegstep, XmNdragCallback, PVentSetSEGSTEP, NULL);
+   XtAddCallback(pventScaleSegstep, XmNvalueChangedCallback, PVentSetSEGSTEP, NULL);
 }
 
 void ActiverPanneauVents()

@@ -22,6 +22,8 @@
 #include <Xm/Text.h>
 #include <Xm/Frame.h>
 #include <Xm/Form.h>
+#include <Xm/PushB.h>
+#include <Xm/RowColumn.h>
 #include <rmn/rpnmacros.h>
 #include <rec.h>
 #include <rec_functions.h>
@@ -52,13 +54,13 @@ static char pcolorbarinfoNomVar[256][5];
 int pcolorbarinfoSelectionTerminee;
 
 
-XtCallbackProc PColorBarInfoOk(Widget w, caddr_t unused1, caddr_t unused2)
+void PColorBarInfoOk(Widget w, XtPointer unused1, XtPointer unused2)
 {
    pcolorbarinfoSelectionTerminee = TRUE;
    DesactiverPanneauColorBarInfos();
    }
 
-XtCallbackProc PColorBarInfoAfficher(Widget w, caddr_t unused1, caddr_t unused2)
+void PColorBarInfoAfficher(Widget w, XtPointer unused1, XtPointer unused2)
 {
    RedessinerFenetres();
    }
@@ -185,7 +187,7 @@ void DesactiverPanneauColorBarInfos()
    }
 
 
-XtCallbackProc AfficherColorBarInfos(Widget w, caddr_t client_data, caddr_t call_data)
+void AfficherColorBarInfos(Widget w, XtPointer client_data, XtPointer call_data)
 {
    ActiverPanneauColorBarInfos();
    AfficherMessageInfoStandard();
