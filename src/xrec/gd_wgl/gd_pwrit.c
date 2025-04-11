@@ -74,9 +74,11 @@ float x, y;
 char string[];
 int stringLength, size, orient, codeCentrage;
 {
-   wglfsz(size);
 
-   wglmvx(x,y);
+   f77name(wglfsz)(&size);
+
+
+   f77name(wglmvx)(&x,&y);
    /*   XDrawString(wglDisp, wglDrawable, wglLineGC, 
                     wglPts[0].x, wglPts[0].y, string, stringLength);
    */
