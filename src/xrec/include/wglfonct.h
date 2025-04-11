@@ -131,6 +131,16 @@ void f77name(vfxfy2xy)(float *x, float *y, float *fx, float *fy, int *npts);
 void f77name(vxy2fxfy)(float *fx, float *fy, float *x, float *y, int *npts);
 void f77name(xsetxy)(int *mode, float *tx, int *nx, float *ty, int *ny);
 void f77name(xy2fxfy)(float *fx, float *fy, float *x, float *y);
+void BuildColIndexTable(int indTable[], int hsvTable[][3], int nbCol, int colDebut, int colFin, int mode);
+void RestoreNormalMode(void);
+void EnterOverlayMode(void);
+int f77name(minisouris)(int *bouton, int *event, int *x0, int *y0, int *xsize, int *ysize, int *x1, int *y1, int *x2, int *y2);
+int defpup(char *menuStr);
+int f77name(minisouris)(int *bouton, int *event, int *x0, int *y0, int *xsize, int *ysize, int *x1, int *y1, int *x2, int *y2);
+int f77name(wglfsz)(int *fontSize);
+void f77name(wglmvx)(float *x, float *y);
+void wglfshlb(void);
+
 #ifdef __CPLUSPLUS
 }
 #endif

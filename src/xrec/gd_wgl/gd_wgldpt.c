@@ -27,6 +27,6 @@ char iptrn[];
   gd_wglinvpat(iptrn);
    }
 
-void gd_wglinvpat(int iptrn)
+void gd_wglinvpat(char iptrn[])
 {
 }

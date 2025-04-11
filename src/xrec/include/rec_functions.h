@@ -600,7 +600,6 @@ void bidonprint(float px, float pos, char *nombre);
 void c_animvent(float *uu,float *vv,float *mapscl,int ni,int nj, int seglen, float *uut,float *vvt,int npts,int nnpas,int deet,int segstep,float delai);
 void c_dors(float delai);
 int  c_ezgdefrec(int ni, int nj, char *grtyp, int ig1, int ig2, int ig3, int ig4);
-int  c_ezsint_mask(unsigned int *maskout, unsigned int *maskin, int gdin, int gdout);
 int  c_fstinlo(int iun, int *ni, int *nj, int *nk, int date, char etiket[], int ip1, int ip2, int ip3, char typvar[], char nomvar[], int listeCles[], int *nbCles, int nbMaxCles);
 int  c_getulng();
 int  c_wglallocf(int nimages);
@@ -695,5 +694,56 @@ int  uncompact_mask(int *dest, unsigned int *src, int npts);
 void unpack(unsigned short shortvec[], float floatvec[], int npts, float min, float max);
 void xrecGetCurrentMinMax(float *min, float *max, int mode);
 unsigned int x_wglcolfs_fst(float *cols, unsigned int *pixels, int n);
+
+void f77name(aminmax)(float *rmin, float *rmax, float *fld, int* ni, int *nj);
+void f77name(ij2xy_warp)(float *x, float *y, float *eta, float *p0, float *ptop, float *pref, float *rcoef, int *coord, int *ni, int *nj, int *ideb, int *jdeb, int *ifin, int *jfin, float *xdeb, float *ydeb, float *xfin, float *yfin);
+void f77name(ij2xy_warp_r)(float *x, float *y, float *eta, float *p0, float *ptop, float *pref, float *rcoef, int *coord, int *ni, int *nj, int *ideb, int *jdeb, int *ifin, int *jfin, float *xdeb, float *ydeb, float *xfin, float *yfin);
+int FlusherTousLesEvenements(void);
+
+void SetLabFontSize(int size);
+
+void f77name(sminmax)(float *min, float *max, float *fld, int *ni, int *nj, int *idebut, int *jdebut, int *ifin, int *jfin);
+void f77name(vsminmax)(float *rmin, float *rmax, float *uu, float *vv, int *ni, int *nj, int *idebut, int *jdebut, int *ifin, int *jfin);
+void f77name(sminmax2)(float *min, float *max, float *min2, float *max2, float *fld, int *ni, int *nj, int *idebut, int *jdebut, int *ifin, int *jfin);
+/* rec/main/c_ezsint_mask.c */
+int32_t c_ezgprm(int32_t gdid, char *grtyp, int32_t *ni, int32_t *nj, int32_t *ig1, int32_t *ig2, int32_t *ig3, int32_t *ig4);
+int32_t c_ezsint(float *zout, float *zin);
+
+void f77name(setprof1)(float *nivmin,float *nivmax,int *echelle,char *titrex,char *titrey, int, int);
+void f77name(xezxy)(float *x,float *y,int *npts,char *labgg, int);
+void f77name(setprof2)(void);
+void f77name(xset)(int *ixmin, int *ixmax, int *iymin, int *iymax, float *xmin, float *xmax, float *ymin, float *ymax, int *ltype);
+int AttrMgrGetInterpolationLevel(void);
+
+void f77name(modulus)(float *module, float *uu, float *vv, int *npts);
+void f77name(modulus3d)(float *module, float *uu, float *vv, float *ww, int *npts);
+
+void f77name(f_convip)( int *ip, float *p, int *sorte, int *mode, char *chaine, int *flag, int longueur);
+void f77name(chkgrid)(float *fld, int *ni, int *nj, char *grtyp, int *orient, int);
+
+// void f77name(wgldrl)( float *z, int *l, int *m, int *n, int *mdeb, int *ndeb, int *mfin, int *nfin, int *lf);
+
+int c_rec_ezsint_mask(unsigned int *maskout, unsigned int *maskin, int gdin, int gdout);
+
+int f77name(fst_get_mask_key)(int *mask_key, int *fld_key, int *mask_flags, int *iun);
+void f77name(drl_set_spval)(float *newspval);
+
+int f77name(xpwrit)(int *ix, int *iy, char chr[], int *nchr, int *size, int *anott, int *icent, const int32_t flen);
+int c_getVectorVars(char lnomvar[], char uu[], char vv[], char ww[]);
+
+int c_gmpopti(char *option, int32_t valeur);
+
+void f77name(rtnozsrt)(char *filename, int);
+
+void f77name(wglpolyfton)(float *z, float *x, float *y, int *ni, int *nj, float *interv, int *nbinterv,  float *facteur, float *rmin, float *rmax, int *ctable, int *ncol, int *contour, int *gdout);
+void f77name(vsminmax_ij)(float *rmin, float *rmax, int *imin, int *jmin, int *imax, int *jmax, float *uu, float *vv, int *ni, int *nj, int *idebut, int *jdebut, int *ifin, int *jfin);
+void f77name(smeanvar)(float *mean, float *stddev, float *fld, int *ni, int *nj, int *idebut, int *jdebut, int *ifin, int *jfin);
+void f77name(grdval)(float *val, float *fld, int *i, int *j, int *ni, int *nj);
+int c_checkIfVectorVar(char lnomvar[]);
+int ip12coord(int ip1);
+int lvl2ip1(double lvl, int coord);
+void f77name(wglstl)(float *z, int *l, int *m, int *n, int *mdeb, int *ndeb, int *mfin, int *nfin, float*conv, int *lf);
+
+int lire_geo(void);
 
 #endif

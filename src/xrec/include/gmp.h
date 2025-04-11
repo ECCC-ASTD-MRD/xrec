@@ -159,4 +159,7 @@ void c_gmpdrw();
 void AfficherVecteurs(ListePointsStruct *liste, int nbItems, int style, int couleur, int epaisseur);
 void c_gmpDrawCityName(float x, float y, char *text);
 
+int ComparerMapInfos(GeoMapInfoStruct mapInfo1, GeoMapInfoStruct mapInfo2);
+void NewTextItem(ListeTextStruct *(*liste), int *nbItems);
+
 #endif
