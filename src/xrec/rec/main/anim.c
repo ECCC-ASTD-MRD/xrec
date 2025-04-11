@@ -530,6 +530,7 @@ int PasAssezDeMemoire(Display *disp, XErrorEvent *erreur)
 
   XGetErrorText(disp, erreur->error_code, msg, 80);
   fprintf(stderr, "ErrorCode: %s\n", msg);
+  return erreur->error_code;
   }
 
 /* -------------------------------------------------------------------------------------------------- */
