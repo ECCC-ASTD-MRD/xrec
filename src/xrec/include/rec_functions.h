@@ -746,4 +746,14 @@ void f77name(wglstl)(float *z, int *l, int *m, int *n, int *mdeb, int *ndeb, int
 
 int lire_geo(void);
 
+/* prototypes absents dans les PUBLIC_INCLUDES de rmn */
+void f77name(permut)(float *lat, int32_t *ni, int32_t *nj); /* de rmn/src/base/base.h */
+void f77name(mscale)(float *r, float *d60, float *pi, float *pj, int *ni, int *nj); /* de rmn/src/base/mscale.f */
+void f77name(ez_rgdint_1_nw)(float *zo, float *px, float *py, int32_t *npts, float *z, int32_t *ni, int32_t *j1, int32_t *j2); /* de rmn/src/interp/f_ezscint.h */
+void f77name(ez_rgdint_0)(float *zo, float *px, float *py, int32_t *npts, float *z, int32_t *ni, int32_t *j1, int32_t *j2); /* de rmn/src/interp/f_ezscint.h */
+void f77name(ez_rgdint_3_nw)(float *zo, float *px, float *py, int32_t *npts, float *z, int32_t *ni, int32_t *j1, int32_t *j2); /* de rmn/src/interp/f_ezscint.h */
+int32_t c_ezgetgdin(); /* de rmn/src/interp/ez_funcdef.h */
+int32_t c_ezgetgdout(); /* de rmn/src/interp/ez_funcdef.h */
+void f77name(micro_sleep) (double *secs); /* de rmn/src/primitives/micro_sleep.c */
+
 #endif

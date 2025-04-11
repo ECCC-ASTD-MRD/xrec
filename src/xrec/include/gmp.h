@@ -162,4 +162,10 @@ void c_gmpDrawCityName(float x, float y, char *text);
 int ComparerMapInfos(GeoMapInfoStruct mapInfo1, GeoMapInfoStruct mapInfo2);
 void NewTextItem(ListeTextStruct *(*liste), int *nbItems);
 
+/* prototypes absents dans les PUBLIC_INCLUDES de rmn */
+#include <stdint.h>
+int32_t c_ezgetgdout(); /* de rmn/src/interp/ez_funcdef.h */
+void f77name(llfxy)(float *dlat, float *dlon, float *x, float *y, float *d60, float *dgrw, int *nhem); /* de rmn/src/base/llfxy.F */
+void f77name(xyfll)(float *x, float *y, float *dlat, float *dlon, float *d60, float *dgrw, int *nhem); /* de rmn/src/base/xyfll.F */
+   
 #endif
