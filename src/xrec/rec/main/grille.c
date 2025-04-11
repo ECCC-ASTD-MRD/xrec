@@ -109,7 +109,7 @@ F2Cl flennomgrille;
         f77name(cxgaig)(&grmenuitems[nbgi].grtyp[0],
                         &grmenuitems[nbgi].ig1,&grmenuitems[nbgi].ig2,
                         &grmenuitems[nbgi].ig3,&grmenuitems[nbgi].ig4,
-                        fig1, fig2, fig3, fig4);
+                        fig1, fig2, fig3, fig4, sizeof(grmenuitems[nbgi].grtyp[0]));
         break;
 
       case '!':
