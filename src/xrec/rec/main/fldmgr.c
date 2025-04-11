@@ -1383,7 +1383,7 @@ float *rx1,*ry1,*rx2,*ry2;
          }
 
       f77name(modulus3d)(champ->coupe.uvw2d,champ->coupe.uvwtang2d,champ->coupe.uvwnorm2d,
-            &champ->coupe.ww2d,&champ->coupe.nbNiveauxCoupe);
+            champ->coupe.ww2d,&champ->coupe.nbNiveauxCoupe);
 
       }
     return 0;
