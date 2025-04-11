@@ -474,7 +474,7 @@ int FldMgrComparerDates();
 
 /* -------------------------------------------------------------------------------------------------- */
 
-int string_compare(void *str1, void *str2)
+int string_compare(const void *str1, const void *str2)
 {
   return strcmp((char *) str1, (char *) str2);
 }

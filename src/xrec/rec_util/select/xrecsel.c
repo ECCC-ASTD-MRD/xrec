@@ -294,9 +294,9 @@ static void AjusterSensibiliteBoutons();
 void        CalculerLargeurMenus(int32_t largeurMenus[], int32_t table[][3]);
 int32_t     ChangerWidgets();
 int32_t     ChercherCle(char *val, int32_t len, cleStruct cles[], int32_t indDes);
-int32_t     ComparerCles(cleInfoStruct *cleInfo1, cleInfoStruct *cleInfo2);
-int32_t     ComparerClesNumeriques(cleInfoStruct *cleInfo1, cleInfoStruct *cleInfo2);
-int32_t     ComparerFiltres(filtresStruct *filtre1,  filtresStruct *filtre2);
+int32_t     ComparerCles(const void *cleInfo1, const void *cleInfo2);
+int32_t     ComparerClesNumeriques(const void *cleInfo1, const void *cleInfo2);
+int32_t     ComparerFiltres(const void *filtre1, const void *filtre2);
 int32_t     DesactiverSelWidgets();
 int32_t     EnleverFiltre(int32_t indDes, int32_t indCle);
 int32_t     FiltrerRecords(int32_t sel[], int32_t *nbsel, XmString **recs, cleStruct cles[], filtresStruct *filtres, int32_t nbRecs, int32_t nbDes, int32_t  nbFiltres);
@@ -840,9 +840,9 @@ VALEUR RETOURNEE:       Il est theoriquement impossible que deux cles soient
 
 ------------------------------------------------------------------------------*/
 
-int32_t ComparerCles(cleInfoStruct *cleInfo1, cleInfoStruct *cleInfo2)
+int32_t ComparerCles(const void *cleInfo1, const void *cleInfo2)
 {
-   return (strcmp(cleInfo1->val, cleInfo2->val));
+   return (strcmp(((cleInfoStruct*)cleInfo1)->val, ((cleInfoStruct*)cleInfo2)->val));
 }
 /*======================================================================================================*/
 /**
@@ -867,18 +867,18 @@ VALEUR RETOURNEE:       Il est theoriquement impossible que deux cles soient
 
 ------------------------------------------------------------------------------*/
 
-int32_t ComparerClesNumeriques(cleInfoStruct *cleInfo1, cleInfoStruct *cleInfo2)
+int32_t ComparerClesNumeriques(const void *cleInfo1, const void *cleInfo2)
 {
-   if ( isdigit(cleInfo1->val[0]) && isdigit(cleInfo2->val[0]) )
+   if ( isdigit(((cleInfoStruct*)cleInfo1)->val[0]) && isdigit(((cleInfoStruct*)cleInfo2)->val[0]) )
    {
-      double v1 = atof( cleInfo1->val );
-      double v2 = atof( cleInfo2->val );
+      double v1 = atof( ((cleInfoStruct*)cleInfo1)->val );
+      double v2 = atof( ((cleInfoStruct*)cleInfo2)->val );
       if ( v1 < v2 )      return -1;
       else if ( v1 > v2 ) return +1;
       else                return 0;
    }
    else
-      return (strcmp(cleInfo1->val, cleInfo2->val));
+      return (strcmp(((cleInfoStruct*)cleInfo1)->val, ((cleInfoStruct*)cleInfo2)->val));
 }
 /*======================================================================================================*/
 /**
@@ -902,13 +902,13 @@ VALEUR RETOURNEE:      Il est theoriquement impossible que deux filtres soient
 
 ------------------------------------------------------------------------------*/
 
-int32_t ComparerFiltres(filtresStruct *filtre1,  filtresStruct *filtre2)
+int32_t ComparerFiltres(const void *filtre1, const void *filtre2)
 {
-   if (filtre1->indDes < filtre2->indDes)
+   if (((filtresStruct*)filtre1)->indDes < ((filtresStruct*)filtre2)->indDes)
       return -1;
-   else if (filtre1->indDes > filtre2->indDes)
+   else if (((filtresStruct*)filtre1)->indDes > ((filtresStruct*)filtre2)->indDes)
         return 1;
-   else if (filtre1->indCle < filtre2->indCle)
+   else if (((filtresStruct*)filtre1)->indCle < ((filtresStruct*)filtre2)->indCle)
         return -1;
    else
         return 1;
