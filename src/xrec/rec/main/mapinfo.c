@@ -108,8 +108,8 @@ void InitMapInfo(char type, int ni, int nj, int ig1, int ig2, int ig3, int ig4)
 			   mapInfo.ig1, mapInfo.ig2, mapInfo.ig3, mapInfo.ig4);
        mapIdOut = c_ezgetgdout();
 
-       c_ezgxprm(mapId, &ni1, &nj1, &grtyp, &iig1, &iig2, &iig3, &iig4,
-		 &grref, &ig1ref, &ig2ref, &ig3ref, &ig4ref);
+       c_ezgxprm(mapId, &ni1, &nj1, grtyp, &iig1, &iig2, &iig3, &iig4,
+		 grref, &ig1ref, &ig2ref, &ig3ref, &ig4ref);
        mapInfo.gdid = mapId;
      }
 
@@ -214,7 +214,8 @@ void GeoMgrGetMapInfo(char *grtyp, char *grref, int *ni, int *nj, int *ig1, int 
          {
          gdid = c_ezgetgdin();
          }
-      c_ezgxprm(gdid, grtyp, ni, nj, ig1, ig2, ig3, ig4, grref, ig1ref, ig2ref, ig3ref, ig4ref);
+      /* correction : mettre grtyp en arg4 */
+      c_ezgxprm(gdid, ni, nj, grtyp, ig1, ig2, ig3, ig4, grref, &ig1ref, &ig2ref, &ig3ref, &ig4ref);
 
       InitMapInfo(*grtyp, *ni, *nj, *ig1, *ig2, *ig3, *ig4);
       }
