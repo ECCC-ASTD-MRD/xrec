@@ -463,9 +463,7 @@ LIBRAIRIES :            Motif
 ------------------------------------------------------------------------------*/
 static void InitWidgetsAll()
 {
-   int ier;
-
-   ier = wglinids("xrec");
+   wglinids("xrec");
    InitWidgetsBasic();
    InitWidgetsCurrentPath();
    InitWidgetsPulldown();
@@ -1545,7 +1543,7 @@ static void XSelectAddToList ( Widget w, XtPointer client, XtPointer data )
 
 /******************************************************************************
 
-NOM:                    TrouverWidgetParent()
+NOM:                    TrouverWidgetParentLocal()
 
 AUTEUR :                Guy Asselin     CMCOG 421-4615
 
@@ -1570,7 +1568,7 @@ VALEURE RETOURNEE:      Le widget ID du plus vieil ancetre de la fenetre
 
 LIBRAIRIES :            Motif
 ------------------------------------------------------------------------------*/
-static Widget TrouverWidgetParent(Window eventWindow)
+static Widget TrouverWidgetParentLocal(Window eventWindow)
 {
    Widget  widgetCourant; /* Le widget ou l'evenement X s'est produit.   */
    Widget  widgetParent;  /* L'ancetre du widget ou evenement X s'est produit.*/
