@@ -25,7 +25,7 @@ void x_wglptis(wgl_point pts[], int npts)
   int i;
   for(i=0; i < npts; i++)
 	pts[i].y = h - pts[i].y;
-  XDrawPoints(wglDisp, wglWin, wglLineGC, (wgl_point *) pts, npts, CoordModeOrigin);
+  XDrawPoints(wglDisp, wglWin, wglLineGC, (XPoint *) pts, npts, CoordModeOrigin);
    }
 
 

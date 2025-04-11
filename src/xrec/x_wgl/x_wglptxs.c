@@ -35,7 +35,7 @@ int x_wglptxs(float *xxx, float *yyy, int *npts)
       p[i-j].y = (short)(h - ROUND(((yyy[i] - usSpace.ydebut) * usSpace.densiteY) + usSpace.jdebut));
       }
     
-    XDrawPoints(wglDisp, wglDrawable, wglLineGC, p, imax, CoordModeOrigin);
+    XDrawPoints(wglDisp, wglDrawable, wglLineGC, (XPoint *) p, imax, CoordModeOrigin);
     
     }
 }

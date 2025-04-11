@@ -79,7 +79,7 @@ void AfficherLIC(float *uu, float *vv, int ni, int nj, int couleur, int linewidt
   axdx    = (float *) calloc(largeur, sizeof(float));
   iaxex    = (int *) calloc(largeur, sizeof(int));
   tmpVals = (float *) calloc(largeur*hauteur, sizeof(float));
-  tmpInds = (int *) calloc(largeur*hauteur, sizeof(int));
+  tmpInds = (float *) calloc(largeur*hauteur, sizeof(float));
   pixels =  (unsigned int *)malloc(largeur*hauteur*sizeof(unsigned int));
   pixdata = (char *) malloc(4*largeur*hauteur*sizeof(char));
   luu = (float *) malloc(largeur*hauteur*sizeof(float));

@@ -77,7 +77,7 @@ void x_wglinicmap()
    
    if (debugMode)
       {
-      fprintf(stderr, "%Visual de type %d\n", visualClass);
+      fprintf(stderr, "Visual de type %d\n", visualClass);
       }
    
    defcmap = DefaultColormap(wglDisp, wglScrNum); 
@@ -101,7 +101,7 @@ void x_wglinicmap()
 	     XQueryColors(wglDisp, defcmap, xcouleurs, 255);
 	   res = XLookupColor(wglDisp, defcmap, les_couleurs[i],  &exact[i], &col);
 	   couleurderemplacement = MatchColorIndexX(col.red/256, col.green/256, col.blue/256, 
-			    couleurs, 0, 254);
+                                                    (XColor *) couleurs, 0, 254);
 	   exact[i] = xcouleurs[couleurderemplacement];
 	 }
      }
@@ -156,7 +156,7 @@ void x_wglinicmap()
          res = 0;
          while (res == 0 && i > 0)
             {
-            res = XAllocColorCells(wglDisp, (Colormap) cmap, False,&plane_masks,0,pix,i);
+               res = XAllocColorCells(wglDisp, (Colormap) cmap, False, (unsigned long *) &plane_masks,0, (unsigned long *) pix,i);
             i--;   
             } 
          
@@ -184,7 +184,7 @@ void x_wglinicmap()
          i = 0;
          while (pix[i] < 32 && i < nbPixs)
             {
-            XFreeColors(wglDisp, defcmap, &pix[i], 1, 0);
+               XFreeColors(wglDisp, defcmap, (unsigned long*) &pix[i], 1, 0);
             wglWritablePixs[pix[i]] = False;
             i++;
             }

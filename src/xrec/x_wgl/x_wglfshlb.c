@@ -38,7 +38,7 @@ void x_wglfshlb()
       break;
 
       default:
-      XDrawLines(wglDisp, wglDrawable, wglLineGC, wglPts, NbPoints, CoordModeOrigin);
+         XDrawLines(wglDisp, wglDrawable, wglLineGC, (XPoint*) wglPts, NbPoints, CoordModeOrigin);
       break;
       }
 

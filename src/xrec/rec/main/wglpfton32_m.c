@@ -106,7 +106,7 @@ void c_wglpfton32_m(float *fld, unsigned int *mask, int ni, int nj, float interv
   iaxex    = (int *) calloc(largeur, sizeof(int));
   axey    = (float *) calloc(hauteur, sizeof(float));
   tmpVals = (float *) calloc(lh, sizeof(float));
-  tmpInds = (int *) calloc(lh, sizeof(int));
+  tmpInds = (float *) calloc(lh, sizeof(float));
   pixels =  (unsigned int *)malloc(2*lh*sizeof(unsigned int));
   pixdata = (unsigned int *) malloc(2*lh*sizeof(unsigned int));
   

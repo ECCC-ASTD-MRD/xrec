@@ -30,7 +30,7 @@ void EncodeRLEData(unsigned char *out, int  *nptsout, char *in, int  nptsin)
    unsigned char valOffset = 32;
    unsigned char repeatOffset = 128;
    
-   strncpy(out,"RLE8",4);
+   strncpy((char*) out,"RLE8",4);
    out[4] = valOffset;
    out[5] = repeatOffset;
    pos = 6;

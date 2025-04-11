@@ -148,7 +148,7 @@ void draw_logo(int idebut, int jdebut, int width, int height, char bits[], int f
 		  npts++;
 		  if (npts == 256)
 		     {
-		     c_wglptis(pts, npts);
+		     c_wglptis((wgl_point *)pts, npts);
 		     npts = 0;
 		     }
 		  }
@@ -156,7 +156,7 @@ void draw_logo(int idebut, int jdebut, int width, int height, char bits[], int f
 	    }
 	 }
       }
-   c_wglptis(pts, npts);
+   c_wglptis((wgl_point *)pts, npts);
    
    }
 

@@ -125,7 +125,7 @@ int fore;
 		  npts++;
 		  if (npts == 256)
 		     {
-		     c_wglptis(pts, npts);
+                        c_wglptis((wgl_point *)pts, npts);
 		     npts = 0;
 		     }
 		  }
@@ -133,7 +133,7 @@ int fore;
 	    }
 	 }
       }
-   c_wglptis(pts, npts);
+   c_wglptis((wgl_point *)pts, npts);
    
    }
 

@@ -35,6 +35,6 @@ void x_wglrfi(int ia, int ja, int ib, int jb)
    p[3].y = p[2].y; 
    p[4].x = p[0].x;
    p[4].y = p[0].y;
-   XFillPolygon(wglDisp, wglDrawable, wglFillGC, p, 5, Convex, CoordModeOrigin);
+   XFillPolygon(wglDisp, wglDrawable, wglFillGC, (XPoint *) p, 5, Convex, CoordModeOrigin);
    }
 
