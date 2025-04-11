@@ -316,7 +316,7 @@ int FldMgrFreeAnimFlds(_Champ *champ)
     free(champ->seqanim.dt);
     free(champ->seqanim.clesAnim);
 
-    memset((char *)&(champ->seqanim), (char)NULL, sizeof(_SequenceAnimee));
+    memset((char *)&(champ->seqanim), '\0', sizeof(_SequenceAnimee));
 return 0;
 }
 
@@ -400,7 +400,7 @@ void FldMgrFreeCoupeFlds(_Champ *champ)
   if (champ->coupe.clesNiveaux != NULL)
     free(champ->coupe.clesNiveaux);
 
-  memset((char *)&(champ->coupe), (char)NULL, sizeof(_CoupeVerticale));
+  memset((char *)&(champ->coupe), '\0', sizeof(_CoupeVerticale));
 }
 
 /* -------------------------------------------------------------------------------------------------- */
@@ -697,7 +697,7 @@ void FldMgrInitChamps()
     int i;
 
     for (i=0; i < NB_MAX_CHAMPS_ACTIFS; i++)
-        memset((char *) &fmflds[i], (char)NULL, sizeof(_Champ));
+        memset((char *) &fmflds[i], '\0', sizeof(_Champ));
 }
 
 /* -------------------------------------------------------------------------------------------------- */
