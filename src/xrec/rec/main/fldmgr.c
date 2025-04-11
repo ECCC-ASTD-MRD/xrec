@@ -2272,7 +2272,7 @@ void FldMgrUpdateGridParams(_Champ *champ)
         gdout = c_ezgetgdout();
         }
 
-      c_ezgprm(gdout, &champ->dst.grtyp, &champ->dst.ni, &champ->dst.nj,
+      c_ezgprm(gdout, champ->dst.grtyp, &champ->dst.ni, &champ->dst.nj,
         &champ->dst.ig1, &champ->dst.ig2, &champ->dst.ig3, &champ->dst.ig4);
       champ->dst.nk = 1;
       if (champ->src.grtyp == 'Y')
@@ -2338,7 +2338,7 @@ void FldMgrUpdateGridParams(_Champ *champ)
       champ->y = (float *) calloc(npts, sizeof(float));
       c_gdll(gdin, lat, lon);
       c_gdxyfll(gdout, champ->x, champ->y, lat, lon, npts);
-      c_ezgprm(gdout, &champ->dst.grtyp, &champ->dst.ni, &champ->dst.nj,
+      c_ezgprm(gdout, champ->dst.grtyp, &champ->dst.ni, &champ->dst.nj,
         &champ->dst.ig1, &champ->dst.ig2, &champ->dst.ig3, &champ->dst.ig4);
       champ->dst.nk = 1;
       free(lat);

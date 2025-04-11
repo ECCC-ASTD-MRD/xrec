@@ -1953,8 +1953,6 @@ void MenuOptionSelect(Widget w, XtPointer unused1, XtPointer unused2)
 
 /* ****************************************************************************** */
 
-void c_ezdefset(int gdidout, int gdidin);
-
 /** ARGSUSED **/
 void MenuGrilleSelect(Widget w, XtPointer unused1, XtPointer unused2)
 {
@@ -2840,7 +2838,7 @@ int f77name(xconouv)(int *iun)
    ni = 71;
    nj = 51;
    strcpy(grtyp, "N");
-   f77name(cxgaig)(&grtyp, &ig1, &ig2, &ig3, &ig4, &xg1, &xg2, &xg3, &xg4,(F2Cl) strlen(grtyp));
+   f77name(cxgaig)(grtyp, &ig1, &ig2, &ig3, &ig4, &xg1, &xg2, &xg3, &xg4,(F2Cl) strlen(grtyp));
    grille_bidon = c_ezqkdef(ni, nj, grtyp, ig1, ig2, ig3, ig4, 0);
 
    SetGeometrieFenetreAffichage(nomShell);
