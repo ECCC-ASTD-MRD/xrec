@@ -383,4 +383,5 @@ int AfficherItem_m(int indChamp, int itemAAfficher)
            }
         break;
       }
+   return 2;
 }

@@ -417,4 +417,5 @@ int AfficherItem(int indChamp,  int itemAAfficher)
            }
         break;
       }
+   return 2;
 }
