@@ -364,7 +364,6 @@ void ResetColorMap(int colorTable[], int ncol, int colorMapType)
 void AjusterVariationPalette(int newcmap[][3], int oldcmap[][3], int colorTable[], float amplificationMin, float reductionMax)
 {
   int i, j, newi;
-  float delta, newdelta;
   int idebut, ifin;
 
   idebut = ROUND(255.0 * amplificationMin);
@@ -379,7 +378,7 @@ void AjusterVariationPalette(int newcmap[][3], int oldcmap[][3], int colorTable[
 
   for (i=idebut; i < ifin; i++)
       {
-      delta = (float) (i-idebut) / (float)(ifin - idebut);
+      double delta = (double) (i-idebut) / (double)(ifin - idebut);
       delta *= 255.0;
       newi = (int)delta;
       newcmap[i][0] = oldcmap[newi][0] + (delta - (float)newi)*(oldcmap[newi+1][0]-oldcmap[newi][0]);
