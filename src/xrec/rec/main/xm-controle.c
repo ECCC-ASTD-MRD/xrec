@@ -2386,7 +2386,7 @@ void MenuIntervalleSelect(Widget w, XtPointer client_data, XtPointer call_data)
    }
       }
 
-   ChangerMenuIntervalles((int)client_data);
+   ChangerMenuIntervalles((long)client_data);
    LibererImages();
    RedessinerFenetres();
    return ;
