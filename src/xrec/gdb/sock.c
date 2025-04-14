@@ -306,8 +306,8 @@ shandler(int sig)
 /*
  *  validation of hostport
  */
+    if( ihostport == NULL ) return(-1);
     strcpy(hostport,ihostport);
-    if( hostport == NULL ) return(-1);
 
     ptr = strchr( hostport, ':' );
     if( ptr == NULL ) return(-1);
