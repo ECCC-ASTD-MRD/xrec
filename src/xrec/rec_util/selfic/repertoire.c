@@ -645,7 +645,7 @@ static void XRepertoireFermer()
 {
    XtUnmapWidget(Repertoire.toplevel);
    XFlush(XtDisplay(Repertoire.toplevel));
-   Repertoire.statut_repertoire == REPERTOIRE_FINIE;
+   Repertoire.statut_repertoire = REPERTOIRE_FINIE;
 }
 
 /******************************************************************************

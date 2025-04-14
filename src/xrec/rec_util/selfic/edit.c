@@ -609,7 +609,7 @@ XtPointer w, client, data;
 {
    XtUnmapWidget(Edit.toplevel);
    XFlush(XtDisplay(Edit.toplevel));
-   Edit.statut_edit == EDIT_FINIE;
+   Edit.statut_edit = EDIT_FINIE;
 }
 
 /******************************************************************************
