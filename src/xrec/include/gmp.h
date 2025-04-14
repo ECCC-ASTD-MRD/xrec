@@ -164,6 +164,7 @@ void NewTextItem(ListeTextStruct *(*liste), int *nbItems);
 
 /* prototypes absents dans les PUBLIC_INCLUDES de rmn */
 #include <stdint.h>
+#include <rmn/rpnmacros.h>
 int32_t c_ezgetgdout(); /* de rmn/src/interp/ez_funcdef.h */
 void f77name(llfxy)(float *dlat, float *dlon, float *x, float *y, float *d60, float *dgrw, int *nhem); /* de rmn/src/base/llfxy.F */
 void f77name(xyfll)(float *x, float *y, float *dlat, float *dlon, float *d60, float *dgrw, int *nhem); /* de rmn/src/base/xyfll.F */
