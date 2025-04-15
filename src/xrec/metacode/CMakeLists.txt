@@ -24,8 +24,7 @@ set(FULL_TRAMES_NAME trames_${TRAMES_VERSION})
 set_target_properties(trames PROPERTIES 
    OUTPUT_NAME ${FULL_TRAMES_NAME}
    COMPILE_DEFINITIONS TRAMES_VERSION="${TRAMES_VERSION}")
-add_dependencies(trames metacode-trames rec rec_util wgl gd_wgl x_wgl gdb gd png)
-target_link_libraries(trames metacode-trames rec rec_util wgl gd_wgl x_wgl wgl gdb gd png rmn::rmn ${EXTRA_LIBRARIES} )
+target_link_libraries(trames metacode-trames  rmn::rmn ${EXTRA_LIBRARIES} )
 target_compile_definitions(trames PUBLIC UNIX RASTER C910)
 
 add_executable(xmetaview pmetaview.f)
@@ -33,7 +32,6 @@ set(FULL_XMETAVIEW_NAME xmetaview_${XMETAVIEW_VERSION})
 set_target_properties(xmetaview PROPERTIES
   OUTPUT_NAME ${FULL_XMETAVIEW_NAME}
   COMPILE_DEFINITIONS XMETAVIEW_VERSION="${XMETAVIEW_VERSION}")
-add_dependencies(xmetaview metacode-metaview rec rec_util wgl gd_wgl x_wgl gdb gd png)
 target_link_libraries(xmetaview metacode-metaview rec rec_util wgl gd_wgl x_wgl wgl gdb gd png rmn::rmn ${EXTRA_LIBRARIES} )
 target_compile_definitions(xmetaview PUBLIC UNIX RASTER C910 NATIF)
 
