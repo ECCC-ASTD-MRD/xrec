@@ -1,0 +1,34 @@
+What you need
+
+A Fortran compiler
+libXm library
+rmnlib (most of the modules : FSTD2000, base, primitives, readlx)
+
+Some extra stuff
+libgdb.a is a library developed by Michel Grenier from CMC
+to draw high resolution geography outline
+libgd2.a is GD implementation of GD.
+-----------------------------------------------------------------------------
+What is in the directories
+
+autog	: A library to generate x-y graphs.
+	  Used for vertical profiles and time series
+gd_wgl  : GD implementation of wgl. For now unimplemented filler code
+gmp     : Geography drawing routines
+include : The .h files needed by xrec
+main    : where most of source of xrec is
+select  : Record selector code
+selfic  : File selector code
+wgl     : wgl front-end (to gd_wgl or x_wgl, depending on the context)
+xdash   : A library to generate line patterns.
+	  Used for vertical profiles and time series
+xplot88 : A library to generate x-y graphs.
+	  Used for vertical profiles and time series
+x_wgl   : X Window implementation of wgl
+
+xrec can be divided in 5 parts
+Main interface code :      main
+Important helper modules : select selfic gmp
+X-Y Drawing routines :     autog xdash xplot88
+Less important stuff :     xinit util
+Basic drawing routines :   wgl gd_wgl x_wgl
