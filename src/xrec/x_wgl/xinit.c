@@ -33,6 +33,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <signal.h>
 #include "rec_functions.h"
 
 #define INITIALISATION_COMPLETEE 101
@@ -114,6 +115,15 @@ char nomApplication[];
       free(argv[0]);
       free(argv);
       free(classeApplication);
+      /* installer un SigHandler en cas de SIGINT (Ctrl-C) pour éviter un traceback */
+      {
+         struct sigaction act;
+         act.sa_handler = exit;
+         sigemptyset( &act.sa_mask );
+         act.sa_flags = 0;
+         sigaction( SIGINT, &act, NULL );
+      }
+
       statutInitialisation = INITIALISATION_COMPLETEE;
       return 1;
       }
