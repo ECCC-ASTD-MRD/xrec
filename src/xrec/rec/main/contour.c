@@ -310,15 +310,14 @@ void GetFormat(char str[], float intervalles[], int nbIntervalles, float facteur
    int i;
    int nbDecimales = 0;
    int nbDecimalesMax;
-   float expo, inter, logg, r1;
+   float expo, logg, r1;
    char format[8], tmp[8];
    
-   if (intervalles[0] == 0.0)
-      inter = 1.0;
+   if (intervalles[0] != 0.0)
+      logg =  LE_LOG(fabs(intervalles[0]));
    else
-      inter = intervalles[0];
-   
-   logg = LE_LOG(fabs(inter));
+      logg = 0.0;
+
    exposantMin = (int)(logg-1.0);
    exposantMax = (int)(logg-1.0);
    
