@@ -1795,7 +1795,7 @@ void FldMgrRemoveChamp(indChamp)
     int indChamp;
 {
   FldMgrFreeAllFlds(&fmflds[indChamp]);
-  memset((char *) &fmflds[indChamp], (char)NULL, sizeof(_Champ));
+  memset((char *) &fmflds[indChamp], '\0', sizeof(_Champ));
   nbChampsActifs--;
   indChampCourant--;
 }
