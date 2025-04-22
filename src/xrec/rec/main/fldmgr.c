@@ -2230,7 +2230,7 @@ void FldMgrUpdateGridParams(_Champ *champ)
       c_ezgxprm(gdin, &ni, &nj, &grtyp, &ig1, &ig2, &ig3, &ig4, &grref, &ig1ref, &ig2ref, &ig3ref, &ig4ref);
       if (ni > 1 && nj > 1)
          {
-         champ->domaine == XY;
+         champ->domaine = XY;
          }
 /*      if (grref == 'O')
          {
