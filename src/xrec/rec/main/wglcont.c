@@ -58,8 +58,7 @@ void c_wglcont(float *fld, int ni, int nj, float intervalles[], int nbIntervalle
    int mdeb,ndeb,mfin,nfin;
    int linewidth, origPattern;
    int nContours, annulationDemandee;
-   int i1, i2, j1, j2, dimensiong, dimensionf;
-   float densiteX, densiteY, densite;
+   int i1, i2, j1, j2;
    int lissfac, altLissfac;
    int i;
 
@@ -73,6 +72,7 @@ void c_wglcont(float *fld, int ni, int nj, float intervalles[], int nbIntervalle
    DefinirFenetreGrille(&mdeb, &ndeb, &mfin, &nfin, ni, nj);
 
    c_wglgvi(&i1, &j1, &i2, &j2);
+#if 0
    densiteX = (float)(i2 - i1)/(float)(mfin-mdeb);
    densiteY = (float)(j2 - j1)/(float)(nfin-ndeb);
 
@@ -90,6 +90,12 @@ void c_wglcont(float *fld, int ni, int nj, float intervalles[], int nbIntervalle
       }
 
    altLissfac = ROUND(dimensionf/(5.0*dimensiong));
+#else
+   if ( (i2 - i1)*(nfin-ndeb) < (j2 - j1)*(mfin-mdeb) )
+      altLissfac = ROUND((i2 - i1)/(5.0*(mfin-mdeb)));
+   else
+      altLissfac = ROUND((j2 - j1)/(5.0*(nfin-ndeb)));
+#endif
    altLissfac = (altLissfac < 1) ? 1 : altLissfac;
    lissfac  = (facteurLissage < altLissfac) ? facteurLissage : altLissfac;
 
