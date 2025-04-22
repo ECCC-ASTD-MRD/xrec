@@ -2275,7 +2275,7 @@ void FldMgrUpdateGridParams(_Champ *champ)
       c_ezgprm(gdout, champ->dst.grtyp, &champ->dst.ni, &champ->dst.nj,
         &champ->dst.ig1, &champ->dst.ig2, &champ->dst.ig3, &champ->dst.ig4);
       champ->dst.nk = 1;
-      if (champ->src.grtyp == 'Y')
+      if (champ->src.grtyp[0] == 'Y')
          {
          npts = champ->src.ni*champ->src.nj*champ->src.nk;
          lat = (float *) calloc(npts, sizeof(float));
