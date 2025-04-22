@@ -2195,6 +2195,7 @@ int32_t InitWidgetsRec(int32_t nbRecsFiltres,  int32_t nbDes)
 /**   XtSetArg(args[i], XmNvisibleItemCount, 10); i++; **/
    XtSetArg(args[i], XmNbottomAttachment, XmATTACH_FORM); i++; 
    XtSetArg(args[i], XmNleftAttachment, XmATTACH_FORM); i++; 
+   XtSetArg(args[i], XmNrightAttachment, XmATTACH_FORM); i++; 
    XtSetArg(args[i], XmNtopAttachment, XmATTACH_WIDGET); i++; 
    XtSetArg(args[i], XmNtopWidget, xs[wi].menuform); i++; 
    XtSetArg(args[i], XmNscrollBarPlacement, XmTOP_LEFT); i++; 
