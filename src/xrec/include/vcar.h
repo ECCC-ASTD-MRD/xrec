@@ -1,6 +1,8 @@
 #ifndef _VCAR_H_
 #define _VCAR_H_
 
+#include "rmn/primitives.h"
+
 /*
  *
  *  file      :  VCAR.H
@@ -53,9 +55,5 @@
 /* extern  void     set_vcar(char *chaine);*/
  extern  void     set_vcar(const void *chaine, ...);
  extern  Vcar    *vcar();
-
-/* prototype absent dans les PUBLIC_INCLUDES de rmn */
-#include <stdio.h>
-size_t fread32( void *ptr, size_t size, size_t nitems, FILE *stream ); /* de rmn/src/primitives/fread32.c */
 
 #endif
