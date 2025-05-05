@@ -118,7 +118,7 @@ void f77name(xplotit2)(int *x, int *y, int *down);
 int f77name(xpwrs)(char *chr, int *nchr, int *icoded, F2Cl flen);
 
 void f77name(opllfl)(int *unite, char *nomfich, int *code, int);
-void f77name(rdllfl)(int *unite, int *npts,  int *maxlat,  int *minlat, int *maxlon, int *minlon, float *pts, int *nptsmx);
+void f77name(rdllfl)(int *unite, int *npts, float *maxlat, float *minlat, float *maxlon, float *minlon, float *pts, int *nptsmx);
 void f77name(clllfl)(int *unite);
 
 #endif
