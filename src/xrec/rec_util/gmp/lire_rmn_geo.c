@@ -85,12 +85,7 @@ void lire_rmn_geo()
     npts = -1;
     while (npts != 0)
       {
-      int latMaxi, latMini, lonMaxi, lonMini;
-      f77name(rdllfl)(&centCinquanteHuit, &npts, &latMaxi, &latMini, &lonMaxi, &lonMini, pts, &deuxCents);
-      latMax = latMaxi;
-      latMin = latMini;
-      lonMax = lonMaxi;
-      lonMin = lonMini;
+      f77name(rdllfl)(&centCinquanteHuit, &npts, &latMax, &latMin, &lonMax, &lonMin, pts, &deuxCents);
       
       if (latMax < latMin)
 	swapFloats(&latMin, &latMax);
