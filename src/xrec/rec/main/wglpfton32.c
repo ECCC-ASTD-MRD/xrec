@@ -220,8 +220,6 @@ void c_wglpfton32(float *fld, int ni, int nj, float intervalles[], int nbInterva
 
 }
 
-extern void f77name(ez_rgdint_1_nw)(float *tmpVals, float *x, float *y, int *lh, float *fld, int *lni, int *un, int *lnj);
-
 void c_wglpfton32_x(float *fld, float *x, float *y, int ni, int nj, float intervalles[], int nbIntervalles,
   float facteur, float min, float max, int colorTable[], int ncol, int flagInterrupt, int lissfac)
 {
