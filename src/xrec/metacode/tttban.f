@@ -2,9 +2,9 @@
       subroutine idate(z)
       integer z(3), t(8)
       call date_and_time(values=t)
-      z(1) = t(3)    ! day
-      z(2) = t(2)    ! month
-      z(3) = t(1)    ! year
+      z(1) = t(2)              ! month
+      z(2) = t(3)              ! day
+      z(3) = mod(t(1), 100)    ! year
       return
       end
 #endif
