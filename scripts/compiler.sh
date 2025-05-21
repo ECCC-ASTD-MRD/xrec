@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 COMPILER_VERSION="Unknown_Compiler"
 
