@@ -1,3 +1,13 @@
+#if defined(__flang__)
+      subroutine idate(z)
+      integer z(3), t(8)
+      call date_and_time(values=t)
+      z(1) = t(3)    ! day
+      z(2) = t(2)    ! month
+      z(3) = t(1)    ! year
+      return
+      end
+#endif
 #if defined (RASTER) 
 #if defined (CRAY) 
 *** S/P TTTBAN - CONSTRUIRE LA BANNIERE DU GRAPHIQUE

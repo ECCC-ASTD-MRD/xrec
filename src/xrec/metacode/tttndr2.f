@@ -39,8 +39,8 @@ END
 #include "ivar.cdk"
 #include "pact.cdk"
 *
-
-#define Arg1 1H=
+      INTEGER EGAL
+#define Arg1 transfer('=   ',EGAL)
 #include "putcar.cdk"
 
       CALL  FLUSHIT

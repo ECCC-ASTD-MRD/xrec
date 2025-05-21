@@ -158,7 +158,7 @@ END
 #include "pact.cdk"
 
       INTEGER I, XORON, PREV( 0:1000 ), MODH128, IND0, KW, XOROFF,
-     +        K, TEMP1, RAST1(MAXWR*8), DOUBLE4(0:15)
+     +        K, TEMP1, RAST1(MAXWR*8), DOUBLE4(0:15), MOLD
 
       DATA PTR      / 1 /
       DATA RESULT(1)/1H  /
@@ -175,12 +175,12 @@ END
 #include "putcar.cdk"
          IF( DOUBLE ) THEN
             DO 10 I = 1,NLIGNE * 2
-#define Arg1 1HZ
+#define Arg1 TRANSFER('Z    ',MOLD)
 #include "putcar.cdk"
  10            CONTINUE
          ELSE
             DO 20 I = 1,NLIGNE
-#define Arg1 1HZ
+#define Arg1 TRANSFER('Z    ',MOLD)
 #include "putcar.cdk"
  20            CONTINUE
          ENDIF
@@ -221,12 +221,12 @@ END
             ENDIF
  50         CONTINUE
          CALL COMP( RAST1, DOUBLE )
-#define Arg1 1HZ
+#define Arg1 TRANSFER('Z    ',MOLD)
 #include "putcar.cdk"
 #define Arg1 XORON
 #include "putcar.cdk"
          IF( DOUBLE ) THEN
-#define Arg1 1HZ
+#define Arg1 TRANSFER('Z    ',MOLD)
 #include "putcar.cdk"
          ENDIF
  60      CONTINUE
@@ -248,6 +248,7 @@ END
       LOGICAL DOUBLE
 
       INTEGER OO(0:15), NN(6), FF(8), COUNT, PAT1, PAT2, I, J, K, X, W4
+      INTEGER MOLD
 
       DATA OO /1H0, 1H1, 1H2, 1H3, 1H4, 1H5, 1H6, 1H7, 1H8, 1H9,
      +         1HA, 1HB, 1HC, 1HD, 1HE, 1HF /
@@ -293,7 +294,7 @@ END
          COUNT = ISHFT( RAST(I), -8)
          IF(COUNT .NE. 0) THEN
  40         IF(COUNT .GT. 111) THEN
-#define Arg1  1HT
+#define Arg1  TRANSFER('T    ',MOLD)
 #include "putcar.cdk"
                K     = K + 1
                COUNT = COUNT - 96
@@ -308,7 +309,7 @@ END
             COUNT = IAND(COUNT , 15)
             X     = ISHFT(COUNT, -3)
             IF(X .NE. 0) THEN
-#define Arg1 1HN
+#define Arg1 TRANSFER('N    ',MOLD)
 #include "putcar.cdk"
                K = K + 1
             ENDIF
@@ -331,10 +332,10 @@ END
       SUBROUTINE FLUSHIT( )
 #include "impnone.cdk"
 #include "pact.cdk"
-      INTEGER K
+      INTEGER K,MOLD
 
       DO 10 K = 1, 129
-#define Arg1 (1H  )
+#define Arg1 TRANSFER('     ',MOLD)
 #include "putcar.cdk"
  10      CONTINUE
 
