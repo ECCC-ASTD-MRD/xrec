@@ -1,5 +1,5 @@
 variables:
-   GIT_SUBMODULE_STRATEGY: none
+   GIT_SUBMODULE_STRATEGY: recursive
    ORD_SOUMET_W: "10"
    ORD_SOUMET_C: "4"
    ORD_SOUMET_M: "8G"
