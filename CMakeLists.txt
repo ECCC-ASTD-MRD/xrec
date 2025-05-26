@@ -82,11 +82,6 @@ set(CPACK_PACKAGE_FILE_NAME "${PACKAGE_NAME}")
 set(CPACK_SOURCE_PACKAGE_FILE_NAME "${NAME}_${PROJECT_VERSION}")
 include(CPack)
 
-# Testing trames
-set(BUILD_TESTING FALSE CACHE BOOL "Control whether to build tests")
-# check if tests should be built and executed
-if (BUILD_TESTING)
-    message(STATUS "(EC) Generating test for trames")
-    include(CTest)
-    add_test(NAME test-trames COMMAND ${BASH_COMMAND} ${CMAKE_BINARY_DIR}/xrec/metacode/trames -mc ${CMAKE_SOURCE_DIR}/src/xrec/metacode/metacod)
-endif()
+include(CTest)
+message(STATUS "(EC) Generating test for trames")
+add_test(NAME test-trames COMMAND ${BASH_COMMAND} ${CMAKE_BINARY_DIR}/xrec/metacode/trames -mc ${CMAKE_SOURCE_DIR}/src/xrec/metacode/metacod)
