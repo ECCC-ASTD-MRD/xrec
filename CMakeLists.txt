@@ -66,6 +66,10 @@ add_custom_target(work
   COMMAND cp -p ${CMAKE_SOURCE_DIR}/scripts/setup-xrec.dot ${WORK_PREFIX}
 )
 
+include(CTest)
+add_custom_target(check COMMAND CTEST_OUTPUT_ON_FAILURE=true ${CMAKE_CTEST_COMMAND})
+add_test(NAME test-trames COMMAND ${BASH_COMMAND} ${CMAKE_BINARY_DIR}/xrec/metacode/trames -mc ${CMAKE_SOURCE_DIR}/src/xrec/metacode/metacod)
+
 #----- Packaging
 ec_package_name()    # Define package prefix
 ec_build_config()    # Create build configuration script
@@ -82,6 +86,3 @@ set(CPACK_PACKAGE_FILE_NAME "${PACKAGE_NAME}")
 set(CPACK_SOURCE_PACKAGE_FILE_NAME "${NAME}_${PROJECT_VERSION}")
 include(CPack)
 
-include(CTest)
-message(STATUS "(EC) Generating test for trames")
-add_test(NAME test-trames COMMAND ${BASH_COMMAND} ${CMAKE_BINARY_DIR}/xrec/metacode/trames -mc ${CMAKE_SOURCE_DIR}/src/xrec/metacode/metacod)
