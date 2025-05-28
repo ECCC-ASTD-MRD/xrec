@@ -8,6 +8,7 @@ variables:
 .env:
    build:
       - . r.load.dot ${ECCI_PROCESS_SSM}/libs
+      - . r.load.dot ~/ci_package/ssm/staging/master/data-basic_2.4.0.1_all
    variables:
       ALLOW_FAILURE_ARCHS: ""
 
