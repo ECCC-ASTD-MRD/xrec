@@ -245,26 +245,21 @@ static void InitWidgetsAllRepertoire();
 static void InitWidgetsBasicRepertoire();
 static void InitWidgetsFormRepertoire();
 static void XRepertoireCallbacks();
-static void XRepertoireEnleveListe();
+static void XRepertoireEnleveListe(Widget w, XtPointer client, XtPointer data);
 static void XRepertoireFermer();
 static void XRepertoireGetHome();
-static void XRepertoireInit();
-static void XRepertoireInserer();
+static void XRepertoireInit(Widget w, XtPointer client, XtPointer data);
+static void XRepertoireInserer(Widget w, XtPointer client, XtPointer data);
 static void XRepertoireMenuListeItem ();
-static void XRepertoireSauver();
+static void XRepertoireSauver(Widget w, XtPointer client, XtPointer data);
 static void XRepertoireUpdateListe();
 
-static Widget TrouverWidgetParent();
-
-/* Fonctions appeles de l'exterieur de repertoire.c */
-
-void XRepertoireActiver();
-void XRepertoireOuvrir();
+static Widget TrouverWidgetParent(Window);
 
 /* Fonctions appelees par repertoire.c mais qui proviennent de l'exterieur */
 
-extern  void XSelectDeselectItem();
-extern  void XSelectChangerRepertoire(); /* fichier select.c */
+extern  void XSelectDeselectItem(Widget w, XtPointer client, XtPointer data);
+//extern  void XSelectChangerRepertoire(); /* fichier select.c */
 
 /* Initialisation des variables static */
 
@@ -584,7 +579,7 @@ VALEURE RETOURNEE:      Repertoire.statut_repertoire
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-void XRepertoireActiver()
+void XRepertoireActiver(void)
 {
 Widget widgetParent;
 
@@ -895,7 +890,7 @@ LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
 static void XRepertoireInserer ( w, client, data )
-XtPointer w, client, data;
+   Widget w; XtPointer client, data;
 {
     char *tmp;
     XmString str;

@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <wgl.h>
+#include <X11/Xlib.h>
 
 extern wgl_color couleurs[];
 extern wgl_point wglPts[];

@@ -20,9 +20,7 @@
 
 #include <stdio.h>
 #include <string.h>
-
-void LireLigne();
-int  strfind();
+#include "rec_functions.h"
 
 int strfind(char *SousChaine, char *Chaine)
 {

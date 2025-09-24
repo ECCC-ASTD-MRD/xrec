@@ -324,7 +324,7 @@ void        MessageChargement(int32_t nbRecs1, int32_t nbRecs2);
 void        NettoyerString(char str[]);
 static void PositionnerMenubar();
 static void TrouverLongueurMot(int32_t *longueur, XmString mot);
-Widget      TrouverWidgetParent();
+Widget      TrouverWidgetParent(Window eventWindow);
 void        UpdateFiltres();
 void        UpdateRecsFiltresAffiches(XmString **recsFiltresAffiches, XmString *recsAffiches, int32_t nbDes, int32_t sel[], int32_t nbSel);
 Widget      XSelectstdOuvrir();

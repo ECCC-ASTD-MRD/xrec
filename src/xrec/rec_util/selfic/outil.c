@@ -28,19 +28,16 @@
 #include <sys/stat.h>
 #include <dirent.h>
 
- void freelist ();
- int  isdir    ();
- int  isfile   ();
- int  lsdir    ();
- void pathinfo ();
- int  scan_dir ();
- int  strsplit ();
-
  static char   *match;
  static char   *rejet;
 
- static int    selection();
- static int    triage   ();
+ static int    selection(const struct dirent *);
+ static int    triage   (const void *, const void *);
+
+int scan_dir(char *, char ***, int (*select)(const struct dirent *), int (*compar)(const void *p1, const void *p2));
+
+int strsplit( char *, char *, char ***);
+
 
 
 /*
@@ -172,8 +169,8 @@
  char *select;
  char ***list;
      {
-     int    triage();
-     int    selection();
+     int    triage(const void *, const void *);
+     int    selection(const struct dirent *);
      int    nb, test;
 /*
  *  determine s'il y aura besoin de selection
@@ -327,8 +324,8 @@
  scan_dir(dir, list, select, compar)
  char *dir;
  char ***list;
- int (*select)();
- int (*compar)();
+ int (*select)(const struct dirent *);
+ int (*compar)(const void *p1, const void *p2);
      {
      char  *elems;
      char  *prev;

@@ -1,6 +1,8 @@
 #ifndef _REC_UTIL_CPROTO_H_
 #define _REC_UTIL_CPROTO_H_
 
+#include  <X11/Intrinsic.h>
+
 #include "rmn/base.h"
 
 /* rec_util/gmp/c_gmpdrw.c */
@@ -80,7 +82,7 @@ int isdir(char *path);
 int isfile(char *path);
 int lsdir(char *path, char *reject, char *select, char ***list);
 void pathinfo(char *path, int *nword, char ***words, int *nfile, char ***list);
-int scan_dir(char *dir, char ***list, int (*select)(void), int (*compar)(void));
+int scan_dir(char *dir, char ***list, int (*select)(const void *), int (*compar)(const void *,const void *));
 int strsplit(char *str, char *delim, char ***list);
 /* rec_util/selfic/repertoire.c */
 void XRepertoireActiver(void);

@@ -50,10 +50,10 @@
 
 /* extern  void     get_vcar(char *chaine, ...);*/
  extern  void     get_vcar(int *chaine, ...);
- extern  void     gen_vcar();
- extern  void     lir_vcar();
+ extern  void     gen_vcar(char*, char*);
+ extern  void     lir_vcar(char*);
 /* extern  void     set_vcar(char *chaine);*/
  extern  void     set_vcar(const void *chaine, ...);
- extern  Vcar    *vcar();
+ extern  Vcar    *vcar(int,int,char);
 
 #endif

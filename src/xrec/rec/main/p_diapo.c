@@ -95,7 +95,7 @@ static int nplanes;
 ******************
 ***/
 
-void DesactiverPanneauDiapo()
+void DesactiverPanneauDiapo(Widget w, XtPointer client_data, XtPointer call_data)
 {
    XtUnrealizeWidget(pdTopLevel);
 
@@ -174,7 +174,7 @@ void ChoixFenetre(Widget w, XtPointer client_data, XtPointer call_data)
 }
 
 
-void ExportImage()
+void ExportImage(Widget w, XtPointer client_data, XtPointer call_data)
 {
    int i;
    

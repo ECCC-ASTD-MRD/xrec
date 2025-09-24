@@ -349,7 +349,7 @@ void DesactiverPanneauEdition()
    }
 
 /*<----------------------------------------------------------------------------------------->*/
-void PeFermer()
+void PeFermer(Widget w, XtPointer unused1, XtPointer unused2)
 {
    DesactiverPanneauEdition();
    return;
@@ -602,7 +602,7 @@ void PeAnnulerToutesModifs(Widget w, XtPointer unused1, XtPointer unused2)
    }
 
 /*<----------------------------------------------------------------------------------------->*/
-void PeAnnulerEdition()
+void PeAnnulerEdition(Widget w, XtPointer client_data, XtPointer call_data)
 {
    int i,j, k, n;
    _Champ *champ;
@@ -657,7 +657,7 @@ void PeAnnulerEdition()
    }
    
 /*<----------------------------------------------------------------------------------------->*/
-void PeRefaireEdition()
+void PeRefaireEdition(Widget w, XtPointer client_data, XtPointer call_data)
 {
    int i,j, k;
    _Champ *champ;

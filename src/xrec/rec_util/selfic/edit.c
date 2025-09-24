@@ -235,7 +235,8 @@ extern XtAppContext SuperWidget;
 extern SelectStruct     Select; 
 extern RepertoireStruct Repertoire;
 
-extern void XSelectDeselectItem();
+extern void XSelectDeselectItem(Widget w, XtPointer client, XtPointer data);
+static Widget TrouverWidgetParent(Window);
 
 
 /* Initialisation des widgets. */
@@ -245,9 +246,9 @@ static void InitWidgetsActionsEdit();
 static void InitWidgetsAllEdit();
 static void InitWidgetsBasicEdit();
 static void XEditCallbacks();
-static void XEditEnleveListe();
-void XEditEnleveTout();
-static void XEditFermer();
+static void XEditEnleveListe(Widget w, XtPointer client, XtPointer data);
+void XEditEnleveTout(Widget w, XtPointer client, XtPointer data);
+static void XEditFermer(Widget, XtPointer, XtPointer);
 static void XEditInitListe();
 static void XEditMenuListeItem ( );
 
@@ -255,8 +256,6 @@ static void XEditMenuListeItem ( );
 
 void  XEditActiver();
 void  XEditOuvrir();
-
-static Widget     TrouverWidgetParent();
 
 /* Initialisation des variables static */
 
@@ -605,7 +604,7 @@ LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
 static void XEditFermer(w, client, data)
-XtPointer w, client, data;
+Widget w; XtPointer client, data;
 {
    XtUnmapWidget(Edit.toplevel);
    XFlush(XtDisplay(Edit.toplevel));
@@ -703,7 +702,7 @@ LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
 static void XEditEnleveListe (w, client, data )
-XtPointer w, client, data;
+Widget w; XtPointer client, data;
 {
  int i, nb_delete;
  Arg args[1];
@@ -777,7 +776,7 @@ LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
 void XEditEnleveTout ( w, client, data)
-XtPointer w, client, data;
+Widget w; XtPointer client, data;
 {
  Arg arg[1];
  int i, nombre;

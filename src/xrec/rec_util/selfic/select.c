@@ -65,7 +65,6 @@
 
 #include "wgl.h"
 #include "x_wglfonct.h"
-#include "rec_util.h"
 #include "rec_functions.h"
 
 
@@ -232,7 +231,8 @@
 #include "select.h"
 #include "edit.h"
 #include "repertoire.h"
-
+#include "rec_util.h"
+
 extern SuperWidgetStruct SuperWidget;
 
 SelectStruct Select; /* La structure qui contient touts les widgets.    */
@@ -247,16 +247,11 @@ extern EditStruct       Edit;
 extern RepertoireStruct Repertoire;
 
 static void InitWidgetsActions();
-extern void pathinfo();
 extern void XEditActiver();
-extern void XEditOuvrir();
-extern void XEditEnleveTout();
+extern void XEditEnleveTout(Widget w, XtPointer client, XtPointer data);
 extern void XRepertoireOuvrir();
-extern void XRepertoireActiver();
 
-void XSelectChangerRepertoire();
 
-
 /* Initialisation des widgets. */
 
 void c_selfic (char *liste, int maximum, int longueur, int *nombre);
@@ -278,9 +273,9 @@ static void XSelectMenuListeItem ( Widget w, XtPointer client, XtPointer data );
 static void XSelectOk ( Widget w, XtPointer client, XtPointer data );
 static void XSelectOuvrir();
 static void XSelectTextCallback(Widget w, XtPointer unused1, XtPointer unused2);
-static void XSelectUpdateDirectoryCourant();
-static void XSelectUpdateListe();
-static void XSelectUpdatePath();
+static void XSelectUpdateDirectoryCourant(char*);
+static void XSelectUpdateListe(int);
+static void XSelectUpdatePath( char *path );
 void XSelectDeselectItem (Widget w, XtPointer client, XtPointer data);
 
 /* Fonctions appeles de l'exterieur de select.c */
@@ -301,7 +296,7 @@ static Widget TrouverWidgetParentLocal(Window eventWindow);
  static int   nb_file   = 0;
  static int   select_done = 0;
 
-
+
 /******************************************************************************
 
 NOM:              InitWidgetsActions()

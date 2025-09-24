@@ -57,7 +57,6 @@ extern void EffacerFenetreAffichage();
 static char *pasAssezDeNiveaux[] = {"Nombre insuffisant de niveaux.",
                                        "Insufficient number of levels."};
 
-extern int PasAssezDeMemoire();
 extern int interpolationVerticale;
 static int nbNiveauxCoupe;
 static int lng;

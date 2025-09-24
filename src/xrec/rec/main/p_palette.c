@@ -171,7 +171,6 @@ void InitPanneauPalette()
    char nomShell[128];
    char *armnlib;
    char nomFichierPalette[128];
-   int c_fnom();
 
    int lng,key,iun,lrec,ierr;
    long n;

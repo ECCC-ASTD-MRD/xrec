@@ -18,10 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-unsigned char  x_invertChar();
-unsigned short x_invertShort();
-unsigned int   x_invertInt();
-
+#include "wgl_x.h"
 
 unsigned char  x_invertChar(nombre)
 unsigned char nombre;

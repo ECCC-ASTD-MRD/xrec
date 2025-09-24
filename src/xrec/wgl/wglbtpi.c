@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-int c_wglbtpi();
+int c_wglbtpi(int,int*,int*);
 
 int f77name(wglbtpi)(int *bouton, int *i, int *j)
 {

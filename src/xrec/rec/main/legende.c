@@ -24,9 +24,8 @@
 #include <wgl.h>
 #include <math.h>
 #include <string.h>
+#include "wglfonct.h"
 
-extern float c_wglhsx();
-extern float c_wgldsx();
 extern _Viewport viewp;
 extern _XContour xc;
 extern _InfoChamps *infoChamps;

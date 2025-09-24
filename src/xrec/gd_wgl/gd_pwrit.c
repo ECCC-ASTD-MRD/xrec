@@ -172,7 +172,7 @@ int stringLength;
    }
 
 
-float gd_wglhsx();
+float gd_wglhsx(char*, int);
 
 float wglhsx_(string, stringLength, ftnStringLength)
 char string[];
@@ -234,7 +234,7 @@ int stringLength;
    }
 
 
-float gd_wglasx();
+float gd_wglasx(char *, int);
 
 float wglasx_(string, stringLength, ftnStringLength)
 char string[];
@@ -263,7 +263,7 @@ int stringLength;
    }
 
 
-float gd_wgldsx();
+float gd_wgldsx(char *, int);
 
 float wgldsx_(string, stringLength, ftnStringLength)
 char string[];

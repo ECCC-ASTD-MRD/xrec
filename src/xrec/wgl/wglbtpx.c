@@ -20,7 +20,7 @@
 
 #include <wgl.h>
 
-int c_wglbtpx();
+int c_wglbtpx(int,float*,float*);
 
 int f77name(wglbtpx)(int *bouton, float *x, float *y)
 {
