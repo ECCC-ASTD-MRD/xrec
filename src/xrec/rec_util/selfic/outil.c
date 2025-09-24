@@ -560,7 +560,7 @@ return d->d_name != NULL;
  */
  static int
  triage(d1, d2)
- char **d1, **d2;
+ const void *d1, *d2;
      {
-     return( strcmp(*d1,*d2) );
+     return( strcmp(d1,d2) );
      }

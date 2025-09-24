@@ -1878,7 +1878,7 @@ gdImageCopyResized (gdImagePtr dst, gdImagePtr src, int dstX, int dstY, int srcX
 	  tox = dstX;
 	  for (x = srcX; (x < (srcX + srcW)); x++)
 	    {
-	      int nc;
+	      int nc = 0;
 	      int mapTo;
 	      if (!stx[x - srcX])
 		{

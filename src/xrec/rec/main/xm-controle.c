@@ -641,7 +641,7 @@ void AfficherLegendeSerie(int indChamp)
   _Champ *champ, *champZero;
   int i, nbChampsActifs;
   int dernierNiveau, op;
-  float valMin, valMax, tmin, tmax;
+  float valMin=0.0, valMax=0.0, tmin=0.0, tmax=0.0;
    float uutanmin, uutanmax, uvwmin, uvwmax, uumin, uumax, vvmin, vvmax, wwmin, wwmax, nivmin, nivmax;
 
   nbChampsActifs = DiffMgrGetNbChampsAffichables();

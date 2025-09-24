@@ -232,7 +232,7 @@
 #include "edit.h"
 #include "repertoire.h"
 #include "rec_util.h"
-
+
 extern SuperWidgetStruct SuperWidget;
 
 SelectStruct Select; /* La structure qui contient touts les widgets.    */
@@ -251,7 +251,7 @@ extern void XEditActiver();
 extern void XEditEnleveTout(Widget w, XtPointer client, XtPointer data);
 extern void XRepertoireOuvrir();
 
-
+
 /* Initialisation des widgets. */
 
 void c_selfic (char *liste, int maximum, int longueur, int *nombre);
@@ -296,7 +296,7 @@ static Widget TrouverWidgetParentLocal(Window eventWindow);
  static int   nb_file   = 0;
  static int   select_done = 0;
 
-
+
 /******************************************************************************
 
 NOM:              InitWidgetsActions()

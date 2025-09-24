@@ -36,14 +36,14 @@ int MatchColorIndex(int r, int g, int b, int colorTable[][3], int colDebut, int 
 {
    int i, iMin;
    int dr, dg, db, diff, minDiff;
-   
+
    i = 0; iMin = 0;
    dr = abs(r - colorTable[0][0]);
    dg = abs(g - colorTable[0][1]);
    db = abs(b - colorTable[0][2]);
 
    minDiff = dist(dr,dg,db);
-   
+
    for (i=colDebut; i <= colFin; i++)
       {
       dr = abs(r - colorTable[i][0]);
@@ -98,7 +98,7 @@ void RGBaHSV(int r,int g,int b,int *h,int *s, int *v)
    float fr,fg,fb;
    float rc, gc, bc;
    float del;
-   
+
    fr = r / 256.0; fg = g / 256.0; fb = b / 256.0;
    cmin = minimum(fr,fg,fb);
    cmax = maximum(fr,fg,fb);
@@ -126,20 +126,19 @@ void RGBaHSV(int r,int g,int b,int *h,int *s, int *v)
 	    fh = 2.0 + rc - bc;
 	 else
 	    {
-	    if (fb == cmax)
 	       fh = 4.0 + gc - rc;
 	    }
 	 }
 
       }
-   
+
    *h = (int)(60 * fh);
    if (*h < 0)
       *h += 360;
    *h = (int)( *h / 360.0 * 256.0);
    *s = (int)(256 * fs);
    *v = (int)(256 * fv);
-   
+
    }
 
 
@@ -164,7 +163,7 @@ void HSVaRGB(int h,int s,int v, int *r, int *g, int *b)
       {
       if (fh == 360.0)
 	 fh = 0.0;
-      
+
       fh = fh / 60.0;
       i = (int) fh;
       f = fh - (float) i;
@@ -232,7 +231,7 @@ void rgbahsv_(int *h,int *s,int *v,int *r,int *g,int *b)
    *h = (int) h1;
    *s = (int) s1;
    *v = (int) v1;
-     
+
    }
 
 void hsvargb_(int *h,int *s,int *v,int *r,int *g,int *b)
@@ -248,7 +247,7 @@ void hsvargb_(int *h,int *s,int *v,int *r,int *g,int *b)
    *r = (int) r1;
    *g = (int) g1;
    *b = (int) b1;
-     
+
    }
 
 void InitHSVTable()
@@ -265,7 +264,7 @@ void InitHSVTable()
       hsvTable[i][1] = s;
       hsvTable[i][2] = 0.5 + 0.5 * ((float)i / 34.0);
       }
-  
+
    v = 1.0;
    s = 1.0;
 
@@ -275,7 +274,7 @@ void InitHSVTable()
       hsvTable[i][1] = s;
       hsvTable[i][2] = v;
       }
-  
+
    h = 0.0;
    s = 1.0;
 
@@ -285,7 +284,7 @@ void InitHSVTable()
       hsvTable[i][1] = s;
       hsvTable[i][2] = (1.0 - 0.5 * (float)(i - 220) / 35.0);
       }
-   
+
    }
 
 void BuildColIndexTable(int indTable[], int hsvTable[][3], int nbCol, int colDebut, int colFin, int mode)
@@ -297,7 +296,7 @@ void BuildColIndexTable(int indTable[], int hsvTable[][3], int nbCol, int colDeb
    int  wsHSVTable[256][3];
    int red, green, blue;
    int rgbTable[256][3];
-   
+
    for (i=colDebut; i <= colFin; i++)
       {
       c_wglgco(i, &red, &green, &blue);
@@ -305,22 +304,22 @@ void BuildColIndexTable(int indTable[], int hsvTable[][3], int nbCol, int colDeb
       wsHSVTable[i][1] = green;
       wsHSVTable[i][2] = blue;
       }
-   
+
    old_indcol = -1;
-   
+
    delcol = (float) (colFin - colDebut);
    for (i=0; i < 256; i++)
       {
       h = hsvTable[i][0];
       s = hsvTable[i][1];
       v = hsvTable[i][2];
-      
+
       switch(mode)
 	 {
 	 case LIRE:
-	 indTable[i] = MatchColorIndex(h, s, v, wsHSVTable, colDebut, colFin); 
+	 indTable[i] = MatchColorIndex(h, s, v, wsHSVTable, colDebut, colFin);
 	 break;
-	 
+
 	 case ECRIRE:
 	 HSVaRGB(h, s, v, &r, &g, &b);
 	 indcol = (int)((float) i * delcol / 255.0 + 0.5) + colDebut;

@@ -33,7 +33,7 @@ void gmp_convert(ListePointsStruct *liste, int *nbItems, float pts[], int nbPoin
    int32_t i, j, n,lastN,base;
    float deltaxmax;
    int32_t un = 1;
-   int32_t detected;
+   int32_t detected = 0;
    char type;
 
    float xmin,xmax,ymin,ymax,limite,correction;
