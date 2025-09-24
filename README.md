@@ -2,16 +2,38 @@
 
 # At CMC only (external users: see below)
 
+## Build dependencies
+
+- CMake 3.20+
+- librmn
+
+## Environment
+
+Load the right environment, depending on the architecture you need.  This
+will load the specified compiler and its parameters, and set the
+`EC_CMAKE_MODULE_PATH` variable for the `cmake_rpn` modules.
+
+- Example for ppp6/sc6 and icelake specific architecture:
+
 ```
-git clone git@gitlab.science.gc.ca:RPN-SI/xrec.git
-cd xrec
-# use the appropriate setup file, for example:
-. $ECCI_ENV/latest/ppp5/inteloneapi-2022.1.2.sh
+. r.load.dot mrd/rpn/code-tools/latest/env/rhel-8-icelake-64@inteloneapi-2025.1.0
+```
+
+- Example for generic architecture on ppp6/sc6
+
+```
+. r.load.dot mrd/rpn/code-tools/latest/env/rhel-8-amd64-64@inteloneapi-2025.1.0
+```
+
+- Example for GNU on any architecture:
+
+```
+. r.load.dot mrd/rpn/code-tools/latest/env/gnu
 ```
 
 You will also need a version of librmn: either load it from ssm
-(. r.load.dot rpn/libs/...) or provide the path to cmake install directories
-if you compiled them.
+(. r.load.dot rpn/libs/...) or provide the path to cmake install directory
+if you compiled it.
 
 ```
 mkdir -p build
@@ -22,8 +44,6 @@ make -j
 make work
 cd ../work-[OS_NAME-COMPILER_NAME]
 ./bin/xrec -imflds [rpn_std_file]
-# to prepare a ssm package, use make package
-make package
 ```
 
 # Outside CMC (external users)
@@ -34,9 +54,8 @@ make package
 
 ```
 # clone xrec repository:
-git clone https://github.com/ECCC-ASTD-MRD/xrec
+git clone --recurse --remote-submodules https://github.com/ECCC-ASTD-MRD/xrec
 cd xrec
-git submodule update --init --recursive
 ./download-xrec-utilities.sh .
 mkdir -p build
 cd build
@@ -63,10 +82,13 @@ To compile and run xrec, you will need:
 - clone or download the git tar file of xrec at github:  https://github.com/ECCC-ASTD-MRD/xrec
   
 ```
-git clone https://github.com/ECCC-ASTD-MRD/xrec
+git clone --recurse --remote-submodules https://github.com/ECCC-ASTD-MRD/xrec
 cd xrec
-git submodule update --init --recursive
+git submodule update --init --remote
 ```
+
+If you have already cloned without the abovementioned options, run
+git submodule update --init --remote in the xrec directory
 
 - execute the script named download-xrec-utilities.sh:
 
