@@ -47,7 +47,7 @@ void xrecGetCurrentMinMax(float *min, float *max, int mode)
   minmaxset = NON;
   for (i=0; i < nbChampsActifs; i++)
     {
-    FldMgrGetChamp(&champ, indChamp);
+    FldMgrGetChamp(&champ, i);
     if (CUSTOM == DictMgrGetMinMaxMode(champ->nomvar))
       {
       minmaxset = 1;
