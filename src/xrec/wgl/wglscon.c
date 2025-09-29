@@ -45,13 +45,13 @@ int c_wglscon(char *contexte)
     return 0;
     }
   
+  /*  
   if (0 == strcmp(contexte, "gd"))
     {
     wglscon_gd();
     return 0;
     }
   
-  /*  
   if (0 == strcmp(contexte, "gl"))
     {
     c_wglscon_gl();
@@ -180,7 +180,7 @@ void c_wglscon_x()
 
 int wglscon_gd()
 {
-
+   /*
   wglc_gd.graphics_library = 1;
   wglc_gd.wglafi = gd_wglafi;
   wglc_gd.wglali = gd_wglali;
@@ -243,7 +243,7 @@ int wglscon_gd()
   wglc_gd.wglxai = gd_wglxai;
 
   wglc_wgl = &wglc_gd;
-
+   */
 }
 
 int wglscon_gl()

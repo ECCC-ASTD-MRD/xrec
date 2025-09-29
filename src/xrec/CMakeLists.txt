@@ -1,6 +1,6 @@
 # Build the following components
 add_subdirectory(gd2 gd2)
-add_subdirectory(gd_wgl gd_wgl)
+# add_subdirectory(gd_wgl gd_wgl)
 add_subdirectory(gdb gdb)
 add_subdirectory(png png)
 add_subdirectory(wgl wgl)

@@ -32,7 +32,7 @@ set(FULL_XMETAVIEW_NAME xmetaview_${XMETAVIEW_VERSION})
 set_target_properties(xmetaview PROPERTIES
   OUTPUT_NAME ${FULL_XMETAVIEW_NAME}
   COMPILE_DEFINITIONS XMETAVIEW_VERSION="${XMETAVIEW_VERSION}")
-target_link_libraries(xmetaview metacode-metaview rec rec_util wgl gd_wgl x_wgl wgl gdb gd png rmn::rmn ${EXTRA_LIBRARIES} )
+target_link_libraries(xmetaview metacode-metaview rec rec_util wgl x_wgl wgl gdb gd png rmn::rmn ${EXTRA_LIBRARIES} )
 target_compile_definitions(xmetaview PUBLIC UNIX RASTER C910 NATIF)
 
 add_custom_command(TARGET trames POST_BUILD
