@@ -1013,7 +1013,7 @@ void AfficherAxeY(_Champ champ)
             {
             sprintf(strNiveaux, "%4.0f", pres);
             x1 = 1.0;
-            y1 = (float)(i+1);
+            /* y1 = (float)(i+1); */
             c_wglxai(&i1, &j1, 1.0, pres);
             
             if (j1 > (viewp.vj1-10) && j1 < (viewp.vj2+10))
