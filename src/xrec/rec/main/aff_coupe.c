@@ -71,7 +71,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
    float *niveaux;
    int i,j,op,npts;
    float *localfld;
-   _Champ *champ;  
+   _Champ *champ;
    int nbNiveauxCoupe, zstart;
    int un = 1;
    int selectedVertCoord;
@@ -84,7 +84,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
       return;
 
    FldMgrGetChamp(&champ, indChamp);
-   
+
    c_wglsetw(fenetreCoupe);
    transformationFenetre = c_wglgmod();
    c_wglgwz(&largeurFenetre, &hauteurFenetre);
@@ -93,7 +93,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
 
    xc.statuts[EN_TRAIN_DE_DESSINER] = TRUE;
    xc.statuts[AXE_Y] = TRUE;
-   
+
    if (indChamp == 0)
       {
       if (champ->coupe.coupeValide)
@@ -107,18 +107,18 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
         c_wglclr();
         }
       }
-   
+
    if (champ->coupe.coupeValide == 0)
       {
       xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
       xc.statuts[AXE_Y] = FALSE;
       return;
       }
-   
+
    CoupeMgrSetMinMax();
    CoupeMgrSetUVWMinMax();
    CoupeMgrGetLimites(&valMin, &valMax, &ydebut, &yfin);
-   
+
    if ((*champ).coupe.niCoupe == 1)
       {
       if (indChamp == 0)
@@ -131,24 +131,24 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
          }
       return;
       }
-   
+
    c_wglgwz(&largeurFenetre, &hauteurFenetre);
-   
+
 
    xdebut = 1.0;
    xfin   = (float)champ->coupe.niCoupe;
-   
+
    switch(champ->natureTensorielle)
      {
      case VECTEUR:
      localfld = uvw;
      break;
-       
+
      case SCALAIRE:
      localfld = fld;
      break;
      }
-   
+
 /*    f77name(aminmax)(&localmin,&localmax,localfld,&champ->coupe.niCoupe, &champ->coupe.njCoupe); */
 
      if (CUSTOM == DictMgrGetMinMaxMode(champ->nomvar))
@@ -167,7 +167,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
         {
         niveaux[i] = champ->coupe.niveauxCoupe[champ->coupe.nbNiveauxCoupe-i-1];
         }
-      
+
       if (champ->natureTensorielle == SCALAIRE)
         {
         f77name(permut)(localfld, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
@@ -181,7 +181,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
         f77name(permut)(ww , &champ->coupe.niCoupe, &champ->coupe.njCoupe);
         f77name(permut)(uvw, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
         }
-      
+
       switch (champ->coordonneeVerticale)
         {
         case SIGMA:
@@ -192,7 +192,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
           c_wglssp(xdebut, ydebut, xfin, yfin, viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, transformationFenetre);
           c_xsetxy(2, NULL, 0, niveaux, champ->coupe.njCoupe);
           break;
-          
+
           case PRES_VCOORD:
           if (NULL == champ->coupe.montagnes)
             {
@@ -224,7 +224,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
           break;
           }
         break;
-        
+
         default:
         c_wglssp(xdebut, ydebut, xfin, yfin, viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, transformationFenetre);
         c_xsetxy(2, NULL, 0, niveaux, champ->coupe.njCoupe);
@@ -248,7 +248,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
           c_wglssp(xdebut, yfin, xfin, ydebut, viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, transformationFenetre);
           c_xsetxy(2, NULL, 0, niveaux, champ->coupe.njCoupe);
           break;
-          
+
           case PRES_VCOORD:
           if (NULL == champ->coupe.montagnes)
             {
@@ -266,7 +266,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
             {
             case SIGMA:
    /*
-   P    = termA + termB * Ps; 
+   P    = termA + termB * Ps;
    termA = Pref*(HYB-termB);
    termB = [(HYB-Pt/Pref)/(1.0-Pt/Pref)]**Coef
    */
@@ -290,7 +290,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
           break;
           }
         break;
-        
+
         default:
         niveaux = (float *) malloc( champ->coupe.nbNiveauxCoupe*sizeof(float));
         for (i=0; i < champ->coupe.nbNiveauxCoupe; i++)
@@ -301,11 +301,11 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
         c_xsetxy(2, NULL, 0, niveaux, champ->coupe.njCoupe);
         }
       }
-   
+
     c_wglgsx(&xdebut, &ydebut, &xfin, &yfin);
     c_wglcmx(xdebut, ydebut, xfin, yfin);
-   
-   
+
+
    lissfac = facteurLissage;
    if (xc.statuts[LISSAGE])
       {
@@ -322,7 +322,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
       {
       lissfac = 1;
       }
-   
+
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
@@ -332,9 +332,9 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
         return;
         }
       }
-   
+
    c_wglgsp(&xdebut, &ydebut, &xfin, &yfin, &idebut, &jdebut, &ifin, &jfin);
-   
+
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
@@ -344,7 +344,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
         return;
         }
       }
-   
+
    if (AfficherItem(indChamp, COULEURS))
       {
       largeur = viewp.vi2- viewp.vi1 + 1;
@@ -352,26 +352,26 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
       c_wglcol(xc.attributs[0].indCouleurBack);
       c_wglrfi(0, 0, largeurFenetre, hauteurFenetre);
       c_wglssp(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin, transformationFenetre);
-      
+
       if ((champ->coordonneeVerticale == SIGMA || champ->coordonneeVerticale == HYBRIDE) && selectedVertCoord == PRES_VCOORD)
         {
         x = (float *) malloc(largeur*hauteur*sizeof(float));
         y = (float *) malloc(largeur*hauteur*sizeof(float));
         if (sensEchelle == DECROISSANTE)
           {
-          f77name(ij2xy_warp)(x, y, champ->coupe.niveauxCoupe, z, &(champ->coupe.ptop), 
+          f77name(ij2xy_warp)(x, y, champ->coupe.niveauxCoupe, z, &(champ->coupe.ptop),
             &(champ->coupe.pref), &(champ->coupe.rcoef), &transformationFenetre,
-            &(champ->coupe.niCoupe), &(champ->coupe.njCoupe), &viewp.vi1, &viewp.vj1, &viewp.vi2, &viewp.vj2, 
+            &(champ->coupe.niCoupe), &(champ->coupe.njCoupe), &viewp.vi1, &viewp.vj1, &viewp.vi2, &viewp.vj2,
             &xdebut, &ydebut, &xfin, &yfin);
           }
         else
           {
-          f77name(ij2xy_warp_r)(x, y,champ->coupe.niveauxCoupe , &z[zstart], &(champ->coupe.ptop), 
+          f77name(ij2xy_warp_r)(x, y,champ->coupe.niveauxCoupe , &z[zstart], &(champ->coupe.ptop),
             &(champ->coupe.pref), &(champ->coupe.rcoef), &transformationFenetre,
-            &(champ->coupe.niCoupe), &(champ->coupe.njCoupe), &viewp.vi1, &viewp.vj1, &viewp.vi2, &viewp.vj2, 
+            &(champ->coupe.niCoupe), &(champ->coupe.njCoupe), &viewp.vi1, &viewp.vj1, &viewp.vi2, &viewp.vj2,
             &xdebut, &ydebut, &xfin, &yfin);
           }
-        c_wglpfton32_x(localfld, x, y, champ->coupe.niCoupe, champ->coupe.njCoupe, champ->intervalles, 
+        c_wglpfton32_x(localfld, x, y, champ->coupe.niCoupe, champ->coupe.njCoupe, champ->intervalles,
                   champ->nbIntervalles,
                   champ->facteur, valMin*champ->facteur, valMax*champ->facteur,
                   recColorTable, 256, xc.flagInterrupt, lissfac);
@@ -380,7 +380,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
         }
       else
         {
-        c_wglfton(localfld, champ->coupe.niCoupe, champ->coupe.njCoupe, champ->intervalles, 
+        c_wglfton(localfld, champ->coupe.niCoupe, champ->coupe.njCoupe, champ->intervalles,
                   champ->nbIntervalles,
                   champ->facteur, valMin*champ->facteur, valMax*champ->facteur,
                   recColorTable, 256, xc.flagInterrupt, lissfac);
@@ -394,7 +394,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
          c_wglrfi(0, 0, largeurFenetre, hauteurFenetre);
          }
       }
-   
+
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
@@ -404,7 +404,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
          return;
          }
       }
-   
+
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
@@ -414,28 +414,29 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
          return;
          }
       }
-   
+
    if (champ->natureTensorielle == VECTEUR && champ->cle >= 0 && xc.statuts[BARBULES])
      {
      if (0 != WindMgrGetLICState())
        {
        SetClipMask();
+       uvwmax = 0; /* pas utilisé */
        AfficherLIC(uut, ww, champ->coupe.niCoupe, champ->coupe.njCoupe, xc.attributs[indChamp].indCouleurFore, xc.attributs[indChamp].epaisseur, uvwmax);
        }
      }
-   
+
    if (AfficherItem(indChamp, CONTOURS))
       {
-      c_wglcont(localfld, champ->coupe.niCoupe, champ->coupe.njCoupe, champ->intervalles, 
+      c_wglcont(localfld, champ->coupe.niCoupe, champ->coupe.njCoupe, champ->intervalles,
                 champ->nbIntervalles,
-                champ->facteur, valMin*champ->facteur, valMax*champ->facteur, 
+                champ->facteur, valMin*champ->facteur, valMax*champ->facteur,
                 xc.attributs[indChamp].indCouleurFore, xc.attributs[indChamp].epaisseur,
                 xc.attributs[indChamp].codeDash, xc.attributs[indChamp].style, lissfac, xc.flagInterrupt);
-      
+
       c_wgllwi(1);
       c_wglsld(0);
       }
-   
+
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
@@ -445,7 +446,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
          return;
          }
       }
-   
+
    if (xc.statuts[LABELS] && champ->natureTensorielle == SCALAIRE && champ->cle >= 0)
       {
       switch(xc.attributs[indChamp].couleurFore)
@@ -455,18 +456,18 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
          case CYAN:
            fond = NOIR;
            break;
-           
+
          default:
            fond = BLANC;
            break;
          }
-      
+
       c_wgllab(localfld, champ->coupe.niCoupe, champ->coupe.njCoupe, champ->intervalles, champ->nbIntervalles,
-               champ->facteur, valMin*champ->facteur, valMax*champ->facteur, 
+               champ->facteur, valMin*champ->facteur, valMax*champ->facteur,
                labelPos[indChamp%4], 4,
                xc.attributs[indChamp].indCouleurFore, xc.attributs[indChamp].indCouleurBack, indChamp, lissfac);
       }
-   
+
    if (champ->natureTensorielle == VECTEUR && xc.statuts[BARBULES] &&champ->cle >= 0)
       {
       SetClipMask();
@@ -476,12 +477,12 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
          CoupeMgrGetLimitesUVW(&uutanmin,&uutanmax,&uvwmin,&uvwmax,
                                &uumin,&uumax,&vvmin,&vvmax,
                                &wwmin,&wwmax,&nivmin,&nivmax);
-         
+
          if (CUSTOM == DictMgrGetMinMaxMode("UV"))
             {
             DictMgrGetMinMaxValues("UV",&uvwmin,&uvwmax);
             }
-         
+
          AfficherFleches(uut, ww, champ->coupe.niCoupe, champ->coupe.njCoupe,
                          xc.attributs[indChamp].indCouleurFore,
                          xc.attributs[indChamp].epaisseur,uvwmax);
@@ -489,13 +490,13 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
            AfficherLegendeVentUVW(uvwmax);
          }
       }
-   
+
    if (!xc.statuts[BARBULES] && xc.statuts[VALEURS_CENTRALES])
       {
       hl_find (localfld, champ->coupe.niCoupe, champ->coupe.njCoupe, 1.0, hilo,&hlcount,hlnmax);
       hl_print (hilo,hlcount,champ->facteur, xc.attributs[indChamp].indCouleurFore,xc.attributs[indChamp].indCouleurBack);
       }
-   
+
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
@@ -505,17 +506,17 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
          return;
          }
       }
-   
+
    op = CtrlMgrGetMathOp();
    if (indChamp == (FldMgrGetNbChampsActifs()-1) || op != NO_OP)
       {
       AfficherTopo();
       }
-   
+
    c_wglcmi(0, 0, largeurFenetre-1, hauteurFenetre-1);
-   
+
    AfficherLegendeCoupe(indChamp);
-   
+
    if (xc.statuts[COULEURS])
       {
       c_wglcol(xc.attributs[FOND].indCouleurBack);
@@ -524,18 +525,18 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
       {
       c_wglcol(NOIR);
       }
-   
+
    c_wglcmi(0, 0, largeurFenetre-1, hauteurFenetre-1);
-   if (indChamp == (FldMgrGetNbChampsActifs()-1) || op != NO_OP) 
+   if (indChamp == (FldMgrGetNbChampsActifs()-1) || op != NO_OP)
       {
       AfficherAxeY(*champ);
       }
-   
+
    c_xsetxy(2, NULL, 0, niveaux, champ->coupe.njCoupe);
    c_fxfy2xy(&xd, &yd, xdebut, ydebut);
    c_fxfy2xy(&xf, &yf, xfin,   yfin);
    TracerLigne(xd, yd, xf, yd);
-   
+
    AfficherPerimetreFenetre();
    if (sensEchelle == CROISSANTE)
       {
@@ -551,10 +552,10 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
         f77name(permut)(vv, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
         f77name(permut)(ww, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
         f77name(permut)(uvw, &champ->coupe.niCoupe, &champ->coupe.njCoupe);
-              
+
         }
       }
-   
+
   if (z != NULL)
     {
     free(z);
@@ -570,7 +571,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
  ******************************************************************************
  ******************************************************************************
  **/
- 
+
 void AfficherSerie(int indChamp, float *fld, float *uut, float *uun, float *ww, float *uvw)
 {
    Hilo hilo[64];
@@ -587,7 +588,7 @@ void AfficherSerie(int indChamp, float *fld, float *uut, float *uun, float *ww, 
    float *niveaux;
    int i, op, npts;
    _Champ *champ;
-   
+
    if (!SerieMgrGetStatutSerie())
       return;
 
@@ -599,7 +600,7 @@ void AfficherSerie(int indChamp, float *fld, float *uut, float *uun, float *ww, 
 
    xc.statuts[EN_TRAIN_DE_DESSINER] = TRUE;
    xc.statuts[AXE_Y] = TRUE;
-   
+
    if (indChamp == 0)
       {
       if (champ->seqanim.nbFldsAnim > 0)
@@ -613,14 +614,14 @@ void AfficherSerie(int indChamp, float *fld, float *uut, float *uun, float *ww, 
         c_wglclr();
         }
       }
-   
+
    if (champ->seqanim.nbFldsAnim == 0)
       {
       xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
       xc.statuts[AXE_Y] = FALSE;
       return;
       }
-   
+
    SerieMgrSetMinMax();
    SerieMgrSetUVWMinMax();
 
@@ -637,35 +638,35 @@ void AfficherSerie(int indChamp, float *fld, float *uut, float *uun, float *ww, 
         }
       return;
       }
-   
+
    c_wglgwz(&largeurFenetre, &hauteurFenetre);
-   
+
 
    npts = champ->seqanim.niSerie*champ->seqanim.njSerie;
    un = 1;
    f77name(aminmax)(&valMin,&valMax,champ->seqanim.valeursSeries,&npts,&un);
    SerieMgrGetLimites(&tdebut, &tfin, &valMin, &valMax);
 /*   fprintf(stderr, "valMin: %f valMax: %f\n", valMin, valMax); */
-   
+
    xdebut = 1.0;
    xfin   = (float)champ->seqanim.niSerie;
    ydebut = (float)(champ->seqanim.ip2s[0]);
    yfin = (float)(champ->seqanim.ip2s[champ->seqanim.nbFldsAnim-1]);
    niveaux = (float *) calloc(champ->seqanim.nbFldsAnim, sizeof(float));
-   
+
    for (i=0; i < champ->seqanim.nbFldsAnim; i++)
      {
      niveaux[i] = (float)(champ->seqanim.ip2s[i]);
      }
-   
+
    c_wglssp(xdebut, ydebut, xfin, yfin, viewp.vi1, viewp.vj1, viewp.vi2, viewp.vj2, transformationFenetre);
    c_xsetxy(2, NULL, 0, niveaux, champ->seqanim.njSerie);
 
    free(niveaux);
    c_wglgsx(&xdebut, &ydebut, &xfin, &yfin);
    c_wglcmx(xdebut, ydebut, xfin, yfin);
-   
-   
+
+
    lissfac = facteurLissage;
    if (xc.statuts[LISSAGE])
       {
@@ -682,7 +683,7 @@ void AfficherSerie(int indChamp, float *fld, float *uut, float *uun, float *ww, 
       {
       lissfac = 1;
       }
-   
+
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
@@ -692,9 +693,9 @@ void AfficherSerie(int indChamp, float *fld, float *uut, float *uun, float *ww, 
         return;
         }
       }
-   
+
    c_wglgsp(&xdebut, &ydebut, &xfin, &yfin, &idebut, &jdebut, &ifin, &jfin);
-   
+
    if (xc.flagInterrupt)
       {
       if (c_wglanul())
@@ -704,7 +705,7 @@ void AfficherSerie(int indChamp, float *fld, float *uut, float *uun, float *ww, 
         return;
         }
       }
-   
+
       if (indChamp == 0)
         {
         if (champ->natureTensorielle == SCALAIRE && champ->cle >= 0)
@@ -713,13 +714,13 @@ void AfficherSerie(int indChamp, float *fld, float *uut, float *uun, float *ww, 
               {
               case TRUE:
               c_wglssp(xdebut, ydebut, xfin, yfin, idebut, jdebut, ifin, jfin, transformationFenetre);
-              
-              c_wglfton(fld, champ->seqanim.niSerie, champ->seqanim.njSerie, champ->intervalles, 
+
+              c_wglfton(fld, champ->seqanim.niSerie, champ->seqanim.njSerie, champ->intervalles,
                         champ->nbIntervalles,
                         champ->facteur, valMin*champ->facteur, valMax*champ->facteur,
                         recColorTable, 256, xc.flagInterrupt, lissfac);
               break;
-              
+
               case FALSE:
               break;
               }
@@ -729,7 +730,7 @@ void AfficherSerie(int indChamp, float *fld, float *uut, float *uun, float *ww, 
             c_wglcol(xc.attributs[0].indCouleurBack);
             c_wglrfi(0, 0, largeurFenetre, hauteurFenetre);
             }
-        
+
         if (xc.flagInterrupt)
             {
             if (c_wglanul())
@@ -740,7 +741,7 @@ void AfficherSerie(int indChamp, float *fld, float *uut, float *uun, float *ww, 
               }
             }
         }
-            
+
       if (xc.flagInterrupt)
         {
         if (c_wglanul())
@@ -750,19 +751,19 @@ void AfficherSerie(int indChamp, float *fld, float *uut, float *uun, float *ww, 
             return;
             }
         }
-      
+
       if ((xc.statuts[CONTOURS] == TRUE || indChamp > 0) && champ->natureTensorielle == SCALAIRE && champ->cle >= 0)
         {
-        c_wglcont(fld, champ->seqanim.niSerie, champ->seqanim.njSerie, champ->intervalles, 
+        c_wglcont(fld, champ->seqanim.niSerie, champ->seqanim.njSerie, champ->intervalles,
             champ->nbIntervalles,
-            champ->facteur, valMin*champ->facteur, valMax*champ->facteur, 
+            champ->facteur, valMin*champ->facteur, valMax*champ->facteur,
             xc.attributs[indChamp].indCouleurFore, xc.attributs[indChamp].epaisseur,
             xc.attributs[indChamp].codeDash, xc.attributs[indChamp].style, lissfac, xc.flagInterrupt);
-        
+
         c_wgllwi(1);
         c_wglsld(0);
         }
-      
+
       if (xc.flagInterrupt)
         {
               if (c_wglanul())
@@ -772,7 +773,7 @@ void AfficherSerie(int indChamp, float *fld, float *uut, float *uun, float *ww, 
             return;
             }
         }
-      
+
       if (xc.statuts[LABELS] && champ->natureTensorielle == SCALAIRE && champ->cle >= 0)
         {
         switch(xc.attributs[indChamp].couleurFore)
@@ -782,24 +783,24 @@ void AfficherSerie(int indChamp, float *fld, float *uut, float *uun, float *ww, 
             case CYAN:
             fond = NOIR;
             break;
-            
+
             default:
             fond = BLANC;
             break;
             }
-        
+
         c_wgllab(fld, champ->seqanim.niSerie, champ->seqanim.njSerie, champ->intervalles, champ->nbIntervalles,
-            champ->facteur, valMin*champ->facteur, valMax*champ->facteur, 
+            champ->facteur, valMin*champ->facteur, valMax*champ->facteur,
             labelPos[indChamp%4], 4,
             xc.attributs[indChamp].indCouleurFore, xc.attributs[indChamp].indCouleurBack, indChamp, lissfac);
         }
-            
+
       if (xc.statuts[VALEURS_CENTRALES])
         {
         hl_find (fld, champ->seqanim.niSerie, champ->seqanim.njSerie, 1.0, hilo,&hlcount,hlnmax);
         hl_print (hilo,hlcount,champ->facteur, xc.attributs[indChamp].indCouleurFore,xc.attributs[indChamp].indCouleurBack);
         }
-            
+
       if (xc.flagInterrupt)
         {
         if (c_wglanul())
@@ -809,11 +810,11 @@ void AfficherSerie(int indChamp, float *fld, float *uut, float *uun, float *ww, 
             return;
             }
         }
-      
+
       c_wglcmi(0, 0, largeurFenetre-1, hauteurFenetre-1);
-      
+
       AfficherLegendeSerie(indChamp);
-      
+
       if (xc.statuts[COULEURS])
          {
          c_wglcol(xc.attributs[FOND].indCouleurBack);
@@ -822,19 +823,19 @@ void AfficherSerie(int indChamp, float *fld, float *uut, float *uun, float *ww, 
          {
          c_wglcol(NOIR);
          }
-      
+
       c_wglcmi(0, 0, largeurFenetre-1, hauteurFenetre-1);
       c_fxfy2xy(&xd, &yd, xdebut, ydebut);
       c_fxfy2xy(&xf, &yf, xfin,   yfin);
       TracerLigne(xd, yd, xf, yd);
       op = CtrlMgrGetMathOp();
-      if (indChamp == (FldMgrGetNbChampsActifs()-1) || op != NO_OP) 
+      if (indChamp == (FldMgrGetNbChampsActifs()-1) || op != NO_OP)
          {
          AfficherAxeY(*champ);
          }
-      
+
       AfficherPerimetreFenetre();
-      
+
       xc.statuts[AXE_Y] = FALSE;
       xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
       UnSetCurseur(fenetreSerie);
@@ -854,15 +855,15 @@ void AfficherTopo()
     int indmin,indmax;
     float poly[5][2];
     float startpt;
-    
-    FldMgrGetChamp(&champ,0);     
-    
+
+    FldMgrGetChamp(&champ,0);
+
     valtoggle = CoupeMgrGetToggleTopo();
     selectedVertCoord = GetSelectedVertCoord();
-    
+
     if (!valtoggle && selectedVertCoord != PRES_VCOORD)
          return;
-         
+
     ier = FldMgrPreparerTopo();
     if (champ->coordonneeVerticale != SIGMA && champ->coordonneeVerticale != HYBRIDE)
       {
@@ -870,12 +871,12 @@ void AfficherTopo()
       if (ier < 0)
           return;
       }
-    
+
     c_wglsetw(fenetreCoupe);
-         
+
     c_wglgetcolrange(&indmin, &indmax);
     c_wglcol(xc.attributs[TOPOG].indCouleurFore);
-    
+
     if (c_wglgdbg())
        {
        for (i=0; i < champ->coupe.niCoupe - 1; i++)
@@ -883,17 +884,17 @@ void AfficherTopo()
            printf("%d %f\n",i,champ->coupe.ligneMontagnes[i]);
            }
        }
-       
+
     switch(champ->coordonneeVerticale)
       {
       case METRES:
       startpt =  champ->coupe.niveauMin;
       break;
-      
+
       case PRESSION:
       startpt =  champ->coupe.niveauMax;
       break;
-      
+
       case SIGMA:
       case HYBRIDE:
       switch (selectedVertCoord)
@@ -901,18 +902,18 @@ void AfficherTopo()
         case PRES_VCOORD:
         startpt =  champ->coupe.niveauPresMax;
         break;
-        
+
         default:
         startpt =  champ->coupe.niveauMax;
         break;
         }
       break;
-      
+
       default:
       startpt =  champ->coupe.niveauMin;
       break;
       }
-    
+
     for (i=0; i < champ->coupe.niCoupe - 1; i++)
         {
         poly[0][0] = (float) (i+1);
@@ -936,7 +937,7 @@ void ManipulerEtAfficherCoupeVerticale(int indChamp)
   float *tmpfld,*valeurs,*fld,*uu,*vv,*uut,*uun,*ww,*uvw;
   _Champ *champ,*champ1, *champ2;
   int customFld;
-   
+
   customFld = False;
   FldMgrGetChamp(&champ, indChamp);
   fld = champ->coupe.fld2d;
@@ -947,7 +948,7 @@ void ManipulerEtAfficherCoupeVerticale(int indChamp)
   uut     = champ->coupe.uvwtang2d;
   uun     = champ->coupe.uvwnorm2d;
   uvw     = champ->coupe.uvw2d;
-   
+
   op = CtrlMgrGetMathOp();
   nbChampsActifs = FldMgrGetNbChampsActifs();
   valeurs = fld;
@@ -957,18 +958,18 @@ void ManipulerEtAfficherCoupeVerticale(int indChamp)
       {
       return;
       }
-    
+
     champ1 = champ;
     FldMgrGetChamp(&champ2,indChamp+1);
-    
+
     customFld = True;
     npts = (*champ).coupe.niCoupe*(*champ).coupe.njCoupe;
     tmpfld = (float *)calloc(npts,  sizeof(float));
     valeurs = tmpfld;
-    
+
     DiffMgrCalcDiffs(tmpfld,(*champ1).coupe.fld2d,(*champ2).coupe.fld2d,npts,op);
     }
-   
+
    AfficherCoupe(indChamp,valeurs,uu,vv,uut,uun,ww, uvw);
    /*   AfficherCoupe(indChamp,fld,uut,uun,ww,uvw);*/
 
@@ -988,11 +989,11 @@ void ManipulerEtAfficherSerieTemporelle(int indChamp)
    float *tmpfld,*valeurs,*fld,*uut,*uun,*ww,*uvw;
    _Champ *champ,*champ1, *champ2;
    int customFld;
-   
+
    customFld = False;
    FldMgrGetChamp(&champ, indChamp);
    fld = champ->seqanim.valeursSeries;
-   
+
    op = CtrlMgrGetMathOp();
    nbChampsActifs = FldMgrGetNbChampsActifs();
    valeurs = fld;
@@ -1002,18 +1003,19 @@ void ManipulerEtAfficherSerieTemporelle(int indChamp)
          {
          return;
          }
-      
+
       champ1 = champ;
       FldMgrGetChamp(&champ2,indChamp+1);
-      
+
       customFld = True;
       npts = (*champ).seqanim.niSerie*(*champ).seqanim.njSerie;
       tmpfld = (float *)malloc(npts* sizeof(float));
       valeurs = tmpfld;
-      
+
       DiffMgrCalcDiffs(tmpfld,(*champ1).seqanim.valeursSeries,(*champ2).seqanim.valeursSeries,npts,op);
       }
-   
+
+   uut = uun = ww = uvw = NULL; /* pas utilisés */
    AfficherSerie(indChamp,valeurs,uut,uun,ww,uvw);
 
    if (customFld)

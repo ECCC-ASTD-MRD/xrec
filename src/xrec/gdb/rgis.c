@@ -270,6 +270,7 @@ fprintf( stderr, "...Little Endian: no swap, type=%d\n", ll->type );
           ll_addr  += sizeof(__Lli);
           lli       = (Lli    *) ll;
           lli->ll   = (float  *) ll_addr;
+		    n         = lli->n;
 		    n2        = 2 * n;
 		    ll_addr  += n2 * sizeof(float);
 		    lli->i    = (int    *) ll_addr;
@@ -379,6 +380,7 @@ fprintf( stderr, "...Big Endian: need swapping, type=%d\n", ll->type );
           ll_addr  += sizeof(_Lli);
           lli->ll   = (float  *) ll_addr;
 		    
+		    n         = lli->n;
 		    n2        = 2 * n;
 		    ll_addr  += n2 * sizeof(float);
 		    lli->i    = (int    *) ll_addr;

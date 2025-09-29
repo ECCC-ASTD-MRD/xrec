@@ -1036,9 +1036,11 @@ find_best_colors (gdImagePtr im, my_cquantize_ptr cquantize,
 	      xx2 = inc2;
 	      for (ic2 = BOX_C2_ELEMS - 1; ic2 >= 0; ic2--)
 		{
+                  dist3 = dist2;
+                  xx3 = inc3;
 		  for (ic3 = BOX_C3_ELEMS - 1; ic3 >= 0; ic3--)
 		    {
-		      if (dist3 < *bptr)
+                       if (dist3 < *bptr)
 			{
 			  *bptr = dist3;
 			  *cptr = icolor;
