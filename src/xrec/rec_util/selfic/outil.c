@@ -451,7 +451,7 @@ int strsplit( char *, char *, char ***);
 
  static int
  selection(d)
- struct dirent *d;
+ const struct dirent *d;
     {
 return d->d_name != NULL;
 //return((int)d->d_name);
