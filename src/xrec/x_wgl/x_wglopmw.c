@@ -79,9 +79,7 @@ extern unsigned long wglfore, wglback;
  ******************************************************************************
  **/
 
-   int x_wglopmw(nomFenetre, wglWinID)
-   char *nomFenetre;
-   int wglWinID;
+int x_wglopmw(char *nomFenetre, int wglWinID)
    {
    char tempNomFenetre[256];
    /**

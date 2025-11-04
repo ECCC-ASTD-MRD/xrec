@@ -22,8 +22,7 @@
 #include <rec.h>
 #include <rec_functions.h>
 
-float ip12lvl(ip1)
-int ip1;
+float ip12lvl(int ip1)
 {
    if (ip1 < 2000)
       return (float)ip1;
@@ -39,9 +38,7 @@ int ip1;
 *************************************
 **/
 
-int lvl2ip1(lvl,coord)
-float lvl;
-int coord;
+int lvl2ip1(double lvl,int coord)
 {
    switch (coord)
       {
@@ -57,6 +54,7 @@ int coord;
       default:
       fprintf(stderr,"<lvl2ip1>: Bad coordinate!: %d\n",coord);
       }
+   return 0;
    }
 
 
@@ -65,8 +63,7 @@ int coord;
 *************************************
 **/
 
-int ip12coord(ip1)
-int ip1;
+int ip12coord(int ip1)
 {
    if (ip1 < 2000)
       return PRESSION;

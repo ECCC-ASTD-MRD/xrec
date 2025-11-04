@@ -62,8 +62,7 @@ int strsplit( char *, char *, char ***);
  *
  */
 
- void freelist ( list )
- char ***list;
+void freelist ( char ***list )
      {
      if( *list == NULL ) return;
      free((*list)[-1]); 
@@ -91,8 +90,7 @@ int strsplit( char *, char *, char ***);
  *
  */
 
- int isdir ( path )
- char *path;
+int isdir ( char *path )
      {
      struct stat buf;
 
@@ -123,8 +121,7 @@ int strsplit( char *, char *, char ***);
  *
  */
 
- int isfile ( path )
- char *path;
+int isfile ( char *path )
      {
      struct stat buf;
 
@@ -163,11 +160,7 @@ int strsplit( char *, char *, char ***);
  *
  */
 
- int lsdir ( path, reject, select, list )
- char *path;
- char *reject;
- char *select;
- char ***list;
+int lsdir ( char *path, char *reject, char *select, char ***list )
      {
      int    triage(const void *, const void *);
      int    selection(const struct dirent *);
@@ -216,12 +209,7 @@ int strsplit( char *, char *, char ***);
  *
  */
 
- void pathinfo ( path, nword, words, nfile, list )
- char *path;
- int  *nword;
- char ***words;
- int  *nfile;
- char ***list;
+void pathinfo( char *path, int  *nword, char ***words, int *nfile, char ***list)
       {
       char *pos;
       char *sel;
@@ -320,12 +308,7 @@ int strsplit( char *, char *, char ***);
  *  objet     :  CE MODULE FAIT UN SCANDIR SUR UN REPERTOIRE
  *
  */
- int
- scan_dir(dir, list, select, compar)
- char *dir;
- char ***list;
- int (*select)(const struct dirent *);
- int (*compar)(const void *p1, const void *p2);
+int scan_dir( char *dir, char ***list, int (*select)(const struct dirent *), int (*compar)(const void *p1, const void *p2) )
      {
      char  *elems;
      char  *prev;
@@ -449,9 +432,7 @@ int strsplit( char *, char *, char ***);
  *
  */
 
- static int
- selection(d)
- const struct dirent *d;
+static int selection(const struct dirent *d)
     {
 return d->d_name != NULL;
 //return((int)d->d_name);
@@ -495,10 +476,7 @@ return d->d_name != NULL;
  *
  */
 
- int strsplit ( str, delim, list )
- char *str;
- char *delim;
- char ***list;
+int strsplit ( char *str, char *delim, char ***list )
       {
       int   n;
       char *dup;
@@ -558,9 +536,7 @@ return d->d_name != NULL;
  *  objet     :  CE MODULE FAIT LA COMPARAISON DE DEUX CHAINES
  *
  */
- static int
- triage(d1, d2)
- const void *d1, *d2;
+static int triage( const void *d1,  const void *d2 )
      {
      return( strcmp(d1,d2) );
      }

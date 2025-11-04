@@ -22,10 +22,7 @@
 #include <wgl.h>
 #include <rmn/rpnmacros.h>
 
-float f77name(wglasx)(string, stringLength, ftnStringLength)
-char *string;
-int *stringLength;
-F2Cl ftnStringLength;
+float f77name(wglasx)(char *string, int *stringLength, F2Cl ftnStringLength)
 {
    return c_wglasx(string, *stringLength);
    }

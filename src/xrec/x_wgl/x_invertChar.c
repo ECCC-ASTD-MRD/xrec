@@ -20,8 +20,7 @@
 
 #include "wgl_x.h"
 
-unsigned char  x_invertChar(nombre)
-unsigned char nombre;
+unsigned char  x_invertChar(unsigned char nombre)
 {
    char temp, invertedNombre;
    int  i, j;
@@ -36,8 +35,7 @@ unsigned char nombre;
    return (unsigned char) invertedNombre;
    }
 
-unsigned short  x_invertShort(nombre)
-unsigned short nombre;
+unsigned short  x_invertShort(unsigned short nombre)
 {
    short temp, invertedNombre;
    int  i, j;
@@ -52,8 +50,7 @@ unsigned short nombre;
    return (unsigned short) invertedNombre;
    }
 
-unsigned int  x_invertInt(nombre)
-unsigned int nombre;
+unsigned int  x_invertInt(unsigned int nombre)
 {
    int temp, invertedNombre;
    int  i, j;

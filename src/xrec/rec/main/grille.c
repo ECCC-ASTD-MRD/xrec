@@ -30,10 +30,7 @@ extern _GrilleMenuItem grmenuitems[64];
 
 int nbgi = 1;
 
-void f77name(c_xrecgrille)(gridname,gridtype,ni,nj,ig1,ig2,ig3,ig4,flennomgrille)
-char gridname[];
-int *gridtype, *ni, *nj, *ig1, *ig2, *ig3, *ig4;
-F2Cl flennomgrille;
+void f77name(c_xrecgrille)(char gridname[], int *gridtype, int *ni, int *nj, int *ig1, int *ig2, int *ig3, int *ig4, F2Cl flennomgrille)
 {
    int un = 1;
    int i, dimnomgrille;

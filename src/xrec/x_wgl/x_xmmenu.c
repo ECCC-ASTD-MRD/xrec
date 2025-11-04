@@ -65,7 +65,7 @@ int StatutSelection, itemSelectionne;
 extern SuperWidgetStruct SuperWidget;
 
 void SelectItem(Widget w, XtPointer client_data, XtPointer call_data);
-static XtErrorHandler  HandlerBidon();
+static XtErrorHandler  HandlerBidon(String);
 
 static Widget  menuTitre[2] = {NULL,NULL};
 static Widget  menuInfo  = NULL;
@@ -100,8 +100,7 @@ XButtonEvent * event;
    }
 **/
 
-int defpup(menuStr)
-char *menuStr;
+int defpup(char *menuStr)
 {
    int i,n;
    int argc = 1;
@@ -116,9 +115,7 @@ char *menuStr;
    return 1;
    }
 
-int dopopup(indMenu, posX, posY)
-int indMenu; 
-int posX, posY;
+int dopopup(int indMenu, int posX, int posY)
 {
    int i,n;
    XmString string;
@@ -231,10 +228,10 @@ void SelectItem(Widget w, XtPointer client_data, XtPointer call_data)
    StatutSelection = SELECTION_TERMINEE;
    }
 
-static XtErrorHandler HandlerBidon(avertissement)
-String avertissement;
+static XtErrorHandler HandlerBidon(String avertissement)
 {
-   printf("Voici le message recu: %s\n\n\n", avertissement); 
+   printf("Voici le message recu: %s\n\n\n", avertissement);
+   return 0;
    }
 
 void NettoyerVieuxStrings()
@@ -265,8 +262,7 @@ void NettoyerVieuxStrings()
    }
    
 
-void InitialiserMenusStr(menuStr)
-char *menuStr;
+void InitialiserMenusStr(char *menuStr)
 {
    int i;
    char *posBarre, *posTitre, *posSep;

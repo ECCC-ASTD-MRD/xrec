@@ -157,10 +157,7 @@ char panneauVentsGeometrie[32];
 
 int pventSelectionTerminee;
 
-void SetModuleOn (w, client_data, call_data)
-     Widget w;    /*  widget id   */
-     XtPointer  client_data;  /*  data from application   */
-     XtPointer  call_data;  /*  data from widget class  */
+void SetModuleOn(Widget w, XtPointer client_data, XtPointer call_data )
 {
   flagModule = MODULUS;
   flagLIC = NO_LIC;

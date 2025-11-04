@@ -479,9 +479,7 @@ int string_compare(const void *str1, const void *str2)
   return strcmp((char *) str1, (char *) str2);
 }
 
-void FldMgrGetAllDates(dates, nbDates)
-char dates[][16];
-int *nbDates;
+void FldMgrGetAllDates(char dates[][16], int *nbDates)
 {
 
     _Champ bidon;
@@ -541,17 +539,14 @@ int *nbDates;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-void FldMgrGetChamp(champ, indice)
-_Champ **champ;
-int indice;
+void FldMgrGetChamp(_Champ **champ, int indice)
 {
     *champ = &fmflds[indice];
 }
 
 /* -------------------------------------------------------------------------------------------------- */
 
-int FldMgrGetFstPrm(champ)
-_Champ *champ;
+int FldMgrGetFstPrm(_Champ *champ)
 {
     int ier;
     strcpy(champ->nomvar,"    ");
@@ -586,10 +581,7 @@ int FldMgrGetNbChampsActifs()
 
 /* -------------------------------------------------------------------------------------------------- */
 
-void FldMgrInitAnimCles(champ, dates, nbDates)
-_Champ *champ;
-char dates[][16];
-int nbDates;
+void FldMgrInitAnimCles(_Champ *champ, char dates[][16], int nbDates)
 {
     int i, j, ier;
     int ni, nj, nk;
@@ -634,9 +626,7 @@ int nbDates;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-void FldMgrInitAnimFlds(champ, nbCles)
-_Champ *champ;
-int nbCles;
+void FldMgrInitAnimFlds(_Champ *champ, int nbCles)
 {
     int k;
 
@@ -1154,9 +1144,7 @@ int FldMgrLoadVerticalXSection()
 
 /* -------------------------------------------------------------------------------------------------- */
 
-void FldMgrMessageChargementFichiers(texte, i, n)
-char texte[];
-int i, n;
+void FldMgrMessageChargementFichiers(char texte[], int i, int n)
 {
   char tmptexte[128];
   int largeurFenetre, hauteurFenetre;
@@ -1265,9 +1253,7 @@ int i, n;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-int FldMgrPreparerCoupe(champ, rx1, ry1, rx2, ry2)
-_Champ *champ;
-float *rx1,*ry1,*rx2,*ry2;
+int FldMgrPreparerCoupe(_Champ *champ, float *rx1, float *ry1, float *rx2, float *ry2)
 {
   int i,j;
   int i1, j1, i2, j2;
@@ -1499,9 +1485,7 @@ float *rx1,*ry1,*rx2,*ry2;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-int FldMgrPreparerSerie(champ, rx1, ry1, rx2, ry2)
-_Champ *champ;
-float *rx1,*ry1,*rx2,*ry2;
+int FldMgrPreparerSerie(_Champ *champ, float *rx1, float *ry1, float *rx2, float *ry2)
 {
   int i,j;
   int i1, j1, i2, j2;
@@ -1791,8 +1775,7 @@ void FldMgrProcessChamp(_Champ *champ)
 
 /* -------------------------------------------------------------------------------------------------- */
 
-void FldMgrRemoveChamp(indChamp)
-    int indChamp;
+void FldMgrRemoveChamp(int indChamp)
 {
   FldMgrFreeAllFlds(&fmflds[indChamp]);
   memset((char *) &fmflds[indChamp], '\0', sizeof(_Champ));
@@ -1802,11 +1785,9 @@ void FldMgrRemoveChamp(indChamp)
 
 /* -------------------------------------------------------------------------------------------------- */
 
-int FldMgrReorgAnimCles(champ, dates, nbDates)
-    _Champ *champ;
-    char dates[][16];
-    int nbDates;
+int FldMgrReorgAnimCles(_Champ *champ, char dates[][16], int nbDates)
 {
+   return 0;
   /*  int i, j, trouve;
       _Champ bidon;
 
@@ -1902,8 +1883,7 @@ int FldMgrReorgAnimCles(champ, dates, nbDates)
 
 /* -------------------------------------------------------------------------------------------------- */
 
-int FldMgrReplaceChamp(cle, iun)
-int cle, iun;
+int FldMgrReplaceChamp(int cle, int iun)
 {
   int i, ier;
   int cleTrouvee = False;
@@ -1954,9 +1934,7 @@ int cle, iun;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-void FldMgrTrierClesSelonIP1(listeCles, nbCles)
-int listeCles[];
-int *nbCles;
+void FldMgrTrierClesSelonIP1(int listeCles[], int *nbCles)
 {
   _Champ *tmp, tmpswap;
   int i,j;
@@ -2038,8 +2016,7 @@ int *nbCles;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-void FldMgrUpdateFldParams(champ)
-_Champ *champ;
+void FldMgrUpdateFldParams(_Champ *champ)
 {
   int lng;
   static char *Mois[] = {"bid", "janvier", "fevrier", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre", "octobre", "novembre", "decembre"};
@@ -2349,10 +2326,7 @@ void FldMgrUpdateGridParams(_Champ *champ)
 
 /* -------------------------------------------------------------------------------------------------- */
 
-void FldMgrVerConsistanceGrilles(champ, listeCles, nbCles)
-_Champ champ;
-int listeCles[];
-int *nbCles;
+void FldMgrVerConsistanceGrilles(_Champ champ, int listeCles[], int *nbCles)
 {
   int i, ivalide;
   _Champ bidon;
@@ -2379,8 +2353,7 @@ int *nbCles;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-int FldMgrVerConsistanceNiveauxChamps(indiceFautif)
-int *indiceFautif;
+int FldMgrVerConsistanceNiveauxChamps(int *indiceFautif)
 {
   int  n, ichamps[NB_MAX_CHAMPS_ACTIFS], ichampsActifs;
 
@@ -2506,8 +2479,7 @@ int FldMgrPreparerTopo()
 
 /* -------------------------------------------------------------------------------------------------- */
 
-int FldMgrSetDiffMinMax(ind)
-    int ind;
+int FldMgrSetDiffMinMax(int ind)
 {
   int npts;
 
@@ -2637,9 +2609,7 @@ int FldMgrSetAnimDiffMinMax(int indChamp)
 
 /* -------------------------------------------------------------------------------------------------- */
 
-void FldMgrCalcDiffMinMax(min,max,fld1,fld2,npts)
-    float *min,*max,*fld1,*fld2;
-    int npts;
+void FldMgrCalcDiffMinMax(float *min, float *max, float *fld1, float *fld2, int npts)
 {
   float diff;
   int i;
@@ -2657,9 +2627,7 @@ void FldMgrCalcDiffMinMax(min,max,fld1,fld2,npts)
 
 /* -------------------------------------------------------------------------------------------------- */
 
-void FldMgrCalcVDiffMinMax(min,max,fld1,fld2,npts)
-float *min,*max,*fld1,*fld2;
-int npts;
+void FldMgrCalcVDiffMinMax(float *min, float *max, float *fld1, float *fld2, int npts)
 {
   float diff,diffuu,diffvv;
   int i;
@@ -2682,8 +2650,7 @@ int npts;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-void FldMgrSetCoupeMinMax(ind)
-int ind;
+void FldMgrSetCoupeMinMax(int ind)
 {
   int i,j,n, npts;
   float *tmpmod = NULL;
@@ -2784,8 +2751,7 @@ int ind;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-int FldMgrSetDiffCoupeMinMax(ind)
-int ind;
+int FldMgrSetDiffCoupeMinMax(int ind)
 {
   int i,j,npts;
   float opmin[5],opmax[5];
@@ -2916,8 +2882,7 @@ void FldMgrCalcPDFDatev(char pdfdatev[], int *datev, int dateo, int deet,int npa
 
 /* -------------------------------------------------------------------------------------------------- */
 
-void FldMgrRescaleWW(n,echelleWW,oldEchelleWW)
-int n,echelleWW,oldEchelleWW;
+void FldMgrRescaleWW(int n, int echelleWW, int oldEchelleWW)
 {
   int i,j,npts;
   float *ww,newscale;
@@ -2952,8 +2917,7 @@ int n,echelleWW,oldEchelleWW;
 
 /* -------------------------------------------------------------------------------------------------- */
 
-void FldMgrCalcMinMaxUVW(indChamp)
-  int indChamp;
+void FldMgrCalcMinMaxUVW(int indChamp)
 {
   int n,npts,un,zero,i,j;
 

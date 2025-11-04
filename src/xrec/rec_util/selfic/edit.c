@@ -603,8 +603,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XEditFermer(w, client, data)
-Widget w; XtPointer client, data;
+static void XEditFermer(Widget w, XtPointer client, XtPointer data)
 {
    XtUnmapWidget(Edit.toplevel);
    XFlush(XtDisplay(Edit.toplevel));
@@ -701,8 +700,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XEditEnleveListe (w, client, data )
-Widget w; XtPointer client, data;
+static void XEditEnleveListe (Widget w, XtPointer client, XtPointer data)
 {
  int i, nb_delete;
  Arg args[1];
@@ -775,8 +773,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-void XEditEnleveTout ( w, client, data)
-Widget w; XtPointer client, data;
+void XEditEnleveTout (Widget w, XtPointer client, XtPointer data)
 {
  Arg arg[1];
  int i, nombre;
@@ -824,8 +821,7 @@ VALEURE RETOURNEE:      Le widget ID du plus vieil ancetre de la fenetre
 
 LIBRAIRIES :            Motif
 ------------------------------------------------------------------------------*/
-static Widget TrouverWidgetParent(eventWindow)
-Window  eventWindow; /* La fenetre ou l'evenment X s'est produit. */
+static Widget TrouverWidgetParent(Window  eventWindow) /* La fenetre ou l'evenment X s'est produit. */
 {
    Widget  widgetCourant; /* Le widget ou l'evenement X s'est produit.   */
    Widget  widgetParent;  /* L'ancetre du widget ou evenement X s'est produit.*/

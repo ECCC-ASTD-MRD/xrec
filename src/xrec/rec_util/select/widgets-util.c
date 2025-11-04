@@ -22,8 +22,7 @@
 #include <Xm/Xm.h>
 #include "rec_functions.h"
 
-void InitPixelsCouleursDeBase(indCouleurs)
-Pixel indCouleurs[];
+void InitPixelsCouleursDeBase(Pixel indCouleurs[])
 {
    Display *disp;
    Colormap cmap;
@@ -60,8 +59,7 @@ Pixel indCouleurs[];
    indCouleurs[8] = exact.pixel;
    }
 
-void InvertWidget(w)
-Widget w;
+void InvertWidget(Widget w)
 {
    int i;
    Pixel back, fore;
@@ -83,8 +81,7 @@ Widget w;
 
 
 
-void AjusterPositionForme(w, wp)
-Widget w, wp;
+void AjusterPositionForme(Widget w, Widget wp)
 {
    Position i,x,y,wWidth,wHeight, wpWidth, wpHeight;
    Position displayWidth, displayHeight;

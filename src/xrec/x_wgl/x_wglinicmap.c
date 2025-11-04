@@ -194,10 +194,7 @@ void x_wglinicmap()
 } 
 
 
-int MatchColorIndexX(r, g, b, colorTable, colDebut, colFin)
-     int r, g, b;
-     XColor colorTable[];
-     int   colDebut, colFin;
+int MatchColorIndexX( int r, int g, int b, XColor colorTable[], int colDebut, int colFin)
 {
    int i, iMin;
    int dr, dg, db, diff, minDiff;

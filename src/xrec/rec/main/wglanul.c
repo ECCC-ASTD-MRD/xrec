@@ -137,8 +137,7 @@ void UnsetIgnoreMode()
   ignoreMode = FALSE;
    }
 
-void SetCurseur(window)
-Window window;
+void SetCurseur(Window window)
 {
 #ifdef X_WGL
    static int i = 0;

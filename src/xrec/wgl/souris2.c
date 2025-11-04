@@ -138,9 +138,7 @@ int AnalyserDeplacement(int *x1, int *y1, int *x2, int *y2)
  ******************************************************************************
  **/
 
-void DefCoordsFenetre(x0, y0, xsize, ysize, AspectRatio)
-int *x0, *y0, *xsize, *ysize; 
-float *AspectRatio;
+void DefCoordsFenetre(int *x0, int *y0, int *xsize, int *ysize, float *AspectRatio)
 {
    int w,h;
 
@@ -197,10 +195,7 @@ void EnterOverlayMode()
  ******************************************************************************
  **/
 
-void TracerObjet(x1, y1, x2, y2, AspectRatio, objet)
-int *x1, *y1, *x2, *y2;
-float *AspectRatio;
-int objet;
+void TracerObjet(int *x1, int *y1, int *x2, int *y2, float *AspectRatio, int objet)
 {
    switch (objet)
       {
@@ -247,10 +242,7 @@ int objet;
  ******************************************************************************
  **/
 
-void initMenu(menustr, menutable, menulength, nmenus)
-char *(*menustr);
-char menutable[];
-int   menulength, nmenus;
+void initMenu(char *(*menustr), char menutable[], int menulength, int nmenus)
 {
    char **menuItems;
    int i, j, longueurTotale;
@@ -306,8 +298,7 @@ int   menulength, nmenus;
  ******************************************************************************
  **/
 
-int strclean(str)
-char str[];
+int strclean(char str[])
 {
    short i, j, iinit, jinit;
    
@@ -327,15 +318,15 @@ char str[];
    
    if (j != jinit)
       str[j+1] = '\0';
-   }
+
+   return 0;
+}
 /**
 ******************************************************************************
 ******************************************************************************
 **/
 
-void RespecterAspectRatio(x1, y1, x2, y2, AspectRatio)
-int *x1, *y1, *x2, *y2;
-float *AspectRatio;
+void RespecterAspectRatio(int *x1, int *y1, int *x2, int *y2, float *AspectRatio)
 {
    int  delx, dely;
 
@@ -384,8 +375,7 @@ float *AspectRatio;
 ******************************************************************************
 **/
 
-void RestoreBackupPoints(x1,y1,x2,y2,backupx1,backupy1,backupx2,backupy2)
-int  *x1, *y1, *x2, *y2, *backupx1, *backupy1, *backupx2, *backupy2;
+void RestoreBackupPoints(int *x1, int *y1, int *x2, int *y2, int *backupx1, int *backupy1, int *backupx2, int *backupy2)
 {
    *x1 = *backupx1;
    *y1 = *backupy1;
@@ -419,8 +409,7 @@ void RestoreNormalMode()
 ******************************************************************************
 **/
 
-void SetBackupPoints(backupx1, backupy1, backupx2, backupy2, x1, y1, x2, y2) 
-int  *backupx1, *backupy1, *backupx2, *backupy2, *x1, *y1, *x2, *y2; 
+void SetBackupPoints(int *backupx1, int *backupy1, int *backupx2, int *backupy2, int *x1, int *y1, int *x2, int *y2)
 {
 *backupx1 = *x1;
 *backupy1 = *y1;
@@ -591,10 +580,7 @@ int f77name(souris)(int *bouton, int *event, int *x0, int *y0, int *xsize, int *
  ******************************************************************************
  **/
 
-void trackmouse(bouton, x1, y1, x2, y2, AspectRatio, objet)
-int *bouton, *x1, *y1, *x2, *y2;
-float *AspectRatio;
-int    objet;
+void trackmouse(int *bouton, int *x1, int *y1, int *x2, int *y2, float *AspectRatio, int objet)
 {
    int StatutSouris;
    int oldx2, oldy2;
@@ -644,10 +630,7 @@ int    objet;
 ******************************************************************************
 **/
 
-int f77name(minisouris)(bouton, event, x0, y0, xsize, ysize, x1, y1, x2, y2)
-int *bouton, *event;
-int *x0, *y0, *xsize, *ysize;
-int *x1, *y1, *x2, *y2;
+int f77name(minisouris)(int *bouton, int *event, int *x0, int *y0, int *xsize, int *ysize, int *x1, int *y1, int *x2, int *y2)
 {
    float AspectRatio;
    int   Deplacement, Confirmation;

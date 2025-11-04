@@ -89,10 +89,7 @@ void get_sea_logo_size(int *largeurLogo, int *hauteurLogo)
    }
 
 
-void draw_logo(idebut, jdebut, width, height, bits, fore)
-int idebut, jdebut, width, height;
-char bits[];
-int fore;
+void draw_logo(int idebut, int jdebut, int width, int height, char bits[], int fore)
 {
    int i,j,k,n;
    int bytes_per_line;

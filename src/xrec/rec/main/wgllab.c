@@ -53,8 +53,7 @@
 static int fz;
 
 
-void SetLabFontSize(size)
-int size;
+void SetLabFontSize(int size)
 {
    fz = size;
    }
