@@ -635,10 +635,11 @@ gdImageCreateFromGd2PartCtx (gdIOCtx * in, int srcx, int srcy, int w, int h)
 		    {
 		      if (im->trueColor)
 			{
-                           ch = ( ( chunkBuf[chunkPos++] << 24 ) +
-                                  ( chunkBuf[chunkPos++] << 16 ) +
-                                  ( chunkBuf[chunkPos++] << 8 ) +
-                                  chunkBuf[chunkPos++] );
+                           int a = chunkBuf[chunkPos++] << 24;
+                           int r = chunkBuf[chunkPos++] << 16;
+                           int g = chunkBuf[chunkPos++] << 8;
+                           int b = chunkBuf[chunkPos++];
+                           ch = a + r + g + b;
 			}
 		      else
 			{
