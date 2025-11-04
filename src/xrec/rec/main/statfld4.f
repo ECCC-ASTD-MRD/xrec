@@ -58,21 +58,25 @@ c
 c ** On calcule la moyenne.
 c
       sum = 0.0
-      do 1 k=1,nk-ks
-         do 1 j=1,nj-js
-            do 1 i=1,ni-is
-         sum = sum + f(i,j,k)
- 1    continue
+      do k=1,nk-ks
+         do j=1,nj-js
+            do i=1,ni-is
+               sum = sum + f(i,j,k)
+            enddo
+         enddo
+      enddo
       moy = sum / float(ni*nj*nk)
 c
 c ** On calcule la variance
 c
       sum = 0.0
-      do 2 k=1,nk-ks
-         do 2 j=1,nj-js
-            do 2 i=1,ni-is
+      do k=1,nk-ks
+         do j=1,nj-js
+            do i=1,ni-is
                sum = sum + ((f(i,j,k) - moy)*(f(i,j,k) - moy))
- 2    continue
+            enddo
+         enddo
+      enddo
       var = sqrt (sum / float(ni*nj*nk))
 c
 c ** On identifie le minimum et le maximum.
@@ -86,9 +90,9 @@ c
       max = f(1,1,1)
       min = f(1,1,1)
 c
-      do 3 k=1,nk-ks
-         do 3 j=1,nj-js
-            do 3 i=1,ni-is
+      do k=1,nk-ks
+         do j=1,nj-js
+            do i=1,ni-is
                if (f(i,j,k) .gt. max) then
                   max  = f(i,j,k)
                   imax = i
@@ -101,7 +105,9 @@ c
                   jmin = j
                   kmin = k
                endif
- 3    continue
+            enddo
+         enddo
+      enddo
 c       
 c ** On imprime
 c 

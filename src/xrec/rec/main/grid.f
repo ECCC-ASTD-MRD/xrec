@@ -468,12 +468,14 @@
       if (ni.eq.1) then
          do 100 j=1,nj
             do 100 k=1, nk
- 100           buffer(j,k) = fld(1,j,k)
+               buffer(j,k) = fld(1,j,k)
+ 100        continue
       endif
       if (nj.eq.1) then
          do 200 i=1,ni
             do 200 k=1, nk
- 200           buffer(i,k) = fld(i,1,k)
+               buffer(i,k) = fld(i,1,k)
+ 200        continue
       endif
       return
       end

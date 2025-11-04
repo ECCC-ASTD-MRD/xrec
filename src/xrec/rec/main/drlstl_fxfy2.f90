@@ -420,8 +420,9 @@
       allocate(ir(nr))
 !
       cv = conv
-      do 5 i = 1, nr
-5     ir ( irbase + i - 1 ) = 0
+      do i = 1, nr
+        ir ( irbase + i - 1 ) = 0
+      enddo
 !
       do 10 i=mdeb+1,mfin
          if(between(z(i-1,1),cv,z(i,1))) then
@@ -461,8 +462,8 @@
          endif
 20    continue
 !
-      do 100 j=ndeb+1,nfin-1
-      do 100 i=mdeb,mfin-1
+      do j=ndeb+1,nfin-1
+      do i=mdeb,mfin-1
 !
          if(between(z(i,j),cv,z(i+1,j))) then
             nobit = lf*((j-1)*(m*(lf+1)-1)+(i-1))
@@ -480,7 +481,8 @@
             endif
          endif
 !
-100   continue
+      enddo
+      enddo
 !
 !     liberation de 500 mots de memoire ( tableau "ir" ) car cet espace
 !     reserve est maintenant inutile a la poursuite du tracage des
