@@ -41,5 +41,5 @@ int f77name(wglopmw)(char nomFenetre[], int *wglWinID, F2Cl flenNomFenetre)
 
 int c_wglopmw(char *nomFenetre, int wglWinID)
 {
-  wglc_wgl->wglopmw(nomFenetre, wglWinID);
+   return wglc_wgl->wglopmw(nomFenetre, wglWinID);
 }

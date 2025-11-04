@@ -139,6 +139,7 @@ int InitFonte(int fontSize)
    
    currentFontSize = fontSize;
    XSetFont(wglDisp, wglLineGC, fonte->fid); 
-   
+
+   return 0;
    }
 

@@ -22,5 +22,5 @@
 
 int c_wglgetcmap(Colormap *colormap)
 {
-  wglc_wgl->wglgetcmap(colormap);
+  return wglc_wgl->wglgetcmap(colormap);
    }

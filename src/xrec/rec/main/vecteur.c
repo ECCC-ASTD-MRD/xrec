@@ -105,6 +105,7 @@ int c_checkIfVectorVar(char lnomvar[])
     {
     return -1;
     }
+  return 0;
   }
   
 int c_getVectorVars(char lnomvar[], char uu[], char vv[], char ww[])

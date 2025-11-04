@@ -38,6 +38,7 @@ int ThisIsTheCurrentGrid(char newgrtyp, int newni, int newnj, int newnk,
    ig3 = newig3;
    ig4 = newig4;
 
+   return 0;
 }
 
 int HasGridChanged(char newgrtyp, int newni, int newnj, int newnk, 

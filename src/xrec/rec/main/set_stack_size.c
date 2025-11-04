@@ -21,5 +21,6 @@ int f77name(setstacksize) (int *stacksizeinmb)
             }
         }
     }
+    return 0;
 }
 

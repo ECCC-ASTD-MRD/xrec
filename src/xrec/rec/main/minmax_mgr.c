@@ -105,5 +105,7 @@ int GetMinMaxUV(float *uvmin, float *uvmax)
 	}
       }
     }
+
+  return 0;
 }
 

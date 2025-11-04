@@ -38,5 +38,6 @@ int x_wglptxs(float *xxx, float *yyy, int *npts)
     XDrawPoints(wglDisp, wglDrawable, wglLineGC, (XPoint *) p, imax, CoordModeOrigin);
     
     }
+  return 0;
 }
 

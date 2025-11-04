@@ -31,6 +31,6 @@ int f77name(wglgci)()
 
 int c_wglgci()
 {
-   wglc_wgl->wglgci();
+   return wglc_wgl->wglgci();
    }
 

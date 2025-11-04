@@ -116,5 +116,7 @@ int c_wglgvx(float *xdebut, float *ydebut, float *xfin, float *yfin)
       default:
       break;
       }
-   }
+
+   return 0;
+}
 

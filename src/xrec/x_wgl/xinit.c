@@ -57,7 +57,8 @@ int f77name(xinit)(char nomApplication[],F2Cl  flenNomApplication)
    copieNomApplication[lenNomApplication] = '\0';
 
    Xinit(copieNomApplication);
-    
+
+   return 0; 
    }
 
 /**

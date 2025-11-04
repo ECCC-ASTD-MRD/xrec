@@ -32,5 +32,5 @@ int f77name(wglgpl)()
 int c_wglgpl()
 {
 
-  wglc_wgl->wglgpl();
+ return wglc_wgl->wglgpl();
    }

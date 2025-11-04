@@ -585,6 +585,7 @@ int32_t ActiverSelWidgets()
       {
       XtSetValues(xs[wi].deselectionnerRecs, args, i); 
       }
+   return 0;
    }
 /*======================================================================================================*/
 /**
@@ -695,7 +696,8 @@ int32_t AjouterCle(cleStruct cles[], int32_t pos, int32_t indDes, int32_t indCle
    nbElem                                       = ++cles[indDes].cleInfo[pos].nbOccur;
    cles[indDes].cleInfo[pos].ind                = (int32_t *)realloc(cles[indDes].cleInfo[pos].ind, nbElem*sizeof(int));
    cles[indDes].cleInfo[pos].ind[nbElem - 1]    = indCle;
-   }
+   return 0;
+}
 /*======================================================================================================*/
 /**
 ******************************************************************************
@@ -724,6 +726,7 @@ int32_t AjouterFiltre(int32_t indDes, int32_t indCle)
    xs[wi].filtres[xs[wi].nbFiltres].indDes = indDes;
    xs[wi].filtres[xs[wi].nbFiltres].indCle = indCle;
    xs[wi].nbFiltres++;
+   return 0;
    }
 /*======================================================================================================*/
 /**
@@ -775,6 +778,7 @@ int32_t AjouterNouvelleCle(char *val, int32_t len, cleStruct cles[], int32_t ind
    cles[indDes].cleInfo[ClesInd].val[len]       = '\0';
    cles[indDes].cleInfo[ClesInd].xmVal            = XmStringCreate(cles[indDes].cleInfo[ClesInd].val,
                                                                                 XmSTRING_DEFAULT_CHARSET);
+   return 0;
    }
 /*======================================================================================================*/
 
@@ -949,6 +953,7 @@ int32_t DesactiverSelWidgets()
       XtSetValues(xs[wi].deselectionnerRecs, args, i); 
       }
 
+   return 0;
    }
 /*======================================================================================================*/
 /**
@@ -1018,6 +1023,7 @@ int32_t EnleverFiltre(int32_t indDes, int32_t indCle)
 
    for (i = indFiltre; i < xs[wi].nbFiltres; i++)
       xs[wi].filtres[i] = xs[wi].filtres[i + 1];
+   return 0;
    }
 /*======================================================================================================*/
 /**
@@ -1124,6 +1130,7 @@ int32_t FreeCles(cleStruct cles[], int32_t n)
       cles[i].nbCles = 0;
       }
 
+   return 0;
    }
 /*======================================================================================================*/
 /**
@@ -1182,6 +1189,7 @@ int32_t LibererPointeurs()
       xs[wi].filtres = NULL;
       }
 
+   return 0;
    }
 
 /*======================================================================================================*/
@@ -1241,6 +1249,7 @@ int32_t Freerecs(XmString *(**recs), int32_t nbDes)
       free(*recs);
       *recs = NULL;
       }
+   return 0;
    }
 /*======================================================================================================*/
 /**
@@ -1342,6 +1351,7 @@ int32_t InitCles(char *tableau, int32_t  table[][3], cleStruct cles[], int32_t n
    for (i = 0; i < nbDes; i++)
       qsort((char *)cles[i].cleInfo, cles[i].nbCles, sizeof(cleInfoStruct), ComparerCles);
 **/
+   return 0;
   }
 /*======================================================================================================*/
 /**
@@ -1448,6 +1458,7 @@ int32_t InitRecs(XmString *(**recs), cleStruct cles[], int32_t nbRecs, int32_t n
             (*recs)[i][cles[i].cleInfo[j].ind[k]] = cles[i].cleInfo[j].xmVal;
             }
    
+   return 0;
    }
 /*======================================================================================================*/
 /**
@@ -1577,6 +1588,7 @@ int32_t  InitTitresMenus(char *idents[], int32_t nbDes)
      xs[wi].titresMenus[i] = XmStringCreate(idents[i], XmSTRING_DEFAULT_CHARSET);
     }
    
+   return 0;
 }
 /*======================================================================================================*/
 /**
@@ -1601,6 +1613,7 @@ int32_t InitWidgetsAll1(XmString TitresMenus[], int32_t nbRecsFiltres, int32_t n
    InitWidgetsForm();
    InitWidgetsBouton();
    
+   return 0;
    }
 /*======================================================================================================*/
 
@@ -1609,6 +1622,7 @@ int32_t InitWidgetsAll2(XmString TitresMenus[], int32_t nbRecsFiltres, int32_t n
 {
    InitWidgetsMenu(TitresMenus, nbDes);
    InitWidgetsRec(nbRecsFiltres, nbDes);
+   return 0;
    }
 /*======================================================================================================*/
 /**
@@ -1653,6 +1667,7 @@ int32_t InitWidgetsBasic()
                                         XtDisplay(SuperWidget.topLevel),
                                         args, i);
 
+   return 0;
    }
 
 /*======================================================================================================*/
@@ -1862,6 +1877,7 @@ int32_t InitWidgetsCallback(int32_t nbDes)
    XtAddCallback(xs[wi].panRetour, XmNactivateCallback, SelectionListeTerminee, NULL);
    XtAddCallback(xs[wi].panEffacerFiltres, XmNactivateCallback, EffacerFiltresSeulement, NULL);
    
+   return 0;
    }
 /*======================================================================================================*/
 /**
@@ -2222,6 +2238,7 @@ int32_t InitWidgetsRec(int32_t nbRecsFiltres,  int32_t nbDes)
                                         args, i);
    XtManageChild(xs[wi].liste);
 
+   return 0;
    }
 
 
@@ -2633,6 +2650,7 @@ int32_t XSelectstdFermer(int32_t  sel[], int32_t  *nbsel, char **idents, int32_t
    XFlush(XtDisplay(xs[wi].topLevel));
    XtDestroyWidget(xs[wi].topLevel);
    LibererPointeurs();
+   return 0;
    }
 /*======================================================================================================*/
 /*======================================================================================================**

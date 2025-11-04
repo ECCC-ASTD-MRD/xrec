@@ -47,5 +47,6 @@ int LocalEventLoop(Widget topLevelWidget)
 	 }
       
       }
-      
+
+   return 0;
    }

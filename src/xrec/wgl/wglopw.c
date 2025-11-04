@@ -40,7 +40,7 @@ int f77name(wglopw)(char nomFenetre[], F2Cl flenNomFenetre)
 int c_wglopw(char *nomFenetre)
 {
   c_wglinit();
-   wglc_wgl->wglopw(nomFenetre); 
+   return wglc_wgl->wglopw(nomFenetre); 
 
    }
 

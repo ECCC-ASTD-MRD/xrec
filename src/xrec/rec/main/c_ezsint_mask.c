@@ -47,6 +47,7 @@ int c_rec_ezsint_mask(unsigned int *maskout, unsigned int *maskin, int gdin, int
   free(fmask_in);
   free(fmask_out);
   free(imask_out);
+  return 0;
   }
 
 int compact_mask(unsigned int *dest, int *src, int npts)
@@ -68,6 +69,7 @@ int compact_mask(unsigned int *dest, int *src, int npts)
     dest[entier] |= (src[i] << fraction);
 /*    dest[entier] = SETMSK(src,i);*/
     }
+  return 0;
   }
 
 int uncompact_mask(int *dest, unsigned int *src, int npts)
@@ -80,4 +82,5 @@ int uncompact_mask(int *dest, unsigned int *src, int npts)
     fraction = i - (entier << 5);
     dest[i] = (src[entier]  & (1 << fraction)) >> fraction;
     }
+  return 0;
   }

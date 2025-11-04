@@ -33,15 +33,15 @@ void f77name(wglcolf)(float *couleur)
 
 unsigned int c_wglcolf(float couleur)
 {
-  wglc_wgl->wglcolf(couleur);
+  return wglc_wgl->wglcolf(couleur);
 }
 
 unsigned int c_wglcolfs(float *cols, unsigned int *pixels, int n)
 {
-  wglc_wgl->wglcolfs(cols, pixels, n);
+  return wglc_wgl->wglcolfs(cols, pixels, n);
 }
 
 unsigned int c_wglcolfs_fst(float *cols, unsigned int *pixels, int n)
 {
-  wglc_wgl->wglcolfs_fst(cols, pixels, n);
+  return wglc_wgl->wglcolfs_fst(cols, pixels, n);
 }

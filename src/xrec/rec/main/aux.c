@@ -60,9 +60,8 @@ XFontStruct *chargerLaFonte(Display *display, char fontName[])
 
   if (fontStruct == 0)
      fprintf(stderr, "Cette fonte n'est pas disponible\n");
-  else
-     return(fontStruct);
 
+  return(fontStruct);
 }
 
 

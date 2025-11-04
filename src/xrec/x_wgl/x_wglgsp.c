@@ -24,4 +24,5 @@ int x_wglgsp(float *xdebut, float *ydebut, float *xfin, float *yfin, int   *ideb
 {
    x_wglgsx(xdebut, ydebut, xfin, yfin);
    x_wglgsi(idebut, jdebut, ifin, jfin);
+   return 0;
    }
