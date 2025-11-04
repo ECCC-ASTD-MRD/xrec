@@ -214,13 +214,14 @@
 c     ****************************************************************
 c     **                                                            **
 c     ****************************************************************
-      subroutine recopnf(nbrecs, val, def, lnkdiun, nf)
+      subroutine recopnf(nbrecs, val, def, lnkdiun, nfarg)
       implicit none
       integer nbrecs
-      character(len=256),dimension(nf) :: val, def
+      character(len=256),dimension(nfarg) :: val, def
       character(len=256) :: str
       integer tol
       integer lnkdiun(*)
+      integer nfarg
       integer nf
       integer i, ier, niun, nrecs, nrecs2
       integer, dimension(:), allocatable :: liste
@@ -228,16 +229,17 @@ c     ****************************************************************
       integer ni, nj, nk, fstopi
       external fnom, fstouv, fstinl, fstopi, fstnbr
       logical flag
+      nf=nfarg
       if (nf.eq.0) then
          nbrecs = 0
          return
       endif
       nf = 1
- 33   if (val(nf).ne.def(nf)) then
+ 33   if (val(nf).ne.def(nf).and.(nf.lt.nfarg)) then
          nf = nf +1
          goto 33
       endif
-      nf = nf -1
+!      nf = nf-1
       do 34 i=1, nf
          str = trim(val(i))
 !         print *, len(str),len_trim(str)
