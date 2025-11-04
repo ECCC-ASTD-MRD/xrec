@@ -25,7 +25,7 @@ char *
 gdImageStringTTF (gdImage * im, int *brect, int fg, char *fontlist,
 		  double ptsize, double angle, int x, int y, char *string)
 {
-  gdImageStringFT (im, brect, fg, fontlist, ptsize,
+  return gdImageStringFT (im, brect, fg, fontlist, ptsize,
 		   angle, x, y, string);
 }
 
