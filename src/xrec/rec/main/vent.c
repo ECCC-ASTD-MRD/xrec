@@ -224,7 +224,7 @@ void CheckForWW(_Champ *champ)
     ier = c_fstlir(ttptr, champ->iun, &ni, &nj, &nk, datev, champ->etiket, champ->ip1, champ->ip2, champ->ip3, champ->typvar, tt);
     if (ier < 0)
       {
-      fprintf(stderr,"%s-%f-%s\n","<LoadWW> Level: ", champ->ip1, 
+      fprintf(stderr,"%s-%d-%s\n","<LoadWW> Level: ", champ->ip1, 
         "Cannot read associated temperature field\nApproximating the density\n\n");
       rho = empirique[0] + niveau * empirique[1] + niveau * niveau * empirique[2];
       for (i=0; i < champ->src.ni*champ->src.nj; i++)

@@ -146,12 +146,12 @@
  4    format(3i16)
  5    format(128a)
  6    format(40a)
- 10   format(a2,4x, a1, 4x, i5, 2x, i5, x, i4,
-     *       x, a8, 2x, i9.9)
- 11   format(a2,4x, a1, 4x, i5, 2x, i5, x, i4,
-     *       x, a8, 2x, i2.2,a4,i2.2,'-',i2.2,'Z')
- 12   format(a2,4x, a1, 4x, i5, 2x, i5, x, i4,
-     *       x, a8, 2x,i2.2,a3,i2.2,'-',i2.2,'Z')
+ 10   format(a2,4x, a1, 4x, i5, 2x, i5, 1x, i4,
+     *       1x, a8, 2x, i9.9)
+ 11   format(a2,4x, a1, 4x, i5, 2x, i5, 1x, i4,
+     *       1x, a8, 2x, i2.2,a4,i2.2,'-',i2.2,'Z')
+ 12   format(a2,4x, a1, 4x, i5, 2x, i5, 1x, i4,
+     *       1x, a8, 2x,i2.2,a3,i2.2,'-',i2.2,'Z')
       return
       end
 c     ****************************************************************

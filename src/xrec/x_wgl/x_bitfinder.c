@@ -55,7 +55,7 @@ void printbidon(char *string, float xxx1, float yyy1, float xxx2, float yyy2,
 void printbidonetoile(char *string, float *xxx1, float *yyy1, float *xxx2, float *yyy2, 
 	   int *iii1, int *jjj1, int *iii2, int *jjj2)   
 {
-  printf("*** %s: %x %x %x %x - %x %x %x %x \n", string, xxx1, yyy1, xxx2, yyy2, iii1, jjj1, iii2, jjj2);
+  printf("*** %s: %p %p %p %p - %p %p %p %p \n", string, xxx1, yyy1, xxx2, yyy2, iii1, jjj1, iii2, jjj2);
   printf("*** %s: %f %f %f %f - %d %d %d %d \n", string, *xxx1, *yyy1, *xxx2, *yyy2, *iii1, *jjj1, *iii2, *jjj2);
 }
 
