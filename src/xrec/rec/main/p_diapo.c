@@ -74,7 +74,7 @@ static char *labelTaille[] = {"Agrandissement","Enlarge"};
 static char *labelTaillePixels[]   = {"Taille (pixels)  ","Size (pixels)   "};
 static char *labelNomFichier[] =     {"Fichier (PNG):","File (PNG):"};
 static char *labelProduire[] = {"Generer Image","Export Image"};
-static char *captureCompletee[] = {"Capture complétée", "Capture complete"};
+static char *captureCompletee[] = {"Capture completee", "Capture complete"};
 
 
 char panneauDiapoGeometrie[32];
