@@ -24,7 +24,7 @@ void x_wglgwz(int *isize, int *jsize)
 {
    Window root;
    int x, y;
-   int border,depth;
+   unsigned int border,depth;
 
    XGetGeometry(wglDisp,wglDrawable, &root, &x,&y,isize,jsize,&border,&depth);
    w  = *isize;

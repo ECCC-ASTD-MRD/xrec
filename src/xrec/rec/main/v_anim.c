@@ -519,8 +519,8 @@ int VAllouerImages()
 	 for (j=0; j <= i; j++)
 	    {
 	    XFreePixmap(wglDisp, animInfo.pixmaps[j]);
-	    animInfo.pixmaps[j] = (int)NULL;
-	    animInfo.flagsImagesChargees[j] = (int)NULL;
+	    animInfo.pixmaps[j] = 0;
+	    animInfo.flagsImagesChargees[j] = 0;
 	    }
 	 wglWin = c_wglgacw();
 	 XResizeWindow(wglDisp,wglWin,nouvelleLargeur,nouvelleHauteur);

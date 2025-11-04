@@ -3085,7 +3085,7 @@ int FldMgrFlagMissingValues(_Champ *champ)
                &datyp, &ip1, &ip2, &ip3, typvar, nomvar, etiket, grtyp,
                &ig1, &ig2, &ig3, &ig4,&swa, &lng, &dltf, &ubc,&extra1, &extra2, &extra3);
 
-      src_missing = (int *) malloc(npts_src*sizeof(int));
+      src_missing = (unsigned int *) malloc(npts_src*sizeof(int));
 
       if (datyp == 1 || datyp == 134)
          {

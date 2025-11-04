@@ -22,7 +22,6 @@
 #include <wgl.h>
 #include <x_wglfonct.h>
 #include <gd_wglfonct.h>
-int wglscon_gd();
 
 _wglContexte wglc_x, wglc_gd, wglc_gl, wglc_ps, *wglc_wgl;
 
@@ -178,7 +177,7 @@ void c_wglscon_x()
   wglc_wgl = &wglc_x;
 }
 
-int wglscon_gd()
+void wglscon_gd()
 {
    /*
   wglc_gd.graphics_library = 1;
@@ -246,11 +245,11 @@ int wglscon_gd()
    */
 }
 
-int wglscon_gl()
+void wglscon_gl()
 {
 }
 
 
-int wglscon_ps()
+void wglscon_ps()
 {
 }

@@ -136,7 +136,7 @@ void x_wglgsx(float *idebut, float *jdebut, float *ifin, float *jfin);
 int x_wglgzx(float *xsize, float *ysize);
 int InitFonte(int fontSize);
 int FlusherTousLesEvenements(void);
-unsigned char x_invertChar(int nombre);
+unsigned char x_invertChar(unsigned char nombre);
 void f77name(x_wwwlpt)(char *patfil, F2Cl);
 int MatchColorIndexX(int r, int g, int b, XColor colorTable[], int colDebut, int colFin);
 void wglmapc(int colorIndex, int r, int g, int b);

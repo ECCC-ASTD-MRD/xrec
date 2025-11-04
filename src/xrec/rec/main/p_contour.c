@@ -899,7 +899,7 @@ void InitPanneauContour()
     string = XmStringCreateLtoR(pcValCentraleFontSize[lng][n], XmSTRING_DEFAULT_CHARSET); 
     XtSetArg(args[i], XmNlabelString, string); i++;
     pcTailleValeurItems[n] = XmCreatePushButton(pcOptionsTailleValeursCentrales, pcValCentraleFontSize[lng][n], args, i);
-    XtAddCallback(pcTailleValeurItems[n], XmNactivateCallback, SetCentralValueSizeToggle, (XtPointer) (XtPointer) n);
+    XtAddCallback(pcTailleValeurItems[n], XmNactivateCallback, SetCentralValueSizeToggle, (XtPointer) n);
     XmStringFree(string);   
     }
 
