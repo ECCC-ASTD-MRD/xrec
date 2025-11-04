@@ -208,7 +208,7 @@ Widget pcListeItems, pcChamps[6];
 Widget pcSeparateur1,pcSeparateur2;
 Widget pcPanneauContours,pcOptionsContours,pcContourItems[3];
 Widget pcPanneauLabels,pcOptionsLabels,pcLabelItems[3];
-Widget pcPanneauTailleLabels,pcOptionsTailleLabels,pcTailleLabelItems[5];
+Widget pcPanneauTailleLabels,pcOptionsTailleLabels,pcTailleLabelItems[6];
 Widget pcPanneauValeursCentrales,pcOptionsValeursCentrales,pcValeurItems[3];
 Widget pcPanneauTailleValeursCentrales,pcOptionsTailleValeursCentrales,pcTailleValeurItems[13];
 
