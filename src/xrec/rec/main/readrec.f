@@ -19,7 +19,7 @@
 * */
       subroutine readrec(nomfich, buffer, ni, nj, nk)
       implicit none
-      character*(*) nomfich
+      character(len=*) nomfich
       integer ni, nj, nk, ier
       real buffer(ni,nj)
       open (31,file=nomfich,access='SEQUENTIAL',

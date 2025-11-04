@@ -163,9 +163,9 @@
       INTEGER MOPRIN(30)
       EQUIVALENCE (MOPRIN(1), MOP(1,-1))
       COMMON /XSYSPL2/ MFMT(2)
-      CHARACTER *(20) MFMT
+      CHARACTER(LEN=20) MFMT
       INTEGER   IDEC(2)   ,I0SHFT(2)
-      CHARACTER *(*)   IFMTX,IFMTY
+      CHARACTER(LEN=*)   IFMTX,IFMTY
       EQUIVALENCE   (MXDEC,IDEC(1))   ,(MSHFTX,I0SHFT(1))
 *
 *----------------------------------------------------------------------
@@ -223,8 +223,8 @@
 *
 **
 *      implicit none
-      CHARACTER   *(*)  ICHARR
-      CHARACTER *1,CCC
+      CHARACTER(LEN=*)  ICHARR
+      CHARACTER(LEN=1) CCC
 *
       IN = 0
       IF((ICHARR(1:1).EQ. ' '))THEN

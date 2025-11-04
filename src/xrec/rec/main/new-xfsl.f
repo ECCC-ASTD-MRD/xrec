@@ -20,23 +20,23 @@
       integer function xfslouv(nomfich, iun, ttlrecs, winind, typesel)
       implicit none
       integer ttlrecs,ntmrecs
-      character*(*) nomfich
+      character(len=*) nomfich
       integer iun, winind, typesel
       integer ligne,maxrecs,maxdes
       parameter (ligne  = 51)
       parameter (maxrecs= 64)
       parameter (maxdes = 8)
-      character*12 idents
-      character*51 tableau
+      character(len=12) idents
+      character(len=51) tableau
       common /xfscinf/ idents(maxdes), tableau(0:maxrecs)
       integer, pointer, dimension(:) :: liste
       integer table, nrecs, nbrecs, nbdes
       common /xfsiinf/ table(3,maxdes),
      *                 liste, nrecs, nbrecs, nbdes
-      character*2 nomvar
-      character*1 typvar, grtyp
-      character*8 etiket
-      character*160  titre
+      character(len=2) nomvar
+      character(len=1) typvar, grtyp
+      character(len=8) etiket
+      character(len=160)  titre
       integer key, date0, deet, npas, ni, nj, nk, nbits, datyp
       integer ip1, ip2, ip3, swa, lng, dltf, ubc
       integer ig1, ig2, ig3, ig4, extra1, extra2, extra3
@@ -45,7 +45,7 @@
       integer xselouv, xseloup, xselins, xselouf
       integer i, j, inf
       integer m, jour, an, heure, r
-      character*4 mois(0:12), month(0:12), mm
+      character(len=4) mois(0:12), month(0:12), mm
       integer ier, ulng, getulng
       external getulng
       data (mois(i),i=0,12) /'*** ', 'Jan ','Fev ','Mar ','Avr ',
@@ -176,8 +176,8 @@ c     ****************************************************************
       parameter (ligne  = 51)
       parameter (maxrecs= 64)
       parameter (maxdes = 8)
-      character*12 idents
-      character*51 tableau
+      character(len=12) idents
+      character(len=51) tableau
       common /xfscinf/ idents(maxdes), tableau(0:maxrecs)
       integer table, listbuf, nrecs, nbrecs, nbdes
       integer, pointer, dimension(:) :: liste
@@ -198,7 +198,7 @@ c     **                                                            **
 c     ****************************************************************
       subroutine initid(idents)
       implicit none
-      character*12 idents(*)
+      character(len=12) idents(*)
       integer i, j, ulng
       integer  getulng
       external getulng
@@ -225,7 +225,7 @@ c     ****************************************************************
 *****************************************************************
       subroutine inittab(tableau, table, len)
       implicit none
-      character*51 tableau(*)
+      character(len=51) tableau(*)
       integer table(3, *)
       integer len
       table(1,1)   = 6
@@ -255,14 +255,14 @@ c     ****************************************************************
       integer function xfslupd(nomfich, iun, ttlrecs, winind, typesel)
       implicit none
       integer ttlrecs,ntmrecs,typesel
-      character*(*) nomfich
+      character(len=*) nomfich
       integer iun, winind, ier, xfslouv
       integer ligne,maxrecs,maxdes
       parameter (ligne  = 51)
       parameter (maxrecs= 64)
       parameter (maxdes = 8)
-      character*12 idents
-      character*51 tableau
+      character(len=12) idents
+      character(len=51) tableau
       common /xfscinf/ idents(maxdes), tableau(0:maxrecs)
       integer table, listbuf, nrecs, nbrecs, nbdes
       integer, pointer, dimension(:) :: liste

@@ -21,7 +21,7 @@
       implicit none
       real nivmin, nivmax
       integer echelle
-      character*(*) titrex, titrey
+      character(len=*) titrex, titrey
       call xsysdat
       CALL XDISPLA(0,2,echelle)
       CALL XANOTAT(titrex,titrey,1,3,0,0,' ')

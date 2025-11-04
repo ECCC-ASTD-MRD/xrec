@@ -31,16 +31,16 @@
 *IMPLICITES
       INTEGER IBAC,ISET,NDASH,LFRAME,IROW,LTYPE,LNDASH
       COMMON /XAUTOG1/ IBAC,ISET,NDASH,LFRAME,IROW,LTYPE,LNDASH(26)
-      CHARACTER *40 LABX,LABY,LTIT
-      CHARACTER *(16) LDASHC(26)
-      CHARACTER *10 LSYM(26)
-      CHARACTER *8  IFMTX,IFMTY
+      CHARACTER(LEN=40) LABX,LABY,LTIT
+      CHARACTER(LEN=16) LDASHC(26)
+      CHARACTER(LEN=10) LSYM(26)
+      CHARACTER(LEN=8)  IFMTX,IFMTY
       COMMON /XAUTOG3/ LABX,LABY,LTIT,LDASHC,LSYM,IFMTX,IFMTY
 *
 *----------------------------------------------------------------------
 *
       INTEGER I,NC
-      CHARACTER *40 ILAB
+      CHARACTER(LEN=40) ILAB
 *
 *----------------------------------------------------------------------
 *

@@ -20,8 +20,8 @@
 ***********************************************************************
       subroutine put2to3(fld2d,fld3d,ni,nj,nk,index)
       implicit none
-      real fld2d(ni,nj), fld3d(ni,nj,nk)
       integer ni,nj,nk,index
+      real fld2d(ni,nj), fld3d(ni,nj,nk)
       integer i,j
       do  i=1,ni
          do  j=1,nj
@@ -33,8 +33,8 @@
 ***********************************************************************
       subroutine put3to2(fld2d,fld3d,ni,nj,nk,index)
       implicit none
-      real fld2d(ni,nj), fld3d(ni,nj,nk)
       integer ni,nj,nk,index
+      real fld2d(ni,nj), fld3d(ni,nj,nk)
       integer i,j
       do i=1,ni
          do j=1,nj
@@ -46,8 +46,8 @@
 ***********************************************************************
       subroutine swpgrid(outfld, infld, ni, nj)
       implicit none
-      real outfld(ni,nj), infld(ni, nj)
       integer ni, nj
+      real outfld(ni,nj), infld(ni, nj)
       integer i,j
       do  j=1,nj
          do  i=1, ni
@@ -64,9 +64,9 @@
 ***********************************************************************
       subroutine chkgrid(fld, ni, nj, grtyp, orient)
       implicit none
-      real fld(ni,nj),fld2(ni,nj)
       integer ni, nj
-      character*1 grtyp
+      real fld(ni,nj),fld2(ni,nj)
+      character(len=1) grtyp
       integer orient
       if (grtyp.eq.'A'.or.grtyp.eq.'B'.or.grtyp.eq.'G') then
          if (orient.eq.1) then
@@ -79,8 +79,8 @@
 ***********************************************************************
       subroutine aminmax(rmin, rmax, fld, ni, nj)
       implicit none
-      real rmin, rmax, fld(ni,nj)
       integer i, j, ni, nj
+      real rmin, rmax, fld(ni,nj)
       real armin, armax
       rmin = fld(1, 1)
       rmax = fld(1, 1)
@@ -99,8 +99,8 @@
 ***********************************************************************
       SUBROUTINE VMINMAX(aMIN, aMAX, uu,vv, NI, NJ)
       implicit none
-      REAL amIN, aMAX, uu(ni,nj),vv(ni,nj)
       INTEGER i,j,NI, NJ
+      REAL amIN, aMAX, uu(ni,nj),vv(ni,nj)
       REAL temp
       amin = uu(1,1)*uu(1,1)+vv(1,1)*vv(1,1)
       amax = amin
@@ -123,8 +123,8 @@
       SUBROUTINE SMINMAX(MIN, MAX, FLD, NI, NJ, IDEBUT,
      * JDEBUT, IFIN, JFIN)
       implicit none
-      REAL MIN, MAX, FLD(NI,NJ)
       INTEGER I, J, NI, NJ, IDEBUT, JDEBUT, IFIN, JFIN
+      REAL MIN, MAX, FLD(NI,NJ)
       MIN = FLD(IDEBUT, JDEBUT)
       MAX = FLD(IDEBUT, JDEBUT)
       DO  J=JDEBUT,JFIN
@@ -144,8 +144,8 @@
       subroutine vsminmax(rmin, rmax, uu, vv, ni, nj, idebut, jdebut, if
      %in, jfin)
       implicit none
-      real rmin, rmax, rmodule, uu(ni,nj),vv(ni,nj)
       integer ni, nj, idebut, jdebut, ifin, jfin, i,j
+      real rmin, rmax, rmodule, uu(ni,nj),vv(ni,nj)
       rmin = uu(idebut, jdebut)*uu(idebut,jdebut)+vv(idebut,jdebut)*vv(i
      %debut,jdebut)
       rmax = rmin
@@ -169,8 +169,8 @@
       subroutine sminmax2(min, max, min2, max2, fld, ni, nj, idebut, jde
      %but, ifin, jfin)
       implicit none
-      real min, max, min2, max2, fld(ni,nj)
       integer i,j, ni, nj, idebut, jdebut, ifin, jfin
+      real min, max, min2, max2, fld(ni,nj)
       call sminmax(min, max, fld, ni, nj, idebut, jdebut, ifin, jfin)
       min = fld(idebut, jdebut)
       max = fld(idebut, jdebut)
@@ -252,7 +252,7 @@
 * précision (mantisse plus grande) lors de l'addition de toutes les
 * valeurs du champ. Ceci évite que les valeurs additionnées ne soient
 * plus significatives lorsque la somme devient grande.
-      real*8 sum
+      real(kind=8) sum
 * Calculer la moyenne
       sum = 0.0d0
       npts = 0
@@ -280,9 +280,9 @@
       subroutine vsminmax_ij(rmin, rmax, imin, jmin, imax, jmax, uu,vv,
      %ni, nj, idebut, jdebut, ifin, jfin)
       implicit none
-      real rmin, rmax, rmodule, uu(ni,nj), vv(ni,nj)
       integer i,j,ni, nj, idebut, jdebut, ifin, jfin, imin, jmin, imax,
      %jmax
+      real rmin, rmax, rmodule, uu(ni,nj), vv(ni,nj)
       imin = max(1,idebut)
       jmin = max(1,jdebut)
       imax = imin
@@ -321,7 +321,7 @@
 * précision (mantisse plus grande) lors de l'addition de toutes les
 * valeurs du champ. Ceci évite que les valeurs additionnées ne soient
 * plus significatives lorsque la somme devient grande.
-      real*8 sum
+      real(kind=8) sum
 * Calculer la moyenne
       sum = 0.0d0
       npts = 0
@@ -447,8 +447,8 @@
 ***********************************************************************
       subroutine chkdims(fld, buffer, ni, nj, nk, ninjnk)
       implicit none
-      real fld(ni, nj, nk), buffer(ninjnk)
       integer ni, nj, nk, ninjnk
+      real fld(ni, nj, nk), buffer(ninjnk)
       if (nk.eq.1) then
          return
       endif
@@ -462,8 +462,8 @@
 ***********************************************************************
       subroutine rdgrid(fld, buffer, ni, nj, nk, newni, newnj)
       implicit none
-      real fld(ni, nj, nk), buffer(newni, newnj)
       integer ni, nj, nk, newni, newnj
+      real fld(ni, nj, nk), buffer(newni, newnj)
       integer i, j, k
       if (ni.eq.1) then
          do 100 j=1,nj

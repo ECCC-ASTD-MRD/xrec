@@ -5,7 +5,7 @@
 #include "impnone.cdk"
       INTEGER     NLIGNE
       LOGICAL     REVERSE
-      CHARACTER*8 PROTOCL
+      CHARACTER(LEN=8) PROTOCL
 *
 #include "params.cdk"
       INTEGER     IVAR2(LCP,NCP,0:*)
@@ -21,7 +21,7 @@
 *
 **
 
-      CHARACTER*1 HEXDA(0:15)
+      CHARACTER(LEN=1) HEXDA(0:15)
       INTEGER     TEMP(512), I, J, K, L, POS, MOT, NWORD0, BUF(8)
 #if defined (UNIX)  
       INTEGER     RED(0:7), GREEN(0:7), BLUE(0:7)

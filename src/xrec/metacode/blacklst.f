@@ -3,7 +3,7 @@
       Function BLACKLST( USER )
 #include "impnone.cdk"
       LOGICAL       BLACKLST
-      CHARACTER * 8 USER
+      CHARACTER(LEN=8) USER
 *
 *AUTEUR ?
 *
@@ -19,8 +19,8 @@
 *
 **
       INTEGER         FNOM, L, IER
-      CHARACTER * 8   USRLIST
-      CHARACTER * 128 DATAREP
+      CHARACTER(LEN=8)   USRLIST
+      CHARACTER(LEN=128) DATAREP
 
       CALL GETENVC('ARMNLIB', DATAREP)
       L        = LONGUEUR( DATAREP )

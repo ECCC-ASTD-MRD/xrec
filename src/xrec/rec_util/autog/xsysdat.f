@@ -49,7 +49,7 @@
       INTEGER MOPRIN(30)
       EQUIVALENCE (MOPRIN(1), MOP(1,-1))
       COMMON /XSYSPL2/ MFMT(2)
-      CHARACTER *(20) MFMT
+      CHARACTER(LEN=20) MFMT
 *
 *      VARIABLES                 USE
 *      ---------                 ---

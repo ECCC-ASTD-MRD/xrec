@@ -16,7 +16,7 @@
 *   DE CPU, NOMBRE DE FRAMES, NOMBRE DE RASTERS ... ET CE PAR GROUPE
 *
 **
-      CHARACTER* 8 UN
+      CHARACTER(LEN=8) UN
 #include "params.cdk"
 #include "argum.cdk"
 *
@@ -128,7 +128,7 @@
 *
       SUBROUTINE ACCOUNT( UN )
 #include "impnone.cdk"
-      CHARACTER * 8       UN
+      CHARACTER(LEN=8)       UN
 *
 *AUTEUR       M. LEPINE   -  1985
 *

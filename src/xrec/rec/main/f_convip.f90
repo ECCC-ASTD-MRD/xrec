@@ -2,8 +2,8 @@
   implicit none
   integer ip,sorte,mode,longueur
   real p
-  character*15 chaine
-  character*15 local_string
+  character(len=15) chaine
+  character(len=15) local_string
   logical flag
   integer i
   do i=1,15

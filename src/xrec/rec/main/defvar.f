@@ -34,10 +34,10 @@
       real int19(32),int20(32),int21(32),int22(32),int23(32),int24(32)
       real tabint(24,32)
       integer ntabint(24)
-      character*4 cnom
-      character*64 cid
-      character*32 cunites
-      character*32 cpalette
+      character(len=4) cnom
+      character(len=64) cid
+      character(len=32) cunites
+      character(len=32) cpalette
       integer argdims
       external argdims
       integer i,j

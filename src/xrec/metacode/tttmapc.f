@@ -4,7 +4,7 @@
       SUBROUTINE TTTMAPC(IUN, FIC)
 #include "impnone.cdk"
       INTEGER       IUN
-      CHARACTER*(*) FIC
+      CHARACTER(LEN=*) FIC
 *
 *AUTEUR ?
 *

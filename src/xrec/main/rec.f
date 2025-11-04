@@ -41,8 +41,8 @@
       integer i, inf, lnguser, getulng
       integer fnom, fstopi, ezsetopt
       external fnom, fstopi, ezsetopt
-      character*512   nomfich
-      character*512     vide
+      character(len=512)   nomfich
+      character(len=512)     vide
       integer        recs(maxrecs)
       integer        nbrecs
       integer, parameter :: maxfich = 1000
@@ -217,11 +217,11 @@ c     ****************************************************************
       subroutine recopnf(nbrecs, val, def, lnkdiun, nfarg)
       implicit none
       integer nbrecs
+      integer nfarg
       character(len=256),dimension(nfarg) :: val, def
       character(len=256) :: str
       integer tol
       integer lnkdiun(*)
-      integer nfarg
       integer nf
       integer i, ier, niun, nrecs, nrecs2
       integer, dimension(:), allocatable :: liste
@@ -285,7 +285,7 @@ c     ****************************************************************
       subroutine recckar(iun, aspect)
       implicit none
       integer iun
-      character*(*) aspect
+      character(len=*) aspect
       integer fstinf
       external fstinf
       external wglkas, wglfsc
@@ -339,7 +339,7 @@ c     ****************************************************************
 c     ****************************************************************
       subroutine rtnozsrt(filename)
       implicit none
-      character *(*) filename
+      character(len=*) filename
       character(len=20), dimension(1008) ::   cle
       character(len=256),dimension(1008) :: def, val
       common /ccardprm/ cle, def, val
@@ -373,7 +373,7 @@ c     ****************************************************************
       end do
       return
       end subroutine get_nbrecs_actifs
-      character *128 function product_id_tag()
+      character(len=128) function product_id_tag()
       implicit none
       product_id_tag='$Id$'
       return

@@ -27,7 +27,7 @@
       integer i
       integer npar
       common /cdefvar/ npar
-       character*8 qlxcon(12)
+       character(len=8) qlxcon(12)
        integer qlxval(12)
        common /rg/ qlxval,qlxcon
        data qlxcon(1)  / 'NORD'/
@@ -66,7 +66,7 @@
       end
       subroutine rlx(nomFich)
       implicit none
-      character*(*) nomFich
+      character(len=*) nomFich
       integer fnom, fclos, ier
       external fnom, fclos
       integer ipose,kend, iun

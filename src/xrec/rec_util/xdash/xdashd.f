@@ -19,7 +19,7 @@
 * */
       SUBROUTINE XDASHD (IPAT,NNC,JCRT,JSIZE)
 *     implicit none
-      CHARACTER *(*) IPAT
+      CHARACTER(LEN=*) IPAT
 *
 * **********************************************************************
 *

@@ -38,7 +38,7 @@
 * */
       SUBROUTINE XAUTOSEC(CREF,CVAL)
       implicit none
-      CHARACTER *(*) CREF, CVAL
+      CHARACTER(LEN=*) CREF, CVAL
       INTEGER IREF,IVAL
       READ(CREF,'(A4)') IREF
       READ(CVAL,'(A4)') IVAL
@@ -47,7 +47,7 @@
       END
       SUBROUTINE XAUTOSEI(CREF,IVAL)
       implicit none
-      CHARACTER *(*) CREF
+      CHARACTER(LEN=*) CREF
       INTEGER IREF,IVAL
       READ(CREF,'(A4)') IREF
       CALL XAUTOSET(IREF,IVAL)
@@ -55,7 +55,7 @@
       END
       SUBROUTINE XAUTOSEL(CREF,LVAL)
       implicit none
-      CHARACTER *(*) CREF
+      CHARACTER(LEN=*) CREF
       INTEGER IREF
       LOGICAL LVAL
       READ(CREF,'(A4)') IREF
@@ -64,7 +64,7 @@
       END
       SUBROUTINE XAUTOGEC(CREF,CVAL)
       implicit none
-      CHARACTER *(*) CREF, CVAL
+      CHARACTER(LEN=*) CREF, CVAL
       INTEGER IREF,IVAL
       READ(CREF,'(A4)') IREF
       CALL XAUTOGET(IREF,IVAL)
@@ -73,7 +73,7 @@
       END
       SUBROUTINE XAUTOGEI(CREF,IVAL)
       implicit none
-      CHARACTER *(*) CREF
+      CHARACTER(LEN=*) CREF
       INTEGER IREF,IVAL
       READ(CREF,'(A4)') IREF
       CALL XAUTOGET(IREF,IVAL)

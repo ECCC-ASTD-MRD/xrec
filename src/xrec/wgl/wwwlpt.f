@@ -19,7 +19,7 @@
 * */
       SUBROUTINE WWWLPT(PATFIL)
       implicit none
-      CHARACTER *(*) PATFIL
+      CHARACTER(LEN=*) PATFIL
       INTEGER NPAT,ITP(32, 128)
       integer i,j,ipat
       INTEGER IPATT(32), IPATN(32), NTP(128)

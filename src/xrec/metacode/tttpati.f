@@ -27,7 +27,7 @@
 #if defined (C910)
       EXTERNAL GETENVC
       INTEGER  L
-      CHARACTER * 128 DATAREP
+      CHARACTER(LEN=128) DATAREP
 #endif
 #if defined (CRAY) 
       EXTERNAL ACCESS,RELEASE

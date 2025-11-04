@@ -31,7 +31,7 @@
 **
 #include "ivar.cdk"
       INTEGER MA, NET, I, J, K, L, N
-      REAL*8  YL(20), XRI, X1, X2, Y1, Y2, DLT, SLOPE, XMAX, U, V,
+      REAL(KIND=8)  YL(20), XRI, X1, X2, Y1, Y2, DLT, SLOPE, XMAX, U, V,
      +        YR(20), XLF
       REAL    SYL(20),SYR(20), SXRI, SXLF
 

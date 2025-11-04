@@ -19,7 +19,7 @@
 * */
       SUBROUTINE X_WWWLPT(PATFIL)
       implicit none
-      CHARACTER *(*) PATFIL
+      CHARACTER(LEN=*) PATFIL
       INTEGER NPAT,ITP(32, 128)
       INTEGER IPATT(32), IPATN(32), NTP(128),ipat,i,j
       EXTERNAL WGLDPT

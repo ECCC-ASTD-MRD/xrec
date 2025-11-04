@@ -5,7 +5,7 @@
      +                   PROTOCL)
 #include "impnone.cdk"
       INTEGER            NBR ,NR ,LCP, NCP
-      CHARACTER* 8       USER, JOBN, CDATE, CTIME, PROTOCL
+      CHARACTER(LEN=8)       USER, JOBN, CDATE, CTIME, PROTOCL
 *
 *AUTEUR ?
 *
@@ -14,7 +14,7 @@
 *LANGUAGE   - FTN77
 *
 **
-      CHARACTER* 80 LINE
+      CHARACTER(LEN=80) LINE
 *
       LINE = ' '
 #if defined (CRAY)

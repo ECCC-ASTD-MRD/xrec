@@ -33,14 +33,14 @@
 *
       integer icrt,inrx,ior,ixb,ixt,mgrx,num
       real xb,xmax,xmin,xt
-      character *8 ifmt
+      character(len=8) ifmt
       logical reverse
       real temp
 *
       ior = 0
       reverse = .false.
       if (xmin.gt.xmax) then
-	 reverse = .true.
+         reverse = .true.
          temp = xmin
          xmin  = xmax
          xmax = temp

@@ -149,7 +149,7 @@
       integer moprin(30)
       equivalence (moprin(1), mop(1,-1))
       common /xsyspl2/ mfmt(2)
-      character *(20) mfmt
+      character(len=20) mfmt
       integer   nmaj(2)  ,nmin(2)  ,nlab(2)  ,nflg(2),num(2)   ,iz(2
      %),iza(2)   ,izb(2)   ,imz(2)   ,izdec(2),isiz(2)  ,imajl(2) ,
      %iminl(2) ,itype(2),kz(2)   ,izbb(2)  ,i0shft(2) ,izaa(2)
@@ -162,7 +162,7 @@
      %,itype(1)),(xx,kz(1)) ,(xx,zz(1)) ,(mshftx,i0shft(1))
 *
 *
-      character *40 iyyy,ichars
+      character(len=40) iyyy,ichars
 *
 *----------------------------------------------------------------------
 *

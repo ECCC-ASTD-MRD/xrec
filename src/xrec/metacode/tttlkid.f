@@ -4,7 +4,7 @@
 *
       SUBROUTINE TTTLKID( TNAME )
 #include "impnone.cdk"
-      CHARACTER* 8 TNAME
+      CHARACTER(LEN=8) TNAME
 *
 *AUTEUR       M. LEPINE   -  AOUT 86
 *

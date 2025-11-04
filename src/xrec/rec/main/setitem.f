@@ -23,7 +23,7 @@
       integer i
       integer argdims
       external argdims
-      character*32 cpanneau,citem,cvaleur
+      character(len=32) cpanneau,citem,cvaleur
       write (cpanneau, '(8a4)') (panneau(i),i=1,argdims(1))
       write (citem,    '(8a4)') (item(i),   i=1,argdims(2))
       write (cvaleur , '(8a4)') (valeur(i),i=1,argdims(3))

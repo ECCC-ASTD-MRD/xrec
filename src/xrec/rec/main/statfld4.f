@@ -25,7 +25,7 @@
       IMPLICIT NONE
 * 
       integer nis,njs,nks,ni,nj,nk,no,is,js,ks
-      character*(*) champ , from
+      character(len=*) champ , from
       real f(nis,njs,nks)
 *
 *OBJECT
@@ -51,7 +51,7 @@
 *
 **
       integer i,j,k
-      real*8 sum,moy,var,min,max
+      real(kind=8) sum,moy,var,min,max
       integer imin,jmin,kmin,imax,jmax,kmax
 c--------------------------------------------------------------------
 c

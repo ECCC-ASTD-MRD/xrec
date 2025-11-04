@@ -23,7 +23,7 @@
       integer i, gridtype, ni, nj, ig1, ig2, ig3, ig4, ig5
       integer argdims
       external argdims
-      character*32 cgridname
+      character(len=32) cgridname
       write (cgridname, '(8a4)') (gridname(i),i=1,argdims(1))
       if (ig5.eq.2) then
          call c_xrecgrille(cgridname, 4,ni,nj,ig1,ig2,ig3,ig4)
