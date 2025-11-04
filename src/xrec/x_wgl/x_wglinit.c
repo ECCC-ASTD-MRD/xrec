@@ -85,7 +85,7 @@ XFontStruct *fontes[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
  **/
 
 int        currentFillStyle     = FillSolid;
-int        currentPlaneMask     = AllPlanes;
+int        currentPlaneMask     = (int)AllPlanes;
 XRectangle pixmapDimensions = { 0, 0, 0, 0 };
 
 char       *messageAgrandir[] = {"Agrandissez-moi", "Enlarge me"};
