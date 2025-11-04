@@ -20,7 +20,7 @@
       subroutine opllfl(unite, nomfich, code)
       implicit none
       integer unite, code,ier
-      character*128 nomfich
+      character*(*) nomfich
       OPEN(UNIT=unite,FILE=nomfich,
      %     FORM='UNFORMATTED',IOSTAT=IER,STATUS='OLD')
       REWIND(unite)

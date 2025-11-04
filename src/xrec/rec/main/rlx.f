@@ -66,7 +66,7 @@
       end
       subroutine rlx(nomFich)
       implicit none
-      character*128 nomFich
+      character*(*) nomFich
       integer fnom, fclos, ier
       external fnom, fclos
       integer ipose,kend, iun

@@ -208,7 +208,7 @@ c     ****************************************************************
       use xfslouv
       implicit none
       integer nslkeys
-      integer slkeys(nslkeys), winind
+      integer slkeys(*), winind
       integer xselact
       integer i, inf, res
 *     
