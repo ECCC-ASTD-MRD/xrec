@@ -2901,8 +2901,9 @@ int f77name(xconouv)(int *iun)
    else
      sizeRecColorTable = 256;
 
-     sizeRecColorTable = 256;
-
+   /* on force à 256 */
+   sizeRecColorTable = 256;
+ 
    ResetColorMap(recColorTable, sizeRecColorTable, recCmap.noPalette);
 
    c_wglsetw(fenetreAffichage);
