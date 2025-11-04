@@ -28,7 +28,8 @@ extern SuperWidgetStruct SuperWidget;
 
 void SetGeometrieFenetreAffichage(char *nomFenetre)
 {
-   int x, y, width, height;
+   int x, y;
+   unsigned int width, height;
    int xoffset, yoffset;
    char *geometrie;
    int  geoParams;

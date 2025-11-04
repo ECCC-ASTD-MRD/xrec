@@ -22,8 +22,7 @@
 #include <vcar.h>
 #include "rec_util.h"
    
-void f77name(xfrstpt)(x, y)		
-int *x, *y;
+void f77name(xfrstpt)(int *x, int *y)
 {
 int flag = 0;
    f77name(xplotit)(x, y, &flag); 
@@ -31,14 +30,12 @@ int flag = 0;
 
  
 
-void f77name(xvector)(x, y)		
-float *x, *y;
+void f77name(xvector)(float *x, float *y)
 {
    c_wgldrx(*x, *y);
    }
 
-void f77name(xgetsi)(i, j)	
-int *i, *j;
+void f77name(xgetsi)(int *i, int *j)
 {
    *i = 8;
    *j = 8;
@@ -52,10 +49,7 @@ void f77name(xframe)()
 {
    }
 
-void f77name(xset)(ixmin, ixmax, iymin, iymax, xmin, xmax, ymin, ymax, ltype)	
-int *ixmin, *ixmax, *iymin, *iymax;
-float *xmin, *xmax, *ymin, *ymax;
-int *ltype;
+void f77name(xset)(int *ixmin, int *ixmax, int *iymin, int *iymax, float *xmin, float *xmax, float *ymin, float *ymax, int *ltype)
 {
    float *x1, *y1, *x2, *y2;
    int i1, i2, j1, j2;
@@ -83,15 +77,12 @@ void f77name(xqqqa16)()
 {
    }
 
-void f77name(xwindow)(x1, y1, x2, y2)
-float *x1, *y1, *x2, *y2;
+void f77name(xwindow)(float *x1, float *y1, float *x2, float *y2)
 {
    c_wglcmx(*x1, *y1, *x2, *y2);
    }
 
-void f77name(xoptn)(optn, val)
-int *optn;
-int *val;
+void f77name(xoptn)(int *optn, int *val)
 {
    char *ptr, option[4];
 

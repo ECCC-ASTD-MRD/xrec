@@ -87,9 +87,7 @@
  */
 
  extern void
- gen_vcar ( ipath, opath )
- char *ipath;
- char *opath;
+ gen_vcar ( char *ipath, char *opath)
     {
     FILE *in;
     FILE *out;
@@ -272,9 +270,7 @@
  *
  */
 
- extern void
- lir_vcar ( ipath )
- char *ipath;
+extern void lir_vcar ( char *ipath )
     {
     FILE *in;
 
@@ -414,11 +410,7 @@
  *
  */
 
- extern Vcar *
- vcar ( cx, cy, car )
- int  cx;
- int  cy;
- char car;
+extern Vcar * vcar ( int  cx, int  cy, char car )
     {
     float    dx,dy, loc_a, loc_b, loc_c, loc_d, mapx, mapy;
     int      angle, pen, x, y;

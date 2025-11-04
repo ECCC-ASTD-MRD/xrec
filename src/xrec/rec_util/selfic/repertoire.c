@@ -735,9 +735,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XRepertoireEnleveListe (w, client, data )
-Widget w;
-XtPointer client, data;
+static void XRepertoireEnleveListe (Widget w, XtPointer client, XtPointer data)
 {
  int i, nb_delete;
  Arg args[1];
@@ -889,8 +887,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XRepertoireInserer ( w, client, data )
-   Widget w; XtPointer client, data;
+static void XRepertoireInserer ( Widget w, XtPointer client, XtPointer data)
 {
     char *tmp;
     XmString str;
@@ -925,9 +922,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XRepertoireSauver ( w, client, data )
-Widget w;
-XtPointer client, data;
+static void XRepertoireSauver ( Widget w, XtPointer client, XtPointer data)
 {
  Arg arg[2];
  char *text;
@@ -987,9 +982,7 @@ VALEURE RETOURNEE:      NONE
 LIBRAIRIES :            Motif
 
 ------------------------------------------------------------------------------*/
-static void XRepertoireInit ( w, client, data )
-Widget w;
-XtPointer client, data;
+static void XRepertoireInit ( Widget w, XtPointer client, XtPointer data)
 {
  Arg args[2];
  char *text;
@@ -1047,8 +1040,7 @@ VALEURE RETOURNEE:      Le widget ID du plus vieil ancetre de la fenetre
 
 LIBRAIRIES :            Motif
 ------------------------------------------------------------------------------*/
-static Widget TrouverWidgetParent(eventWindow)
-Window  eventWindow; /* La fenetre ou l'evenment X s'est produit. */
+static Widget TrouverWidgetParent(Window  eventWindow) /* La fenetre ou l'evenment X s'est produit. */
 {
    Widget  widgetCourant; /* Le widget ou l'evenement X s'est produit.   */
    Widget  widgetParent;  /* L'ancetre du widget ou evenement X s'est produit.*/

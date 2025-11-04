@@ -83,12 +83,7 @@ int *bidon = NULL;
  *
  */
 
-void f77name(xbndlset) ( xoptn, iopval, n, nbdl, flen )
- char *xoptn;
- int  *iopval;
- int  *n;
- int  *nbdl;
- F2Cl flen;
+void f77name(xbndlset) ( char *xoptn, int  *iopval, int  *n, int  *nbdl, F2Cl flen )
      {
      char *ptr = xoptn;
      int i;
@@ -121,8 +116,7 @@ void f77name(xbndlset) ( xoptn, iopval, n, nbdl, flen )
  *
  */
 
-void f77name(xbundle) ( nbdl )
- int  *nbdl;
+void f77name(xbundle) ( int  *nbdl )
      {
      int i;
 
@@ -149,9 +143,7 @@ void f77name(xbundle) ( nbdl )
  *
  */
 
-void f77name(xfl2int)(x, y, i, j)
-int  *x,  *y;
-int  *i,  *j;
+void f77name(xfl2int)(int  *x, int *y, int  *i, int *j)
 {
    float *x1, *y1;
 
@@ -185,9 +177,7 @@ int  *i,  *j;
  *
  */
 
-void f77name(xgetset)( ixmin, ixmax, iymin, iymax, x1, x2, y1, y2, ltype )
- int   *ixmin, *ixmax, *iymin, *iymax, *ltype ;
- float *x1,    *x2,    *y1,    *y2;
+void f77name(xgetset)( int *ixmin, int *ixmax, int *iymin, int *iymax, float *x1, float *x2, float *y1, float *y2, int *ltype )
      {
      c_wglgsp(x1, y1, x2, y2, ixmin, iymin, ixmax, iymax);
 
@@ -213,9 +203,7 @@ void f77name(xgetset)( ixmin, ixmax, iymin, iymax, x1, x2, y1, y2, ltype )
  *
  */
 
- int f77name(xmaptrn)( lat, lon, u, v )
- float *lat, *lon;
- float  *u,  *v;
+int f77name(xmaptrn)( float *lat, float *lon, float  *u, float   *v)
      {
      float x1, y1, x2, y2;
 
@@ -243,8 +231,7 @@ void f77name(xgetset)( ixmin, ixmax, iymin, iymax, x1, x2, y1, y2, ltype )
  *
  */
 
-void f77name(xmxmy)( x, y )
- int *x, *y;
+void f77name(xmxmy)( int *x, int *y )
      {
      *x = lst_x;
      *y = lst_y;
