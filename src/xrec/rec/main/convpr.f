@@ -75,7 +75,7 @@
          endif
       elseif (sens.lt.0) then
 *        Conversion de ip1 ...
-         if ( ip1 .gt. 12000) then	
+         if ( ip1 .gt. 12000) then
             p  = (ip1 - 12001.0) * 5.0
          elseif ( ip1 .ge. 2000 .and. ip1 .le. 12000 ) then
 *     ... a sigma ...

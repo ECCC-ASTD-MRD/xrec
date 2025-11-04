@@ -125,8 +125,8 @@
             indc = tmpind(i)
             if (ctable(indc).ne.ctable(oldindc)) then
                call wglcol(ctable(oldindc))
- 	       call xy2fxfy(rx1,ry1,x1,y1)
- 	       call xy2fxfy(rx2,ry2,x2,y2)
+               call xy2fxfy(rx1,ry1,x1,y1)
+               call xy2fxfy(rx2,ry2,x2,y2)
                call wglrfx(rx1,ry1,rx2,ry2)
                oldindc = indc
                x1 = x2 - 1.0/lissfac

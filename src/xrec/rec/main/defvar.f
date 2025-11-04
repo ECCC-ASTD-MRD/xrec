@@ -23,8 +23,8 @@
      *                  int13, int14, int15, int16, int17, int18,
      *                  int19, int20, int21, int22, int23, int24)
       implicit none
-	integer npar
-	common /cdefvar/ npar
+      integer npar
+      common /cdefvar/ npar
       integer nom, id(24), unites(8), palette(8)
       real  scale
       integer inddef

@@ -25,8 +25,8 @@
       external vecteur
       real dum
       integer i
-	integer npar
-	common /cdefvar/ npar
+      integer npar
+      common /cdefvar/ npar
        character*8 qlxcon(12)
        integer qlxval(12)
        common /rg/ qlxval,qlxcon

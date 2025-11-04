@@ -139,7 +139,7 @@
       enddo
       RETURN
       END
-*     
+*
 ***********************************************************************
       subroutine vsminmax(rmin, rmax, uu, vv, ni, nj, idebut, jdebut, if
      %in, jfin)
@@ -164,7 +164,7 @@
       rmax = sqrt(rmax)
       return
       end
-*     
+*
 ***********************************************************************
       subroutine sminmax2(min, max, min2, max2, fld, ni, nj, idebut, jde
      %but, ifin, jfin)
@@ -202,15 +202,15 @@
       enddo
       return
       end
-*     
-*     
-* 
-* 
+*
+*
+*
+*
 ***********************************************************************
       subroutine sminmax_ij(rmin, rmax, imin, jmin, imax, jmax, fld, ni,
      % nj, idebut, jdebut, ifin, jfin)
       implicit none
-      integer i,j,ni, nj, idebut, jdebut, ifin, jfin, imin, jmin, imax, 
+      integer i,j,ni, nj, idebut, jdebut, ifin, jfin, imin, jmin, imax,
      %jmax
       real rmin, rmax, fld(ni,nj)
       imin = max(1,idebut)
@@ -238,9 +238,9 @@
       print *, '!!!---@@@----------------------------'
       return
       end
-*     
-*     
-* 
+*
+*
+*
 ************************************************************************
       subroutine smeanvar(mean, stddev, fld, ni, nj, idebut, jdebut, ifi
      %n, jfin)
@@ -273,15 +273,15 @@
       stddev = dsqrt(sum / float(npts))
       return
       end
-*     
-*     
-* 
+*
+*
+*
 ************************************************************************
-      subroutine vsminmax_ij(rmin, rmax, imin, jmin, imax, jmax, uu,vv, 
+      subroutine vsminmax_ij(rmin, rmax, imin, jmin, imax, jmax, uu,vv,
      %ni, nj, idebut, jdebut, ifin, jfin)
       implicit none
       real rmin, rmax, rmodule, uu(ni,nj), vv(ni,nj)
-      integer i,j,ni, nj, idebut, jdebut, ifin, jfin, imin, jmin, imax, 
+      integer i,j,ni, nj, idebut, jdebut, ifin, jfin, imin, jmin, imax,
      %jmax
       imin = max(1,idebut)
       jmin = max(1,jdebut)
@@ -310,9 +310,9 @@
       rmax = sqrt(rmax)
       return
       end
-*     
+*
 ************************************************************************
-      subroutine uvmeanvar(mean, stddev, uu,vv, ni, nj, idebut, jdebut, 
+      subroutine uvmeanvar(mean, stddev, uu,vv, ni, nj, idebut, jdebut,
      %ifin, jfin)
       implicit none
       integer i,j,npts,ni, nj, idebut, jdebut, ifin, jfin
@@ -344,58 +344,58 @@
       stddev = dsqrt(sum / float(npts))
       return
       end
-*     
+*
 *     min, jmin, imax, jmax
-* 
+*
 ************************************************************************
-*     
-* 
+*
+*
 **************************************************************
-* 
-* 
+*
+*
 * S/R SMOOTH
-* 
-* 
-* 
-* 
+*
+*
+*
+*
 ***********************************************************************
       SUBROUTINE SMOOTH(MATIJ,MATMN,MDIM,NDIM,IDIM,JDIM,IFAC,JFAC,
      *                  id, jd, if, jf)
       IMPLICIT NONE
-* 
-* 
-*      CETTE SOUS ROUTINE FAIT L'EXPANSION D'UN 
-*      CHAMP (MATIJ) A UN CHAMP (MATMN) VIA UNE 
+*
+*
+*      CETTE SOUS ROUTINE FAIT L'EXPANSION D'UN
+*      CHAMP (MATIJ) A UN CHAMP (MATMN) VIA UNE
 *      INTERPOLATION BI-LINEAIRE. LES FACTEURS
-*      D'EXPANSION SONT NOMMES (IFAC ET JFAC) 
-* 
-* 
-* 
-* 
-* -ARGUMENTS     -OUT 
+*      D'EXPANSION SONT NOMMES (IFAC ET JFAC)
+*
+*
+*
+*
+* -ARGUMENTS     -OUT
 *                        -MATIJ        :MATRICE INTERPOLEE
-* 
+*
 *                -IN
 *                        -MATMN        :MATRICE INITIALE
-*                        -MDIM,NDIM    :DIMENSIONS DE MATMN 
-* 
-* 
-*                        -IDIM,JDIM    :DIMENSIONS DE MATIJ 
-* 
+*                        -MDIM,NDIM    :DIMENSIONS DE MATMN
+*
+*
+*                        -IDIM,JDIM    :DIMENSIONS DE MATIJ
+*
 *                        -IFAC,JFAC    :FACTEURS D EXPANSION
 *                                        EN X ET Y
-* 
-* 
-*     N.B.              IDIM= 1 + IFAC*(MDIM-1) 
-*                       JDIM= 1 + JFAC*(NDIM-1) 
-* 
-* 
+*
+*
+*     N.B.              IDIM= 1 + IFAC*(MDIM-1)
+*                       JDIM= 1 + JFAC*(NDIM-1)
+*
+*
 **************************************************************
-* 
+*
       REAL I1V(1000),I2V(1000)
       REAL SLOPIV(1000)
       REAL SLOPJ,FIJ1,FIJ2
-* 
+*
       INTEGER I,J,N
       INTEGER IDIM,JDIM,MDIM,NDIM
       integer id, jd, if, jf
@@ -403,15 +403,15 @@
       INTEGER IFAC,JFAC
       INTEGER IIM1,II1P1,JJ1P1
       REAL MATMN(MDIM,NDIM),MATIJ(IDIM,JDIM)
-* 
-* 
+*
+*
       DO 33 I=id, if
         II1=1+(I-1)/IFAC
         II=I-IFAC*(II1-1)
         IIM1=II-1
         II1P1=II1+1
         IF(II1P1.GT.MDIM) II1P1=MDIM
-* OCCURS WHEN I=IDIM AND FORCES SLOPIV(N) = 0 
+* OCCURS WHEN I=IDIM AND FORCES SLOPIV(N) = 0
       IF(II.NE.1) GOTO 42
         DO 38 N=1,NDIM
           I1V(N)=MATMN(II1,N)
@@ -419,13 +419,13 @@
 * GET NORTH-SOUTH SLOPES
           SLOPIV(N)=(I2V(N)-I1V(N))/FLOAT(IFAC)
  38     CONTINUE
-* 
-* THE FOLLOWING STATEMENT SAVES THE NEED TO SAY 
+*
+* THE FOLLOWING STATEMENT SAVES THE NEED TO SAY
 * IF(JJ1P1.GT.NDIM) JJ1P1=NDIM INSIDE THE MUCH LARGER DO 22 LOOP
-* 
+*
       SLOPIV(NDIM+1)=SLOPIV(NDIM)
       I1V(NDIM+1)=I1V(NDIM)
-* 
+*
  42   CONTINUE
       DO 22 J=jd, jf
         JJ1=1+(J-1)/JFAC
@@ -434,12 +434,12 @@
         FIJ1=I1V(JJ1)+SLOPIV(JJ1)*IIM1
         JJ1P1=JJ1+1
         FIJ2=I1V(JJ1P1)+SLOPIV(JJ1P1)*IIM1
-* GET EAST-WEST SLOPE 
+* GET EAST-WEST SLOPE
         SLOPJ=(FIJ2-FIJ1)/JFAC
  43     CONTINUE
-* 
+*
         MATIJ(I,J)=FIJ1+SLOPJ*(JJ-1)
-* 
+*
  22   CONTINUE
  33   CONTINUE
       RETURN

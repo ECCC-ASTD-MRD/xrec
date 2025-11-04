@@ -720,7 +720,7 @@ VALEUR RETOUNEE:       Aucune.
 ------------------------------------------------------------------------------*/
 
 /*indDes Indice indiquant dans quel tableau de descripteur la cle se trouve.      */
-/* indCle; /* Indice indicant la position de la cle dans le tableau du descripteur.    */
+/* indCle; Indice indicant la position de la cle dans le tableau du descripteur.    */
 int32_t AjouterFiltre(int32_t indDes, int32_t indCle)
 {
    xs[wi].filtres[xs[wi].nbFiltres].indDes = indDes;

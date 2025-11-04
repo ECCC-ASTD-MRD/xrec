@@ -204,9 +204,9 @@
             WRITE(IPCHA,'(15A1)') (IP(II),II=MORG,MORG+14)
          if (isize.gt.1024) then
             CALL XPWRIT(MX,MY,IPCHA,ICHRCT,nint(size*8),IS2,LIGP)
-	 else
+         else
             CALL XPWRIT(MX,MY,IPCHA,ICHRCT,isize,IS2,LIGP)
-	 endif
+         endif
 *            CALL XPWRIT(MX,MY,'A',1,30,0,0)
          CALL XPLOTIT (IX,IY,0)
          GO TO 130

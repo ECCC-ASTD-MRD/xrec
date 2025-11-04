@@ -212,7 +212,7 @@ c     ****************************************************************
       integer xselact
       integer i, inf, res
 *     
-*     
+*
       xfslact97 = xselact(slkeys, nslkeys, winind)
       do 200 i=1, nslkeys
           print *, 'selecteur', i, slkeys(i)
