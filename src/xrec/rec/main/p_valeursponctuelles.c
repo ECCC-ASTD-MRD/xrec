@@ -42,7 +42,7 @@ float PtValMgrGetSymbolSize();
 Widget p_ptvalTopLevel = NULL;
 Widget p_ptvalForme, p_ptvalFormeChamps, p_ptvalFormePonctuelles, p_ptvalFrameChamps, p_ptvalFramePonctuelles, p_ptvalRc, p_ptvalAfficher, p_ptvalOk;
 Widget p_ptvalPanneauCouleur,p_ptvalFrameCouleur,p_ptvalOptionsCouleur,p_ptvalOptionsCouleurItems[2];
-Widget p_ptvalPanneauSymbole,p_ptvalFrameSymbole,p_ptvalOptionsSymbole,p_ptvalOptionsSymboleItems[3];
+Widget p_ptvalPanneauSymbole,p_ptvalFrameSymbole,p_ptvalOptionsSymbole,p_ptvalOptionsSymboleItems[5];
 Widget p_ptvalPanneauAffichageValeurs,p_ptvalFrameAffichageValeurs,p_ptvalOptionsAffichageValeurs,p_ptvalOptionsAffichageValeursItems[2];
 Widget p_ptvalPanneauAffichageLatlon,p_ptvalFrameAffichageLatlon,p_ptvalOptionsAffichageLatlon,p_ptvalOptionsAffichageLatlonItems[2];
 Widget p_ptvalPanneauUnitesSymbole,p_ptvalFrameUnitesSymbole, p_ptvalOptionsUnitesSymbole,p_ptvalOptionsUnitesSymboleItems[4];
