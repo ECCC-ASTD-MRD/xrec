@@ -57,7 +57,7 @@
       ulng = getulng()
 *     
       nbdes = 7
-      call initid(idents, maxdes)
+      call initid(idents)
       call inittab(tableau, table, ligne)
       write(titre, 5) nomfich
 *    

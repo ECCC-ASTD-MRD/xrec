@@ -66,7 +66,7 @@
       endif
 *     
       nbdes = 7
-      call initid97(idents, maxdes)
+      call initid97(idents)
       call inittab97(tableau, table, ligne)
       write(titre, 5) nomfich(1:min(len(nomfich),128))
 *    
