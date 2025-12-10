@@ -116,7 +116,8 @@ void c_wglpfton(float *fld, int ni, int nj, float intervalles[], int nbIntervall
    
    ContourMin = min;
    ContourMax = max;
-   
+   delta = ContourMax - ContourMin;
+
    if (ContourMin == ContourMax)
       {
       c_wglcol(15);
