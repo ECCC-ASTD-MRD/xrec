@@ -331,4 +331,5 @@ void InitialiserMenusStr(char *menuStr)
       free(menuInfoStr);
    menuInfoStr = (char *) calloc(strlen(copieMenuStr)+1, sizeof(char));
    strcpy(menuInfoStr, copieMenuStr);
+   free(copieMenuStr);
    }

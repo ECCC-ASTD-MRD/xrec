@@ -3150,6 +3150,7 @@ int FldMgrFlagMissingValues(_Champ *champ)
           masque_src[k] = 1.0;
          }
         }
+      if (masque_src!=NULL) free(masque_src);
       }
     else
       {

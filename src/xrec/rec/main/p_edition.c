@@ -270,6 +270,7 @@ void InitPanneauEdition()
    peWarning = (Widget) CreateWarningDialog(peTopLevel);
    peWarningWithCancel = (Widget) CreateWarningDialogWithCancelBox(peTopLevel);
 
+   free(labelTable);
    }
 
 

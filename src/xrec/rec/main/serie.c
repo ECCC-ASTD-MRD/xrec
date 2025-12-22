@@ -188,7 +188,12 @@ void AfficherProfilSerie(float xx, float yy)
    c_wglclr();
 
    if (!VerifierExistenceSerieValide())
+   {
+      for (n=0; n < nbChampsActifs; n++)
+         free(valeurs[n]);
+      free(valeurs);
       return;
+   }
 
    i = 0;
    FldMgrGetChamp(&champ, i);

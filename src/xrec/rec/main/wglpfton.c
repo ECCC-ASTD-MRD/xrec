@@ -122,6 +122,8 @@ void c_wglpfton(float *fld, int ni, int nj, float intervalles[], int nbIntervall
       {
       c_wglcol(15);
       c_wglclr();
+      free(tmpVals);
+      free(tmpInds);
       return;
       }
    

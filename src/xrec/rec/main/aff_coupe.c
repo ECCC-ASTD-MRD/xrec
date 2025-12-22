@@ -112,6 +112,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
       {
       xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
       xc.statuts[AXE_Y] = FALSE;
+      if (NULL != niveaux) free(niveaux);
       return;
       }
 
@@ -129,6 +130,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
         xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
         xc.statuts[AXE_Y] = FALSE;
          }
+      if (NULL != niveaux) free(niveaux);
       return;
       }
 
@@ -329,6 +331,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
         {
         xc.statuts[AXE_Y] = FALSE;
         xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+        if (NULL != niveaux) free(niveaux);
         return;
         }
       }
@@ -341,6 +344,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
         {
         xc.statuts[AXE_Y] = FALSE;
         xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+        if (NULL != niveaux) free(niveaux);
         return;
         }
       }
@@ -401,6 +405,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
          {
          xc.statuts[AXE_Y] = FALSE;
          xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+         if (NULL != niveaux) free(niveaux);
          return;
          }
       }
@@ -411,6 +416,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
          {
          xc.statuts[AXE_Y] = FALSE;
          xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+         if (NULL != niveaux) free(niveaux);
          return;
          }
       }
@@ -443,6 +449,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
          {
          xc.statuts[AXE_Y] = FALSE;
          xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+         if (NULL != niveaux) free(niveaux);
          return;
          }
       }
@@ -503,6 +510,7 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
          {
          xc.statuts[AXE_Y] = FALSE;
          xc.statuts[EN_TRAIN_DE_DESSINER] = FALSE;
+         if (NULL != niveaux) free(niveaux);
          return;
          }
       }

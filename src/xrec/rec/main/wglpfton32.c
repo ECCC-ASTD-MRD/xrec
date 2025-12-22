@@ -123,6 +123,13 @@ void c_wglpfton32(float *fld, int ni, int nj, float intervalles[], int nbInterva
     {
     c_wglcol(15);
     c_wglclr();
+    free(axex);
+    free(axdx);
+    free(iaxex);
+    free(axey);
+    free(tmpVals);
+    free(tmpInds);
+    free(pixels);
     return;
     }
 
@@ -270,6 +277,9 @@ void c_wglpfton32_x(float *fld, float *x, float *y, int ni, int nj, float interv
     {
     c_wglcol(15);
     c_wglclr();
+    free(tmpVals);
+    free(tmpInds);
+    free(pixels);
     return;
     }
 
