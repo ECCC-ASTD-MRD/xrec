@@ -466,16 +466,18 @@
       real fld(ni, nj, nk), buffer(newni, newnj)
       integer i, j, k
       if (ni.eq.1) then
-         do 100 j=1,nj
-            do 100 k=1, nk
+         do j=1,nj
+            do k=1, nk
                buffer(j,k) = fld(1,j,k)
- 100        continue
+            enddo
+         enddo
       endif
       if (nj.eq.1) then
-         do 200 i=1,ni
-            do 200 k=1, nk
+         do i=1,ni
+            do k=1, nk
                buffer(i,k) = fld(i,1,k)
- 200        continue
+            enddo
+         enddo
       endif
       return
       end

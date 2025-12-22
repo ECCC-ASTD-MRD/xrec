@@ -181,8 +181,9 @@
          call allpup
          if (nf.ne.oldnf) then
             call recclsf(lnkdiun, oldnf)
-            do 200 i=nf+1,oldnf
- 200           val(i) = def(i)
+            do i=nf+1,oldnf
+               val(i) = def(i)
+            enddo
          call recopnf(nbrecs, val, def, lnkdiun, nf)
          call xfslupd97(val(1), lnkdiun(1), nbrecs, 1, typesel)
          endif

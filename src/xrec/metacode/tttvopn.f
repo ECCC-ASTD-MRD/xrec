@@ -113,18 +113,19 @@
       INTEGER N, I, J, K, CC0, MSK
 
       CC0 = FOND
-      DO 20 J = 1,NCP
+      DO J = 1,NCP
          IF(IAND(CC0,1) .NE. 0) THEN
             MSK = MASK(32)
          ELSE
             MSK = 0
          ENDIF
-         DO 10 I = 1,LCP
-         DO 10 K = 1,HV
-            IVAR2(I, J, K) = MSK
- 10         CONTINUE
+         DO I = 1,LCP
+            DO K = 1,HV
+               IVAR2(I, J, K) = MSK
+            ENDDO
+         ENDDO
          CC0 = ISHFT(CC0, -1)
- 20      CONTINUE
+      ENDDO
 
       RETURN
       END

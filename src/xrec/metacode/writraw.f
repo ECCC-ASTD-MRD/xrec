@@ -45,8 +45,8 @@
       ELSE
          IF(PROTOCL .EQ. 'RRUX') THEN
             WRITE(44,'(A80)') MESSAGE
-            DO 50 K = 0,NLIGNE-1
-            DO 50 J = 1,NCP
+            DO K = 0,NLIGNE-1
+            DO J = 1,NCP
                POS = 1
                I   = 1
  20            IF(I .LE. (DEVWIDT+1)/4) THEN
@@ -59,7 +59,8 @@
                   GOTO 20
                ENDIF
  40            WRITE(44,'(80A1)') (HEXDA(TEMP(I)),I=1,(DEVWIDT+1)/4)
- 50            CONTINUE
+            ENDDO
+            ENDDO
          ELSE
             IF(PROTOCL .NE. 'SUNSCR') THEN
                IF(PROTOCL .EQ. 'SUNRST') THEN

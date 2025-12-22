@@ -57,146 +57,170 @@
       i = 1
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 100 j=1,ntabint(i)
- 100        tabint(i,j) = int1(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int1(j)
+         enddo
       endif
       i = 2
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 200 j=1,ntabint(i)
- 200        tabint(i,j) = int2(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int2(j)
+         enddo
       endif
       i = 3
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 300 j=1,ntabint(i)
- 300        tabint(i,j) = int3(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int3(j)
+         enddo
       endif
       i = 4
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 400 j=1,ntabint(i)
- 400        tabint(i,j) = int4(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int4(j)
+         enddo
       endif
       i = 5
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 500 j=1,ntabint(i)
- 500        tabint(i,j) = int5(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int5(j)
+         enddo
       endif
       i = 6
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 600 j=1,ntabint(i)
- 600        tabint(i,j) = int6(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int6(j)
+         enddo
       endif
       i = 7
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 700 j=1,ntabint(i)
- 700        tabint(i,j) = int7(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int7(j)
+         enddo
       endif
       i = 8
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 800 j=1,ntabint(i)
- 800        tabint(i,j) = int8(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int8(j)
+         enddo
       endif
       i = 9
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 900 j=1,ntabint(i)
- 900        tabint(i,j) = int9(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int9(j)
+         enddo
       endif
       i = 10
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 1000 j=1,ntabint(i)
- 1000        tabint(i,j) = int10(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int10(j)
+         enddo
       endif
       i = 11
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 1100 j=1,ntabint(i)
- 1100        tabint(i,j) = int11(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int11(j)
+         enddo
       endif
       i = 12
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 1200 j=1,ntabint(i)
- 1200        tabint(i,j) = int12(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int12(j)
+         enddo
       endif
       i = 13
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 1300 j=1,ntabint(i)
- 1300        tabint(i,j) = int13(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int13(j)
+         enddo
       endif
       i = 14
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 1400 j=1,ntabint(i)
- 1400        tabint(i,j) = int14(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int14(j)
+         enddo
       endif
       i = 15
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 1500 j=1,ntabint(i)
- 1500        tabint(i,j) = int15(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int15(j)
+         enddo
       endif
       i = 16
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 1600 j=1,ntabint(i)
- 1600        tabint(i,j) = int16(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int16(j)
+         enddo
       endif
       i = 17
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 1700 j=1,ntabint(i)
- 1700        tabint(i,j) = int17(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int17(j)
+         enddo
       endif
       i = 18
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 1800 j=1,ntabint(i)
- 1800        tabint(i,j) = int18(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int18(j)
+         enddo
       endif
       i = 19
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 1900 j=1,ntabint(i)
- 1900        tabint(i,j) = int19(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int19(j)
+         enddo
       endif
       i = 20
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 2000 j=1,ntabint(i)
- 2000        tabint(i,j) = int20(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int20(j)
+         enddo
       endif
       i = 21
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 2100 j=1,ntabint(i)
- 2100        tabint(i,j) = int21(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int21(j)
+         enddo
       endif
       i = 22
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 2200 j=1,ntabint(i)
- 2200        tabint(i,j) = int22(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int22(j)
+         enddo
       endif
       i = 23
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 2300 j=1,ntabint(i)
- 2300        tabint(i,j) = int23(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int23(j)
+         enddo
       endif
       i = 24
       if ((i + ioffset).le.npar) then
          ntabint(i) = argdims(i+ioffset)
-         do 2400 j=1,ntabint(i)
- 2400        tabint(i,j) = int24(j)
+         do j=1,ntabint(i)
+            tabint(i,j) = int24(j)
+         enddo
       endif
       call initvar(cnom, cid, cunites, cpalette,
      *             scale, inddef, tabint, ntabint)
