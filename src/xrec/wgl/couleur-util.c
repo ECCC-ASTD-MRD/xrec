@@ -174,6 +174,7 @@ void HSVaRGB(int h,int s,int v, int *r, int *g, int *b)
 
       switch (i)
 	 {
+         default:
 	 case 0:
 	 fr = fv;
 	 fg = t;
