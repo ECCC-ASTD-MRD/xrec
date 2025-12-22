@@ -255,10 +255,7 @@ void f77name(xmxmy)( int *x, int *y )
  *
  */
 
-void f77name(xop1get)( xoptn, iopval, flen )
- char *xoptn;
- int  *iopval;
- F2Cl flen;
+void f77name(xop1get)( char *xoptn, int  *iopval, F2Cl flen )
      {
      char  dup[3];
      char  *ptr;
@@ -336,10 +333,7 @@ void f77name(xop1get)( xoptn, iopval, flen )
  *
  */
 
-void f77name(xop1set)( xoptn, iopval, flen )
- char *xoptn;
- int  *iopval;
- F2Cl flen;
+void f77name(xop1set)( char *xoptn, int *iopval, F2Cl flen )
      {
      char  dup[3];
      char  *ptr;
@@ -417,11 +411,7 @@ void f77name(xop1set)( xoptn, iopval, flen )
  *
  */
 
-void f77name(xopnget)( xoptn, iopval, n, flen )
- char *xoptn;
- int  *iopval;
- int  *n;
- F2Cl flen;
+void f77name(xopnget)( char *xoptn, int  *iopval, int  *n, F2Cl flen )
      {
      char *ptr = xoptn;
      int i;
@@ -449,11 +439,7 @@ void f77name(xopnget)( xoptn, iopval, n, flen )
  *
  */
 
-void f77name(xopnset)( xoptn, iopval, n, flen )
- char *xoptn;
- int  *iopval;
- int  *n;
- F2Cl flen;
+void f77name(xopnset)( char *xoptn, int  *iopval, int  *n, F2Cl flen )
      {
      char *ptr = xoptn;
      int i;
@@ -482,8 +468,7 @@ void f77name(xopnset)( xoptn, iopval, n, flen )
  *
  */
 
-void f77name(xplotit)(i, j, flag)
-int *i, *j, *flag;
+void f77name(xplotit)(int *i, int *j, int *flag )
 {
    float *x, *y;
    int i1, j1;
@@ -504,8 +489,7 @@ int *i, *j, *flag;
 
    }
 
- void f77name(xplotit2)( x, y, down )
- int *x, *y, *down;
+void f77name(xplotit2)( int *x, int *y, int *down )
      {
      lst_x = *x;
      lst_y = *y;
@@ -531,11 +515,7 @@ int *i, *j, *flag;
  *
  */
 
- int f77name(xpwrs)( chr, nchr, icoded, flen )
- char *chr;
- int  *nchr;
- int  *icoded;
- F2Cl flen;
+int f77name(xpwrs)( char *chr, int  *nchr, int  *icoded, F2Cl flen )
      {
      float    delta;
      int      angle, centre, haut, i, j, len;
@@ -686,12 +666,7 @@ int *i, *j, *flag;
 
 
 
-int f77name(xpwrit)(ix, iy, chr, nchr, size, anott, icent, flen)
-int *ix, *iy;
-char chr[];
-int *nchr;
-int *size, *anott, *icent;
-F2Cl flen;
+int f77name(xpwrit)( int *ix, int *iy, char chr[], int *nchr, int *size, int *anott, int *icent, F2Cl flen )
 {
    float *x, *y;
    int i,i1, j1;
