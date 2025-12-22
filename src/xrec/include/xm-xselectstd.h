@@ -1,10 +1,9 @@
 #ifndef _XM_XSELECTSTD_H_
 #define _XM_XSELECTSTD_H_
 
-
-#define LIGNE   86  /* nb de car entrant ds une ligne de texte */
-#define NB_MAX_RECS 4000    /* nb max. de records permis. */
-
+/* inutilisés */
+/* #define LIGNE   86  /\* nb de car entrant ds une ligne de texte *\/ */
+/* #define NB_MAX_RECS 4000    /\* nb max. de records permis. *\/ */
 
 /* Les constantes suivantes sont utilisees pour
    construire le tableau d'enregistrements */
