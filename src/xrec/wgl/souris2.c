@@ -584,7 +584,7 @@ void trackmouse(int *bouton, int *x1, int *y1, int *x2, int *y2, float *AspectRa
 {
    int StatutSouris;
    int oldx2, oldy2;
-   int copiex2, copiey2;
+   int copiex2=-1, copiey2=-1;
    
 #ifdef GL_WGL
    color(0);

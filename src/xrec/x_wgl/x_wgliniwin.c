@@ -30,7 +30,7 @@ void x_wgliniwin(char *nomFenetre)
    static char *geo = "-geometry";
    char geometrie[24];
    char *argv[3];
-   int argc;
+   int argc=0;
 
    x_wglinids(nomFenetre);
 

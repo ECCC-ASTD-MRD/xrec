@@ -326,7 +326,7 @@ void AjusterViewport(_Viewport *viewp)
   static int oldFlagLegende = 0;
   static int lastInd = -1;
   static char lastnomvar[5] = {"\0\0\0\0\0"};
-  _Champ *champ;
+  _Champ *champ = NULL;
   
   int largeurFenetre, hauteurFenetre, largeurLegendeCouleur, hauteurLegende, flagLegende;
   int largeurAxeY;

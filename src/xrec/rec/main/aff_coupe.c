@@ -68,14 +68,14 @@ void AfficherCoupe(int indChamp, float *fld, float *uu, float *vv, float *uut, f
    int transformationFenetre, sensEchelle;
    float valMin, valMax;
    float uutanmin,uutanmax,uvwmin,uvwmax,uumin,uumax,vvmin,vvmax,wwmin,wwmax,nivmin,nivmax;
-   float *niveaux;
+   float *niveaux=NULL;
    int i,j,op,npts;
-   float *localfld;
-   _Champ *champ;
+   float *localfld=NULL;
+   _Champ *champ=NULL;
    int nbNiveauxCoupe, zstart;
    int un = 1;
    int selectedVertCoord;
-   float *x, *y,*z, termA, termB;
+   float *x=NULL, *y=NULL,*z=NULL, termA, termB;
 
    z = NULL;
    zstart = 0;

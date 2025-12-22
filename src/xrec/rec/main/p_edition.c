@@ -109,7 +109,7 @@ void InitPanneauEdition()
 {
    Arg	args[10];
    XmString label;
-   XmStringTable labelTable;
+   XmStringTable labelTable=NULL;
    register int n;	
    char nomShell[128];
    int lng = 0;

@@ -3034,7 +3034,7 @@ int FldMgrFlagMissingValues(_Champ *champ)
   int zero = 0;
   unsigned int k, bitpos,mask_ni,mask_nj,mask_nk;
   int gdin, gdout, npts_src, npts_dst,cleMasque,ier;
-  float *masque_src;
+  float *masque_src=NULL;
   unsigned int *src_missing;
   float *flt_src_missing;
   char typvar_masque[4];

@@ -313,7 +313,7 @@ extern _AnimInfo    animInfo;
 char panneauContourGeometrie[32];
 
 _XContour     xc;
-_Viewport     viewp;
+_Viewport     viewp={0,800,0,600,800,600,1};
 _ColormapInfo recCmap;
 
 Pixmap check;

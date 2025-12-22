@@ -97,7 +97,7 @@
     char str[80];
     char work[15];
 
-    int  font, font2, i, icar, j, k, n;
+    int  font=0, font2=0, i, icar, j, k, n;
 
     PointP2 vect[130];
 
