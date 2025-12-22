@@ -268,7 +268,8 @@
          goto 22
       endif
 *
-55    pds1 = c(za,zb)
+55    if (za.eq.zb) goto 66
+      pds1 = c(za,zb)
       x = rxa + pds1*(rxb-rxa)
       y = rya + pds1*(ryb-rya)
 *
