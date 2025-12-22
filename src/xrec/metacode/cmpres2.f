@@ -175,11 +175,13 @@ END
 #include "putcar.cdk"
          IF( DOUBLE ) THEN
             DO 10 I = 1,NLIGNE * 2
+#undef Arg1
 #define Arg1 TRANSFER('Z    ',MOLD)
 #include "putcar.cdk"
  10            CONTINUE
          ELSE
             DO 20 I = 1,NLIGNE
+#undef Arg1
 #define Arg1 TRANSFER('Z    ',MOLD)
 #include "putcar.cdk"
  20            CONTINUE
@@ -190,6 +192,7 @@ END
       DO 30 I = 0,WRAST-1
          PREV( I ) = 0
  30      CONTINUE
+#undef Arg1
 #define Arg1 XOROFF
 #include "putcar.cdk"
       DO 40 I = 1, WRAST*4
@@ -221,11 +224,14 @@ END
             ENDIF
  50         CONTINUE
          CALL COMP( RAST1, DOUBLE )
+#undef Arg1
 #define Arg1 TRANSFER('Z    ',MOLD)
 #include "putcar.cdk"
+#undef Arg1
 #define Arg1 XORON
 #include "putcar.cdk"
          IF( DOUBLE ) THEN
+#undef Arg1
 #define Arg1 TRANSFER('Z    ',MOLD)
 #include "putcar.cdk"
          ENDIF
@@ -285,15 +291,18 @@ END
  30   IF(RAST(I) .NE. -1 ) THEN
          PAT1 = IAND(ISHFT(RAST(I),- 4 ) , 15)
          PAT2 = IAND(RAST(I), 15)
+#undef Arg1
 #define Arg1 OO( PAT1 )
 #include "putcar.cdk"
          K    = K+1
+#undef Arg1
 #define Arg1 OO( PAT2 )
 #include "putcar.cdk"
          K     = K+1
          COUNT = ISHFT( RAST(I), -8)
          IF(COUNT .NE. 0) THEN
  40         IF(COUNT .GT. 111) THEN
+#undef Arg1
 #define Arg1  TRANSFER('T    ',MOLD)
 #include "putcar.cdk"
                K     = K + 1
@@ -302,6 +311,7 @@ END
             ENDIF
             X = ISHFT(COUNT, -4)
             IF(X .NE. 0) THEN
+#undef Arg1
 #define Arg1  NN( X ) 
 #include "putcar.cdk"
                K = K + 1
@@ -309,12 +319,14 @@ END
             COUNT = IAND(COUNT , 15)
             X     = ISHFT(COUNT, -3)
             IF(X .NE. 0) THEN
+#undef Arg1
 #define Arg1 TRANSFER('N    ',MOLD)
 #include "putcar.cdk"
                K = K + 1
             ENDIF
             X = IAND(COUNT , 7)
             IF(X .NE. 0) THEN
+#undef Arg1
 #define Arg1 FF( X ) 
 #include "putcar.cdk"
                K = K + 1
@@ -335,6 +347,7 @@ END
       INTEGER K,MOLD
 
       DO 10 K = 1, 129
+#undef Arg1
 #define Arg1 TRANSFER('     ',MOLD)
 #include "putcar.cdk"
  10      CONTINUE
