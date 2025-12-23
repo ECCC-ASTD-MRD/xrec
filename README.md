@@ -54,7 +54,7 @@ cd ../work-[OS_NAME-COMPILER_NAME]
 
 ```
 # clone xrec repository:
-git clone --recurse --remote-submodules https://github.com/ECCC-ASTD-MRD/xrec
+git clone --recurse https://github.com/ECCC-ASTD-MRD/xrec
 cd xrec
 ./download-xrec-utilities.sh .
 mkdir -p build
@@ -82,13 +82,13 @@ To compile and run xrec, you will need:
 - clone or download the git tar file of xrec at github:  https://github.com/ECCC-ASTD-MRD/xrec
   
 ```
-git clone --recurse --remote-submodules https://github.com/ECCC-ASTD-MRD/xrec
+git clone --recurse https://github.com/ECCC-ASTD-MRD/xrec
 cd xrec
-git submodule update --init --remote
+git submodule update --init --recursive
 ```
 
 If you have already cloned without the abovementioned options, run
-git submodule update --init --remote in the xrec directory
+`git submodule update --init --recursive` in the xrec directory
 
 - execute the script named download-xrec-utilities.sh:
 
