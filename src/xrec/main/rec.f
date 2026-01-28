@@ -99,11 +99,6 @@
          val(cle_ozsrt) = 'modified_field'
       endif
       call ccard(cle,def,val, 1008, ipos)
-!       do i=1,1000
-!          def(i) = trim(def(i))
-!          val(i) = trim(val(i))
-!          print *, i, len(def(i)),len(val(i))
-!       enddo
       nf = 1
       if (val(1).eq.def(1)) then
          call selfic(val, 1000, 512, nf)
@@ -215,11 +210,11 @@
 c     ****************************************************************
 c     **                                                            **
 c     ****************************************************************
-      subroutine recopnf(nbrecs, val, def, lnkdiun, nfarg)
+      subroutine recopnf(nbrecs, val, def, lnkdiun, nf)
       implicit none
       integer nbrecs
-      integer nfarg
-      character(len=256),dimension(nfarg) :: val, def
+      integer, parameter :: maxfich = 1000
+      character(len=256),dimension(maxfich) :: val, def
       character(len=256) :: str
       integer tol
       integer lnkdiun(*)
@@ -230,17 +225,16 @@ c     ****************************************************************
       integer ni, nj, nk, fstopi
       external fnom, fstouv, fstinl, fstopi, fstnbr
       logical flag
-      nf=nfarg
       if (nf.eq.0) then
          nbrecs = 0
          return
       endif
       nf = 1
- 33   if (val(nf).ne.def(nf).and.(nf.lt.nfarg)) then
+ 33   if (val(nf).ne.def(nf).and.(nf.lt.maxfich)) then
          nf = nf +1
          goto 33
       endif
-!      nf = nf-1
+      nf = nf-1
       do 34 i=1, nf
          str = trim(val(i))
 !         print *, len(str),len_trim(str)
