@@ -33,6 +33,7 @@
 #define  ROUND(x)               (int)(x + 0.5)
 
 #define LE_LOG(x)                   ((x) <= 0.0 ? -38.0 : (float)log10(x))
+#define LE_LOGF(x)                  ((x) <= 0.0 ? -38.0 : log10f(x))
 
 #if defined (IRIX5) || defined (C910)
 #define LE_LOG(x)                   ((x) <= 0.0 ? -38.0 : (float)flog10(x))
