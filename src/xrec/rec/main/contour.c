@@ -320,7 +320,10 @@ void GetFormat(char str[], float intervalles[], int nbIntervalles, float facteur
 
    exposantMin = (int)(logg-1.0);
    exposantMax = (int)(logg-1.0);
-   
+
+   /* Cette boucle est optimisée agressivement par Intel 2025
+    * ce fichier est donc compilé avec -O1 avec Intel 2025
+    */
    for (i=1; i < nbIntervalles; i++)
       {
       if (intervalles[i] != 0.0) 
@@ -330,42 +333,42 @@ void GetFormat(char str[], float intervalles[], int nbIntervalles, float facteur
       e = (int)(logg-1.0);
       
       if (exposantMin > e)
-   exposantMin = e;
+         exposantMin = e;
       
       if (exposantMax < e)
-   exposantMax = e;
+         exposantMax = e;
       }
    
    if (exposantMin < -3 || exposantMax > 5)
       {
-      strcpy(str, "%5.1e");
+         strcpy(str, "%5.1e");
       }
    else
       {
-      nbDecimalesMax = 0;
-      for (i=0; i < nbIntervalles; i++)
-   {
-   nbDecimales = 0;
-   expo = pow(10.0, (float)(nbDecimales));
-   r1 = fmod(intervalles[i]*expo, 1.0);
-   while ((nbDecimales < 5) && ((1.0e-4 < fabs(0.0 - r1)) && (1.0e-4 < fabs(1.0 - r1))))
-      {
-      nbDecimales++;
-      logg = fabs(0.0 - fmod(intervalles[i]*expo, 1.0));
-      expo = pow(10.0, (float)nbDecimales);
-      r1 = fmod(intervalles[i]*expo, 1.0);
-      }
-   
-   if (nbDecimalesMax < nbDecimales)
-      nbDecimalesMax = nbDecimales;
-   
-   }
+         nbDecimalesMax = 0;
+         for (i=0; i < nbIntervalles; i++)
+         {
+            nbDecimales = 0;
+            expo = pow(10.0, (float)(nbDecimales));
+            r1 = fmod(intervalles[i]*expo, 1.0);
+            while ((nbDecimales < 5) && ((1.0e-4 < fabs(0.0 - r1)) && (1.0e-4 < fabs(1.0 - r1))))
+            {
+               nbDecimales++;
+               logg = fabs(0.0 - fmod(intervalles[i]*expo, 1.0));
+               expo = pow(10.0, (float)nbDecimales);
+               r1 = fmod(intervalles[i]*expo, 1.0);
+            }
+            
+            if (nbDecimalesMax < nbDecimales)
+               nbDecimalesMax = nbDecimales;
+            
+         }
       
-      sprintf(tmp, "%1d", nbDecimalesMax);
-      strcpy(format, "");
-      strcat(format, "%.");
-      strcat(format, tmp);
-      strcat(format, "f");
-      strcpy(str, format);
+         sprintf(tmp, "%1d", nbDecimalesMax);
+         strcpy(format, "");
+         strcat(format, "%.");
+         strcat(format, tmp);
+         strcat(format, "f");
+         strcpy(str, format);
       }
-   }
+}
