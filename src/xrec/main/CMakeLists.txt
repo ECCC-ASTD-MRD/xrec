@@ -7,7 +7,12 @@ add_executable(${PROJECT_NAME} rec.f)
 set(FULL_PROJECT_NAME ${PROJECT_NAME}_${PROJECT_VERSION})
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${FULL_PROJECT_NAME})
 
-target_link_libraries(${PROJECT_NAME} rec rec_util wgl x_wgl gdb gd png rmn::rmn
+if (("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "IntelLLVM") AND (CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER 2025))
+  # link with libgcc_s to get a traceback
+  set(GCC_S gcc_s)
+endif()
+
+target_link_libraries(${PROJECT_NAME} rec rec_util wgl x_wgl gdb gd png rmn::rmn ${GCC_S}
                       ${EXTRA_LIBRARIES} )
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
