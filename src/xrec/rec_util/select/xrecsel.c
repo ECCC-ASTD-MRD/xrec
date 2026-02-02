@@ -2110,12 +2110,12 @@ void InitWidgetsListe()
          
          i = 0;
          XtSetArg(args[i], XmNlabelString, xs[wi].titresMenus[j]); i++;   
-         xs[wi].panLabel[j] = (Widget)XmCreateLabel(xs[wi].panRowCol[j], "allo", args, i);
+         xs[wi].panLabel[j] = (Widget)XmCreateLabel(xs[wi].panRowCol[j], "entete", args, i);
          
          XtManageChild(xs[wi].panLabel[j]);
          
          i=0;  
-         XtSetArg(args[i], XmNvisibleItemCount, 12); i++; 
+         XtSetArg(args[i], XmNvisibleItemCount, 21); i++; 
          XtSetArg(args[i], XmNscrollBarPlacement, XmTOP_LEFT); i++; 
          XtSetArg(args[i], XmNdoubleClickInterval, 700); i++; 
          XtSetArg(args[i], XmNselectionPolicy, XmMULTIPLE_SELECT); i++;
