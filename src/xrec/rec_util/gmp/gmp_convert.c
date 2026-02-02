@@ -86,12 +86,12 @@ void gmp_convert(ListePointsStruct *liste, int *nbItems, float pts[], int nbPoin
    liste[currentItem].statutPRGrille = 1;
    liste[currentItem].full_line = 1;
    liste[currentItem].pointsGeo = (PointGeoStruct *) calloc((npts), sizeof(PointGeoStruct));
-   liste[currentItem].pen = (unsigned char *) calloc((npts), sizeof(unsigned char));
+   liste[currentItem].pen = (char *) calloc((npts), sizeof(char));
    for (n=0; n < npts; n++)
      {
      liste[currentItem].pointsGeo[n].x = x[n];
      liste[currentItem].pointsGeo[n].y = y[n];
-     liste[currentItem].pen[n] = (unsigned char)1;
+     liste[currentItem].pen[n] = (char)1;
      }
 
    
