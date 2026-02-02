@@ -314,7 +314,7 @@ void GetFormat(char str[], float intervalles[], int nbIntervalles, float facteur
    char format[8], tmp[8];
    
    if (intervalles[0] != 0.0)
-      logg =  LE_LOG(fabs(intervalles[0]));
+      logg =  LE_LOGF(fabs(intervalles[0]));
    else
       logg = 0.0;
 
@@ -327,7 +327,7 @@ void GetFormat(char str[], float intervalles[], int nbIntervalles, float facteur
    for (i=1; i < nbIntervalles; i++)
       {
       if (intervalles[i] != 0.0) 
-         logg =  LE_LOG(fabs(intervalles[i]));
+         logg =  LE_LOGF(fabs(intervalles[i]));
       else
          logg = 0.0;
       e = (int)(logg-1.0);
