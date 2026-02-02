@@ -259,18 +259,18 @@ static char *labelStats[]           = { "Statistiques", "Statistics"};
 static char *labelRafraichir[]      = { "Redessiner\nfenetre(s)", "Redraw\nwindow(s)" };
 static char *labelEffacer[]         = { "Effacer tous\nles champs", "Erase\nall fields" };
 
-static char *labelMenuFichier[]   =   { "Fichier ", "File " };
-static char *labelMenuAffichage[]   = { "Affichage ", "Display " };
+static char *labelMenuFichier[]   =   { "Fichier", "File" };
+static char *labelMenuAffichage[]   = { "Affichage", "Display" };
 static char *labelMenuIntervalle[] =  { "Contours", "Contours" };
 static char *labelMenuGrille[]      =  { "Grille", "Grid" };
-static char *labelMenuCalculs[]      =  { "Calculs", "Calc. " };
+static char *labelMenuCalculs[]      =  { "Calculs", "Calc." };
 static char *labelMenuVecteurs[]     = {"Vecteurs", "Vectors"};
 
 static char *labelQuitter[]       = { "Quitter", "Quit" };
 static char *labelQuitterEtSauver[]       = { "Quitter et sauvegarder configuration", "Quit and save configuration" };
 static char *labelOuvrir[]        = { "Ouvrir d'autres fichiers standards", "Open other standard files" };
 static char *labelFermer[]        = { "Fermer des fichiers standards", "Close standard files" };
-static char *labelDiapos[]        = { "Produire une image...", "Produce picture... " };
+static char *labelDiapos[]        = { "Produire une image...", "Produce picture..." };
 static char *labelFilms[]        = { "Produire une sequence...", "Produce sequence..." };
 static char *labelEdition[]        = { "Edition de champs...", "Field Editing..." };
 static char *labelAnimation[]      = { "Animation temporelle...", "Time Animation..."};
