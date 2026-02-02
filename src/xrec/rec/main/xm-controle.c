@@ -2204,6 +2204,8 @@ void MenuAffichageSelect(Widget w, XtPointer unused1, XtPointer unused2)
       {
       case COULEURS:
       case LEGENDE_COULEUR:
+      /* on devrait aussi initialiser ici xc.statuts[LEGENDE_COULEUR] qui ne l'est pas? */
+      /* xc.statuts[LEGENDE_COULEUR] = xc.statuts[COULEURS]; */
       switch(xc.statuts[COULEURS])
          {
          case TRUE:
