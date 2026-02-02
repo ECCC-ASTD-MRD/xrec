@@ -27,6 +27,7 @@ void TracerPoints(ListePointsStruct *itemListe)
 
    float xmin, xmax, ymin, ymax;
    c_wglgvx(&xmin, &ymin, &xmax, &ymax);
+   if (itemListe == NULL) return;
    itemListe->statutPRGrille = clip(itemListe->xmin, itemListe->ymin, itemListe->xmax, itemListe->ymax);
    
    if (itemListe->statutPRGrille != DEHORS)
