@@ -38,7 +38,24 @@
 
 #define INITIALISATION_COMPLETEE 101
 
-static String RessourcesDeDefaut[] = {  NULL, };
+static String RessourcesDeDefaut[] = {
+   "*menuform.Fichier.mnemonic: F",
+   "*menuform.File.mnemonic: F",
+   "*Affichage.mnemonic: A",
+   "*Display.mnemonic: D",
+   "*Grille.mnemonic: G",
+   "*Grid.mnemonic: G",
+   "*Vecteurs.mnemonic: V",
+   "*Vectors.mnemonic: V",
+   "*Contours.mnemonic: C",
+   "*Options.mnemonic: O",
+   "*menuform*Fichier.Quitter.mnemonic: Q",
+   "*menuform*Fichier.Quitter.accelerator: Ctrl<Key>Q",
+   "*menuform*Fichier.Quitter.acceleratorText: Ctrl-Q",
+   "*menuform*File.Quit.mnemonic: Q",
+   "*menuform*File.Quit.accelerator: Ctrl<Key>Q",
+   "*menuform*File.Quit.acceleratorText: Ctrl-Q",
+   NULL, };
 SuperWidgetStruct SuperWidget = { NULL, NULL };
 Widget   xglTopLevel, xglBox, xglCoreWidget;
 static char *defaultResourceDir = NULL;

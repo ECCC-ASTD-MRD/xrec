@@ -264,6 +264,7 @@ static char *labelMenuAffichage[]   = { "Affichage", "Display" };
 static char *labelMenuIntervalle[] =  { "Contours", "Contours" };
 static char *labelMenuGrille[]      =  { "Grille", "Grid" };
 static char *labelMenuCalculs[]      =  { "Calculs", "Calc." };
+static char *labelMenuOptions[]      =  { "Options", "Options" };
 static char *labelMenuVecteurs[]     = {"Vecteurs", "Vectors"};
 
 static char *labelQuitter[]       = { "Quitter", "Quit" };
@@ -1451,12 +1452,12 @@ void InitMenuAffichage()
 
    i = 0;
    XtSetArg(args[i], XmNlabelString, label); i++;
-   xc.menuAffichage = (Widget)XmCreatePulldownMenu(xc.menuform,"Affichage",args, i);
+   xc.menuAffichage = (Widget)XmCreatePulldownMenu(xc.menuform,labelMenuAffichage[lng],args, i);
 
    i = 0;
    XtSetArg(args[i], XmNsubMenuId, xc.menuAffichage); i++;
    XtSetArg(args[i], XmNlabelString, label); i++;
-   xc.menuAff = (Widget)XmCreateCascadeButton(xc.menuform,"menuListe",args, i);
+   xc.menuAff = (Widget)XmCreateCascadeButton(xc.menuform,labelMenuAffichage[lng],args, i);
 
    XmStringFree(label);
 
@@ -1503,12 +1504,12 @@ void InitMenuGrille()
    i = 0;
    label = XmStringCreate(labelMenuGrille[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, label); i++;
-   xc.menuGrille = (Widget)XmCreatePulldownMenu(xc.menuform,"Grille",args, i);
+   xc.menuGrille = (Widget)XmCreatePulldownMenu(xc.menuform,labelMenuGrille[lng],args, i);
 
    i = 0;
    XtSetArg(args[i], XmNsubMenuId, xc.menuGrille); i++;
    XtSetArg(args[i], XmNlabelString, label); i++;
-   xc.menuGr = (Widget)XmCreateCascadeButton(xc.menuform,"menuListe",args, i);
+   xc.menuGr = (Widget)XmCreateCascadeButton(xc.menuform,labelMenuGrille[lng],args, i);
 
    XmStringFree(label);
 
@@ -1557,12 +1558,12 @@ void InitMenuVecteurs()
    i = 0;
    label = XmStringCreate(labelMenuVecteurs[lng], XmSTRING_DEFAULT_CHARSET);
    XtSetArg(args[i], XmNlabelString, label); i++;
-   xc.menuVecteurs = (Widget)XmCreatePulldownMenu(xc.menuform,"Vecteurs",args, i);
+   xc.menuVecteurs = (Widget)XmCreatePulldownMenu(xc.menuform,labelMenuVecteurs[lng],args, i);
 
    i = 0;
    XtSetArg(args[i], XmNsubMenuId, xc.menuVecteurs); i++;
    XtSetArg(args[i], XmNlabelString, label); i++;
-   xc.menuVec = (Widget)XmCreateCascadeButton(xc.menuform,"menuListe",args, i);
+   xc.menuVec = (Widget)XmCreateCascadeButton(xc.menuform,labelMenuVecteurs[lng],args, i);
 
    XmStringFree(label);
 
@@ -1671,12 +1672,12 @@ void InitMenuIntervalles()
 
    i = 0;
    XtSetArg(args[i], XmNlabelString, label); i++;
-   xc.menuIntervalleDeContour = (Widget)XmCreatePulldownMenu(xc.menuform,"Fichier",args, i);
+   xc.menuIntervalleDeContour = (Widget)XmCreatePulldownMenu(xc.menuform,labelMenuIntervalle[lng],args, i);
 
    i = 0;
    XtSetArg(args[i], XmNsubMenuId, xc.menuIntervalleDeContour); i++;
    XtSetArg(args[i], XmNlabelString, label); i++;
-   xc.menuInt = (Widget)XmCreateCascadeButton(xc.menuform,"menuListe",args, i);
+   xc.menuInt = (Widget)XmCreateCascadeButton(xc.menuform,labelMenuIntervalle[lng],args, i);
 
 
 
@@ -1708,12 +1709,12 @@ void InitMenuCalculs()
 
    i = 0;
    XtSetArg(args[i], XmNlabelString, label); i++;
-   xc.menuCalculs = (Widget)XmCreatePulldownMenu(xc.menuform,"Calcul.",args, i);
+   xc.menuCalculs = (Widget)XmCreatePulldownMenu(xc.menuform,labelMenuCalculs[lng],args, i);
 
    i = 0;
    XtSetArg(args[i], XmNsubMenuId, xc.menuCalculs); i++;
    XtSetArg(args[i], XmNlabelString, label); i++;
-   xc.menuSup = (Widget)XmCreateCascadeButton(xc.menuform,"menuListe",args, i);
+   xc.menuSup = (Widget)XmCreateCascadeButton(xc.menuform,labelMenuCalculs[lng],args, i);
 
    XmStringFree(label);
 
@@ -1782,16 +1783,16 @@ void InitMenuOptions()
    Arg  args[10];
    XmString label;
 
-   label = XmStringCreate("Options", XmSTRING_DEFAULT_CHARSET);
+   label = XmStringCreate(labelMenuOptions[lng], XmSTRING_DEFAULT_CHARSET);
 
    i = 0;
    XtSetArg(args[i], XmNlabelString, label); i++;
-   xc.menuOptions = (Widget)XmCreatePulldownMenu(xc.menuform,"Options",args, i);
+   xc.menuOptions = (Widget)XmCreatePulldownMenu(xc.menuform,labelMenuOptions[lng],args, i);
 
    i = 0;
    XtSetArg(args[i], XmNsubMenuId, xc.menuOptions); i++;
    XtSetArg(args[i], XmNlabelString, label); i++;
-   xc.menuOpt = (Widget)XmCreateCascadeButton(xc.menuform,"menuListe",args, i);
+   xc.menuOpt = (Widget)XmCreateCascadeButton(xc.menuform,labelMenuOptions[lng],args, i);
 
    XmStringFree(label);
 
