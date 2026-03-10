@@ -538,5 +538,5 @@ int strsplit ( char *str, char *delim, char ***list )
  */
 static int triage( const void *d1,  const void *d2 )
      {
-     return( strcmp(d1,d2) );
+     return( strcmp(*((char**)d1),*((char**)d2)) );
      }
