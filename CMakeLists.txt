@@ -68,6 +68,8 @@ add_custom_target(work
 
 include(CTest)
 add_custom_target(check COMMAND CTEST_OUTPUT_ON_FAILURE=true ${CMAKE_CTEST_COMMAND})
+add_custom_target(test_execs)
+add_dependencies(check test_execs)
 add_test(NAME test-trames COMMAND ${BASH_COMMAND} ${CMAKE_BINARY_DIR}/xrec/metacode/trames -mc ${CMAKE_SOURCE_DIR}/src/xrec/metacode/metacod)
 
 #----- Packaging
