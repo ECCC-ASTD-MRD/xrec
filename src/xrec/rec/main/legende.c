@@ -330,6 +330,8 @@ void AjusterViewport(_Viewport *viewp)
   
   int largeurFenetre, hauteurFenetre, largeurLegendeCouleur, hauteurLegende, flagLegende;
   int largeurAxeY;
+
+  viewp->vratio = 1;
   
   c_wglgwz(&largeurFenetre, &hauteurFenetre);
   
@@ -382,7 +384,15 @@ void AjusterViewport(_Viewport *viewp)
     {
     viewp->vhauteur = hauteurFenetre - 2 * hauteurLegende - 20;
     viewp->vratio   = (float)(viewp->vhauteur) / (float)(hauteurFenetre);
+#if __INTEL_LLVM_COMPILER >= 20260000
     viewp->vlargeur = ROUND(viewp->vratio * (largeurFenetre - largeurLegendeCouleur - largeurAxeY - 20));
+#else
+    /*  Intel 2025 optimise mal le calcul ci-dessus (ROUND) de vlargeur et plante */
+    /*  Alors, on ajoute une variable intermédiaire (largeur) et ça passe  */
+    float largeurIntermediaire = viewp->vratio * (largeurFenetre - largeurLegendeCouleur - largeurAxeY - 20) + 0.5;
+    viewp->vlargeur = (int)(largeurIntermediaire);
+#endif
+
     viewp->vratio   = (float)(viewp->vlargeur) / (float)(largeurFenetre);
     viewp->vhauteur = ROUND(viewp->vratio * hauteurFenetre);
     }
