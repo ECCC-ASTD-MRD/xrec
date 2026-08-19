@@ -1,3 +1,5 @@
+xrec: 2D visualisation program
+
 # Instructions in a nutshell
 
 # At CMC only (external users: see below)
@@ -13,16 +15,16 @@ Load the right environment, depending on the architecture you need.  This
 will load the specified compiler and its parameters, and set the
 `EC_CMAKE_MODULE_PATH` variable for the `cmake_rpn` modules.
 
-- Example for ppp6/sc6 and icelake specific architecture:
+- Example for ppp7/sc7 and graniterapids specific architecture:
 
 ```
-. r.load.dot mrd/rpn/code-tools/latest/env/rhel-8-icelake-64@inteloneapi-2025.1.0
+. r.load.dot mrd/rpn/code-tools/latest/env/rhel-9-graniterapids-64@inteloneapi-2025.1.0
 ```
 
-- Example for generic architecture on ppp6/sc6
+- Example for generic architecture on ppp7/sc7
 
 ```
-. r.load.dot mrd/rpn/code-tools/latest/env/rhel-8-amd64-64@inteloneapi-2025.1.0
+. r.load.dot mrd/rpn/code-tools/latest/env/rhel-9-amd64-64@inteloneapi-2025.1.0
 ```
 
 - Example for GNU on any architecture:
@@ -128,10 +130,10 @@ make
 make work
 ```
 
-You can add extra CMake arguments such as```-DCMAKE_VERBOSE_MAKEFILE=ON``` to your **cmake** command
+You can add extra CMake arguments such as ```-DCMAKE_VERBOSE_MAKEFILE=ON``` to your `cmake` command
 line to generate verbose makefiles which will print the exact compiler command lines issued.
 
-You can also add ```-j``` to **make** commands to launch multiple compile tasks in
+You can also add ```-j``` to `make` commands to launch multiple compile tasks in
 parallel.
 
 The default compiler suite is GNU.  If you want to compile with other compilers,
@@ -140,8 +142,8 @@ command line.
 
 This release has been tested with GNU and Intel compilers on Linux x86_64.
 Other compilers have also been used in the past, but have not been tested
-with the current release.  You will likely have to modify the *.cmake files
-in the **cmake_rpn/ec_compiler_presets/default/** folder.
+with the current release.  You will likely have to modify the `.cmake` files
+in the `cmake_rpn/ec_compiler_presets/default/` folder.
 
 If you get error messages, make sure that the ```PATH``` and
 ```LD_LIBRARY_PATH``` environment variables contain the appropriate paths.
@@ -156,7 +158,7 @@ If the compiler or compile options are not right:
 The installation process will create a directory named after the operating system
 on which the compilation was executed, and the compiler you used
 (work-${OS_NAME}-${COMPILER_NAME}). For example
-```work-Fedora-34-x86_64-gnu-11.3.1``` would be created in the main directory,
+```work-Fedora-44-x86_64-gnu-16.1.1``` would be created in the main directory,
 and the following files installed in it: 
 
 - binary named xrec
