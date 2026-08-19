@@ -32,7 +32,7 @@ will load the specified compiler and its parameters, and set the
 ```
 
 You will also need a version of librmn: either load it from ssm
-(. r.load.dot rpn/libs/...) or provide the path to cmake install directory
+(`. r.load.dot rpn/libs/...`) or provide the path to cmake install directory
 if you compiled it.
 
 ```
@@ -44,6 +44,11 @@ make -j
 make work
 cd ../work-[OS_NAME-COMPILER_NAME]
 ./bin/xrec -imflds [rpn_std_file]
+```
+
+If you are reading large files, you may have to increase the stack size:  
+```
+ulimit -s unlimited
 ```
 
 # Outside CMC (external users)
@@ -168,6 +173,11 @@ This setup file also sets TMPDIR and ARMNLIB variables.
 cd ../work-[OS_NAME-COMPILER_NAME]
 . ./setup-xrec.dot [language_of_your_choice: english or francais]
 ./bin/xrec -imflds [rpn_std_file]
+```
+
+If you are reading large files, you may have to increase the stack size:  
+```
+ulimit -s unlimited
 ```
 
 User guide in pdf format in utilities directory describes in more details how to use xrec.
