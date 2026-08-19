@@ -2,7 +2,3 @@
 	path = cmake_rpn
 	url = ../cmake_rpn.git
 	branch = master
-[submodule "src/rmn"]
-	path = src/rmn
-	url = ../librmn.git
-	branch = master
