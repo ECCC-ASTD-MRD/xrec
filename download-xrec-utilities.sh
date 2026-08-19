@@ -3,7 +3,7 @@
 set -e
 
 XREC_FILES="xrec-utilities.tar.gz"
-XREC_FILES_URL="https://collaboration.cmc.ec.gc.ca/science/outgoing/goas/xrec-utilities.tar.gz"
+XREC_FILES_URL="https://hpfx.collab.science.gc.ca/~sixf000/xrec/${XREC_FILES}"
 XREC_FILES_MD5SUM="7b4e9b9bfa33652ed715cb44a141ba7c"
 
 printUsage() {
