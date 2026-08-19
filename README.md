@@ -59,6 +59,10 @@ ulimit -s unlimited
 
 ## Installing and running xrec
 
+- First, clone and install librmn: https://github.com/ECCC-ASTD-MRD/librmn/
+  (use master branch for the stable release, or alpha branch if you want to
+  read files in fst24 format)
+
 ```
 # clone xrec repository:
 git clone --recurse https://github.com/ECCC-ASTD-MRD/xrec
@@ -66,7 +70,7 @@ cd xrec
 ./download-xrec-utilities.sh .
 mkdir -p build
 cd build
-cmake ..
+cmake -Drmn_ROOT=[librmn_install_path] ..
 make -j
 make work
 cd ../work-[OS_NAME-COMPILER_NAME]
@@ -80,13 +84,18 @@ cd ../work-[OS_NAME-COMPILER_NAME]
 
 To compile and run xrec, you will need:
 
+- CMake 3.20+
+- librmn: https://github.com/ECCC-ASTD-MRD/librmn/
 - Fortran and C compilers,
 - libXm (motif), libXt, expat libraries (with development package),
 - basic Unix utilities such as cmake (version 3.10 minimum), bash, etc.
 
 ## Installing xrec
 
-- clone or download the git tar file of xrec at github:  https://github.com/ECCC-ASTD-MRD/xrec
+- First, clone and install librmn: https://github.com/ECCC-ASTD-MRD/librmn/
+  (use master branch for the stable release, or alpha branch if you want to
+  read files in fst24 format)
+- clone or download xrec git repository:  https://github.com/ECCC-ASTD-MRD/xrec
   
 ```
 git clone --recurse https://github.com/ECCC-ASTD-MRD/xrec
@@ -94,7 +103,7 @@ cd xrec
 git submodule update --init --recursive
 ```
 
-If you have already cloned without the abovementioned options, run
+If you have already cloned without the abovementioned option, run
 `git submodule update --init --recursive` in the xrec directory
 
 - execute the script named download-xrec-utilities.sh:
@@ -103,7 +112,7 @@ If you have already cloned without the abovementioned options, run
   
   or download directly the file at the following address, and untar it:
   
-  http://collaboration.cmc.ec.gc.ca/science/outgoing/goas/xrec-utilities.tar.gz
+  https://hpfx.collab.science.gc.ca/~sixf000/xrec/xrec-utilities.tar.gz
   
   It contains data files, and a manual in pdf format.
 
@@ -125,7 +134,7 @@ If you have already cloned without the abovementioned options, run
 ```
 mkdir -p build
 cd build
-cmake ..
+cmake -Drmn_ROOT=[librmn_install_path] ..
 make
 make work
 ```
