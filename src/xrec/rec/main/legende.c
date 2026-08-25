@@ -384,13 +384,13 @@ void AjusterViewport(_Viewport *viewp)
     {
     viewp->vhauteur = hauteurFenetre - 2 * hauteurLegende - 20;
     viewp->vratio   = (float)(viewp->vhauteur) / (float)(hauteurFenetre);
-#if __INTEL_LLVM_COMPILER >= 20260000
-    viewp->vlargeur = ROUND(viewp->vratio * (largeurFenetre - largeurLegendeCouleur - largeurAxeY - 20));
-#else
-    /*  Intel 2025 optimise mal le calcul ci-dessus (ROUND) de vlargeur et plante */
+#if defined(__INTEL_LLVM_COMPILER) && (__INTEL_LLVM_COMPILER < 20260000)
+    /*  Intel 2025 sur graniterapids optimise mal le calcul ci-dessous (ROUND) de vlargeur et plante */
     /*  Alors, on ajoute une variable intermédiaire (largeur) et ça passe  */
     float largeurIntermediaire = viewp->vratio * (largeurFenetre - largeurLegendeCouleur - largeurAxeY - 20) + 0.5;
     viewp->vlargeur = (int)(largeurIntermediaire);
+#else
+    viewp->vlargeur = ROUND(viewp->vratio * (largeurFenetre - largeurLegendeCouleur - largeurAxeY - 20));
 #endif
 
     viewp->vratio   = (float)(viewp->vlargeur) / (float)(largeurFenetre);
